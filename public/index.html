@@ -109,7 +109,12 @@
       <div class="action-log" id="actionLog"></div>
       <div class="cutin hidden" id="cutin"></div>
 
-      <!-- BOTTOM ACTION ZONE: command bar + slide-up MCQ overlay -->
+      <!-- dim overlay shown during command selection -->
+      <div class="battle-dim hidden" id="battleDim"></div>
+      <!-- command buttons — centered in arena during action phase -->
+      <div class="commands hidden" id="commands"></div>
+
+      <!-- BOTTOM ACTION ZONE: slide-up MCQ overlay + wait indicator -->
       <div class="actionzone" id="dock">
         <!-- MCQ slides up over the lower arena -->
         <div class="mcq hidden" id="mcq">
@@ -126,8 +131,6 @@
           <div class="mcq-choices" id="mcqChoices"></div>
           <div class="mcq-feedback hidden" id="mcqFeedback"></div>
         </div>
-        <!-- command shards (bottom-center, between the cards) -->
-        <div class="commands hidden" id="commands"></div>
         <!-- waiting indicator (bottom-center) -->
         <div class="wait hidden" id="waitBox"><span id="waitText">Waiting…</span></div>
       </div>

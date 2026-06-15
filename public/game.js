@@ -24,13 +24,20 @@ const ULT_DIR  = "assets/Ultimate Scene/ChatGPT Image Jun 15, 2026, 06_22_41 AM"
 const SKILL_SHEET_NUM = { raiden:1, nao:2, hina:3, jun:4, saya:5, taiga:6, renji:7, kuro:8, emi:9, mina:10 };
 const BM = "assets/UI%20Design%20Reference%20Battle/";
 const BATTLE_IMGS = {
-  strike:   `${BM}3.png`,
+  strike:   `${BM}1.png`,
   spell:    `${BM}2.png`,
-  defend:   `${BM}1.png`,
-  item:     `${BM}6.png`,
+  defend:   `${BM}3.png`,
+  item:     `${BM}4.png`,
   tag:      `${BM}5.png`,
-  ultimate: `${BM}4.png`,
+  ultimate: `${BM}6.png`,
 };
+function setBattleDim(on) {
+  const d = $("battleDim");
+  if (!d) return;
+  d.classList.toggle("hidden", false);
+  d.classList.toggle("active", on);
+  if (!on) setTimeout(() => { if (!d.classList.contains("active")) d.classList.add("hidden"); }, 280);
+}
 const ASSETS = {
   portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.png`])),
   idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.png`,
@@ -828,7 +835,7 @@ function updateBars() {
 function renderDock(b, cur, myTurn) {
   const mcq  = $("mcq"), cmds = $("commands"), wait = $("waitBox");
   if (b.phase === "question") {
-    cmds.classList.add("hidden"); wait.classList.add("hidden"); mcq.classList.remove("hidden");
+    cmds.classList.add("hidden"); wait.classList.add("hidden"); mcq.classList.remove("hidden"); setBattleDim(false);
     const q = b.question;
     // update player chip with portrait if available
     const charId = cur?.charId;
@@ -852,9 +859,9 @@ function renderDock(b, cur, myTurn) {
   } else if (b.phase === "action") {
     mcq.classList.add("hidden");
     if (myTurn) { wait.classList.add("hidden"); cmds.classList.remove("hidden"); buildCommands(cur, b); }
-    else { cmds.classList.add("hidden"); wait.classList.remove("hidden"); $("waitText").textContent = (cur?.name||"Opponent") + " is choosing an action…"; }
+    else { cmds.classList.add("hidden"); setBattleDim(false); wait.classList.remove("hidden"); $("waitText").textContent = (cur?.name||"Opponent") + " is choosing an action…"; }
   } else {
-    mcq.classList.add("hidden"); cmds.classList.add("hidden");
+    mcq.classList.add("hidden"); cmds.classList.add("hidden"); setBattleDim(false);
     wait.classList.remove("hidden"); $("waitText").textContent = "Resolving…";
   }
 }
@@ -870,6 +877,7 @@ function skillDesc(sk) {
 function buildCommands(me, b) {
   const cmds = $("commands");
   cmds.classList.remove("preview-mode");
+  setBattleDim(true);
   const syncReady = b.sync[me.team] >= 100;
   const canAtk = myAnswerCorrect;
   const ultSub = !canAtk ? "Need correct answer" : syncReady ? me.ultimate.name : "Team Sync not full";

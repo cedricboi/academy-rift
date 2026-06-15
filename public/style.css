@@ -399,12 +399,15 @@ input:focus{outline:none;border-color:var(--cyan);}
 /* ===== ACTION ZONE (inside arena, bottom) ===== */
 .actionzone{position:absolute;left:0;right:0;bottom:0;z-index:25;}
 
-/* command shards — bottom-center, between the lower cards */
-.commands{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);
-  display:flex;gap:.6%;justify-content:center;align-items:stretch;width:62%;
-  max-width:62%;flex-wrap:nowrap;}
-/* preview mode: column layout for skill description panel */
-.commands.preview-mode{flex-direction:column;width:46%;max-width:46%;gap:1%;}
+/* command panel — centered in the arena during action phase */
+.commands{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:64%;max-width:64%;z-index:26;}
+.commands.preview-mode{width:46%;max-width:46%;}
+
+/* dim overlay shown behind the command panel */
+.battle-dim{position:absolute;inset:0;z-index:22;pointer-events:none;
+  background:rgba(0,0,0,0);transition:background .25s ease;}
+.battle-dim.active{background:rgba(0,0,0,.55);}
 
 /* ===== BATTLE MENU (image-based 2×3 grid) ===== */
 .battle-menu{
