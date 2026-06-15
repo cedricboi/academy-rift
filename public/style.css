@@ -399,41 +399,26 @@ input:focus{outline:none;border-color:var(--cyan);}
 /* ===== ACTION ZONE (inside arena, bottom) ===== */
 .actionzone{position:absolute;left:0;right:0;bottom:0;z-index:25;}
 
-/* command shards — single row, bottom-center, between the lower cards */
-.commands{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);
-  display:flex;gap:.6%;justify-content:center;align-items:stretch;width:52%;
-  max-width:52%;flex-wrap:nowrap;}
+/* command shards — bottom-center, between the lower cards */
+.commands{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);
+  display:flex;gap:.6%;justify-content:center;align-items:stretch;width:62%;
+  max-width:62%;flex-wrap:nowrap;}
 /* preview mode: column layout for skill description panel */
 .commands.preview-mode{flex-direction:column;width:46%;max-width:46%;gap:1%;}
 
-/* ===== BATTLE MENU (new UI design) ===== */
+/* ===== BATTLE MENU (image-based 2×3 grid) ===== */
 .battle-menu{
-  display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;
-  gap:clamp(3px,.4vw,6px);width:100%;}
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;
+  gap:clamp(2px,.25vw,4px);width:100%;}
 .bm-btn{
-  position:relative;display:flex;flex-direction:column;align-items:flex-start;
-  justify-content:center;padding:clamp(5px,.6vw,10px) clamp(8px,1vw,16px);
-  border:none;cursor:pointer;font-family:"Anton";letter-spacing:.5px;
-  clip-path:polygon(0 0,96% 0,100% 50%,96% 100%,0 100%,4% 50%);
-  transition:filter .15s,transform .1s;background:rgba(8,4,12,.9);}
-.bm-btn:hover:not([disabled]){filter:brightness(1.25);transform:scaleX(1.02);}
-.bm-btn:active:not([disabled]){transform:scaleX(.97);}
-.bm-btn.locked{opacity:.5;cursor:not-allowed;}
-.bm-icon{font-size:clamp(1rem,1.6vw,1.5rem);line-height:1;margin-bottom:1px;}
-.bm-label{font-size:clamp(.75rem,1.3vw,1.1rem);color:#fff;line-height:1;}
-.bm-sub{font-family:"Oswald";font-size:clamp(.5rem,.8vw,.72rem);color:rgba(255,255,255,.7);line-height:1.2;margin-top:1px;}
-.bm-num{position:absolute;top:4px;right:10px;font-size:clamp(.55rem,.8vw,.72rem);color:rgba(255,255,255,.4);font-family:"Oswald";}
-/* colour themes per button */
-.bm-strike{background:linear-gradient(135deg,rgba(180,10,10,.85),rgba(100,5,5,.9));border-left:3px solid #e0302a;}
-.bm-spell{ background:linear-gradient(135deg,rgba(90,20,160,.85),rgba(50,10,100,.9));border-left:3px solid #9b3fff;}
-.bm-defend{background:linear-gradient(135deg,rgba(20,60,160,.85),rgba(10,30,100,.9));border-left:3px solid #3a8fff;}
-.bm-item{  background:linear-gradient(135deg,rgba(10,100,120,.85),rgba(5,60,80,.9)); border-left:3px solid #00d4e0;}
-.bm-tag{   background:linear-gradient(135deg,rgba(10,100,80,.85),rgba(5,60,50,.9));  border-left:3px solid #00e0a0;}
-.bm-ult{   background:linear-gradient(135deg,rgba(120,90,10,.85),rgba(80,60,5,.9));  border-left:3px solid #FFD23F;}
-.bm-ult:not(.locked) .bm-icon{color:#FFD23F;text-shadow:0 0 12px #FFD23F;}
-.bm-ult:not(.locked){animation:ultGlow .9s ease-in-out infinite;}
-@keyframes ultGlow{0%,100%{border-left-color:#FFD23F;box-shadow:inset 0 0 10px rgba(255,210,63,.2)}
-  50%{border-left-color:#fff8c0;box-shadow:inset 0 0 20px rgba(255,210,63,.5)}}
+  position:relative;display:flex;align-items:center;justify-content:center;
+  padding:0;border:none;outline:none;cursor:pointer;background:transparent;
+  transition:filter .15s,opacity .15s;}
+.bm-btn:focus,.bm-btn:focus-visible{outline:none;}
+.bm-btn img{width:100%;height:auto;display:block;pointer-events:none;}
+.bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.18) drop-shadow(0 0 6px rgba(255,255,255,.2));}
+.bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
+.bm-btn.locked{opacity:.45;cursor:not-allowed;}
 
 /* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
 .skill-sheet-overlay{

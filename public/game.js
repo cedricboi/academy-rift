@@ -22,6 +22,15 @@ const CARD_NUM = { mina:1, kuro:2, jun:3, hina:4, emi:5, saya:6, renji:7, raiden
 const ULT_DIR  = "assets/Ultimate Scene/ChatGPT Image Jun 15, 2026, 06_22_41 AM";
 
 const SKILL_SHEET_NUM = { raiden:1, nao:2, hina:3, jun:4, saya:5, taiga:6, renji:7, kuro:8, emi:9, mina:10 };
+const BM_DIR = "assets/UI%20Design%20Reference%20Battle/ChatGPT%20Image%20Jun%2016%2C%202026%2C%2003_55_1";
+const BATTLE_IMGS = {
+  strike:   `${BM_DIR}1%20AM%20%281%29.png`,
+  spell:    `${BM_DIR}1%20AM%20%282%29.png`,
+  defend:   `${BM_DIR}2%20AM%20%283%29.png`,
+  item:     `${BM_DIR}2%20AM%20%284%29.png`,
+  tag:      `${BM_DIR}3%20AM%20%285%29.png`,
+  ultimate: `${BM_DIR}3%20AM%20%286%29.png`,
+};
 const ASSETS = {
   portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.png`])),
   idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.png`,
@@ -866,41 +875,23 @@ function buildCommands(me, b) {
   const ultSub = !canAtk ? "Need correct answer" : syncReady ? me.ultimate.name : "Team Sync not full";
   cmds.innerHTML = `
     <div class="battle-menu">
-      <button class="bm-btn bm-strike ${canAtk?"":"locked"}" data-cmd="strike" ${canAtk?"":"disabled"}>
-        <span class="bm-icon">⚔</span>
-        <span class="bm-label">STRIKE</span>
-        <span class="bm-sub">${canAtk?"Basic attack":"✗ need correct"}</span>
-        <span class="bm-num">01</span>
+      <button class="bm-btn ${canAtk?"":"locked"}" data-cmd="strike" ${canAtk?"":"disabled"}>
+        <img src="${BATTLE_IMGS.strike}" alt="STRIKE" draggable="false">
       </button>
-      <button class="bm-btn bm-spell" data-cmd="spell">
-        <span class="bm-icon">✦</span>
-        <span class="bm-label">SPELL</span>
-        <span class="bm-sub">${canAtk?"Elemental skill":"Support only"}</span>
-        <span class="bm-num">02</span>
+      <button class="bm-btn" data-cmd="spell">
+        <img src="${BATTLE_IMGS.spell}" alt="SPELL" draggable="false">
       </button>
-      <button class="bm-btn bm-defend" data-cmd="defend">
-        <span class="bm-icon">🛡</span>
-        <span class="bm-label">DEFEND</span>
-        <span class="bm-sub">Halve damage</span>
-        <span class="bm-num">03</span>
+      <button class="bm-btn" data-cmd="defend">
+        <img src="${BATTLE_IMGS.defend}" alt="DEFEND" draggable="false">
       </button>
-      <button class="bm-btn bm-item" data-cmd="item">
-        <span class="bm-icon">⚗</span>
-        <span class="bm-label">ITEM</span>
-        <span class="bm-sub">Use consumable</span>
-        <span class="bm-num">04</span>
+      <button class="bm-btn" data-cmd="item">
+        <img src="${BATTLE_IMGS.item}" alt="ITEM" draggable="false">
       </button>
-      <button class="bm-btn bm-tag" data-cmd="tag">
-        <span class="bm-icon">🤝</span>
-        <span class="bm-label">TAG</span>
-        <span class="bm-sub">Guard ally</span>
-        <span class="bm-num">05</span>
+      <button class="bm-btn" data-cmd="tag">
+        <img src="${BATTLE_IMGS.tag}" alt="TAG" draggable="false">
       </button>
-      <button class="bm-btn bm-ult ${syncReady&&canAtk?"":"locked"}" data-cmd="ultimate" ${syncReady&&canAtk?"":"disabled"}>
-        <span class="bm-icon">${syncReady&&canAtk?"★":"🔒"}</span>
-        <span class="bm-label">ULTIMATE</span>
-        <span class="bm-sub">${ultSub}</span>
-        <span class="bm-num">06</span>
+      <button class="bm-btn ${syncReady&&canAtk?"":"locked"}" data-cmd="ultimate" ${syncReady&&canAtk?"":"disabled"}>
+        <img src="${BATTLE_IMGS.ultimate}" alt="ULTIMATE" draggable="false">
       </button>
     </div>`;
   cmds.querySelectorAll("[data-cmd]").forEach((el) =>
