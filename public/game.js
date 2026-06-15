@@ -22,14 +22,14 @@ const CARD_NUM = { mina:1, kuro:2, jun:3, hina:4, emi:5, saya:6, renji:7, raiden
 const ULT_DIR  = "assets/Ultimate Scene/ChatGPT Image Jun 15, 2026, 06_22_41 AM";
 
 const SKILL_SHEET_NUM = { raiden:1, nao:2, hina:3, jun:4, saya:5, taiga:6, renji:7, kuro:8, emi:9, mina:10 };
-const BM_DIR = "assets/UI%20Design%20Reference%20Battle/ChatGPT%20Image%20Jun%2016%2C%202026%2C%2003_55_1";
+const BM = "assets/UI%20Design%20Reference%20Battle/";
 const BATTLE_IMGS = {
-  strike:   `${BM_DIR}1%20AM%20%281%29.png`,
-  spell:    `${BM_DIR}1%20AM%20%282%29.png`,
-  defend:   `${BM_DIR}2%20AM%20%283%29.png`,
-  item:     `${BM_DIR}2%20AM%20%284%29.png`,
-  tag:      `${BM_DIR}3%20AM%20%285%29.png`,
-  ultimate: `${BM_DIR}3%20AM%20%286%29.png`,
+  strike:   `${BM}3.png`,
+  spell:    `${BM}2.png`,
+  defend:   `${BM}1.png`,
+  item:     `${BM}6.png`,
+  tag:      `${BM}5.png`,
+  ultimate: `${BM}4.png`,
 };
 const ASSETS = {
   portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.png`])),
