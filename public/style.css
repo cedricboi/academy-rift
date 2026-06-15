@@ -400,8 +400,8 @@ input:focus{outline:none;border-color:var(--cyan);}
 .actionzone{position:absolute;left:0;right:0;bottom:0;z-index:25;}
 
 /* command panel — centered in the arena during action phase */
-.commands{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:70%;max-width:70%;z-index:26;}
+.commands{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);
+  width:64%;max-width:64%;z-index:26;}
 .commands.preview-mode{width:46%;max-width:46%;}
 
 /* dim overlay shown behind the command panel */
@@ -410,24 +410,27 @@ input:focus{outline:none;border-color:var(--cyan);}
 .battle-dim.active{background:rgba(0,0,0,.55);}
 
 /* ===== BATTLE MENU (radial pinwheel) ===== */
-.battle-menu{position:relative;width:100%;height:clamp(240px,55vh,620px);}
+/* container is an aspect-ratio box (padding-bottom trick); buttons are sized by
+   their natural 4:1 banner ratio (width-driven, height:auto) and splayed into a
+   mirrored 3-row fan around the centre of the arena. */
+.battle-menu{position:relative;width:100%;height:0;padding-bottom:56%;}
 .bm-btn{
-  position:absolute;width:38%;height:clamp(44px,6vh,86px);
+  position:absolute;width:40%;
   padding:0;border:none;outline:none;cursor:pointer;background:transparent;
   transform-origin:center center;transition:filter .15s,opacity .15s;}
 .bm-btn:focus,.bm-btn:focus-visible{outline:none;}
-.bm-btn img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;}
+.bm-btn img{width:100%;height:auto;display:block;pointer-events:none;}
 .bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.2) drop-shadow(0 0 8px rgba(255,255,255,.3));}
 .bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
 .bm-btn.locked{opacity:.45;cursor:not-allowed;}
 /* left column */
-.bm-btn[data-cmd="strike"]{left:0;top:14%;   transform:rotate(12deg);}
-.bm-btn[data-cmd="defend"]{left:0;top:44%;   transform:rotate(0deg);}
-.bm-btn[data-cmd="tag"]   {left:0;bottom:14%;transform:rotate(-12deg);}
+.bm-btn[data-cmd="strike"]{left:2%;top:6%;    transform:rotate(9deg);}
+.bm-btn[data-cmd="defend"]{left:2%;top:43%;   transform:rotate(3deg);}
+.bm-btn[data-cmd="tag"]   {left:4%;bottom:6%; transform:rotate(-9deg);}
 /* right column */
-.bm-btn[data-cmd="spell"]   {right:0;top:14%;   transform:rotate(-12deg);}
-.bm-btn[data-cmd="item"]    {right:0;top:44%;   transform:rotate(0deg);}
-.bm-btn[data-cmd="ultimate"]{right:0;bottom:14%;transform:rotate(12deg);}
+.bm-btn[data-cmd="spell"]   {right:2%;top:6%;    transform:rotate(-9deg);}
+.bm-btn[data-cmd="item"]    {right:2%;top:43%;   transform:rotate(-3deg);}
+.bm-btn[data-cmd="ultimate"]{right:4%;bottom:6%; transform:rotate(9deg);}
 
 /* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
 .skill-sheet-overlay{

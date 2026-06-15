@@ -24,12 +24,12 @@ const ULT_DIR  = "assets/Ultimate Scene/ChatGPT Image Jun 15, 2026, 06_22_41 AM"
 const SKILL_SHEET_NUM = { raiden:1, nao:2, hina:3, jun:4, saya:5, taiga:6, renji:7, kuro:8, emi:9, mina:10 };
 const BM = "assets/UI%20Design%20Reference%20Battle/";
 const BATTLE_IMGS = {
-  strike:   `${BM}3.png`,
+  strike:   `${BM}1.png`,
   spell:    `${BM}2.png`,
-  defend:   `${BM}1.png`,
-  item:     `${BM}6.png`,
+  defend:   `${BM}3.png`,
+  item:     `${BM}4.png`,
   tag:      `${BM}5.png`,
-  ultimate: `${BM}4.png`,
+  ultimate: `${BM}6.png`,
 };
 function setBattleDim(on) {
   const d = $("battleDim");
