@@ -410,24 +410,24 @@ input:focus{outline:none;border-color:var(--cyan);}
 .battle-dim.active{background:rgba(0,0,0,.55);}
 
 /* ===== BATTLE MENU (radial pinwheel) ===== */
-.battle-menu{position:relative;width:100%;height:0;padding-bottom:52%;}
+.battle-menu{position:relative;width:100%;height:clamp(240px,55vh,620px);}
 .bm-btn{
-  position:absolute;width:48%;
+  position:absolute;width:38%;height:clamp(44px,6vh,86px);
   padding:0;border:none;outline:none;cursor:pointer;background:transparent;
   transform-origin:center center;transition:filter .15s,opacity .15s;}
 .bm-btn:focus,.bm-btn:focus-visible{outline:none;}
-.bm-btn img{width:100%;height:auto;display:block;pointer-events:none;}
+.bm-btn img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;}
 .bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.2) drop-shadow(0 0 8px rgba(255,255,255,.3));}
 .bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
 .bm-btn.locked{opacity:.45;cursor:not-allowed;}
 /* left column */
-.bm-btn[data-cmd="strike"]{left:0;top:4%;   transform:rotate(18deg);}
-.bm-btn[data-cmd="defend"]{left:0;top:39%;  transform:rotate(0deg);}
-.bm-btn[data-cmd="tag"]   {left:0;bottom:4%;transform:rotate(-18deg);}
+.bm-btn[data-cmd="strike"]{left:0;top:14%;   transform:rotate(12deg);}
+.bm-btn[data-cmd="defend"]{left:0;top:44%;   transform:rotate(0deg);}
+.bm-btn[data-cmd="tag"]   {left:0;bottom:14%;transform:rotate(-12deg);}
 /* right column */
-.bm-btn[data-cmd="spell"]   {right:0;top:4%;   transform:rotate(-18deg);}
-.bm-btn[data-cmd="item"]    {right:0;top:39%;  transform:rotate(0deg);}
-.bm-btn[data-cmd="ultimate"]{right:0;bottom:4%;transform:rotate(18deg);}
+.bm-btn[data-cmd="spell"]   {right:0;top:14%;   transform:rotate(-12deg);}
+.bm-btn[data-cmd="item"]    {right:0;top:44%;   transform:rotate(0deg);}
+.bm-btn[data-cmd="ultimate"]{right:0;bottom:14%;transform:rotate(12deg);}
 
 /* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
 .skill-sheet-overlay{
