@@ -480,7 +480,7 @@ input:focus{outline:none;border-color:var(--cyan);}
 
 /* --- MCQ Panel — slides up over the lower arena (Question.png style) --- */
 .mcq{
-  position:absolute;left:0;right:0;bottom:0;
+  position:absolute;left:18%;right:18%;bottom:0;
   background:linear-gradient(180deg,rgba(14,11,20,.96),rgba(8,5,12,.99));
   border-top:3px solid var(--crimson);
   box-shadow:0 -10px 36px rgba(212,20,58,.32),inset 0 0 60px rgba(212,20,58,.06);
@@ -648,6 +648,7 @@ input:focus{outline:none;border-color:var(--cyan);}
   /* battle: roomier UI on small screens */
   .sync-stack{width:54%;}
   .commands{max-width:96%!important;}
+  .mcq{left:4%;right:4%;}            /* keep the question box roomy on small screens */
   .mcq-choices{gap:5px;}
 }
 @media(min-width:681px) and (max-width:1024px){
