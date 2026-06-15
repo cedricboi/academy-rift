@@ -1000,6 +1000,10 @@ function itemMenu(me, b) {
 
 function pickTarget(side, me, cb) {
   const b = room.battle;
+  // clear the command menu + dim overlay so the player sees the normal battle
+  // scene while choosing a target.
+  $("commands").classList.add("hidden");
+  setBattleDim(false);
   const valid = b.combatants.filter((c) => side==="enemy" ? (c.team!==me.team&&c.alive) : (c.team===me.team));
   $("turnBanner").textContent = side==="enemy" ? "SELECT A TARGET ▶" : "SELECT A TEAMMATE ▶";
   valid.forEach((c) => {

@@ -446,8 +446,8 @@ input:focus{outline:none;border-color:var(--cyan);}
   position:absolute;top:0;left:0;width:100%;height:calc(100% - clamp(36px,6vw,60px));
   display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0;}
 .skill-zone{
-  background:transparent;border:none;cursor:pointer;transition:background .12s;}
-.skill-zone:hover:not([disabled]){background:rgba(255,255,255,.08);}
+  background:transparent;border:none;outline:none;cursor:pointer;}
+.skill-zone:focus,.skill-zone:focus-visible{outline:none;}
 .skill-zone[disabled]{cursor:not-allowed;}
 .skill-zone-lock{
   display:flex;align-items:center;justify-content:center;width:100%;height:100%;
