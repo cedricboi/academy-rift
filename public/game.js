@@ -113,7 +113,7 @@ window.addEventListener("keydown", startLobbyMusicOnce, true);
 function portrait(charId) {
   const c = CHAR_BY_ID[charId]; if (!c) return "";
   const src = ASSETS.portraits[charId];
-  if (src) return `<img src="${src}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
+  if (src) return `<img src="${src}" alt="${c.name}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
   return placeholderDiv(c, ELEMENT_COLORS[c.element]);
 }
 
@@ -884,22 +884,22 @@ function buildCommands(me, b) {
   cmds.innerHTML = `
     <div class="battle-menu">
       <button class="bm-btn ${canAtk?"":"locked"}" data-cmd="strike" ${canAtk?"":"disabled"}>
-        <img src="${BATTLE_IMGS.strike}" alt="STRIKE" draggable="false">
+        <img src="${BATTLE_IMGS.strike}" alt="STRIKE" decoding="async" draggable="false">
       </button>
       <button class="bm-btn" data-cmd="spell">
-        <img src="${BATTLE_IMGS.spell}" alt="SPELL" draggable="false">
+        <img src="${BATTLE_IMGS.spell}" alt="SPELL" decoding="async" draggable="false">
       </button>
       <button class="bm-btn" data-cmd="defend">
-        <img src="${BATTLE_IMGS.defend}" alt="DEFEND" draggable="false">
+        <img src="${BATTLE_IMGS.defend}" alt="DEFEND" decoding="async" draggable="false">
       </button>
       <button class="bm-btn" data-cmd="item">
-        <img src="${BATTLE_IMGS.item}" alt="ITEM" draggable="false">
+        <img src="${BATTLE_IMGS.item}" alt="ITEM" decoding="async" draggable="false">
       </button>
       <button class="bm-btn" data-cmd="tag">
-        <img src="${BATTLE_IMGS.tag}" alt="TAG" draggable="false">
+        <img src="${BATTLE_IMGS.tag}" alt="TAG" decoding="async" draggable="false">
       </button>
       <button class="bm-btn ${syncReady&&canAtk?"":"locked"}" data-cmd="ultimate" ${syncReady&&canAtk?"":"disabled"}>
-        <img src="${BATTLE_IMGS.ultimate}" alt="ULTIMATE" draggable="false">
+        <img src="${BATTLE_IMGS.ultimate}" alt="ULTIMATE" decoding="async" draggable="false">
       </button>
     </div>`;
   cmds.querySelectorAll("[data-cmd]").forEach((el) =>
@@ -931,13 +931,14 @@ function spellMenu(me, b) {
   overlay.className = "skill-sheet-overlay";
   overlay.innerHTML = `
     <div class="skill-sheet-box">
-      <img class="skill-sheet-img" src="${sheetSrc}" alt="Skills" />
+      <img class="skill-sheet-img" src="${sheetSrc}" alt="Skills" decoding="async" />
       <div class="skill-sheet-grid">
         ${me.skills.map((s, i) => {
           const off = isOffSkill(s);
           const onCd = (cds[i] || 0) > 0;
           const blocked = onCd || me.sp < s.sp || (off && !myAnswerCorrect);
-          const whyTip = onCd ? `CD: ${cds[i]}t` : me.sp < s.sp ? "Low SP" : (off && !myAnswerCorrect) ? "Need correct answer" : "";
+          // off-skills locked behind a correct answer are simply greyed out (no caption)
+          const whyTip = onCd ? `CD: ${cds[i]}t` : me.sp < s.sp ? "Low SP" : "";
           return `<button class="skill-zone ${blocked?"blocked":""}" data-sk="${i}" ${blocked?"disabled":""}>
             ${blocked ? `<span class="skill-zone-lock">${whyTip}</span>` : ""}
           </button>`;

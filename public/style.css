@@ -423,14 +423,14 @@ input:focus{outline:none;border-color:var(--cyan);}
 .bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.2) drop-shadow(0 0 8px rgba(255,255,255,.3));}
 .bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
 .bm-btn.locked{opacity:.45;cursor:not-allowed;}
-/* left column */
-.bm-btn[data-cmd="strike"]{left:2%;top:6%;    transform:rotate(9deg);}
-.bm-btn[data-cmd="defend"]{left:2%;top:43%;   transform:rotate(3deg);}
-.bm-btn[data-cmd="tag"]   {left:4%;bottom:6%; transform:rotate(-9deg);}
+/* left column — pulled nearer the centre (bigger inset) and tilted a little more */
+.bm-btn[data-cmd="strike"]{left:6%;top:6%;    transform:rotate(13deg);}
+.bm-btn[data-cmd="defend"]{left:6%;top:43%;   transform:rotate(5deg);}
+.bm-btn[data-cmd="tag"]   {left:8%;bottom:6%; transform:rotate(-13deg);}
 /* right column */
-.bm-btn[data-cmd="spell"]   {right:2%;top:6%;    transform:rotate(-9deg);}
-.bm-btn[data-cmd="item"]    {right:2%;top:43%;   transform:rotate(-3deg);}
-.bm-btn[data-cmd="ultimate"]{right:4%;bottom:6%; transform:rotate(9deg);}
+.bm-btn[data-cmd="spell"]   {right:6%;top:6%;    transform:rotate(-13deg);}
+.bm-btn[data-cmd="item"]    {right:6%;top:43%;   transform:rotate(-5deg);}
+.bm-btn[data-cmd="ultimate"]{right:8%;bottom:6%; transform:rotate(13deg);}
 
 /* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
 .skill-sheet-overlay{

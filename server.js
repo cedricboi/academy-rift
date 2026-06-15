@@ -15,7 +15,20 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
-app.use(express.static(join(__dirname, "public")));
+// Static assets. The art/audio is heavy (hundreds of MB), so cache media hard in
+// the browser and let it refresh in the background (stale-while-revalidate) — this
+// makes screen-to-screen navigation and repeat visits load instantly. Code/markup
+// is sent with no-cache so it always revalidates and deploys take effect at once.
+app.use(express.static(join(__dirname, "public"), {
+  etag: true,
+  lastModified: true,
+  setHeaders(res, filePath) {
+    if (/\.(png|jpe?g|webp|gif|svg|mp3|wav|ogg|woff2?|ttf)$/i.test(filePath))
+      res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+    else
+      res.setHeader("Cache-Control", "no-cache");
+  },
+}));
 
 // ---- tuning ----
 const QUESTION_SECONDS = 18;
