@@ -21,14 +21,16 @@ const COSTUME_NUM = { emi:1, kuro:2, jun:3, hina:4, raiden:5, mina:6, nao:7, say
 const CARD_NUM = { mina:1, kuro:2, jun:3, hina:4, emi:5, saya:6, renji:7, raiden:8, nao:9, taiga:10 };    // pre-designed player cards
 const ULT_DIR  = "assets/Ultimate Scene/ChatGPT Image Jun 15, 2026, 06_22_41 AM";
 
+const SKILL_SHEET_NUM = { raiden:1, nao:2, hina:3, jun:4, saya:5, taiga:6, renji:7, kuro:8, emi:9, mina:10 };
 const ASSETS = {
   portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.png`])),
-  idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.png`,  // battle ready-stance (transparent)
-  attack: (id) => `assets/Attack Costume/${COSTUME_NUM[id]}.png`,                     // attack costume (black bg → no white-key)
-  card:   (id) => `assets/Player cards/${CARD_NUM[id]}.png`,                          // designed player-card frame
-  bigcard:  (id) => `assets/Character Card/${id}.png`,                                // full character-select illustration
-  cardinfo: (id) => `assets/Chracter Card Information/${id}.png`,                     // skills/stats info sheet
-  ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).png`,                                 // ultimate splash
+  idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.png`,
+  attack: (id) => `assets/Attack Costume/${COSTUME_NUM[id]}.png`,
+  card:   (id) => `assets/Player cards/${CARD_NUM[id]}.png`,
+  bigcard:  (id) => `assets/Character Card/${id}.png`,
+  cardinfo: (id) => `assets/Chracter Card Information/${id}.png`,
+  skillSheet: (id) => `assets/Skill Menu Art/${SKILL_SHEET_NUM[id] || 1}.png`,
+  ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).png`,
   bg: { castle: "assets/CASTLE BACKGROUND.png", opening: "assets/Opening Scene.png", shop: null, lobby: null },
 };
 
@@ -859,19 +861,48 @@ function skillDesc(sk) {
 function buildCommands(me, b) {
   const cmds = $("commands");
   cmds.classList.remove("preview-mode");
-  const syncReady = b.sync[me.team] >= 100;             // ultimate uses the TEAM sync gauge
-  const canAtk = myAnswerCorrect;                       // wrong answer ⇒ no attacking
+  const syncReady = b.sync[me.team] >= 100;
+  const canAtk = myAnswerCorrect;
+  const ultSub = !canAtk ? "Need correct answer" : syncReady ? me.ultimate.name : "Team Sync not full";
   cmds.innerHTML = `
-    <button class="cmd strike ${canAtk?"":"locked"}"  data-cmd="strike" ${canAtk?"":"disabled"}>
-      <span class="cmd-name">STRIKE</span><span class="cmd-sub">${canAtk?"Basic attack":"✗ need correct"}</span></button>
-    <button class="cmd spell"   data-cmd="spell"><span class="cmd-name">SPELL</span><span class="cmd-sub">${canAtk?"Elemental skill":"Support only"}</span></button>
-    <button class="cmd defend"  data-cmd="defend"><span class="cmd-name">DEFEND</span><span class="cmd-sub">Halve damage</span></button>
-    <button class="cmd item"    data-cmd="item"><span class="cmd-name">ITEM</span><span class="cmd-sub">Use consumable</span></button>
-    <button class="cmd tag"     data-cmd="tag"><span class="cmd-name">TAG</span><span class="cmd-sub">Guard ally</span></button>
-    <button class="cmd ult ${syncReady&&canAtk?"":"locked"}" data-cmd="ultimate" ${syncReady&&canAtk?"":"disabled"}>
-      <span class="cmd-name">ULTIMATE</span>
-      <span class="cmd-sub">${!canAtk?"✗ need correct":syncReady?me.ultimate.name:"Team Sync not full"}</span>
-    </button>`;
+    <div class="battle-menu">
+      <button class="bm-btn bm-strike ${canAtk?"":"locked"}" data-cmd="strike" ${canAtk?"":"disabled"}>
+        <span class="bm-icon">⚔</span>
+        <span class="bm-label">STRIKE</span>
+        <span class="bm-sub">${canAtk?"Basic attack":"✗ need correct"}</span>
+        <span class="bm-num">01</span>
+      </button>
+      <button class="bm-btn bm-spell" data-cmd="spell">
+        <span class="bm-icon">✦</span>
+        <span class="bm-label">SPELL</span>
+        <span class="bm-sub">${canAtk?"Elemental skill":"Support only"}</span>
+        <span class="bm-num">02</span>
+      </button>
+      <button class="bm-btn bm-defend" data-cmd="defend">
+        <span class="bm-icon">🛡</span>
+        <span class="bm-label">DEFEND</span>
+        <span class="bm-sub">Halve damage</span>
+        <span class="bm-num">03</span>
+      </button>
+      <button class="bm-btn bm-item" data-cmd="item">
+        <span class="bm-icon">⚗</span>
+        <span class="bm-label">ITEM</span>
+        <span class="bm-sub">Use consumable</span>
+        <span class="bm-num">04</span>
+      </button>
+      <button class="bm-btn bm-tag" data-cmd="tag">
+        <span class="bm-icon">🤝</span>
+        <span class="bm-label">TAG</span>
+        <span class="bm-sub">Guard ally</span>
+        <span class="bm-num">05</span>
+      </button>
+      <button class="bm-btn bm-ult ${syncReady&&canAtk?"":"locked"}" data-cmd="ultimate" ${syncReady&&canAtk?"":"disabled"}>
+        <span class="bm-icon">${syncReady&&canAtk?"★":"🔒"}</span>
+        <span class="bm-label">ULTIMATE</span>
+        <span class="bm-sub">${ultSub}</span>
+        <span class="bm-num">06</span>
+      </button>
+    </div>`;
   cmds.querySelectorAll("[data-cmd]").forEach((el) =>
     el.addEventListener("click", () => { SFX.play("select"); onCommand(el.dataset.cmd, me, b); }));
 }
@@ -887,33 +918,52 @@ function onCommand(cmd, me, b) {
 }
 
 function spellMenu(me, b) {
-  const cmds = $("commands");
-  cmds.classList.remove("preview-mode");
+  // Show the character's skill-art sheet centered on the arena, with 4 click zones.
+  const arena = $("arena");
   const cds = me.cooldowns || {};
-  cmds.innerHTML = me.skills.map((s, i) => {
-    const col = ELEMENT_COLORS[s.element] || "#fff";
-    const off = isOffSkill(s);
-    const onCd = (cds[i] || 0) > 0;
-    const blocked = onCd || me.sp < s.sp || (off && !myAnswerCorrect);
-    const why = onCd ? ` · CD: ${cds[i]}t` : me.sp < s.sp ? " · low SP" : (off && !myAnswerCorrect) ? " · ✗ wrong" : "";
-    const cdTag = s.cd > 0 ? ` [CD${s.cd}]` : "";
-    return `<button class="cmd spell ${blocked?"locked":""}" data-sk="${i}" ${blocked?"disabled":""} style="border-color:${col}">
-      <span class="cmd-name" style="color:${col}">${s.name}${cdTag}</span>
-      <span class="cmd-sub">${skillDesc(s)}${why}</span>
-    </button>`;
-  }).join("") + `<button class="cmd back" data-back="1"><span class="cmd-name">← BACK</span></button>`;
-  cmds.querySelectorAll("[data-sk]").forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      const sk = me.skills[+el.dataset.sk];
-      if (sk) spawnEfx(me.uid, "ring", fxColor(sk.element), 0.5);
-    });
+  const sheetSrc = encodeURI(ASSETS.skillSheet(me.charId));
+
+  // Remove any old overlay
+  const old = document.getElementById("skillSheetOverlay");
+  if (old) old.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "skillSheetOverlay";
+  overlay.className = "skill-sheet-overlay";
+  overlay.innerHTML = `
+    <div class="skill-sheet-box">
+      <img class="skill-sheet-img" src="${sheetSrc}" alt="Skills" />
+      <div class="skill-sheet-grid">
+        ${me.skills.map((s, i) => {
+          const off = isOffSkill(s);
+          const onCd = (cds[i] || 0) > 0;
+          const blocked = onCd || me.sp < s.sp || (off && !myAnswerCorrect);
+          const whyTip = onCd ? `CD: ${cds[i]}t` : me.sp < s.sp ? "Low SP" : (off && !myAnswerCorrect) ? "Need correct answer" : "";
+          return `<button class="skill-zone ${blocked?"blocked":""}" data-sk="${i}" ${blocked?"disabled":""}>
+            ${blocked ? `<span class="skill-zone-lock">${whyTip}</span>` : ""}
+          </button>`;
+        }).join("")}
+      </div>
+      <button class="skill-sheet-back" id="skillSheetBack">← BACK</button>
+    </div>`;
+
+  arena.appendChild(overlay);
+
+  overlay.querySelectorAll("[data-sk]").forEach((el) => {
     el.addEventListener("click", () => {
-      const i = +el.dataset.sk, sk = me.skills[i]; SFX.play("select");
-      // First click → show description; second click (USE button) → execute
+      const i = +el.dataset.sk, sk = me.skills[i];
+      SFX.play("select");
+      spawnEfx(me.uid, "ring", fxColor(sk.element), 0.5);
+      overlay.remove();
       showSkillDesc(i, sk, me, b);
     });
   });
-  cmds.querySelector("[data-back]").addEventListener("click", () => { SFX.play("select"); buildCommands(me, b); });
+
+  document.getElementById("skillSheetBack").addEventListener("click", () => {
+    SFX.play("select");
+    overlay.remove();
+    buildCommands(me, b);
+  });
 }
 
 function showSkillDesc(i, sk, me, b) {
@@ -944,7 +994,7 @@ function showSkillDesc(i, sk, me, b) {
     else
       pickTarget("enemy", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
   });
-  cmds.querySelector("[data-back]").addEventListener("click", () => { SFX.play("select"); spellMenu(me, b); });
+  cmds.querySelector("[data-back]").addEventListener("click", () => { SFX.play("select"); cmds.classList.remove("preview-mode"); buildCommands(me, b); spellMenu(me, b); });
 }
 
 function itemMenu(me, b) {
