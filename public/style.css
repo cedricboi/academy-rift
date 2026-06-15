@@ -401,7 +401,7 @@ input:focus{outline:none;border-color:var(--cyan);}
 
 /* command panel — centered in the arena during action phase */
 .commands{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:64%;max-width:64%;z-index:26;}
+  width:70%;max-width:70%;z-index:26;}
 .commands.preview-mode{width:46%;max-width:46%;}
 
 /* dim overlay shown behind the command panel */
@@ -409,19 +409,25 @@ input:focus{outline:none;border-color:var(--cyan);}
   background:rgba(0,0,0,0);transition:background .25s ease;}
 .battle-dim.active{background:rgba(0,0,0,.55);}
 
-/* ===== BATTLE MENU (image-based 2×3 grid) ===== */
-.battle-menu{
-  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;
-  gap:clamp(2px,.25vw,4px);width:100%;}
+/* ===== BATTLE MENU (radial pinwheel) ===== */
+.battle-menu{position:relative;width:100%;height:0;padding-bottom:52%;}
 .bm-btn{
-  position:relative;display:flex;align-items:center;justify-content:center;
+  position:absolute;width:48%;
   padding:0;border:none;outline:none;cursor:pointer;background:transparent;
-  transition:filter .15s,opacity .15s;}
+  transform-origin:center center;transition:filter .15s,opacity .15s;}
 .bm-btn:focus,.bm-btn:focus-visible{outline:none;}
 .bm-btn img{width:100%;height:auto;display:block;pointer-events:none;}
-.bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.18) drop-shadow(0 0 6px rgba(255,255,255,.2));}
+.bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.2) drop-shadow(0 0 8px rgba(255,255,255,.3));}
 .bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
 .bm-btn.locked{opacity:.45;cursor:not-allowed;}
+/* left column */
+.bm-btn[data-cmd="strike"]{left:0;top:4%;   transform:rotate(-18deg);}
+.bm-btn[data-cmd="defend"]{left:0;top:39%;  transform:rotate(0deg);}
+.bm-btn[data-cmd="tag"]   {left:0;bottom:4%;transform:rotate(18deg);}
+/* right column */
+.bm-btn[data-cmd="spell"]   {right:0;top:4%;   transform:rotate(18deg);}
+.bm-btn[data-cmd="item"]    {right:0;top:39%;  transform:rotate(0deg);}
+.bm-btn[data-cmd="ultimate"]{right:0;bottom:4%;transform:rotate(-18deg);}
 
 /* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
 .skill-sheet-overlay{
