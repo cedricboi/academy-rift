@@ -49,7 +49,7 @@ body{font-family:"Oswald",system-ui,sans-serif;color:var(--paper);background:var
   height:min(100vh, calc(100vw * 9 / 16));
   width:min(100vw, calc(100dvh * 16 / 9));
   height:min(100dvh, calc(100vw * 9 / 16));
-  background:#08080c url('assets/Landing Page.png') center/cover no-repeat;}
+  background:#08080c url('assets/Landing Page.webp') center/cover no-repeat;}
 /* transparent hot-zone sitting exactly over the artwork's "ENTER THE RIFT" pill */
 .enter-btn{position:absolute;left:50%;top:69.5%;transform:translate(-50%,-50%);
   width:28%;height:10%;background:transparent;border:none;cursor:pointer;
@@ -59,7 +59,7 @@ body{font-family:"Oswald",system-ui,sans-serif;color:var(--paper);background:var
 
 /* ===== HOME / FORMS ===== */
 #home,#room{background:linear-gradient(rgba(8,4,12,.70),rgba(8,4,12,.70)),
-  url('assets/Opening Scene.png') center/cover no-repeat;}
+  url('assets/Opening Scene.webp') center/cover no-repeat;}
 .panel-card{width:min(440px,94vw);background:var(--panel);border:3px solid var(--crimson);
   box-shadow:10px 10px 0 rgba(0,0,0,.6);padding:24px;
   clip-path:polygon(0 0,100% 0,100% 93%,96% 100%,0 100%);}

@@ -39,15 +39,15 @@ function setBattleDim(on) {
   if (!on) setTimeout(() => { if (!d.classList.contains("active")) d.classList.add("hidden"); }, 280);
 }
 const ASSETS = {
-  portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.png`])),
-  idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.png`,
-  attack: (id) => `assets/Attack Costume/${COSTUME_NUM[id]}.png`,
-  card:   (id) => `assets/Player cards/${CARD_NUM[id]}.png`,
-  bigcard:  (id) => `assets/Character Card/${id}.png`,
-  cardinfo: (id) => `assets/Chracter Card Information/${id}.png`,
-  skillSheet: (id) => `assets/Skill Menu Art/${SKILL_SHEET_NUM[id] || 1}.png`,
-  ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).png`,
-  bg: { castle: "assets/CASTLE BACKGROUND.png", opening: "assets/Opening Scene.png", shop: null, lobby: null },
+  portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.webp`])),
+  idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.webp`,
+  attack: (id) => `assets/Attack Costume/${COSTUME_NUM[id]}.webp`,
+  card:   (id) => `assets/Player cards/${CARD_NUM[id]}.webp`,
+  bigcard:  (id) => `assets/Character Card/${id}.webp`,
+  cardinfo: (id) => `assets/Chracter Card Information/${id}.webp`,
+  skillSheet: (id) => `assets/Skill Menu Art/${SKILL_SHEET_NUM[id] || 1}.webp`,
+  ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).webp`,
+  bg: { castle: "assets/CASTLE BACKGROUND.webp", opening: "assets/Opening Scene.webp", shop: null, lobby: null },
 };
 
 // Music tracks. playsInline keeps iOS from hijacking them into a fullscreen player.
