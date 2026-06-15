@@ -31,6 +31,25 @@ const BATTLE_IMGS = {
   tag:      `${BM}5.png`,
   ultimate: `${BM}6.png`,
 };
+// Answer-feedback banners (drop the two graphics in here as 1.png / 2.png).
+const ANSWER_IMG = {
+  correct: "assets/Answer%20Feedback/1.png",
+  wrong:   "assets/Answer%20Feedback/2.png",
+};
+// Flash the CORRECT/WRONG banner over a greyed scene for ~1 second.
+function showAnswerBanner(correct) {
+  const el = $("answerBanner"), img = $("answerBannerImg");
+  if (!el || !img) return;
+  img.src = correct ? ANSWER_IMG.correct : ANSWER_IMG.wrong;
+  el.classList.remove("hidden");
+  void el.offsetWidth;                 // reflow so the fade-in plays
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => {
+    el.classList.remove("show");
+    setTimeout(() => el.classList.add("hidden"), 220);   // hide after fade-out
+  }, 1000);
+}
 function setBattleDim(on) {
   const d = $("battleDim");
   if (!d) return;
@@ -432,7 +451,7 @@ function ensureChibisThenRender(combatants) {
 }
 
 socket.on("answerResult", ({ uid, correct, correctIndex, explain }) => {
-  if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); }
+  if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); showAnswerBanner(correct); }
   if (correct) setAttackPose(uid);   // right answer → don the attack costume, and STAY in it
   document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
     b.disabled = true;

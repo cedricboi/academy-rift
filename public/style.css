@@ -409,6 +409,14 @@ input:focus{outline:none;border-color:var(--cyan);}
   background:rgba(0,0,0,0);transition:background .25s ease;}
 .battle-dim.active{background:rgba(0,0,0,.55);}
 
+/* answer feedback banner — flashes CORRECT/WRONG over a greyed scene for ~1s */
+.answer-banner{position:absolute;inset:0;z-index:32;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.55);pointer-events:none;opacity:0;transition:opacity .2s ease;}
+.answer-banner.show{opacity:1;}
+.answer-banner img{width:min(74vw,1040px);max-width:88%;height:auto;display:block;
+  filter:drop-shadow(0 8px 34px rgba(0,0,0,.6));}
+.answer-banner.hidden{display:none!important;}
+
 /* ===== BATTLE MENU (radial pinwheel) ===== */
 /* container is an aspect-ratio box (padding-bottom trick); buttons are sized by
    their natural 4:1 banner ratio (width-driven, height:auto) and splayed into a
@@ -440,7 +448,9 @@ input:focus{outline:none;border-color:var(--cyan);}
 @keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
 .skill-sheet-box{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(6px,1vw,14px);
-  width:clamp(320px,54vw,700px);}
+  /* square art — size by the binding dimension (height in landscape) so it's as
+     big as possible while still fitting on screen with the BACK button below */
+  width:min(84vh,90vw,860px);}
 .skill-sheet-img{width:100%;border-radius:10px;box-shadow:0 0 40px rgba(0,0,0,.8);display:block;}
 .skill-sheet-grid{
   position:absolute;top:0;left:0;width:100%;height:calc(100% - clamp(36px,6vw,60px));
