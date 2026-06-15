@@ -421,13 +421,13 @@ input:focus{outline:none;border-color:var(--cyan);}
 .bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
 .bm-btn.locked{opacity:.45;cursor:not-allowed;}
 /* left column */
-.bm-btn[data-cmd="strike"]{left:0;top:4%;   transform:rotate(-18deg);}
+.bm-btn[data-cmd="strike"]{left:0;top:4%;   transform:rotate(18deg);}
 .bm-btn[data-cmd="defend"]{left:0;top:39%;  transform:rotate(0deg);}
-.bm-btn[data-cmd="tag"]   {left:0;bottom:4%;transform:rotate(18deg);}
+.bm-btn[data-cmd="tag"]   {left:0;bottom:4%;transform:rotate(-18deg);}
 /* right column */
-.bm-btn[data-cmd="spell"]   {right:0;top:4%;   transform:rotate(18deg);}
+.bm-btn[data-cmd="spell"]   {right:0;top:4%;   transform:rotate(-18deg);}
 .bm-btn[data-cmd="item"]    {right:0;top:39%;  transform:rotate(0deg);}
-.bm-btn[data-cmd="ultimate"]{right:0;bottom:4%;transform:rotate(-18deg);}
+.bm-btn[data-cmd="ultimate"]{right:0;bottom:4%;transform:rotate(18deg);}
 
 /* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
 .skill-sheet-overlay{
