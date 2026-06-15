@@ -919,9 +919,11 @@ function onCommand(cmd, me, b) {
 
 function spellMenu(me, b) {
   // Show the character's skill-art sheet centered on the arena, with 4 click zones.
+  console.log("spellMenu called for", me.charId);
   const arena = $("arena");
   const cds = me.cooldowns || {};
   const sheetSrc = encodeURI(ASSETS.skillSheet(me.charId));
+  console.log("skillSheet src:", sheetSrc);
 
   // Remove any old overlay
   const old = document.getElementById("skillSheetOverlay");
@@ -994,7 +996,7 @@ function showSkillDesc(i, sk, me, b) {
     else
       pickTarget("enemy", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
   });
-  cmds.querySelector("[data-back]").addEventListener("click", () => { SFX.play("select"); cmds.classList.remove("preview-mode"); buildCommands(me, b); spellMenu(me, b); });
+  cmds.querySelector("[data-back]").addEventListener("click", () => { SFX.play("select"); cmds.classList.remove("preview-mode"); buildCommands(me, b); });
 }
 
 function itemMenu(me, b) {
