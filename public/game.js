@@ -33,8 +33,8 @@ const BATTLE_IMGS = {
 };
 // Answer-feedback banners (drop the two graphics in here as 1.png / 2.png).
 const ANSWER_IMG = {
-  correct: "assets/Answer%20Feedback/1.png",
-  wrong:   "assets/Answer%20Feedback/2.png",
+  correct: "assets/Answer%20Feedback/correct.webp",
+  wrong:   "assets/Answer%20Feedback/wrong.webp",
 };
 // Flash the CORRECT/WRONG banner over a greyed scene for ~1 second.
 function showAnswerBanner(correct) {
