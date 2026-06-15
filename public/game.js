@@ -955,7 +955,7 @@ function spellMenu(me, b) {
       SFX.play("select");
       spawnEfx(me.uid, "ring", fxColor(sk.element), 0.5);
       overlay.remove();
-      showSkillDesc(i, sk, me, b);
+      castSkill(i, sk, me, b);   // straight to target selection — no extra confirm
     });
   });
 
@@ -966,35 +966,17 @@ function spellMenu(me, b) {
   });
 }
 
-function showSkillDesc(i, sk, me, b) {
-  const cmds = $("commands");
-  cmds.classList.add("preview-mode");
-  const col = ELEMENT_COLORS[sk.element] || "#fff";
-  const kindLabel = { atk: "Elemental Strike", heavy: "Heavy Blow", heal: "Healing", buff: "Buff", guard: "Guard / Shield", debuff: "Debuff", cleanse: "Cleanse" };
-  const cdText = (sk.cd || 0) > 0 ? ` · Cooldown: ${sk.cd} turn${sk.cd > 1 ? "s" : ""}` : "";
-  cmds.innerHTML = `
-    <div class="skill-preview" style="border-color:${col}">
-      <div class="skill-preview-name" style="color:${col}">${sk.name}</div>
-      <div class="skill-preview-meta">${sk.element} · ${kindLabel[sk.kind] || "Skill"} · ${sk.sp} SP${cdText}</div>
-      <div class="skill-preview-desc">${sk.desc || ""}</div>
-    </div>
-    <button class="cmd use-skill" data-use="1" style="border-color:${col}">
-      <span class="cmd-name" style="color:${col}">USE ${sk.name.toUpperCase()}</span>
-    </button>
-    <button class="cmd back" data-back="1"><span class="cmd-name">← BACK</span></button>`;
-  cmds.querySelector("[data-use]").addEventListener("click", () => {
-    SFX.play("select");
-    cmds.classList.remove("preview-mode");
-    // single-ally targets (heal, cleanse, single-ally guard) → pick an ally;
-    // self/party guards and buffs auto-target → no pick; offensive → pick an enemy.
-    if (sk.kind === "heal" || sk.kind === "cleanse" || (sk.kind === "guard" && sk.target !== "party" && sk.target !== "self"))
-      pickTarget("ally", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
-    else if (sk.kind === "buff" || sk.kind === "guard")
-      send({ type: "spell", skillIndex: i });
-    else
-      pickTarget("enemy", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
-  });
-  cmds.querySelector("[data-back]").addEventListener("click", () => { SFX.play("select"); cmds.classList.remove("preview-mode"); buildCommands(me, b); });
+// Cast the chosen skill immediately: go straight to target selection (or auto-cast
+// for self/party buffs & guards). No second confirm — picking the skill is the commit.
+function castSkill(i, sk, me, b) {
+  // single-ally targets (heal, cleanse, single-ally guard) → pick an ally;
+  // self/party guards and buffs auto-target → no pick; offensive → pick an enemy.
+  if (sk.kind === "heal" || sk.kind === "cleanse" || (sk.kind === "guard" && sk.target !== "party" && sk.target !== "self"))
+    pickTarget("ally", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
+  else if (sk.kind === "buff" || sk.kind === "guard")
+    send({ type: "spell", skillIndex: i });
+  else
+    pickTarget("enemy", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
 }
 
 function itemMenu(me, b) {
