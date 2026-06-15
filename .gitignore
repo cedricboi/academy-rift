@@ -1,0 +1,14 @@
+# Dependencies (Render reinstalls from package.json)
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+
+# OS cruft
+.DS_Store
+Thumbs.db
