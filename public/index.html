@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Academy Rift</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="game">
+
+  <!-- 1. TITLE — full-art landing page; the "ENTER THE RIFT" button is baked into
+       the artwork, so we overlay a transparent hot-zone aligned to it. -->
+  <section id="title" class="screen active">
+    <div class="title-stage">
+      <button class="enter-btn" data-go="home" aria-label="Enter the Rift"></button>
+    </div>
+  </section>
+
+  <!-- 2. HOME / LOGIN -->
+  <section id="home" class="screen">
+    <div class="panel-card">
+      <h2 class="head">SCHOOL LOBBY</h2>
+      <label class="field"><span>Codename</span>
+        <input id="nameInput" maxlength="14" placeholder="Enter your name" /></label>
+      <div class="coins-line">💰 <b id="homeCoins">0</b> coins</div>
+      <button class="shard-btn primary" id="createBtn"><span>CREATE ROOM</span></button>
+      <div class="join-row">
+        <input id="codeInput" maxlength="4" placeholder="CODE" />
+        <button class="shard-btn" id="joinBtn"><span>JOIN</span></button>
+      </div>
+      <button class="shard-btn ghost" data-go="shop"><span>🛒 SHOP</span></button>
+      <p id="homeMsg" class="msg"></p>
+    </div>
+  </section>
+
+  <!-- 3+4+5. WAITING ROOM / TEAM SETUP / CHARACTER SELECT -->
+  <section id="room" class="screen">
+    <div class="room-head">
+      <h2 class="head">ROOM <span id="roomCode" class="code-chip">----</span></h2>
+      <button class="shard-btn ghost small" data-go="home"><span>LEAVE</span></button>
+    </div>
+    <div class="teams">
+      <div class="team-col" id="teamA"><h3 class="team-title a">TEAM CRIMSON</h3><div class="slots" id="slotsA"></div></div>
+      <div class="vs">VS</div>
+      <div class="team-col" id="teamB"><h3 class="team-title b">TEAM AZURE</h3><div class="slots" id="slotsB"></div></div>
+    </div>
+    <div class="room-controls">
+      <button class="shard-btn" id="switchBtn"><span>⇄ SWITCH TEAM</span></button>
+      <button class="shard-btn" id="readyBtn"><span>✓ READY</span></button>
+      <button class="shard-btn ghost" id="addBotABtn"><span>+ BOT CRIMSON</span></button>
+      <button class="shard-btn ghost" id="addBotBBtn"><span>+ BOT AZURE</span></button>
+      <button class="shard-btn primary" id="startBtn"><span>⚔ START MATCH</span></button>
+    </div>
+    <h3 class="head sub">CHOOSE YOUR FIGHTER</h3>
+    <div class="roster" id="roster"></div>
+    <p id="roomMsg" class="msg"></p>
+
+    <!-- Character detail overlay: full card art + skills/stats info sheet -->
+    <div class="char-detail" id="charDetail">
+      <div class="cd-box">
+        <button class="cd-close" id="cdClose" aria-label="Close">✕</button>
+        <div class="cd-head">
+          <span class="cd-name" id="cdName">Name</span>
+          <span class="cd-meta" id="cdMeta"></span>
+        </div>
+        <div class="cd-images">
+          <img class="cd-art"  id="cdArt"  alt="Character art" />
+          <img class="cd-info" id="cdInfo" alt="Skills and stats" />
+        </div>
+        <button class="shard-btn primary cd-pick" id="cdPick"><span>⚔ PICK THIS FIGHTER</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. BATTLE — full-screen 16:9 cinematic stage -->
+  <section id="battle" class="screen">
+    <div class="arena" id="arena">
+      <div class="arena-vignette"></div>
+
+      <!-- TOP CENTER: Team Sync Gauge -->
+      <div class="sync-stack" id="syncStack">
+        <div class="sync-gauge mine">
+          <span class="sync-cap">TEAM SYNC GAUGE</span>
+          <div class="sync-track"><div class="sync-fill" id="syncMine"></div></div>
+          <span class="sync-rdy" id="syncRdyMine">ULTIMATE READY!</span>
+        </div>
+        <div class="sync-gauge foe">
+          <div class="sync-track sm"><div class="sync-fill" id="syncFoe"></div></div>
+          <span class="sync-cap sm">ENEMY SYNC</span>
+        </div>
+      </div>
+
+      <!-- CORNERS: 4 player cards (P1 TL, P2 TR, P3 BL, P4 BR) -->
+      <div class="pcard-slot p1" id="slotAllyFront"></div>
+      <div class="pcard-slot p2" id="slotEnemyFront"></div>
+      <div class="pcard-slot p3" id="slotAllyBack"></div>
+      <div class="pcard-slot p4" id="slotEnemyBack"></div>
+
+      <!-- CENTER: transparent chibi sprites in 2v2 lanes -->
+      <div class="lane lf" id="laneAllyFront"></div>
+      <div class="lane lb" id="laneAllyBack"></div>
+      <div class="lane rf" id="laneEnemyFront"></div>
+      <div class="lane rb" id="laneEnemyBack"></div>
+
+      <!-- effects + overlays -->
+      <div class="fx-layer" id="fxLayer"></div>
+      <div class="turn-banner" id="turnBanner">Get ready…</div>
+      <div class="action-log" id="actionLog"></div>
+      <div class="cutin hidden" id="cutin"></div>
+
+      <!-- BOTTOM ACTION ZONE: command bar + slide-up MCQ overlay -->
+      <div class="actionzone" id="dock">
+        <!-- MCQ slides up over the lower arena -->
+        <div class="mcq hidden" id="mcq">
+          <div class="mcq-top">
+            <div class="mcq-player-chip">
+              <div class="mcq-player-thumb" id="mcqPlayerThumb"></div>
+              <span class="mcq-player-name" id="mcqPlayerName">PLAYER</span>
+            </div>
+            <span class="topic-chip" id="mcqTopic">Science</span>
+            <span class="timer" id="mcqTimer">00:18</span>
+          </div>
+          <div class="timer-bar"><div class="timer-fill" id="mcqTimerFill"></div></div>
+          <p class="mcq-q" id="mcqQ">Question…</p>
+          <div class="mcq-choices" id="mcqChoices"></div>
+          <div class="mcq-feedback hidden" id="mcqFeedback"></div>
+        </div>
+        <!-- command shards (bottom-center, between the cards) -->
+        <div class="commands hidden" id="commands"></div>
+        <!-- waiting indicator (bottom-center) -->
+        <div class="wait hidden" id="waitBox"><span id="waitText">Waiting…</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16/17. RESULT -->
+  <section id="result" class="screen">
+    <div class="result-card">
+      <h1 class="result-title" id="resultTitle">VICTORY!</h1>
+      <div class="result-body" id="resultBody"></div>
+      <div class="result-actions">
+        <button class="shard-btn primary" id="rematchBtn"><span>REMATCH</span></button>
+        <button class="shard-btn" data-go="shop"><span>SHOP</span></button>
+        <button class="shard-btn ghost" data-go="home"><span>LOBBY</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. SHOP -->
+  <section id="shop" class="screen">
+    <div class="shop-head">
+      <h2 class="head">HIDDEN STOREROOM</h2>
+      <div class="coins-line">💰 <b id="shopCoins">0</b></div>
+      <button class="shard-btn ghost small" data-go="home"><span>BACK</span></button>
+    </div>
+    <div class="shop-grid" id="shopGrid"></div>
+    <p id="shopMsg" class="msg"></p>
+  </section>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- iPad/phone held in portrait: a 16:9 game is tiny, so ask to rotate -->
+  <div id="rotate" class="rotate-hint">
+    <div><span class="rotate-icon">🔄</span><br>Rotate your device<br>to <b>landscape</b> to play</div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# One-click deploy to Render (https://render.com) — free tier works.
+# In Render: New + → Blueprint → connect this repo → it reads this file.
+services:
+  - type: web
+    name: academy-rift
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
