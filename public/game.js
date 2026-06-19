@@ -7,6 +7,7 @@ let room = null;
 let inputLocked = false;
 let mySelected = -1;
 let myAnswerCorrect = false;   // gates attacking — set from answerResult
+let stealMeta = null;          // { originalUid, originalName, seconds, startedAt } while steal window is open
 
 // ============================================================
 //  ASSET MAP — all character art wired to uploaded files.
@@ -467,6 +468,33 @@ socket.on("answerResult", ({ uid, correct, correctIndex, explain }) => {
   if (uid !== myId) toast(`${nameOf(uid)} answered ${correct ? "correctly ✓" : "wrong ✗"}.`);
 });
 
+// Steal window opened (original player answered wrong)
+socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
+  stealMeta = { originalUid, originalName, seconds, startedAt: Date.now() };
+  if (originalUid !== myId) {
+    bannerFlash(`⚡ STEAL CHANCE!  ${originalName} got it wrong!`, "");
+  }
+  renderBattle();
+});
+
+// Result after a steal attempt
+socket.on("stealResult", ({ uid, correct, correctIndex, explain }) => {
+  if (uid === myId) { SFX.play(correct ? "correct" : "wrong"); if (correct) showAnswerBanner(true); }
+  document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
+    b.disabled = true;
+    if (i === correctIndex) b.classList.add("correct");
+    else if (i === mySelected && uid === myId && !correct) b.classList.add("wrong");
+  });
+  const fb = $("mcqFeedback");
+  fb.className = "mcq-feedback " + (correct ? "good" : "bad");
+  fb.textContent = (correct
+    ? `⚡ ${nameOf(uid)} STOLE the turn!  Free strike dealt.`
+    : `${nameOf(uid)} guessed wrong.`) + "  " + explain;
+  fb.classList.remove("hidden");
+  stopTimer();
+  if (uid !== myId) toast(correct ? `⚡ ${nameOf(uid)} stole the turn!` : `${nameOf(uid)} couldn't steal.`);
+});
+
 // Both teammates answered correctly → sync surge
 socket.on("teamSync", ({ team }) => {
   const myTeam = room?.players.find((p) => p.id === myId)?.team ?? 0;
@@ -590,8 +618,8 @@ function showActionLog(actC, type, name, events) {
   if (guards.length && !other) other = `shielded ${guards.join(", ")}`;
 
   // verb + skill name
-  const verb = type === "stunned" ? "" : type === "strike" ? "strikes with" : type === "ultimate" ? "unleashes" :
-               type === "defend" ? "uses" : type === "tag" ? "uses" : "uses";
+  const verb = type === "stunned" ? "" : type === "steal" ? "" : type === "strike" ? "strikes with" :
+               type === "ultimate" ? "unleashes" : type === "defend" ? "uses" : type === "tag" ? "uses" : "uses";
   const parts = [];
   if (totalDmg > 0) {
     let d = `${totalDmg} dmg → ${dmgT.join(", ")}`;
@@ -853,10 +881,12 @@ function updateBars() {
 // ---- dock ----
 function renderDock(b, cur, myTurn) {
   const mcq  = $("mcq"), cmds = $("commands"), wait = $("waitBox");
+  // Clear stealMeta once steal phase is over
+  if (b.phase !== "steal") stealMeta = null;
+
   if (b.phase === "question") {
     cmds.classList.add("hidden"); wait.classList.add("hidden"); mcq.classList.remove("hidden"); setBattleDim(false);
     const q = b.question;
-    // update player chip with portrait if available
     const charId = cur?.charId;
     $("mcqPlayerName").textContent = cur?.name || "PLAYER";
     $("mcqPlayerThumb").innerHTML = charId ? `<img src="${encodeURI(ASSETS.ult(charId))}" alt="" />` : "";
@@ -873,8 +903,49 @@ function renderDock(b, cur, myTurn) {
       }); else btn.disabled = true;
       wrap.appendChild(btn);
     });
-    if (myTurn) startTimer(q.seconds);
-    else { $("mcqTimer").textContent = "00:--"; stopTimer(); }
+    // Show running timer for ALL players (synced to server clock)
+    startTimerFrom(q.seconds, q.startedAt);
+
+  } else if (b.phase === "steal") {
+    // Steal window: original player waits; everyone else can buzz in
+    cmds.classList.add("hidden"); setBattleDim(false);
+    const isOriginal = b.stealOf === myId;
+    if (isOriginal) {
+      mcq.classList.add("hidden");
+      wait.classList.remove("hidden");
+      $("waitText").textContent = "Others can steal your question…";
+    } else if (stealMeta) {
+      wait.classList.add("hidden"); mcq.classList.remove("hidden");
+      const q = b.question;
+      const charId = cur?.charId;
+      $("mcqPlayerName").textContent = (stealMeta.originalName || "Opponent") + " (wrong!)";
+      $("mcqPlayerThumb").innerHTML = charId ? `<img src="${encodeURI(ASSETS.ult(charId))}" alt="" />` : "";
+      $("mcqTopic").textContent = "⚡ STEAL — " + q.topic;
+      $("mcqQ").textContent = q.q;
+      $("mcqFeedback").className = "mcq-feedback steal";
+      $("mcqFeedback").textContent = "They got it wrong! Answer correctly to steal a free strike.";
+      $("mcqFeedback").classList.remove("hidden");
+      // Only rebuild choices if they haven't been built yet for this steal window
+      const wrap = $("mcqChoices");
+      if (!wrap.querySelector(".choice[data-steal]")) {
+        wrap.innerHTML = ""; mySelected = -1;
+        q.choices.forEach((ch, i) => {
+          const btn = document.createElement("button");
+          btn.className = "choice"; btn.dataset.steal = "1";
+          btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${ch}</span>`;
+          btn.addEventListener("click", () => {
+            if (inputLocked) return; mySelected = i; lockBriefly();
+            socket.emit("steal", { choiceIndex: i });
+          });
+          wrap.appendChild(btn);
+        });
+      }
+      startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
+    } else {
+      mcq.classList.add("hidden");
+      wait.classList.remove("hidden"); $("waitText").textContent = "Steal window…";
+    }
+
   } else if (b.phase === "action") {
     mcq.classList.add("hidden");
     if (myTurn) { wait.classList.add("hidden"); cmds.classList.remove("hidden"); buildCommands(cur, b); }
@@ -1061,6 +1132,20 @@ function startTimer(seconds) {
   timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); if (left<=0) stopTimer(); }, 1000);
 }
 function stopTimer() { clearInterval(timerInt); }
+// Start timer accounting for time already elapsed since the server set startedAt.
+function startTimerFrom(totalSeconds, startedAt) {
+  const elapsed  = startedAt ? (Date.now() - startedAt) / 1000 : 0;
+  const remaining = Math.max(0, totalSeconds - elapsed);
+  const fraction  = totalSeconds > 0 ? remaining / totalSeconds : 1;
+  stopTimer();
+  const fill = $("mcqTimerFill");
+  fill.style.transition = "none"; fill.style.width = (fraction * 100) + "%";
+  void fill.offsetWidth;
+  fill.style.transition = `width ${remaining}s linear`; fill.style.width = "0%";
+  let left = Math.round(remaining);
+  $("mcqTimer").textContent = fmt(left);
+  timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); if (left<=0) stopTimer(); }, 1000);
+}
 function fmt(s) { return "00:" + String(s).padStart(2,"0"); }
 
 // ---- fx ----

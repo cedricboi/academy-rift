@@ -38,7 +38,8 @@ const SP_DMG_SCALE = 140;           // higher-SP skills hit harder: power * (1 +
 const DMG_SCALE = 0.4;              // global damage scale — lower = longer battles, more questions
 const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
 const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
-const SYNC_CORRECT = 12, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22;
+const STEAL_SECONDS = 10;
+const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
 const DEFAULT_ITEMS = { bento: 1, energy: 1, shield: 1, crystal: 1, revive: 1 };
 const BOT_NAMES = ["Akira", "Mei", "Sora", "Riku", "Yuki", "Kai"];
 
@@ -96,6 +97,7 @@ function publicBattle(b) {
   return {
     sync: { 0: Math.round(b.sync[0]), 1: Math.round(b.sync[1]) },
     current: b.current,
+    stealOf: b.stealOf || null,
     currentName: b.combatants[b.current]?.name,
     currentTeam: b.combatants[b.current]?.team,
     phase: b.phase,
@@ -197,6 +199,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("answer", ({ choiceIndex }) => handleAnswer(myRoom(), socket.id, choiceIndex));
+  socket.on("steal",  ({ choiceIndex }) => handleSteal(myRoom(), socket.id, choiceIndex));
   socket.on("action", (action) => handleAction(myRoom(), socket.id, action));
 
   socket.on("rematch", () => {
@@ -309,7 +312,7 @@ function startQuestion(room) {
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
   const seconds = Math.max(6, QUESTION_SECONDS - (c.timerDownTurns > 0 ? 4 : 0));
-  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, difficulty: q.difficulty, seconds };
+  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, difficulty: q.difficulty, seconds, startedAt: Date.now() };
   b.phase = "question";
   c._correct = false;
   broadcast(room);
@@ -349,13 +352,72 @@ function resolveAnswer(room, choiceIndex) {
   io.to(room.code).emit("answerResult", {
     uid: c.uid, correct, correctIndex: b.q.answer, explain: b.q.explain,
   });
+
+  // Wrong answer from a human → open a steal window before the action phase.
+  if (!correct && !c.bot) {
+    b.phase = "steal";
+    b.stealOf = c.uid;
+    b.stealAnswered = new Set();
+    broadcast(room);
+    io.to(room.code).emit("stealOpen", {
+      originalUid: c.uid, originalName: c.name, seconds: STEAL_SECONDS,
+    });
+    b.timers.steal = setTimeout(() => closeSteal(room), STEAL_SECONDS * 1000);
+    return;
+  }
+
   b.phase = "action";
   broadcast(room);
   if (c.bot) { b.timers.bot = setTimeout(() => botAction(room), 1100); return; }
   io.to(c.uid).emit("chooseAction", { syncReady: b.sync[c.team] >= 100, correct });
-  // a wrong answer can't attack — default to Defend on timeout
   const fallback = correct ? { type: "strike" } : { type: "defend" };
   b.timers.a = setTimeout(() => handleAction(room, c.uid, fallback, true), ACTION_SECONDS * 1000);
+}
+
+function handleSteal(room, sid, choiceIndex) {
+  const b = room?.battle;
+  if (!b || b.phase !== "steal") return;
+  if (sid === b.stealOf) return;               // original player can't steal their own turn
+  if (!b.stealAnswered) b.stealAnswered = new Set();
+  if (b.stealAnswered.has(sid)) return;        // already attempted
+  b.stealAnswered.add(sid);
+
+  const stealer = b.combatants[sid];
+  if (!stealer || !stealer.alive) return;
+  const correct = choiceIndex === b.q.answer;
+  io.to(room.code).emit("stealResult", {
+    uid: sid, correct, correctIndex: b.q.answer, explain: b.q.explain,
+  });
+  if (correct) {
+    clearTimeout(b.timers.steal);
+    gradeAnswer(room, stealer, true);
+    // Stealer earns a free strike on a random live enemy
+    const enemies = enemiesOf(b, stealer.team);
+    if (enemies.length) {
+      const t = rand(enemies);
+      const ev = damage(room, stealer, t, stealer.atk, stealer.element, CORRECT_MULT);
+      io.to(room.code).emit("actionResult", {
+        actor: sid, action: "steal", name: `${stealer.charName} steals the turn!`, events: [ev],
+      });
+    }
+    broadcast(room);
+    setTimeout(() => closeSteal(room), 900);
+  }
+}
+
+function closeSteal(room) {
+  const b = room.battle; if (!b || b.phase !== "steal") return;
+  clearTimeout(b.timers.steal);
+  const originalUid = b.stealOf;
+  b.phase = "action";
+  delete b.stealOf; delete b.stealAnswered;
+  broadcast(room);
+  const original = b.combatants[originalUid];
+  if (!original) { b.timers.next = setTimeout(() => advance(room), 500); return; }
+  if (original.bot) { b.timers.bot = setTimeout(() => botAction(room), 500); return; }
+  // Original player still takes their action but with wrong-answer penalty (can only defend/support)
+  io.to(originalUid).emit("chooseAction", { syncReady: b.sync[original.team] >= 100, correct: false });
+  b.timers.a = setTimeout(() => handleAction(room, originalUid, { type: "defend" }, true), ACTION_SECONDS * 1000);
 }
 
 // ---------- actions ----------
