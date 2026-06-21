@@ -13,7 +13,57 @@
        the artwork, so we overlay a transparent hot-zone aligned to it. -->
   <section id="title" class="screen active">
     <div class="title-stage">
-      <button class="enter-btn" data-go="home" aria-label="Enter the Rift"></button>
+      <button class="enter-btn" data-go="tutorial" aria-label="Enter the Rift"></button>
+    </div>
+  </section>
+
+  <!-- 1b. TUTORIAL — compulsory how-to-play shown before the lobby -->
+  <section id="tutorial" class="screen">
+    <div class="tut-card">
+      <h2 class="head tut-head">HOW TO PLAY</h2>
+      <div class="tut-slides">
+        <div class="tut-slide active">
+          <h3 class="tut-title">⚔ BATTLE BASICS</h3>
+          <ul class="tut-list">
+            <li>Each player takes turns — answer a quiz question first.</li>
+            <li><b>✓ Correct</b> — your attack is powered up. Choose any action!</li>
+            <li><b>✗ Wrong</b> — you can only <b>Guard</b> this turn. No attacks or items.</li>
+            <li>All players see the question while someone is answering.</li>
+          </ul>
+        </div>
+        <div class="tut-slide">
+          <h3 class="tut-title">⚡ STEAL THE TURN</h3>
+          <ul class="tut-list">
+            <li>When someone answers wrong, a <b>10-second steal window</b> opens.</li>
+            <li>Any other player can buzz in and answer the same question.</li>
+            <li>First correct stealer takes the turn — but <b>ATTACKS ARE HALVED</b>!</li>
+            <li>If nobody steals in time, the original player guards.</li>
+          </ul>
+        </div>
+        <div class="tut-slide">
+          <h3 class="tut-title">🔋 TEAM SYNC GAUGE</h3>
+          <ul class="tut-list">
+            <li>Every correct answer fills your team's Sync Gauge.</li>
+            <li><b>4 correct answers = 100%</b> (counts both teammates combined).</li>
+            <li>At 100%, unleash your <b>ULTIMATE</b> move (needs a correct answer too!).</li>
+            <li>Hitting an enemy's elemental weakness gives bonus gauge.</li>
+          </ul>
+        </div>
+        <div class="tut-slide">
+          <h3 class="tut-title">🎒 ITEMS</h3>
+          <ul class="tut-list">
+            <li>Each player starts with <b>3 items</b> — only usable on a correct answer:</li>
+            <li>💊 <b>HP Boost</b> — restore 500 HP to one ally</li>
+            <li>⚡ <b>SP Boost</b> — restore 150 SP to one ally</li>
+            <li>💫 <b>Revive</b> — bring back a KO'd teammate at 50% HP</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tut-footer">
+        <button class="shard-btn ghost small" id="tutSkip"><span>SKIP</span></button>
+        <div class="tut-dots" id="tutDots"></div>
+        <button class="shard-btn primary" id="tutNext"><span>NEXT →</span></button>
+      </div>
     </div>
   </section>
 
@@ -29,7 +79,6 @@
         <input id="codeInput" maxlength="4" placeholder="CODE" />
         <button class="shard-btn" id="joinBtn"><span>JOIN</span></button>
       </div>
-      <button class="shard-btn ghost" data-go="shop"><span>🛒 SHOP</span></button>
       <p id="homeMsg" class="msg"></p>
     </div>
   </section>
@@ -105,7 +154,7 @@
 
       <!-- effects + overlays -->
       <div class="fx-layer" id="fxLayer"></div>
-      <div class="turn-banner" id="turnBanner">Get ready…</div>
+      <div class="turn-banner" id="turnBanner"></div>
       <div class="action-log" id="actionLog"></div>
       <div class="cutin hidden" id="cutin"></div>
 
@@ -147,21 +196,9 @@
       <div class="result-body" id="resultBody"></div>
       <div class="result-actions">
         <button class="shard-btn primary" id="rematchBtn"><span>REMATCH</span></button>
-        <button class="shard-btn" data-go="shop"><span>SHOP</span></button>
         <button class="shard-btn ghost" data-go="home"><span>LOBBY</span></button>
       </div>
     </div>
-  </section>
-
-  <!-- 18. SHOP -->
-  <section id="shop" class="screen">
-    <div class="shop-head">
-      <h2 class="head">HIDDEN STOREROOM</h2>
-      <div class="coins-line">💰 <b id="shopCoins">0</b></div>
-      <button class="shard-btn ghost small" data-go="home"><span>BACK</span></button>
-    </div>
-    <div class="shop-grid" id="shopGrid"></div>
-    <p id="shopMsg" class="msg"></p>
   </section>
 
   <div id="toast" class="toast"></div>

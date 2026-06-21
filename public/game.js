@@ -82,7 +82,7 @@ battleBGM.volume = 0.55;
 battleBGM.playsInline = true;
 
 const $ = (id) => document.getElementById(id);
-const SCREENS = ["title","home","room","battle","result","shop"];
+const SCREENS = ["title","tutorial","home","room","battle","result"];
 function showScreen(id) {
   const was = SCREENS.find((s) => $(s).classList.contains("active"));
   SCREENS.forEach((s) => $(s).classList.toggle("active", s === id));
@@ -102,7 +102,7 @@ function showScreen(id) {
 function loadProfile() { try { return JSON.parse(localStorage.getItem("academyRift")) || { coins:500, inv:{} }; } catch { return { coins:500, inv:{} }; } }
 function saveProfile(p) { localStorage.setItem("academyRift", JSON.stringify(p)); }
 let profile = loadProfile();
-function refreshCoins() { $("homeCoins").textContent = profile.coins; $("shopCoins").textContent = profile.coins; }
+function refreshCoins() { $("homeCoins").textContent = profile.coins; }
 
 // Start the lobby theme as early as possible. Browsers block audio autoplay until
 // the first user gesture, so we (a) try on load, and (b) guarantee it on the very
@@ -391,10 +391,37 @@ document.querySelectorAll("[data-go]").forEach((b) =>
   b.addEventListener("click", () => {
     const dest = b.dataset.go;
     if (dest === "home") { refreshCoins(); showScreen("home"); }
-    else if (dest === "shop") { renderShop(); showScreen("shop"); }
+    else if (dest === "tutorial") { tutGoTo(0); showScreen("tutorial"); }
     else showScreen(dest);
   })
 );
+
+// ============================================================
+//  TUTORIAL
+// ============================================================
+const TUT_SLIDES = 4;
+let tutSlide = 0;
+function tutGoTo(i) {
+  tutSlide = i;
+  document.querySelectorAll(".tut-slide").forEach((s, j) => s.classList.toggle("active", j === i));
+  document.querySelectorAll(".tut-dot").forEach((d, j) => d.classList.toggle("active", j === i));
+  $("tutNext").querySelector("span").textContent = i >= TUT_SLIDES - 1 ? "START! ⚔" : "NEXT →";
+}
+// Build dots
+{
+  const dots = $("tutDots");
+  for (let i = 0; i < TUT_SLIDES; i++) {
+    const d = document.createElement("div");
+    d.className = "tut-dot" + (i === 0 ? " active" : "");
+    d.addEventListener("click", () => tutGoTo(i));
+    dots.appendChild(d);
+  }
+}
+$("tutSkip").addEventListener("click", () => { refreshCoins(); showScreen("home"); });
+$("tutNext").addEventListener("click", () => {
+  if (tutSlide >= TUT_SLIDES - 1) { refreshCoins(); showScreen("home"); }
+  else tutGoTo(tutSlide + 1);
+});
 
 $("createBtn").addEventListener("click", () => socket.emit("createRoom", { name: $("nameInput").value.trim() || "Player" }));
 $("joinBtn").addEventListener("click", () => {
@@ -453,7 +480,7 @@ function ensureChibisThenRender(combatants) {
 
 socket.on("answerResult", ({ uid, correct, correctIndex, explain }) => {
   if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); showAnswerBanner(correct); }
-  if (correct) setAttackPose(uid);   // right answer → don the attack costume, and STAY in it
+  if (correct) setAttackPose(uid);
   document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
     b.disabled = true;
     if (i === correctIndex) b.classList.add("correct");
@@ -461,10 +488,11 @@ socket.on("answerResult", ({ uid, correct, correctIndex, explain }) => {
   });
   const fb = $("mcqFeedback");
   fb.className = "mcq-feedback " + (correct ? "good" : "bad");
-  fb.textContent = (correct ? "✓ CORRECT!  Your attack is powered up." : "✗ WRONG.  You can only defend or support this turn.") +
-    "  " + explain;
+  fb.textContent = (correct ? "✓ CORRECT!  Attack powered up." : "✗ WRONG.  Guard only this turn.") + "  " + explain;
   fb.classList.remove("hidden");
   stopTimer();
+  // Flash result in the center turn-banner for everyone to see
+  bannerFlash(correct ? "✓ CORRECT!" : "✗ WRONG — Guard only", correct ? "mine" : "");
   if (uid !== myId) toast(`${nameOf(uid)} answered ${correct ? "correctly ✓" : "wrong ✗"}.`);
 });
 
@@ -479,20 +507,22 @@ socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
 
 // Result after a steal attempt
 socket.on("stealResult", ({ uid, correct, correctIndex, explain }) => {
-  if (uid === myId) { SFX.play(correct ? "correct" : "wrong"); if (correct) showAnswerBanner(true); }
+  stealMeta = null;
+  if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); if (correct) showAnswerBanner(true); }
   document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
     b.disabled = true;
     if (i === correctIndex) b.classList.add("correct");
     else if (i === mySelected && uid === myId && !correct) b.classList.add("wrong");
   });
   const fb = $("mcqFeedback");
-  fb.className = "mcq-feedback " + (correct ? "good" : "bad");
+  fb.className = "mcq-feedback " + (correct ? "good steal" : "bad");
   fb.textContent = (correct
-    ? `⚡ ${nameOf(uid)} STOLE the turn!  Free strike dealt.`
+    ? `⚡ ${nameOf(uid)} STOLE the turn! Attacks halved.`
     : `${nameOf(uid)} guessed wrong.`) + "  " + explain;
   fb.classList.remove("hidden");
   stopTimer();
-  if (uid !== myId) toast(correct ? `⚡ ${nameOf(uid)} stole the turn!` : `${nameOf(uid)} couldn't steal.`);
+  if (correct) bannerFlash(`⚡ ${nameOf(uid)} STOLE THE TURN!`, "mine");
+  toast(correct ? `⚡ ${nameOf(uid)} stole the turn! (half damage)` : `${nameOf(uid)} couldn't steal.`);
 });
 
 // Both teammates answered correctly → sync surge
@@ -844,11 +874,9 @@ function renderBattle() {
 
   const cur    = b.combatants.find((c) => c.uid === b.current);
   const myTurn = b.current === myId;
-  const banner = $("turnBanner");
-  banner.className = "turn-banner" + (myTurn ? " mine" : "");
-  banner.textContent = cur ? (myTurn ? "⚡ YOUR TURN — " + cur.charName : cur.name + "'s turn…") : "…";
-
-  renderDock(b, cur, myTurn);
+  // Turn banner is reserved for answer flashes (correct/wrong/steal) — don't overwrite it here
+  const stealActorC = b.stealActor ? b.combatants.find((c) => c.uid === b.stealActor) : null;
+  renderDock(b, cur, myTurn, stealActorC);
 }
 
 function setSyncMine(val) {
@@ -879,7 +907,7 @@ function updateBars() {
 }
 
 // ---- dock ----
-function renderDock(b, cur, myTurn) {
+function renderDock(b, cur, myTurn, stealActorC) {
   const mcq  = $("mcq"), cmds = $("commands"), wait = $("waitBox");
   // Clear stealMeta once steal phase is over
   if (b.phase !== "steal") stealMeta = null;
@@ -946,10 +974,30 @@ function renderDock(b, cur, myTurn) {
       wait.classList.remove("hidden"); $("waitText").textContent = "Steal window…";
     }
 
+  } else if (b.phase === "steal-action") {
+    // Stealer gets a full action turn (half damage); everyone else waits
+    mcq.classList.add("hidden"); setBattleDim(false);
+    const isStealActor = b.stealActor === myId;
+    if (isStealActor && stealActorC) {
+      wait.classList.add("hidden"); cmds.classList.remove("hidden");
+      buildCommands(stealActorC, b, true);  // halfPower = true
+    } else {
+      cmds.classList.add("hidden");
+      wait.classList.remove("hidden");
+      $("waitText").textContent = `⚡ ${nameOf(b.stealActor)} stole the turn — choosing action…`;
+    }
+
   } else if (b.phase === "action") {
     mcq.classList.add("hidden");
-    if (myTurn) { wait.classList.add("hidden"); cmds.classList.remove("hidden"); buildCommands(cur, b); }
-    else { cmds.classList.add("hidden"); setBattleDim(false); wait.classList.remove("hidden"); $("waitText").textContent = (cur?.name||"Opponent") + " is choosing an action…"; }
+    if (myTurn) {
+      wait.classList.add("hidden"); cmds.classList.remove("hidden");
+      if (myAnswerCorrect) buildCommands(cur, b);
+      else buildGuardOnly();
+    } else {
+      cmds.classList.add("hidden"); setBattleDim(false);
+      wait.classList.remove("hidden");
+      $("waitText").textContent = (cur?.name||"Opponent") + " is choosing an action…";
+    }
   } else {
     mcq.classList.add("hidden"); cmds.classList.add("hidden"); setBattleDim(false);
     wait.classList.remove("hidden"); $("waitText").textContent = "Resolving…";
@@ -964,14 +1012,27 @@ function skillDesc(sk) {
   return `${sk.element} · ${sk.sp} SP · ${k[sk.kind] || "skill"}`;
 }
 
-function buildCommands(me, b) {
+function buildGuardOnly() {
+  const cmds = $("commands");
+  setBattleDim(true);
+  cmds.innerHTML = `
+    <div class="guard-only-wrap">
+      <div class="guard-only-msg">✗ WRONG — Guard only this turn</div>
+      <button class="bm-btn" data-cmd="defend">
+        <img src="${BATTLE_IMGS.defend}" alt="DEFEND" decoding="async" draggable="false">
+      </button>
+    </div>`;
+  cmds.querySelector("[data-cmd]").addEventListener("click", () => { SFX.play("select"); send({ type:"defend" }); });
+}
+
+function buildCommands(me, b, halfPower = false) {
   const cmds = $("commands");
   cmds.classList.remove("preview-mode");
   setBattleDim(true);
   const syncReady = b.sync[me.team] >= 100;
   const canAtk = myAnswerCorrect;
-  const ultSub = !canAtk ? "Need correct answer" : syncReady ? me.ultimate.name : "Team Sync not full";
-  cmds.innerHTML = `
+  const halfWarn = halfPower ? `<div class="half-power-warn">⚔ STOLEN TURN — ATTACKS ARE HALVED</div>` : "";
+  cmds.innerHTML = halfWarn + `
     <div class="battle-menu">
       <button class="bm-btn ${canAtk?"":"locked"}" data-cmd="strike" ${canAtk?"":"disabled"}>
         <img src="${BATTLE_IMGS.strike}" alt="STRIKE" decoding="async" draggable="false">
@@ -1167,31 +1228,5 @@ function flash() {
   f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");
 }
 
-// ============================================================
-//  SHOP
-// ============================================================
-function renderShop() {
-  refreshCoins();
-  const grid = $("shopGrid"); grid.innerHTML = "";
-  ITEMS.forEach((it) => {
-    const own    = profile.inv[it.id] || 0;
-    const afford = profile.coins >= it.price;
-    grid.insertAdjacentHTML("beforeend",
-      `<div class="shop-item">
-        <h4>${it.name}</h4>
-        <div class="desc">${it.desc}</div>
-        <div class="row"><span class="price">💰 ${it.price}</span><span class="own">owned: ${own}</span></div>
-        <div class="row" style="margin-top:6px">
-          <button class="buy" data-buy="${it.id}" ${afford?"":"disabled"}>BUY</button>
-        </div>
-      </div>`);
-  });
-  grid.querySelectorAll("[data-buy]").forEach((b) => b.addEventListener("click", () => {
-    const it = ITEM_BY_ID[b.dataset.buy];
-    if (profile.coins < it.price) return;
-    profile.coins -= it.price; profile.inv[it.id] = (profile.inv[it.id]||0) + 1;
-    saveProfile(profile); renderShop(); toast("Bought " + it.name + "!");
-  }));
-}
 
 refreshCoins();

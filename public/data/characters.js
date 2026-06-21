@@ -137,23 +137,11 @@ export const CHARACTERS = [
 
 export const CHAR_BY_ID = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
 
-// Shop items — effects resolved by client (consumables) / battle (in-battle items).
+// Battle items — each player starts with one of each.
 export const ITEMS = [
-  { id: "bento",    name: "Bento Box",        price: 300, desc: "Restore 500 HP",              effect: { type: "hp",       value: 500 } },
-  { id: "energy",   name: "Energy Drink",      price: 250, desc: "Restore 150 SP",              effect: { type: "sp",       value: 150 } },
-  { id: "bandage",  name: "Lab Bandage",        price: 200, desc: "Cure Burn / Shock",           effect: { type: "cure" } },
-  { id: "notebook", name: "Focus Notebook",     price: 400, desc: "+6s on MCQ timer",            effect: { type: "time",     value: 6 } },
-  { id: "charm",    name: "Revision Charm",     price: 600, desc: "+50% Team Sync gain (battle)",effect: { type: "syncgain" } },
-  { id: "goggles",  name: "Safety Goggles",     price: 500, desc: "Reduce Fire/Light damage",    effect: { type: "resist",   value: ["Fire","Light"] } },
-  { id: "coil",     name: "Static Coil",        price: 450, desc: "Boost Electric damage",       effect: { type: "boost",    value: "Electric" } },
-  { id: "frost",    name: "Frost Capsule",       price: 450, desc: "Boost Ice damage",            effect: { type: "boost",    value: "Ice" } },
-  { id: "marker",   name: "Red Marker",          price: 450, desc: "Boost Fire damage",           effect: { type: "boost",    value: "Fire" } },
-  { id: "calc",     name: "Lucky Calculator",    price: 700, desc: "+Critical chance",            effect: { type: "crit" } },
-  { id: "revive",   name: "Revival Badge",       price:1200, desc: "Revive a KO'd teammate",      effect: { type: "revive" } },
-  { id: "crystal",  name: "Sync Crystal",        price: 800, desc: "Fill 40% Team Sync",          effect: { type: "sync",     value: 40 } },
-  { id: "shield",   name: "Shield Charm",        price: 600, desc: "Halve next damage taken",     effect: { type: "shield" } },
-  { id: "memory",   name: "Memory Card",         price: 500, desc: "Resist Mind debuffs",         effect: { type: "resist",   value: ["Mind"] } },
-  { id: "ink",      name: "Dark Ink Tag",        price: 450, desc: "Boost Shadow damage",         effect: { type: "boost",    value: "Shadow" } },
+  { id: "bento",  name: "HP Boost",  desc: "Restore 500 HP to one ally" },
+  { id: "energy", name: "SP Boost",  desc: "Restore 150 SP to one ally" },
+  { id: "revive", name: "Revive",    desc: "Revive a KO’d teammate at 50% HP" },
 ];
 
 export const ITEM_BY_ID = Object.fromEntries(ITEMS.map((i) => [i.id, i]));

@@ -40,7 +40,7 @@ const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
 const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
 const STEAL_SECONDS = 10;
 const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
-const DEFAULT_ITEMS = { bento: 1, energy: 1, shield: 1, crystal: 1, revive: 1 };
+const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 const BOT_NAMES = ["Akira", "Mei", "Sora", "Riku", "Yuki", "Kai"];
 
 const rooms = new Map();      // code -> room
@@ -98,6 +98,7 @@ function publicBattle(b) {
     sync: { 0: Math.round(b.sync[0]), 1: Math.round(b.sync[1]) },
     current: b.current,
     stealOf: b.stealOf || null,
+    stealActor: b.stealActor || null,
     currentName: b.combatants[b.current]?.name,
     currentTeam: b.combatants[b.current]?.team,
     phase: b.phase,
@@ -377,9 +378,9 @@ function resolveAnswer(room, choiceIndex) {
 function handleSteal(room, sid, choiceIndex) {
   const b = room?.battle;
   if (!b || b.phase !== "steal") return;
-  if (sid === b.stealOf) return;               // original player can't steal their own turn
+  if (sid === b.stealOf) return;
   if (!b.stealAnswered) b.stealAnswered = new Set();
-  if (b.stealAnswered.has(sid)) return;        // already attempted
+  if (b.stealAnswered.has(sid)) return;
   b.stealAnswered.add(sid);
 
   const stealer = b.combatants[sid];
@@ -391,17 +392,26 @@ function handleSteal(room, sid, choiceIndex) {
   if (correct) {
     clearTimeout(b.timers.steal);
     gradeAnswer(room, stealer, true);
-    // Stealer earns a free strike on a random live enemy
-    const enemies = enemiesOf(b, stealer.team);
-    if (enemies.length) {
-      const t = rand(enemies);
-      const ev = damage(room, stealer, t, stealer.atk, stealer.element, CORRECT_MULT);
+    stealer._correct   = true;   // allow attack actions
+    stealer._halfPower = true;   // attacks do 50% damage this turn
+
+    // Auto-guard the original wrong-answerer (no action choice for them)
+    const original = b.combatants[b.stealOf];
+    if (original) {
+      const defEv = resolveAction(room, original, { type: "defend" });
       io.to(room.code).emit("actionResult", {
-        actor: sid, action: "steal", name: `${stealer.charName} steals the turn!`, events: [ev],
+        actor: original.uid, action: "defend", name: "Defend", events: defEv,
       });
     }
+
+    // Hand the action phase to the stealer
+    b.stealActor = sid;
+    delete b.stealOf; delete b.stealAnswered;
+    b.phase = "steal-action";
     broadcast(room);
-    setTimeout(() => closeSteal(room), 900);
+    // stealer is always human (bots don't steal), so send them the prompt
+    io.to(sid).emit("chooseAction", { syncReady: b.sync[stealer.team] >= 100, correct: true, halfPower: true });
+    b.timers.a = setTimeout(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
   }
 }
 
@@ -438,13 +448,22 @@ function alliesOf(b, team) { return b.order.map((u) => b.combatants[u]).filter((
 
 function handleAction(room, sid, action, auto = false) {
   const b = room?.battle;
-  if (!b || b.current !== sid || b.phase !== "action") return;
+  if (!b) return;
+  const isStealAction = b.phase === "steal-action" && b.stealActor === sid;
+  if (!isStealAction && (b.current !== sid || b.phase !== "action")) return;
   clearTimeout(b.timers.a);
   b.phase = "resolving";
   const actor = b.combatants[sid];
-  const events = resolveAction(room, actor, action || { type: "strike" });
+  if (!actor) return;
+  // Wrong-answer enforcement: only defend is permitted (unless this is a steal-action)
+  if (!isStealAction && !actor._correct && action?.type !== "defend") {
+    action = { type: "defend" };
+  }
+  const events = resolveAction(room, actor, action || { type: "defend" });
+  actor._halfPower = false;   // clear steal penalty after action resolves
+  if (isStealAction) delete b.stealActor;
   io.to(room.code).emit("actionResult", {
-    actor: actor.uid, action: action?.type || "strike", name: actionLabel(actor, action || { type: "strike" }), events,
+    actor: actor.uid, action: action?.type || "defend", name: actionLabel(actor, action || { type: "defend" }), events,
   });
   broadcast(room);
   b.timers.next = setTimeout(() => advance(room), 1700);
@@ -562,7 +581,8 @@ function damage(room, actor, target, basePower, element, correctMult, opts = {})
   const buffMult = (1 + actor.atkBuff / 100) * (actor.atkUpTurns > 0 ? 1.25 : 1) * (actor.atkDownTurns > 0 ? 0.75 : 1);
   // target mods: guard/Iron Stand DEF-up (−30%), Guard Break DEF-down (+25%)
   const incomingMult = (target.defUpTurns > 0 ? 0.7 : 1) * (target.defDownTurns > 0 ? 1.25 : 1);
-  let dmg = basePower * eff.mult * correctMult * crit * defMult * shieldMult * incomingMult * variance * buffMult * DMG_SCALE;
+  const halfPowerMult = actor._halfPower ? 0.5 : 1;   // steal penalty
+  let dmg = basePower * eff.mult * correctMult * crit * defMult * shieldMult * incomingMult * variance * buffMult * DMG_SCALE * halfPowerMult;
   dmg = Math.max(1, Math.round(dmg));
   target.hp = Math.max(0, target.hp - dmg);
   if (target.shield) target.shield = false;
