@@ -317,7 +317,12 @@ function startQuestion(room) {
   b.phase = "question";
   c._correct = false;
   broadcast(room);
-  if (c.bot) { b.timers.bot = setTimeout(() => botTurn(room), 1300); return; }
+  if (c.bot) {
+    // Bot takes 4–8 seconds to "think", giving human players time to read the question
+    const thinkMs = 4000 + Math.floor(Math.random() * 4001);
+    b.timers.bot = setTimeout(() => botTurn(room), thinkMs);
+    return;
+  }
   io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion });
   b.timers.q = setTimeout(() => resolveAnswer(room, -1), seconds * 1000);
 }
@@ -354,8 +359,8 @@ function resolveAnswer(room, choiceIndex) {
     uid: c.uid, correct, correctIndex: b.q.answer, explain: b.q.explain,
   });
 
-  // Wrong answer from a human → open a steal window before the action phase.
-  if (!correct && !c.bot) {
+  // Wrong answer → open a steal window (works for both human and bot wrong answers).
+  if (!correct) {
     b.phase = "steal";
     b.stealOf = c.uid;
     b.stealAnswered = new Set();
@@ -609,12 +614,12 @@ function addSync(room, team, amt) { room.battle.sync[team] = clamp(room.battle.s
 // ---------- bots ----------
 function botTurn(room) {
   const b = room.battle; if (!b || !b.combatants[b.current]?.bot) return;
-  const c = b.combatants[b.current];
   const correct = Math.random() < 0.62;
-  gradeAnswer(room, c, correct);
-  io.to(room.code).emit("answerResult", { uid: c.uid, correct, correctIndex: b.q.answer, explain: b.q.explain });
-  b.phase = "action"; broadcast(room);
-  b.timers.bot = setTimeout(() => botAction(room), 1000);
+  // Pick the right answer or a random wrong one, then run through the same
+  // resolveAnswer path as humans so steal windows open on wrong bot answers.
+  const wrongChoices = [0, 1, 2, 3].filter((i) => i !== b.q.answer);
+  const choiceIndex = correct ? b.q.answer : wrongChoices[Math.floor(Math.random() * wrongChoices.length)];
+  resolveAnswer(room, choiceIndex);
 }
 
 function botAction(room) {
@@ -624,12 +629,8 @@ function botAction(room) {
   const allies = alliesOf(b, c.team);
   let action = { type: "strike", targetId: enemies[0]?.uid };
   if (!c._correct) {
-    // wrong answer → can't attack; heal a hurt ally or defend
-    const lowAlly = allies.find((a) => a.alive && a.hp < a.maxHp * 0.5);
-    const healSkill = c.skills.findIndex((s) => s.kind === "heal");
-    action = (lowAlly && healSkill >= 0 && c.sp >= c.skills[healSkill].sp)
-      ? { type: "spell", skillIndex: healSkill, targetId: lowAlly.uid }
-      : { type: "defend" };
+    // wrong answer → guard only (same rule as human players)
+    action = { type: "defend" };
   } else if (b.sync[c.team] >= 100 && Math.random() < 0.7) {
     action = { type: "ultimate" };
   } else {

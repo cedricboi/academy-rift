@@ -1,122 +1,318 @@
 // ===== Academy Rift — question bank (SERVER ONLY) =====
-// Chapter: Cells — 100 MCQ across 8 sections.
-// `answer` is the 0-based correct index.
-// Never served to clients — server sends {q, choices, topic} only
-// and validates answers itself, so the correct option can't be inspected.
+// 60 MCQ across 6 parts — Cells (microscope, cell parts, models, organisation, division of labour, technology)
+// `answer` is the 0-based correct choice index.
+// Answers never leave the server; clients only receive {q, choices, topic, difficulty, seconds, startedAt}.
 export const QUESTIONS = [
-  // Section 1: The Microscope and Cells (Q01–Q15)
-  { q: "Which instrument is essential for observing cells that are invisible to the naked eye?", choices: ["Telescope", "Microscope", "Stethoscope", "Periscope"], answer: 1, topic: "Microscopy", explain: "A microscope magnifies tiny objects like cells that cannot be seen with the naked eye." },
-  { q: "Who examined cork under a microscope and coined the term \"cell\"?", choices: ["Antonie van Leeuwenhoek", "Louis Pasteur", "Robert Hooke", "Isaac Newton"], answer: 2, topic: "History of cells", explain: "Robert Hooke observed cork cells in 1665 and named them 'cells' because they resembled small rooms." },
-  { q: "The word \"cell\" comes from the Latin word \"cella\". What does \"cella\" mean?", choices: ["Tiny living thing", "Small room", "Building block", "Basic unit"], answer: 1, topic: "History of cells", explain: "Hooke chose the word 'cella' meaning small room because the cork compartments reminded him of monks' rooms." },
-  { q: "Which type of microscope allows scientists to observe cells in much greater detail than a light microscope?", choices: ["Electron microscope", "Digital microscope", "Stereo microscope", "Compound microscope"], answer: 0, topic: "Microscopy", explain: "Electron microscopes use beams of electrons instead of light, achieving far greater magnification and resolution." },
-  { q: "Which part of the light microscope do you look through to observe the specimen?", choices: ["Objective lens", "Condenser", "Eyepiece", "Light source"], answer: 2, topic: "Microscopy", explain: "The eyepiece (ocular lens) is the part you look through; it typically magnifies the image 10×." },
-  { q: "Which part of the microscope is located on the revolving nosepiece and provides the initial magnification of the specimen?", choices: ["Eyepiece", "Objective lens", "Stage clip", "Coarse adjustment knob"], answer: 1, topic: "Microscopy", explain: "Objective lenses sit on the revolving nosepiece and come in different magnifications (e.g. 4×, 10×, 40×)." },
-  { q: "How do you calculate the total magnification of a light microscope?", choices: ["Eyepiece magnification + Objective lens magnification", "Eyepiece magnification × Objective lens magnification", "Objective lens magnification ÷ Eyepiece magnification", "Condenser magnification × Light source intensity"], answer: 1, topic: "Microscopy", explain: "Total magnification = eyepiece magnification × objective lens magnification." },
-  { q: "If the eyepiece has a magnification of 10× and the objective lens in use is 40×, what is the total magnification?", choices: ["50×", "40×", "400×", "4000×"], answer: 2, topic: "Microscopy", explain: "10 × 40 = 400×. Always multiply, never add, to find total magnification." },
-  { q: "Which knob should you adjust first to bring the specimen into initial focus under low power?", choices: ["Fine adjustment knob", "Coarse adjustment knob", "Condenser knob", "Stage control knob"], answer: 1, topic: "Microscopy", explain: "The coarse adjustment knob makes large movements and is used first under low power to get an initial focus." },
-  { q: "Which knob is used to sharpen and refine the focus when viewing under high power?", choices: ["Coarse adjustment knob", "Fine adjustment knob", "Stage clip", "Diaphragm"], answer: 1, topic: "Microscopy", explain: "The fine adjustment knob makes tiny movements to sharpen focus, especially under high magnification." },
-  { q: "What is the function of the condenser in a light microscope?", choices: ["To hold the slide in place", "To magnify the image", "To adjust the amount of light focused onto the specimen", "To support the microscope"], answer: 2, topic: "Microscopy", explain: "The condenser focuses light onto the specimen to improve brightness and clarity of the image." },
-  { q: "Where is the specimen placed for observation?", choices: ["Base", "Arm", "Stage", "Light source"], answer: 2, topic: "Microscopy", explain: "The stage is the flat platform where the microscope slide holding the specimen is placed." },
-  { q: "What holds the microscope slide securely in place on the stage?", choices: ["Stage clips", "Objective lenses", "Coarse adjustment knob", "Arm"], answer: 0, topic: "Microscopy", explain: "Stage clips clamp the slide to keep it from moving while you observe the specimen." },
-  { q: "Which part of the microscope connects the body tube to the base and is used to carry the microscope?", choices: ["Stage", "Arm", "Condenser", "Eyepiece"], answer: 1, topic: "Microscopy", explain: "The arm supports the body tube and is the correct part to hold when carrying a microscope." },
-  { q: "What provides illumination for the specimen from below the stage?", choices: ["Eyepiece", "Mirror only", "Light source", "Objective lens"], answer: 2, topic: "Microscopy", explain: "The built-in light source (or lamp) shines light upward through the specimen so it can be seen." },
 
-  // Section 2: Preparing and Observing Specimens (Q16–Q25)
-  { q: "What stain is commonly used to observe human cheek cells clearly?", choices: ["Dilute iodine solution", "Methylene blue solution", "Distilled water", "Alcohol"], answer: 1, topic: "Specimen preparation", explain: "Methylene blue stains the nucleus of cheek cells dark blue, making cell structures visible." },
-  { q: "Why is a stain added to the cheek cell specimen?", choices: ["To kill the cells instantly", "To prevent air bubbles from forming", "To make the cell structures, especially the nucleus, more visible", "To keep the cells alive for longer"], answer: 2, topic: "Specimen preparation", explain: "Stains bind to specific structures (e.g. nucleus) and colour them so they stand out under the microscope." },
-  { q: "What tool is used to gently scrape cells from the inside of the cheek?", choices: ["A scalpel", "The sharp end of a needle", "The blunt end of a clean toothpick", "A pair of forceps"], answer: 2, topic: "Specimen preparation", explain: "The blunt end of a toothpick is used to gently scrape the inner cheek lining to collect epithelial cells." },
-  { q: "When lowering the coverslip onto the cheek cell specimen, what is used to support the edge to prevent air bubbles?", choices: ["A toothpick", "A mounting needle", "A scalpel", "Filter paper"], answer: 1, topic: "Specimen preparation", explain: "A mounting needle supports one edge of the coverslip so it is lowered gradually, preventing air bubbles." },
-  { q: "What material is used to gently soak up excess methylene blue solution from the sides of the coverslip?", choices: ["Cotton wool", "Tissue paper", "Filter paper", "A paper towel"], answer: 2, topic: "Specimen preparation", explain: "Filter paper is absorbent and thin; it draws excess stain away from under the coverslip neatly." },
-  { q: "What stain is typically used when preparing a specimen of onion cells?", choices: ["Methylene blue", "Dilute iodine solution", "Crystal violet", "Safranin"], answer: 1, topic: "Specimen preparation", explain: "Dilute iodine solution stains the starch in onion cell walls and makes the nucleus visible." },
-  { q: "How is a single, thin layer of onion skin obtained for observation?", choices: ["By cutting the onion with a scalpel", "By snapping the slice of onion backwards and peeling with forceps", "By blending the onion and filtering it", "By boiling the onion and peeling it"], answer: 1, topic: "Specimen preparation", explain: "Snapping the onion slice back causes the thin epidermal layer to peel away cleanly." },
-  { q: "Why must students handle only their own microscope slide when preparing cheek cells?", choices: ["To prevent the slides from breaking", "For hygiene purposes", "To avoid mixing up the stains", "Because the slides are labelled"], answer: 1, topic: "Specimen preparation", explain: "Cheek cells are human biological material; sharing slides risks spreading pathogens between students." },
-  { q: "Why is the coverslip lowered gently at an angle onto the specimen?", choices: ["To crush the cells flat", "To spread the stain evenly", "To prevent air bubbles from being trapped", "To dry the specimen quickly"], answer: 2, topic: "Specimen preparation", explain: "Lowering the coverslip at an angle lets air escape gradually rather than becoming trapped as bubbles." },
-  { q: "When first observing a new specimen, which objective lens should you always start with?", choices: ["The highest magnification", "The lowest magnification", "The oil immersion lens", "The medium magnification"], answer: 1, topic: "Microscopy", explain: "Starting on low magnification gives a wider field of view, making it easier to locate and centre the specimen." },
+  // ── Part 1: Microscope Components, Safety, and Correct Usage ──────────────
+  {
+    q: "Which two parts of a light microscope work together to produce a magnified image of a specimen?",
+    choices: ["Stage and stage clip", "Arm and base", "Eyepiece and objective lenses", "Coarse adjustment knob and fine adjustment knob"],
+    answer: 2, topic: "Microscope", explain: "The eyepiece lens (10×) and the objective lens together create the final magnified image."
+  },
+  {
+    q: "What is the structural purpose of the arm and the base of a light microscope?",
+    choices: ["To magnify the specimen to different extents", "To provide support and a means to carry the microscope securely", "To focus light directly through the stage opening", "To adjust the resolution of the image under high power"],
+    answer: 1, topic: "Microscope", explain: "The arm supports the body tube and is held when carrying; the base provides stability on a flat surface."
+  },
+  {
+    q: "What is the function of the condenser in a light microscope?",
+    choices: ["To further magnify the image produced by the objective lens", "To adjust the amount of light that passes through the specimen", "To securely hold the slide in position on the stage", "To shift between low and high power magnification options"],
+    answer: 1, topic: "Microscope", explain: "The condenser focuses and concentrates light from the source onto the specimen to improve brightness and clarity."
+  },
+  {
+    q: "Which knob should be adjusted first to bring a specimen into general focus under low magnification?",
+    choices: ["Fine adjustment knob", "Coarse adjustment knob", "Condenser adjustment knob", "Stage clip adjustment lever"],
+    answer: 1, topic: "Microscope", explain: "The coarse knob moves the stage rapidly to get an approximate focus before the fine knob sharpens the image."
+  },
+  {
+    q: "Why should you always begin observing a specimen with the lowest magnification objective lens?",
+    choices: ["It provides the highest resolution details of small cell structures.", "It provides a wider field of view to locate the specimen easily before focusing.", "It allows less light to pass through, protecting the user's eyes.", "It prevents the slide from cracking against the lens automatically."],
+    answer: 1, topic: "Microscope", explain: "Low power gives a wide field of view, making it easier to find and centre the specimen before switching to higher magnification."
+  },
+  {
+    q: "Why must a specimen be positioned at the exact centre of the stage before changing to a higher magnification objective lens?",
+    choices: ["To prevent the slide from slipping off the stage.", "To ensure the target area remains within the smaller field of view.", "To allow the condenser to shut down excess light.", "To minimize the need to use the fine adjustment knob later."],
+    answer: 1, topic: "Microscope", explain: "Higher magnification narrows the field of view dramatically; a specimen off-centre will disappear from view entirely."
+  },
+  {
+    q: "What is the primary reason for lowering a coverslip slowly at an angle using a mounting needle during slide preparation?",
+    choices: ["To ensure the specimen is thoroughly flattened on the tile.", "To prevent air bubbles from being trapped between the coverslip and slide.", "To chemically activate the staining properties of methylene blue.", "To safely minimize contact with hazardous biological materials."],
+    answer: 1, topic: "Microscope", explain: "Lowering the coverslip at an angle lets air escape from one side, preventing bubbles that would obscure the image."
+  },
+  {
+    q: "What is the purpose of using filter paper at the edge of a completed coverslip setup?",
+    choices: ["To add extra water to keep the plant cell alive.", "To soak up any excess staining solution or liquid around the coverslip.", "To keep dust particles from settling on top of the slide.", "To protect the microscope stage from being scratched by glass."],
+    answer: 1, topic: "Microscope", explain: "Filter paper is absorbent and draws surplus stain away from the coverslip edge, keeping the stage clean."
+  },
+  {
+    q: "Which safety and hygiene step must be performed before obtaining human cheek cells?",
+    choices: ["Wash the microscope slide with a dilute iodine solution.", "Wear protective gloves and use the blunt end of a clean toothpick.", "Heat the mounting needle using the microscope's light source.", "Sterilize the inner cheek surface with methylene blue beforehand."],
+    answer: 1, topic: "Microscope", explain: "Gloves and a clean blunt toothpick prevent cross-contamination and protect both the student and the specimen."
+  },
+  {
+    q: "What is the purpose of utilizing a white tile during the preparation of an onion skin specimen?",
+    choices: ["To provide a clean, hard surface to cut the onion skin safely with a scalpel.", "To reflect ambient light through the microscope's condenser.", "To absorb excess water before transferring the skin to the glass slide.", "To check if the single layer of onion skin is folded or unfolded."],
+    answer: 0, topic: "Microscope", explain: "A white tile provides a safe, clean, non-slip cutting surface that is easy to clean after handling the specimen."
+  },
 
-  // Section 3: Biological Drawing Rules (Q26–Q35)
-  { q: "What writing instrument must be used for biological drawings?", choices: ["Pen", "Pencil", "Coloured pencils", "Marker"], answer: 1, topic: "Biological drawing", explain: "Pencil is used because mistakes can be erased cleanly, keeping the drawing neat and accurate." },
-  { q: "How should the outlines of cell structures be drawn?", choices: ["Using short, hairy, sketchy lines", "Using smooth, clean, single continuous lines", "Using thick, bold lines", "Using dashed lines"], answer: 1, topic: "Biological drawing", explain: "Smooth, single continuous lines accurately represent cell boundaries without ambiguity." },
-  { q: "Should biological drawings be shaded to show depth?", choices: ["Yes, using heavy shading", "Yes, using light stippling", "No, drawings should not have any shading", "Only the nucleus should be shaded"], answer: 2, topic: "Biological drawing", explain: "Biological drawings show structure, not 3-D depth. Shading is avoided to keep drawings clear and unambiguous." },
-  { q: "How should label lines be drawn?", choices: ["Freehand using a pencil", "Straight using a ruler", "Curved to fit the space", "Using a pen"], answer: 1, topic: "Biological drawing", explain: "Label lines must be drawn straight with a ruler so the drawing looks precise and professional." },
-  { q: "Should label lines have arrowheads at the end pointing to the structure?", choices: ["Yes", "No", "Only for the nucleus", "Only for the cell wall"], answer: 1, topic: "Biological drawing", explain: "Label lines end directly at the structure without an arrowhead; arrowheads are not used in biological drawings." },
-  { q: "Where should the labels be written?", choices: ["Inside the drawing", "Next to the label lines", "At the very bottom of the page", "On the back of the paper"], answer: 1, topic: "Biological drawing", explain: "Labels are written horizontally at the end of each label line, outside the drawing." },
-  { q: "How large should the biological drawing be on the provided space?", choices: ["It should occupy the entire page", "It should occupy at least half to three-quarters of the space provided", "It should be very small, about 1 cm²", "Size does not matter"], answer: 1, topic: "Biological drawing", explain: "A large drawing is easier to label clearly and shows detail more effectively." },
-  { q: "Should label lines intersect or cross each other?", choices: ["Yes, if necessary", "No, they should not intersect each other", "Only if they point to the same structure", "Yes, to save space"], answer: 1, topic: "Biological drawing", explain: "Crossing label lines cause confusion about which label refers to which structure." },
-  { q: "How should label lines interact with the drawing itself?", choices: ["They should cut across as much of the drawing as possible", "They should cut across as little of the drawing as possible", "They should go directly through the nucleus", "They should be drawn over the cell wall"], answer: 1, topic: "Biological drawing", explain: "Label lines should start at the edge of the drawing so as not to obscure any structures." },
-  { q: "What must be true about the cell structures in your drawing?", choices: ["They must be exaggerated in size", "They must be proportional in size and accurate in shape", "They must be drawn exactly 10 cm long", "They must be perfectly symmetrical"], answer: 1, topic: "Biological drawing", explain: "Biological drawings must accurately represent relative sizes and shapes as seen under the microscope." },
+  // ── Part 2: Functions of the Parts of a Typical Cell ─────────────────────
+  {
+    q: "Which jelly-like substance fills up a cell and acts as the site where most chemical reactions take place?",
+    choices: ["Nucleus", "Vacuole", "Cytoplasm", "Cell membrane"],
+    answer: 2, topic: "Cell Parts", explain: "Cytoplasm is the gel-like fluid that fills the cell and is the medium for metabolic reactions such as glycolysis."
+  },
+  {
+    q: "What is the primary function of the nucleus in a typical cell?",
+    choices: ["It serves as the food factory where photosynthesis happens.", "It acts as the centre that controls all activities occurring within the cell.", "It controls the movement of substances into and out of the cell.", "It stores massive quantities of liquids, food, and waste materials."],
+    answer: 1, topic: "Cell Parts", explain: "The nucleus contains DNA and directs all cellular activities including growth, metabolism, and reproduction."
+  },
+  {
+    q: "What is the role of deoxyribonucleic acid (DNA) found inside the cell nucleus?",
+    choices: ["It provides a rigid outer shape to protect plant structures from bursting.", "It is the hereditary or genetic material passed down from parents to offspring.", "It acts as a specialized chemical barrier that lets food enter the cytoplasm.", "It captures sunlight directly to initiate cellular food production."],
+    answer: 1, topic: "Cell Parts", explain: "DNA carries the genetic code (genes) that is inherited from parents and controls all inherited characteristics."
+  },
+  {
+    q: "What will happen to a typical plant or animal cell if its nucleus is completely removed?",
+    choices: ["The cell will develop multiple cell walls to protect itself.", "The cell will grow larger and form numerous small vacuoles.", "The cell will eventually die.", "The cell will immediately turn into a unicellular organism."],
+    answer: 2, topic: "Cell Parts", explain: "Without the nucleus to direct cellular activities and supply genetic information, the cell cannot sustain itself and dies."
+  },
+  {
+    q: "Which cell structure is a thin outer layer that controls the movement of substances into and out of a cell?",
+    choices: ["Cell wall", "Cell membrane", "Cytoplasm", "Chloroplast"],
+    answer: 1, topic: "Cell Parts", explain: "The cell membrane is a selectively permeable phospholipid bilayer that controls what enters and exits the cell."
+  },
+  {
+    q: "Where is the cell membrane situated in a typical plant cell?",
+    choices: ["It forms the outermost rigid layer surrounding the cell wall.", "It is located inside the nucleus to guard the DNA.", "It forms a thin protective layer directly underneath the cell wall.", "It is embedded directly within the chloroplast's food matrix."],
+    answer: 2, topic: "Cell Parts", explain: "In a plant cell the outermost layer is the rigid cell wall; the cell membrane lies just inside it, surrounding the cytoplasm."
+  },
+  {
+    q: "Which characteristics accurately describe a plant cell wall?",
+    choices: ["Fluid, thin, and responsible for controlling all chemical reactions.", "Small, numerous, and responsible for storing toxic cellular wastes.", "Tough, rigid, and responsible for giving the cell a regular shape.", "Semi-permeable, spherical, and localized inside the cytoplasm."],
+    answer: 2, topic: "Cell Parts", explain: "The plant cell wall is made of cellulose, making it tough and rigid, which gives plant cells their fixed, box-like shape."
+  },
+  {
+    q: "Why is the chloroplast described as the \"food factory\" in a plant cell?",
+    choices: ["It breaks down waste materials to release simple nutrients.", "It absorbs minerals from the roots and stores them safely.", "It allows the chemical process of photosynthesis to take place.", "It pumps sugars out across the cellular membrane."],
+    answer: 2, topic: "Cell Parts", explain: "Chloroplasts contain chlorophyll and carry out photosynthesis, converting light energy into glucose for the plant."
+  },
+  {
+    q: "What is the main function of a vacuole within a typical cell?",
+    choices: ["It controls the hereditary properties passed to the next generation.", "It acts as a structural space that stores liquids, food, and waste materials.", "It maintains a regular outer shape so that the plant stands upright.", "It coordinates signal transmissions to neighboring cells."],
+    answer: 1, topic: "Cell Parts", explain: "Vacuoles store water, dissolved salts, sugars, and waste; the large central vacuole also helps maintain turgor pressure."
+  },
+  {
+    q: "Why can the structural function of a chloroplast not be assumed by a vacuole?",
+    choices: ["Vacuoles do not contain the genetic information needed to make cell walls.", "Different cell structures have specific functions that cannot be replaced by others.", "Vacuoles are always located outside the cell membrane boundary.", "Chloroplasts are the only structures that store liquids and waste items."],
+    answer: 1, topic: "Cell Parts", explain: "Each organelle has a unique structure adapted for a specific job; photosynthesis requires chlorophyll found only in chloroplasts."
+  },
 
-  // Section 4: Cell Structures and Functions (Q36–Q55)
-  { q: "Which cell structure is found in plant cells but not in animal cells, providing rigidity and a regular shape?", choices: ["Cell membrane", "Cell wall", "Nucleus", "Cytoplasm"], answer: 1, topic: "Cell structures", explain: "The cell wall is made of cellulose and gives plant cells their rigid, regular shape." },
-  { q: "Which cell structure controls the movement of substances into and out of the cell?", choices: ["Cell wall", "Vacuole", "Cell membrane", "Chloroplast"], answer: 2, topic: "Cell structures", explain: "The cell membrane is selectively permeable and regulates what enters and leaves the cell." },
-  { q: "Which cell structure is the site of most chemical reactions in the cell?", choices: ["Nucleus", "Cytoplasm", "Vacuole", "Cell membrane"], answer: 1, topic: "Cell structures", explain: "The cytoplasm is a jelly-like fluid where most metabolic reactions take place." },
-  { q: "Which cell structure contains genetic material (DNA) and controls the cell's activities?", choices: ["Nucleus", "Chloroplast", "Cytoplasm", "Cell wall"], answer: 0, topic: "Cell structures", explain: "The nucleus contains DNA and directs all cell activities including growth, reproduction and protein synthesis." },
-  { q: "Which cell structure stores liquids, food, and waste materials, and is typically large in plant cells?", choices: ["Nucleus", "Chloroplast", "Vacuole", "Cell membrane"], answer: 2, topic: "Cell structures", explain: "Plant cells have a large central vacuole filled with cell sap; it helps maintain turgor pressure." },
-  { q: "Which cell structure is known as the 'food factory' where photosynthesis takes place?", choices: ["Vacuole", "Chloroplast", "Nucleus", "Cytoplasm"], answer: 1, topic: "Cell structures", explain: "Chloroplasts contain chlorophyll and are the site of photosynthesis, producing glucose from sunlight." },
-  { q: "What is the primary function of the cell wall in a plant cell?", choices: ["To control what enters and exits the cell", "To protect and support the entire cell", "To produce food for the cell", "To store genetic information"], answer: 1, topic: "Cell structures", explain: "The rigid cellulose cell wall provides structural support and protection to the plant cell." },
-  { q: "Which of the following structures is found in BOTH typical plant and animal cells?", choices: ["Cell wall", "Chloroplast", "Large central vacuole", "Cell membrane"], answer: 3, topic: "Cell structures", explain: "Both plant and animal cells have a cell membrane that controls what enters and leaves." },
-  { q: "How do vacuoles in a typical plant cell compare to those in an animal cell?", choices: ["Plant cells have numerous small vacuoles; animal cells have one large vacuole.", "Plant cells have one or two large vacuoles; animal cells have numerous small vacuoles.", "Both have one large central vacuole.", "Neither has vacuoles."], answer: 1, topic: "Cell structures", explain: "Plant cells typically have one large central vacuole; animal cells have several small, temporary vacuoles." },
-  { q: "In the 'school' analogy for a plant cell, what does the principal's office represent?", choices: ["Cell membrane", "Cytoplasm", "Nucleus", "Chloroplast"], answer: 2, topic: "Cell structures", explain: "Like the principal who controls the school, the nucleus controls the cell's activities." },
-  { q: "In the 'school' analogy, what does the fence surrounding the school represent?", choices: ["Cell wall", "Cell membrane", "Cytoplasm", "Vacuole"], answer: 0, topic: "Cell structures", explain: "The rigid fence is like the cell wall — it gives structure and a fixed boundary to the plant cell." },
-  { q: "In the 'school' analogy, what does the guard controlling the movement of people represent?", choices: ["Cell wall", "Cell membrane", "Nucleus", "Chloroplast"], answer: 1, topic: "Cell structures", explain: "Like a guard who decides who enters and exits, the cell membrane controls what moves in and out." },
-  { q: "In the 'school' analogy, what do the classrooms and indoor sports hall represent?", choices: ["Nucleus", "Vacuole", "Cytoplasm", "Chloroplast"], answer: 2, topic: "Cell structures", explain: "Classrooms are where activities happen — the cytoplasm is where most cell reactions occur." },
-  { q: "In the 'school' analogy, what does the canteen represent?", choices: ["Vacuole", "Chloroplast", "Nucleus", "Cell membrane"], answer: 1, topic: "Cell structures", explain: "The canteen produces food for the school — chloroplasts produce food (glucose) via photosynthesis." },
-  { q: "In the 'school' analogy, what do the storerooms represent?", choices: ["Vacuole", "Chloroplast", "Cytoplasm", "Nucleus"], answer: 0, topic: "Cell structures", explain: "Storerooms store supplies — the vacuole stores water, food and waste materials." },
-  { q: "Which cell structure is responsible for passing down genetic information to the next generation?", choices: ["Cytoplasm", "Cell membrane", "Nucleus", "Cell wall"], answer: 2, topic: "Cell structures", explain: "The nucleus contains DNA, which carries hereditary information passed to daughter cells during cell division." },
-  { q: "What is the abbreviation for the genetic material found in the nucleus?", choices: ["RNA", "DNA", "ATP", "ADP"], answer: 1, topic: "Cell structures", explain: "DNA (deoxyribonucleic acid) is the molecule that stores genetic information in the nucleus." },
-  { q: "Which of the following structures is NOT found in an animal cell?", choices: ["Nucleus", "Cell membrane", "Chloroplast", "Cytoplasm"], answer: 2, topic: "Cell structures", explain: "Chloroplasts are only found in plant cells (and some algae); animal cells cannot photosynthesise." },
-  { q: "A student observes a cell under a microscope and notes that it has a rigid outer boundary. Which structure is the student observing?", choices: ["Cell membrane", "Cell wall", "Cytoplasm", "Nuclear membrane"], answer: 1, topic: "Cell structures", explain: "The cell wall is the rigid outer layer found in plant cells; the flexible cell membrane is inside it." },
-  { q: "Why can't the vacuole take over the function of the chloroplast?", choices: ["Because they are different cell structures with specific, different functions.", "Because the vacuole is too small.", "Because the chloroplast is located outside the cell.", "Because the vacuole contains DNA."], answer: 0, topic: "Cell structures", explain: "Each organelle has a specific structure suited to its function; the vacuole stores materials, not photosynthesise." },
+  // ── Part 3: Cell Models and Inferences ───────────────────────────────────
+  {
+    q: "Why do scientists and teachers use standard cell models if real cells feature many different shapes and sizes?",
+    choices: ["Models help us understand common characteristics and predict general behaviors.", "Models are identical to every single cell type found in nature.", "Models prove that all biological structures are exactly the same size.", "Models replace the need to use electron microscopes in research."],
+    answer: 0, topic: "Cell Models", explain: "Typical cell models highlight shared features (nucleus, membrane, cytoplasm), enabling general predictions about cell behaviour."
+  },
+  {
+    q: "Which of the following correctly pairs a typical cell model with its vacuole characteristics?",
+    choices: ["Typical plant cell → Small and numerous vacuoles", "Typical animal cell → One or two large central vacuoles", "Typical plant cell → Large and few vacuoles", "Typical animal cell → Complete absence of vacuoles"],
+    answer: 2, topic: "Cell Models", explain: "Plant cells typically have one large central vacuole that can occupy most of the cell's volume."
+  },
+  {
+    q: "Why do plant root hair cells completely lack chloroplasts?",
+    choices: ["They have extra tough cell walls that block out chlorophyll.", "They are located underground where there is no light for photosynthesis.", "Their vacuoles take over the job of producing food instead.", "They are animal cells that have been misclassified as plant tissue."],
+    answer: 1, topic: "Cell Models", explain: "Chloroplasts are only present where photosynthesis can occur; root cells are underground and receive no light."
+  },
+  {
+    q: "What structural characteristic explains why the centre of human red blood cells appears pale under a microscope?",
+    choices: ["They possess abnormally large vacuoles in the middle.", "They contain massive amounts of green chloroplasts.", "They do not have a cell wall to maintain their circular configuration.", "They lack a nucleus in their mature form."],
+    answer: 3, topic: "Cell Models", explain: "Mature red blood cells expel their nucleus before entering the bloodstream, creating a pale bi-concave centre that carries more haemoglobin."
+  },
+  {
+    q: "An unknown cell exhibits a cell wall, a cell membrane, and a nucleus. What can you infer about this cell?",
+    choices: ["It is definitely an animal cell.", "It is a plant cell, even if chloroplasts are not visible.", "It is a unicellular bacterium that lacks a cytoplasm.", "It is an artificial organ created via 3D printing."],
+    answer: 1, topic: "Cell Models", explain: "A cell wall combined with a nucleus identifies this as a plant cell; not all plant cells have visible chloroplasts."
+  },
+  {
+    q: "A unicellular organism has chloroplasts to make food, but can also swim to absorb food particles. How should this organism be evaluated against standard cell models?",
+    choices: ["It fits the typical animal cell model perfectly due to its motion.", "It shows characteristics of both typical plant and animal cell models.", "It cannot be considered a real living thing because it violates cell models.", "It proves that plant cell walls do not allow light to pass through."],
+    answer: 1, topic: "Cell Models", explain: "Organisms like Euglena photosynthesise (plant-like) and can actively move to absorb nutrients (animal-like), fitting both models."
+  },
+  {
+    q: "What is a primary limitation of utilizing typical cell models in science?",
+    choices: ["They cannot show the presence of a nucleus or cell membrane.", "They simplify cell shapes and may not represent the vast diversity of real cells.", "They are too complex to be interpreted by junior biology students.", "They do not allow comparisons with newly discovered organisms."],
+    answer: 1, topic: "Cell Models", explain: "Typical models represent 'average' cells; real cells come in hundreds of specialised shapes and sizes that models cannot capture."
+  },
+  {
+    q: "How would models of typical plant and animal cells assist scientists who discover unknown cells on another planet?",
+    choices: ["They can be used to compare structures and infer if the unknown cells share similarities with Earth plants or animals.", "They can automatically turn the unknown alien cell into an identical copy of a human cell.", "They eliminate the need to view the alien cells under light or electron microscopes.", "They determine the exact age and evolutionary timeline of the alien planet."],
+    answer: 0, topic: "Cell Models", explain: "Comparing unknown structures to Earth's cell models allows scientists to infer possible functions and evolutionary relationships."
+  },
+  {
+    q: "In a school analogy for a plant cell, which school features correspond to the cell wall and cell membrane respectively?",
+    choices: ["The classrooms and the principal's office", "The outer fence and the security guard at the gate", "The storage rooms and the student canteen", "The sports hall and the school textbooks"],
+    answer: 1, topic: "Cell Models", explain: "The outer fence = rigid cell wall (structure/protection); the security guard = cell membrane (controls what enters/exits)."
+  },
+  {
+    q: "In a school analogy for a plant cell, why does the student canteen represent the chloroplasts?",
+    choices: ["It regulates the movement of people into and out of the main premises.", "It is the designated space where food is made.", "It acts as the central hub where major administrative decisions are made.", "It stores old furniture and unwanted waste materials."],
+    answer: 1, topic: "Cell Models", explain: "Just as a canteen is where food is prepared, chloroplasts produce glucose through photosynthesis to feed the cell."
+  },
 
-  // Section 5: Plant vs Animal Cell Models & Specialised Cells (Q56–Q70)
-  { q: "Which of the following is a characteristic of a typical plant cell?", choices: ["It has no cell wall.", "It has chloroplasts.", "It has numerous small vacuoles.", "It is usually smaller than an animal cell."], answer: 1, topic: "Plant vs animal cells", explain: "Chloroplasts are a defining feature of plant cells, enabling photosynthesis." },
-  { q: "Which of the following is a characteristic of a typical animal cell?", choices: ["It has a cell wall.", "It has chloroplasts.", "It has numerous small vacuoles.", "It has a regular, fixed shape."], answer: 2, topic: "Plant vs animal cells", explain: "Animal cells have several small, temporary vacuoles rather than one large central vacuole." },
-  { q: "Root hair cells are found in the soil and absorb water. Based on this, which structure would they lack?", choices: ["Nucleus", "Cell membrane", "Chloroplast", "Cytoplasm"], answer: 2, topic: "Specialised cells", explain: "Root hair cells are underground and receive no sunlight, so they have no need for chloroplasts." },
-  { q: "Why do root hair cells lack chloroplasts?", choices: ["They are underground and do not receive sunlight for photosynthesis.", "They do not need water.", "They are animal cells.", "They have too many vacuoles."], answer: 0, topic: "Specialised cells", explain: "Without sunlight, photosynthesis cannot occur, so root hair cells have no chloroplasts." },
-  { q: "Red blood cells are specialised to carry oxygen. To maximise space for oxygen, which structure do mature red blood cells lack?", choices: ["Cell membrane", "Nucleus", "Cytoplasm", "Cell wall"], answer: 1, topic: "Specialised cells", explain: "Mature red blood cells lose their nucleus to maximise space for haemoglobin, which carries oxygen." },
-  { q: "What is the function of a macrophage (a type of white blood cell)?", choices: ["To carry oxygen", "To conduct electrical signals", "To destroy invading microorganisms in the blood", "To control the movement of gases"], answer: 2, topic: "Specialised cells", explain: "Macrophages engulf and destroy pathogens through a process called phagocytosis." },
-  { q: "Which cell is specialised to conduct electrical signals throughout the body?", choices: ["Guard cell", "Red blood cell", "Neuron (Nerve cell)", "Root hair cell"], answer: 2, topic: "Specialised cells", explain: "Neurons have long extensions to transmit electrical impulses rapidly over long distances." },
-  { q: "Which cells control the movement of gases into and out of leaves?", choices: ["Root hair cells", "Red blood cells", "Guard cells", "Muscle cells"], answer: 2, topic: "Specialised cells", explain: "Guard cells surround the stomata and open or close them to regulate gas exchange and water loss." },
-  { q: "What is the tiny opening surrounded by guard cells called?", choices: ["Stoma", "Pore", "Vacuole", "Nucleus"], answer: 0, topic: "Specialised cells", explain: "A stoma (plural: stomata) is the pore in the leaf surface through which CO₂, O₂ and water vapour pass." },
-  { q: "Euglena is an organism that has characteristics of both plant and animal cells. Which structure allows it to act like a plant cell?", choices: ["Flagellum", "Eyespot", "Chloroplasts", "Cell membrane"], answer: 2, topic: "Specialised cells", explain: "Euglena's chloroplasts allow it to photosynthesise in sunlight, just like a plant cell." },
-  { q: "How does Euglena obtain food like an animal cell?", choices: ["By photosynthesis", "By absorbing minerals from the soil", "By actively swimming and absorbing food particles from its surroundings", "By producing its own oxygen"], answer: 2, topic: "Specialised cells", explain: "In the absence of light, Euglena can absorb organic nutrients from its surroundings like an animal." },
-  { q: "What led to the creation of a new classification of living things for organisms like Euglena?", choices: ["Their ability to photosynthesise only", "Their ability to swim only", "Their characteristics of both plant and animal cells", "Their large size"], answer: 2, topic: "Specialised cells", explain: "Euglena's dual characteristics meant it did not fit neatly into the plant or animal kingdom, leading to new classifications." },
-  { q: "An unknown cell is observed under a microscope. It has a cell wall, chloroplasts, and a large vacuole. What can you infer about this cell?", choices: ["It is an animal cell.", "It is a plant cell.", "It is a red blood cell.", "It is a neuron."], answer: 1, topic: "Plant vs animal cells", explain: "Cell wall, chloroplasts and a large vacuole are all defining features of a plant cell." },
-  { q: "If a cell is observed to have no cell wall and numerous small vacuoles, it is most likely from an:", choices: ["Onion skin", "Animal", "Leaf", "Root"], answer: 1, topic: "Plant vs animal cells", explain: "Absence of a cell wall and presence of small vacuoles are characteristics of animal cells." },
-  { q: "Why are cell models useful in science?", choices: ["They are exact replicas of every single cell in the body.", "They help us understand cell structures, functions, and infer the type of unknown cells.", "They allow us to see cells without a microscope.", "They replace the need for electron microscopes."], answer: 1, topic: "Cell structures", explain: "Models simplify complex structures to help us visualise and understand how cells are organised and function." },
+  // ── Part 4: Cellular Organisation in Multicellular Organisms ─────────────
+  {
+    q: "What is the fundamental difference between a unicellular organism and a multicellular organism?",
+    choices: ["Unicellular organisms are always visible to the naked eye.", "Multicellular organisms are composed of many cells working together.", "Unicellular organisms lack cell membranes and cytoplasm entirely.", "Multicellular organisms consist of only one type of identical cell."],
+    answer: 1, topic: "Cellular Org.", explain: "A unicellular organism performs all life functions in one cell; a multicellular organism uses many cooperating cells."
+  },
+  {
+    q: "Why is it incorrect to assume that an organism is unicellular or multicellular based on its physical size?",
+    choices: ["Some small organisms can still be multicellular because they contain more than one cell.", "All massive organisms are actually made up of a single giant cell.", "Large cells always lack nuclei and vacuoles.", "The size of an organism changes depending on the light microscope used."],
+    answer: 0, topic: "Cellular Org.", explain: "Size alone does not determine cell number — a tiny nematode worm has around 1,000 cells yet is microscopically small."
+  },
+  {
+    q: "Which of the following lists contains only unicellular organisms?",
+    choices: ["Mushroom, worm, and cat", "Paramecium, diatom, and bacterium", "Onion, human, and orchid plant", "Red blood cell, nerve cell, and cheek cell"],
+    answer: 1, topic: "Cellular Org.", explain: "Paramecium, diatoms, and bacteria are all single-celled; the other options include multicellular organisms or individual cells within organisms."
+  },
+  {
+    q: "What is the correct sequence of cellular organization from the simplest building block to the most complex level?",
+    choices: ["Tissue → Cell → Organ → System → Organism", "Cell → Organ → Tissue → System → Organism", "Cell → Tissue → Organ → System → Organism", "Organism → System → Organ → Tissue → Cell"],
+    answer: 2, topic: "Cellular Org.", explain: "The biological hierarchy from simplest to most complex is: cell → tissue → organ → organ system → organism."
+  },
+  {
+    q: "Which statement best describes a biological tissue?",
+    choices: ["A group of completely different organisms living in the same habitat.", "A collection of cells of the same type working together to perform a specific function.", "An administrative office that controls all metabolic actions in animals.", "The fluid structure that fills up the inner vacuole spaces."],
+    answer: 1, topic: "Cellular Org.", explain: "A tissue is a group of similar cells coordinating to do the same job, e.g. muscle tissue contracts, epithelial tissue covers surfaces."
+  },
+  {
+    q: "Which level of cellular organization is represented by a plant root or a human stomach?",
+    choices: ["Tissue", "Organ", "System", "Organism"],
+    answer: 1, topic: "Cellular Org.", explain: "A root and a stomach are both organs — structures made of several tissues working together to perform a particular function."
+  },
+  {
+    q: "A plant transport system consists of different parts like the root and the stem working together. What level of organization does this represent?",
+    choices: ["Cell", "Tissue", "System", "Organism"],
+    answer: 2, topic: "Cellular Org.", explain: "An organ system is a group of organs working together; the plant transport system (roots, stem, leaves) is a classic example."
+  },
+  {
+    q: "In the organizational hierarchy of a tree, what level of structure does the root tissue layer form when combined with other tissues?",
+    choices: ["An individual cell unit", "An organ", "A complete multicellular organism", "A microscopic unicellular structure"],
+    answer: 1, topic: "Cellular Org.", explain: "When different tissues (vascular, epidermis, cortex) combine and cooperate in the root, they form an organ."
+  },
+  {
+    q: "Which statement correctly addresses an error regarding cellular organization?",
+    choices: ["Tissues are formed when different organ systems fuse together.", "Organs are formed when different tissues work together to perform specific functions.", "Cells are formed when multiple complex organs are grouped into systems.", "Organisms are formed when individual cell walls dissolve into tissues."],
+    answer: 1, topic: "Cellular Org.", explain: "Organs are formed by multiple different tissues (e.g. the stomach contains muscle, epithelial, and connective tissues)."
+  },
+  {
+    q: "The human mouth, stomach, small intestine, and large intestine work together to digest food. What does this entire collective group represent?",
+    choices: ["An organ tissue matrix", "An organ system", "An individual cell model", "A unicellular organism colony"],
+    answer: 1, topic: "Cellular Org.", explain: "These four organs collectively form the digestive system — an organ system that coordinates to break down and absorb food."
+  },
 
-  // Section 6: Unicellular vs Multicellular Organisms (Q71–Q80)
-  { q: "What does it mean if an organism is unicellular?", choices: ["It has no cells.", "It consists of only one cell.", "It has many different types of cells.", "It is made of multiple tissues."], answer: 1, topic: "Unicellular vs multicellular", explain: "A unicellular organism carries out all life processes in a single cell (e.g. Amoeba, Paramecium)." },
-  { q: "Which of the following is an example of a unicellular organism?", choices: ["Mushroom", "Cat", "Bacterium", "Flowering plant"], answer: 2, topic: "Unicellular vs multicellular", explain: "Bacteria are single-celled prokaryotes; each cell carries out all life functions independently." },
-  { q: "Which of the following is an example of a multicellular organism?", choices: ["Paramecium", "Diatom", "Amoeba", "Cat"], answer: 3, topic: "Unicellular vs multicellular", explain: "A cat is a complex multicellular organism made up of trillions of specialised cells." },
-  { q: "Does the physical size of an organism determine if it is unicellular or multicellular?", choices: ["Yes, all tiny organisms are unicellular.", "Yes, all large organisms are multicellular.", "No, a very tiny organism may not be unicellular.", "No, size is the only way to tell them apart."], answer: 2, topic: "Unicellular vs multicellular", explain: "Some multicellular organisms are microscopic; size alone does not determine the number of cells." },
-  { q: "What are microscopic organisms that live and float in large bodies of water called?", choices: ["Bacteria", "Plankton", "Fungi", "Viruses"], answer: 1, topic: "Unicellular vs multicellular", explain: "Plankton are tiny organisms (including unicellular algae and protozoa) that drift in water bodies." },
-  { q: "Which scientist discovered how to prolong the shelf life of food products by killing bacteria?", choices: ["Robert Hooke", "Antonie van Leeuwenhoek", "Louis Pasteur", "Charles Darwin"], answer: 2, topic: "History of cells", explain: "Louis Pasteur developed pasteurisation and the germ theory of disease in the 19th century." },
-  { q: "What is the process of heating perishable food at high temperatures for a few seconds to kill bacteria called?", choices: ["Vaccination", "Pasteurisation", "Fermentation", "Cloning"], answer: 1, topic: "History of cells", explain: "Pasteurisation (named after Louis Pasteur) kills harmful bacteria without significantly changing the food." },
-  { q: "Which deadly bacterial disease did Louis Pasteur develop a vaccine against?", choices: ["Cholera", "Tuberculosis", "Anthrax", "Influenza"], answer: 2, topic: "History of cells", explain: "Pasteur developed a vaccine for anthrax in 1881, demonstrating the germ theory of disease." },
-  { q: "What are biological weapons typically made of?", choices: ["Heavy metals", "Infectious agents like bacteria, viruses, and fungi", "Radioactive materials", "Synthetic plastics"], answer: 1, topic: "Applications", explain: "Biological weapons use harmful living organisms or their toxins to cause disease in humans, animals or plants." },
-  { q: "Bacteria are useful in the production of which of the following foods?", choices: ["Bread and wine", "Yoghurt, cheese, and kimchi", "Fried rice and noodles", "Fruit juices and honey"], answer: 1, topic: "Applications", explain: "Beneficial bacteria ferment milk to produce yoghurt and cheese, and ferment vegetables to produce kimchi." },
+  // ── Part 5: Significance of the Division of Labour ────────────────────────
+  {
+    q: "What does the term \"division of labour\" mean in relation to living things?",
+    choices: ["Cells dividing rapidly to increase the overall size of an animal.", "Different parts performing various functions in a coordinated way to ensure efficiency.", "Eliminating all vacuoles so that a cell can perform photosynthesis faster.", "Forcing every cell in an organism to perform identical biochemical tasks."],
+    answer: 1, topic: "Division of Labour", explain: "Division of labour means different specialised parts (cells, tissues, organs) each perform specific tasks, making the organism more efficient."
+  },
+  {
+    q: "Why is the division of labour significant for a multicellular organism's survival?",
+    choices: ["It allows complex processes to occur effectively and efficiently.", "It ensures that all cells look exactly like the typical animal cell model.", "It allows single cells to grow to the size of large organs.", "It prevents genetic material from being passed down to the next generation."],
+    answer: 0, topic: "Division of Labour", explain: "Specialisation allows each part to perform its function far more effectively than if every part tried to do everything."
+  },
+  {
+    q: "How do muscle tissue and blood tissue work together in the human small intestine to show division of labour?",
+    choices: ["They both build rigid cell walls to change the shape of the organ.", "Muscle tissue pushes food along while blood tissue carries nutrients away.", "Muscle tissue performs photosynthesis while blood tissue acts as a storage vacuole.", "They alternate absorbing water and multiplying DNA material."],
+    answer: 1, topic: "Division of Labour", explain: "Muscle tissue contracts (peristalsis) to move food along, while blood vessels absorb and transport digested nutrients — two different roles."
+  },
+  {
+    q: "How does a single root hair cell show the division of labour at the cellular level?",
+    choices: ["Its nucleus takes over the job of absorbing minerals while the cytoplasm disappears.", "Its cell membrane controls the movement of substances into the cell while its cell wall prevents it from bursting.", "Its chloroplasts make food while its giant central vacuole pumps blood.", "It detaches its cell wall to allow water to flood directly into the stem."],
+    answer: 1, topic: "Division of Labour", explain: "Within one cell, the membrane handles selective transport, the wall provides structural support — two structures, two specific coordinated roles."
+  },
+  {
+    q: "Why is it correct to say that division of labour happens at the cellular level, as well as in tissues and organs?",
+    choices: ["Individual structures inside a single cell have specific, coordinated duties.", "Unicellular organisms do not contain any cytoplasm or chemical reactions.", "Single cells do not possess any organized functions unless they form a system.", "Every part of a cell performs the exact same chemical processes simultaneously."],
+    answer: 0, topic: "Division of Labour", explain: "Even within a single cell, organelles like the nucleus (control), membrane (transport), and chloroplast (photosynthesis) each have distinct roles."
+  },
+  {
+    q: "What is the specialized function of guard cells found on the underside of leaves?",
+    choices: ["They absorb water directly from deep underground soil layers.", "They control the opening and closing of stomata to regulate gas movement.", "They produce red blood cells to transport mineral salts to branches.", "They provide a rigid structure to keep tree trunks upright."],
+    answer: 1, topic: "Division of Labour", explain: "Guard cells change shape to open or close stomata, regulating CO₂ entry, O₂ exit, and water loss through transpiration."
+  },
+  {
+    q: "What is the specialized role of a macrophage cell in human blood?",
+    choices: ["Conducting electrical signals throughout the skeletal system.", "Storing massive volumes of food and liquid inside a large central vacuole.", "Destroying invading microorganisms to protect the body.", "Synthesizing sugars through the process of photosynthesis."],
+    answer: 2, topic: "Division of Labour", explain: "Macrophages are specialised white blood cells that engulf and destroy pathogens through a process called phagocytosis."
+  },
+  {
+    q: "What is the specialized role of a neuron in the human body?",
+    choices: ["Creating artificial body parts via 3D printing mechanisms.", "Conducting electrical signals throughout the body.", "Filtering out carbon dioxide molecules from blood tissues.", "Expanding its tough cell wall to protect bone cells."],
+    answer: 1, topic: "Division of Labour", explain: "Neurons have long axons that carry electrical impulses rapidly across the body for communication and coordination."
+  },
+  {
+    q: "A blood vessel contains muscle tissue, elastic tissue, and connective tissue working together to move fluid. This is an example of division of labour at which level?",
+    choices: ["Cellular level", "Organ level", "System level", "Unicellular level"],
+    answer: 1, topic: "Division of Labour", explain: "A blood vessel is an organ; its different tissue types cooperating within that organ demonstrates organ-level division of labour."
+  },
+  {
+    q: "How does the cooperation between the heart, blood vessels, and blood benefit the human body?",
+    choices: ["It ensures the circulatory system functions efficiently to transport substances.", "It transforms red blood cells into root hair cells when needed.", "It allows individual organs to function independently without coordinating.", "It eliminates the need for cells to carry out respiration or chemical reactions."],
+    answer: 0, topic: "Division of Labour", explain: "The heart pumps, blood vessels channel, and blood transports — these three organs coordinate to keep the circulatory system running."
+  },
 
-  // Section 7: Levels of Organisation & Division of Labour (Q81–Q90)
-  { q: "What is the basic structural and functional building block of all living things?", choices: ["Tissue", "Organ", "Cell", "System"], answer: 2, topic: "Levels of organisation", explain: "The cell is the smallest unit of life that can carry out all basic life processes." },
-  { q: "What is formed when cells of the same type work together to perform the same function?", choices: ["Organ", "System", "Organism", "Tissue"], answer: 3, topic: "Levels of organisation", explain: "A tissue is a group of similar cells working together, e.g. muscle tissue or epithelial tissue." },
-  { q: "What is formed when different tissues work together to perform a specific function?", choices: ["Cell", "Organ", "System", "Organism"], answer: 1, topic: "Levels of organisation", explain: "An organ (e.g. the heart or stomach) is made up of several tissue types working together." },
-  { q: "What is formed when different organs work together to perform a specific function?", choices: ["Tissue", "System", "Cell", "Organism"], answer: 1, topic: "Levels of organisation", explain: "An organ system (e.g. the digestive system) consists of several organs working together." },
-  { q: "In a plant, the root and stem are organs that work together to form which system?", choices: ["Digestive system", "Circulatory system", "Transport system", "Nervous system"], answer: 2, topic: "Levels of organisation", explain: "The plant's transport system (xylem and phloem) moves water, minerals and food through roots, stems and leaves." },
-  { q: "Which of the following best describes the specific function of root hair cells?", choices: ["Conducting electrical signals", "Absorbing water and mineral salts", "Performing photosynthesis", "Pumping blood"], answer: 1, topic: "Specialised cells", explain: "Root hair cells have a large surface area to efficiently absorb water and mineral salts from the soil." },
-  { q: "The mouth, stomach, and intestines work together to form which system in humans?", choices: ["Circulatory system", "Respiratory system", "Digestive system", "Excretory system"], answer: 2, topic: "Levels of organisation", explain: "The digestive system includes all organs involved in breaking down food and absorbing nutrients." },
-  { q: "What is the term for different parts of an organism performing various functions in a coordinated way?", choices: ["Cell division", "Division of labour", "Natural selection", "Photosynthesis"], answer: 1, topic: "Levels of organisation", explain: "Division of labour means different cells, tissues, organs and systems each have specific roles." },
-  { q: "Does division of labour occur only at the organ level?", choices: ["Yes, only organs perform specific functions.", "No, it occurs at the cellular, tissue, organ, and system levels.", "Yes, cells do not have specialised functions.", "No, it only occurs at the cellular level."], answer: 1, topic: "Levels of organisation", explain: "Division of labour operates at every level — from individual cells to organ systems." },
-  { q: "How does the cell wall contribute to the division of labour within a root hair cell?", choices: ["It absorbs sunlight for energy.", "It controls the movement of water into the cell.", "It prevents the cell from bursting when it absorbs water.", "It stores waste materials."], answer: 2, topic: "Levels of organisation", explain: "The rigid cell wall provides structural support, preventing the cell from bursting as it takes in water by osmosis." },
-
-  // Section 8: Applications, Cloning, and Technology (Q91–Q100)
-  { q: "In the cloning process, which part of the cell contains the genetic information needed to create a clone?", choices: ["Cytoplasm", "Cell membrane", "Nucleus", "Vacuole"], answer: 2, topic: "Applications", explain: "The nucleus contains DNA with all the genetic instructions needed to produce an identical organism." },
-  { q: "In the cloning process of cattle, the resulting calf is genetically identical to the:", choices: ["Egg donor", "Surrogate mother", "Nucleus donor", "Veterinarian"], answer: 2, topic: "Applications", explain: "The clone's DNA comes entirely from the nucleus donor, so it is genetically identical to that animal." },
-  { q: "What is the ball of cells formed after the cloned egg cell divides called?", choices: ["Tissue", "Embryo", "Organ", "Fetus"], answer: 1, topic: "Applications", explain: "After fertilisation or nuclear transfer, the cell divides repeatedly to form a ball of cells called an embryo." },
-  { q: "Where is the embryo implanted to develop into a calf during cloning?", choices: ["In a petri dish", "In the egg donor", "In a surrogate mother cow", "In the nucleus donor"], answer: 2, topic: "Applications", explain: "The embryo is implanted into a surrogate mother's uterus where it develops until birth." },
-  { q: "Why is the original nucleus removed from the egg cell in cloning?", choices: ["To make room for more cytoplasm", "So it doesn't contribute genetic material, ensuring the clone matches the nucleus donor", "To prevent the cell from dividing", "To allow the surrogate mother's DNA to mix"], answer: 1, topic: "Applications", explain: "Removing the original nucleus ensures only the donor's DNA is present, producing a true genetic clone." },
-  { q: "How can DNA and cloning be used to help preserve rare or endangered species?", choices: ["By creating artificial habitats", "By producing clones that have the same DNA as the original cells", "By changing their diet", "By increasing their lifespan naturally"], answer: 1, topic: "Applications", explain: "Cloning endangered animals from preserved cells could potentially restore populations that are at risk of extinction." },
-  { q: "What career involves researching DNA to understand medical diseases and improve food production?", choices: ["Bioengineer", "Geneticist", "Microscopist", "Botanist"], answer: 1, topic: "Applications", explain: "Geneticists study genes and DNA to understand inherited diseases and develop improved crop varieties." },
-  { q: "What technology do bioengineers use to create artificial body parts and organs, such as a heart?", choices: ["Cloning", "3D printing", "Pasteurisation", "Vaccination"], answer: 1, topic: "Applications", explain: "3D bioprinting can build organ structures layer by layer using biocompatible materials or living cells." },
-  { q: "How is artificial intelligence (AI) being used by doctors in relation to cells?", choices: ["To clone human organs", "To correctly identify cancer cells from images for faster and accurate diagnosis", "To prevent cells from ageing", "To convert animal cells to plant cells"], answer: 1, topic: "Applications", explain: "AI can analyse microscopy and scan images to detect cancer cells with high accuracy and speed." },
-  { q: "What is a security feature found on banknotes and passports that consists of letters too small to be seen by the naked eye, requiring a microscope to view?", choices: ["Hologram", "Watermark", "Microprint", "Magnetic strip"], answer: 2, topic: "Applications", explain: "Microprint is extremely small text used as a security feature that requires magnification to read." },
+  // ── Part 6: Advances in Technology and Knowledge-Building ─────────────────
+  {
+    q: "How did the historical invention of the light microscope directly alter human understanding of life?",
+    choices: ["It immediately proved that human blood does not contain any cells.", "It made the invisible world of cells visible, allowing scientists to study cell structures.", "It allowed bioengineers to 3D print functional human hearts.", "It showed that all living things are made up of artificial intelligence systems."],
+    answer: 1, topic: "Cells & Tech", explain: "Before microscopes, cells were invisible; Hooke's microscope (1665) revealed the cellular basis of life for the first time."
+  },
+  {
+    q: "What initial practical interest led Antonie van Leeuwenhoek to develop high-quality lenses and early microscopes?",
+    choices: ["He wanted to look at the structure of DNA inside cheek cells.", "He wanted to examine the quality of fibres in his fabric business.", "He was hired to find a vaccine for lethal bacterial anthrax.", "He was searching for single-celled alien life on other planets."],
+    answer: 1, topic: "Cells & Tech", explain: "Leeuwenhoek was a draper who needed to assess cloth quality; his lens-grinding skill for this led to powerful microscopes."
+  },
+  {
+    q: "Which milestone in cell knowledge occurred in the 1830s following improvements to light microscopes?",
+    choices: ["The initial discovery of electron microscope components.", "The proposal of the theory that all living things are made of cells.", "The first successful 3D printing of a cattle embryo.", "The discovery that red blood cells lack structural cell walls."],
+    answer: 1, topic: "Cells & Tech", explain: "In 1838–1839, Schleiden (plants) and Schwann (animals) proposed cell theory: all living things are made of cells."
+  },
+  {
+    q: "What main advantage does an electron microscope offer compared to a standard light microscope?",
+    choices: ["It uses visible light to keep cells alive during long observations.", "It allows scientists to view cell structures in much greater detail due to higher magnification.", "It can be easily carried around because it has a smaller arm and base.", "It eliminates the need to use chemical stains like iodine."],
+    answer: 1, topic: "Cells & Tech", explain: "Electron microscopes can magnify up to 500,000× (vs ~1,500× for light microscopes), revealing ultra-fine organelle structures."
+  },
+  {
+    q: "What is the scientific purpose of adding chemical stains like methylene blue or iodine solution to a slide specimen?",
+    choices: ["To dissolve the cell wall so the nucleus can swim out.", "To color and stain cell structures so they can be seen clearly under a microscope.", "To prevent air bubbles from getting trapped under the coverslip.", "To kill dangerous cells before they divide into tissues."],
+    answer: 1, topic: "Cells & Tech", explain: "Stains bind selectively to certain molecules (e.g. methylene blue to DNA in the nucleus), making structures visible against the background."
+  },
+  {
+    q: "How do modern geneticists use cells from an orchid plant to preserve rare or endangered species?",
+    choices: ["By changing the plant cell walls into animal cell membranes.", "By utilizing DNA knowledge to produce genetically identical clones.", "By removing the plant's cytoplasm to stop all chemical reactions.", "By transferring chloroplasts into the roots to speed up growth."],
+    answer: 1, topic: "Cells & Tech", explain: "By extracting plant cells and using DNA cloning techniques, geneticists can reproduce genetically identical copies of rare orchids."
+  },
+  {
+    q: "Why is the original nucleus removed from the donor's egg cell during the cattle cloning process?",
+    choices: ["To make room for the large vacuole to expand.", "To ensure the egg cell does not pass down the egg donor's genetic material to the clone.", "To force the egg cell to transform into a multicellular system.", "To allow the light microscope lenses to see through the slide."],
+    answer: 1, topic: "Cells & Tech", explain: "Removing the nucleus ensures only the replacement nucleus donor's DNA determines the clone's genetic makeup."
+  },
+  {
+    q: "Why is a cloned calf physically and genetically identical to the nucleus donor cow?",
+    choices: ["The nucleus contains the DNA, which holds the genetic information that determines traits.", "The surrogate mother cow alters the cell wall structure during development.", "The egg donor cow provides all the cytoplasm and chloroplast models.", "The cloning process utilizes artificial intelligence to choose the calf's features."],
+    answer: 0, topic: "Cells & Tech", explain: "DNA inside the transferred nucleus contains all the genetic information controlling traits; the clone grows from this DNA."
+  },
+  {
+    q: "What major discovery did Louis Pasteur contribute to medicine after studying disease-causing microorganisms?",
+    choices: ["He invented the electron microscope to view cancer cells.", "He found that injecting killed or weakened microorganisms can protect against diseases through vaccination.", "He discovered that red blood cells do not require a nucleus to survive.", "He proved that all bacteria are lethal and cause cholera or tuberculosis."],
+    answer: 1, topic: "Cells & Tech", explain: "Pasteur demonstrated that weakened pathogens could stimulate immunity without causing disease — the principle behind all vaccines."
+  },
+  {
+    q: "How do modern bioengineers apply their knowledge of living cells alongside 3D printing technology?",
+    choices: ["To manufacture lightweight metal bones for microscopic unicellular organisms.", "To print artificial body parts and organs to assist patients who need transplants.", "To turn plant cell walls into clean energy sources inside classrooms.", "To mass-produce light microscopes for history museums."],
+    answer: 1, topic: "Cells & Tech", explain: "Bioengineers use 3D printers loaded with living cells (bioprinting) to create tissues and organs for medical transplantation."
+  },
 ];
