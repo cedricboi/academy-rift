@@ -372,12 +372,18 @@ function resolveAnswer(room, choiceIndex) {
     return;
   }
 
-  b.phase = "action";
+  // Correct answer — hold on "reveal" phase for 3s so everyone can see the
+  // highlighted correct choice and absorb the explanation before action begins.
+  b.phase = "reveal";
   broadcast(room);
-  if (c.bot) { b.timers.bot = setTimeout(() => botAction(room), 1100); return; }
-  io.to(c.uid).emit("chooseAction", { syncReady: b.sync[c.team] >= 100, correct });
-  const fallback = correct ? { type: "strike" } : { type: "defend" };
-  b.timers.a = setTimeout(() => handleAction(room, c.uid, fallback, true), ACTION_SECONDS * 1000);
+  b.timers.reveal = setTimeout(() => {
+    if (!room.battle || room.battle.phase !== "reveal") return;
+    b.phase = "action";
+    broadcast(room);
+    if (c.bot) { b.timers.bot = setTimeout(() => botAction(room), 200); return; }
+    io.to(c.uid).emit("chooseAction", { syncReady: b.sync[c.team] >= 100, correct: true });
+    b.timers.a = setTimeout(() => handleAction(room, c.uid, { type: "strike" }, true), ACTION_SECONDS * 1000);
+  }, 3000);
 }
 
 function handleSteal(room, sid, choiceIndex) {

@@ -102,7 +102,7 @@ function showScreen(id) {
 function loadProfile() { try { return JSON.parse(localStorage.getItem("academyRift")) || { coins:500, inv:{} }; } catch { return { coins:500, inv:{} }; } }
 function saveProfile(p) { localStorage.setItem("academyRift", JSON.stringify(p)); }
 let profile = loadProfile();
-function refreshCoins() { $("homeCoins").textContent = profile.coins; }
+function refreshCoins() { const el = $("homeCoins"); if (el) el.textContent = profile.coins; }
 
 // Start the lobby theme as early as possible. Browsers block audio autoplay until
 // the first user gesture, so we (a) try on load, and (b) guarantee it on the very
@@ -507,22 +507,35 @@ socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
 
 // Result after a steal attempt
 socket.on("stealResult", ({ uid, correct, correctIndex, explain }) => {
-  stealMeta = null;
-  if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); if (correct) showAnswerBanner(true); }
-  document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
-    b.disabled = true;
-    if (i === correctIndex) b.classList.add("correct");
-    else if (i === mySelected && uid === myId && !correct) b.classList.add("wrong");
-  });
-  const fb = $("mcqFeedback");
-  fb.className = "mcq-feedback " + (correct ? "good steal" : "bad");
-  fb.textContent = (correct
-    ? `⚡ ${nameOf(uid)} STOLE the turn! Attacks halved.`
-    : `${nameOf(uid)} guessed wrong.`) + "  " + explain;
-  fb.classList.remove("hidden");
-  stopTimer();
-  if (correct) bannerFlash(`⚡ ${nameOf(uid)} STOLE THE TURN!`, "mine");
-  toast(correct ? `⚡ ${nameOf(uid)} stole the turn! (half damage)` : `${nameOf(uid)} couldn't steal.`);
+  if (correct) {
+    // Successful steal — close window for everyone
+    stealMeta = null;
+    if (uid === myId) { myAnswerCorrect = true; SFX.play("correct"); showAnswerBanner(true); }
+    document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
+      b.disabled = true;
+      if (i === correctIndex) b.classList.add("correct");
+      else if (i === mySelected && uid === myId) b.classList.add("wrong");
+    });
+    const fb = $("mcqFeedback");
+    fb.className = "mcq-feedback good steal";
+    fb.textContent = `⚡ ${nameOf(uid)} STOLE the turn! Attacks halved.  ${explain}`;
+    fb.classList.remove("hidden");
+    stopTimer();
+    bannerFlash(`⚡ ${nameOf(uid)} STOLE THE TURN!`, "mine");
+    toast(`⚡ ${nameOf(uid)} stole the turn! (half damage)`);
+  } else {
+    // Failed steal — only lock out the player who got it wrong; others stay active
+    if (uid === myId) {
+      SFX.play("wrong");
+      document.querySelectorAll("#mcqChoices .choice").forEach((b) => { b.disabled = true; });
+      const fb = $("mcqFeedback");
+      fb.className = "mcq-feedback bad";
+      fb.textContent = `✗ Wrong! Others can still steal.  ${explain}`;
+      fb.classList.remove("hidden");
+    }
+    // Don't touch stealMeta, don't stop the timer — window stays open for others
+    toast(`${nameOf(uid)} guessed wrong — steal window still open!`);
+  }
 });
 
 // Both teammates answered correctly → sync surge
@@ -706,10 +719,7 @@ socket.on("battleEnd", ({ winnerTeam, rewards }) => {
   const lines = [
     `<div class="reward-line"><span>${won ? "🏆 Your team won the Rift!" : "Study hard and try again!"}</span></div>`,
     ...(r ? [
-      `<div class="reward-line"><span>💰 Coins earned</span><span>+${r.coins}</span></div>`,
-      `<div class="reward-line"><span>🧪 Science bonus</span><span>+${r.science}</span></div>`,
       `<div class="reward-line"><span>✅ Correct answers</span><span>${r.correct}</span></div>`,
-      `<div class="reward-line"><span>👜 Total coins</span><span>${profile.coins}</span></div>`,
     ] : []),
   ];
   $("resultBody").innerHTML = lines.join("");
@@ -931,8 +941,15 @@ function renderDock(b, cur, myTurn, stealActorC) {
       }); else btn.disabled = true;
       wrap.appendChild(btn);
     });
-    // Show running timer for ALL players (synced to server clock)
-    startTimerFrom(q.seconds, q.startedAt);
+    // Only start timer if not already running (prevents restart on re-renders)
+    if (!timerInt) startTimerFrom(q.seconds, q.startedAt);
+
+  } else if (b.phase === "reveal") {
+    // Correct answer revealed — hold MCQ visible for 3s so players can absorb it
+    cmds.classList.add("hidden"); setBattleDim(false);
+    wait.classList.add("hidden"); mcq.classList.remove("hidden");
+    stopTimer();
+    // Choices remain in DOM with correct answer highlighted from answerResult — no rebuild needed
 
   } else if (b.phase === "steal") {
     // Steal window: original player waits; everyone else can buzz in
@@ -968,7 +985,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
           wrap.appendChild(btn);
         });
       }
-      startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
+      if (!timerInt) startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
     } else {
       mcq.classList.add("hidden");
       wait.classList.remove("hidden"); $("waitText").textContent = "Steal window…";
@@ -1192,20 +1209,22 @@ function startTimer(seconds) {
   $("mcqTimer").textContent = fmt(left);
   timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); if (left<=0) stopTimer(); }, 1000);
 }
-function stopTimer() { clearInterval(timerInt); }
+function stopTimer() { clearInterval(timerInt); timerInt = null; }
 // Start timer accounting for time already elapsed since the server set startedAt.
+// Rounds to whole seconds so the CSS bar and number counter stay perfectly in sync.
 function startTimerFrom(totalSeconds, startedAt) {
-  const elapsed  = startedAt ? (Date.now() - startedAt) / 1000 : 0;
+  const elapsed   = startedAt ? (Date.now() - startedAt) / 1000 : 0;
   const remaining = Math.max(0, totalSeconds - elapsed);
-  const fraction  = totalSeconds > 0 ? remaining / totalSeconds : 1;
+  const left      = Math.round(remaining);            // whole seconds — syncs CSS + counter
+  const fraction  = totalSeconds > 0 ? left / totalSeconds : 1;
   stopTimer();
   const fill = $("mcqTimerFill");
   fill.style.transition = "none"; fill.style.width = (fraction * 100) + "%";
   void fill.offsetWidth;
-  fill.style.transition = `width ${remaining}s linear`; fill.style.width = "0%";
-  let left = Math.round(remaining);
-  $("mcqTimer").textContent = fmt(left);
-  timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); if (left<=0) stopTimer(); }, 1000);
+  fill.style.transition = `width ${left}s linear`; fill.style.width = "0%";
+  let count = left;
+  $("mcqTimer").textContent = fmt(count);
+  timerInt = setInterval(() => { count--; $("mcqTimer").textContent = fmt(Math.max(0,count)); if (count<=0) stopTimer(); }, 1000);
 }
 function fmt(s) { return "00:" + String(s).padStart(2,"0"); }
 
