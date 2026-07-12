@@ -1,5 +1,6 @@
 // ===== Academy Rift — client =====
 import { CHARACTERS, CHAR_BY_ID, ELEMENT_COLORS, ITEMS, ITEM_BY_ID } from "./data/characters.js";
+import { TOPICS, BLOOM_META } from "./data/topics.js";
 
 const socket = io();
 let myId = null;
@@ -716,13 +717,38 @@ socket.on("battleEnd", ({ winnerTeam, rewards }) => {
   if (r) { profile.coins += r.coins; saveProfile(profile); refreshCoins(); }
   $("resultTitle").textContent = won ? "VICTORY!" : "DEFEAT";
   $("resultTitle").className = "result-title" + (won ? "" : " lose");
+
+  const review  = (r && r.review) || [];
+  const answered = review.length;
+  const gotRight = review.filter((x) => x.correct).length;
+  const missed   = review.filter((x) => !x.correct);
+
   const lines = [
     `<div class="reward-line"><span>${won ? "🏆 Your team won the Rift!" : "Study hard and try again!"}</span></div>`,
-    ...(r ? [
-      `<div class="reward-line"><span>✅ Correct answers</span><span>${r.correct}</span></div>`,
-    ] : []),
+    ...(answered ? [`<div class="reward-line"><span>✅ You answered</span><span>${gotRight} / ${answered} correct</span></div>`] : []),
   ];
-  $("resultBody").innerHTML = lines.join("");
+
+  // Learning recap — show the questions THIS player got wrong, with the right answer + why.
+  let recap = "";
+  if (missed.length) {
+    recap = `<div class="review-block">
+      <h3 class="review-head">📖 Review these ${missed.length} question${missed.length > 1 ? "s" : ""}</h3>` +
+      missed.map((x) => {
+        const chosen = x.chosen >= 0 ? `${"ABCD"[x.chosen]}. ${x.choices[x.chosen]}` : "No answer (timed out)";
+        const bm = BLOOM_META[x.bloom];
+        const badge = bm ? `<span class="review-bloom" style="color:${bm.color};border-color:${bm.color}">${bm.icon} ${x.bloom}</span>` : "";
+        return `<div class="review-item">
+          <div class="review-q"><span class="review-topic">${x.topic}</span>${badge}<span class="review-qtext">${x.q}</span></div>
+          <div class="review-your">Your answer: ${chosen}</div>
+          <div class="review-correct">✓ ${"ABCD"[x.answer]}. ${x.choices[x.answer]}</div>
+          <div class="review-explain">${x.explain}</div>
+        </div>`;
+      }).join("") + `</div>`;
+  } else if (answered) {
+    recap = `<div class="review-block"><h3 class="review-head good">🌟 Perfect — you answered every question correctly!</h3></div>`;
+  }
+
+  $("resultBody").innerHTML = lines.join("") + recap;
   $("rematchBtn").style.display = room.hostId === myId ? "" : "none";
   showScreen("result");
 });
@@ -740,6 +766,7 @@ function renderRoom() {
   $("roomCode").textContent = room.code;
   const isHost = room.hostId === myId;
   const meP = room.players.find((p) => p.id === myId);
+  renderTopicSelect(isHost);
 
   [["slotsA",0],["slotsB",1]].forEach(([elId, team]) => {
     const wrap = $(elId); wrap.innerHTML = "";
@@ -786,6 +813,35 @@ function renderRoom() {
   });
   ros.querySelectorAll("[data-pick]").forEach((el) =>
     el.addEventListener("click", () => openCharDetail(el.dataset.pick)));
+}
+
+// ---- host topic picker (spans Bloom's taxonomy) ----
+function renderTopicSelect(isHost) {
+  const wrap = $("topicPanel"); if (!wrap) return;
+  const sel = room.topicId || "mixed";
+  const chips = TOPICS.map((t) => `
+    <button class="topic-chip-btn ${t.id === sel ? "active" : ""}" data-topic="${t.id}" ${isHost ? "" : "disabled"}>
+      <span class="tc-icon">${t.icon}</span>
+      <span class="tc-name">${t.name}</span>
+      <span class="tc-blurb">${t.blurb}</span>
+    </button>`).join("");
+  wrap.innerHTML =
+    `<h3 class="head sub">📚 TOPIC TESTED${isHost ? "" : ` <span class="topic-lock">· host chooses</span>`}</h3>
+     <div class="topic-chips">${chips}</div>
+     <p class="topic-bloom-note">Each topic mixes Bloom's levels — 📗 Remember · 📘 Understand · 📙 Apply · 📕 Analyse · 📓 Evaluate</p>`;
+  if (isHost) wrap.querySelectorAll("[data-topic]").forEach((b) =>
+    b.addEventListener("click", () => { SFX.play("select"); socket.emit("setTopic", { topicId: b.dataset.topic }); }));
+}
+
+// ---- in-battle Bloom's level badge ----
+function setBloomChip(bloom) {
+  const el = $("mcqBloom"); if (!el) return;
+  const m = BLOOM_META[bloom];
+  if (!m) { el.classList.add("hidden"); return; }
+  el.textContent = `${m.icon} ${bloom}`;
+  el.style.color = m.color; el.style.borderColor = m.color;
+  el.title = m.tip;
+  el.classList.remove("hidden");
 }
 
 // ---- character detail overlay: big card art + skills/stats info sheet ----
@@ -929,6 +985,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
     $("mcqPlayerName").textContent = cur?.name || "PLAYER";
     $("mcqPlayerThumb").innerHTML = charId ? `<img src="${encodeURI(ASSETS.ult(charId))}" alt="" />` : "";
     $("mcqTopic").textContent = q.topic;
+    setBloomChip(q.bloom);
     $("mcqQ").textContent = q.q;
     $("mcqFeedback").classList.add("hidden");
     const wrap = $("mcqChoices"); wrap.innerHTML = ""; mySelected = -1;
@@ -966,9 +1023,10 @@ function renderDock(b, cur, myTurn, stealActorC) {
       $("mcqPlayerName").textContent = (stealMeta.originalName || "Opponent") + " (wrong!)";
       $("mcqPlayerThumb").innerHTML = charId ? `<img src="${encodeURI(ASSETS.ult(charId))}" alt="" />` : "";
       $("mcqTopic").textContent = "⚡ STEAL — " + q.topic;
+      setBloomChip(q.bloom);
       $("mcqQ").textContent = q.q;
       $("mcqFeedback").className = "mcq-feedback steal";
-      $("mcqFeedback").textContent = "They got it wrong! Answer correctly to steal a free strike.";
+      $("mcqFeedback").textContent = "They got it wrong! Answer correctly to steal the turn (your attacks will be halved).";
       $("mcqFeedback").classList.remove("hidden");
       // Only rebuild choices if they haven't been built yet for this steal window
       const wrap = $("mcqChoices");

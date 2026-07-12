@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import os from "os";
 import { CHAR_BY_ID, CHARACTERS, ITEM_BY_ID, effectiveness } from "./public/data/characters.js";
+import { TOPIC_BY_ID } from "./public/data/topics.js";
 import { QUESTIONS } from "./questions.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -59,10 +60,19 @@ function shuffle(arr) {
   return a;
 }
 
-// Per-battle question deck: draw without replacement, reshuffle when exhausted,
-// so every question is seen once before any repeats and the order varies each match.
+// Filter the question bank to the host-selected topic ("mixed" = all topics).
+function filterQuestions(topicId) {
+  if (!topicId || topicId === "mixed") return QUESTIONS;
+  const pool = QUESTIONS.filter((q) => q.topicId === topicId);
+  return pool.length ? pool : QUESTIONS;   // fall back to all if a topic is somehow empty
+}
+
+// Per-battle question deck: draw without replacement from the chosen topic pool,
+// reshuffle when exhausted, so every question is seen once before any repeats and
+// the order varies each match.
 function nextQuestion(b) {
-  if (!b.qDeck || b.qPos >= b.qDeck.length) { b.qDeck = shuffle(QUESTIONS); b.qPos = 0; }
+  const pool = b.qPool && b.qPool.length ? b.qPool : QUESTIONS;
+  if (!b.qDeck || b.qPos >= b.qDeck.length) { b.qDeck = shuffle(pool); b.qPos = 0; }
   return b.qDeck[b.qPos++];
 }
 
@@ -86,6 +96,7 @@ function publicRoom(room) {
     code: room.code,
     status: room.status,
     hostId: room.hostId,
+    topicId: room.topicId || "mixed",
     players: room.players.map((p) => ({
       id: p.id, name: p.name, team: p.team, character: p.character, ready: p.ready, bot: p.bot,
     })),
@@ -128,7 +139,7 @@ function broadcast(room) { io.to(room.code).emit("room", publicRoom(room)); }
 io.on("connection", (socket) => {
   socket.on("createRoom", ({ name }) => {
     const code = makeRoomCode();
-    const room = { code, status: "lobby", hostId: socket.id, players: [], battle: null };
+    const room = { code, status: "lobby", hostId: socket.id, players: [], battle: null, topicId: "mixed" };
     room.players.push({ id: socket.id, name: name || "Player", team: 0, character: null, ready: false, bot: false });
     rooms.set(code, room);
     socketRoom.set(socket.id, code);
@@ -159,6 +170,12 @@ io.on("connection", (socket) => {
     const p = me(room); if (!p) return;
     const other = p.team === 0 ? 1 : 0;
     if (room.players.filter((q) => q.team === other).length < 2) { p.team = other; p.ready = false; broadcast(room); }
+  });
+
+  socket.on("setTopic", ({ topicId }) => {
+    const room = myRoom(); if (!room || room.status !== "lobby" || room.hostId !== socket.id) return;
+    if (!TOPIC_BY_ID[topicId]) return;
+    room.topicId = topicId; broadcast(room);
   });
 
   socket.on("pickCharacter", ({ charId }) => {
@@ -253,11 +270,13 @@ function beginBattle(room) {
   [...t0, ...t1].forEach((c) => (combatants[c.uid] = c));
   const order = [t0[0].uid, t1[0].uid, t0[1].uid, t1[1].uid];
 
+  const qPool = filterQuestions(room.topicId);
   room.battle = {
     combatants, order, ptr: 0, current: null, phase: null,
     sync: { 0: 0, 1: 0 }, publicQuestion: null, q: null,
-    qDeck: shuffle(QUESTIONS), qPos: 0,   // shuffled question deck, drawn without replacement
-    correctCount: {}, timers: {},
+    topicId: room.topicId || "mixed",
+    qPool, qDeck: shuffle(qPool), qPos: 0,   // topic-filtered deck, drawn without replacement
+    correctCount: {}, review: {}, timers: {},
   };
   room.status = "battle";
   io.to(room.code).emit("battleStart");
@@ -313,7 +332,7 @@ function startQuestion(room) {
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
   const seconds = Math.max(6, QUESTION_SECONDS - (c.timerDownTurns > 0 ? 4 : 0));
-  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, difficulty: q.difficulty, seconds, startedAt: Date.now() };
+  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, seconds, startedAt: Date.now() };
   b.phase = "question";
   c._correct = false;
   broadcast(room);
@@ -351,10 +370,20 @@ function gradeAnswer(room, c, correct) {
   }
 }
 
+// Record a player's answer attempt for the end-of-match learning recap (humans only).
+function recordReview(b, uid, q, chosen, correct) {
+  if (!b.review) b.review = {};
+  (b.review[uid] ||= []).push({
+    q: q.q, choices: q.choices, answer: q.answer, chosen,
+    correct, explain: q.explain, topic: q.topic, bloom: q.bloom,
+  });
+}
+
 function resolveAnswer(room, choiceIndex) {
   const b = room.battle; const c = b.combatants[b.current];
   const correct = choiceIndex === b.q.answer;
   gradeAnswer(room, c, correct);
+  if (!c.bot) recordReview(b, c.uid, b.q, choiceIndex, correct);
   io.to(room.code).emit("answerResult", {
     uid: c.uid, correct, correctIndex: b.q.answer, explain: b.q.explain,
   });
@@ -397,6 +426,7 @@ function handleSteal(room, sid, choiceIndex) {
   const stealer = b.combatants[sid];
   if (!stealer || !stealer.alive) return;
   const correct = choiceIndex === b.q.answer;
+  recordReview(b, sid, b.q, choiceIndex, correct);
   io.to(room.code).emit("stealResult", {
     uid: sid, correct, correctIndex: b.q.answer, explain: b.q.explain,
   });
@@ -670,7 +700,7 @@ function endBattle(room) {
   room.players.forEach((p) => {
     const won = p.team === winner;
     const correct = b.correctCount[p.id] || 0;
-    rewards[p.id] = { won, coins: (won ? 300 : 120) + correct * 20, science: correct * 20, correct };
+    rewards[p.id] = { won, coins: (won ? 300 : 120) + correct * 20, correct, review: b.review[p.id] || [] };
   });
   io.to(room.code).emit("battleEnd", { winnerTeam: winner, rewards });
   broadcast(room);

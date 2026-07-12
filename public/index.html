@@ -93,6 +93,10 @@
       <div class="vs">VS</div>
       <div class="team-col" id="teamB"><h3 class="team-title b">TEAM AZURE</h3><div class="slots" id="slotsB"></div></div>
     </div>
+
+    <!-- Host-chosen quiz topic (spans Bloom's taxonomy levels) -->
+    <div class="topic-panel" id="topicPanel"></div>
+
     <div class="room-controls">
       <button class="shard-btn" id="switchBtn"><span>⇄ SWITCH TEAM</span></button>
       <button class="shard-btn" id="readyBtn"><span>✓ READY</span></button>
@@ -175,6 +179,7 @@
               <span class="mcq-player-name" id="mcqPlayerName">PLAYER</span>
             </div>
             <span class="topic-chip" id="mcqTopic">Science</span>
+            <span class="bloom-chip hidden" id="mcqBloom"></span>
             <span class="timer" id="mcqTimer">00:18</span>
           </div>
           <div class="timer-bar"><div class="timer-fill" id="mcqTimerFill"></div></div>

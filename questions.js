@@ -485,3 +485,33 @@ export function getQuestionsByTopic(topic) {
 export function getTopics() {
   return [...new Set(QUESTIONS.map(q => q.topic))];
 }
+
+// ── Bloom's taxonomy tag per question, index-aligned to QUESTIONS above ──────
+// Six parts of 10 questions; each part is one selectable topic, and within each
+// topic the questions span from lower- to higher-order thinking. If you reorder
+// or insert questions above, update this list to match.
+const BLOOM_SEQ = [
+  // Part 1 — Microscope (Q1–10)
+  "Remember","Understand","Understand","Understand","Understand","Apply","Understand","Remember","Understand","Understand",
+  // Part 2 — Cell Parts (Q11–20)
+  "Remember","Understand","Understand","Understand","Remember","Understand","Understand","Analyse","Analyse","Evaluate",
+  // Part 3 — Cell Types (Q21–30)
+  "Remember","Understand","Understand","Understand","Analyse","Understand","Analyse","Evaluate","Apply","Apply",
+  // Part 4 — Cells & Organisms (Q31–40)
+  "Understand","Understand","Remember","Remember","Understand","Understand","Apply","Apply","Understand","Analyse",
+  // Part 5 — Cell Division (Q41–50)
+  "Remember","Understand","Understand","Understand","Analyse","Understand","Apply","Understand","Analyse","Evaluate",
+  // Part 6 — Cells & Technology (Q51–60)
+  "Understand","Remember","Understand","Understand","Apply","Understand","Apply","Analyse","Understand","Understand",
+];
+
+// Map each question's short topic label to a stable topic id (matches topics.js).
+const TOPIC_ID_BY_LABEL = {
+  "Microscope": "micro", "Cell Parts": "parts", "Cell Types": "models",
+  "Cells & Org.": "org", "Cell Division": "labour", "Cells & Tech": "tech",
+};
+
+QUESTIONS.forEach((q, i) => {
+  q.bloom = BLOOM_SEQ[i] || "Understand";
+  q.topicId = TOPIC_ID_BY_LABEL[q.topic] || "mixed";
+});

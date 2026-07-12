@@ -600,6 +600,45 @@ input:focus{outline:none;border-color:var(--cyan);}
 .half-power-warn{font-family:"Anton";letter-spacing:1px;font-size:.95rem;color:#ffd84d;
   text-align:center;padding:6px 16px;background:rgba(255,216,77,.1);border:1px solid #ffd84d;margin-bottom:6px;}
 
+/* ===== LOBBY TOPIC PICKER ===== */
+.topic-panel{width:100%;max-width:920px;margin:6px auto 2px;}
+.topic-panel .head.sub{font-size:1.15rem;margin:8px 0 8px;}
+.topic-lock{font-size:.8rem;color:var(--ash);font-family:"Oswald";font-weight:500;letter-spacing:.4px;}
+.topic-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;}
+.topic-chip-btn{position:relative;text-align:left;cursor:pointer;color:var(--paper);
+  background:linear-gradient(180deg,rgba(28,16,26,.9),rgba(14,8,16,.95));
+  border:2px solid rgba(212,20,58,.45);padding:9px 11px;
+  display:flex;flex-direction:column;gap:2px;transition:transform .1s,border-color .15s,background .15s;
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);}
+.topic-chip-btn:hover:not(:disabled){border-color:var(--crimson);transform:translateY(-2px);}
+.topic-chip-btn.active{border-color:var(--gold);background:linear-gradient(180deg,rgba(242,184,75,.18),rgba(14,8,16,.95));box-shadow:0 0 0 1px var(--gold) inset;}
+.topic-chip-btn:disabled{cursor:default;opacity:.9;}
+.tc-icon{font-size:1.3rem;line-height:1;}
+.tc-name{font-family:"Anton";letter-spacing:.5px;font-size:.98rem;}
+.tc-blurb{font-size:.74rem;color:var(--ash);font-weight:500;line-height:1.25;}
+.topic-bloom-note{margin-top:8px;font-size:.78rem;color:var(--ash);text-align:center;font-weight:500;}
+
+/* ===== IN-BATTLE BLOOM BADGE ===== */
+.bloom-chip{font-family:"Oswald";font-weight:700;font-size:.72rem;letter-spacing:.4px;
+  padding:2px 8px;border:1px solid currentColor;border-radius:10px;white-space:nowrap;align-self:center;}
+
+/* ===== END-OF-MATCH LEARNING RECAP ===== */
+.review-block{margin-top:16px;text-align:left;max-height:46vh;overflow-y:auto;
+  border-top:1px dashed #444;padding-top:10px;}
+.review-head{font-family:"Anton";letter-spacing:.5px;font-size:1.15rem;color:var(--gold);margin-bottom:10px;text-align:center;}
+.review-head.good{color:var(--hp);}
+.review-item{background:rgba(0,0,0,.28);border-left:3px solid var(--danger);
+  padding:10px 12px;margin-bottom:10px;font-weight:500;line-height:1.5;}
+.review-q{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:6px;}
+.review-topic{font-family:"Oswald";font-weight:700;font-size:.7rem;letter-spacing:.4px;
+  color:var(--ash);border:1px solid #555;border-radius:8px;padding:1px 7px;}
+.review-bloom{font-family:"Oswald";font-weight:700;font-size:.7rem;letter-spacing:.4px;
+  border:1px solid currentColor;border-radius:8px;padding:1px 7px;}
+.review-qtext{flex:1 1 100%;font-weight:600;color:var(--paper);font-size:.92rem;}
+.review-your{color:var(--danger);font-size:.86rem;}
+.review-correct{color:var(--hp);font-size:.9rem;font-weight:700;margin-top:2px;}
+.review-explain{color:var(--ash);font-size:.82rem;margin-top:4px;font-style:italic;}
+
 /* --- Command shards (bottom-center battle bar) --- */
 .cmd{
   font-family:"Anton";letter-spacing:.5px;color:#fff;
