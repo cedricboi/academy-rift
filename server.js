@@ -75,6 +75,12 @@ const STEAL_SECONDS = 6;            // closes early once everyone who can steal 
 const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
 const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 const BOT_NAMES = ["Akira", "Mei", "Sora", "Riku", "Yuki", "Kai"];
+// a bot name nobody in the room already has (players can be called Mei too)
+function botName(room) {
+  const taken = new Set(room.players.map((p) => p.name.replace(/ \(Bot\)$/, "").toLowerCase()));
+  const free = BOT_NAMES.filter((n) => !taken.has(n.toLowerCase()));
+  return rand(free.length ? free : BOT_NAMES) + " (Bot)";
+}
 
 const rooms = new Map();      // code -> room
 const socketRoom = new Map(); // socket.id -> code
@@ -254,7 +260,7 @@ io.on("connection", (socket) => {
     if (room.players.filter((p) => p.team === team).length >= 2) return;
     const id = "bot_" + Math.random().toString(36).slice(2, 8);
     room.players.push({
-      id, name: rand(BOT_NAMES) + " (Bot)", team, bot: true, ready: true,
+      id, name: botName(room), team, bot: true, ready: true,
       character: rand(CHARACTERS).id,
     });
     broadcast(room);
