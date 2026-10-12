@@ -442,12 +442,12 @@ function settingRow(s, started) {
 // ---------------------------------------------------------------- results file
 function downloadCsv() {
   const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const lines = [["Rank", "Pair", "Student", "Pair points", "Wins", "Draws", "Losses", "Correct answers", "Questions answered", "Accuracy %"].map(q).join(",")];
+  const lines = [["Rank", "Pair", "Student", "Pair points", "Wins", "Draws", "Losses", "Correct answers", "Questions answered", "Accuracy %", "Hints used"].map(q).join(",")];
   for (const r of state.standings) {
     for (const m of r.members) {
       if (m.bot) continue;
       const acc = m.answered ? Math.round((m.correct / m.answered) * 100) : "";
-      lines.push([r.rank, r.name, m.name, r.points, r.wins, r.draws, r.losses, m.correct, m.answered, acc].map(q).join(","));
+      lines.push([r.rank, r.name, m.name, r.points, r.wins, r.draws, r.losses, m.correct, m.answered, acc, m.hints || 0].map(q).join(","));
     }
   }
   const blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });

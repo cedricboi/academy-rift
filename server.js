@@ -73,6 +73,10 @@ const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
 const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
 const STEAL_SECONDS = 6;            // closes early once everyone who can steal has tried (was a fixed 10)
 const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
+// Hints: a player may ask for one on their own question. The price: a right answer
+// after a hint is not powered up and fills only half as much Sync; with the "hp"
+// cost the player also loses 10% of their max HP straight away.
+const HINTS_PER_BATTLE = 2, HINT_HP_COST = 0.10, HINT_SYNC_FACTOR = 0.5;
 const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 const BOT_NAMES = ["Akira", "Mei", "Sora", "Riku", "Yuki", "Kai"];
 // a bot name nobody in the room already has (players can be called Mei too)
@@ -197,7 +201,7 @@ function publicBattle(b) {
         cooldowns: { ...c.cooldowns },
         atkDown: c.atkDownTurns > 0, defDown: c.defDownTurns > 0,
         accDown: c.accDownTurns > 0, timerDown: c.timerDownTurns > 0,
-        defUp: c.defUpTurns > 0, stunned: !!c.stunned,
+        defUp: c.defUpTurns > 0, stunned: !!c.stunned, hintsLeft: c.hintsLeft ?? 0,
         skills: c.skills, ultimate: c.ultimate, items: c.items,
       };
     }),
@@ -309,6 +313,7 @@ io.on("connection", (socket) => {
 
   socket.on("answer", ({ choiceIndex } = {}) => handleAnswer(myRoom(), pidOf(socket), choiceIndex));
   socket.on("steal",  ({ choiceIndex } = {}) => handleSteal(myRoom(), pidOf(socket), choiceIndex));
+  socket.on("useHint", () => handleHint(myRoom(), pidOf(socket)));
   socket.on("action", (action) => handleAction(myRoom(), pidOf(socket), action));
 
   socket.on("rematch", () => {
@@ -360,6 +365,7 @@ function beginBattle(room) {
       atkUpTurns: 0, defUpTurns: 0, atkDownTurns: 0, defDownTurns: 0, accDownTurns: 0,
       timerDownTurns: 0, accProtectTurns: 0, stunned: false,
       items: { ...DEFAULT_ITEMS }, _correct: false,
+      hintsLeft: room.settings?.hints ?? HINTS_PER_BATTLE, _hinted: false,
     };
   };
   const t0 = room.players.filter((p) => p.team === 0).map(make);
@@ -378,6 +384,7 @@ function beginBattle(room) {
     // tournament battles carry the teacher's settings; normal rooms use the defaults
     qSeconds: room.settings?.questionSeconds ?? QUESTION_SECONDS,
     stealSeconds: room.settings?.stealSeconds ?? STEAL_SECONDS,
+    hintCost: room.settings?.hintCost === "hp" ? "hp" : "weaker", hintCount: {},
     endsAt: null, limitTimer: null,
   };
   const limitMin = room.settings?.timeLimitMin || 0;
@@ -439,7 +446,11 @@ function startQuestion(room) {
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
   const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0));
-  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, image: q.image || null, seconds, startedAt: Date.now() };
+  b.publicQuestion = {
+    q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, image: q.image || null, seconds, startedAt: Date.now(),
+    hint: hintKind(q), hintCost: b.hintCost, hinted: false,   // the hint text itself is only sent to the player who asks
+  };
+  Object.values(b.combatants).forEach((x) => { x._hinted = false; });   // a hint only counts for the question it was used on
   b.phase = "question";
   c._correct = false;
   broadcast(room);
@@ -451,6 +462,39 @@ function startQuestion(room) {
   }
   io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion });
   b.timers.q = later(() => resolveAnswer(room, -1), seconds * 1000);
+}
+
+// What kind of hint a question has: the teacher's own hint text, or else
+// "fifty" (two wrong answers are taken away) when there are enough wrong answers.
+function hintKind(q) {
+  if (q.hint && String(q.hint).trim()) return "text";
+  const wrong = q.choices.map((_, i) => i).filter((i) => !isRight(q, i));
+  return q.choices.length >= 3 && wrong.length >= 2 ? "fifty" : null;
+}
+
+function handleHint(room, sid) {
+  const b = room?.battle;
+  if (!b || b.phase !== "question" || b.current !== sid) return;
+  const c = b.combatants[sid];
+  if (!c || c.bot || c._hinted || !(c.hintsLeft > 0) || !b.publicQuestion?.hint) return;
+  c._hinted = true; c.hintsLeft--;
+  b.hintCount[sid] = (b.hintCount[sid] || 0) + 1;
+  let payload;
+  if (b.publicQuestion.hint === "text") payload = { kind: "text", text: b.q.hint };
+  else {
+    const wrong = shuffle(b.q.choices.map((_, i) => i).filter((i) => !isRight(b.q, i)));
+    // leave one wrong answer when there are four choices, so it becomes a 50:50
+    payload = { kind: "fifty", removed: wrong.slice(0, Math.min(2, wrong.length - 1)) };   // always leave one wrong answer
+  }
+  let hpCost = 0;
+  if (b.hintCost === "hp") {
+    hpCost = Math.min(Math.round(c.maxHp * HINT_HP_COST), Math.max(0, c.hp - 1));   // a hint never knocks you out
+    c.hp -= hpCost;
+  }
+  b.publicQuestion = { ...b.publicQuestion, hinted: true };
+  io.to(sid).emit("hint", { ...payload, startedAt: b.publicQuestion.startedAt });
+  io.to(room.code).emit("hintUsed", { uid: sid, hpCost });
+  broadcast(room);
 }
 
 function handleAnswer(room, sid, choiceIndex) {
@@ -468,7 +512,7 @@ function gradeAnswer(room, c, correct) {
   c._answered = true;
   b.correctCount[c.uid] = (b.correctCount[c.uid] || 0) + (correct ? 1 : 0);
   if (correct) {
-    addSync(room, c.team, SYNC_CORRECT);
+    addSync(room, c.team, c._hinted ? Math.round(SYNC_CORRECT * HINT_SYNC_FACTOR) : SYNC_CORRECT);
     const mate = b.order.map((u) => b.combatants[u]).find((x) => x.team === c.team && x.uid !== c.uid);
     if (mate && mate._answered && mate._correct) {       // both teammates correct → in sync!
       addSync(room, c.team, SYNC_TEAM);
@@ -482,6 +526,7 @@ function recordReview(b, uid, q, chosen, correct) {
   if (!b.review) b.review = {};
   (b.review[uid] ||= []).push({
     q: q.q, choices: q.choices, answer: q.answer, answers: rightAnswers(q), chosen, image: q.image || null,
+    hinted: !!b.combatants[uid]?._hinted && b.current === uid,
     correct, explain: q.explain, topic: q.topic, bloom: q.bloom,
   });
 }
@@ -499,8 +544,8 @@ function resolveAnswer(room, choiceIndex) {
   // steal the question; it is revealed when the steal window closes.
   const stealing = !correct && (b.stealSeconds ?? STEAL_SECONDS) > 0 && stealersOf(b, c.uid).length > 0;
   b.revealPending = stealing;
-  io.to(room.code).emit("answerResult", stealing ? { uid: c.uid, correct } : {
-    uid: c.uid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
+  io.to(room.code).emit("answerResult", stealing ? { uid: c.uid, correct, hinted: !!c._hinted } : {
+    uid: c.uid, correct, hinted: !!c._hinted, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
   });
 
   // Wrong answer → open a steal window (works for both human and bot wrong answers).
@@ -645,7 +690,7 @@ function handleAction(room, sid, action, auto = false) {
 
 function resolveAction(room, actor, action) {
   const b = room.battle;
-  const cm = actor._correct ? CORRECT_MULT : 1;       // correct answer empowers the action
+  const cm = actor._correct && !actor._hinted ? CORRECT_MULT : 1;   // a right answer powers up the move, unless a hint was used
   const events = [];
   const enemies = enemiesOf(b, actor.team);
   const allies = alliesOf(b, actor.team);

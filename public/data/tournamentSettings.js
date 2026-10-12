@@ -100,6 +100,24 @@ export const SETTINGS = [
     help: "After a wrong answer, the other players can answer the same question to steal the turn. The window closes early once everyone has tried.",
   },
   {
+    key: "hints", group: "battle", label: "Hints", default: 2,
+    options: [
+      { value: 0, label: "Off" },
+      { value: 1, label: "1 per student" },
+      { value: 2, label: "2 per student" },
+      { value: 3, label: "3 per student" },
+    ],
+    help: "How many hints each student can ask for in a battle, on their own question only. The hint is the one you wrote in the question hub, or else two wrong answers are taken away.",
+  },
+  {
+    key: "hintCost", group: "battle", label: "Cost of a hint", default: "weaker",
+    options: [
+      { value: "weaker", label: "Weaker move, half Sync" },
+      { value: "hp", label: "Weaker move, half Sync, lose 10% HP" },
+    ],
+    help: "After a hint, a right answer is not powered up and fills only half as much of the team's Sync gauge. With the second choice the student also loses 10% of their HP when they open the hint.",
+  },
+  {
     key: "fighters", group: "battle", label: "Fighters", default: "choose",
     options: [
       { value: "choose", label: "Students choose" },

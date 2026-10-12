@@ -196,7 +196,7 @@ export function setupTournaments(deps) {
       played: p.played, correct: p.correct, answered: p.answered, hpPct: Math.round(p.hpSum * 100),
       members: p.members.map((pid) => {
         const s = T.students.get(pid);
-        return { pid, name: s?.name || "?", bot: !!s?.bot, connected: !!s?.connected, correct: s?.correct || 0, answered: s?.answered || 0 };
+        return { pid, name: s?.name || "?", bot: !!s?.bot, connected: !!s?.connected, correct: s?.correct || 0, answered: s?.answered || 0, hints: s?.hints || 0 };
       }),
     }));
   }
@@ -452,6 +452,8 @@ export function setupTournaments(deps) {
         questionSeconds: T.settings.questionSeconds,
         stealSeconds: T.settings.stealSeconds,
         timeLimitMin: T.settings.timeLimitMin,
+        hints: T.settings.hints,
+        hintCost: T.settings.hintCost,
       },
     };
     rooms.set(code, room);
@@ -528,7 +530,7 @@ export function setupTournaments(deps) {
         const c = rev.filter((x) => x.correct).length;
         correct += c; answered += rev.length;
         const s = T.students.get(pid);
-        if (s && !s.bot) { s.correct += c; s.answered += rev.length; }
+        if (s && !s.bot) { s.correct += c; s.answered += rev.length; s.hints = (s.hints || 0) + rev.filter((x) => x.hinted).length; }
       }
       return { hpFrac: hp.max ? hp.hp / hp.max : 0, correct, answered };
     };

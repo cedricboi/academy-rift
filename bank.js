@@ -56,6 +56,7 @@ function cleanQuestion(q) {
     q: cleanText(q?.q, 600),
     choices, correct,
     explain: cleanText(q?.explain, 600),
+    hint: cleanText(q?.hint, 300),
     image: isImage(q?.image) ? q.image : null,
   };
 }
@@ -257,7 +258,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
   const builtInSet = {
     id: BUILT_IN_ID, title: builtInTitle, builtIn: true, createdAt: null, updatedAt: null,
     questions: builtIn.map((q, i) => ({
-      id: `b${i}`, q: q.q, choices: q.choices.slice(), correct: [q.answer], explain: q.explain || "", image: null, topic: q.topic,
+      id: `b${i}`, q: q.q, choices: q.choices.slice(), correct: [q.answer], explain: q.explain || "", hint: q.hint || "", image: null, topic: q.topic,
     })),
   };
 
@@ -337,7 +338,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
       if (!s) return null;
       return s.questions.filter(playable).map((q) => ({
         q: q.q, choices: q.choices, answer: q.correct[0], answers: q.correct.slice(),
-        topic: s.title, topicId: "set:" + s.id, bloom: null, explain: q.explain || "",
+        topic: s.title, topicId: "set:" + s.id, bloom: null, explain: q.explain || "", hint: q.hint || "",
         image: q.image ? `/qimg/${q.image}` : null,
       }));
     },

@@ -253,17 +253,17 @@ function askDelete(list, { after } = {}) {
 }
 
 // ---------------------------------------------------------------- the editor
-const blankQ = () => ({ id: newId(), q: "", choices: ["", "", "", ""], correct: [], explain: "", image: null, showExplain: false });
+const blankQ = () => ({ id: newId(), q: "", choices: ["", "", "", ""], correct: [], explain: "", hint: "", image: null, showExplain: false, showHint: false });
 function padQ(q) {
   const choices = (q.choices || []).slice(0, MAX_CHOICES).map((c) => String(c ?? ""));
   while (choices.length < MAX_CHOICES) choices.push("");
   return {
     id: /^[a-z0-9]{4,24}$/.test(q.id || "") ? q.id : newId(), q: q.q || "", choices,
     correct: (q.correct || []).filter((i) => i >= 0 && i < MAX_CHOICES),
-    explain: q.explain || "", image: q.image || null, showExplain: !!q.explain,
+    explain: q.explain || "", hint: q.hint || "", image: q.image || null, showExplain: !!q.explain, showHint: !!q.hint,
   };
 }
-const outQ = (q) => ({ id: q.id, q: q.q, choices: q.choices, correct: q.correct, explain: q.explain, image: q.image });
+const outQ = (q) => ({ id: q.id, q: q.q, choices: q.choices, correct: q.correct, explain: q.explain, hint: q.hint, image: q.image });
 
 async function openSet(id) {
   view = "loading";
@@ -322,9 +322,18 @@ function qCard(q, i) {
           <input class="h-ans-text" data-f="c${j}" maxlength="200" value="${esc(c)}" placeholder="${j < 2 ? "Answer" : "Answer (optional)"}" aria-label="Answer ${"ABCD"[j]}" />
         </div>`;
       }).join("")}</div>
+      ${q.showHint
+        ? `<label class="h-q-sub">Hint <span>A student can ask for it on their turn, at a cost. Give a formula or key fact without the answer.</span>
+             <textarea class="h-q-explain h-q-hint" data-f="hint" rows="1" maxlength="300" placeholder="For example: speed = distance ÷ time" aria-label="Hint">${esc(q.hint)}</textarea></label>`
+        : ""}
       ${q.showExplain
-        ? `<textarea class="h-q-explain" data-f="explain" rows="2" maxlength="600" placeholder="Why is this the right answer? Students see this in their review after the battle." aria-label="Explanation">${esc(q.explain)}</textarea>`
-        : `<button class="h-linkbtn" data-act="explain">+ Add an explanation (students see it after the battle)</button>`}
+        ? `<label class="h-q-sub">Explanation <span>Students see it in their review after the battle.</span>
+             <textarea class="h-q-explain" data-f="explain" rows="2" maxlength="600" placeholder="Why is this the right answer?" aria-label="Explanation">${esc(q.explain)}</textarea></label>`
+        : ""}
+      ${!q.showHint || !q.showExplain ? `<div class="h-q-adds">
+        ${q.showHint ? "" : `<button class="h-linkbtn" data-act="hint">+ Add a hint (for example a formula)</button>`}
+        ${q.showExplain ? "" : `<button class="h-linkbtn" data-act="explain">+ Add an explanation (students see it after the battle)</button>`}
+      </div>` : ""}
       <p class="h-q-probs">${probs.map(esc).join(" · ")}</p>
     </div>
   </article>`;
@@ -417,6 +426,7 @@ main.addEventListener("input", (e) => {
   const q = cur.questions[+el.dataset.qi], f = t.dataset.f;
   if (f === "q") q.q = t.value;
   else if (f === "explain") q.explain = t.value;
+  else if (f === "hint") q.hint = t.value;
   else if (/^c\d$/.test(f || "")) q.choices[+f.slice(1)] = t.value;
   else return;
   if (t.tagName === "TEXTAREA") autoGrow(t);
@@ -488,7 +498,11 @@ main.addEventListener("click", async (e) => {
     }
     case "explain":
       q.showExplain = true; rerenderCard(i);
-      main.querySelector(`.h-q[data-qi="${i}"] .h-q-explain`)?.focus();
+      main.querySelector(`.h-q[data-qi="${i}"] [data-f="explain"]`)?.focus();
+      return;
+    case "hint":
+      q.showHint = true; rerenderCard(i);
+      main.querySelector(`.h-q[data-qi="${i}"] [data-f="hint"]`)?.focus();
       return;
     case "up": case "down": {
       const to = act === "up" ? i - 1 : i + 1;
@@ -600,7 +614,7 @@ window.addEventListener("drop", (e) => {
 // ---------------------------------------------------------------- pasting / typing many questions
 function openPaste() {
   modal(`<h2 id="modalTitle">Paste or type questions</h2>
-    <p class="h-sub">Copy rows from Excel, Google Sheets or a Blooket spreadsheet and paste them here. Or type questions like the example: one question, its answers underneath, and <b>*</b> in front of the right answer. Leave an empty line between questions.</p>
+    <p class="h-sub">Copy rows from Excel, Google Sheets or a Blooket spreadsheet and paste them here. Or type questions like the example: one question, its answers underneath, and <b>*</b> in front of the right answer. A line starting with <b>Hint:</b> adds a hint. Leave an empty line between questions.</p>
     <div class="h-paste">
       <textarea id="pasteBox" rows="12" placeholder="Paste or type here" aria-label="Questions to add"></textarea>
       <pre class="h-example" aria-label="Example">1. Which part controls the activities of the cell?
@@ -613,7 +627,8 @@ d) Cell membrane
 Cell membrane
 Cytoplasm
 *Chloroplast
-Nucleus</pre>
+Nucleus
+Hint: This part carries out photosynthesis.</pre>
     </div>
     <p class="h-preview" id="pastePreview">Nothing to add yet.</p>
     <div class="h-modal-acts"><button class="h-btn ghost" data-close>Cancel</button><button class="h-btn primary" id="pasteAdd" disabled>Add questions</button></div>`);
@@ -696,8 +711,8 @@ async function importFile(file) {
 // ---------------------------------------------------------------- download
 function downloadCsv() {
   const cell = (v) => { const s = String(v ?? ""); return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
-  const rows = [["Question #", "Question Text", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Time Limit (sec)", "Correct Answer(s)", "Explanation"]];
-  cur.questions.forEach((q, i) => rows.push([i + 1, q.q, ...q.choices, 20, q.correct.map((j) => j + 1).join(","), q.explain]));
+  const rows = [["Question #", "Question Text", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Time Limit (sec)", "Correct Answer(s)", "Explanation", "Hint"]];
+  cur.questions.forEach((q, i) => rows.push([i + 1, q.q, ...q.choices, 20, q.correct.map((j) => j + 1).join(","), q.explain, q.hint]));
   const blob = new Blob(["﻿" + rows.map((r) => r.map(cell).join(",")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);

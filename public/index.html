@@ -28,6 +28,7 @@
             <li>Each player takes turns — answer a quiz question first.</li>
             <li><b>✓ Correct</b> — your attack is powered up. Choose <b>Strike</b>, a <b>Skill</b>, your <b>Ultimate</b> or an <b>Item</b>.</li>
             <li>Tap <b>SKILLS</b> to see your four skill cards: what each one does, its SP cost and its cooldown.</li>
+            <li>Stuck? Tap <b>💡 HINT</b> on your question. A right answer after a hint is <b>not powered up</b> and fills only half the Sync gauge.</li>
             <li><b>✗ Wrong</b> — you <b>Guard</b> automatically. No attacks or items.</li>
             <li>All players see the question while someone is answering.</li>
           </ul>
@@ -212,6 +213,7 @@
           <span class="topic-chip" id="mcqTopic">Science</span>
           <span class="bloom-chip hidden" id="mcqBloom"></span>
           <span class="mcq-spacer"></span>
+          <button class="mcq-hint hidden" id="mcqHint" type="button"></button>
           <span class="timer" id="mcqTimer">00:18</span>
         </div>
         <div class="timer-bar"><div class="timer-fill" id="mcqTimerFill"></div></div>
@@ -219,6 +221,7 @@
           <div class="mcq-pic hidden" id="mcqPic"><img id="mcqPicImg" alt="Picture for this question" /></div>
           <p class="mcq-q" id="mcqQ">Question…</p>
         </div>
+        <div class="mcq-hintbox hidden" id="mcqHintBox" role="status"></div>
         <div class="mcq-choices" id="mcqChoices"></div>
         <div class="mcq-feedback hidden" id="mcqFeedback"></div>
       </div>

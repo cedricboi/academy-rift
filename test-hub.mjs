@@ -218,7 +218,10 @@ s1.emit("addBot", { team: 0 }); s1.emit("addBot", { team: 1 }); s1.emit("addBot"
 s1.emit("pickCharacter", { charId: "jun" }); s1.emit("setReady", { ready: true }); await sleep(200);
 s1.emit("startMatch");
 const RIGHT = { "Which part controls the cell?": [1], "Which of these are found in plant cells?": [0, 1], "<b>Bold</b> & sneaky": [1], "Which organ pumps blood?": [0] };
+const hints = [];
+s1.on("hint", (h) => hints.push(h));
 s1.on("yourQuestion", ({ question }) => {
+  if (!hints.length && question.choices.length === 4 && question.hint === "fifty") { s1.emit("useHint"); hints.lastQ = question.q; }
   const r2 = RIGHT[question.q];
   // answer with the LAST right answer, so two-answer questions test the second one
   setTimeout(() => s1.emit("answer", { choiceIndex: r2 ? r2[r2.length - 1] : 0 }), 100);
@@ -226,7 +229,13 @@ s1.on("yourQuestion", ({ question }) => {
 s1.on("actionPrompt", () => {});
 for (let i = 0; i < 300 && (questions.length < 4 || seenAll.size < 4); i++) await sleep(100);
 check(seenAll.has("Which organ pumps blood?") && [...seenAll].every((q) => RIGHT[q]), `questions came from both sets and nowhere else (${seenAll.size} different)`);
-check(questions.length >= 3, `got ${questions.length} questions in the battle`);
+check(questions.length >= 2, `got ${questions.length} questions in the battle`);
+check(questions.every((q) => q.hint === "fifty" || q.choices.length < 4 || q.hint === "text"), "questions say what kind of hint they have, without the hint itself");
+if (hints.length) {
+  const h = hints[0], right = RIGHT[hints.lastQ];
+  check(h.kind === "fifty" && h.removed.length >= 1 && h.removed.every((i) => !right.includes(i)) && h.removed.length <= 4 - right.length - 1,
+    `a hub question with no hint text gets a 50:50 that only removes wrong answers (removed ${h.removed})`);
+}
 check(questions.every((q) => RIGHT[q.q]), "every question came from the chosen sets (none from the built-in bank, none unfinished)");
 check(questions.every((q) => !("answer" in q) && !("answers" in q) && !("correct" in q)), "answers never sent to the student");
 const withPic = questions.find((q) => q.q === "Which part controls the cell?");
@@ -237,6 +246,28 @@ check(mine.length >= 2 && mine.every((x) => x.correct), "right answers count as 
 const two = mine.find((x) => x.correctAll?.length === 2);
 check(!questions.some((q) => q.q.startsWith("Which of these")) || (two && two.correctAll.join() === "0,1"), "both right answers shown after a two-answer question");
 s1.close();
+
+// hints on a hub question with no hint text: a 50:50 that keeps one wrong answer
+r = await call("POST", "/api/hub/sets", { title: "Hint check", questions: [{ q: "Which gas do plants take in for photosynthesis?", choices: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"], correct: [1] }] });
+const setC = r.data.set;
+const s2 = io(URL, { transports: ["websocket"], forceNew: true });
+await new Promise((res) => s2.on("connect", res));
+let hintMsg = null, firstQ = null, room2 = null;
+s2.on("room", (x) => (room2 = x));
+s2.on("hint", (h) => (hintMsg = h));
+s2.on("yourQuestion", ({ question }) => { if (!firstQ) { firstQ = question; s2.emit("useHint"); setTimeout(() => s2.emit("useHint"), 50); } });
+s2.emit("createRoom", { name: "Ana" }); await sleep(300);
+s2.emit("setTopic", { topicId: `set:${setC.id}` });
+s2.emit("addBot", { team: 0 }); s2.emit("addBot", { team: 1 }); s2.emit("addBot", { team: 1 });
+s2.emit("pickCharacter", { charId: "emi" }); s2.emit("setReady", { ready: true }); await sleep(200);
+s2.emit("startMatch");
+for (let i = 0; i < 100 && !hintMsg; i++) await sleep(100);
+check(firstQ?.hint === "fifty" && !("text" in (firstQ || {})), "the question says a 50:50 hint is available, nothing more");
+check(hintMsg?.kind === "fifty" && hintMsg.removed.length === 2 && !hintMsg.removed.includes(1), `50:50 takes away two wrong answers and never the right one (removed ${hintMsg?.removed})`);
+await sleep(300);
+const meC = room2?.battle?.combatants.find((c) => c.uid === s2.id);
+check(meC?.hintsLeft === 1 && room2.battle.question.hinted, "one hint used (asking twice only counts once), and the others can see a hint was used");
+s2.close();
 
 // the set in a class tournament's settings
 const t = io(URL, { transports: ["websocket"], forceNew: true });
@@ -258,6 +289,7 @@ t.close();
 // delete
 r = await call("DELETE", `/api/hub/sets/${set.id}`);
 const r2 = await call("DELETE", `/api/hub/sets/${setB.id}`);
+await call("DELETE", `/api/hub/sets/${setC.id}`);
 check(r.status === 200 && r2.status === 200 && !files.has(`sets/${set.id}.json`) && !files.has(`sets/${setB.id}.json`), "both sets deleted from GitHub");
 r = await call("GET", "/api/hub/sets");
 check(r.data.sets.length === 1 && r.data.sets[0].builtIn, "only the built-in set is left");

@@ -80,9 +80,17 @@ Open **`/hub`** (for example `https://…onrender.com/hub`) to make your own que
 - **Paste or type.** Paste rows copied from Excel or Google Sheets, or type questions: the
   question on one line, its answers underneath, `*` in front of the right one, an empty line
   between questions.
-- **Edit.** Change any question, tick the right answer (more than one is allowed), add an
-  explanation students see in their review after the battle, and add a picture (button, drag
-  and drop, or copy and paste). Changes save by themselves.
+- **Edit.** Change any question, tick the right answer (more than one is allowed), add a hint
+  (for example a formula), add an explanation students see in their review after the battle,
+  and add a picture (button, drag and drop, or copy and paste). Changes save by themselves.
+  A spreadsheet column called **Hint** (or a typed line starting with `Hint:`) fills in hints.
+
+**Hints in battle.** On their own question a student can tap **💡 HINT** (and tap again to
+confirm). They see the hint written for that question, or, if there is none, two wrong answers
+are taken away. The price: a right answer after a hint is not powered up and fills only half
+as much of the team's Sync gauge. The tournament Settings set how many hints each student gets
+per battle (off, 1, 2 or 3; normal rooms allow 2) and whether a hint also costs 10% HP. Other
+players see that a hint was used, and the results spreadsheet has a "Hints used" column.
 
 To play a set, tick it under **Topic tested** in the tournament's Settings, or tap it in a game
 room's topic list. You can choose several sets and built-in topics at once; every battle then

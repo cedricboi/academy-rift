@@ -505,6 +505,72 @@ const BLOOM_SEQ = [
   "Understand","Remember","Understand","Understand","Apply","Understand","Apply","Analyse","Understand","Understand",
 ];
 
+// ── Hints, index-aligned to QUESTIONS above ──────────────────────────────────
+// A player can ask for one on their own question, at a cost (see server.js).
+// Each hint points towards the idea without naming the answer.
+const HINTS = [
+  "Light passes through two sets of lenses before it reaches your eye.",
+  "Think about which part sits flat on the table.",
+  "One focusing knob moves the stage a lot. The other moves it only a little.",
+  "At low magnification you can see a bigger area of the slide.",
+  "You can only see a specimen when light passes through it.",
+  "Use both hands and hold the strongest parts of the microscope.",
+  "Dirt and smudges on glass get in the way of what you see.",
+  "Its name tells you where it is and what it grips.",
+  "It is a thin square of glass placed on top of the specimen.",
+  "Most cells are almost see-through.",
+  "Every living thing is built from these units.",
+  "This part holds the cell's genetic information (DNA).",
+  "It fills the space between the cell membrane and the nucleus.",
+  "It is a thin layer around the cell that lets only some substances through.",
+  "This part is stiff and is made of cellulose.",
+  "Photosynthesis happens in this part.",
+  "Think of it as a storage space inside the cell.",
+  "Think about how plants and animals each get their food.",
+  "The nucleus controls everything the cell does.",
+  "Look for the option that names parts found in both kinds of cell.",
+  "Two parts are found in plant cells only.",
+  "One plant cell part is stiff and surrounds the cell membrane.",
+  "Plant cells have a cell wall and chloroplasts.",
+  "Animal cells make up the bodies of animals.",
+  "Chloroplasts are only needed in the parts of a plant that get sunlight.",
+  "Chloroplasts contain a pigment that absorbs light for photosynthesis.",
+  "This cell carries oxygen and has no room to spare for a nucleus.",
+  "Animal cells have no cell wall to give them a fixed shape.",
+  "Only one kind of cell in this list has both of these parts.",
+  "Plant cells have one large vacuole in the middle.",
+  "“Uni” means one.",
+  "“Multi” means many.",
+  "Which of these is made of just one cell?",
+  "Most single cells are smaller than 0.1 mm across.",
+  "A tissue is one level above a cell.",
+  "The heart and the stomach are examples.",
+  "Your body has many kinds of cells that work as a team.",
+  "Labour means work.",
+  "Different jobs need different kinds of cells.",
+  "Start with the smallest unit of life.",
+  "Think about how a cut on your skin heals.",
+  "Cell division starts in the nucleus.",
+  "One cell splits into two.",
+  "Each new cell needs its own set of instructions.",
+  "More cells make a bigger organism.",
+  "Most body cells can only divide a certain number of times.",
+  "Cell division replaces damaged cells anywhere in the body.",
+  "Only one parent cell is involved.",
+  "Cancer cells keep dividing when the body does not need new cells.",
+  "Think about everyday habits that keep the whole body healthy.",
+  "Cells are too small to see with the naked eye.",
+  "It uses beams of electrons instead of light.",
+  "This idea is part of the cell theory.",
+  "Scientists study cells under microscopes and also grow them in the lab.",
+  "A vaccine prepares the body before a real infection.",
+  "Compare an early microscope with an electron microscope.",
+  "The sample is looked at under a microscope.",
+  "A clone has exactly the same genetic information as the original.",
+  "Stem cells are not specialised yet.",
+  "Cells grown in a lab can be used to test new medicines safely."
+];
+
 // Map each question's short topic label to a stable topic id (matches topics.js).
 const TOPIC_ID_BY_LABEL = {
   "Microscope": "micro", "Cell Parts": "parts", "Cell Types": "models",
@@ -514,4 +580,5 @@ const TOPIC_ID_BY_LABEL = {
 QUESTIONS.forEach((q, i) => {
   q.bloom = BLOOM_SEQ[i] || "Understand";
   q.topicId = TOPIC_ID_BY_LABEL[q.topic] || "mixed";
+  q.hint = HINTS[i] || "";
 });

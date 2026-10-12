@@ -172,6 +172,12 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-q-body > .h-linkbtn{align-self:flex-start;text-align:left;}
 .h-q-probs{margin:0;min-height:1.3em;font-size:.9rem;color:var(--gold);}
 .h-q:not(.bad) .h-q-probs{display:none;}
+.h-q-sub{display:flex;flex-direction:column;gap:4px;font-family:"Rift Display",var(--body);font-size:.95rem;color:var(--paper);}
+.h-q-sub span{font-family:var(--body);font-size:.85rem;color:var(--dim);}
+.h-q-hint{border-color:#5B4A1E;}
+.h-q-sub textarea{font-family:var(--body);font-weight:400;}
+.h-q-adds{display:flex;flex-wrap:wrap;gap:4px 22px;}
+.h-q-body > .h-q-adds .h-linkbtn{text-align:left;}
 .h-addq{display:block;width:100%;margin-top:14px;min-height:56px;cursor:pointer;background:transparent;
   border:2px dashed var(--line2);color:var(--ash);font-family:"Rift Body";font-weight:600;font-size:1.1rem;}
 .h-addq:hover{border-color:var(--gold);color:var(--paper);}

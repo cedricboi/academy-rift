@@ -515,10 +515,61 @@ socket.on("answerResult", ({ uid, correct, correctIndex, correctAll, explain }) 
   if (uid === myId) {
     const fb = $("mcqFeedback");
     fb.className = "mcq-feedback " + (correct ? "good" : "bad");
-    fb.textContent = correct ? `✓ CORRECT! Your attacks are powered up.${explain ? "  " + explain : ""}` : "✗ Not this time. You guard this turn.";
+    const hinted = !!hintFor(room?.battle?.question);
+    fb.textContent = correct
+      ? (hinted ? "✓ CORRECT! You used a hint, so this move is not powered up." : `✓ CORRECT! Your attacks are powered up.${explain ? "  " + explain : ""}`)
+      : "✗ Not this time. You guard this turn.";
     fb.classList.remove("hidden");
   }
   stopTimer();
+});
+
+// ---- hints: asked for on your own question, at a cost ----
+let myHint = null;          // { startedAt, kind: "text"|"fifty", text, removed }
+let hintArmed = false;      // first tap shows the cost, the second tap uses the hint
+socket.on("hint", (h) => { myHint = h; hintArmed = false; applyHint(); if (room?.battle) renderBattle(); });
+socket.on("hintUsed", ({ uid, hpCost }) => {
+  if (hpCost) floatAt(uid, `-${hpCost} HP`, "dmg");
+  spawnEfx(uid, "ring", "#F2B84B", 0.4);
+});
+const hintFor = (q) => (myHint && q && myHint.startedAt === q.startedAt ? myHint : null);
+function hintCostText(q) {
+  return q?.hintCost === "hp" ? "Your move won't be powered up, half Sync, and you lose 10% HP." : "Your move won't be powered up and you get half Sync.";
+}
+// Show the hint (or take the wrong answers away) in the question card.
+function applyHint() {
+  const q = room?.battle?.question, h = hintFor(q), box = $("mcqHintBox");
+  if (!box) return;
+  if (!h) { box.classList.add("hidden"); box.textContent = ""; return; }
+  box.classList.remove("hidden");
+  if (h.kind === "text") box.innerHTML = `<b>💡 HINT</b><span>${esc(h.text)}</span>`;
+  else {
+    box.innerHTML = `<b>💡 HINT</b><span>${h.removed.length === 1 ? "One wrong answer has" : "Two wrong answers have"} been taken away.</span>`;
+    document.querySelectorAll("#mcqChoices .choice").forEach((btn, i) => {
+      if (h.removed.includes(i)) { btn.disabled = true; btn.classList.add("removed"); }
+    });
+  }
+}
+// The hint button in your question card: how many are left, and what it costs.
+function updateHintButton(q, me, asking) {
+  const btn = $("mcqHint"); if (!btn) return;
+  const used = !!hintFor(q);
+  const left = me?.hintsLeft ?? 0;
+  if (!asking || !q?.hint || (!used && left <= 0)) { btn.classList.add("hidden"); hintArmed = false; return; }
+  btn.classList.remove("hidden");
+  btn.disabled = used;
+  btn.classList.toggle("armed", hintArmed && !used);
+  btn.classList.toggle("used", used);
+  btn.innerHTML = used ? "💡 HINT USED"
+    : hintArmed ? `<b>TAP AGAIN FOR THE HINT</b><small>${esc(hintCostText(q))}</small>`
+    : `<b>💡 HINT</b><small>${left} left</small>`;
+}
+$("mcqHint")?.addEventListener("click", () => {
+  const q = room?.battle?.question;
+  if (!q || hintFor(q) || inputLocked) return;
+  if (!hintArmed) { hintArmed = true; SFX.play("select"); updateHintButton(q, room.battle.combatants.find((c) => c.uid === myId), true); return; }
+  hintArmed = false; SFX.play("select");
+  socket.emit("useHint");
 });
 
 // Nobody stole the question: now everyone may see the right answer.
@@ -1149,6 +1200,8 @@ function fillQuestionCard(mode, q, cur, onPick) {
   stopTimer();
   if (mode === "steal" && stealMeta) startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
   else startTimerFrom(q.seconds, q.startedAt);
+  hintArmed = false;
+  if (mode === "ask") applyHint(); else { $("mcqHintBox").classList.add("hidden"); }
 }
 function hideQuestionCard() {
   const mcq = $("mcq");
@@ -1176,8 +1229,8 @@ function renderDock(b, cur, myTurn, stealActorC) {
       fillQuestionCard("ask", q, cur, (i) => socket.emit("answer", { choiceIndex: i }));
     } else {
       hideQuestionCard();
-      strip = { label: `${who(cur)}'S QUESTION`, cls: side(cur), q, deadline: localDeadline(q.startedAt, q.seconds) };
-      flag(cur, `${who(cur)} IS ANSWERING`);
+      strip = { label: `${who(cur)}'S QUESTION${q.hinted ? " · 💡 HINT USED" : ""}`, cls: side(cur), q, deadline: localDeadline(q.startedAt, q.seconds) };
+      flag(cur, q.hinted ? `${who(cur)} IS ANSWERING · 💡 HINT` : `${who(cur)} IS ANSWERING`);
     }
 
   } else if (b.phase === "reveal") {
@@ -1220,6 +1273,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
   }
 
   if (!keepMoves) hideMoves();
+  updateHintButton(q, meC, mode === "asking" && b.phase === "question");
   setStage(mode); renderStrip(strip); showWait(wait);
   applyFlags();
 }
@@ -1297,6 +1351,7 @@ function hideMoves() {
 
 function buildMovePanel(me, b, halfPower = false) {
   const key = `${me.uid}:${b.question?.startedAt}:${b.phase}`;
+  const fresh = key !== moveKey;                 // slide the strip in only when it first appears
   if (key !== moveKey) {                         // a new turn: fresh strip and timer
     moveKey = key; moveSel = null; itemsOpen = false;
     moveDeadline = Date.now() + MOVE_SECONDS * 1000;
@@ -1330,12 +1385,13 @@ function buildMovePanel(me, b, halfPower = false) {
 
   const targets = moveTargets(moveSel, me, b);
   const picking = moveSel && targets.length > 1;
+  const hintedMove = !halfPower && !!hintFor(b.question);
   const hint = picking ? (targetVerb(moveSel, me) === "TAP TO HIT" ? "Tap an enemy" : "Tap a teammate")
-    : halfPower ? "Half damage" : "Powered up";
+    : halfPower ? "Half damage" : hintedMove ? "Hint used: not powered up" : "Powered up";
 
-  cmds.innerHTML = `<div class="ms">
+  cmds.innerHTML = `<div class="ms ${fresh ? "enter" : ""}">
     <div class="ms-state">
-      <span class="ms-ok ${halfPower ? "steal" : ""}">${halfPower ? "⚡ STOLEN" : "✓ CORRECT"}</span>
+      <span class="ms-ok ${halfPower ? "steal" : ""}">${halfPower ? "⚡ STOLEN" : hintedMove ? "✓ CORRECT · 💡" : "✓ CORRECT"}</span>
       <span class="ms-timer" id="mpTimer"></span>
       <span class="ms-hint ${picking ? "go" : ""}">${hint}</span>
     </div>

@@ -9,7 +9,7 @@
 //   • rows copied straight out of Excel or Google Sheets, with or without headings
 //   • typed text: a question line, then one answer per line, * before the right one
 //
-// Every result is { questions: [{ q, choices, correct, explain, row }], skipped: [{ row, reason }] }
+// Every result is { questions: [{ q, choices, correct, explain, hint, row }], skipped: [{ row, reason }] }
 // where `correct` holds the positions of the right answers in `choices`.
 
 export const MAX_CHOICES = 4;
@@ -68,12 +68,13 @@ function findHeader(rows) {
     const cells = (rows[i] || []).map((c) => norm(c).toLowerCase());
     const qCol = cells.findIndex((c) => /^(question|questions|question text|prompt)\b/.test(c) && !/^question\s*(#|no\b|num|number)/.test(c));
     if (qCol < 0) continue;
-    const map = { q: qCol, choices: [], correct: -1, explain: -1 };
+    const map = { q: qCol, choices: [], correct: -1, explain: -1, hint: -1 };
     cells.forEach((c, j) => {
       if (j === qCol) return;
       const m = c.match(/^(?:answer|option|choice)\s*([1-9]|[a-f])\b/);
       if (m) { const k = /\d/.test(m[1]) ? Number(m[1]) - 1 : m[1].charCodeAt(0) - 97; if (map.choices[k] === undefined) map.choices[k] = j; return; }
       if (/correct|^answer$|^key$|^right answer/.test(c)) { if (map.correct < 0) map.correct = j; return; }
+      if (/hint|clue|formula/.test(c)) { if (map.hint < 0) map.hint = j; return; }
       if (/explan|reason|^why|feedback/.test(c)) { if (map.explain < 0) map.explain = j; }
     });
     map.choices = map.choices.filter((j) => j !== undefined);
@@ -97,10 +98,10 @@ function guessMap(rows) {
   return null;   // handled row by row in rowsToQuestions
 }
 
-function cleanQuestion(q, raw, correctIdx, explain, row) {
+function cleanQuestion(q, raw, correctIdx, explain, row, hint = "") {
   const choices = [], correct = [];
   raw.forEach((c, i) => { if (c) { if (correctIdx.includes(i)) correct.push(choices.length); choices.push(c); } });
-  return { q, choices, correct, explain, row };
+  return { q, choices, correct, explain, hint, row };
 }
 
 export function rowsToQuestions(rows, { firstRow = 1 } = {}) {
@@ -113,12 +114,13 @@ export function rowsToQuestions(rows, { firstRow = 1 } = {}) {
     const rowNo = i + firstRow;
     if (!cells.some(Boolean)) continue;
     if (cells.some((c, j) => j > 6 && /^typing$/i.test(c))) { skipped.push({ row: rowNo, reason: "Typing question. This game only plays multiple choice." }); continue; }
-    let q, raw, correctIdx, explain = "";
+    let q, raw, correctIdx, explain = "", hint = "";
     if (map) {
       q = cells[map.q] || "";
       raw = map.choices.map((j) => cells[j] || "");
       correctIdx = map.correct >= 0 ? parseCorrect(cells[map.correct], raw) : [];
       if (map.explain >= 0) explain = cells[map.explain] || "";
+      if (map.hint >= 0) hint = cells[map.hint] || "";
     } else {
       // question, answers…, and the right answer in the last filled cell
       const filled = cells.slice(0, cells.length - [...cells].reverse().findIndex(Boolean));
@@ -135,7 +137,7 @@ export function rowsToQuestions(rows, { firstRow = 1 } = {}) {
     const extra = raw.slice(MAX_CHOICES).filter(Boolean);
     if (extra.length) { skipped.push({ row: rowNo, reason: `More than ${MAX_CHOICES} answers. Keep it to 4 and try again.` }); continue; }
     if (!q && !raw.some(Boolean)) continue;
-    questions.push(cleanQuestion(q, raw.slice(0, MAX_CHOICES), correctIdx, explain, rowNo));
+    questions.push(cleanQuestion(q, raw.slice(0, MAX_CHOICES), correctIdx, explain, rowNo, hint));
     if (questions.length >= MAX_QUESTIONS) { skipped.push({ row: rowNo + 1, reason: `Only the first ${MAX_QUESTIONS} questions were read.` }); break; }
   }
   return { questions, skipped };
@@ -161,11 +163,12 @@ export function parseBlocks(text) {
   blocks.forEach((b, n) => {
     const [first, ...rest] = b.lines;
     const q = first.replace(/^(q(uestion)?\s*\d*\s*[:.)]|\d+\s*[.)])\s+/i, "").trim();
-    const raw = [], correctIdx = []; let explain = "", marker = "";
+    const raw = [], correctIdx = []; let explain = "", marker = "", hint = "";
     for (const l of rest) {
       let m;
       if ((m = l.match(/^(answer|correct|correct answer|ans)\s*[:=-]\s*(.+)$/i))) { marker = m[2]; continue; }
       if ((m = l.match(/^(explanation|explain|reason|why)\s*[:=-]\s*(.+)$/i))) { explain = m[2].trim(); continue; }
+      if ((m = l.match(/^(hint|clue|formula)\s*[:=-]\s*(.+)$/i))) { hint = m[2].trim(); continue; }
       let c = l, right = false;
       if (/^\*/.test(c)) { right = true; c = c.replace(/^\*\s*/, ""); }
       c = c.replace(/^(\(?[a-f]\)|[a-f][.)]|[-•–])\s+/i, "");
@@ -176,7 +179,7 @@ export function parseBlocks(text) {
     }
     if (marker) for (const i of parseCorrect(marker, raw)) if (!correctIdx.includes(i)) correctIdx.push(i);
     if (raw.length > MAX_CHOICES) { skipped.push({ row: n + 1, reason: `"${q.slice(0, 40)}…" has more than ${MAX_CHOICES} answers.` }); return; }
-    questions.push(cleanQuestion(q, raw, correctIdx, explain, n + 1));
+    questions.push(cleanQuestion(q, raw, correctIdx, explain, n + 1, hint));
   });
   return { questions: questions.slice(0, MAX_QUESTIONS), skipped };
 }

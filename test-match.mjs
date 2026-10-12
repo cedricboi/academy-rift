@@ -8,6 +8,7 @@ const CHARS = ["jun", "saya", "raiden", "nao"];
 let finished = false, started = false, code = null;
 // the right answer must stay secret while a question can still be stolen
 let wrongSeen = 0, reveals = 0, leaks = 0, missedSteals = 0;
+const hintsGot = [];   // P1 asks for a hint on every question: only 2 per battle are allowed
 
 function mkClient(name, idx) {
   const s = io(URL, { transports: ["websocket"] });
@@ -27,10 +28,12 @@ function mkClient(name, idx) {
   });
   // answer like a student who gets about 70% right
   s.on("yourQuestion", ({ question }) => {
+    if (idx === 0) s.emit("useHint");
     const a = ANSWER.get(question.q);
     setTimeout(() => s.emit("answer", { choiceIndex: Math.random() < 0.7 ? a : (a + 1) % 4 }), 150);
   });
   if (idx === 0) {
+    s.on("hint", (h) => hintsGot.push(h));
     s.on("answerResult", (r) => { if (!r.correct) { wrongSeen++; if ("correctIndex" in r || "correctAll" in r) leaks++; } });
     s.on("answerReveal", (r) => { reveals++; if (!Array.isArray(r.correctAll)) leaks += 100; });
     s.on("stealResult", (r) => { if (!r.correct) { missedSteals++; if ("correctIndex" in r || "correctAll" in r) leaks++; } });
@@ -57,6 +60,11 @@ function mkClient(name, idx) {
     s.latest.battle.combatants.forEach((c) => console.log(`  T${c.team} ${c.name} (${c.charName}): ${c.hp}/${c.maxHp} ${c.alive ? "" : "[KO]"}`));
     console.log("Rewards (this client):", rewards[s.id]);
     console.log(`Wrong answers: ${wrongSeen}, answers revealed after the steal window: ${reveals}, missed steals: ${missedSteals}`);
+    const p1 = clients[0], p1Review = rewards[p1.id]?.review || [];
+    console.log(`Hints: P1 got ${hintsGot.length} (all text: ${hintsGot.every((h) => h.kind === "text" && h.text)}), ${p1Review.filter((x) => x.hinted).length} marked in P1's review`);
+    if (hintsGot.length !== 2 || !hintsGot.every((h) => h.kind === "text" && h.text) || p1Review.filter((x) => x.hinted).length !== 2) {
+      console.log("FAIL: hints were not limited to 2 per battle, or were not recorded."); process.exit(1);
+    }
     if (leaks || (wrongSeen && !reveals)) { console.log(`FAIL: the right answer leaked ${leaks} time(s) during a steal window, or was never revealed.`); process.exit(1); }
     console.log("PASS: 4-player 2v2 match ran to completion.");
     setTimeout(() => process.exit(0), 300);
