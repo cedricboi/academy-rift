@@ -87,11 +87,18 @@ const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 // Server time correction: an iPad whose clock is off would otherwise show wrong timers.
 let clockSkew = 0;
 const srvNow = () => Date.now() + clockSkew;
+// ?watch=CODE opens a watch-only view of a class tournament's live battles (used
+// by the teacher's projector page). It never joins as a player and plays no music.
+const WATCH = (() => {
+  const q = new URLSearchParams(location.search), code = q.get("watch");
+  return code ? { code: code.toUpperCase().slice(0, 4), matchId: q.get("m") } : null;
+})();
+let spectating = null;   // { matchId, a, b, code } while watching someone else's battle
 const SCREENS = ["title","tutorial","home","room","tourney","battle","result"];
 function showScreen(id) {
   const was = SCREENS.find((s) => $(s).classList.contains("active"));
   SCREENS.forEach((s) => $(s).classList.toggle("active", s === id));
-  if (id === was) return;                         // same screen re-render → don't touch music
+  if (id === was || WATCH) return;                // same screen re-render → don't touch music
   // music: battle screen uses battleBGM, all others use lobbyBGM. Only (re)start a
   // track if it's actually paused, so re-entering the same screen never restarts it.
   if (id === "battle") {
@@ -113,6 +120,7 @@ function refreshCoins() { const el = $("homeCoins"); if (el) el.textContent = pr
 // the first user gesture, so we (a) try on load, and (b) guarantee it on the very
 // first interaction — i.e. the moment the player clicks "ENTER THE RIFT".
 function startLobbyMusicOnce() {
+  if (WATCH) return;
   if (!$("battle").classList.contains("active") && lobbyBGM.paused) {
     lobbyBGM.play().catch(() => {});
   }
@@ -127,7 +135,7 @@ function startLobbyMusicOnce() {
   window.removeEventListener("pointerdown", startLobbyMusicOnce, true);
   window.removeEventListener("keydown", startLobbyMusicOnce, true);
 }
-document.addEventListener("DOMContentLoaded", () => { lobbyBGM.play().catch(() => {}); });
+document.addEventListener("DOMContentLoaded", () => { if (!WATCH) lobbyBGM.play().catch(() => {}); });
 window.addEventListener("pointerdown", startLobbyMusicOnce, true);
 window.addEventListener("keydown", startLobbyMusicOnce, true);
 
@@ -455,6 +463,7 @@ $("rematchBtn").addEventListener("click", () => {
 // ============================================================
 socket.on("connect", () => {
   myId = socket.id;
+  if (WATCH) return socket.emit("tWatch", { code: WATCH.code, matchId: spectating?.matchId || WATCH.matchId });
   // back in a class tournament after a reload or a dropped connection
   const t = loadTSession();
   if (t) socket.emit("tRejoin", { code: t.code, token: t.token });
@@ -465,6 +474,12 @@ socket.on("toast", (m) => toast(m));
 
 let preppedKey = "";
 socket.on("room", (s) => {
+  if (s.tournament) {
+    const mine = s.players.some((p) => p.id === myId);
+    if (mine) { if (spectating) leaveSpectate(false); }                       // own battle starts
+    else if (!spectating || (spectating.code && spectating.code !== s.code)) return;   // not ours, not watched
+    else spectating.code = s.code;
+  }
   room = s;
   if (typeof s.serverNow === "number") clockSkew = s.serverNow - Date.now();
   if (s.status === "lobby") { preppedKey = ""; renderRoom(); showScreen("room"); }
@@ -552,6 +567,7 @@ socket.on("stealResult", ({ uid, correct, correctIndex, explain }) => {
 
 // Both teammates answered correctly → sync surge
 socket.on("teamSync", ({ team }) => {
+  if (spectating) return;
   const myTeam = room?.players.find((p) => p.id === myId)?.team ?? 0;
   if (team === myTeam) { SFX.play("sync"); bannerFlash("⚡ TEAM IN SYNC!  +GAUGE", "mine"); }
 });
@@ -722,6 +738,7 @@ function cutIn(uid, name) {
 
 socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament }) => {
   attackPosed.clear();
+  if (spectating) return spectatedBattleEnded(winnerTeam, reason);
   stopMatchClock();
   const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
   const won = myTeam === winnerTeam;
@@ -771,6 +788,7 @@ socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament }) => {
   $("rematchBtn").style.display = !inTourney && room.hostId === myId ? "" : "none";
   $("lobbyBtn").style.display = inTourney ? "none" : "";
   $("backToTourney").classList.toggle("hidden", !inTourney);
+  updateWatchFromResult();
   showScreen("result");
 });
 
@@ -1038,7 +1056,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
       mcq.classList.add("hidden");
       wait.classList.remove("hidden");
       $("waitText").textContent = "Others can steal your question…";
-    } else if (stealMeta) {
+    } else if (stealMeta && !spectating) {
       wait.classList.add("hidden"); mcq.classList.remove("hidden");
       const q = b.question;
       const charId = cur?.charId;
@@ -1418,35 +1436,88 @@ const outcomeText = (m) => {
 function renderTourney() {
   const v = tView; if (!v) return;
   $("tnCode").textContent = v.code;
+  tDeadline = v.startsIn != null ? Date.now() + v.startsIn : null;
   // only touch what changed, so pictures do not flicker on every update
-  const put = (id, html) => { const el = $(id); if (el._html !== html) { el._html = html; el.innerHTML = html; return true; } return false; };
+  const put = (id, html) => { const el = $(id); if (el._html !== html) { el._html = html; el.innerHTML = html; } };
   put("tnYou", `You are <b>${esc(v.you.name)}</b>${v.partner ? ` · partner <b>${esc(v.partner.name)}</b>` : ""}`);
   put("tnStatus", statusHtml(v));
   const finished = v.status === "finished";
-  const a = put("tnLeft", finished ? standingsHtml(v) : partnerHtml(v) + fighterHtml(v));
-  put("tnRight", finished ? historyHtml(v) : standingsHtml(v) + historyHtml(v));
-  if (a) wireTourney(v);
+  put("tnLeft", finished ? standingsHtml(v) : partnerHtml(v) + fighterHtml(v));
+  put("tnRight", finished ? historyHtml(v) : watchHtml(v) + standingsHtml(v) + historyHtml(v));
+  tickCountdowns();
+  updateWatchFromResult();
 }
+
+// One click handler for the whole tournament screen (its contents are redrawn often).
+$("tourney").addEventListener("click", (e) => {
+  const el = e.target.closest("[data-mate],[data-fighter],[data-watch],[data-ready],#tnLeavePair");
+  if (!el || !tView) return;
+  if (el.dataset.mate) {
+    SFX.play("select");
+    socket.emit("tChoosePartner", { pid: tView.you.wants === el.dataset.mate ? null : el.dataset.mate });
+  } else if (el.dataset.fighter) {
+    openCharDetail(el.dataset.fighter, (charId) => socket.emit("tPickFighter", { charId }));
+  } else if (el.dataset.watch) {
+    SFX.play("select");
+    socket.emit("tWatch", { matchId: el.dataset.watch });
+  } else if (el.dataset.ready) {
+    SFX.play("select");
+    socket.emit("tReady", { ready: el.dataset.ready === "1" });
+  } else if (el.id === "tnLeavePair") socket.emit("tLeavePair");
+});
+
+// ---- countdown to the next round ----
+let tDeadline = null;
+function tickCountdowns() {
+  const left = tDeadline ? Math.max(0, Math.ceil((tDeadline - Date.now()) / 1000)) : 0;
+  document.querySelectorAll(".tn-count").forEach((el) => {
+    el.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+  });
+}
+setInterval(tickCountdowns, 500);
 
 function statusHtml(v) {
   const rounds = v.settings.rounds;
   const last = v.myMatches.filter((m) => m.result).slice(-1)[0];
+  const counting = v.startsIn != null;
+  const nextNo = v.status === "lobby" ? 1 : v.round + 1;
   if (v.status === "finished") {
     const place = v.mine ? `You finished <b>${ordinalOf(v.mine.rank)}</b> of ${v.totalPairs} pairs with <b>${v.mine.points}</b> points.` : "The tournament is over.";
     return `<div class="tn-banner final">🏆 FINAL RESULTS<span>${place}</span></div>`;
   }
   if (v.status === "lobby") {
-    return `<div class="tn-banner">WAITING FOR ROUND 1<span>${v.you.pairId ? "Your teacher starts the round. Pick your fighter while you wait." : "Get into a pair, then pick your fighter."}</span></div>`;
+    if (counting) return `<div class="tn-banner live"><div>ROUND 1 STARTS IN <b class="tn-count"></b></div><span>Everyone is ready. Good luck!</span></div>`;
+    if (v.settings.autoStart !== "ready" || v.hold) {
+      return `<div class="tn-banner">WAITING FOR ROUND 1<span>${v.hold ? "Your teacher has paused the start." : v.you.pairId ? "Your teacher starts the round. Pick your fighter while you wait." : "Get into a pair, then pick your fighter."}</span></div>`;
+    }
+    const btn = v.you.ready
+      ? `<button class="shard-btn ghost small tn-ready-btn" data-ready="0"><span>✓ READY · TAP TO UNDO</span></button>`
+      : `<button class="shard-btn primary tn-ready-btn" data-ready="1"><span>I'M READY</span></button>`;
+    const todo = v.you.pairId ? "Pick your fighter, then tap I'M READY." : "Choose a partner and a fighter, then tap I'M READY. Anyone without a partner is paired at random.";
+    return `<div class="tn-banner tn-banner-row"><div>WAITING FOR ROUND 1<span>${v.you.ready ? "You are ready." : todo}
+      <b>${v.readyCount}</b> of ${v.onlineCount} ready. Round 1 starts when everyone is ready.</span></div>${btn}</div>`;
   }
   if (v.status === "round") {
-    if (v.myBye) return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>${v.myBye.kind === "freewin" ? "No opponent is left for your pair this round, so you get a free win (+3 points)." : "No opponent is left for your pair this round, so you sit this one out."}</span></div>`;
+    if (v.myBye) return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>${v.myBye.kind === "freewin" ? "No opponent is left for your pair this round, so you get a free win (+3 points)." : "No opponent is left for your pair this round, so you sit this one out."} Watch a battle below.</span></div>`;
     const mine = v.myMatches.find((m) => m.round === v.round);
     if (mine && !mine.result) return `<div class="tn-banner live">ROUND ${v.round} OF ${rounds}<span>Your battle against ${esc(mine.vs)} is on.</span></div>`;
-    if (mine) return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>${outcomeText(mine)}. Waiting for the other battles to finish.</span></div>`;
-    return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>You joined during this round. You will play from the next round.</span></div>`;
+    if (mine) return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>${outcomeText(mine)}. The next round starts when every battle has finished. Watch one below.</span></div>`;
+    return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>You joined during this round. You will play from the next round. Watch a battle below.</span></div>`;
   }
   // between rounds
-  return `<div class="tn-banner">NEXT: ROUND ${v.round + 1} OF ${rounds}<span>${last ? `Round ${last.round}: ${outcomeText(last)}. ` : ""}Your teacher starts the next round.</span></div>`;
+  const lastLine = last ? `Round ${last.round}: ${outcomeText(last)}.` : "";
+  if (counting) return `<div class="tn-banner live"><div>ROUND ${nextNo} OF ${rounds} STARTS IN <b class="tn-count"></b></div><span>${lastLine} Get ready. The round starts by itself.</span></div>`;
+  return `<div class="tn-banner">NEXT: ROUND ${nextNo} OF ${rounds}<span>${lastLine} ${v.hold ? "Your teacher has paused the tournament." : "Your teacher starts the next round."}</span></div>`;
+}
+
+function watchHtml(v) {
+  if (v.status !== "round" || !v.liveMatches?.length) return "";
+  return `<div class="tn-card"><h3 class="tn-h">WATCH A BATTLE <span class="tn-sub">${v.liveMatches.length} still going</span></h3>
+    <div class="tn-watch">${v.liveMatches.map((m) => `
+      <button class="tn-watch-btn" data-watch="${m.id}">
+        <span class="tn-wa">${esc(m.a)}</span><b>VS</b><span class="tn-wb">${esc(m.b)}</span>
+        <i>${m.hpA}% · ${m.hpB}% HP</i>
+      </button>`).join("")}</div></div>`;
 }
 
 function partnerHtml(v) {
@@ -1468,13 +1539,13 @@ function partnerHtml(v) {
       <button class="tn-mate ${v.you.wants === m.pid ? "chosen" : ""} ${m.wantsYou ? "wants" : ""}" data-mate="${m.pid}">
         <span>${esc(m.name)}</span>${m.wantsYou ? `<b>picked you</b>` : ""}${v.you.wants === m.pid ? `<b>waiting…</b>` : ""}
       </button>`).join("")
-    : `<p class="tn-text">Nobody else is free right now.</p>`;
+    : "";
   const waiting = v.you.wants ? (mates.find((m) => m.pid === v.you.wants)?.name || "") : "";
   return `<div class="tn-card"><h3 class="tn-h">CHOOSE YOUR PARTNER</h3>
     <p class="tn-text">${waiting
       ? `You picked <b>${esc(waiting)}</b>. You become a pair when they pick you too. Tap their name again to cancel.`
       : "Tap a classmate's name. When they tap your name too, you are a pair."}</p>
-    <div class="tn-mates">${list}</div></div>`;
+    ${list ? `<div class="tn-mates">${list}</div>` : `<p class="tn-text">Nobody else is free right now. If you are still on your own when the round starts, you are paired at random.</p>`}</div>`;
 }
 
 function miniFighter(charId) {
@@ -1524,12 +1595,71 @@ function historyHtml(v) {
     `<li class="${m.result.winner === "draw" ? "draw" : m.result.winner === m.mySide ? "win" : "loss"}"><span>Round ${m.round}</span>${outcomeText(m)}</li>`).join("")}</ul></div>`;
 }
 
-function wireTourney(v) {
-  document.querySelectorAll("[data-mate]").forEach((b) => b.addEventListener("click", () => {
-    SFX.play("select");
-    socket.emit("tChoosePartner", { pid: v.you.wants === b.dataset.mate ? null : b.dataset.mate });
-  }));
-  $("tnLeavePair")?.addEventListener("click", () => socket.emit("tLeavePair"));
-  document.querySelectorAll("[data-fighter]").forEach((b) => b.addEventListener("click", () =>
-    openCharDetail(b.dataset.fighter, (charId) => socket.emit("tPickFighter", { charId }))));
+
+// ============================================================
+//  WATCHING A BATTLE (spectator view)
+// ============================================================
+socket.on("tWatching", (d) => {
+  if (!d.matchId) {
+    spectating = null;
+    $("spectateBar").classList.add("hidden");
+    if (WATCH) {                                   // projector view: wait for the next battle
+      showWatchWait(d.gone ? "This tournament has ended." : "No battles are running right now. The next one will appear here.");
+      if (!d.gone) setTimeout(() => socket.emit("tWatch", { code: WATCH.code }), 4000);
+    } else {
+      toast("No battles are running right now.");
+      renderTourney(); showScreen("tourney");
+    }
+    return;
+  }
+  hideWatchWait();
+  spectating = { matchId: d.matchId, a: d.a, b: d.b, code: null };
+  preppedKey = "";
+  attackPosed.clear();
+  stealMeta = null;
+  $("spectateNames").innerHTML = `${esc(d.a)} <b>VS</b> ${esc(d.b)}`;
+  $("spectateNext").classList.toggle("hidden", d.liveCount < 2);
+  $("spectateBack").classList.toggle("hidden", !!WATCH);
+  $("spectateBar").classList.remove("hidden");
+});
+
+function leaveSpectate(toTourney) {
+  if (!spectating) return;
+  spectating = null;
+  socket.emit("tUnwatch");
+  $("spectateBar").classList.add("hidden");
+  stopMatchClock();
+  if (toTourney) { renderTourney(); showScreen("tourney"); }
 }
+
+function spectatedBattleEnded(winnerTeam, reason) {
+  const s = spectating;
+  stopMatchClock();
+  const msg = winnerTeam === -1 ? "DRAW" : `${winnerTeam === 0 ? s.a : s.b} WIN${reason === "time" ? " ON TIME" : ""}!`;
+  bannerFlash("🏆 " + msg, "mine");
+  toast(winnerTeam === -1 ? `${s.a} and ${s.b} drew.` : `${winnerTeam === 0 ? s.a : s.b} won${reason === "time" ? " on time" : ""}.`);
+  setTimeout(() => {
+    if (spectating !== s) return;                  // already moved on
+    if (WATCH) socket.emit("tWatch", { code: WATCH.code, next: true });
+    else leaveSpectate(true);
+  }, 3000);
+}
+
+$("spectateNext").addEventListener("click", () => socket.emit("tWatch", { code: WATCH?.code, next: true }));
+$("spectateBack").addEventListener("click", () => leaveSpectate(true));
+$("watchFromResult").addEventListener("click", () => socket.emit("tWatch", {}));
+function updateWatchFromResult() {
+  $("watchFromResult").classList.toggle("hidden", !(tView?.status === "round" && tView.liveMatches?.length));
+}
+
+function showWatchWait(text) {
+  let el = $("watchWait");
+  if (!el) {
+    el = document.createElement("div"); el.id = "watchWait"; el.className = "watch-wait";
+    $("game").appendChild(el);
+  }
+  el.textContent = text;
+  el.classList.remove("hidden");
+}
+function hideWatchWait() { $("watchWait")?.classList.add("hidden"); }
+if (WATCH) showWatchWait("Connecting to the tournament…");

@@ -176,6 +176,13 @@
 
       <!-- tournament battles: time left -->
       <div class="match-clock hidden" id="matchClock"></div>
+      <!-- watching someone else's battle -->
+      <div class="spectate-bar hidden" id="spectateBar">
+        <span class="spectate-tag">👁 WATCHING</span>
+        <span class="spectate-names" id="spectateNames"></span>
+        <button class="spectate-btn" id="spectateNext">NEXT BATTLE ▶</button>
+        <button class="spectate-btn" id="spectateBack">BACK</button>
+      </div>
 
       <!-- effects + overlays -->
       <div class="fx-layer" id="fxLayer"></div>
@@ -223,6 +230,7 @@
       <div class="result-actions">
         <button class="shard-btn primary" id="rematchBtn"><span>REMATCH</span></button>
         <button class="shard-btn ghost" data-go="home" id="lobbyBtn"><span>LOBBY</span></button>
+        <button class="shard-btn hidden" id="watchFromResult"><span>👁 WATCH A BATTLE</span></button>
         <button class="shard-btn primary hidden" id="backToTourney"><span>BACK TO TOURNAMENT</span></button>
       </div>
     </div>

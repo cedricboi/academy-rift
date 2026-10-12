@@ -68,6 +68,14 @@
     <div class="t-settings" id="settingsBody"></div>
   </aside>
 
+  <!-- Watching one battle (the game's watch-only view) -->
+  <div class="t-watch hidden" id="watchModal">
+    <div class="t-watch-box">
+      <button class="t-x t-watch-close" id="watchClose" aria-label="Stop watching">✕</button>
+      <iframe id="watchFrame" title="Live battle" src="about:blank"></iframe>
+    </div>
+  </div>
+
   <!-- Confirm box -->
   <div class="t-modal hidden" id="modal">
     <div class="panel-card t-modal-card">

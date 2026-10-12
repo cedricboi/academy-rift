@@ -1,10 +1,12 @@
-// Headless class-tournament test: a teacher and 30 students play a full
-// tournament (3 rounds, then a 4th added after the end) against a real
-// server running 20x faster than normal.
+// Headless class-tournament test: 30 students play a full tournament
+// (3 rounds, then a 4th added after the end) against a real server running
+// 20x faster than normal. The teacher presses nothing: students tap READY and
+// every round starts by itself.
 //   node test-tournament.mjs            (30 students)
 //   node test-tournament.mjs 29         (any class size)
-// Checks pairing, matchmaking, the leftover pair, repeat opponents, time limits,
-// a student dropping out mid-battle and coming back, and the final standings.
+// Checks pairing, the automatic countdowns and the hold button, matchmaking, the
+// leftover pair, repeat opponents, time limits, a student dropping out mid-battle
+// and coming back, a late joiner, watching battles, and the final standings.
 import { spawn } from "child_process";
 import { io } from "socket.io-client";
 import { QUESTIONS } from "./questions.js";
@@ -51,12 +53,13 @@ check(host.settings.rounds === 3 && host.settings.timeLimitMin === 4 && host.set
 const stealsSeen = {};
 let currentRound = 0;
 function makeStudent(name, i) {
-  const st = { name, i, s: null, pid: null, token: null, view: null, room: null, battles: 0, ended: 0 };
+  const st = { name, i, s: null, pid: null, token: null, view: null, room: null, battles: 0, ended: 0, errors: [] };
   st.connect = () => new Promise((res) => {
     const s = io(URL, { transports: ["websocket"], forceNew: true });
     st.s = s;
     s.on("tJoined", (d) => { st.pid = d.you; st.token = d.token; st.name = d.name; res(); });
     s.on("tState", (v) => (st.view = v));
+    s.on("tError", (m) => st.errors.push(m));
     s.on("room", (r) => (st.room = r));
     s.on("battleStart", () => st.battles++);
     s.on("battleEnd", () => st.ended++);
@@ -107,42 +110,27 @@ const paired = host.students.filter((s) => s.pairId).length;
 check(paired === 2 * Math.floor((N - 4) / 2), `mutual choices became pairs (${paired} paired)`);
 check(students[N - 3].view.classmates.find((c) => c.pid === students[N - 4].pid)?.wantsYou === true, "a student sees who picked them");
 
-// ---------- rounds ----------
+// ---------- rounds: the teacher presses nothing ----------
+const waitFor = async (fn, ms = 20000) => { const t = Date.now(); while (!fn()) { if (Date.now() - t > ms) return false; await sleep(100); } return true; };
 const roundLog = [];
 let late = null;
+check(host.startsIn == null, "no countdown before anyone is ready");
+students.forEach((st) => st.s.emit("tReady", { ready: true }));
+check(await waitFor(() => host.startsIn != null, 2000), "countdown starts when every student is ready");
+students[0].s.emit("tReady", { ready: false });          // one student changes their mind
+check(await waitFor(() => host.startsIn == null && host.status === "lobby", 2000), "countdown stops when a student is not ready");
+students[0].s.emit("tReady", { ready: true });
+
 for (let r = 1; r <= 4; r++) {
-  if (r === 2) set("stealSeconds", 0);          // steals off for round 2 only
-  if (r === 3) set("stealSeconds", 10);
   if (r === 4) {
     check(host.status === "finished", "finished after round 3");
-    set("rounds", 4);                            // teacher adds a round after the end
-    await sleep(300);
-    check(host.status === "between", "adding a round reopens the tournament");
+    set("rounds", 4);                                     // teacher adds a round after the end
+    check(await waitFor(() => host.status === "between", 2000), "adding a round reopens the tournament");
   }
-  await sleep(200);
-  const t0 = Date.now();
+  check(await waitFor(() => host.status === "round" && host.round === r, 20000), `round ${r} started by itself`);
   currentRound = r;
-  teacher.emit("tStartRound");
-  await sleep(500);
-  check(host.status === "round" && host.round === r, `round ${r} started (status ${host.status})`);
+  const t0 = Date.now();
   const pairsThisRound = host.standings.length;
-  if (r === 2) {
-    // the teacher's page reloads mid-round and takes control back
-    const saved = { code, hostToken: hostTokenSaved };
-    teacher.disconnect();
-    await sleep(500);
-    teacher.connect();
-    await new Promise((res) => teacher.once("connect", res));
-    teacher.emit("tResume", saved);
-    await new Promise((res) => teacher.once("tHostJoined", res));
-    await sleep(300);
-    check(host.status === "round", "teacher page reconnected during a round");
-    // a student arrives late, during round 2
-    late = makeStudent("Latecomer", N);
-    await late.connect();
-    await sleep(400);
-    check(late.view?.status === "round" && !late.view?.myMatches.length, "late student waits for the next round");
-  }
   if (r === 1) {
     set("pairing", "random");   // must be refused after the start
     await sleep(200);
@@ -159,12 +147,67 @@ for (let r = 1; r <= 4; r++) {
     const seat = st.room?.battle?.combatants.find((c) => c.uid === st.pid);
     check(seat && seat.bot === false, "reconnecting student takes their seat back from the bot");
   }
-  while (host.status === "round") await sleep(300);
+  if (r === 2) {
+    // the teacher's page reloads mid-round and takes control back
+    const saved = { code, hostToken: hostTokenSaved };
+    teacher.disconnect();
+    await sleep(500);
+    teacher.connect();
+    await new Promise((res) => teacher.once("connect", res));
+    teacher.emit("tResume", saved);
+    await new Promise((res) => teacher.once("tHostJoined", res));
+    await sleep(300);
+    check(host.status === "round", "teacher page reconnected during a round");
+    // a student arrives late, during round 2, and watches a battle
+    late = makeStudent("Latecomer", N);
+    await late.connect();
+    await sleep(400);
+    check(late.view?.status === "round" && !late.view?.myMatches.length, "late student waits for the next round");
+    check(late.view?.liveMatches?.length > 0, "late student is offered battles to watch");
+    let watching = null, stoleAsSpectator = false;
+    late.s.on("tWatching", (d) => (watching = d));
+    late.s.on("stealResult", (d) => { if (d.uid === late.pid) stoleAsSpectator = true; });
+    late.s.emit("tWatch", {});
+    await sleep(500);
+    check(watching?.matchId, "a student who is not in a battle can watch one");
+    check(late.room?.status === "battle" && !late.room.players.some((p) => p.id === late.pid), "the watcher receives the battle being watched");
+    for (let k = 0; k < 8; k++) { late.s.emit("steal", { choiceIndex: k % 4 }); late.s.emit("answer", { choiceIndex: k % 4 }); await sleep(250); }
+    check(!stoleAsSpectator, "a spectator cannot steal or answer");
+    // a student in a live battle cannot watch
+    const busy = students.find((st) => st.room?.status === "battle" && st.room.players.some((p) => p.id === st.pid));
+    if (busy) {
+      busy.errors.length = 0;
+      busy.s.emit("tWatch", {});
+      await sleep(300);
+      check(busy.errors.some((e) => e.includes("in a battle")), "a student in a battle cannot leave it to watch");
+    }
+    // the teacher's watch window: watch-only, no student identity
+    const viewer = io(URL, { transports: ["websocket"], forceNew: true });
+    await new Promise((res) => viewer.on("connect", res));
+    let viewerRooms = 0, viewerMatch = null;
+    viewer.on("room", () => viewerRooms++);
+    viewer.on("tWatching", (d) => (viewerMatch = d.matchId));
+    viewer.emit("tWatch", { code });
+    await sleep(800);
+    check(viewerMatch && viewerRooms > 0, "the teacher's watch window shows a live battle");
+    viewer.close();
+  }
+  check(await waitFor(() => host.status !== "round", 120000), `round ${r} finished`);
   const ms = Date.now() - t0;
   const matches = host.matches.filter((m) => m.round === r);
   roundLog.push({ r, ms, matches, pairsThisRound });
   console.log(`  round ${r}: ${matches.length} battles, ~${((ms * SPEED) / 60000).toFixed(1)} min real-time equivalent, ` +
     `${matches.filter((m) => m.result?.reason === "time").length} decided on time`);
+  if (r === 1) {
+    // the break: the teacher holds the countdown, switches steals off, then lets it run
+    check(await waitFor(() => host.startsIn != null, 3000), "break countdown starts after the round");
+    teacher.emit("tHold", { hold: true });
+    set("stealSeconds", 0);
+    await sleep(4000);                                    // longer than the 45-second break at 20x speed
+    check(host.status === "between" && host.hold, "hold stops the next round starting");
+    teacher.emit("tHold", { hold: false });
+  }
+  if (r === 2) set("stealSeconds", 10);
 }
 
 // ---------- checks ----------

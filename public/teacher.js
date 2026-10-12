@@ -119,12 +119,31 @@ function render() {
   if (drawerOpen) renderSettings();
 }
 
+// ----- running by itself: ready marks and the countdown banner -----
+const autoReady = () => state.status === "lobby" && state.settings.autoStart === "ready";
+const readyMark = (s) => (autoReady() && s.connected ? (s.ready ? `<i class="t-ready yes" title="Ready">✓</i>` : `<i class="t-ready no" title="Not ready yet">…</i>`) : "");
+
+function autoBanner() {
+  const next = state.status === "lobby" ? 1 : state.round + 1;
+  if (state.notice) return `<div class="t-auto warn">⚠ ${esc(state.notice)}</div>`;
+  if (state.startsIn != null) return `<div class="t-auto live">ROUND ${next} STARTS IN <b class="t-count" data-ms="${state.startsIn}">${fmtClock(state.startsIn)}</b></div>`;
+  if (state.hold) return `<div class="t-auto">⏸ PAUSED. Round ${next} will not start by itself until you press Resume.</div>`;
+  if (autoReady()) {
+    const online = state.students.filter((s) => s.connected);
+    const waiting = online.filter((s) => !s.ready).map((s) => s.name);
+    const list = waiting.length ? ` Waiting for ${esc(waiting.slice(0, 8).join(", "))}${waiting.length > 8 ? ` and ${waiting.length - 8} more` : ""}.` : "";
+    return `<div class="t-auto">Round 1 starts by itself when every student has tapped READY. <b>${online.length - waiting.length}</b> of ${online.length} ready.${online.length < 2 ? " At least 2 students are needed." : list}</div>`;
+  }
+  if (state.status === "between" && !state.settings.breakSeconds) return `<div class="t-auto">Press Start when you are ready for Round ${next}.</div>`;
+  return "";
+}
+
 // ----- lobby: students, pairs, pairing tools -----
 function pairCard(p, byId, canSplit) {
   const names = p.members.map((pid) => {
     const s = byId[pid];
     if (!s) return `<span class="t-member bot">${fighterThumb(null)}<span>Rift Bot</span></span>`;
-    return `<span class="t-member ${s.connected ? "" : "offline"}">${fighterThumb(s.character)}<span>${esc(s.name)}</span>${s.connected ? "" : `<em>offline</em>`}</span>`;
+    return `<span class="t-member ${s.connected ? "" : "offline"}">${fighterThumb(s.character)}<span>${esc(s.name)}</span>${readyMark(s)}${s.connected ? "" : `<em>offline</em>`}</span>`;
   }).join(`<span class="t-amp">&amp;</span>`);
   const split = canSplit ? `<button class="t-x small" data-split="${p.id}" title="Split this pair">✕</button>` : "";
   return `<div class="t-pair">${names}${split}</div>`;
@@ -136,7 +155,7 @@ function singlesBlock(byId) {
   const chips = singles.map((s) => {
     const wants = s.wants && byId[s.wants] ? `<span class="t-wants">picked ${esc(byId[s.wants].name)}</span>` : "";
     return `<button class="t-chip ${selected === s.pid ? "sel" : ""} ${s.connected ? "" : "offline"}" data-pid="${s.pid}">
-      <span class="t-chip-name">${esc(s.name)}</span>${wants}${s.connected ? "" : `<em>offline</em>`}
+      <span class="t-chip-name">${esc(s.name)}</span>${readyMark(s)}${wants}${s.connected ? "" : `<em>offline</em>`}
       <span class="t-chip-x" data-remove="${s.pid}" title="Remove from tournament">✕</span>
     </button>`;
   }).join("");
@@ -158,6 +177,7 @@ function renderLobby() {
   $("stage").innerHTML = `
     <div class="t-lobby">
       <div class="t-counts"><b>${n}</b> student${n === 1 ? "" : "s"} joined <span>·</span> <b>${state.pairs.length}</b> pair${state.pairs.length === 1 ? "" : "s"} <span>·</span> <b>${n - paired}</b> without a partner</div>
+      ${autoBanner()}
       <p class="t-howto">${howTo}</p>
       ${n === 0 ? `<div class="t-empty">Waiting for students to join. They open the link above, or scan the QR code, then type the code.</div>` : ""}
       ${state.pairs.length ? `<h3 class="t-sub">PAIRS <span>${state.pairs.length}</span></h3><div class="t-pairs">${pairs}</div>` : ""}
@@ -201,10 +221,10 @@ function matchCard(m) {
     </div>`;
   };
   let foot;
-  if (!done) foot = m.msLeft != null ? `<span class="t-clock" data-ms="${m.msLeft}">⏱ ${fmtClock(m.msLeft)}</span>` : `<span class="t-clock">⚔ in battle</span>`;
+  if (!done) foot = (m.msLeft != null ? `<span class="t-clock" data-ms="${m.msLeft}">⏱ ${fmtClock(m.msLeft)}</span>` : `<span class="t-clock">⚔ in battle</span>`) + `<span class="t-watchme">👁 Watch</span>`;
   else if (r.winner === "draw") foot = `<span class="t-result">Draw on time</span>`;
   else foot = `<span class="t-result">${esc((r.winner === "a" ? m.a : m.b).name)} won${r.reason === "time" ? " on time" : " by knock-out"}</span>`;
-  return `<div class="t-match ${done ? "done" : "live"} ${m.b.pairId ? "" : "vsbots"}">
+  return `<div class="t-match ${done ? "done" : "live"} ${m.b.pairId ? "" : "vsbots"}" ${done ? "" : `data-watchm="${m.id}" title="Watch this battle"`}>
     ${side(m.a, "a")}${side(m.b, "b")}
     <div class="t-mfoot">${foot}</div>
   </div>`;
@@ -222,7 +242,7 @@ function renderRound() {
   const done = ms.filter((m) => m.status === "done").length;
   $("stage").innerHTML = `
     <div class="t-round-head"><span class="t-round-big">ROUND ${state.round}</span>
-      <span class="t-round-sub">${done} of ${ms.length} battle${ms.length === 1 ? "" : "s"} finished</span></div>
+      <span class="t-round-sub">${done} of ${ms.length} battle${ms.length === 1 ? "" : "s"} finished${done < ms.length ? " · tap a battle to watch it" : ""}</span></div>
     <div class="t-matches">${ms.map(matchCard).join("")}${byeCards(state.round)}</div>
     ${lateJoinersNote()}`;
 }
@@ -239,6 +259,7 @@ function renderBetween() {
   $("stage").innerHTML = `
     <div class="t-round-head"><span class="t-round-big">ROUND ${state.round} RESULTS</span>
       <span class="t-round-sub">Next: Round ${state.round + 1} of ${state.settings.rounds}</span></div>
+    ${autoBanner()}
     <div class="t-matches">${ms.map(matchCard).join("")}${byeCards(state.round)}</div>
     ${lateJoinersNote()}`;
   if (state.students.some((s) => !s.pairId)) wirePairing();
@@ -289,18 +310,24 @@ function renderFooter() {
 
   const a = $("footActions");
   const nPeople = state.students.length;
+  const autoOn = (state.status === "lobby" && st.autoStart === "ready") || (state.status === "between" && st.breakSeconds > 0);
+  const holdBtn = !autoOn ? "" : state.hold || state.notice
+    ? `<button class="shard-btn small" id="resumeAuto"><span>▶ RESUME</span></button>`
+    : `<button class="shard-btn ghost small" id="holdAuto"><span>⏸ HOLD</span></button>`;
   if (state.status === "lobby") {
-    a.innerHTML = `<button class="shard-btn primary big" id="startRound" ${nPeople ? "" : "disabled"}><span>⚔ START ROUND 1</span></button>`;
+    a.innerHTML = `${holdBtn}<button class="shard-btn ${autoOn ? "" : "primary big"}" id="startRound" ${nPeople ? "" : "disabled"}><span>⚔ START ROUND 1${autoOn ? " NOW" : ""}</span></button>`;
   } else if (state.status === "round") {
     a.innerHTML = `<button class="shard-btn ghost" id="endRound"><span>END ROUND NOW</span></button>`;
   } else if (state.status === "between") {
-    a.innerHTML = `<button class="shard-btn ghost small" id="finishNow"><span>FINISH NOW</span></button>
-      <button class="shard-btn primary big" id="startRound"><span>⚔ START ROUND ${state.round + 1}</span></button>`;
+    a.innerHTML = `<button class="shard-btn ghost small" id="finishNow"><span>FINISH NOW</span></button>${holdBtn}
+      <button class="shard-btn ${autoOn ? "" : "primary big"}" id="startRound"><span>⚔ START ROUND ${state.round + 1}${autoOn ? " NOW" : ""}</span></button>`;
   } else {
     a.innerHTML = `<button class="shard-btn" id="download"><span>⬇ DOWNLOAD RESULTS</span></button>
       <button class="shard-btn ghost small" id="newT"><span>NEW TOURNAMENT</span></button>`;
   }
   $("startRound")?.addEventListener("click", () => socket.emit("tStartRound"));
+  $("holdAuto")?.addEventListener("click", () => socket.emit("tHold", { hold: true }));
+  $("resumeAuto")?.addEventListener("click", () => socket.emit("tHold", { hold: false }));
   $("endRound")?.addEventListener("click", () => confirmBox("End the round now?",
     "Every battle still running stops now. In each one, the team with more HP left wins.", "END ROUND", () => socket.emit("tEndRound")));
   $("finishNow")?.addEventListener("click", () => confirmBox("Finish the tournament?",
@@ -315,6 +342,9 @@ setInterval(() => {
   const gone = Date.now() - receivedAt;
   document.querySelectorAll(".t-clock[data-ms]").forEach((el) => {
     el.textContent = "⏱ " + fmtClock(Number(el.dataset.ms) - gone);
+  });
+  document.querySelectorAll(".t-count[data-ms]").forEach((el) => {
+    el.textContent = fmtClock(Number(el.dataset.ms) - gone);
   });
 }, 500);
 
@@ -398,3 +428,19 @@ function downloadCsv() {
 }
 
 resolveJoinBase().then(() => { if (state) renderJoin(); });
+
+// ---------------------------------------------------------------- watching a battle
+// A live battle card opens the game's watch-only view in a window over the page.
+$("stage").addEventListener("click", (e) => {
+  const card = e.target.closest("[data-watchm]");
+  if (!card || !state) return;
+  $("watchFrame").src = `/?watch=${state.code}&m=${card.dataset.watchm}`;
+  $("watchModal").classList.remove("hidden");
+});
+function closeWatch() {
+  $("watchModal").classList.add("hidden");
+  $("watchFrame").src = "about:blank";
+}
+$("watchClose").addEventListener("click", closeWatch);
+$("watchModal").addEventListener("click", (e) => { if (e.target.id === "watchModal") closeWatch(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeWatch(); });

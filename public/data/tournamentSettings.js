@@ -31,6 +31,22 @@ export const SETTINGS = [
     help: "Every pair plays one battle per round. At about 8 minutes a battle, 3 rounds fit a one-hour lesson.",
   },
   {
+    key: "autoStart", group: "tournament", label: "Start of Round 1", default: "ready",
+    options: [
+      { value: "ready", label: "When every student is ready" },
+      { value: "teacher", label: "When I press Start" },
+    ],
+    help: "Every student taps READY on their screen. When everyone online is ready, a 10-second countdown starts Round 1. You can still press Start at any time.",
+  },
+  {
+    key: "breakSeconds", group: "tournament", label: "Break between rounds", default: 45,
+    options: [
+      { value: 0, label: "Wait for me to press Start" },
+      ...[15, 30, 45, 60, 90].map((n) => ({ value: n, label: `${n} seconds, then the next round starts` })),
+    ],
+    help: "When every battle in a round has finished, the leaderboard shows for this long and then the next round starts by itself. Students who finish early can watch the battles still going.",
+  },
+  {
     key: "matching", group: "tournament", label: "Who fights whom", default: "swiss",
     options: [
       { value: "swiss", label: "Similar scores after Round 1" },

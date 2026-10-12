@@ -15,6 +15,7 @@ import { defaultSettings, cleanSettingValue, SETTING_BY_KEY } from "./public/dat
 export const POINTS = { win: 3, draw: 1, loss: 0 };
 const NAME_MAX = 14;
 const LIVE_PUSH_MS = 1500;                  // teacher's live HP refresh during a round
+const LOBBY_COUNTDOWN_MS = 10000;           // everyone ready → Round 1 starts after this
 const ROOM_CLEANUP_MS = 2 * 60 * 1000;      // keep a finished battle room briefly, then drop it
 const IDLE_EXPIRE_MS = 6 * 60 * 60 * 1000;  // forget a tournament after 6 hours without activity
 
@@ -129,8 +130,11 @@ export function makeMatchups(pairs, settings, roundNo, rng = Math.random) {
 //   timeUp(room)               end a live battle now, deciding the winner by HP
 //   publicRoom(room)           the battle state as clients see it
 //   CHARACTERS                 fighter list (for random picks)
+//   later(fn, ms), SPEED       game timers (SPEED > 1 only in automated tests)
 export function setupTournaments(deps) {
   const { io, rooms, isRoomCode, setSocketRoom, startBattle, timeUp, publicRoom, CHARACTERS } = deps;
+  const later = deps.later || setTimeout;
+  const SPEED = deps.SPEED || 1;
   const tournaments = new Map();   // code -> tournament
 
   const randChar = () => CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)].id;
@@ -155,6 +159,9 @@ export function setupTournaments(deps) {
       status: "lobby", round: 0, settings: defaultSettings(),
       students: new Map(), pairs: new Map(), matches: [], byes: [],
       seq: 0,
+      startAt: null,      // when the next round starts by itself (null = not counting down)
+      hold: false,        // teacher paused the automatic start
+      notice: null,       // why an automatic start could not happen
     };
     tournaments.set(T.code, T);
     return T;
@@ -194,11 +201,20 @@ export function setupTournaments(deps) {
     }));
   }
 
+  const startsIn = (T) => (T.startAt ? Math.max(0, T.startAt - Date.now()) * SPEED : null);
+  const liveMatches = (T) => T.matches.filter((m) => m.status === "live").map((m) => {
+    const v = matchView(T, m);
+    const pct = (x) => (x.maxHp ? Math.round((x.hp / x.maxHp) * 100) : 0);
+    return { id: m.id, a: v.a.name, b: v.b.name, hpA: pct(v.a), hpB: pct(v.b) };
+  });
+  const inLiveBattle = (T, s) => !!s.pairId && T.matches.some((m) => m.status === "live" && (m.a === s.pairId || m.b === s.pairId));
+
   function hostView(T) {
     return {
       code: T.code, status: T.status, round: T.round, settings: T.settings,
+      startsIn: startsIn(T), hold: T.hold, notice: T.notice,
       students: humans(T).map((s) => ({
-        pid: s.pid, name: s.name, connected: s.connected, pairId: s.pairId, wants: s.wants, character: s.character,
+        pid: s.pid, name: s.name, connected: s.connected, pairId: s.pairId, wants: s.wants, character: s.character, ready: !!s.ready,
       })),
       pairs: [...T.pairs.values()].map((p) => ({ id: p.id, name: pairName(T, p), members: p.members, createdRound: p.createdRound })),
       standings: standingsRows(T),
@@ -223,10 +239,17 @@ export function setupTournaments(deps) {
       return { round: m.round, status: m.status, vs: mySide === "a" ? v.b.name : v.a.name, mySide, result: m.result };
     });
     const myBye = s.pairId ? T.byes.find((y) => y.round === T.round && y.pairId === s.pairId) || null : null;
+    const online = humans(T).filter((o) => o.connected);
     return {
       code: T.code, status: T.status, round: T.round,
-      settings: { pairing: T.settings.pairing, fighters: T.settings.fighters, rounds: T.settings.rounds, showStandings: T.settings.showStandings },
-      you: { pid: s.pid, name: s.name, pairId: s.pairId, wants: s.wants, character: s.character },
+      settings: {
+        pairing: T.settings.pairing, fighters: T.settings.fighters, rounds: T.settings.rounds, showStandings: T.settings.showStandings,
+        autoStart: T.settings.autoStart, breakSeconds: T.settings.breakSeconds,
+      },
+      startsIn: startsIn(T), hold: T.hold,
+      readyCount: online.filter((o) => o.ready).length, onlineCount: online.length,
+      liveMatches: T.status === "round" && !inLiveBattle(T, s) ? liveMatches(T) : [],
+      you: { pid: s.pid, name: s.name, pairId: s.pairId, wants: s.wants, character: s.character, ready: !!s.ready },
       partner: partner ? { pid: partner.pid, name: partner.name, character: partner.character, bot: !!partner.bot, connected: !!partner.connected } : null,
       classmates: s.pairId ? [] : humans(T)
         .filter((o) => o.pid !== s.pid && !o.pairId)
@@ -243,18 +266,54 @@ export function setupTournaments(deps) {
     if (T._pushT) return;
     T._pushT = setTimeout(() => {
       T._pushT = null;
+      autoCheck(T);
       io.to("host:" + T.code).emit("tHost", hostView(T));
       for (const s of T.students.values()) if (!s.bot && !s.removed && s.connected) io.to(s.pid).emit("tState", studentView(T, s));
     }, 80);
   }
 
-  // Keep the projector's HP bars and clocks moving during a round.
+  // Keep the projector's HP bars and clocks moving during a round, and the
+  // watch list fresh for students who are not in a battle.
   function ensureLiveTicker(T) {
     if (T._ticker) return;
+    let tick = 0;
     T._ticker = setInterval(() => {
       if (T.status !== "round") { clearInterval(T._ticker); T._ticker = null; return; }
       io.to("host:" + T.code).emit("tHost", hostView(T));
+      if (++tick % 2) return;
+      for (const s of T.students.values())
+        if (!s.bot && s.connected && !inLiveBattle(T, s)) io.to(s.pid).emit("tState", studentView(T, s));
     }, LIVE_PUSH_MS);
+  }
+
+  // ---------- running by itself ----------
+  // Lobby: once everyone online has tapped READY, count down and start Round 1.
+  // Between rounds: after the break, start the next round. The teacher can hold
+  // the countdown or start straight away.
+  function autoCheck(T) {
+    let want = false, ms = 0;
+    if (T.status === "lobby") {
+      const online = humans(T).filter((s) => s.connected);
+      want = T.settings.autoStart === "ready" && !T.hold && online.length >= 2 && online.every((s) => s.ready);
+      ms = LOBBY_COUNTDOWN_MS;
+    } else if (T.status === "between") {
+      want = T.settings.breakSeconds > 0 && !T.hold;
+      ms = T.settings.breakSeconds * 1000;
+    }
+    if (want && !T.startAt) {
+      T.startAt = Date.now() + ms / SPEED;
+      T._startT = later(() => {
+        T._startT = null; T.startAt = null;
+        const err = startRound(T);
+        if (err) { T.hold = true; T.notice = err; push(T); }
+      }, ms);
+    } else if (!want && T.startAt) {
+      cancelCountdown(T);
+    }
+  }
+  function cancelCountdown(T) {
+    clearTimeout(T._startT);
+    T._startT = null; T.startAt = null;
   }
 
   // ---------- students ----------
@@ -400,7 +459,7 @@ export function setupTournaments(deps) {
       const s = T.students.get(p.id);
       if (!s || s.bot || !s.connected || !s.socketId) continue;
       const sock = io.sockets.sockets.get(s.socketId);
-      if (sock) { sock.join(code); setSocketRoom(sock.id, code); }
+      if (sock) { stopWatching(sock); sock.join(code); setSocketRoom(sock.id, code); }
     }
     startBattle(room);
     return m;
@@ -429,6 +488,9 @@ export function setupTournaments(deps) {
     if (active.length === 1 && T.settings.oddPair !== "bots")
       return "Only one pair is here. Set \"Odd number of pairs\" to fight bots, or wait for more students.";
 
+    cancelCountdown(T);
+    T.hold = false; T.notice = null;
+    for (const s of T.students.values()) s.ready = false;
     T.round++;
     T.status = "round";
     const { matches, leftover } = makeMatchups(active, T.settings, T.round);
@@ -493,6 +555,34 @@ export function setupTournaments(deps) {
     else push(T);
   }
 
+  // ---------- watching battles ----------
+  function stopWatching(sock) {
+    if (sock.data.watching) sock.leave(sock.data.watching);
+    sock.data.watching = null;
+  }
+
+  // Watch a live battle: matchId, or the next live battle after the one being watched.
+  function watch(socket, T, { matchId, next } = {}) {
+    const s = T.students.get(socket.data.pid);
+    if (s && inLiveBattle(T, s)) return socket.emit("tError", "You are in a battle right now.");
+    const live = T.matches.filter((m) => m.status === "live" && rooms.get(m.roomCode)?.battle);
+    if (!live.length) { stopWatching(socket); return socket.emit("tWatching", { matchId: null }); }
+    let m = live.find((x) => x.id === matchId);
+    if (!m && next) {
+      const i = live.findIndex((x) => x.roomCode === socket.data.watching);
+      m = live[(i + 1) % live.length];
+    }
+    m ||= live[0];
+    const room = rooms.get(m.roomCode);
+    stopWatching(socket);
+    socket.join(room.code);
+    socket.data.watching = room.code;
+    const v = matchView(T, m);
+    socket.emit("tWatching", { matchId: m.id, a: v.a.name, b: v.b.name, liveCount: live.length });
+    socket.emit("battleStart");
+    socket.emit("room", publicRoom(room));
+  }
+
   function endRoundNow(T) {
     for (const m of T.matches) {
       if (m.status !== "live") continue;
@@ -546,6 +636,7 @@ export function setupTournaments(deps) {
       if (key === "pairing") for (const s of T.students.values()) s.wants = null;
       if (key === "rounds" && T.status === "finished" && v > T.round) T.status = "between";
       if (key === "rounds" && T.status === "between" && v === T.round) T.status = "finished";
+      if (key === "breakSeconds" || key === "autoStart") cancelCountdown(T);   // restart with the new value
       push(T);
     }));
 
@@ -589,6 +680,12 @@ export function setupTournaments(deps) {
     }));
 
     socket.on("tStartRound", asHost((T) => { const err = startRound(T); if (err) fail(err); }));
+    socket.on("tHold", asHost((T, { hold } = {}) => {
+      T.hold = !!hold;
+      if (!T.hold) T.notice = null;
+      if (T.hold) cancelCountdown(T);
+      push(T);
+    }));
     socket.on("tEndRound", asHost((T) => { if (T.status === "round") endRoundNow(T); }));
     socket.on("tFinish", asHost((T) => {
       if (T.status === "round") return fail("End the current round first.");
@@ -625,6 +722,20 @@ export function setupTournaments(deps) {
       push(T);
     });
 
+    socket.on("tReady", ({ ready } = {}) => {
+      const T = myT(), s = meS(T); if (!T || !s || T.status !== "lobby") return;
+      s.ready = !!ready;
+      push(T);
+    });
+
+    // anyone with the code can watch (students between battles, the teacher's screen)
+    socket.on("tWatch", ({ code, matchId, next } = {}) => {
+      const T = myT() || tournaments.get((code || "").toUpperCase());
+      if (!T) return socket.emit("tWatching", { matchId: null, gone: true });
+      watch(socket, T, { matchId, next });
+    });
+    socket.on("tUnwatch", () => stopWatching(socket));
+
     socket.on("tLeave", () => {
       const T = myT(), s = meS(T); if (!T || !s) return;
       socket.leave(s.pid);
@@ -657,6 +768,7 @@ export function setupTournaments(deps) {
     for (const [code, T] of tournaments) {
       if (now - T.lastActive < IDLE_EXPIRE_MS) continue;
       clearInterval(T._ticker);
+      cancelCountdown(T);
       tournaments.delete(code);
     }
   }, 10 * 60 * 1000).unref();

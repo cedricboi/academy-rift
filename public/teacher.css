@@ -193,6 +193,28 @@ body.teacher::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.10;poi
   .t-foot{flex-direction:column;align-items:stretch;}
 }
 
+/* ---------- running by itself ---------- */
+.t-auto{margin:8px 0 10px;padding:10px 14px;background:var(--panel);border:2px solid #3a3a45;border-left:6px solid var(--cyan);
+  font-size:1.15rem;font-weight:600;color:var(--paper);}
+.t-auto b{font-family:"Anton";color:var(--gold);font-size:1.2em;}
+.t-auto.live{border-color:var(--gold);border-left-color:var(--gold);font-family:"Anton";font-size:1.9rem;letter-spacing:2px;
+  background:linear-gradient(90deg,rgba(242,184,75,.18),var(--panel));}
+.t-auto.live b{font-size:1.15em;margin-left:8px;font-variant-numeric:tabular-nums;}
+.t-auto.warn{border-left-color:var(--danger);color:var(--gold);}
+.t-ready{font-style:normal;font-weight:700;font-size:.8rem;padding:0 5px;}
+.t-ready.yes{color:var(--ink);background:var(--hp);}
+.t-ready.no{color:var(--ash);border:1px solid #55505a;}
+.t-match.live{cursor:pointer;}
+.t-match.live:hover{border-color:var(--crimson);}
+.t-mfoot{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.t-watchme{color:var(--cyan);font-size:.9rem;font-weight:700;}
+
+/* ---------- watch window ---------- */
+.t-watch{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:12px;}
+.t-watch-box{position:relative;width:min(96vw,calc((96vh - 10px) * 16 / 9));aspect-ratio:16/9;border:3px solid var(--crimson);background:#000;}
+.t-watch-box iframe{width:100%;height:100%;border:0;display:block;}
+.t-watch-close{position:absolute;top:-16px;right:-16px;z-index:2;background:var(--ink);border-radius:50%;width:40px;height:40px;font-size:1.1rem;}
+
 /* big projector screens: larger battle cards */
 @media (min-width:1600px){
   .t-matches{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;}

@@ -169,6 +169,7 @@ const Tour = setupTournaments({
   setSocketRoom: (sid, code) => socketRoom.set(sid, code),
   startBattle: (room) => beginBattle(room),
   timeUp: (room) => timeUp(room),
+  later, SPEED,
 });
 
 // A socket's player id: tournament students keep one id across reconnects;

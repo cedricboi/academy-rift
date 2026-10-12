@@ -22,23 +22,34 @@ match never stalls.
 ## Class tournament (a whole class at once)
 For 30 or so students: everyone joins one tournament, gets into pairs, and each round the
 server matches the pairs 2v2 and starts every battle at the same time. A leaderboard tracks
-who is on top.
+who is on top. Once students are in, it runs by itself; the teacher only needs to watch.
 
 1. On the projector computer open **`/teacher`** (for example `http://192.168.50.238:3100/teacher`,
    or `https://…onrender.com/teacher` when the game is online) and press **Start a tournament**.
 2. The page shows the join link, a QR code and a 4-letter code. Students open the game on their
    iPads, type their name and the code, and press **JOIN**.
 3. Students choose partners on their own screens (two students who pick each other become a
-   pair), or you pair them on the teacher page, or press **Pair the rest at random**.
-   Students without a partner when a round starts are paired at random; a student left on
-   their own plays with a bot partner. Students pick their fighter while they wait.
-4. Press **Start Round 1**. Every pair is sent straight into its battle. The teacher page shows
-   every battle's HP and time left, and the leaderboard updates as battles finish.
-5. Between rounds press **Start Round 2**, and so on. After the last round the page shows the
-   podium; **Download results** saves a spreadsheet (CSV) with every student's correct answers.
+   pair) and pick a fighter. Anyone still without a partner when a round starts is paired at
+   random; a student left on their own plays with a bot partner.
+4. Each student taps **I'M READY**. When everyone online is ready, a 10-second countdown starts
+   and Round 1 begins by itself. Every pair is sent straight into its battle.
+5. When every battle in a round has finished, the leaderboard shows during a short break and the
+   next round starts by itself. After the last round the projector shows the podium;
+   **Download results** saves a spreadsheet (CSV) with every student's correct answers.
+
+**Watching.** Students who are not in a battle (finished early, sitting out, joined late) can
+pick a live battle on their screen and watch it. Watchers see the questions and the action but
+cannot answer or steal. On the projector, click any live battle card to watch it on the big
+screen. When a watched battle ends, the view moves to another battle that is still going.
+
+**The teacher can still step in** at any time: **Start now** skips a countdown, **Hold** pauses
+the automatic start (then **Resume**), **End round now** stops every running battle, and
+names on the teacher page can be paired, split or removed.
 
 **Settings** (the ⚙ button on the teacher page) — all can be changed between rounds unless noted:
 - How pairs are made: students choose / random draw / teacher pairs them (fixed once Round 1 starts)
+- Start of Round 1: when every student is ready / when the teacher presses Start
+- Break between rounds: 15–90 seconds then the next round starts by itself, or wait for the teacher
 - Number of rounds (1–8; you can add rounds after the end)
 - Who fights whom: similar scores after Round 1 (top pairs meet by the end) / random every round
 - Avoid repeat opponents: yes / no
