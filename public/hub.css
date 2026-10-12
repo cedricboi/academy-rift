@@ -1,11 +1,11 @@
 /* ===== Academy Rift — question hub ===== */
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Anton&display=swap");
+@import url("fonts/fonts.css");
 
 :root{
   --ink:#08080C; --panel:#16141B; --panel2:#1E1B25; --line:#34303D; --line2:#4A4555;
   --crimson:#D4143A; --dark-red:#6E0B1E; --paper:#F8F6F2; --ash:#B9B4B0; --dim:#8C8794;
   --gold:#F2B84B; --cyan:#38E8D6; --good:#55F28B; --bad:#FF5A75;
-  --body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --body:"Rift Body",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box;}
 html{background:var(--ink);}
@@ -13,7 +13,7 @@ body{margin:0;min-height:100vh;color:var(--paper);font:16px/1.5 var(--body);
   background:radial-gradient(120% 60% at 50% -10%,#2a0410 0%,var(--ink) 60%) fixed,var(--ink);}
 a{color:var(--gold);}
 a:hover{color:#FFD27A;}
-h1,h2{font-family:"Oswald",var(--body);font-weight:600;letter-spacing:.3px;line-height:1.2;margin:0;}
+h1,h2{font-family:"Rift Display",var(--body);font-weight:600;letter-spacing:.3px;line-height:1.2;margin:0;}
 h1{font-size:1.9rem;}
 h2{font-size:1.2rem;}
 code{background:var(--panel2);border:1px solid var(--line);padding:1px 6px;font-size:.92em;}
@@ -25,14 +25,14 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
   padding:10px 20px;background:rgba(8,4,12,.94);border-bottom:3px solid var(--crimson);}
 .h-brand{display:flex;flex-direction:column;line-height:1;text-decoration:none;transform:skewX(-5deg);}
-.h-brand-name{font-family:"Anton";font-size:1.4rem;letter-spacing:1.5px;color:var(--paper);text-shadow:2px 2px 0 var(--dark-red);}
-.h-brand-sub{font-family:"Anton";font-size:.85rem;letter-spacing:3px;color:var(--gold);margin-top:3px;}
-.h-store{font-family:"Oswald";font-weight:600;font-size:.85rem;letter-spacing:.5px;text-transform:uppercase;
+.h-brand-name{font-family:"Rift Display",system-ui;font-size:1.4rem;letter-spacing:1.5px;color:var(--paper);text-shadow:2px 2px 0 var(--dark-red);}
+.h-brand-sub{font-family:"Rift Display",system-ui;font-size:.85rem;letter-spacing:3px;color:var(--gold);margin-top:3px;}
+.h-store{font-family:"Rift Body";font-weight:600;font-size:.85rem;letter-spacing:.5px;text-transform:uppercase;
   padding:4px 12px;border:2px solid currentColor;}
 .h-store.ok{color:var(--good);}
 .h-store.warn{color:var(--gold);}
 .h-store.bad{color:var(--bad);}
-.h-nav{margin-left:auto;display:flex;align-items:center;gap:18px;font-family:"Oswald";font-weight:500;}
+.h-nav{margin-left:auto;display:flex;align-items:center;gap:18px;font-family:"Rift Body";font-weight:500;}
 .h-nav a{color:var(--ash);text-decoration:none;}
 .h-nav a:hover{color:var(--paper);}
 
@@ -41,7 +41,7 @@ button,input,textarea{font:inherit;color:inherit;}
 
 /* ---------- buttons ---------- */
 .h-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:8px 18px;
-  font-family:"Oswald";font-weight:600;font-size:1rem;letter-spacing:.4px;text-decoration:none;cursor:pointer;
+  font-family:"Rift Body";font-weight:600;font-size:1rem;letter-spacing:.4px;text-decoration:none;cursor:pointer;
   background:var(--panel2);color:var(--paper);border:2px solid var(--line2);}
 .h-btn:hover{border-color:var(--ash);color:var(--paper);}
 .h-btn.primary{background:var(--crimson);border-color:var(--crimson);color:#fff;}
@@ -70,7 +70,7 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-banner{border:2px solid;padding:14px 18px;margin:0 0 24px;background:var(--panel);}
 .h-banner.warn{border-color:var(--gold);}
 .h-banner.bad{border-color:var(--bad);}
-.h-banner b{font-family:"Oswald";font-weight:600;font-size:1.1rem;}
+.h-banner b{font-family:"Rift Body";font-weight:600;font-size:1.1rem;}
 .h-banner p{margin:6px 0;color:var(--ash);}
 .h-banner summary{cursor:pointer;color:var(--gold);font-weight:600;margin-top:6px;}
 .h-steps{padding-left:22px;color:var(--ash);}
@@ -103,13 +103,13 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-set.dim{opacity:.45;}
 .h-selbar{position:sticky;bottom:16px;z-index:15;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px;
   padding:12px 16px;background:rgba(22,20,27,.97);border:2px solid var(--line2);box-shadow:0 10px 30px rgba(0,0,0,.6);}
-.h-selbar b{font-family:"Oswald";font-size:1.15rem;}
+.h-selbar b{font-family:"Rift Body";font-size:1.15rem;}
 
 /* ---------- editor ---------- */
 .h-ed-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.h-back{font-family:"Oswald";font-weight:500;color:var(--ash);text-decoration:none;white-space:nowrap;}
+.h-back{font-family:"Rift Body";font-weight:500;color:var(--ash);text-decoration:none;white-space:nowrap;}
 .h-back:hover{color:var(--paper);}
-.h-title{flex:1 1 320px;min-width:0;font-family:"Oswald";font-weight:600;font-size:1.9rem;padding:4px 10px;
+.h-title{flex:1 1 320px;min-width:0;font-family:"Rift Body";font-weight:600;font-size:1.9rem;padding:4px 10px;
   background:transparent;border:2px solid transparent;color:var(--paper);}
 .h-title:hover{border-color:var(--line);}
 .h-title:focus{border-color:var(--gold);outline:none;background:var(--panel);}
@@ -119,6 +119,7 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-ed-bar{position:sticky;top:64px;z-index:10;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
   margin:14px -20px 0;padding:10px 20px;background:rgba(8,8,12,.94);border-bottom:1px solid var(--line);}
 .h-spacer{flex:1;}
+.h-ed-bar .h-btn{padding:8px 14px;}
 .h-count{background:none;border:0;color:var(--ash);font-size:.95rem;cursor:pointer;padding:6px 4px;}
 .h-count:disabled{cursor:default;}
 .h-count .bad{color:var(--gold);text-decoration:underline;text-underline-offset:3px;}
@@ -131,7 +132,7 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-q.flash{border-color:var(--gold);}
 .h-q:focus-within{border-color:var(--line2);}
 .h-q-side{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.h-q-num{font-family:"Anton";font-size:1.4rem;color:var(--paper);line-height:1.2;}
+.h-q-num{font-family:"Rift Display",system-ui;font-size:1.4rem;color:var(--paper);line-height:1.2;}
 .h-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;
   background:transparent;border:1px solid var(--line);color:var(--ash);font-size:1rem;}
 .h-icon:hover:not(:disabled){border-color:var(--ash);color:var(--paper);}
@@ -139,7 +140,7 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-icon:disabled{opacity:.3;cursor:default;}
 
 .h-pic{width:190px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
-.h-pic.empty{cursor:pointer;background:transparent;border:2px dashed var(--line2);color:var(--ash);font-family:"Oswald";font-weight:500;}
+.h-pic.empty{cursor:pointer;background:transparent;border:2px dashed var(--line2);color:var(--ash);font-family:"Rift Body";font-weight:500;}
 .h-pic.empty:hover{border-color:var(--gold);color:var(--paper);}
 .h-pic-plus{font-size:1.8rem;line-height:1;}
 .h-pic-hint{font-family:var(--body);font-size:.8rem;color:var(--dim);}
@@ -165,14 +166,14 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-tick:hover::before{border-color:var(--good);}
 .h-ans.right .h-tick{background:var(--good);border-right-color:var(--good);}
 .h-ans.right .h-tick::before{display:none;}
-.h-ans-key{flex:0 0 30px;display:flex;align-items:center;justify-content:center;font-family:"Anton";color:var(--dim);}
+.h-ans-key{flex:0 0 30px;display:flex;align-items:center;justify-content:center;font-family:"Rift Display",system-ui;color:var(--dim);}
 .h-ans.right .h-ans-key{color:var(--good);}
 .h-ans-text{flex:1;min-width:0;padding:8px 10px 8px 0;background:transparent;border:0;border:2px solid transparent;margin:-2px -2px -2px 0;}
 .h-q-body > .h-linkbtn{align-self:flex-start;text-align:left;}
 .h-q-probs{margin:0;min-height:1.3em;font-size:.9rem;color:var(--gold);}
 .h-q:not(.bad) .h-q-probs{display:none;}
 .h-addq{display:block;width:100%;margin-top:14px;min-height:56px;cursor:pointer;background:transparent;
-  border:2px dashed var(--line2);color:var(--ash);font-family:"Oswald";font-weight:600;font-size:1.1rem;}
+  border:2px dashed var(--line2);color:var(--ash);font-family:"Rift Body";font-weight:600;font-size:1.1rem;}
 .h-addq:hover{border-color:var(--gold);color:var(--paper);}
 
 /* ---------- toast, dialog, drop ---------- */
@@ -202,7 +203,7 @@ button,input,textarea{font:inherit;color:inherit;}
 .h-peek b{color:var(--good);font-weight:600;}
 .h-drop{position:fixed;inset:0;z-index:40;pointer-events:none;display:flex;align-items:center;justify-content:center;
   background:rgba(8,4,12,.55);border:4px dashed var(--gold);}
-.h-drop-box{padding:18px 26px;background:var(--panel);border:2px solid var(--gold);font-family:"Oswald";font-size:1.3rem;text-align:center;}
+.h-drop-box{padding:18px 26px;background:var(--panel);border:2px solid var(--gold);font-family:"Rift Body";font-size:1.3rem;text-align:center;}
 
 /* ---------- narrow screens ---------- */
 @media (max-width:760px){

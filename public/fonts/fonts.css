@@ -1,0 +1,10 @@
+/* ===== Academy Rift fonts (served by the game, so they work offline too) =====
+   Rift Display: Saira Semi Condensed, for titles, tags, buttons and numbers.
+   Rift Body:    Lexend, made for easy reading, for questions, answers and all other text.
+   Both are under the SIL Open Font License (see the LICENSE files here). */
+@font-face{font-family:"Rift Display";src:url("saira-semi-condensed-latin-800-normal.woff2") format("woff2");font-weight:600 900;font-style:normal;font-display:swap;}
+@font-face{font-family:"Rift Display";src:url("saira-semi-condensed-latin-700-normal.woff2") format("woff2");font-weight:100 599;font-style:normal;font-display:swap;}
+@font-face{font-family:"Rift Body";src:url("lexend-latin-400-normal.woff2") format("woff2");font-weight:100 449;font-style:normal;font-display:swap;}
+@font-face{font-family:"Rift Body";src:url("lexend-latin-500-normal.woff2") format("woff2");font-weight:450 549;font-style:normal;font-display:swap;}
+@font-face{font-family:"Rift Body";src:url("lexend-latin-600-normal.woff2") format("woff2");font-weight:550 649;font-style:normal;font-display:swap;}
+@font-face{font-family:"Rift Body";src:url("lexend-latin-700-normal.woff2") format("woff2");font-weight:650 900;font-style:normal;font-display:swap;}

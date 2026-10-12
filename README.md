@@ -140,6 +140,7 @@ Academy Rift/
 │  ├─ hub.html/.js/.css   Question hub, opened at /hub
 │  ├─ style.css           Art-bible UI (crimson/black shards, HP/SP cards, sync gauge…)
 │  ├─ game.js             Client: socket sync, battle render, MCQ, command shards, FX, shop
+│  ├─ fonts/              Saira Semi Condensed (titles) and Lexend (reading), served by the game
 │  └─ data/               Shared roster, topics, tournament settings and spreadsheet reading
 ├─ start.bat              Double-click launcher
 ├─ test-match.mjs         Headless 4-player end-to-end test (node test-match.mjs)

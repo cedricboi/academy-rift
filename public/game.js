@@ -870,7 +870,7 @@ function renderTopicSelect(isHost) {
   if (isHost) loadHubSets();
   const own = isHost ? (hubSets || []) : (room.topicParts || []).filter((p) => p.own).map((p) => ({ id: p.id, title: p.title, count: null }));
   const ownChips = own.map((s) => `
-    <button class="topic-chip-btn own ${chosen.has(s.id) ? "active" : ""}" data-topic="${esc(s.id)}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(s.id)}">
+    <button class="topic-chip-btn hubset ${chosen.has(s.id) ? "active" : ""}" data-topic="${esc(s.id)}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(s.id)}">
       <span class="tc-icon">📝</span>
       <span class="tc-name">${esc(s.title)}</span>
       <span class="tc-blurb">${s.count != null ? `${s.count} question${s.count === 1 ? "" : "s"} from the question hub` : "From the question hub"}</span>
@@ -1133,6 +1133,7 @@ function fillQuestionCard(mode, q, cur, onPick) {
   setMcqPic(q.image);
   $("mcqFeedback").className = "mcq-feedback hidden"; $("mcqFeedback").textContent = "";
   const wrap = $("mcqChoices"); wrap.innerHTML = ""; mySelected = -1;
+  wrap.classList.toggle("long", q.choices.some((ch) => String(ch).length > 24));
   q.choices.forEach((ch, i) => {
     const btn = document.createElement("button");
     btn.className = "choice";
