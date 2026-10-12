@@ -19,6 +19,22 @@ and shares the 4-letter code; the others **Join**. Pick teams + characters, then
 Short a player? The host can **+BOT** any empty slot, and disconnects auto-convert to bots so a
 match never stalls.
 
+## Practice fight (first time playing)
+After **ENTER THE RIFT** every student is offered a **practice fight** (about 3 minutes; they
+can skip it, and replay it any time from the lobby with **▶ PRACTICE FIGHT**). They play
+Jun, with Emi as their partner and coach, against two easy rivals. Nothing is timed, a wrong
+answer can be tried again, and the fight pauses at each new idea until they tap **NEXT**.
+Each of their turns teaches one thing, and an arrow points at what to tap:
+
+1. **Answer, then Strike**: pick a target on the stage.
+2. **Watching**: the rivals' and partner's questions at the top, HP, the team Sync gauge.
+3. **Stealing**: a rival answers wrong, the student steals the turn (half damage).
+4. **Skills**: the skill cards (SP cost, cooldown) and hitting a **weak spot**.
+5. **Hint, then Ultimate**: a harder question with a 💡 hint, then the full Sync gauge.
+
+The script lives in `practice.js` (questions, rivals, when to pause) and the coach's words
+in `public/game.js` (`coachMessage`). `node test-practice.mjs` plays it through.
+
 ## Class tournament (a whole class at once)
 For 30 or so students: everyone joins one tournament, gets into pairs, and each round the
 server matches the pairs 2v2 and starts every battle at the same time. A leaderboard tracks
@@ -138,7 +154,9 @@ Either way it's the same game — the Node server stays authoritative (answers h
 ## Project layout
 ```
 Academy Rift/
-├─ server.js              Authoritative 2v2 battle engine (rooms, teams, turns, combat)
+├─ server.js              Authoritative 2v2 battle engine (rooms, teams, turns)
+├─ combat.js              What every move does: damage, skills, items, Ultimates
+├─ practice.js            The guided practice fight (script, questions, rivals)
 ├─ tournament.js          Class tournament: pairs, rounds, matchmaking, leaderboard
 ├─ questions.js           Science MCQ bank — SERVER ONLY (answers never sent to clients)
 ├─ bank.js                Question hub: teacher's sets and pictures (GitHub branch or folder)
@@ -151,8 +169,10 @@ Academy Rift/
 │  ├─ fonts/              Saira Semi Condensed (titles) and Lexend (reading), served by the game
 │  └─ data/               Shared roster, topics, tournament settings and spreadsheet reading
 ├─ start.bat              Double-click launcher
+├─ tools/balance.mjs      Character balance check (plays thousands of battles)
 ├─ test-match.mjs         Headless 4-player end-to-end test (node test-match.mjs)
 ├─ test-tournament.mjs    Headless 30-student class tournament test
+├─ test-practice.mjs      The practice fight, played through
 └─ test-hub.mjs           Question hub test (import, pictures, saving, use in battles)
 ```
 
@@ -182,6 +202,39 @@ map at the top of `public/game.js`. Anything left `null` falls back to a CSS pla
 - Questions: use the question hub at `/hub` (above). The built-in set is `questions.js`
   (`answer` = 0-based correct index).
 - Characters, stats, skills, items, element weaknesses: `public/data/characters.js`.
+  The rules for every move (damage, skills, items, Ultimates) are in `combat.js`.
+
+## Character balance
+Every fighter wins about half of their battles. `node tools/balance.mjs` checks this: it
+plays 20,000 battles with the real combat rules (random teams, students who answer right
+about 70% of the time, sometimes steal, and pick sensible moves) and prints each fighter's
+win rate, both for fights to a knockout and with the 8-minute tournament limit. Run it
+again after changing any number in `characters.js`. Options: `50000` for more battles,
+`--right 0.55` for a class that answers less accurately, `--policy random` for random moves,
+`--try changes.json` to test new numbers without editing the file.
+
+The element chart is even: each element is the weak spot of exactly one fighter, and
+exactly one fighter resists it. A WEAK hit does 1.75× damage and fills extra Sync; a resisted
+hit does half.
+
+| Element | Weak spot of | Resisted by |
+|---|---|---|
+| Fire (Jun) | Renji | Mina |
+| Ice (Saya) | Nao | Renji |
+| Electric (Raiden) | Mina | Taiga |
+| Wind (Nao) | Taiga | Raiden |
+| Light (Emi) | Kuro | Hina |
+| Shadow (Kuro) | Hina | Emi |
+| Earth (Taiga) | Raiden | Nao |
+| Mind (Hina) | Emi | Kuro |
+| Water (Mina) | Jun | Saya |
+| Metal (Renji) | Saya | Jun |
+
+Ultimates come in four kinds, priced against each other: **damage** (big hit on both
+enemies), **shield** (hit both, and both allies take 30% less damage for 2 turns), **heal**
+(heal both allies and hit both enemies for half) and **stun** (hit both; the enemy who would
+act next misses that turn). The skill numbers (SP cost, power, cooldown) are printed on the
+skill card art and were left as they are; HP, SP, ATK and Ultimate power were tuned.
 
 ## Known gaps / next steps
 - Separate **item-loadout screen** (you bought items persist in the shop, but battles

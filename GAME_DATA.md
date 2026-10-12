@@ -1,10 +1,14 @@
 # Academy Rift — Game Data
 
+> This is the original design sheet. The numbers the game uses now (balanced in October
+> 2026) are in `public/data/characters.js`, and the README's "Character balance" section
+> explains them. The element chart below has been updated to the even chart the game uses.
+
 ## Characters, Skills & Stats
 
 ### 1. Jun Kisaragi — Fire / Attacker
 **Stats:** HP 1200 | SP 320 | ATK 220  
-**Weakness:** Ice | **Resists:** Shadow
+**Weakness:** Water | **Resists:** Metal
 
 **Skills:**
 - Ember Slash (Fire ATK) — SP: 20 | Power: 250
@@ -18,7 +22,7 @@
 
 ### 2. Saya Mizuno — Ice / Control
 **Stats:** HP 1150 | SP 360 | ATK 180  
-**Weakness:** Electric | **Resists:** Fire
+**Weakness:** Metal | **Resists:** Water
 
 **Skills:**
 - Frost Pin (Ice ATK) — SP: 18 | Power: 230
@@ -46,7 +50,7 @@
 
 ### 4. Nao Kazehara — Wind / Evasion
 **Stats:** HP 1100 | SP 340 | ATK 200  
-**Weakness:** Electric | **Resists:** Earth
+**Weakness:** Ice | **Resists:** Earth
 
 **Skills:**
 - Razor Breeze (Wind ATK) — SP: 18 | Power: 240
@@ -60,7 +64,7 @@
 
 ### 5. Emi Shiraishi — Light / Healer
 **Stats:** HP 1100 | SP 420 | ATK 150  
-**Weakness:** Shadow | **Resists:** Mind
+**Weakness:** Mind | **Resists:** Shadow
 
 **Skills:**
 - Radiant Pulse (Light ATK) — SP: 22 | Power: 240
@@ -74,7 +78,7 @@
 
 ### 6. Kuro Amane — Shadow / Curse
 **Stats:** HP 1150 | SP 380 | ATK 190  
-**Weakness:** Light | **Resists:** Shadow
+**Weakness:** Light | **Resists:** Mind
 
 **Skills:**
 - Hex Thorn (Shadow ATK) — SP: 20 | Power: 250
@@ -130,7 +134,7 @@
 
 ### 10. Renji Kurosawa — Metal / Heavy
 **Stats:** HP 1300 | SP 300 | ATK 240  
-**Weakness:** Fire | **Resists:** Earth
+**Weakness:** Fire | **Resists:** Ice
 
 **Skills:**
 - Iron Smash (Metal ATK) — SP: 22 | Power: 270
@@ -329,22 +333,24 @@
 
 ## Damage Effectiveness Chart
 
-| Attack Element | Weak Against | Resists |
+Each element is the weak spot of exactly one character and resisted by exactly one.
+
+| Element | Weak spot of | Resisted by |
 |---|---|---|
-| Fire | Ice, Metal | Shadow, Water |
-| Ice | Electric | Fire |
-| Electric | Earth | Wind |
-| Wind | Electric | Earth |
-| Light | Shadow | Mind |
-| Shadow | Light | Shadow |
-| Earth | Wind | Electric |
-| Mind | Shadow | Light |
-| Water | Electric | Fire |
-| Metal | Fire | Earth |
+| Fire | Renji (Metal) | Mina (Water) |
+| Ice | Nao (Wind) | Renji (Metal) |
+| Electric | Mina (Water) | Taiga (Earth) |
+| Wind | Taiga (Earth) | Raiden (Electric) |
+| Light | Kuro (Shadow) | Hina (Mind) |
+| Shadow | Hina (Mind) | Emi (Light) |
+| Earth | Raiden (Electric) | Nao (Wind) |
+| Mind | Emi (Light) | Kuro (Shadow) |
+| Water | Jun (Fire) | Saya (Ice) |
+| Metal | Saya (Ice) | Jun (Fire) |
 
 **Damage Formula:**
 - WEAK hit: 1.75× damage
 - RESIST hit: 0.5× damage
 - CORRECT answer: 1.22× damage multiplier
 - CRITICAL (7% chance): 1.25× damage
-- Base damage scaled by 0.4× for longer battles
+- Base damage scaled by 0.62× (`DMG_SCALE` in `combat.js`)

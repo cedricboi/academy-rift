@@ -8,11 +8,13 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import os from "os";
-import { CHAR_BY_ID, CHARACTERS, ITEM_BY_ID, effectiveness } from "./public/data/characters.js";
+import { CHAR_BY_ID, CHARACTERS, ITEM_BY_ID } from "./public/data/characters.js";
+import { SYNC_CORRECT, SYNC_TEAM, makeCombatant, resolveAction, addSync, enemiesOf, alliesOf, decStatuses } from "./combat.js";
 import { TOPIC_BY_ID } from "./public/data/topics.js";
 import { QUESTIONS } from "./questions.js";
 import { setupTournaments } from "./tournament.js";
 import { createBank, mountHub } from "./bank.js";
+import { PRACTICE_TEAM, PRACTICE_HP, newPractice, nextLesson, practiceQuestion, botPlan, botMove } from "./practice.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -66,18 +68,11 @@ const QUESTION_SECONDS = 18;
 const ACTION_SECONDS = 12;          // time to pick a move after a correct answer (was 20)
 const REVEAL_MS = 1000;             // correct answer stays highlighted before the move panel (was 3000)
 const NEXT_TURN_MS = 1300;          // pause after a move before the next turn (was 1700)
-const CORRECT_MULT = 1.22;          // a correct answer empowers your action (was 1.35)
-const SP_DMG_SCALE = 140;           // higher-SP skills hit harder: power * (1 + sp/SP_DMG_SCALE)
-const DMG_SCALE = 0.55;             // global damage scale — lower = longer battles (was 0.4; quicker battles, about 8 min)
-const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
-const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
 const STEAL_SECONDS = 6;            // closes early once everyone who can steal has tried (was a fixed 10)
-const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
 // Hints: a player may ask for one on their own question. The price: a right answer
 // after a hint is not powered up and fills only half as much Sync; with the "hp"
 // cost the player also loses 10% of their max HP straight away.
 const HINTS_PER_BATTLE = 2, HINT_HP_COST = 0.10, HINT_SYNC_FACTOR = 0.5;
-const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 const BOT_NAMES = ["Akira", "Mei", "Sora", "Riku", "Yuki", "Kai"];
 // a bot name nobody in the room already has (players can be called Mei too)
 function botName(room) {
@@ -90,7 +85,6 @@ const rooms = new Map();      // code -> room
 const socketRoom = new Map(); // socket.id -> code
 
 const rand = (a) => a[Math.floor(Math.random() * a.length)];
-const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
 // Fisher-Yates shuffle (returns a new array).
 function shuffle(arr) {
@@ -141,6 +135,7 @@ function filterQuestions(topicId) {
 // reshuffle when exhausted, so every question is seen once before any repeats and
 // the order varies each match.
 function nextQuestion(b) {
+  if (b.practice) return practiceQuestion(b.practice, !b.combatants[b.current]?.bot);
   const pool = b.qPool && b.qPool.length ? b.qPool : QUESTIONS;
   if (!b.qDeck || b.qPos >= b.qDeck.length) { b.qDeck = shuffle(pool); b.qPos = 0; }
   return b.qDeck[b.qPos++];
@@ -170,6 +165,7 @@ function publicRoom(room) {
     topicName: topicLabel(room.topicId),
     topicParts: topicPartsInfo(room.topicId),
     tournament: room.tournament || null,
+    practice: room.practice ? { lesson: room.practice.lesson, gate: room.practice.gate } : null,
     serverNow: Date.now(),          // lets clients correct for a wrong device clock
     players: room.players.map((p) => ({
       id: p.id, name: p.name, team: p.team, character: p.character, ready: p.ready, bot: p.bot,
@@ -228,7 +224,41 @@ const pidOf = (socket) => socket.data.pid || socket.id;
 io.on("connection", (socket) => {
   Tour.bind(socket);
 
+  // ---- the practice fight: one student, three bots, a coach on screen ----
+  socket.on("startPractice", ({ name } = {}) => {
+    if (socket.data.pid) return socket.emit("errorMsg", "You are in a class tournament. Practise after it ends.");
+    dropPractice(socket);
+    leaveLobby(socket);
+    const code = makeRoomCode();
+    const nm = String(name || "").trim().slice(0, 14) || "Trainee";
+    const p = newPractice(socket.id);
+    const room = {
+      code, status: "lobby", hostId: socket.id, battle: null, topicId: "mixed", practice: p,
+      players: [
+        { id: socket.id, name: nm, team: 0, character: PRACTICE_TEAM.student, ready: true, bot: false },
+        { id: p.rivalA, name: "Rival (Bot)", team: 1, character: PRACTICE_TEAM.rivals[0], ready: true, bot: true },
+        { id: p.partner, name: "Coach (Bot)", team: 0, character: PRACTICE_TEAM.partner, ready: true, bot: true },
+        { id: p.rivalB, name: "Rival (Bot)", team: 1, character: PRACTICE_TEAM.rivals[1], ready: true, bot: true },
+      ],
+    };
+    rooms.set(code, room);
+    socketRoom.set(socket.id, code);
+    socket.join(code);
+    socket.emit("joined", { code, you: socket.id });
+    beginBattle(room);
+  });
+  // the student tapped NEXT on the coach
+  socket.on("coachNext", () => {
+    const room = myRoom(), b = room?.battle;
+    if (!room?.practice || !b?.coachWait) return;
+    const go = b.coachWait; b.coachWait = null; room.practice.gate = null;
+    broadcast(room);
+    go();
+  });
+  socket.on("leavePractice", () => dropPractice(socket));
+
   socket.on("createRoom", ({ name }) => {
+    dropPractice(socket);
     const code = makeRoomCode();
     const room = { code, status: "lobby", hostId: socket.id, players: [], battle: null, topicId: "mixed" };
     room.players.push({ id: socket.id, name: name || "Player", team: 0, character: null, ready: false, bot: false });
@@ -240,6 +270,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("joinRoom", ({ name, code, token }) => {
+    dropPractice(socket);
     code = (code || "").toUpperCase();
     if (Tour.has(code)) return Tour.join(socket, { code, name, token });
     const room = rooms.get(code);
@@ -324,6 +355,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    if (dropPractice(socket)) return;
     const stale = Tour.onDisconnect(socket);   // also marks tournament students offline
     const room = myRoom(); socketRoom.delete(socket.id);
     if (!room || stale) return;
@@ -349,27 +381,42 @@ io.on("connection", (socket) => {
   });
 });
 
+// A practice room ends when the student leaves it, starts another or disconnects.
+function dropPractice(socket) {
+  const code = socketRoom.get(socket.id), room = rooms.get(code);
+  if (!room?.practice) return false;
+  if (room.battle) clearTimers(room.battle);
+  room.status = "finished";
+  rooms.delete(code); socketRoom.delete(socket.id); socket.leave(code);
+  return true;
+}
+// Leaving a waiting room without closing the page (for example to go and practise).
+function leaveLobby(socket) {
+  const room = rooms.get(socketRoom.get(socket.id));
+  if (!room || room.practice || room.tournament || room.status !== "lobby") return;
+  room.players = room.players.filter((p) => p.id !== socket.id);
+  socket.leave(room.code); socketRoom.delete(socket.id);
+  if (!room.players.some((p) => !p.bot)) { rooms.delete(room.code); return; }
+  if (room.hostId === socket.id) room.hostId = room.players.find((p) => !p.bot)?.id;
+  broadcast(room);
+}
+
+// Practice: hold the fight until the student taps NEXT on the coach. Each pause
+// happens once per practice fight.
+function practiceGate(room, key, go) {
+  const p = room.practice, b = room.battle;
+  if (!p || !b || p.seen[key]) return go();
+  p.seen[key] = true; p.gate = key;
+  b.coachWait = () => { if (room.status === "battle") go(); };
+  broadcast(room);
+}
+
 // ---------- battle setup ----------
 function beginBattle(room) {
-  const make = (p) => {
-    const base = CHAR_BY_ID[p.character] || rand(CHARACTERS);
-    return {
-      uid: p.id, name: p.name, bot: p.bot, team: p.team,
-      charId: base.id, charName: base.name, element: base.element, role: base.role,
-      weakTo: base.weakTo, resists: base.resists,
-      maxHp: base.hp, hp: base.hp, maxSp: base.sp, sp: base.sp, atk: base.atk,
-      skills: base.skills, ultimate: base.ultimate,
-      alive: true, defending: false, shield: false, atkBuff: 0,
-      cooldowns: {},       // skillIndex → turns remaining
-      // status effects (turns remaining); decremented at the start of each own turn
-      atkUpTurns: 0, defUpTurns: 0, atkDownTurns: 0, defDownTurns: 0, accDownTurns: 0,
-      timerDownTurns: 0, accProtectTurns: 0, stunned: false,
-      items: { ...DEFAULT_ITEMS }, _correct: false,
-      hintsLeft: room.settings?.hints ?? HINTS_PER_BATTLE, _hinted: false,
-    };
-  };
+  const make = (p) => makeCombatant(CHAR_BY_ID[p.character] || rand(CHARACTERS), p, room.settings?.hints ?? HINTS_PER_BATTLE);
   const t0 = room.players.filter((p) => p.team === 0).map(make);
   const t1 = room.players.filter((p) => p.team === 1).map(make);
+  if (room.practice) for (const c of t1) if (PRACTICE_HP[c.charId]) c.maxHp = c.hp = PRACTICE_HP[c.charId];
   const combatants = {};
   [...t0, ...t1].forEach((c) => (combatants[c.uid] = c));
   const order = [t0[0].uid, t1[0].uid, t0[1].uid, t1[1].uid];
@@ -386,6 +433,7 @@ function beginBattle(room) {
     stealSeconds: room.settings?.stealSeconds ?? STEAL_SECONDS,
     hintCost: room.settings?.hintCost === "hp" ? "hp" : "weaker", hintCount: {},
     endsAt: null, limitTimer: null,
+    practice: room.practice || null,
   };
   const limitMin = room.settings?.timeLimitMin || 0;
   if (limitMin > 0) {
@@ -395,7 +443,8 @@ function beginBattle(room) {
   room.status = "battle";
   io.to(room.code).emit("battleStart");
   broadcast(room);
-  later(() => advance(room), 1200);
+  if (room.practice) later(() => { if (room.status === "battle") practiceGate(room, "intro", () => advance(room)); }, 900);
+  else later(() => advance(room), 1200);
 }
 
 function aliveCount(b, team) {
@@ -433,35 +482,42 @@ function advance(room) {
   startQuestion(room);
 }
 
-// tick down all timed status effects on a combatant
-function decStatuses(c) {
-  for (const k of ["atkUpTurns", "defUpTurns", "atkDownTurns", "defDownTurns", "accDownTurns", "timerDownTurns", "accProtectTurns"]) {
-    if (c[k] > 0) c[k]--;
-  }
-}
-
 function startQuestion(room) {
   const b = room.battle; const c = b.combatants[b.current];
+  const p = room.practice;
+  if (p && !c.bot) {                         // practice: the student's next lesson
+    const lesson = nextLesson(p);
+    if (lesson === "ult") b.sync[c.team] = 100;   // the Ultimate lesson needs a full gauge
+  }
   const q = nextQuestion(b);
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
   const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0));
+  // practice: hints are only offered from the hint lesson on
+  const hint = p && (p.lesson === "strike" || p.lesson === "skills" || c.bot) ? null : hintKind(q);
   b.publicQuestion = {
     q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, image: q.image || null, seconds, startedAt: Date.now(),
-    hint: hintKind(q), hintCost: b.hintCost, hinted: false,   // the hint text itself is only sent to the player who asks
+    hint, hintCost: b.hintCost, hinted: false,   // the hint text itself is only sent to the player who asks
+    untimed: !!p,                                // practice: no clock on anything
   };
   Object.values(b.combatants).forEach((x) => { x._hinted = false; });   // a hint only counts for the question it was used on
   b.phase = "question";
   c._correct = false;
   broadcast(room);
   if (c.bot) {
+    if (p) {                                 // practice: scripted, and sometimes the coach explains first
+      b.botPlan = botPlan(p, c.uid);
+      const think = () => { b.timers.bot = later(() => botTurn(room), 2200 + Math.floor(Math.random() * 800)); };
+      if (b.botPlan.gate) practiceGate(room, b.botPlan.gate, think); else think();
+      return;
+    }
     // Bot takes 3–6 seconds to "think", giving human players time to read the question
     const thinkMs = 3000 + Math.floor(Math.random() * 3001);
     b.timers.bot = later(() => botTurn(room), thinkMs);
     return;
   }
   io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion });
-  b.timers.q = later(() => resolveAnswer(room, -1), seconds * 1000);
+  if (!p) b.timers.q = later(() => resolveAnswer(room, -1), seconds * 1000);
 }
 
 // What kind of hint a question has: the teacher's own hint text, or else
@@ -538,6 +594,9 @@ const isRight = (q, i) => Number.isInteger(i) && rightAnswers(q).includes(i);
 function resolveAnswer(room, choiceIndex) {
   const b = room.battle; const c = b.combatants[b.current];
   const correct = isRight(b.q, choiceIndex);
+  // practice: a wrong answer can be tried again (the coach explains that a real
+  // battle would make you guard instead)
+  if (room.practice && !c.bot && !correct) { io.to(c.uid).emit("practiceRetry", { choiceIndex }); return; }
   gradeAnswer(room, c, correct);
   if (!c.bot) recordReview(b, c.uid, b.q, choiceIndex, correct);
   // After a wrong answer the right one stays secret while the others can still
@@ -558,9 +617,9 @@ function resolveAnswer(room, choiceIndex) {
     if (stealSecs <= 0 || !stealersOf(b, c.uid).length) return closeSteal(room);
     broadcast(room);
     io.to(room.code).emit("stealOpen", {
-      originalUid: c.uid, originalName: c.name, seconds: stealSecs,
+      originalUid: c.uid, originalName: c.name, seconds: stealSecs, untimed: !!room.practice,
     });
-    b.timers.steal = later(() => closeSteal(room), stealSecs * 1000);
+    if (!room.practice) b.timers.steal = later(() => closeSteal(room), stealSecs * 1000);
     return;
   }
 
@@ -574,7 +633,7 @@ function resolveAnswer(room, choiceIndex) {
     broadcast(room);
     if (c.bot) { b.timers.bot = later(() => botAction(room), 200); return; }
     io.to(c.uid).emit("chooseAction", { syncReady: b.sync[c.team] >= 100, correct: true });
-    b.timers.a = later(() => handleAction(room, c.uid, { type: "strike" }, true), ACTION_SECONDS * 1000);
+    if (!room.practice) b.timers.a = later(() => handleAction(room, c.uid, { type: "strike" }, true), ACTION_SECONDS * 1000);
   }, REVEAL_MS);
 }
 
@@ -589,11 +648,12 @@ function handleSteal(room, sid, choiceIndex) {
   if (sid === b.stealOf) return;
   if (!b.stealAnswered) b.stealAnswered = new Set();
   if (b.stealAnswered.has(sid)) return;
-  b.stealAnswered.add(sid);
-
   const stealer = b.combatants[sid];
   if (!stealer || !stealer.alive) return;
   const correct = isRight(b.q, choiceIndex);
+  // practice: a missed steal can be tried again
+  if (room.practice && !correct) { io.to(sid).emit("practiceRetry", { choiceIndex, steal: true }); return; }
+  b.stealAnswered.add(sid);
   recordReview(b, sid, b.q, choiceIndex, correct);
   io.to(room.code).emit("stealResult", correct ? {
     uid: sid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
@@ -625,7 +685,7 @@ function handleSteal(room, sid, choiceIndex) {
   broadcast(room);
   // stealer is always human (bots don't steal), so send them the prompt
   io.to(sid).emit("chooseAction", { syncReady: b.sync[stealer.team] >= 100, correct: true, halfPower: true });
-  b.timers.a = later(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
+  if (!room.practice) b.timers.a = later(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
 }
 
 function closeSteal(room) {
@@ -662,9 +722,6 @@ function actionLabel(actor, action) {
   return t || "Action";
 }
 
-function enemiesOf(b, team) { return b.order.map((u) => b.combatants[u]).filter((c) => c.team !== team && c.alive); }
-function alliesOf(b, team) { return b.order.map((u) => b.combatants[u]).filter((c) => c.team === team); }
-
 function handleAction(room, sid, action, auto = false) {
   const b = room?.battle;
   if (!b) return;
@@ -688,147 +745,10 @@ function handleAction(room, sid, action, auto = false) {
   b.timers.next = later(() => advance(room), NEXT_TURN_MS);
 }
 
-function resolveAction(room, actor, action) {
-  const b = room.battle;
-  const cm = actor._correct && !actor._hinted ? CORRECT_MULT : 1;   // a right answer powers up the move, unless a hint was used
-  const events = [];
-  const enemies = enemiesOf(b, actor.team);
-  const allies = alliesOf(b, actor.team);
-  const pickEnemy = (id) => b.combatants[id] && b.combatants[id].alive && b.combatants[id].team !== actor.team
-    ? b.combatants[id] : (enemies[0] || null);
-  const fizzle = () => [{ kind: "fizzle", target: actor.uid }];   // wrong answer → attack fails
-  const isOffSkill = (sk) => sk && (sk.kind === "atk" || sk.kind === "heavy" || sk.kind === "debuff");
-  // accuracy debuff: 25% chance an offensive action whiffs (unless protected by Clarity Field)
-  const misses = () => actor.accDownTurns > 0 && actor.accProtectTurns <= 0 && Math.random() < 0.25;
-  const allyTarget = (id) => (b.combatants[id] && b.combatants[id].team === actor.team ? b.combatants[id] : actor);
-
-  if (action.type === "strike") {
-    if (!actor._correct) return fizzle();
-    if (misses()) return [{ kind: "fizzle", target: actor.uid, miss: true }];
-    const t = pickEnemy(action.targetId); if (!t) return events;
-    events.push(damage(room, actor, t, actor.atk, actor.element, cm));
-  } else if (action.type === "spell") {
-    const sk = actor.skills[action.skillIndex]; if (!sk) return events;
-    if ((actor.cooldowns[action.skillIndex] || 0) > 0) return fizzle(); // on cooldown
-    if (isOffSkill(sk) && !actor._correct) return fizzle();
-    if (actor.sp < sk.sp) { // not enough SP -> weak strike fallback (still needs a correct answer)
-      if (!actor._correct) return fizzle();
-      const t = pickEnemy(action.targetId);
-      if (t) events.push(damage(room, actor, t, actor.atk * 0.6, actor.element, cm));
-      return events;
-    }
-    if (isOffSkill(sk) && misses()) { actor.sp -= sk.sp; return [{ kind: "fizzle", target: actor.uid, miss: true }]; }
-    actor.sp -= sk.sp;
-    if ((sk.cd || 0) > 0) actor.cooldowns[action.skillIndex] = sk.cd;   // start cooldown
-
-    if (sk.kind === "atk" || sk.kind === "heavy") {
-      const t = pickEnemy(action.targetId);
-      const power = sk.power * (1 + sk.sp / SP_DMG_SCALE);   // more SP invested = more damage
-      if (t) events.push(damage(room, actor, t, power, sk.element, cm));
-
-    } else if (sk.kind === "heal") {
-      const t = allyTarget(action.targetId);
-      const amt = Math.round(sk.power * cm);
-      t.hp = Math.min(t.maxHp, t.hp + amt); if (t.hp > 0) t.alive = true;
-      addSync(room, actor.team, SYNC_SUPPORT);
-      events.push({ target: t.uid, heal: amt, kind: "heal" });
-
-    } else if (sk.kind === "buff") {
-      addSync(room, actor.team, SYNC_SUPPORT);
-      if (sk.eff === "atk") { actor.atkUpTurns = 1; events.push({ target: actor.uid, kind: "buff", eff: "atk" }); }
-      else if (sk.eff === "def") { actor.defUpTurns = 1; events.push({ target: actor.uid, kind: "buff", eff: "def" }); }
-      else if (sk.eff === "accuracy") { allies.filter((a) => a.alive).forEach((a) => { a.accProtectTurns = 1; events.push({ target: a.uid, kind: "buff", eff: "acc" }); }); }
-      else { actor.atkBuff += 20; events.push({ target: actor.uid, kind: "buff" }); }
-
-    } else if (sk.kind === "guard") {
-      addSync(room, actor.team, SYNC_SUPPORT);
-      const targets = sk.target === "party" ? allies.filter((a) => a.alive) : [actor];
-      targets.forEach((t) => { t.defUpTurns = Math.max(t.defUpTurns, 1); events.push({ target: t.uid, kind: "guard" }); });
-
-    } else if (sk.kind === "cleanse") {
-      addSync(room, actor.team, SYNC_SUPPORT);
-      const t = allyTarget(action.targetId);
-      t.atkDownTurns = 0; t.defDownTurns = 0; t.accDownTurns = 0; t.timerDownTurns = 0;
-      events.push({ target: t.uid, kind: "cleanse" });
-
-    } else if (sk.kind === "debuff") {
-      const t = pickEnemy(action.targetId);
-      if (t) {
-        if (sk.power > 0) events.push(damage(room, actor, t, sk.power, sk.element, cm, { debuff: true }));
-        if (sk.eff === "timer") t.timerDownTurns = 2;
-        else if (sk.eff === "accuracy") t.accDownTurns = 2;
-        else if (sk.eff === "atk") t.atkDownTurns = 2;
-        else if (sk.eff === "def") t.defDownTurns = 2;
-        events.push({ target: t.uid, kind: "debuff", eff: sk.eff });
-      }
-    }
-  } else if (action.type === "defend") {
-    actor.defending = true; events.push({ target: actor.uid, kind: "defend" });
-  } else if (action.type === "item") {
-    events.push(...useItem(room, actor, action.itemId, action.targetId, cm));
-  } else if (action.type === "tag") {
-    events.push({ target: actor.uid, kind: "tag" });
-  } else if (action.type === "ultimate") {
-    if (!actor._correct) return fizzle();
-    if (b.sync[actor.team] < 100) return events;            // team sync gauge must be full
-    b.sync[actor.team] = 0;                                  // consume the whole team's gauge
-    const ult = actor.ultimate, arch = ult.archetype || "damage";
-    if (arch === "heal") {                                   // hybrid: heal both allies + damage enemies
-      const half = ult.power / 2;
-      allies.filter((a) => a.alive).forEach((a) => { const amt = Math.round(half * cm); a.hp = Math.min(a.maxHp, a.hp + amt); events.push({ target: a.uid, heal: amt, kind: "heal" }); });
-      enemies.forEach((t) => events.push(damage(room, actor, t, half, actor.element, cm, { ult: true })));
-    } else if (arch === "shield") {                          // hybrid: shield both allies (2t) + damage enemies
-      allies.filter((a) => a.alive).forEach((a) => { a.defUpTurns = Math.max(a.defUpTurns, 2); events.push({ target: a.uid, kind: "guard" }); });
-      enemies.forEach((t) => events.push(damage(room, actor, t, ult.power, actor.element, cm, { ult: true })));
-    } else if (arch === "stun") {                            // damage + stun all enemies (skip next turn)
-      enemies.forEach((t) => { events.push(damage(room, actor, t, ult.power, actor.element, cm, { ult: true })); if (t.alive) t.stunned = true; });
-    } else {                                                 // pure damage
-      enemies.forEach((t) => events.push(damage(room, actor, t, ult.power, actor.element, cm, { ult: true })));
-    }
-    events.push({ kind: "ultimate", name: ult.name, actor: actor.uid });
-  }
-  return events;
-}
-
-function damage(room, actor, target, basePower, element, correctMult, opts = {}) {
-  const eff = effectiveness(element, target);
-  const crit = Math.random() < CRIT_CHANCE ? CRIT_MULT : 1;
-  const defMult = target.defending ? 0.5 : 1;
-  const shieldMult = target.shield ? 0.5 : 1;
-  const variance = 0.9 + Math.random() * 0.2;
-  // attacker mods: legacy +atkBuff%, Overcharge (+25%), Permafrost ATK-down (−25%)
-  const buffMult = (1 + actor.atkBuff / 100) * (actor.atkUpTurns > 0 ? 1.25 : 1) * (actor.atkDownTurns > 0 ? 0.75 : 1);
-  // target mods: guard/Iron Stand DEF-up (−30%), Guard Break DEF-down (+25%)
-  const incomingMult = (target.defUpTurns > 0 ? 0.7 : 1) * (target.defDownTurns > 0 ? 1.25 : 1);
-  const halfPowerMult = actor._halfPower ? 0.5 : 1;   // steal penalty
-  let dmg = basePower * eff.mult * correctMult * crit * defMult * shieldMult * incomingMult * variance * buffMult * DMG_SCALE * halfPowerMult;
-  dmg = Math.max(1, Math.round(dmg));
-  target.hp = Math.max(0, target.hp - dmg);
-  if (target.shield) target.shield = false;
-  if (target.hp <= 0) target.alive = false;
-  if (eff.tag === "WEAK") addSync(room, actor.team, SYNC_WEAK);
-  return { target: target.uid, dmg, eff: eff.tag, crit: crit > 1, ko: !target.alive, kind: opts.ult ? "ult" : "hit" };
-}
-
-function useItem(room, actor, itemId, targetId, cm) {
-  const b = room.battle; const events = [];
-  if (!actor.items[itemId] || actor.items[itemId] <= 0) return events;
-  const ally = b.combatants[targetId] && b.combatants[targetId].team === actor.team ? b.combatants[targetId] : actor;
-  if (itemId === "bento") { const a = 500; ally.hp = Math.min(ally.maxHp, ally.hp + a); if (ally.hp > 0) ally.alive = true; events.push({ target: ally.uid, heal: a, kind: "heal" }); }
-  else if (itemId === "energy") { ally.sp = Math.min(ally.maxSp, ally.sp + 150); events.push({ target: ally.uid, kind: "sp", sp: 150 }); }
-  else if (itemId === "shield") { ally.shield = true; events.push({ target: ally.uid, kind: "guard" }); }
-  else if (itemId === "crystal") { addSync(room, actor.team, 40); events.push({ target: actor.uid, kind: "sync" }); }
-  else if (itemId === "revive") { const dead = alliesOf(b, actor.team).find((c) => !c.alive); if (dead) { dead.alive = true; dead.hp = Math.round(dead.maxHp * 0.5); events.push({ target: dead.uid, kind: "revive", heal: dead.hp }); } }
-  actor.items[itemId]--;
-  return events;
-}
-
-function addSync(room, team, amt) { room.battle.sync[team] = clamp(room.battle.sync[team] + amt, 0, 100); }
-
 // ---------- bots ----------
 function botTurn(room) {
   const b = room.battle; if (!b || room.status !== "battle" || b.phase !== "question" || !b.combatants[b.current]?.bot) return;
-  const correct = Math.random() < 0.62;
+  const correct = room.practice ? b.botPlan?.correct !== false : Math.random() < 0.62;
   // Pick the right answer or a random wrong one, then run through the same
   // resolveAnswer path as humans so steal windows open on wrong bot answers.
   const wrongChoices = b.q.choices.map((_, i) => i).filter((i) => !isRight(b.q, i));
@@ -845,6 +765,8 @@ function botAction(room) {
   if (!c._correct) {
     // wrong answer → guard only (same rule as human players)
     action = { type: "defend" };
+  } else if (room.practice) {
+    action = botMove(room.practice, c, b, b.botPlan);
   } else if (b.sync[c.team] >= 100 && Math.random() < 0.7) {
     action = { type: "ultimate" };
   } else {
@@ -865,7 +787,9 @@ function botAction(room) {
   const events = resolveAction(room, c, action);
   io.to(room.code).emit("actionResult", { actor: c.uid, action: action.type, name: actionLabel(c, action), events });
   broadcast(room);
-  b.timers.next = later(() => advance(room), NEXT_TURN_MS);
+  const after = room.practice && b.botPlan?.after;    // practice: the coach explains what just happened
+  if (after) b.timers.next = later(() => practiceGate(room, after, () => advance(room)), NEXT_TURN_MS);
+  else b.timers.next = later(() => advance(room), NEXT_TURN_MS);
 }
 
 // ---------- end ----------
@@ -885,9 +809,13 @@ function endBattle(room, forced = null) {
     const correct = b.correctCount[p.id] || 0;
     rewards[p.id] = { won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20, correct, review: b.review[p.id] || [] };
   });
-  io.to(room.code).emit("battleEnd", { winnerTeam: winner, reason, rewards, tournament: room.tournament || null });
+  io.to(room.code).emit("battleEnd", { winnerTeam: winner, reason, rewards, tournament: room.tournament || null, practice: !!room.practice });
   broadcast(room);
   if (room.tournament) Tour.onBattleEnd(room, { winner, reason });
+  if (room.practice) {                      // nothing more happens in a finished practice fight
+    rooms.delete(room.code); socketRoom.delete(room.practice.student);
+    io.sockets.sockets.get(room.practice.student)?.leave(room.code);
+  }
 }
 
 // Time limit reached (or the teacher ended the round): the team with the larger

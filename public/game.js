@@ -395,7 +395,7 @@ document.querySelectorAll("[data-go]").forEach((b) =>
   b.addEventListener("click", () => {
     const dest = b.dataset.go;
     if (dest === "home") { refreshCoins(); showScreen("home"); }
-    else if (dest === "tutorial") { tutGoTo(0); showScreen("tutorial"); }
+    else if (dest === "tutorial") openTutorial();
     else showScreen(dest);
   })
 );
@@ -425,6 +425,37 @@ $("tutSkip").addEventListener("click", () => { refreshCoins(); showScreen("home"
 $("tutNext").addEventListener("click", () => {
   if (tutSlide >= TUT_SLIDES - 1) { refreshCoins(); showScreen("home"); }
   else tutGoTo(tutSlide + 1);
+});
+
+// ---- the practice fight: offered after ENTER THE RIFT, and from the lobby ----
+const PRACTICE_KEY = "riftPracticeDone";
+const practiceDoneBefore = () => { try { return localStorage.getItem(PRACTICE_KEY) === "1"; } catch { return false; } };
+function openTutorial() {
+  const back = practiceDoneBefore();
+  $("prKicker").textContent = back ? "WELCOME BACK" : "FIRST TIME HERE?";
+  // someone who has practised before is pointed at the lobby first
+  $("prStart").className = "shard-btn " + (back ? "ghost" : "primary");
+  $("prStart").querySelector("span").textContent = back ? "▶ PRACTISE AGAIN" : "▶ START PRACTICE";
+  $("prSkip").className = "shard-btn " + (back ? "primary" : "ghost");
+  $("prSkip").querySelector("span").textContent = back ? "GO TO LOBBY ▶" : "SKIP TO LOBBY";
+  $("practiceIntro").classList.remove("hidden");
+  $("rulesCard").classList.add("hidden");
+  tutGoTo(0);
+  showScreen("tutorial");
+}
+function startPractice() {
+  SFX.play("select");
+  resetBattleView();
+  socket.emit("startPractice", { name: $("nameInput").value.trim() });
+}
+$("prStart").addEventListener("click", startPractice);
+$("homePractice").addEventListener("click", startPractice);
+$("prSkip").addEventListener("click", () => { refreshCoins(); showScreen("home"); });
+$("prRules").addEventListener("click", () => {
+  SFX.play("select");
+  $("practiceIntro").classList.add("hidden");
+  $("rulesCard").classList.remove("hidden");
+  tutGoTo(0);
 });
 
 $("createBtn").addEventListener("click", () => socket.emit("createRoom", { name: $("nameInput").value.trim() || "Player" }));
@@ -465,6 +496,7 @@ socket.on("toast", (m) => toast(m));
 
 let preppedKey = "";
 socket.on("room", (s) => {
+  if (s.practice && s.code === practiceLeft) return;           // a practice fight we just left
   if (s.tournament) {
     const mine = s.players.some((p) => p.id === myId);
     if (mine) { if (spectating) leaveSpectate(false); }                       // own battle starts
@@ -578,8 +610,8 @@ socket.on("answerReveal", ({ correctIndex, correctAll, explain }) => {
 });
 
 // Steal window opened (original player answered wrong)
-socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
-  stealMeta = { originalUid, originalName, seconds, startedAt: srvNow() };
+socket.on("stealOpen", ({ originalUid, originalName, seconds, untimed }) => {
+  stealMeta = { originalUid, originalName, seconds, untimed: !!untimed, startedAt: srvNow() };
   renderBattle();
 });
 
@@ -627,10 +659,12 @@ socket.on("teamSync", ({ team }) => {
 
 function bannerFlash(text, cls) {
   const tb = $("turnBanner"); if (!tb) return;
-  const prev = tb.textContent, prevCls = tb.className;
+  // remember what was there before the first of several quick flashes, so a flash
+  // that lands during another one doesn't leave the older banner stuck on screen
+  if (!bannerFlash._t) bannerFlash._prev = [tb.textContent, tb.className];
   tb.textContent = text; tb.className = "turn-banner " + (cls || "");
   clearTimeout(bannerFlash._t);
-  bannerFlash._t = setTimeout(() => { tb.textContent = prev; tb.className = prevCls; }, 1400);
+  bannerFlash._t = setTimeout(() => { [tb.textContent, tb.className] = bannerFlash._prev; bannerFlash._t = null; }, 1400);
 }
 
 // element → vivid effect colour
@@ -700,6 +734,7 @@ socket.on("actionResult", ({ actor, action, name, events }) => {
     else if (ev.kind === "debuff") { const lbl = ev.eff === "timer" ? "−4s" : ev.eff === "accuracy" ? "ACC↓" : ev.eff === "atk" ? "ATK↓" : ev.eff === "def" ? "DEF↓" : "WEAKEN"; floatAt(ev.target, lbl, "weakpop"); spawnEfx(ev.target, "ring", "#A855F7", 0.5); }
     else if (ev.kind === "cleanse") { floatAt(ev.target, "CLEANSED", "heal"); spawnEfx(ev.target, "burst", "#FFE9A8", 0.5); }
     else if (ev.kind === "stun-skip") { floatAt(ev.target, "STUNNED", "weakpop"); }
+    else if (ev.kind === "stun") { floatAt(ev.target, "STUNNED!", "weakpop"); spawnEfx(ev.target, "ring", "#9be8ff", 0.5); }
   });
   if (weak) {
     const tb = $("turnBanner");
@@ -737,6 +772,7 @@ function showActionLog(actC, type, name, events) {
     else if (ev.kind === "sp") other = `restored ${ev.sp} SP`;
     else if (ev.kind === "revive") other = `revived ${cName(ev.target)}`;
     else if (ev.kind === "stun-skip") other = "is stunned — skips the turn";
+    else if (ev.kind === "stun") other = `${cName(ev.target)} misses their next turn`;
     else if (ev.kind === "fizzle") other = ev.miss ? "missed! (accuracy down)" : "missed!";
   });
   if (guards.length && !other) other = `shielded ${guards.join(", ")}`;
@@ -789,10 +825,12 @@ function cutIn(uid, name) {
   cutIn._t = setTimeout(() => { ci.classList.add("hidden"); cutIn._busy = false; }, 2000);
 }
 
-socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament }) => {
+socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament, practice }) => {
   attackPosed.clear();
   if (spectating) return spectatedBattleEnded(winnerTeam, reason);
   stopMatchClock();
+  if (practice) return showPracticeDone();
+  $("practiceDone").classList.add("hidden"); $("practiceAgain").classList.add("hidden");
   const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
   const won = myTeam === winnerTeam;
   const draw = winnerTeam === -1;
@@ -1081,6 +1119,7 @@ function renderBattle() {
   $("hudMineRows").innerHTML = allies.map((c) => hudRowHTML(c, "mine", act(c))).join("");
   $("hudFoeRows").innerHTML = foes.map((c) => hudRowHTML(c, "foe", act(c))).join("");
   $("arena").classList.toggle("spectating", !!spectating);
+  $("arena").classList.toggle("practice", !!room.practice);
 
   setSyncMine(b.sync[myTeam]); setSyncFoe(b.sync[enmTeam]);
   setMatchClock(b.msLeft);
@@ -1104,7 +1143,7 @@ function setSyncFoe(val) {
 
 // Live-update the HUD and sync after combat without rebuilding the stage
 function updateBars() {
-  const b = room.battle; if (!b) return;
+  const b = room?.battle; if (!b) return;
   const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
   b.combatants.forEach((c) => {
     const row = document.querySelector(`.hud-row[data-uid="${c.uid}"]`);
@@ -1181,8 +1220,9 @@ function fillQuestionCard(mode, q, cur, onPick) {
   mcq.dataset.key = key;
   $("mcqPlayerThumb").innerHTML = cur?.charId ? thumb(cur.charId) : "";
   $("mcqPlayerName").textContent = mode === "steal" ? "⚡ STEAL CHANCE" : "YOUR TURN";
+  const stealName = room?.practice && cur ? NAME[cur.charId] : stealMeta?.originalName;
   $("mcqSub").textContent = mode === "steal"
-    ? `Answer right to steal ${stealMeta?.originalName || "their"}'s turn. Your attacks do half damage.` : "";
+    ? `Answer right to steal ${stealName || "their"}'s turn. Your attacks do half damage.` : "";
   $("mcqTopic").textContent = q.topic || "";
   setBloomChip(mode === "steal" ? null : q.bloom);
   $("mcqQ").textContent = q.q;
@@ -1198,7 +1238,10 @@ function fillQuestionCard(mode, q, cur, onPick) {
     wrap.appendChild(btn);
   });
   stopTimer();
-  if (mode === "steal" && stealMeta) startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
+  const untimed = mode === "steal" ? !!stealMeta?.untimed : !!q.untimed;   // practice: no clock
+  mcq.classList.toggle("untimed", untimed);
+  if (untimed) $("mcqTimer").textContent = "";
+  else if (mode === "steal" && stealMeta) startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
   else startTimerFrom(q.seconds, q.startedAt);
   hintArmed = false;
   if (mode === "ask") applyHint(); else { $("mcqHintBox").classList.add("hidden"); }
@@ -1215,7 +1258,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
   const meC = b.combatants.find((c) => c.uid === myId);
   const q = b.question;
   const side = (c) => (c && c.team === myTeam ? "ally" : "foe");
-  const who = (c) => upper(c?.name || "Player");
+  const who = (c) => upper((room.practice && c && c.uid !== myId ? NAME[c.charId] : c?.name) || "Player");
   baseFlags = new Map();
   const actor = b.phase === "steal-action" && b.stealActor ? b.stealActor : b.current;
   if (meC && !spectating && actor !== myId) baseFlags.set(myId, { html: "YOU", cls: "you" });
@@ -1229,7 +1272,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
       fillQuestionCard("ask", q, cur, (i) => socket.emit("answer", { choiceIndex: i }));
     } else {
       hideQuestionCard();
-      strip = { label: `${who(cur)}'S QUESTION${q.hinted ? " · 💡 HINT USED" : ""}`, cls: side(cur), q, deadline: localDeadline(q.startedAt, q.seconds) };
+      strip = { label: `${who(cur)}'S QUESTION${q.hinted ? " · 💡 HINT USED" : ""}`, cls: side(cur), q, deadline: q.untimed ? null : localDeadline(q.startedAt, q.seconds) };
       flag(cur, q.hinted ? `${who(cur)} IS ANSWERING · 💡 HINT` : `${who(cur)} IS ANSWERING`);
     }
 
@@ -1247,7 +1290,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
       fillQuestionCard("steal", q, original, (i) => socket.emit("steal", { choiceIndex: i }));
     } else {
       hideQuestionCard();
-      const deadline = stealMeta ? localDeadline(stealMeta.startedAt, stealMeta.seconds) : null;
+      const deadline = stealMeta && !stealMeta.untimed ? localDeadline(stealMeta.startedAt, stealMeta.seconds) : null;
       strip = b.stealOf === myId
         ? { label: "WRONG. THE OTHERS CAN TRY TO STEAL IT", cls: "steal", q, deadline }
         : { label: `STEAL CHANCE: ${who(original)} GOT IT WRONG`, cls: "steal", q, deadline };
@@ -1276,6 +1319,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
   updateHintButton(q, meC, mode === "asking" && b.phase === "question");
   setStage(mode); renderStrip(strip); showWait(wait);
   applyFlags();
+  updateCoach();
 }
 
 // ---- your move: one strip along the bottom ----
@@ -1286,6 +1330,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
 const isOffSkill = (sk) => sk.kind === "atk" || sk.kind === "heavy" || sk.kind === "debuff";
 const MOVE_SECONDS = 12;                 // matches ACTION_SECONDS on the server
 let moveSel = null;                      // { kind: "strike"|"skill"|"item", index|itemId }
+let movePicking = false;                 // a move is chosen and its targets are lit up
 let moveKey = "";                        // which turn the strip belongs to
 let moveDeadline = 0, moveTimerInt = null, itemsOpen = false;
 
@@ -1343,6 +1388,7 @@ function chooseMove(sel, me, b) {
 
 function hideMoves() {
   closeSkillSheet();
+  movePicking = false;
   const cmds = $("commands");
   if (!cmds.classList.contains("hidden")) cmds.classList.add("hidden");
   clearInterval(moveTimerInt); moveTimerInt = null;
@@ -1366,9 +1412,13 @@ function buildMovePanel(me, b, halfPower = false) {
   const selIs = (k, i) => moveSel && moveSel.kind === k && (i === undefined || moveSel.index === i || moveSel.itemId === i);
   const enemiesLeft = b.combatants.filter((c) => c.team !== me.team && c.alive).length;
 
+  // practice: each turn teaches one move; the others wait for a later lesson
+  const lesson = room?.practice?.lesson;
+  const only = !lesson || lesson === "free" ? null : halfPower ? "strike" : ({ strike: "strike", skills: "skills", ult: "ult" })[lesson] || null;
+  const later = (k) => (only && only !== k ? "later" : "");
   const usable = me.skills.filter((sk, i) => !(cds[i] > 0) && me.sp >= sk.sp).length;
   const chosenSkill = moveSel?.kind === "skill" ? me.skills[moveSel.index] : null;
-  const skills = `<button class="ms-move skills ${chosenSkill ? "sel" : ""}" data-move="skills">
+  const skills = `<button class="ms-move skills ${chosenSkill ? "sel" : ""} ${later("skills")}" data-move="skills" ${later("skills") ? "disabled" : ""}>
       <span class="ms-name big">SKILLS</span>
       <span class="ms-eff">${chosenSkill ? `${esc(chosenSkill.name)} chosen` : `${usable} of ${me.skills.length} ready · tap to see them`}</span>
     </button>`;
@@ -1385,6 +1435,7 @@ function buildMovePanel(me, b, halfPower = false) {
 
   const targets = moveTargets(moveSel, me, b);
   const picking = moveSel && targets.length > 1;
+  movePicking = !!picking;
   const hintedMove = !halfPower && !!hintFor(b.question);
   const hint = picking ? (targetVerb(moveSel, me) === "TAP TO HIT" ? "Tap an enemy" : "Tap a teammate")
     : halfPower ? "Half damage" : hintedMove ? "Hint used: not powered up" : "Powered up";
@@ -1395,17 +1446,17 @@ function buildMovePanel(me, b, halfPower = false) {
       <span class="ms-timer" id="mpTimer"></span>
       <span class="ms-hint ${picking ? "go" : ""}">${hint}</span>
     </div>
-    <button class="ms-move strike ${selIs("strike") ? "sel" : ""}" data-move="strike">
+    <button class="ms-move strike ${selIs("strike") ? "sel" : ""} ${later("strike")}" data-move="strike" ${later("strike") ? "disabled" : ""}>
       <span class="ms-name big">STRIKE</span>
       <span class="ms-eff">${esc(me.element)} hit on one enemy</span>
     </button>
     ${skills}
-    <button class="ms-move ult ${ultReady ? "ready" : ""}" data-move="ult" ${ultReady ? "" : "disabled"}>
+    <button class="ms-move ult ${ultReady && !later("ult") ? "ready" : ""} ${later("ult")}" data-move="ult" ${ultReady && !later("ult") ? "" : "disabled"}>
       <span class="ms-k">ULTIMATE</span>
       <span class="ms-name">${esc(me.ultimate?.name || "Ultimate")}</span>
       <span class="ms-eff">${ultEffect(me.ultimate)}${ultReady ? "" : ` · Sync ${syncPct}%`}</span>
     </button>
-    <button class="ms-move items ${itemsOpen || moveSel?.kind === "item" ? "sel" : ""}" data-move="items" ${itemsLeft ? "" : "disabled"}>
+    <button class="ms-move items ${itemsOpen || moveSel?.kind === "item" ? "sel" : ""} ${later("items")}" data-move="items" ${itemsLeft && !later("items") ? "" : "disabled"}>
       <span class="ms-name">ITEMS</span><span class="ms-eff">${itemsLeft} left</span>
     </button>
     ${itemsPop}
@@ -1440,11 +1491,12 @@ function buildMovePanel(me, b, halfPower = false) {
     });
   }
   applyFlags();
+  updateCoach();
 }
 
 // What each ultimate does, in a few words.
 function ultEffect(ult) {
-  return { stun: "Hits both enemies, they miss a turn", heal: "Heals your team, hits both enemies",
+  return { stun: "Hits both enemies; the next one misses a turn", heal: "Heals your team, hits both enemies",
            shield: "Shields your team, hits both enemies" }[ult?.archetype] || "Big hit on both enemies";
 }
 
@@ -1489,8 +1541,12 @@ function openSkillSheet(me, b, halfPower) {
     chooseMove({ kind: "skill", index: i }, me, b);
   }));
   el.querySelector("[data-ss=back]").addEventListener("click", () => { SFX.play("select"); closeSkillSheet(); });
+  updateCoach();
 }
-function closeSkillSheet() { $("skillSheet")?.remove(); }
+function closeSkillSheet() {
+  const el = $("skillSheet"); if (!el) return;
+  el.remove(); updateCoach();
+}
 
 function tickMoveTimer() {
   const el = $("mpTimer");
@@ -1514,6 +1570,7 @@ function send(action) {
   targetFlags = new Map(); applyFlags();
   $("commands").classList.add("hidden");
   setStage("");
+  movePicking = false; updateCoach();
 }
 function lockBriefly() { inputLocked = true; setTimeout(() => (inputLocked=false), 700); }
 
@@ -1887,3 +1944,174 @@ function showWatchWait(text) {
 }
 function hideWatchWait() { $("watchWait")?.classList.add("hidden"); }
 if (WATCH) showWatchWait("Connecting to the tournament…");
+
+// ============================================================
+//  PRACTICE FIGHT — the coach
+//  The server runs the script (practice.js): which lesson this turn teaches,
+//  and when the fight waits for NEXT. Here the coach (Emi, your partner) says
+//  what to do, and an arrow points at the button to tap.
+// ============================================================
+let coachSpotFn = null, coachShown = "";
+let practiceLeft = null;      // the code of a practice fight the student walked out of
+
+// A practice answer that was wrong can be tried again.
+socket.on("practiceRetry", ({ steal }) => {
+  SFX.play("wrong");
+  const btn = document.querySelectorAll("#mcqChoices .choice")[mySelected];
+  if (btn) { btn.disabled = true; btn.classList.add("wrong", "tried"); }
+  const fb = $("mcqFeedback");
+  fb.className = "mcq-feedback bad";
+  fb.textContent = steal ? "✗ Not that one. Try again!"
+    : "✗ Not quite. In a real battle a wrong answer means you guard and can't attack. Here, try again!";
+  fb.classList.remove("hidden");
+});
+
+function coachMessage(p, b) {
+  const me = b.combatants.find((c) => c.uid === myId);
+  const byChar = (id) => b.combatants.find((c) => c.charId === id);
+  const nm = (c) => (c ? esc(NAME[c.charId] || c.charName) : "");
+  const cur = b.combatants.find((c) => c.uid === b.current);
+  const renji = byChar("renji"), nao = byChar("nao");
+  const flagOf = (c) => () => { const t = c && tokenEl(c.uid); return t?.querySelector(".tok-flag.on") || t; };
+  const q = (sel) => () => document.querySelector(sel);
+  const m = (tag, text, extra = {}) => ({ tag, text, ...extra });
+
+  // the fight is waiting for NEXT
+  switch (p.gate) {
+    case "intro": return m("PRACTICE FIGHT", `Hi, I'm <b>Emi</b>, your partner! You are <b>${nm(me)}</b>, at the front on the left. The two on the right are our rivals. Nothing is timed here, so take your time.`, { next: true, spot: flagOf(me) });
+    case "foeTurn": return m("THEIR TURN", `Now it's <b>${nm(cur)}</b>'s turn. Turns go round: you, a rival, me, then the other rival. Read their question at the top too!`, { next: true });
+    case "foeHit": return m("YOUR HP", `Ouch, ${nm(renji)} hit you! Your <b>HP</b> is the green bar at the top left. At 0 you are knocked out. Don't worry, I'll heal you.`, { next: true, spot: q(`.hud-row[data-uid="${myId}"]`), arrow: false });
+    case "partnerTurn": return m("TEAM SYNC", `My turn! Every right answer fills our <b>SYNC</b> gauge, top left. When it is full, you can use your <b>Ultimate</b>.`, { next: true, spot: q("#hudMine .hud-sync") });
+    case "stealSetup": return m("WATCH THIS", `<b>${nm(nao)}</b>'s turn. Read this question too. If ${nm(nao)} gets it wrong, you can <b>steal</b> the turn!`, { next: true });
+  }
+
+  const mine = b.current === myId;
+  if (b.phase === "question" && mine) {
+    if (p.lesson === "strike") return m("YOUR TURN", "Every turn starts with a question. Tap the right answer and you get to <b>attack</b>.");
+    if (p.lesson === "skills") return m("YOUR TURN", "Your turn again. Answer this one, then you will try a <b>skill</b>.");
+    if (p.lesson === "ult") {
+      if (hintFor(b.question)) return m("HINTS", "There's your clue. Now pick the answer.");
+      return m("HINTS", "This one is harder. Tap <b>💡 HINT</b> twice for a clue. The price: your move won't be powered up.", { spot: q("#mcqHint:not(.hidden)") });
+    }
+    return m("FINISH IT", "Finish the fight! Every move is unlocked now, even <b>Items</b>. Answer, then pick any move you like.");
+  }
+  if (b.phase === "reveal" && mine) return m("CORRECT!", "Right answer! Get ready to attack.");
+  if (b.phase === "steal" && b.stealOf !== myId && stealMeta)
+    return m("STEAL!", `${nm(cur)} got it wrong, so ${nm(cur)} must <b>guard</b>. Answer it yourself to <b>steal</b> the turn!`);
+
+  const myMove = (b.phase === "action" && mine && myAnswerCorrect) || (b.phase === "steal-action" && b.stealActor === myId);
+  if (myMove && !$("commands").classList.contains("hidden") || myMove && $("skillSheet")) {
+    if ($("skillSheet")) return m("SKILL CARDS", "<b>SP</b> is what a skill costs: the pink bar under your HP. <b>CD</b> is how many turns before you can use it again. Tap <b>Ember Slash</b>.", { spot: q('#skillSheet .ss-card[data-sk="0"]:not(:disabled)') });
+    if (movePicking) {
+      if (p.lesson === "skills" && moveSel?.kind === "skill" && renji?.alive)
+        return m("WEAK SPOT", `<b>${nm(renji)}</b> is weak to <b>Fire</b>, and you are a Fire fighter! Hit ${nm(renji)} for a <b>WEAK</b> hit: extra damage and extra Sync.`, { spot: flagOf(renji) });
+      return m("PICK A TARGET", "Now tap a rival to hit them. Their HP shows above their heads.");
+    }
+    if (b.phase === "steal-action") return m("STOLEN TURN", "You stole it! A stolen turn only does <b>half damage</b>. Tap <b>STRIKE</b>.", { spot: q(".ms-move.strike") });
+    if (p.lesson === "strike") return m("ATTACK", "A right answer lets you attack. Tap <b>STRIKE</b>.", { spot: q(".ms-move.strike") });
+    if (p.lesson === "skills") return m("SKILLS", "Skills are special moves. Tap <b>SKILLS</b> to see your four skill cards.", { spot: q(".ms-move.skills") });
+    if (p.lesson === "ult") return m("ULTIMATE", `Our <b>SYNC</b> gauge is full! Tap <b>ULTIMATE</b> ${renji?.alive && nao?.alive ? "to hit both rivals at once" : "for a huge hit"}.`, { spot: q(".ms-move.ult") });
+    return m("FINISH IT", "Pick any move you like. <b>ITEMS</b> heal you, give SP or bring back a knocked-out teammate.");
+  }
+
+  if (!cur || b.phase == null) return m("PRACTICE FIGHT", "Get ready…");
+  const partner = cur.team === me?.team && cur.uid !== myId;
+  if (b.phase === "question") return m("WATCH", partner ? "I'm answering this one. Read along at the top." : `<b>${nm(cur)}</b> is answering. Read along at the top.`);
+  if (cur.uid === myId) return m("NICE!", "Watch what your move does.");
+  return m("WATCH", partner ? "Watch my move!" : `<b>${nm(cur)}</b> is making a move.`);
+}
+
+function updateCoach() {
+  const box = $("coach"); if (!box) return;
+  const p = room?.practice, b = room?.battle;
+  if (!p || !b || spectating || !$("battle").classList.contains("active")) {
+    box.classList.add("hidden"); coachSpotFn = null; applyCoachSpot(); coachShown = ""; return;
+  }
+  const msg = coachMessage(p, b);
+  if (!$("coachFace").firstChild) $("coachFace").innerHTML = `<img src="${encodeURI(ASSETS.portraits.emi)}" alt="Emi" />`;
+  const key = msg.tag + "|" + msg.text;
+  if (key !== coachShown) {
+    $("coachTag").textContent = msg.tag;
+    $("coachText").innerHTML = msg.text;
+    if (coachShown) { box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+    coachShown = key;
+  }
+  $("coachSide").classList.toggle("hidden", !msg.next);
+  box.classList.remove("hidden");
+  // under the question strip when someone else's question is showing, otherwise at the top
+  const strip = $("qStrip");
+  box.style.top = strip.classList.contains("hidden") ? ""
+    : (strip.getBoundingClientRect().bottom - $("arena").getBoundingClientRect().top + 8) + "px";
+  coachSpotFn = msg.spot || null;
+  coachArrowOn = msg.arrow !== false;
+  applyCoachSpot();
+}
+
+// a glowing ring around what to tap, and an arrow pointing at it
+let coachArrowOn = true;
+function applyCoachSpot() {
+  const el = coachSpotFn ? coachSpotFn() : null;
+  const arrow = $("coachArrow"), ring = $("coachRing");
+  const r = el?.getBoundingClientRect();
+  if (!el || !r.width || !r.height) { arrow.classList.add("hidden"); ring.classList.add("hidden"); return; }
+  const ar = $("arena").getBoundingClientRect();
+  const pad = 5;
+  Object.assign(ring.style, { left: (r.left - ar.left - pad) + "px", top: (r.top - ar.top - pad) + "px",
+    width: (r.width + pad * 2) + "px", height: (r.height + pad * 2) + "px" });
+  ring.classList.toggle("hidden", !!el.closest(".tok"));      // fighters already light up when they can be tapped
+  if (!coachArrowOn) { arrow.classList.add("hidden"); return; }
+  const up = r.top - ar.top < ar.height * 0.15;         // right at the top: point up at it from below
+  arrow.classList.toggle("up", up);
+  arrow.style.left = (r.left - ar.left + r.width / 2) + "px";
+  arrow.style.top = (up ? r.bottom - ar.top + pad + 4 : r.top - ar.top - pad - 4) + "px";
+  arrow.classList.remove("hidden");
+}
+setInterval(() => { if (room?.practice && $("battle").classList.contains("active")) applyCoachSpot(); }, 250);
+
+$("coachNext").addEventListener("click", () => {
+  SFX.play("select");
+  $("coachSide").classList.add("hidden");
+  socket.emit("coachNext");
+});
+$("coachExit").addEventListener("click", () => {
+  SFX.play("select");
+  socket.emit("leavePractice");
+  practiceLeft = room?.code || null;
+  resetBattleView();
+  room = null;
+  updateCoach();
+  refreshCoins(); showScreen("home");
+});
+
+// Forget what the last battle left on the stage.
+function resetBattleView() {
+  stealMeta = null; lastReveal = null; myHint = null; moveKey = "";
+  attackPosed.clear();
+  hideMoves(); hideQuestionCard(); stopMatchClock();
+  $("qStrip").classList.add("hidden");
+}
+
+function showPracticeDone() {
+  try { localStorage.setItem(PRACTICE_KEY, "1"); } catch {}
+  $("coach").classList.add("hidden"); $("coachArrow").classList.add("hidden"); $("coachRing").classList.add("hidden");
+  $("resultTitle").textContent = "PRACTICE COMPLETE!";
+  $("resultTitle").className = "result-title small";
+  const tips = [
+    ["Answer right to attack.", "Answer wrong and you guard for that turn."],
+    ["Steal a turn", "when someone answers wrong. Stolen attacks do half damage."],
+    ["Skills cost SP.", "CD is the number of turns before you can use one again."],
+    ["Hit weak spots", "for extra damage and extra Sync."],
+    ["Fill the Sync gauge", "with right answers, then use your Ultimate."],
+    ["A hint helps,", "but your move won't be powered up."],
+    ["Items:", "HP Boost, SP Boost and Revive. One of each per battle."],
+  ];
+  $("resultBody").innerHTML = `<div class="reward-line"><span>🎓 You know how to play!</span></div>
+    <ul class="practice-tips">${tips.map(([a, b]) => `<li><b>${a}</b> ${b}</li>`).join("")}</ul>
+    <p class="practice-note">In a real battle every question and every move has a timer. Every fighter has their own four skills: tap a fighter in the lobby to see them.</p>`;
+  ["rematchBtn", "lobbyBtn"].forEach((id) => { $(id).style.display = "none"; });
+  $("watchFromResult").classList.add("hidden"); $("backToTourney").classList.add("hidden");
+  $("practiceDone").classList.remove("hidden"); $("practiceAgain").classList.remove("hidden");
+  showScreen("result");
+}
+$("practiceDone").addEventListener("click", () => { SFX.play("select"); room = null; refreshCoins(); showScreen("home"); });
+$("practiceAgain").addEventListener("click", startPractice);

@@ -17,9 +17,23 @@
     </div>
   </section>
 
-  <!-- 1b. TUTORIAL — compulsory how-to-play shown before the lobby -->
+  <!-- 1b. TUTORIAL — a guided practice fight (or the rules on four cards) before the lobby -->
   <section id="tutorial" class="screen">
-    <div class="tut-card">
+    <div class="tut-card pr-card" id="practiceIntro">
+      <span class="pr-kicker" id="prKicker">FIRST TIME HERE?</span>
+      <h2 class="head tut-head">PRACTICE FIGHT</h2>
+      <div class="pr-row">
+        <div class="pr-face"><img src="assets/Character Profile Art/Emi.webp" alt="Emi" /></div>
+        <p class="pr-text">Learn by playing. <b>Emi</b> fights next to you and shows you how to <b>answer</b>, <b>attack</b>,
+          <b>steal a turn</b> and use your <b>Ultimate</b>, one step at a time. Nothing is timed. It takes about 3 minutes.</p>
+      </div>
+      <div class="pr-actions">
+        <button class="shard-btn primary" id="prStart"><span>▶ START PRACTICE</span></button>
+        <button class="shard-btn ghost" id="prSkip"><span>SKIP TO LOBBY</span></button>
+      </div>
+      <button class="pr-rules" id="prRules" type="button">Or read the rules instead</button>
+    </div>
+    <div class="tut-card hidden" id="rulesCard">
       <h2 class="head tut-head">HOW TO PLAY</h2>
       <div class="tut-slides">
         <div class="tut-slide active">
@@ -81,6 +95,7 @@
         <button class="shard-btn" id="joinBtn"><span>JOIN</span></button>
       </div>
       <p class="join-note">Class tournament? Type your name, then the code on the board, and press JOIN.</p>
+      <button class="shard-btn ghost small home-practice" id="homePractice"><span>▶ PRACTICE FIGHT</span></button>
       <p id="homeMsg" class="msg"></p>
     </div>
   </section>
@@ -228,6 +243,23 @@
 
       <!-- short status line along the bottom (waiting for steals, guarding…) -->
       <div class="wait hidden" id="waitBox"><span id="waitText">Waiting…</span></div>
+
+      <!-- practice fight: the coach explains each step and points at what to tap -->
+      <div class="coach hidden" id="coach" role="status" aria-live="polite">
+        <div class="coach-face" id="coachFace"></div>
+        <div class="coach-body">
+          <div class="coach-head">
+            <span class="coach-tag" id="coachTag">PRACTICE</span>
+            <button class="coach-exit" id="coachExit" type="button">✕ EXIT PRACTICE</button>
+          </div>
+          <p class="coach-text" id="coachText"></p>
+        </div>
+        <div class="coach-side hidden" id="coachSide">
+          <button class="coach-next" id="coachNext" type="button">NEXT ▸</button>
+        </div>
+      </div>
+      <div class="coach-ring hidden" id="coachRing" aria-hidden="true"></div>
+      <div class="coach-arrow hidden" id="coachArrow" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -237,6 +269,8 @@
       <h1 class="result-title" id="resultTitle">VICTORY!</h1>
       <div class="result-body" id="resultBody"></div>
       <div class="result-actions">
+        <button class="shard-btn primary hidden" id="practiceDone"><span>PLAY FOR REAL ▶</span></button>
+        <button class="shard-btn ghost hidden" id="practiceAgain"><span>PRACTICE AGAIN</span></button>
         <button class="shard-btn primary" id="rematchBtn"><span>REMATCH</span></button>
         <button class="shard-btn ghost" data-go="home" id="lobbyBtn"><span>LOBBY</span></button>
         <button class="shard-btn hidden" id="watchFromResult"><span>👁 WATCH A BATTLE</span></button>

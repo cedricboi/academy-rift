@@ -946,3 +946,81 @@ input:focus{outline:none;border-color:var(--cyan);}
 .mcq-hintbox b{font-family:"Rift Display",system-ui;color:var(--gold);white-space:nowrap;font-size:.85em;letter-spacing:1px;}
 .mcq-hintbox.hidden{display:none;}
 .choice.removed{opacity:.25;filter:grayscale(1);text-decoration:line-through;}
+
+/* =====================================================================
+   PRACTICE FIGHT — the start card, and the coach on the battle stage
+   ===================================================================== */
+#tutorial{background:linear-gradient(rgba(8,4,12,.72),rgba(8,4,12,.72)),url('assets/Opening Scene.webp') center/cover no-repeat;}
+.pr-card{gap:14px;align-items:stretch;}
+.pr-kicker{align-self:center;font-family:"Rift Display",system-ui;letter-spacing:2px;font-size:1rem;color:var(--ink);background:var(--gold);
+  padding:3px 18px;clip-path:polygon(6% 0,100% 0,94% 100%,0 100%);}
+.pr-row{display:flex;gap:20px;align-items:center;}
+.pr-face{flex:0 0 auto;width:132px;height:132px;overflow:hidden;border:3px solid var(--gold);background:#000;
+  clip-path:polygon(0 0,100% 0,100% 88%,88% 100%,0 100%);}
+.pr-face img{width:100%;height:100%;object-fit:cover;object-position:50% 6%;}
+.pr-text{font-size:1.15rem;line-height:1.55;color:#E9E5E0;}
+.pr-text b{color:var(--gold);}
+.pr-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.pr-actions .shard-btn{min-width:220px;}
+.pr-rules{align-self:center;background:none;border:none;color:var(--ash);font-family:"Rift Body";font-weight:600;font-size:1rem;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px;}
+.pr-rules:hover{color:var(--paper);}
+@media (max-width:560px){ .pr-row{flex-direction:column;text-align:center;} .pr-face{width:96px;height:96px;} }
+.home-practice{display:block;margin:10px auto 0;}
+
+/* the coach: top centre, between the two HUDs (or just under someone's question) */
+.coach{position:absolute;left:50%;top:calc(12 * var(--u));transform:translateX(-50%);z-index:46;
+  width:calc(100% - 612 * var(--u));max-width:calc(700 * var(--u));min-width:min(440px,calc(100% - 24px));box-sizing:border-box;
+  display:flex;align-items:stretch;gap:calc(12 * var(--u));padding:calc(8 * var(--u)) calc(10 * var(--u)) calc(8 * var(--u)) calc(8 * var(--u));
+  background:rgba(14,10,4,.95);border:2px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.65),0 0 calc(24 * var(--u)) rgba(242,184,75,.25);
+  animation:coachIn .25s cubic-bezier(.2,.9,.3,1.15);}
+.coach.hidden{display:none;}
+@keyframes coachIn{from{opacity:0;transform:translate(-50%,-8px);}to{opacity:1;transform:translateX(-50%);}}
+.coach.bump{animation:coachBump .35s ease;}
+@keyframes coachBump{0%{transform:translateX(-50%) scale(1)}40%{transform:translateX(-50%) scale(1.03)}100%{transform:translateX(-50%) scale(1)}}
+.coach-face{flex:0 0 auto;width:calc(66 * var(--u));min-width:44px;align-self:center;aspect-ratio:1/1;overflow:hidden;background:#000;border:2px solid var(--gold);}
+.coach-face img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;}
+.coach-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:calc(3 * var(--u));}
+.coach-tag{align-self:flex-start;font-family:"Rift Display",system-ui;letter-spacing:1.5px;font-size:max(11px,calc(14 * var(--u)));
+  color:var(--ink);background:var(--gold);padding:1px calc(14 * var(--u)) 1px calc(8 * var(--u));clip-path:polygon(0 0,100% 0,90% 100%,0 100%);}
+.coach-text{font-weight:500;font-size:max(14px,calc(18 * var(--u)));line-height:1.32;color:var(--paper);}
+.coach-text b{color:var(--gold);font-weight:700;}
+.coach-side{flex:0 0 auto;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(6 * var(--u));}
+.coach-next{font-family:"Rift Display",system-ui;letter-spacing:1px;font-size:max(15px,calc(21 * var(--u)));min-height:44px;
+  padding:calc(4 * var(--u)) calc(20 * var(--u));background:var(--gold);color:var(--ink);border:2px solid var(--gold);cursor:pointer;
+  animation:readyPulse 1.2s infinite;}
+.coach-next:hover{background:#fff;}
+.coach-head{display:flex;align-items:center;gap:8px;}
+.coach-head .coach-tag{align-self:auto;}
+.coach-exit{margin-left:auto;font-family:"Rift Body";font-weight:600;font-size:max(10px,calc(12 * var(--u)));color:#B9B4B0;background:transparent;
+  border:1px solid #55505A;padding:calc(3 * var(--u)) calc(8 * var(--u));cursor:pointer;white-space:nowrap;min-height:28px;}
+.coach-exit:hover{color:var(--paper);border-color:var(--paper);}
+
+/* the arrow that points at what to tap */
+.coach-arrow{position:absolute;z-index:47;width:0;height:0;pointer-events:none;
+  border-left:calc(18 * var(--u)) solid transparent;border-right:calc(18 * var(--u)) solid transparent;
+  border-top:calc(26 * var(--u)) solid var(--gold);filter:drop-shadow(0 0 8px rgba(242,184,75,.9)) drop-shadow(0 3px 4px rgba(0,0,0,.6));
+  transform:translate(-50%,-100%);animation:arrowBob .8s ease-in-out infinite;}
+.coach-arrow.up{border-top:0;border-bottom:calc(26 * var(--u)) solid var(--gold);transform:translate(-50%,0);animation:arrowBobUp .8s ease-in-out infinite;}
+.coach-arrow.hidden{display:none;}
+@keyframes arrowBob{0%,100%{margin-top:calc(-6 * var(--u))}50%{margin-top:calc(-16 * var(--u))}}
+@keyframes arrowBobUp{0%,100%{margin-top:calc(6 * var(--u))}50%{margin-top:calc(16 * var(--u))}}
+.coach-ring{position:absolute;z-index:45;pointer-events:none;border:3px solid var(--gold);border-radius:6px;
+  box-shadow:0 0 calc(18 * var(--u)) rgba(242,184,75,.85),inset 0 0 calc(10 * var(--u)) rgba(242,184,75,.45);animation:ringPulse 1s ease-in-out infinite;}
+.coach-ring.hidden{display:none;}
+@keyframes ringPulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+/* practice: nothing is timed */
+.mcq.untimed .timer,.mcq.untimed .timer-bar{display:none;}
+.arena.practice .ms-timer,.arena.practice .ss-timer{display:none;}
+/* a move that comes in a later lesson */
+.ms-move.later{opacity:.28;filter:grayscale(.7);}
+.ms-move.later .ms-eff::after{content:" · later";}
+.practice-tips{list-style:none;display:flex;flex-direction:column;gap:8px;margin:12px 0;text-align:left;font-size:1.05rem;line-height:1.45;}
+.practice-tips li{padding-left:26px;position:relative;}
+.practice-tips li::before{content:"✓";position:absolute;left:0;color:var(--hp);font-weight:700;}
+.practice-tips b{color:var(--gold);}
+.practice-note{color:var(--ash);font-size:.98rem;line-height:1.45;margin-top:6px;}
+
+.result-title.small{font-size:clamp(2rem,5.4vw,3.2rem);}
+.practice-tips li{font-weight:500;}
