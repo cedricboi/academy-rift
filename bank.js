@@ -132,7 +132,8 @@ class GitHubStore {
   async fail(r, what) {
     let msg = ""; try { msg = (await r.json()).message || ""; } catch {}
     const hint = r.status === 401 ? " The GITHUB_TOKEN is wrong or has expired."
-      : r.status === 403 || r.status === 404 ? ` Check that the token can read and write "Contents" on ${this.repo}.` : "";
+      : r.status === 409 && /empty/i.test(msg) ? ` The repository ${this.repo} is empty. On GitHub, add a README file to it, then restart the game.`
+      : r.status === 403 || r.status === 404 ? ` Check that GITHUB_REPO is right and that the token can read and write "Contents" on ${this.repo}.` : "";
     return new Error(`GitHub could not ${what} (${r.status}${msg ? ": " + msg : ""}).${hint}`);
   }
   async json(method, path, body, what) {

@@ -117,10 +117,11 @@ function renderStoreChip() {
 
 const GITHUB_STEPS = `
   <ol class="h-steps">
-    <li>On GitHub open <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens</b> and press <b>Generate new token</b>.</li>
-    <li>Name it "Academy Rift questions". Give it the longest expiry you are allowed. Under <b>Repository access</b> choose <b>Only select repositories</b> and pick your academy-rift repository.</li>
-    <li>Under <b>Permissions → Repository permissions</b> set <b>Contents</b> to <b>Read and write</b>. Generate the token and copy it.</li>
-    <li>On <b>dashboard.render.com</b> open the game's service, go to <b>Environment</b>, add <code>GITHUB_TOKEN</code> with the token you copied, and save. The game restarts once (about a minute).</li>
+    <li>On GitHub press <b>+ → New repository</b>. Name it <b>academy-rift-questions</b>, choose <b>Private</b>, tick <b>Add a README file</b> and press <b>Create repository</b>. Keep it private: your sets hold the right answers.</li>
+    <li>Open <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens</b> and press <b>Generate new token</b>.</li>
+    <li>Name it "Academy Rift questions". For <b>Expiration</b> choose no expiry if it is offered, otherwise the longest. Under <b>Repository access</b> choose <b>Only select repositories</b> and pick <b>academy-rift-questions</b>.</li>
+    <li>Under <b>Repository permissions</b> set <b>Contents</b> to <b>Read and write</b>. Press <b>Generate token</b> and copy it straight away (GitHub shows it only once).</li>
+    <li>On <b>dashboard.render.com</b> open the game's service and go to <b>Environment</b>. Add <code>GITHUB_TOKEN</code> with the token, and <code>GITHUB_REPO</code> with <b>your-github-name/academy-rift-questions</b>. Choose <b>Save and deploy</b>. The game restarts once (a minute or two).</li>
   </ol>
   <p class="h-small">Your sets are then kept on a branch called <b>question-bank</b> in that repository. Saving a set does not restart or redeploy the game.</p>`;
 

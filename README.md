@@ -91,12 +91,15 @@ never which answer is right.
 **Setting it up on Render (once):** on the game's service open **Environment** and add
 - `HUB_PASSWORD`: a password for the hub. Without it the hub only opens on the computer that
   runs the game (`http://localhost:3100/hub`), so students can't change your questions.
-- `GITHUB_TOKEN`: Render's free plan wipes saved files whenever the game restarts, so the hub
-  keeps your sets in your GitHub repository instead, on a branch of its own called
-  `question-bank` (saving never redeploys the game). Make the token on GitHub under
-  *Settings → Developer settings → Personal access tokens → Fine-grained tokens*: give it
-  access to only this repository, with **Contents: Read and write**. The game works out which
-  repository it is from Render (`GITHUB_REPO=owner/name` sets it by hand elsewhere).
+- `GITHUB_TOKEN` and `GITHUB_REPO`: Render's free plan wipes saved files whenever the game
+  restarts, so the hub keeps your sets in a GitHub repository instead, on a branch of its own
+  called `question-bank` (saving never redeploys the game). Because the sets hold the right
+  answers and the game's own repository is public, keep them in a separate **private**
+  repository: on GitHub make a new private repository (for example `academy-rift-questions`)
+  with **Add a README file** ticked. Make the token under *Settings → Developer settings →
+  Personal access tokens → Fine-grained tokens*: give it access to only that repository, with
+  **Contents: Read and write**. Set `GITHUB_REPO` to `your-github-name/academy-rift-questions`.
+  (Without `GITHUB_REPO` the hub uses the game's own repository.)
 
 On your own computer no setup is needed: sets are saved in the `question-bank` folder next to
 the game. `node test-hub.mjs` checks the hub end to end against a pretend GitHub.
