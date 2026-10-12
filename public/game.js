@@ -1577,6 +1577,7 @@ function setMatchClock(msLeft) {
   if (msLeft == null) { stopMatchClock(); return; }
   matchDeadline = Date.now() + msLeft;
   el.classList.remove("hidden");
+  $("arena").classList.add("clocked");            // the question strip sits just under the clock
   const tick = () => {
     const t = Math.max(0, Math.ceil((matchDeadline - Date.now()) / 1000));
     el.textContent = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
@@ -1587,6 +1588,7 @@ function setMatchClock(msLeft) {
 }
 function stopMatchClock() {
   clearInterval(matchClockInt); matchClockInt = null; matchDeadline = null;
+  $("arena").classList.remove("clocked");
   $("matchClock").classList.add("hidden");
 }
 

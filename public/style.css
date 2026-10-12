@@ -908,3 +908,23 @@ input:focus{outline:none;border-color:var(--cyan);}
 .ms .ms-move.ult .ms-name{-webkit-line-clamp:1;}
 .ms .ms-move .ms-eff{font-size:max(11px,calc(14 * var(--u)));}
 .ms .ms-move.skills .ms-name.big::after{content:" ✦";color:#B9A4FF;}
+
+/* ---- bigger questions (12 Oct) ----
+   Someone else's question sits right at the top, between the two teams, and
+   uses the whole gap; your own question card and the steal panel use larger text. */
+.qstrip{top:calc(12 * var(--u));width:calc(100% - 612 * var(--u));max-width:calc(840 * var(--u));min-width:min(420px,calc(100% - 24px));
+  gap:calc(16 * var(--u));padding:calc(10 * var(--u)) calc(18 * var(--u)) calc(10 * var(--u)) calc(10 * var(--u));}
+.arena.clocked .qstrip{top:calc(74 * var(--u));}
+.qs-pic{width:calc(132 * var(--u));height:calc(84 * var(--u));min-width:72px;min-height:46px;}
+.qs-label{font-size:max(12px,calc(16 * var(--u)));}
+.qs-q{font-size:max(16px,calc(24 * var(--u)));line-height:1.22;-webkit-line-clamp:3;}
+.qs-ans{font-size:max(14px,calc(20 * var(--u)));}
+.qs-timer{font-size:max(20px,calc(34 * var(--u)));}
+.tok-flag{font-size:max(13px,calc(19 * var(--u)));}
+.mcq-q{font-size:max(20px,calc(35 * var(--u)));}
+.mcq-pic.hidden + .mcq-q{font-size:max(22px,calc(40 * var(--u)));}
+.choice{min-height:calc(84 * var(--u));}
+.choice-txt{font-size:max(17px,calc(29 * var(--u)));}
+.mcq.steal .mcq-q,.mcq.steal .mcq-pic.hidden + .mcq-q{font-size:max(17px,calc(28 * var(--u)));}
+.mcq.steal .choice-txt{font-size:max(14px,calc(23 * var(--u)));}
+.mcq.steal .choice{min-height:calc(64 * var(--u));}
