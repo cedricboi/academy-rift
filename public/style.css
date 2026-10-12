@@ -338,66 +338,7 @@ input:focus{outline:none;border-color:var(--cyan);}
   filter:drop-shadow(0 8px 34px rgba(0,0,0,.6));}
 .answer-banner.hidden{display:none!important;}
 
-/* ===== BATTLE MENU (radial pinwheel) ===== */
-/* container is an aspect-ratio box (padding-bottom trick); buttons are sized by
-   their natural 4:1 banner ratio (width-driven, height:auto) and splayed into a
-   mirrored 3-row fan around the centre of the arena. */
-.battle-menu{position:relative;width:100%;height:0;padding-bottom:56%;}
-.bm-btn{
-  position:absolute;width:40%;
-  padding:0;border:none;outline:none;cursor:pointer;background:transparent;
-  transform-origin:center center;transition:filter .15s,opacity .15s;}
-.bm-btn:focus,.bm-btn:focus-visible{outline:none;}
-.bm-btn img{width:100%;height:auto;display:block;pointer-events:none;}
-.bm-btn:hover:not([disabled]):not(.locked){filter:brightness(1.2) drop-shadow(0 0 8px rgba(255,255,255,.3));}
-.bm-btn:active:not([disabled]):not(.locked){filter:brightness(.85);}
-.bm-btn.locked{opacity:.45;cursor:not-allowed;}
-/* left column — pulled nearer the centre (bigger inset) and tilted a little more */
-.bm-btn[data-cmd="strike"]{left:6%;top:6%;    transform:rotate(13deg);}
-.bm-btn[data-cmd="defend"]{left:6%;top:43%;   transform:rotate(5deg);}
-.bm-btn[data-cmd="tag"]   {left:8%;bottom:6%; transform:rotate(-13deg);}
-/* right column */
-.bm-btn[data-cmd="spell"]   {right:6%;top:6%;    transform:rotate(-13deg);}
-.bm-btn[data-cmd="item"]    {right:6%;top:43%;   transform:rotate(-5deg);}
-.bm-btn[data-cmd="ultimate"]{right:8%;bottom:6%; transform:rotate(13deg);}
 
-/* ===== SKILL SHEET OVERLAY (centered on arena) ===== */
-.skill-sheet-overlay{
-  position:absolute;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.72);backdrop-filter:blur(3px);
-  animation:fadeInOverlay .18s ease;}
-@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
-.skill-sheet-box{
-  position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(6px,1vw,14px);
-  /* square art — size by the binding dimension (height in landscape) so it's as
-     big as possible while still fitting on screen with the BACK button below */
-  width:min(84vh,90vw,860px);}
-.skill-sheet-img{width:100%;border-radius:10px;box-shadow:0 0 40px rgba(0,0,0,.8);display:block;}
-.skill-sheet-grid{
-  position:absolute;top:0;left:0;width:100%;height:calc(100% - clamp(36px,6vw,60px));
-  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0;}
-.skill-zone{
-  background:transparent;border:none;outline:none;cursor:pointer;}
-.skill-zone:focus,.skill-zone:focus-visible{outline:none;}
-.skill-zone[disabled]{cursor:not-allowed;}
-.skill-zone-lock{
-  display:flex;align-items:center;justify-content:center;width:100%;height:100%;
-  background:rgba(0,0,0,.55);font-family:"Rift Display",system-ui;font-size:clamp(.6rem,.9vw,.85rem);
-  color:#e05555;letter-spacing:.5px;pointer-events:none;}
-.skill-sheet-back{
-  font-family:"Rift Display",system-ui;font-size:clamp(.75rem,1.2vw,1rem);letter-spacing:1px;
-  background:rgba(8,4,12,.9);border:2px solid rgba(212,20,58,.6);color:#fff;
-  padding:clamp(5px,.6vw,9px) clamp(16px,2.5vw,32px);cursor:pointer;
-  clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);transition:filter .15s;}
-.skill-sheet-back:hover{filter:brightness(1.3);}
-.skill-preview{
-  border:2px solid #555;border-radius:8px;
-  background:rgba(8,4,12,.88);padding:clamp(6px,.8vw,14px) clamp(8px,1vw,16px);
-  backdrop-filter:blur(4px);}
-.skill-preview-name{font-family:"Rift Display",system-ui;font-size:clamp(.95rem,1.6vw,1.4rem);line-height:1.1;margin-bottom:3px;}
-.skill-preview-meta{font-family:"Rift Body";font-size:clamp(.62rem,.9vw,.85rem);color:var(--ash);margin-bottom:6px;letter-spacing:.3px;}
-.skill-preview-desc{font-family:"Rift Body";font-size:clamp(.65rem,.95vw,.88rem);color:#d0cce0;line-height:1.45;}
-.cmd.use-skill{border-color:currentColor;}
 
 /* waiting indicator — bottom-center */
 .wait{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);
@@ -922,3 +863,48 @@ input:focus{outline:none;border-color:var(--cyan);}
 .topic-chip-btn.active:hover:not(:disabled){border-color:var(--gold);}
 .topic-chip-btn.active::after{content:"✓";position:absolute;top:6px;right:8px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
   background:var(--gold);color:var(--ink);font-weight:700;font-size:.85rem;border-radius:50%;}
+
+/* ---- skill cards: the character's own skill art, tap a card to use it ---- */
+.ms-move.skills{flex:0 0 calc(220 * var(--u));min-width:120px;background:#1E1630;border-color:#7B5BD6;}
+.ms-move.skills .ms-name.big{color:#fff;}
+.ms-move.skills:hover:not(:disabled){border-color:#B9A4FF;}
+.ms-move.skills.sel{border-color:var(--gold);}
+.ms-item{flex-direction:column;align-items:stretch;justify-content:center;gap:2px;padding:6px calc(12 * var(--u));min-width:220px;}
+.ms-item-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;}
+.ms-item-desc{font-weight:400;font-size:max(11px,calc(13 * var(--u)));color:#D6D1CC;}
+.ss-overlay{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;gap:calc(8 * var(--u));
+  padding:calc(12 * var(--u)) calc(16 * var(--u));background:rgba(6,4,10,.86);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  animation:fadeInOverlay .18s ease;}
+.ss-head,.ss-foot{width:min(100%,calc(1000 * var(--u)));display:flex;align-items:center;gap:calc(14 * var(--u));flex:0 0 auto;}
+.ss-tag{font-family:"Rift Display",system-ui;font-size:max(16px,calc(24 * var(--u)));letter-spacing:1px;padding:calc(3 * var(--u)) calc(22 * var(--u)) calc(3 * var(--u)) calc(12 * var(--u));
+  background:#7B5BD6;color:#fff;clip-path:polygon(0 0,100% 0,92% 100%,0 100%);white-space:nowrap;}
+.ss-sub{flex:1;font-weight:600;font-size:max(13px,calc(17 * var(--u)));color:#D6D1CC;min-width:0;}
+.ss-timer{font-family:"Rift Display",system-ui;font-size:max(20px,calc(32 * var(--u)));color:#FF4A6A;font-variant-numeric:tabular-nums;}
+.ss-box{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;}
+.ss-art{position:relative;height:100%;max-width:100%;aspect-ratio:1/1;}
+.ss-img{display:block;width:100%;height:100%;object-fit:contain;}
+/* the four cards sit in the middle band of the art, two by two */
+.ss-grid{position:absolute;left:0;right:0;top:15%;bottom:15%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1%;}
+.ss-card{position:relative;background:transparent;border:3px solid transparent;border-radius:6px;cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}
+.ss-card:hover:not(:disabled),.ss-card:focus-visible{border-color:var(--gold);box-shadow:0 0 22px rgba(242,184,75,.6);outline:none;}
+.ss-card:active:not(:disabled){background:rgba(242,184,75,.12);}
+.ss-card.locked{cursor:not-allowed;background:rgba(6,4,10,.55);}
+.ss-lock{position:absolute;bottom:5%;right:4%;font-family:"Rift Display",system-ui;letter-spacing:.5px;font-size:max(12px,calc(16 * var(--u)));
+  padding:calc(3 * var(--u)) calc(12 * var(--u));background:#3A3A45;color:#fff;border:1px solid #6A6676;}
+.ss-foot{justify-content:space-between;}
+.ss-sp{font-weight:600;font-size:max(13px,calc(17 * var(--u)));color:#D6D1CC;}
+.ss-sp b{color:var(--sp);font-family:"Rift Display",system-ui;font-size:1.2em;}
+.ss-key{flex:1;text-align:center;font-size:max(11px,calc(14 * var(--u)));color:#A9A4B0;}
+.ss-back{font-family:"Rift Display",system-ui;letter-spacing:1px;font-size:max(14px,calc(20 * var(--u)));min-height:44px;
+  padding:calc(6 * var(--u)) calc(26 * var(--u));background:#17141C;color:var(--paper);border:2px solid var(--paper);cursor:pointer;}
+.ss-back:hover{background:var(--paper);color:var(--ink);}
+@media (max-height:600px){ .ss-key{display:none;} }
+
+/* the move strip now has four big choices: share the width between them */
+.ms .ms-move.strike{flex:1.1 1 0;}
+.ms .ms-move.skills{flex:1.5 1 0;}
+.ms .ms-move.ult{flex:1.3 1 0;}
+.ms .ms-move.items{flex:.8 1 0;}
+.ms .ms-move.ult .ms-name{-webkit-line-clamp:1;}
+.ms .ms-move .ms-eff{font-size:max(11px,calc(14 * var(--u)));}
+.ms .ms-move.skills .ms-name.big::after{content:" ✦";color:#B9A4FF;}

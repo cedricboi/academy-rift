@@ -490,6 +490,11 @@ function ensureChibisThenRender(combatants) {
   showScreen("battle");
   renderBattle();
   const ids = combatants.map((c) => c.charId);
+  const mine = combatants.find((c) => c.uid === myId);
+  if (mine && !ensureChibisThenRender._sheet?.[mine.charId]) {            // skill cards open instantly later
+    (ensureChibisThenRender._sheet ||= {})[mine.charId] = true;
+    new Image().src = encodeURI(ASSETS.skillSheet(mine.charId));
+  }
   const key = ids.slice().sort().join(",");
   if (key === preppedKey) return;
   preppedKey = key;
@@ -1283,6 +1288,7 @@ function chooseMove(sel, me, b) {
 }
 
 function hideMoves() {
+  closeSkillSheet();
   const cmds = $("commands");
   if (!cmds.classList.contains("hidden")) cmds.classList.add("hidden");
   clearInterval(moveTimerInt); moveTimerInt = null;
@@ -1305,15 +1311,12 @@ function buildMovePanel(me, b, halfPower = false) {
   const selIs = (k, i) => moveSel && moveSel.kind === k && (i === undefined || moveSel.index === i || moveSel.itemId === i);
   const enemiesLeft = b.combatants.filter((c) => c.team !== me.team && c.alive).length;
 
-  const skills = me.skills.map((sk, i) => {
-    const cd = cds[i] || 0;
-    const why = cd > 0 ? `Ready in ${cd} turn${cd > 1 ? "s" : ""}` : me.sp < sk.sp ? "Not enough SP" : "";
-    return `<button class="ms-move skill ${selIs("skill", i) ? "sel" : ""}" data-move="skill" data-i="${i}" ${why ? "disabled" : ""}>
-      <span class="ms-name">${esc(sk.name)}</span>
-      <span class="ms-cost">${sk.sp} SP</span>
-      <span class="ms-eff">${why || skillEffect(sk)}</span>
+  const usable = me.skills.filter((sk, i) => !(cds[i] > 0) && me.sp >= sk.sp).length;
+  const chosenSkill = moveSel?.kind === "skill" ? me.skills[moveSel.index] : null;
+  const skills = `<button class="ms-move skills ${chosenSkill ? "sel" : ""}" data-move="skills">
+      <span class="ms-name big">SKILLS</span>
+      <span class="ms-eff">${chosenSkill ? `${esc(chosenSkill.name)} chosen` : `${usable} of ${me.skills.length} ready · tap to see them`}</span>
     </button>`;
-  }).join("");
 
   const itemList = Object.entries(me.items || {}).filter(([, n]) => n > 0);
   const itemsLeft = itemList.reduce((a, [, n]) => a + n, 0);
@@ -1321,7 +1324,8 @@ function buildMovePanel(me, b, halfPower = false) {
     const it = ITEM_BY_ID[id] || { name: id };
     const needsDead = id === "revive" && !b.combatants.some((c) => c.team === me.team && !c.alive);
     return `<button class="ms-item ${selIs("item", id) ? "sel" : ""}" data-move="item" data-item="${id}" ${needsDead ? "disabled" : ""}>
-      <span>${esc(it.name)}</span><small>×${n}${needsDead ? " · nobody is down" : ""}</small></button>`;
+      <span class="ms-item-top"><span>${esc(it.name)}</span><small>×${n}</small></span>
+      <span class="ms-item-desc">${needsDead ? "Nobody on your team is knocked out" : esc(it.desc || "")}</span></button>`;
   }).join("")}</div>` : "";
 
   const targets = moveTargets(moveSel, me, b);
@@ -1337,13 +1341,13 @@ function buildMovePanel(me, b, halfPower = false) {
     </div>
     <button class="ms-move strike ${selIs("strike") ? "sel" : ""}" data-move="strike">
       <span class="ms-name big">STRIKE</span>
-      <span class="ms-eff">${esc(me.element)} hit${enemiesLeft > 1 ? " · tap an enemy" : ""}</span>
+      <span class="ms-eff">${esc(me.element)} hit on one enemy</span>
     </button>
     ${skills}
     <button class="ms-move ult ${ultReady ? "ready" : ""}" data-move="ult" ${ultReady ? "" : "disabled"}>
       <span class="ms-k">ULTIMATE</span>
       <span class="ms-name">${esc(me.ultimate?.name || "Ultimate")}</span>
-      <span class="ms-eff">${ultReady ? "Ready!" : `Sync ${syncPct}%`}</span>
+      <span class="ms-eff">${ultEffect(me.ultimate)}${ultReady ? "" : ` · Sync ${syncPct}%`}</span>
     </button>
     <button class="ms-move items ${itemsOpen || moveSel?.kind === "item" ? "sel" : ""}" data-move="items" ${itemsLeft ? "" : "disabled"}>
       <span class="ms-name">ITEMS</span><span class="ms-eff">${itemsLeft} left</span>
@@ -1359,6 +1363,7 @@ function buildMovePanel(me, b, halfPower = false) {
     else if (m === "skill") chooseMove({ kind: "skill", index: +el.dataset.i }, me, b);
     else if (m === "item") chooseMove({ kind: "item", itemId: el.dataset.item }, me, b);
     else if (m === "items") { SFX.play("select"); itemsOpen = !itemsOpen; buildMovePanel(me, b, halfPower); }
+    else if (m === "skills") { SFX.play("select"); itemsOpen = false; openSkillSheet(me, b, halfPower); }
     else if (m === "ult") { SFX.play("select"); send({ type: "ultimate" }); }
   }));
 
@@ -1381,6 +1386,56 @@ function buildMovePanel(me, b, halfPower = false) {
   applyFlags();
 }
 
+// What each ultimate does, in a few words.
+function ultEffect(ult) {
+  return { stun: "Hits both enemies, they miss a turn", heal: "Heals your team, hits both enemies",
+           shield: "Shields your team, hits both enemies" }[ult?.archetype] || "Big hit on both enemies";
+}
+
+// ---- skill cards: the character's skill art, each card tappable ----
+// Every card shows what the skill does, its SP cost, its power and its cooldown
+// (CD: turns before it can be used again). Skills you can't use yet are dimmed.
+function openSkillSheet(me, b, halfPower) {
+  closeSkillSheet();
+  const cds = me.cooldowns || {};
+  const el = document.createElement("div");
+  el.id = "skillSheet"; el.className = "ss-overlay";
+  el.innerHTML = `
+    <div class="ss-head">
+      <span class="ss-tag">${esc(upper(me.charName.split(" ")[0]))}'S SKILLS</span>
+      <span class="ss-sub">Tap a card to use that skill.${halfPower ? " Stolen turn: attacks do half damage." : ""}</span>
+      <span class="ss-timer" data-deadline="${moveDeadline}"></span>
+    </div>
+    <div class="ss-box">
+      <div class="ss-art">
+        <img class="ss-img" src="${encodeURI(ASSETS.skillSheet(me.charId))}" alt="${esc(me.charName)}'s four skills" decoding="async" />
+        <div class="ss-grid">${me.skills.map((sk, i) => {
+          const cd = cds[i] || 0;
+          const why = cd > 0 ? `Ready in ${cd} turn${cd > 1 ? "s" : ""}` : me.sp < sk.sp ? `Needs ${sk.sp} SP` : "";
+          return `<button class="ss-card ${why ? "locked" : ""}" data-sk="${i}" ${why ? "disabled" : ""}
+              aria-label="${esc(sk.name)}: ${esc(sk.desc || skillEffect(sk))} Costs ${sk.sp} SP.${why ? " " + why + "." : ""}">
+            ${why ? `<span class="ss-lock">${why}</span>` : ""}</button>`;
+        }).join("")}</div>
+      </div>
+    </div>
+    <div class="ss-foot">
+      <span class="ss-sp">Your SP <b>${rnd(me.sp)}</b> / ${me.maxSp}</span>
+      <span class="ss-key">SP = cost · CD = turns before you can use it again</span>
+      <button class="ss-back" data-ss="back">← BACK</button>
+    </div>`;
+  $("arena").appendChild(el);
+  tickDeadlines();
+  el.querySelectorAll("[data-sk]").forEach((card) => card.addEventListener("click", () => {
+    if (inputLocked || card.disabled) return;
+    const i = +card.dataset.sk;
+    spawnEfx(me.uid, "ring", fxColor(me.skills[i].element), 0.5);
+    closeSkillSheet();
+    chooseMove({ kind: "skill", index: i }, me, b);
+  }));
+  el.querySelector("[data-ss=back]").addEventListener("click", () => { SFX.play("select"); closeSkillSheet(); });
+}
+function closeSkillSheet() { $("skillSheet")?.remove(); }
+
 function tickMoveTimer() {
   const el = $("mpTimer");
   if (!el) return;
@@ -1397,6 +1452,7 @@ function clearTargets() {
 }
 function send(action) {
   if (inputLocked) return;
+  closeSkillSheet();
   lockBriefly(); clearTargets();
   socket.emit("action", action);
   targetFlags = new Map(); applyFlags();
