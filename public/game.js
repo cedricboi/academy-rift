@@ -60,7 +60,17 @@ const ASSETS = {
   skillSheet: (id) => `assets/Skill Menu Art/${SKILL_SHEET_NUM[id] || 1}.webp`,
   ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).webp`,
   bg: { castle: "assets/CASTLE BACKGROUND.webp", opening: "assets/Opening Scene.webp", shop: null, lobby: null },
+  // battle backdrops; the server picks one per battle (battle.stage) so all four players see the same scene
+  stages: ["library", "alchemy-lab", "rooftop", "courtyard", "classroom", "hallway"].map((n) => `assets/stages/${n}.webp`),
 };
+let arenaBg = "";
+function setArenaBg(stage) {
+  const url = Number.isInteger(stage) ? ASSETS.stages[stage % ASSETS.stages.length] : (arenaBg || ASSETS.bg.castle);
+  if (!url || url === arenaBg) return;
+  arenaBg = url;
+  $("arena").style.backgroundImage = `url('${encodeURI(url)}')`;
+}
+setTimeout(() => ASSETS.stages.forEach((u) => { new Image().src = encodeURI(u); }), 5000);   // warm the cache after the page has loaded
 
 // Music tracks. playsInline keeps iOS from hijacking them into a fullscreen player.
 const lobbyBGM = new Audio("assets/Midnight Combo.mp3");
@@ -480,13 +490,13 @@ socket.on("room", (s) => {
 // battleStart can arrive before or after the room(battle) broadcast — handle bg here,
 // but the authoritative sprite prep happens whenever battle data lands (ensureChibisThenRender).
 socket.on("battleStart", () => {
-  if (ASSETS.bg.castle) $("arena").style.backgroundImage = `url('${encodeURI(ASSETS.bg.castle)}')`;
+  setArenaBg(room?.status === "battle" ? room.battle?.stage : undefined);
   showScreen("battle");
 });
 
 // Render immediately (fallback sprites), then upgrade to transparent chibis once ready.
 function ensureChibisThenRender(combatants) {
-  if (ASSETS.bg.castle) $("arena").style.backgroundImage = `url('${encodeURI(ASSETS.bg.castle)}')`;
+  setArenaBg(room?.battle?.stage);
   showScreen("battle");
   renderBattle();
   const ids = combatants.map((c) => c.charId);
