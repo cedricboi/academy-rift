@@ -57,13 +57,15 @@ const later = (fn, ms = 0) => setTimeout(fn, ms / SPEED);
 
 // ---- tuning ----
 const QUESTION_SECONDS = 18;
-const ACTION_SECONDS = 20;
+const ACTION_SECONDS = 12;          // time to pick a move after a correct answer (was 20)
+const REVEAL_MS = 1000;             // correct answer stays highlighted before the move panel (was 3000)
+const NEXT_TURN_MS = 1300;          // pause after a move before the next turn (was 1700)
 const CORRECT_MULT = 1.22;          // a correct answer empowers your action (was 1.35)
 const SP_DMG_SCALE = 140;           // higher-SP skills hit harder: power * (1 + sp/SP_DMG_SCALE)
-const DMG_SCALE = 0.4;              // global damage scale — lower = longer battles, more questions
+const DMG_SCALE = 0.55;             // global damage scale — lower = longer battles (was 0.4; quicker battles, about 8 min)
 const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
 const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
-const STEAL_SECONDS = 10;
+const STEAL_SECONDS = 6;            // closes early once everyone who can steal has tried (was a fixed 10)
 const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
 const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 const BOT_NAMES = ["Akira", "Mei", "Sora", "Riku", "Yuki", "Kai"];
@@ -397,8 +399,8 @@ function startQuestion(room) {
   c._correct = false;
   broadcast(room);
   if (c.bot) {
-    // Bot takes 4–8 seconds to "think", giving human players time to read the question
-    const thinkMs = 4000 + Math.floor(Math.random() * 4001);
+    // Bot takes 3–6 seconds to "think", giving human players time to read the question
+    const thinkMs = 3000 + Math.floor(Math.random() * 3001);
     b.timers.bot = later(() => botTurn(room), thinkMs);
     return;
   }
@@ -454,7 +456,8 @@ function resolveAnswer(room, choiceIndex) {
     b.phase = "steal";
     b.stealOf = c.uid;
     b.stealAnswered = new Set();
-    if (stealSecs <= 0) return closeSteal(room);   // steals switched off: straight to guard
+    // steals switched off, or nobody else can steal (everyone else is a bot or knocked out)
+    if (stealSecs <= 0 || !stealersOf(b, c.uid).length) return closeSteal(room);
     broadcast(room);
     io.to(room.code).emit("stealOpen", {
       originalUid: c.uid, originalName: c.name, seconds: stealSecs,
@@ -463,8 +466,8 @@ function resolveAnswer(room, choiceIndex) {
     return;
   }
 
-  // Correct answer — hold on "reveal" phase for 3s so everyone can see the
-  // highlighted correct choice and absorb the explanation before action begins.
+  // Correct answer — hold on "reveal" briefly so everyone sees the highlighted
+  // correct choice, then the player picks a move.
   b.phase = "reveal";
   broadcast(room);
   b.timers.reveal = later(() => {
@@ -474,7 +477,12 @@ function resolveAnswer(room, choiceIndex) {
     if (c.bot) { b.timers.bot = later(() => botAction(room), 200); return; }
     io.to(c.uid).emit("chooseAction", { syncReady: b.sync[c.team] >= 100, correct: true });
     b.timers.a = later(() => handleAction(room, c.uid, { type: "strike" }, true), ACTION_SECONDS * 1000);
-  }, 3000);
+  }, REVEAL_MS);
+}
+
+// Players who could still steal this turn: alive, human, and not the one who answered wrong.
+function stealersOf(b, originalUid) {
+  return Object.values(b.combatants).filter((x) => x.alive && !x.bot && x.uid !== originalUid);
 }
 
 function handleSteal(room, sid, choiceIndex) {
@@ -492,45 +500,50 @@ function handleSteal(room, sid, choiceIndex) {
   io.to(room.code).emit("stealResult", {
     uid: sid, correct, correctIndex: b.q.answer, explain: b.q.explain,
   });
-  if (correct) {
-    clearTimeout(b.timers.steal);
-    gradeAnswer(room, stealer, true);
-    stealer._correct   = true;   // allow attack actions
-    stealer._halfPower = true;   // attacks do 50% damage this turn
-
-    // Auto-guard the original wrong-answerer (no action choice for them)
-    const original = b.combatants[b.stealOf];
-    if (original) {
-      const defEv = resolveAction(room, original, { type: "defend" });
-      io.to(room.code).emit("actionResult", {
-        actor: original.uid, action: "defend", name: "Defend", events: defEv,
-      });
-    }
-
-    // Hand the action phase to the stealer
-    b.stealActor = sid;
-    delete b.stealOf; delete b.stealAnswered;
-    b.phase = "steal-action";
-    broadcast(room);
-    // stealer is always human (bots don't steal), so send them the prompt
-    io.to(sid).emit("chooseAction", { syncReady: b.sync[stealer.team] >= 100, correct: true, halfPower: true });
-    b.timers.a = later(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
+  if (!correct) {
+    // everyone who can steal has had a go: no need to wait out the window
+    if (stealersOf(b, b.stealOf).every((x) => b.stealAnswered.has(x.uid))) closeSteal(room);
+    return;
   }
+  clearTimeout(b.timers.steal);
+  gradeAnswer(room, stealer, true);
+  stealer._correct   = true;   // allow attack actions
+  stealer._halfPower = true;   // attacks do 50% damage this turn
+
+  // Auto-guard the original wrong-answerer (no action choice for them)
+  const original = b.combatants[b.stealOf];
+  if (original) {
+    const defEv = resolveAction(room, original, { type: "defend" });
+    io.to(room.code).emit("actionResult", {
+      actor: original.uid, action: "defend", name: "Defend", events: defEv,
+    });
+  }
+
+  // Hand the action phase to the stealer
+  b.stealActor = sid;
+  delete b.stealOf; delete b.stealAnswered;
+  b.phase = "steal-action";
+  broadcast(room);
+  // stealer is always human (bots don't steal), so send them the prompt
+  io.to(sid).emit("chooseAction", { syncReady: b.sync[stealer.team] >= 100, correct: true, halfPower: true });
+  b.timers.a = later(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
 }
 
 function closeSteal(room) {
   const b = room.battle; if (!b || b.phase !== "steal") return;
   clearTimeout(b.timers.steal);
   const originalUid = b.stealOf;
-  b.phase = "action";
   delete b.stealOf; delete b.stealAnswered;
-  broadcast(room);
   const original = b.combatants[originalUid];
-  if (!original) { b.timers.next = later(() => advance(room), 500); return; }
-  if (original.bot) { b.timers.bot = later(() => botAction(room), 500); return; }
-  // Original player still takes their action but with wrong-answer penalty (can only defend/support)
-  io.to(originalUid).emit("chooseAction", { syncReady: b.sync[original.team] >= 100, correct: false });
-  b.timers.a = later(() => handleAction(room, originalUid, { type: "defend" }, true), ACTION_SECONDS * 1000);
+  if (!original) { b.phase = "resolving"; broadcast(room); b.timers.next = later(() => advance(room), 500); return; }
+  // A wrong answer means guarding this turn. It happens automatically, so nobody
+  // waits for a menu with only one choice in it.
+  b.phase = "resolving";
+  const events = resolveAction(room, original, { type: "defend" });
+  original._halfPower = false;
+  io.to(room.code).emit("actionResult", { actor: original.uid, action: "defend", name: "Defend", events });
+  broadcast(room);
+  b.timers.next = later(() => advance(room), NEXT_TURN_MS);
 }
 
 // ---------- actions ----------
@@ -569,7 +582,7 @@ function handleAction(room, sid, action, auto = false) {
     actor: actor.uid, action: action?.type || "defend", name: actionLabel(actor, action || { type: "defend" }), events,
   });
   broadcast(room);
-  b.timers.next = later(() => advance(room), 1700);
+  b.timers.next = later(() => advance(room), NEXT_TURN_MS);
 }
 
 function resolveAction(room, actor, action) {
@@ -749,7 +762,7 @@ function botAction(room) {
   const events = resolveAction(room, c, action);
   io.to(room.code).emit("actionResult", { actor: c.uid, action: action.type, name: actionLabel(c, action), events });
   broadcast(room);
-  b.timers.next = later(() => advance(room), 1700);
+  b.timers.next = later(() => advance(room), NEXT_TURN_MS);
 }
 
 // ---------- end ----------

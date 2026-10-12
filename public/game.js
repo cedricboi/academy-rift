@@ -24,15 +24,6 @@ const CARD_NUM = { mina:1, kuro:2, jun:3, hina:4, emi:5, saya:6, renji:7, raiden
 const ULT_DIR  = "assets/Ultimate Scene/ChatGPT Image Jun 15, 2026, 06_22_41 AM";
 
 const SKILL_SHEET_NUM = { raiden:1, nao:2, hina:3, jun:4, saya:5, taiga:6, renji:7, kuro:8, emi:9, mina:10 };
-const BM = "assets/UI%20Design%20Reference%20Battle/";
-const BATTLE_IMGS = {
-  strike:   `${BM}1.png`,
-  spell:    `${BM}2.png`,
-  defend:   `${BM}3.png`,
-  item:     `${BM}4.png`,
-  tag:      `${BM}5.png`,
-  ultimate: `${BM}6.png`,
-};
 // Answer-feedback banners (drop the two graphics in here as 1.png / 2.png).
 const ANSWER_IMG = {
   correct: "assets/Answer%20Feedback/correct.webp",
@@ -1095,7 +1086,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
     const isStealActor = b.stealActor === myId;
     if (isStealActor && stealActorC) {
       wait.classList.add("hidden"); cmds.classList.remove("hidden");
-      buildCommands(stealActorC, b, true);  // halfPower = true
+      buildMovePanel(stealActorC, b, true);  // stolen turn: half power
     } else {
       cmds.classList.add("hidden");
       wait.classList.remove("hidden");
@@ -1106,8 +1097,8 @@ function renderDock(b, cur, myTurn, stealActorC) {
     mcq.classList.add("hidden");
     if (myTurn) {
       wait.classList.add("hidden"); cmds.classList.remove("hidden");
-      if (myAnswerCorrect) buildCommands(cur, b);
-      else buildGuardOnly();
+      if (myAnswerCorrect) buildMovePanel(cur, b);
+      else { cmds.classList.add("hidden"); wait.classList.remove("hidden"); $("waitText").textContent = "Guarding…"; }
     } else {
       cmds.classList.add("hidden"); setBattleDim(false);
       wait.classList.remove("hidden");
@@ -1119,149 +1110,157 @@ function renderDock(b, cur, myTurn, stealActorC) {
   }
 }
 
-// ---- command shards ----
+// ---- move panel ----
+// After a correct answer the player gets ONE panel: Strike, the four skills,
+// the Ultimate and items, with the target chosen in the same panel (or by
+// tapping a fighter on the stage). A wrong answer guards automatically on the
+// server, so there is no menu for it.
 const isOffSkill = (sk) => sk.kind === "atk" || sk.kind === "heavy" || sk.kind === "debuff";
-function skillDesc(sk) {
-  const k = { atk: "Elemental strike", heavy: "Heavy elemental blow", heal: "Restore ally HP",
-    buff: "Empower allies", guard: "Shield (reduce damage)", debuff: "Weaken the enemy", cleanse: "Cleanse debuffs" };
-  return `${sk.element} · ${sk.sp} SP · ${k[sk.kind] || "skill"}`;
+const MOVE_SECONDS = 12;                 // matches ACTION_SECONDS on the server
+let moveSel = null;                      // { kind: "strike"|"skill"|"item", index|itemId }
+let moveKey = "";                        // which turn the panel belongs to
+let moveDeadline = 0, moveTimerInt = null;
+
+function skillEffect(sk) {
+  if (sk.kind === "atk") return `${sk.element} hit, one enemy`;
+  if (sk.kind === "heavy") return `Heavy ${sk.element.toLowerCase()} hit`;
+  if (sk.kind === "heal") return "Heal a teammate";
+  if (sk.kind === "cleanse") return "Clear a teammate's debuffs";
+  if (sk.kind === "debuff") return "Weaken an enemy";
+  if (sk.kind === "buff") return "Power up your team";
+  if (sk.kind === "guard") return sk.target === "party" ? "Shield both of you" : sk.target === "self" ? "Shield yourself" : "Shield a teammate";
+  return "Skill";
 }
 
-function buildGuardOnly() {
+// Who a move can be aimed at. [] means it needs no target.
+function moveTargets(sel, me, b) {
+  const enemies = b.combatants.filter((c) => c.team !== me.team && c.alive);
+  const alliesAlive = b.combatants.filter((c) => c.team === me.team && c.alive);
+  if (!sel) return [];
+  if (sel.kind === "strike") return enemies;
+  if (sel.kind === "skill") {
+    const sk = me.skills[sel.index];
+    if (isOffSkill(sk)) return enemies;
+    if (sk.kind === "heal" || sk.kind === "cleanse" || (sk.kind === "guard" && sk.target !== "party" && sk.target !== "self")) return alliesAlive;
+    return [];
+  }
+  if (sel.kind === "item") {
+    if (sel.itemId === "crystal") return [];
+    if (sel.itemId === "revive") return b.combatants.filter((c) => c.team === me.team && !c.alive);
+    return alliesAlive;
+  }
+  return [];
+}
+
+function moveAction(sel, targetId) {
+  if (sel.kind === "strike") return { type: "strike", targetId };
+  if (sel.kind === "skill") return { type: "spell", skillIndex: sel.index, targetId };
+  if (sel.kind === "item") return { type: "item", itemId: sel.itemId, targetId };
+  if (sel.kind === "ult") return { type: "ultimate" };
+}
+
+function chooseMove(sel, me, b) {
+  SFX.play("select");
+  moveSel = sel;
+  const targets = moveTargets(sel, me, b);
+  if (targets.length <= 1) return send(moveAction(sel, targets[0]?.uid));   // nothing to choose
+  buildMovePanel(me, b, buildMovePanel._half);
+}
+
+function buildMovePanel(me, b, halfPower = false) {
+  const key = `${me.uid}:${b.question?.startedAt}:${b.phase}`;
+  if (key !== moveKey) {                         // a new turn: fresh panel and timer
+    moveKey = key; moveSel = null;
+    moveDeadline = Date.now() + MOVE_SECONDS * 1000;
+    clearInterval(moveTimerInt);
+    moveTimerInt = setInterval(tickMoveTimer, 250);
+  }
+  buildMovePanel._half = halfPower;
   const cmds = $("commands");
-  setBattleDim(true);
-  cmds.innerHTML = `
-    <div class="guard-only-wrap">
-      <div class="guard-only-msg">✗ WRONG — Guard only this turn</div>
-      <button class="bm-btn" data-cmd="defend">
-        <img src="${BATTLE_IMGS.defend}" alt="DEFEND" decoding="async" draggable="false">
-      </button>
-    </div>`;
-  cmds.querySelector("[data-cmd]").addEventListener("click", () => { SFX.play("select"); send({ type:"defend" }); });
-}
-
-function buildCommands(me, b, halfPower = false) {
-  const cmds = $("commands");
-  cmds.classList.remove("preview-mode");
-  setBattleDim(true);
-  const syncReady = b.sync[me.team] >= 100;
-  const canAtk = myAnswerCorrect;
-  const halfWarn = halfPower ? `<div class="half-power-warn">⚔ STOLEN TURN — ATTACKS ARE HALVED</div>` : "";
-  cmds.innerHTML = halfWarn + `
-    <div class="battle-menu">
-      <button class="bm-btn ${canAtk?"":"locked"}" data-cmd="strike" ${canAtk?"":"disabled"}>
-        <img src="${BATTLE_IMGS.strike}" alt="STRIKE" decoding="async" draggable="false">
-      </button>
-      <button class="bm-btn" data-cmd="spell">
-        <img src="${BATTLE_IMGS.spell}" alt="SPELL" decoding="async" draggable="false">
-      </button>
-      <button class="bm-btn" data-cmd="defend">
-        <img src="${BATTLE_IMGS.defend}" alt="DEFEND" decoding="async" draggable="false">
-      </button>
-      <button class="bm-btn" data-cmd="item">
-        <img src="${BATTLE_IMGS.item}" alt="ITEM" decoding="async" draggable="false">
-      </button>
-      <button class="bm-btn" data-cmd="tag">
-        <img src="${BATTLE_IMGS.tag}" alt="TAG" decoding="async" draggable="false">
-      </button>
-      <button class="bm-btn ${syncReady&&canAtk?"":"locked"}" data-cmd="ultimate" ${syncReady&&canAtk?"":"disabled"}>
-        <img src="${BATTLE_IMGS.ultimate}" alt="ULTIMATE" decoding="async" draggable="false">
-      </button>
-    </div>`;
-  cmds.querySelectorAll("[data-cmd]").forEach((el) =>
-    el.addEventListener("click", () => { SFX.play("select"); onCommand(el.dataset.cmd, me, b); }));
-}
-
-function onCommand(cmd, me, b) {
-  if (inputLocked) return;
-  if (cmd === "strike")  return pickTarget("enemy", me, (uid) => send({ type:"strike", targetId:uid }));
-  if (cmd === "defend")  return send({ type:"defend" });
-  if (cmd === "tag")     return send({ type:"tag" });
-  if (cmd === "ultimate") return send({ type:"ultimate" });
-  if (cmd === "spell")   return spellMenu(me, b);
-  if (cmd === "item")    return itemMenu(me, b);
-}
-
-function spellMenu(me, b) {
-  // Show the character's skill-art sheet centered on the arena, with 4 click zones.
-  const arena = $("arena");
+  cmds.classList.add("move-mode");
+  setBattleDim(false);
   const cds = me.cooldowns || {};
-  const sheetSrc = encodeURI(ASSETS.skillSheet(me.charId));
+  const syncPct = Math.min(100, Math.round(b.sync[me.team] || 0));
+  const ultReady = syncPct >= 100;
+  const selIs = (k, i) => moveSel && moveSel.kind === k && (i === undefined || moveSel.index === i || moveSel.itemId === i);
 
-  // Remove any old overlay
-  const old = document.getElementById("skillSheetOverlay");
-  if (old) old.remove();
-
-  const overlay = document.createElement("div");
-  overlay.id = "skillSheetOverlay";
-  overlay.className = "skill-sheet-overlay";
-  overlay.innerHTML = `
-    <div class="skill-sheet-box">
-      <img class="skill-sheet-img" src="${sheetSrc}" alt="Skills" decoding="async" />
-      <div class="skill-sheet-grid">
-        ${me.skills.map((s, i) => {
-          const off = isOffSkill(s);
-          const onCd = (cds[i] || 0) > 0;
-          const blocked = onCd || me.sp < s.sp || (off && !myAnswerCorrect);
-          // off-skills locked behind a correct answer are simply greyed out (no caption)
-          const whyTip = onCd ? `CD: ${cds[i]}t` : me.sp < s.sp ? "Low SP" : "";
-          return `<button class="skill-zone ${blocked?"blocked":""}" data-sk="${i}" ${blocked?"disabled":""}>
-            ${blocked ? `<span class="skill-zone-lock">${whyTip}</span>` : ""}
-          </button>`;
-        }).join("")}
-      </div>
-      <button class="skill-sheet-back" id="skillSheetBack">← BACK</button>
-    </div>`;
-
-  arena.appendChild(overlay);
-
-  overlay.querySelectorAll("[data-sk]").forEach((el) => {
-    el.addEventListener("click", () => {
-      const i = +el.dataset.sk, sk = me.skills[i];
-      SFX.play("select");
-      spawnEfx(me.uid, "ring", fxColor(sk.element), 0.5);
-      overlay.remove();
-      castSkill(i, sk, me, b);   // straight to target selection — no extra confirm
-    });
-  });
-
-  document.getElementById("skillSheetBack").addEventListener("click", () => {
-    SFX.play("select");
-    overlay.remove();
-    buildCommands(me, b);
-  });
-}
-
-// Cast the chosen skill immediately: go straight to target selection (or auto-cast
-// for self/party buffs & guards). No second confirm — picking the skill is the commit.
-function castSkill(i, sk, me, b) {
-  // single-ally targets (heal, cleanse, single-ally guard) → pick an ally;
-  // self/party guards and buffs auto-target → no pick; offensive → pick an enemy.
-  if (sk.kind === "heal" || sk.kind === "cleanse" || (sk.kind === "guard" && sk.target !== "party" && sk.target !== "self"))
-    pickTarget("ally", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
-  else if (sk.kind === "buff" || sk.kind === "guard")
-    send({ type: "spell", skillIndex: i });
-  else
-    pickTarget("enemy", me, (uid) => send({ type: "spell", skillIndex: i, targetId: uid }));
-}
-
-function itemMenu(me, b) {
-  const cmds = $("commands");
-  const owned = Object.entries(me.items).filter(([,n]) => n > 0);
-  if (!owned.length) { toast("No items left."); return; }
-  cmds.innerHTML = owned.map(([id,n]) => {
-    const it = ITEM_BY_ID[id]||{name:id,desc:""};
-    return `<button class="cmd item" data-it="${id}">
-      <span class="cmd-name">${it.name} ×${n}</span>
-      <span class="cmd-sub">${it.desc}</span>
+  const skills = me.skills.map((sk, i) => {
+    const cd = cds[i] || 0;
+    const why = cd > 0 ? `Ready in ${cd} turn${cd > 1 ? "s" : ""}` : me.sp < sk.sp ? "Not enough SP" : "";
+    return `<button class="mp-move skill ${selIs("skill", i) ? "sel" : ""}" data-move="skill" data-i="${i}" ${why ? "disabled" : ""}>
+      <span class="mp-name">${esc(sk.name)}</span>
+      <span class="mp-cost">${sk.sp} SP</span>
+      <span class="mp-eff">${why || skillEffect(sk)}</span>
     </button>`;
-  }).join("") + `<button class="cmd back" data-back="1"><span class="cmd-name">← BACK</span></button>`;
-  cmds.querySelectorAll("[data-it]").forEach((el) => el.addEventListener("click", () => {
-    const id = el.dataset.it;
-    if (id==="crystal") send({ type:"item", itemId:id });
-    else pickTarget("ally", me, (uid) => send({ type:"item", itemId:id, targetId:uid }));
+  }).join("");
+
+  const items = Object.entries(me.items || {}).filter(([, n]) => n > 0).map(([id, n]) => {
+    const it = ITEM_BY_ID[id] || { name: id };
+    const needsDead = id === "revive" && !b.combatants.some((c) => c.team === me.team && !c.alive);
+    return `<button class="mp-item ${selIs("item", id) ? "sel" : ""}" data-move="item" data-item="${id}" ${needsDead ? "disabled" : ""} title="${esc(it.desc || "")}">${esc(it.name)} ×${n}</button>`;
+  }).join("");
+
+  const targets = moveTargets(moveSel, me, b);
+  const verb = moveSel?.kind === "strike" || (moveSel?.kind === "skill" && isOffSkill(me.skills[moveSel.index])) ? "WHO DO YOU HIT?" : "WHO IS IT FOR?";
+  const targetRow = targets.length > 1 ? `<div class="mp-targets"><span class="mp-label">${verb}</span>
+      ${targets.map((c) => `<button class="mp-target" data-target="${c.uid}">
+        <span class="mp-tname">${esc(c.charName.split(" ")[0])}</span>
+        <span class="mp-thp"><i style="width:${pct(c.hp, c.maxHp)}%"></i></span>
+        <span class="mp-tnum">${rnd(c.hp)} / ${c.maxHp} HP</span>
+      </button>`).join("")}</div>` : `<div class="mp-targets"></div>`;
+
+  cmds.innerHTML = `<div class="mp">
+    <div class="mp-head">
+      <span class="mp-tag">✓ CORRECT! CHOOSE YOUR MOVE</span>
+      <span class="mp-sub ${halfPower ? "warn" : ""}">${halfPower ? "Stolen turn: attacks do half damage." : "Your attacks are powered up this turn."}</span>
+      <span class="mp-timer" id="mpTimer"></span>
+    </div>
+    <div class="mp-moves">
+      <button class="mp-move strike ${selIs("strike") ? "sel" : ""}" data-move="strike">
+        <span class="mp-name big">STRIKE</span>
+        <span class="mp-eff">${esc(me.element)} hit, one enemy</span>
+      </button>
+      ${skills}
+      <button class="mp-move ult ${ultReady ? "ready" : ""}" data-move="ult" ${ultReady ? "" : "disabled"}>
+        <span class="mp-k">ULTIMATE</span>
+        <span class="mp-name">${esc(me.ultimate?.name || "Ultimate")}</span>
+        <span class="mp-eff">${ultReady ? "Ready! Uses the full Sync gauge" : `Sync ${syncPct}%`}</span>
+      </button>
+    </div>
+    <div class="mp-foot">${targetRow}${items ? `<div class="mp-items"><span class="mp-label">ITEMS</span>${items}</div>` : ""}</div>
+  </div>`;
+  tickMoveTimer();
+
+  cmds.querySelectorAll("[data-move]").forEach((el) => el.addEventListener("click", () => {
+    if (inputLocked) return;
+    const m = el.dataset.move;
+    if (m === "strike") chooseMove({ kind: "strike" }, me, b);
+    else if (m === "skill") chooseMove({ kind: "skill", index: +el.dataset.i }, me, b);
+    else if (m === "item") chooseMove({ kind: "item", itemId: el.dataset.item }, me, b);
+    else if (m === "ult") { SFX.play("select"); send({ type: "ultimate" }); }
   }));
-  cmds.querySelector("[data-back]").addEventListener("click", () => buildCommands(me, b));
+  cmds.querySelectorAll("[data-target]").forEach((el) => el.addEventListener("click", () => {
+    if (inputLocked || !moveSel) return;
+    send(moveAction(moveSel, el.dataset.target));
+  }));
+  // the fighters on the stage can be tapped as targets too
+  clearTargets();
+  if (targets.length > 1) {
+    targets.forEach((c) => {
+      const el = fighterEl(c.uid); if (!el) return;
+      el.classList.add("target-pick");
+      const h = () => { if (moveSel) send(moveAction(moveSel, c.uid)); };
+      el._th = h; el.addEventListener("click", h);
+    });
+  }
+}
+
+function tickMoveTimer() {
+  const el = $("mpTimer");
+  if (!el) { clearInterval(moveTimerInt); moveTimerInt = null; return; }
+  const left = Math.max(0, Math.ceil((moveDeadline - Date.now()) / 1000));
+  el.textContent = `0:${String(left).padStart(2, "0")}`;
+  el.classList.toggle("low", left <= 4);
 }
 
 function pickTarget(side, me, cb) {

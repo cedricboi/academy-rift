@@ -57,7 +57,7 @@ names on the teacher page can be paired, split or removed.
 - Topic tested
 - Time limit per battle (off, 3–15 minutes). At the limit, the team with more HP left wins;
   level HP goes to the team with more correct answers, otherwise it is a draw
-- Time to answer a question (10–30 s) and the steal window (off, 5–15 s)
+- Time to answer a question (10–30 s) and the steal window (off, 4–10 s; it closes early once everyone has tried)
 - Fighters: students choose / random every round
 - Leaderboard on students' screens: full / only their own place / hidden until the end
 

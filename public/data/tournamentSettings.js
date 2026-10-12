@@ -92,12 +92,12 @@ export const SETTINGS = [
     help: "How long the player whose turn it is has to answer.",
   },
   {
-    key: "stealSeconds", group: "battle", label: "Steal window", default: 10,
+    key: "stealSeconds", group: "battle", label: "Steal window", default: 6,
     options: [
       { value: 0, label: "Off" },
-      ...[5, 8, 10, 15].map((n) => ({ value: n, label: `${n} seconds` })),
+      ...[4, 6, 8, 10].map((n) => ({ value: n, label: `${n} seconds` })),
     ],
-    help: "After a wrong answer, the other three players can answer the same question to steal the turn.",
+    help: "After a wrong answer, the other players can answer the same question to steal the turn. The window closes early once everyone has tried.",
   },
   {
     key: "fighters", group: "battle", label: "Fighters", default: "choose",
