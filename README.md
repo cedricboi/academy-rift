@@ -151,9 +151,15 @@ composited mockup:
   to transparent on a `<canvas>` at load (`processChibi` in `public/game.js`), so the arena
   shows clean cut-out sprites — no white boxes. Full portraits are used only for cards,
   character select, and the ultimate cut-in.
-- **Player cards** are anchored to the four corners; **chibis** stand in 2v2 lanes with
-  depth; the **Team Sync Gauge** sits centered up top; the **command/MCQ console** is the
-  framed dock below.
+- **Stage first.** The fighters fill the screen in 2v2 lanes. A slim HUD runs along the top
+  (each team's fighters with HP, SP and the Sync gauge; the battle clock in the middle).
+- **The question only takes over on your turn.** When someone else answers, everyone sees
+  their question as a small strip at the top and a flag over the fighter ("AIDEN IS
+  ANSWERING"). On your own turn a big question card opens over the dimmed stage. After a
+  right answer the card closes and one move strip runs along the bottom; the targets light
+  up on the stage ("TAP TO HIT KURO"). A steal chance is a shorter panel along the bottom
+  for a few seconds. After a wrong answer, the right one is only shown once nobody can steal
+  it any more.
 
 To swap art, replace the files in `public/assets/` (keep the names) or edit the `ASSETS`
 map at the top of `public/game.js`. Anything left `null` falls back to a CSS placeholder.

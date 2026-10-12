@@ -499,28 +499,31 @@ function ensureChibisThenRender(combatants) {
 socket.on("answerResult", ({ uid, correct, correctIndex, correctAll, explain }) => {
   if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); showAnswerBanner(correct); }
   if (correct) setAttackPose(uid);
-  const right = correctAll || [correctIndex];
+  // after a wrong answer the right one stays secret while others can still steal it
+  const right = correctAll || (correctIndex != null ? [correctIndex] : null);
+  if (right) lastReveal = { key: qKey(room?.battle?.question), right, explain };
   document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
     b.disabled = true;
-    if (right.includes(i)) b.classList.add("correct");
+    if (right && right.includes(i)) b.classList.add("correct");
     else if (i === mySelected && uid === myId) b.classList.add("wrong");
   });
-  const fb = $("mcqFeedback");
-  fb.className = "mcq-feedback " + (correct ? "good" : "bad");
-  fb.textContent = (correct ? "✓ CORRECT!  Attack powered up." : "✗ WRONG.  Guard only this turn.") + "  " + explain;
-  fb.classList.remove("hidden");
+  if (uid === myId) {
+    const fb = $("mcqFeedback");
+    fb.className = "mcq-feedback " + (correct ? "good" : "bad");
+    fb.textContent = correct ? `✓ CORRECT! Your attacks are powered up.${explain ? "  " + explain : ""}` : "✗ Not this time. You guard this turn.";
+    fb.classList.remove("hidden");
+  }
   stopTimer();
-  // Flash result in the center turn-banner for everyone to see
-  bannerFlash(correct ? "✓ CORRECT!" : "✗ WRONG — Guard only", correct ? "mine" : "");
-  if (uid !== myId) toast(`${nameOf(uid)} answered ${correct ? "correctly ✓" : "wrong ✗"}.`);
+});
+
+// Nobody stole the question: now everyone may see the right answer.
+socket.on("answerReveal", ({ correctIndex, correctAll, explain }) => {
+  lastReveal = { key: qKey(room?.battle?.question), right: correctAll || [correctIndex], explain };
 });
 
 // Steal window opened (original player answered wrong)
 socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
   stealMeta = { originalUid, originalName, seconds, startedAt: srvNow() };
-  if (originalUid !== myId) {
-    bannerFlash(`⚡ STEAL CHANCE!  ${originalName} got it wrong!`, "");
-  }
   renderBattle();
 });
 
@@ -531,6 +534,7 @@ socket.on("stealResult", ({ uid, correct, correctIndex, correctAll, explain }) =
     stealMeta = null;
     if (uid === myId) { myAnswerCorrect = true; SFX.play("correct"); showAnswerBanner(true); }
     const right = correctAll || [correctIndex];
+    lastReveal = { key: qKey(room?.battle?.question), right, explain };
     document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
       b.disabled = true;
       if (right.includes(i)) b.classList.add("correct");
@@ -538,7 +542,7 @@ socket.on("stealResult", ({ uid, correct, correctIndex, correctAll, explain }) =
     });
     const fb = $("mcqFeedback");
     fb.className = "mcq-feedback good steal";
-    fb.textContent = `⚡ ${nameOf(uid)} STOLE the turn! Attacks halved.  ${explain}`;
+    fb.textContent = `⚡ ${nameOf(uid)} stole the turn! Attacks do half damage.`;
     fb.classList.remove("hidden");
     stopTimer();
     bannerFlash(`⚡ ${nameOf(uid)} STOLE THE TURN!`, "mine");
@@ -550,11 +554,11 @@ socket.on("stealResult", ({ uid, correct, correctIndex, correctAll, explain }) =
       document.querySelectorAll("#mcqChoices .choice").forEach((b) => { b.disabled = true; });
       const fb = $("mcqFeedback");
       fb.className = "mcq-feedback bad";
-      fb.textContent = `✗ Wrong! Others can still steal.  ${explain}`;
+      fb.textContent = "✗ Not that one. The others can still try.";
       fb.classList.remove("hidden");
     }
     // Don't touch stealMeta, don't stop the timer — window stays open for others
-    toast(`${nameOf(uid)} guessed wrong — steal window still open!`);
+    if (uid !== myId) toast(`${nameOf(uid)} tried to steal and missed.`);
   }
 });
 
@@ -935,18 +939,20 @@ function hexRGBA(hex, a) {
 }
 const elemColor = (el) => ELEMENT_COLORS[el] || "#D4143A";
 
-// Player card = designed frame art (portrait + element icon baked in) with the
-// character name + HP/SP bars overlaid in the black middle. No level text.
-function cardHTML(c, side, acting, label) {
+// ---- slim HUD along the top: one row per fighter ----
+function hudRowHTML(c, side, acting) {
   const hp = pct(c.hp, c.maxHp), sp = pct(c.sp, c.maxSp);
-  const cd = cardData(c.charId);
-  return `<div class="pcard ${side} ${c.alive?"":"dead"} ${acting?"acting":""}" data-uid="${c.uid}"
-       style="--ar:${cd.ar};background-image:url('${cd.src}')">
-    <span class="pc-label">${label}</span>
-    <div class="pc-overlay">
-      <div class="pc-name">${c.charName}</div>
-      <div class="pc-bar hp"><i class="${hp<=30?"low":""}" style="width:${hp}%"></i><b>${rnd(c.hp)} / ${c.maxHp}</b></div>
-      <div class="pc-bar sp"><i style="width:${sp}%"></i><b>${rnd(c.sp)} / ${c.maxSp}</b></div>
+  const me = c.uid === myId;
+  return `<div class="hud-row ${c.alive ? "" : "dead"} ${acting ? "acting" : ""}" data-uid="${c.uid}">
+    <div class="hud-face">${thumb(c.charId)}</div>
+    <div class="hud-info">
+      <div class="hud-line">
+        <span class="hud-char">${esc(c.charName.split(" ")[0])}</span>
+        <span class="hud-player ${me ? "me" : ""}">${esc(c.name)}${me ? " · you" : ""}</span>
+        <span class="hud-hp">${rnd(c.hp)}</span>
+      </div>
+      <div class="hud-bar hp"><i class="${hp <= 30 ? "low" : ""}" style="width:${hp}%"></i></div>
+      <div class="hud-bar sp"><i style="width:${sp}%"></i></div>
     </div>
   </div>`;
 }
@@ -962,26 +968,34 @@ function particleHTML() {
   return s;
 }
 
-// Chibi sprite token — large ready-stance illustration with element aura + particles
-function tokenHTML(c, facing, acting) {
+// Fighter on the stage — large ready-stance art with element aura + particles,
+// and a flag above the head (YOU, NAME IS ANSWERING, TAP TO HIT…).
+function tokenHTML(c, facing, acting, side) {
   const col = fxColor(c.element);
   const posed = attackPosed.has(c.uid) ? " posed" : "";
-  return `<div class="tok ${c.alive?"":"down"} ${acting?"acting":""}${posed}" data-uid="${c.uid}" data-facing="${facing}" data-el="${c.element}"
+  return `<div class="tok ${c.alive?"":"down"} ${acting?"acting":""}${posed}" data-uid="${c.uid}" data-facing="${facing}" data-side="${side}" data-el="${c.element}"
        style="--glow:${hexRGBA(col,0.8)};--pc:${col};--ef:${col}">
     <div class="tok-spot"></div>
     <div class="tok-aura"></div>
     <div class="tok-fxp">${particleHTML()}</div>
     ${chibiImg(c.charId, c.uid)}
-    <div class="tok-tag">${c.charName.split(" ")[0]}</div>
+    <div class="tok-tag">${esc(c.charName.split(" ")[0])}</div>
+    <div class="tok-flag"></div>
   </div>`;
 }
 
-function fillSlot(slotId, laneId, c, side, facing, acting, label) {
-  const slot = $(slotId), lane = $(laneId);
-  if (!c) { slot.innerHTML = ""; lane.innerHTML = ""; return; }
-  slot.innerHTML = cardHTML(c, side, acting, label);
-  lane.innerHTML = tokenHTML(c, facing, acting);
+// ---- flags above the fighters ----
+let baseFlags = new Map();     // uid → { html, cls } from the turn state
+let targetFlags = new Map();   // uid → { html, cls } while you pick a target
+function applyFlags() {
+  document.querySelectorAll("#arena .tok").forEach((t) => {
+    const f = targetFlags.get(t.dataset.uid) || baseFlags.get(t.dataset.uid);
+    const el = t.querySelector(".tok-flag"); if (!el) return;
+    el.className = "tok-flag" + (f ? " on " + f.cls : "");
+    el.innerHTML = f ? f.html : "";
+  });
 }
+const upper = (s) => String(s || "").toUpperCase();
 
 function renderBattle() {
   const b = room.battle; if (!b) return;
@@ -989,175 +1003,225 @@ function renderBattle() {
   const enmTeam = myTeam === 0 ? 1 : 0;
   const allies  = b.combatants.filter((c) => c.team === myTeam);
   const foes    = b.combatants.filter((c) => c.team === enmTeam);
-  const act = (c) => c && b.current === c.uid;
+  // on a stolen turn the stealer is the one acting
+  const actor = b.phase === "steal-action" && b.stealActor ? b.stealActor : b.current;
+  const act = (c) => c && actor === c.uid;
 
-  fillSlot("slotAllyFront",  "laneAllyFront",  allies[0], "",    "right", act(allies[0]), "");
-  fillSlot("slotAllyBack",   "laneAllyBack",   allies[1], "",    "right", act(allies[1]), "");
-  fillSlot("slotEnemyFront", "laneEnemyFront", foes[0],   "foe", "left",  act(foes[0]),   "");
-  fillSlot("slotEnemyBack",  "laneEnemyBack",  foes[1],   "foe", "left",  act(foes[1]),   "");
+  const lanes = [["laneAllyFront", allies[0], "right", "ally"], ["laneAllyBack", allies[1], "right", "ally"],
+                 ["laneEnemyFront", foes[0], "left", "foe"], ["laneEnemyBack", foes[1], "left", "foe"]];
+  for (const [id, c, facing, side] of lanes) $(id).innerHTML = c ? tokenHTML(c, facing, act(c), side) : "";
+  $("hudMineRows").innerHTML = allies.map((c) => hudRowHTML(c, "mine", act(c))).join("");
+  $("hudFoeRows").innerHTML = foes.map((c) => hudRowHTML(c, "foe", act(c))).join("");
+  $("arena").classList.toggle("spectating", !!spectating);
 
   setSyncMine(b.sync[myTeam]); setSyncFoe(b.sync[enmTeam]);
   setMatchClock(b.msLeft);
+  const rounds = tView?.settings?.rounds, round = tView?.round;
+  $("hudRound").textContent = room.tournament && !spectating && round && rounds ? `ROUND ${round} OF ${rounds}` : "";
 
   const cur    = b.combatants.find((c) => c.uid === b.current);
   const myTurn = b.current === myId;
-  // Turn banner is reserved for answer flashes (correct/wrong/steal) — don't overwrite it here
   const stealActorC = b.stealActor ? b.combatants.find((c) => c.uid === b.stealActor) : null;
   renderDock(b, cur, myTurn, stealActorC);
 }
 
 function setSyncMine(val) {
   $("syncMine").style.width = Math.min(100, val) + "%";
-  document.querySelector(".sync-gauge.mine").classList.toggle("ready", val >= 100);
+  $("hudMine").classList.toggle("ready", val >= 100);
 }
-function setSyncFoe(val) { $("syncFoe").style.width = Math.min(100, val) + "%"; }
+function setSyncFoe(val) {
+  $("syncFoe").style.width = Math.min(100, val) + "%";
+  $("hudFoe").classList.toggle("ready", val >= 100);
+}
 
-// Live-update cards/sync after combat without rebuilding the stage
+// Live-update the HUD and sync after combat without rebuilding the stage
 function updateBars() {
   const b = room.battle; if (!b) return;
   const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
   b.combatants.forEach((c) => {
-    const card = cardEl(c.uid);
-    if (card) {
+    const row = document.querySelector(`.hud-row[data-uid="${c.uid}"]`);
+    if (row) {
       const hp = pct(c.hp, c.maxHp), sp = pct(c.sp, c.maxSp);
-      const hpi = card.querySelector(".pc-bar.hp i"), spi = card.querySelector(".pc-bar.sp i");
-      const hpb = card.querySelector(".pc-bar.hp b"), spb = card.querySelector(".pc-bar.sp b");
+      const hpi = row.querySelector(".hud-bar.hp i"), spi = row.querySelector(".hud-bar.sp i");
       if (hpi) { hpi.style.width = hp + "%"; hpi.classList.toggle("low", hp <= 30); }
       if (spi) spi.style.width = sp + "%";
-      if (hpb) hpb.textContent = `${rnd(c.hp)}/${c.maxHp}`;
-      if (spb) spb.textContent = `${rnd(c.sp)}/${c.maxSp}`;
-      card.classList.toggle("dead", !c.alive);
+      const n = row.querySelector(".hud-hp"); if (n) n.textContent = rnd(c.hp);
+      row.classList.toggle("dead", !c.alive);
     }
     const tok = tokenEl(c.uid); if (tok) tok.classList.toggle("down", !c.alive);
   });
   setSyncMine(b.sync[myTeam]); setSyncFoe(b.sync[myTeam === 0 ? 1 : 0]);
 }
 
-// ---- dock ----
-function renderDock(b, cur, myTurn, stealActorC) {
-  const mcq  = $("mcq"), cmds = $("commands"), wait = $("waitBox");
-  // Clear stealMeta once steal phase is over
-  if (b.phase !== "steal") stealMeta = null;
+// ---- what each screen shows, turn by turn ----
+//   someone else answers → small question strip at the top, the stage stays big
+//   you answer           → big question card in the middle, stage dimmed behind it
+//   you got it right     → the card closes and a move strip runs along the bottom
+//   steal chance         → a shorter answer panel rises for a few seconds
+let lastReveal = null;          // { key, right, explain } once the right answer may be shown
+const qKey = (q) => q ? `${q.startedAt}|${q.q}` : "";
+function localDeadline(startedAt, seconds) { return Date.now() + (startedAt + seconds * 1000 - srvNow()); }
 
-  if (b.phase === "question") {
-    cmds.classList.add("hidden"); wait.classList.add("hidden"); mcq.classList.remove("hidden"); setBattleDim(false);
-    const q = b.question;
-    const charId = cur?.charId;
-    $("mcqPlayerName").textContent = cur?.name || "PLAYER";
-    $("mcqPlayerThumb").innerHTML = charId ? `<img src="${encodeURI(ASSETS.ult(charId))}" alt="" />` : "";
-    $("mcqTopic").textContent = q.topic;
-    setBloomChip(q.bloom);
-    $("mcqQ").textContent = q.q;
-    setMcqPic(q.image);
-    $("mcqFeedback").classList.add("hidden");
-    const wrap = $("mcqChoices"); wrap.innerHTML = ""; mySelected = -1;
-    q.choices.forEach((ch, i) => {
-      const btn = document.createElement("button");
-      btn.className = "choice";
-      btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${esc(ch)}</span>`;
-      if (myTurn) btn.addEventListener("click", () => {
-        if (inputLocked) return; mySelected = i; lockBriefly(); socket.emit("answer", { choiceIndex: i });
-      }); else btn.disabled = true;
-      wrap.appendChild(btn);
-    });
-    // Only start timer if not already running (prevents restart on re-renders)
-    if (!timerInt) startTimerFrom(q.seconds, q.startedAt);
+function setStage(mode) {
+  const a = $("arena");
+  for (const m of ["asking", "stealing", "moving"]) a.classList.toggle(m, mode === m);
+}
+function showWait(text) {
+  const w = $("waitBox");
+  if (!text) { w.classList.add("hidden"); return; }
+  $("waitText").textContent = text; w.classList.remove("hidden");
+}
+function renderStrip(s) {
+  const el = $("qStrip");
+  if (!s) { el.classList.add("hidden"); return; }
+  const key = JSON.stringify(s);
+  if (el.dataset.key === key && !el.classList.contains("hidden")) return;     // unchanged: keep the countdown smooth
+  el.dataset.key = key;
+  const q = s.q;
+  el.innerHTML = `${q.image ? `<div class="qs-pic"><img src="${esc(q.image)}" alt="Picture for this question" /></div>` : ""}
+    <div class="qs-body">
+      <span class="qs-label ${s.cls || ""}">${esc(s.label)}${q.topic ? ` · ${esc(q.topic)}` : ""}</span>
+      <span class="qs-q">${esc(q.q)}</span>
+      ${s.answer ? `<span class="qs-ans">✓ ${esc(s.answer)}</span>` : ""}
+    </div>
+    ${s.deadline ? `<span class="qs-timer" data-deadline="${s.deadline}"></span>` : ""}`;
+  el.classList.remove("hidden");
+  tickDeadlines();
+}
+// every countdown on the stage reads its own deadline
+function tickDeadlines() {
+  document.querySelectorAll("#arena [data-deadline]").forEach((el) => {
+    const left = Math.max(0, Math.ceil((Number(el.dataset.deadline) - Date.now()) / 1000));
+    el.textContent = `0:${String(left).padStart(2, "0")}`;
+  });
+}
+setInterval(tickDeadlines, 250);
 
-  } else if (b.phase === "reveal") {
-    // Correct answer revealed — hold MCQ visible for 3s so players can absorb it
-    cmds.classList.add("hidden"); setBattleDim(false);
-    wait.classList.add("hidden"); mcq.classList.remove("hidden");
-    stopTimer();
-    // Choices remain in DOM with correct answer highlighted from answerResult — no rebuild needed
-
-  } else if (b.phase === "steal") {
-    // Steal window: original player waits; everyone else can buzz in
-    cmds.classList.add("hidden"); setBattleDim(false);
-    const isOriginal = b.stealOf === myId;
-    if (isOriginal) {
-      mcq.classList.add("hidden");
-      wait.classList.remove("hidden");
-      $("waitText").textContent = "Others can steal your question…";
-    } else if (stealMeta && !spectating) {
-      wait.classList.add("hidden"); mcq.classList.remove("hidden");
-      const q = b.question;
-      const charId = cur?.charId;
-      $("mcqPlayerName").textContent = (stealMeta.originalName || "Opponent") + " (wrong!)";
-      $("mcqPlayerThumb").innerHTML = charId ? `<img src="${encodeURI(ASSETS.ult(charId))}" alt="" />` : "";
-      $("mcqTopic").textContent = "⚡ STEAL — " + q.topic;
-      setBloomChip(q.bloom);
-      $("mcqQ").textContent = q.q;
-      setMcqPic(q.image);
-      $("mcqFeedback").className = "mcq-feedback steal";
-      $("mcqFeedback").textContent = "They got it wrong! Answer correctly to steal the turn (your attacks will be halved).";
-      $("mcqFeedback").classList.remove("hidden");
-      // Only rebuild choices if they haven't been built yet for this steal window
-      const wrap = $("mcqChoices");
-      if (!wrap.querySelector(".choice[data-steal]")) {
-        wrap.innerHTML = ""; mySelected = -1;
-        q.choices.forEach((ch, i) => {
-          const btn = document.createElement("button");
-          btn.className = "choice"; btn.dataset.steal = "1";
-          btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${esc(ch)}</span>`;
-          btn.addEventListener("click", () => {
-            if (inputLocked) return; mySelected = i; lockBriefly();
-            socket.emit("steal", { choiceIndex: i });
-          });
-          wrap.appendChild(btn);
-        });
-      }
-      if (!timerInt) startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
-    } else {
-      mcq.classList.add("hidden");
-      wait.classList.remove("hidden"); $("waitText").textContent = "Steal window…";
-    }
-
-  } else if (b.phase === "steal-action") {
-    // Stealer gets a full action turn (half damage); everyone else waits
-    mcq.classList.add("hidden"); setBattleDim(false);
-    const isStealActor = b.stealActor === myId;
-    if (isStealActor && stealActorC) {
-      wait.classList.add("hidden"); cmds.classList.remove("hidden");
-      buildMovePanel(stealActorC, b, true);  // stolen turn: half power
-    } else {
-      cmds.classList.add("hidden");
-      wait.classList.remove("hidden");
-      $("waitText").textContent = `⚡ ${nameOf(b.stealActor)} stole the turn — choosing action…`;
-    }
-
-  } else if (b.phase === "action") {
-    mcq.classList.add("hidden");
-    if (myTurn) {
-      wait.classList.add("hidden"); cmds.classList.remove("hidden");
-      if (myAnswerCorrect) buildMovePanel(cur, b);
-      else { cmds.classList.add("hidden"); wait.classList.remove("hidden"); $("waitText").textContent = "Guarding…"; }
-    } else {
-      cmds.classList.add("hidden"); setBattleDim(false);
-      wait.classList.remove("hidden");
-      $("waitText").textContent = (cur?.name||"Opponent") + " is choosing an action…";
-    }
-  } else {
-    mcq.classList.add("hidden"); cmds.classList.add("hidden"); setBattleDim(false);
-    wait.classList.remove("hidden"); $("waitText").textContent = "Resolving…";
-  }
+function revealText(q) {
+  if (!lastReveal || lastReveal.key !== qKey(q)) return "";
+  return lastReveal.right.map((i) => q.choices[i]).filter(Boolean).join("  /  ");
 }
 
-// ---- move panel ----
-// After a correct answer the player gets ONE panel: Strike, the four skills,
-// the Ultimate and items, with the target chosen in the same panel (or by
-// tapping a fighter on the stage). A wrong answer guards automatically on the
-// server, so there is no menu for it.
+// The question card (your turn) or the steal panel, built once per question.
+function fillQuestionCard(mode, q, cur, onPick) {
+  const mcq = $("mcq");
+  const key = `${mode}|${qKey(q)}`;
+  mcq.classList.remove("hidden");
+  mcq.classList.toggle("ask", mode === "ask");
+  mcq.classList.toggle("steal", mode === "steal");
+  if (mcq.dataset.key === key) return;
+  mcq.dataset.key = key;
+  $("mcqPlayerThumb").innerHTML = cur?.charId ? thumb(cur.charId) : "";
+  $("mcqPlayerName").textContent = mode === "steal" ? "⚡ STEAL CHANCE" : "YOUR TURN";
+  $("mcqSub").textContent = mode === "steal"
+    ? `Answer right to steal ${stealMeta?.originalName || "their"}'s turn. Your attacks do half damage.` : "";
+  $("mcqTopic").textContent = q.topic || "";
+  setBloomChip(mode === "steal" ? null : q.bloom);
+  $("mcqQ").textContent = q.q;
+  setMcqPic(q.image);
+  $("mcqFeedback").className = "mcq-feedback hidden"; $("mcqFeedback").textContent = "";
+  const wrap = $("mcqChoices"); wrap.innerHTML = ""; mySelected = -1;
+  q.choices.forEach((ch, i) => {
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${esc(ch)}</span>`;
+    btn.addEventListener("click", () => { if (inputLocked || btn.disabled) return; mySelected = i; lockBriefly(); onPick(i); });
+    wrap.appendChild(btn);
+  });
+  stopTimer();
+  if (mode === "steal" && stealMeta) startTimerFrom(stealMeta.seconds, stealMeta.startedAt);
+  else startTimerFrom(q.seconds, q.startedAt);
+}
+function hideQuestionCard() {
+  const mcq = $("mcq");
+  if (!mcq.classList.contains("hidden")) stopTimer();
+  mcq.classList.add("hidden"); mcq.classList.remove("ask", "steal"); mcq.dataset.key = "";
+}
+
+function renderDock(b, cur, myTurn, stealActorC) {
+  if (b.phase !== "steal") stealMeta = null;
+  const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
+  const meC = b.combatants.find((c) => c.uid === myId);
+  const q = b.question;
+  const side = (c) => (c && c.team === myTeam ? "ally" : "foe");
+  const who = (c) => upper(c?.name || "Player");
+  baseFlags = new Map();
+  const actor = b.phase === "steal-action" && b.stealActor ? b.stealActor : b.current;
+  if (meC && !spectating && actor !== myId) baseFlags.set(myId, { html: "YOU", cls: "you" });
+  const flag = (c, text, cls) => { if (c) baseFlags.set(c.uid, { html: esc(text), cls: cls || side(c) }); };
+  let mode = "", strip = null, wait = "";
+  let keepMoves = false;
+
+  if (b.phase === "question") {
+    if (myTurn && !spectating) {
+      mode = "asking";
+      fillQuestionCard("ask", q, cur, (i) => socket.emit("answer", { choiceIndex: i }));
+    } else {
+      hideQuestionCard();
+      strip = { label: `${who(cur)}'S QUESTION`, cls: side(cur), q, deadline: localDeadline(q.startedAt, q.seconds) };
+      flag(cur, `${who(cur)} IS ANSWERING`);
+    }
+
+  } else if (b.phase === "reveal") {
+    // a right answer stays on screen for a moment
+    if (myTurn && !spectating && !$("mcq").classList.contains("hidden")) { mode = "asking"; stopTimer(); }
+    else { hideQuestionCard(); strip = { label: `${who(cur)} GOT IT RIGHT`, cls: "good", q, answer: revealText(q) }; }
+    flag(cur, "✓ CORRECT", "good");
+
+  } else if (b.phase === "steal") {
+    const canSteal = stealMeta && !spectating && meC?.alive && b.stealOf !== myId;
+    const original = b.combatants.find((c) => c.uid === b.stealOf);
+    if (canSteal) {
+      mode = "stealing";
+      fillQuestionCard("steal", q, original, (i) => socket.emit("steal", { choiceIndex: i }));
+    } else {
+      hideQuestionCard();
+      const deadline = stealMeta ? localDeadline(stealMeta.startedAt, stealMeta.seconds) : null;
+      strip = b.stealOf === myId
+        ? { label: "WRONG. THE OTHERS CAN TRY TO STEAL IT", cls: "steal", q, deadline }
+        : { label: `STEAL CHANCE: ${who(original)} GOT IT WRONG`, cls: "steal", q, deadline };
+    }
+    flag(original, "✗ WRONG", "bad");
+
+  } else if (b.phase === "steal-action") {
+    hideQuestionCard();
+    if (b.stealActor === myId && stealActorC && !spectating) { mode = "moving"; keepMoves = true; buildMovePanel(stealActorC, b, true); }
+    else flag(stealActorC, `⚡ ${who(stealActorC)} STOLE THE TURN`, "steal");
+
+  } else if (b.phase === "action") {
+    hideQuestionCard();
+    if (myTurn && !spectating) {
+      if (myAnswerCorrect) { mode = "moving"; keepMoves = true; buildMovePanel(cur, b); }
+      else wait = "Guarding…";
+    } else flag(cur, `${who(cur)} IS CHOOSING A MOVE`);
+
+  } else {
+    hideQuestionCard();
+    const ans = q && revealText(q);
+    if (ans) strip = { label: "THE ANSWER", cls: "good", q, answer: ans };
+  }
+
+  if (!keepMoves) hideMoves();
+  setStage(mode); renderStrip(strip); showWait(wait);
+  applyFlags();
+}
+
+// ---- your move: one strip along the bottom ----
+// After a right answer: Strike, the four skills, the Ultimate and items in one
+// row. A move with one possible target goes straight away; otherwise the
+// targets light up on the stage and you tap one. A wrong answer guards
+// automatically on the server, so there is no menu for it.
 const isOffSkill = (sk) => sk.kind === "atk" || sk.kind === "heavy" || sk.kind === "debuff";
 const MOVE_SECONDS = 12;                 // matches ACTION_SECONDS on the server
 let moveSel = null;                      // { kind: "strike"|"skill"|"item", index|itemId }
-let moveKey = "";                        // which turn the panel belongs to
-let moveDeadline = 0, moveTimerInt = null;
+let moveKey = "";                        // which turn the strip belongs to
+let moveDeadline = 0, moveTimerInt = null, itemsOpen = false;
 
 function skillEffect(sk) {
-  if (sk.kind === "atk") return `${sk.element} hit, one enemy`;
+  if (sk.kind === "atk") return `${sk.element} hit`;
   if (sk.kind === "heavy") return `Heavy ${sk.element.toLowerCase()} hit`;
   if (sk.kind === "heal") return "Heal a teammate";
-  if (sk.kind === "cleanse") return "Clear a teammate's debuffs";
+  if (sk.kind === "cleanse") return "Clear debuffs";
   if (sk.kind === "debuff") return "Weaken an enemy";
   if (sk.kind === "buff") return "Power up your team";
   if (sk.kind === "guard") return sk.target === "party" ? "Shield both of you" : sk.target === "self" ? "Shield yourself" : "Shield a teammate";
@@ -1183,6 +1247,12 @@ function moveTargets(sel, me, b) {
   }
   return [];
 }
+function targetVerb(sel, me) {
+  if (sel.kind === "strike" || (sel.kind === "skill" && isOffSkill(me.skills[sel.index]))) return "TAP TO HIT";
+  if (sel.kind === "skill") { const k = me.skills[sel.index].kind; return k === "heal" ? "TAP TO HEAL" : k === "cleanse" ? "TAP TO CLEANSE" : "TAP TO SHIELD"; }
+  if (sel.itemId === "revive") return "TAP TO REVIVE";
+  return "TAP TO GIVE TO";
+}
 
 function moveAction(sel, targetId) {
   if (sel.kind === "strike") return { type: "strike", targetId };
@@ -1193,73 +1263,79 @@ function moveAction(sel, targetId) {
 
 function chooseMove(sel, me, b) {
   SFX.play("select");
-  moveSel = sel;
+  moveSel = sel; itemsOpen = false;
   const targets = moveTargets(sel, me, b);
   if (targets.length <= 1) return send(moveAction(sel, targets[0]?.uid));   // nothing to choose
   buildMovePanel(me, b, buildMovePanel._half);
 }
 
+function hideMoves() {
+  const cmds = $("commands");
+  if (!cmds.classList.contains("hidden")) cmds.classList.add("hidden");
+  clearInterval(moveTimerInt); moveTimerInt = null;
+  if (targetFlags.size) { targetFlags = new Map(); clearTargets(); }
+}
+
 function buildMovePanel(me, b, halfPower = false) {
   const key = `${me.uid}:${b.question?.startedAt}:${b.phase}`;
-  if (key !== moveKey) {                         // a new turn: fresh panel and timer
-    moveKey = key; moveSel = null;
+  if (key !== moveKey) {                         // a new turn: fresh strip and timer
+    moveKey = key; moveSel = null; itemsOpen = false;
     moveDeadline = Date.now() + MOVE_SECONDS * 1000;
-    clearInterval(moveTimerInt);
-    moveTimerInt = setInterval(tickMoveTimer, 250);
   }
+  if (!moveTimerInt) moveTimerInt = setInterval(tickMoveTimer, 250);
   buildMovePanel._half = halfPower;
   const cmds = $("commands");
-  cmds.classList.add("move-mode");
-  setBattleDim(false);
+  cmds.classList.remove("hidden");
   const cds = me.cooldowns || {};
   const syncPct = Math.min(100, Math.round(b.sync[me.team] || 0));
   const ultReady = syncPct >= 100;
   const selIs = (k, i) => moveSel && moveSel.kind === k && (i === undefined || moveSel.index === i || moveSel.itemId === i);
+  const enemiesLeft = b.combatants.filter((c) => c.team !== me.team && c.alive).length;
 
   const skills = me.skills.map((sk, i) => {
     const cd = cds[i] || 0;
     const why = cd > 0 ? `Ready in ${cd} turn${cd > 1 ? "s" : ""}` : me.sp < sk.sp ? "Not enough SP" : "";
-    return `<button class="mp-move skill ${selIs("skill", i) ? "sel" : ""}" data-move="skill" data-i="${i}" ${why ? "disabled" : ""}>
-      <span class="mp-name">${esc(sk.name)}</span>
-      <span class="mp-cost">${sk.sp} SP</span>
-      <span class="mp-eff">${why || skillEffect(sk)}</span>
+    return `<button class="ms-move skill ${selIs("skill", i) ? "sel" : ""}" data-move="skill" data-i="${i}" ${why ? "disabled" : ""}>
+      <span class="ms-name">${esc(sk.name)}</span>
+      <span class="ms-cost">${sk.sp} SP</span>
+      <span class="ms-eff">${why || skillEffect(sk)}</span>
     </button>`;
   }).join("");
 
-  const items = Object.entries(me.items || {}).filter(([, n]) => n > 0).map(([id, n]) => {
+  const itemList = Object.entries(me.items || {}).filter(([, n]) => n > 0);
+  const itemsLeft = itemList.reduce((a, [, n]) => a + n, 0);
+  const itemsPop = itemsOpen && itemList.length ? `<div class="ms-items">${itemList.map(([id, n]) => {
     const it = ITEM_BY_ID[id] || { name: id };
     const needsDead = id === "revive" && !b.combatants.some((c) => c.team === me.team && !c.alive);
-    return `<button class="mp-item ${selIs("item", id) ? "sel" : ""}" data-move="item" data-item="${id}" ${needsDead ? "disabled" : ""} title="${esc(it.desc || "")}">${esc(it.name)} ×${n}</button>`;
-  }).join("");
+    return `<button class="ms-item ${selIs("item", id) ? "sel" : ""}" data-move="item" data-item="${id}" ${needsDead ? "disabled" : ""}>
+      <span>${esc(it.name)}</span><small>×${n}${needsDead ? " · nobody is down" : ""}</small></button>`;
+  }).join("")}</div>` : "";
 
   const targets = moveTargets(moveSel, me, b);
-  const verb = moveSel?.kind === "strike" || (moveSel?.kind === "skill" && isOffSkill(me.skills[moveSel.index])) ? "WHO DO YOU HIT?" : "WHO IS IT FOR?";
-  const targetRow = targets.length > 1 ? `<div class="mp-targets"><span class="mp-label">${verb}</span>
-      ${targets.map((c) => `<button class="mp-target" data-target="${c.uid}">
-        <span class="mp-tname">${esc(c.charName.split(" ")[0])}</span>
-        <span class="mp-thp"><i style="width:${pct(c.hp, c.maxHp)}%"></i></span>
-        <span class="mp-tnum">${rnd(c.hp)} / ${c.maxHp} HP</span>
-      </button>`).join("")}</div>` : `<div class="mp-targets"></div>`;
+  const picking = moveSel && targets.length > 1;
+  const hint = picking ? (targetVerb(moveSel, me) === "TAP TO HIT" ? "Tap an enemy" : "Tap a teammate")
+    : halfPower ? "Half damage" : "Powered up";
 
-  cmds.innerHTML = `<div class="mp">
-    <div class="mp-head">
-      <span class="mp-tag">✓ CORRECT! CHOOSE YOUR MOVE</span>
-      <span class="mp-sub ${halfPower ? "warn" : ""}">${halfPower ? "Stolen turn: attacks do half damage." : "Your attacks are powered up this turn."}</span>
-      <span class="mp-timer" id="mpTimer"></span>
+  cmds.innerHTML = `<div class="ms">
+    <div class="ms-state">
+      <span class="ms-ok ${halfPower ? "steal" : ""}">${halfPower ? "⚡ STOLEN" : "✓ CORRECT"}</span>
+      <span class="ms-timer" id="mpTimer"></span>
+      <span class="ms-hint ${picking ? "go" : ""}">${hint}</span>
     </div>
-    <div class="mp-moves">
-      <button class="mp-move strike ${selIs("strike") ? "sel" : ""}" data-move="strike">
-        <span class="mp-name big">STRIKE</span>
-        <span class="mp-eff">${esc(me.element)} hit, one enemy</span>
-      </button>
-      ${skills}
-      <button class="mp-move ult ${ultReady ? "ready" : ""}" data-move="ult" ${ultReady ? "" : "disabled"}>
-        <span class="mp-k">ULTIMATE</span>
-        <span class="mp-name">${esc(me.ultimate?.name || "Ultimate")}</span>
-        <span class="mp-eff">${ultReady ? "Ready! Uses the full Sync gauge" : `Sync ${syncPct}%`}</span>
-      </button>
-    </div>
-    <div class="mp-foot">${targetRow}${items ? `<div class="mp-items"><span class="mp-label">ITEMS</span>${items}</div>` : ""}</div>
+    <button class="ms-move strike ${selIs("strike") ? "sel" : ""}" data-move="strike">
+      <span class="ms-name big">STRIKE</span>
+      <span class="ms-eff">${esc(me.element)} hit${enemiesLeft > 1 ? " · tap an enemy" : ""}</span>
+    </button>
+    ${skills}
+    <button class="ms-move ult ${ultReady ? "ready" : ""}" data-move="ult" ${ultReady ? "" : "disabled"}>
+      <span class="ms-k">ULTIMATE</span>
+      <span class="ms-name">${esc(me.ultimate?.name || "Ultimate")}</span>
+      <span class="ms-eff">${ultReady ? "Ready!" : `Sync ${syncPct}%`}</span>
+    </button>
+    <button class="ms-move items ${itemsOpen || moveSel?.kind === "item" ? "sel" : ""}" data-move="items" ${itemsLeft ? "" : "disabled"}>
+      <span class="ms-name">ITEMS</span><span class="ms-eff">${itemsLeft} left</span>
+    </button>
+    ${itemsPop}
   </div>`;
   tickMoveTimer();
 
@@ -1269,47 +1345,37 @@ function buildMovePanel(me, b, halfPower = false) {
     if (m === "strike") chooseMove({ kind: "strike" }, me, b);
     else if (m === "skill") chooseMove({ kind: "skill", index: +el.dataset.i }, me, b);
     else if (m === "item") chooseMove({ kind: "item", itemId: el.dataset.item }, me, b);
+    else if (m === "items") { SFX.play("select"); itemsOpen = !itemsOpen; buildMovePanel(me, b, halfPower); }
     else if (m === "ult") { SFX.play("select"); send({ type: "ultimate" }); }
   }));
-  cmds.querySelectorAll("[data-target]").forEach((el) => el.addEventListener("click", () => {
-    if (inputLocked || !moveSel) return;
-    send(moveAction(moveSel, el.dataset.target));
-  }));
-  // the fighters on the stage can be tapped as targets too
+
+  // targets light up on the stage: tap the fighter or the flag above them
   clearTargets();
-  if (targets.length > 1) {
+  targetFlags = new Map();
+  if (picking) {
+    const verb = targetVerb(moveSel, me);
     targets.forEach((c) => {
+      targetFlags.set(c.uid, { cls: "target", html:
+        `<span class="tf-verb">${verb} ${esc(upper(c.charName.split(" ")[0]))}</span>
+         <span class="tf-bar"><i style="width:${pct(c.hp, c.maxHp)}%"></i></span>
+         <span class="tf-hp">${rnd(c.hp)} / ${c.maxHp} HP</span>` });
       const el = fighterEl(c.uid); if (!el) return;
       el.classList.add("target-pick");
       const h = () => { if (moveSel) send(moveAction(moveSel, c.uid)); };
       el._th = h; el.addEventListener("click", h);
     });
   }
+  applyFlags();
 }
 
 function tickMoveTimer() {
   const el = $("mpTimer");
-  if (!el) { clearInterval(moveTimerInt); moveTimerInt = null; return; }
+  if (!el) return;
   const left = Math.max(0, Math.ceil((moveDeadline - Date.now()) / 1000));
   el.textContent = `0:${String(left).padStart(2, "0")}`;
   el.classList.toggle("low", left <= 4);
 }
 
-function pickTarget(side, me, cb) {
-  const b = room.battle;
-  // clear the command menu + dim overlay so the player sees the normal battle
-  // scene while choosing a target.
-  $("commands").classList.add("hidden");
-  setBattleDim(false);
-  const valid = b.combatants.filter((c) => side==="enemy" ? (c.team!==me.team&&c.alive) : (c.team===me.team));
-  $("turnBanner").textContent = side==="enemy" ? "SELECT A TARGET ▶" : "SELECT A TEAMMATE ▶";
-  valid.forEach((c) => {
-    const el = fighterEl(c.uid); if (!el) return;
-    el.classList.add("target-pick");
-    const h = () => { clearTargets(); cb(c.uid); };
-    el._th = h; el.addEventListener("click", h);
-  });
-}
 function clearTargets() {
   document.querySelectorAll(".tok.target-pick").forEach((el) => {
     el.classList.remove("target-pick");
@@ -1320,9 +1386,9 @@ function send(action) {
   if (inputLocked) return;
   lockBriefly(); clearTargets();
   socket.emit("action", action);
+  targetFlags = new Map(); applyFlags();
   $("commands").classList.add("hidden");
-  $("waitBox").classList.remove("hidden");
-  $("waitText").textContent = "Resolving…";
+  setStage("");
 }
 function lockBriefly() { inputLocked = true; setTimeout(() => (inputLocked=false), 700); }
 
@@ -1355,7 +1421,7 @@ function startTimerFrom(totalSeconds, startedAt) {
   $("mcqTimer").textContent = fmt(count);
   timerInt = setInterval(() => { count--; $("mcqTimer").textContent = fmt(Math.max(0,count)); if (count<=0) stopTimer(); }, 1000);
 }
-function fmt(s) { return "00:" + String(s).padStart(2,"0"); }
+function fmt(s) { return "0:" + String(s).padStart(2,"0"); }
 
 // ---- fx ----
 function floatAt(uid, text, cls) {
@@ -1444,7 +1510,7 @@ function setMatchClock(msLeft) {
   el.classList.remove("hidden");
   const tick = () => {
     const t = Math.max(0, Math.ceil((matchDeadline - Date.now()) / 1000));
-    el.textContent = `⏱ ${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
+    el.textContent = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
     el.classList.toggle("low", t <= 30);
   };
   tick();

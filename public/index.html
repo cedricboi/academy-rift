@@ -149,33 +149,38 @@
     <div class="arena" id="arena">
       <div class="arena-vignette"></div>
 
-      <!-- TOP CENTER: Team Sync Gauge -->
-      <div class="sync-stack" id="syncStack">
-        <div class="sync-gauge mine">
-          <span class="sync-cap">TEAM SYNC GAUGE</span>
-          <div class="sync-track"><div class="sync-fill" id="syncMine"></div></div>
-          <span class="sync-rdy" id="syncRdyMine">ULTIMATE READY!</span>
+      <!-- Stage first: the fighters fill the screen. A slim HUD runs along the top:
+           your team on the left, the clock in the middle, the other team on the right. -->
+      <div class="hud mine" id="hudMine">
+        <div class="hud-rows" id="hudMineRows"></div>
+        <div class="hud-sync">
+          <span class="hud-sync-cap">SYNC</span>
+          <div class="hud-sync-track"><div class="sync-fill" id="syncMine"></div></div>
+          <span class="hud-sync-rdy">ULTIMATE READY</span>
         </div>
-        <div class="sync-gauge foe">
-          <div class="sync-track sm"><div class="sync-fill" id="syncFoe"></div></div>
-          <span class="sync-cap sm">ENEMY SYNC</span>
+      </div>
+      <div class="hud-mid">
+        <div class="match-clock hidden" id="matchClock"></div>
+        <span class="hud-round" id="hudRound"></span>
+      </div>
+      <div class="hud foe" id="hudFoe">
+        <div class="hud-rows" id="hudFoeRows"></div>
+        <div class="hud-sync">
+          <span class="hud-sync-rdy">ULTIMATE READY</span>
+          <div class="hud-sync-track"><div class="sync-fill" id="syncFoe"></div></div>
+          <span class="hud-sync-cap">SYNC</span>
         </div>
       </div>
 
-      <!-- CORNERS: 4 player cards (P1 TL, P2 TR, P3 BL, P4 BR) -->
-      <div class="pcard-slot p1" id="slotAllyFront"></div>
-      <div class="pcard-slot p2" id="slotEnemyFront"></div>
-      <div class="pcard-slot p3" id="slotAllyBack"></div>
-      <div class="pcard-slot p4" id="slotEnemyBack"></div>
-
-      <!-- CENTER: transparent chibi sprites in 2v2 lanes -->
+      <!-- fighters in 2v2 lanes -->
       <div class="lane lf" id="laneAllyFront"></div>
       <div class="lane lb" id="laneAllyBack"></div>
       <div class="lane rf" id="laneEnemyFront"></div>
       <div class="lane rb" id="laneEnemyBack"></div>
 
-      <!-- tournament battles: time left -->
-      <div class="match-clock hidden" id="matchClock"></div>
+      <!-- someone else's turn: the question they are answering, small, at the top -->
+      <div class="qstrip hidden" id="qStrip" aria-live="polite"></div>
+
       <!-- watching someone else's battle -->
       <div class="spectate-bar hidden" id="spectateBar">
         <span class="spectate-tag">👁 WATCHING</span>
@@ -189,39 +194,36 @@
       <div class="turn-banner" id="turnBanner"></div>
       <div class="action-log" id="actionLog"></div>
       <div class="cutin hidden" id="cutin"></div>
-
-      <!-- dim overlay shown during command selection -->
       <div class="battle-dim hidden" id="battleDim"></div>
-      <!-- command buttons — centered in arena during action phase -->
+
+      <!-- your move: one strip along the bottom -->
       <div class="commands hidden" id="commands"></div>
 
       <!-- CORRECT / WRONG flash shown for ~1s after the player answers -->
       <div class="answer-banner hidden" id="answerBanner"><img id="answerBannerImg" alt="" /></div>
 
-      <!-- BOTTOM ACTION ZONE: slide-up MCQ overlay + wait indicator -->
-      <div class="actionzone" id="dock">
-        <!-- MCQ slides up over the lower arena -->
-        <div class="mcq hidden" id="mcq">
-          <div class="mcq-top">
-            <div class="mcq-player-chip">
-              <div class="mcq-player-thumb" id="mcqPlayerThumb"></div>
-              <span class="mcq-player-name" id="mcqPlayerName">PLAYER</span>
-            </div>
-            <span class="topic-chip" id="mcqTopic">Science</span>
-            <span class="bloom-chip hidden" id="mcqBloom"></span>
-            <span class="timer" id="mcqTimer">00:18</span>
-          </div>
-          <div class="timer-bar"><div class="timer-fill" id="mcqTimerFill"></div></div>
-          <div class="mcq-qrow">
-            <div class="mcq-pic hidden" id="mcqPic"><img id="mcqPicImg" alt="Picture for this question" /></div>
-            <p class="mcq-q" id="mcqQ">Question…</p>
-          </div>
-          <div class="mcq-choices" id="mcqChoices"></div>
-          <div class="mcq-feedback hidden" id="mcqFeedback"></div>
+      <!-- your question (big card in the middle) or a steal chance (panel along the bottom) -->
+      <div class="mcq hidden" id="mcq" role="dialog" aria-labelledby="mcqQ">
+        <div class="mcq-top">
+          <div class="mcq-player-thumb" id="mcqPlayerThumb"></div>
+          <span class="mcq-tag" id="mcqPlayerName">YOUR TURN</span>
+          <span class="mcq-sub" id="mcqSub"></span>
+          <span class="topic-chip" id="mcqTopic">Science</span>
+          <span class="bloom-chip hidden" id="mcqBloom"></span>
+          <span class="mcq-spacer"></span>
+          <span class="timer" id="mcqTimer">00:18</span>
         </div>
-        <!-- waiting indicator (bottom-center) -->
-        <div class="wait hidden" id="waitBox"><span id="waitText">Waiting…</span></div>
+        <div class="timer-bar"><div class="timer-fill" id="mcqTimerFill"></div></div>
+        <div class="mcq-qrow">
+          <div class="mcq-pic hidden" id="mcqPic"><img id="mcqPicImg" alt="Picture for this question" /></div>
+          <p class="mcq-q" id="mcqQ">Question…</p>
+        </div>
+        <div class="mcq-choices" id="mcqChoices"></div>
+        <div class="mcq-feedback hidden" id="mcqFeedback"></div>
       </div>
+
+      <!-- short status line along the bottom (waiting for steals, guarding…) -->
+      <div class="wait hidden" id="waitBox"><span id="waitText">Waiting…</span></div>
     </div>
   </section>
 

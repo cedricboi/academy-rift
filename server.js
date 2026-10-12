@@ -463,7 +463,11 @@ function resolveAnswer(room, choiceIndex) {
   const correct = isRight(b.q, choiceIndex);
   gradeAnswer(room, c, correct);
   if (!c.bot) recordReview(b, c.uid, b.q, choiceIndex, correct);
-  io.to(room.code).emit("answerResult", {
+  // After a wrong answer the right one stays secret while the others can still
+  // steal the question; it is revealed when the steal window closes.
+  const stealing = !correct && (b.stealSeconds ?? STEAL_SECONDS) > 0 && stealersOf(b, c.uid).length > 0;
+  b.revealPending = stealing;
+  io.to(room.code).emit("answerResult", stealing ? { uid: c.uid, correct } : {
     uid: c.uid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
   });
 
@@ -514,9 +518,10 @@ function handleSteal(room, sid, choiceIndex) {
   if (!stealer || !stealer.alive) return;
   const correct = isRight(b.q, choiceIndex);
   recordReview(b, sid, b.q, choiceIndex, correct);
-  io.to(room.code).emit("stealResult", {
+  io.to(room.code).emit("stealResult", correct ? {
     uid: sid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
-  });
+  } : { uid: sid, correct });                 // a missed steal doesn't give the answer away to the others
+  if (correct) b.revealPending = false;
   if (!correct) {
     // everyone who can steal has had a go: no need to wait out the window
     if (stealersOf(b, b.stealOf).every((x) => b.stealAnswered.has(x.uid))) closeSteal(room);
@@ -549,6 +554,10 @@ function handleSteal(room, sid, choiceIndex) {
 function closeSteal(room) {
   const b = room.battle; if (!b || b.phase !== "steal") return;
   clearTimeout(b.timers.steal);
+  if (b.revealPending) {                      // nobody stole it: now everyone may see the answer
+    b.revealPending = false;
+    io.to(room.code).emit("answerReveal", { correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain });
+  }
   const originalUid = b.stealOf;
   delete b.stealOf; delete b.stealAnswered;
   const original = b.combatants[originalUid];

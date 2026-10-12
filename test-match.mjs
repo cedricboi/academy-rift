@@ -6,6 +6,8 @@ const ANSWER = new Map(QUESTIONS.map((q) => [q.q, q.answer]));
 const URL = "http://localhost:3100";
 const CHARS = ["jun", "saya", "raiden", "nao"];
 let finished = false, started = false, code = null;
+// the right answer must stay secret while a question can still be stolen
+let wrongSeen = 0, reveals = 0, leaks = 0, missedSteals = 0;
 
 function mkClient(name, idx) {
   const s = io(URL, { transports: ["websocket"] });
@@ -28,6 +30,17 @@ function mkClient(name, idx) {
     const a = ANSWER.get(question.q);
     setTimeout(() => s.emit("answer", { choiceIndex: Math.random() < 0.7 ? a : (a + 1) % 4 }), 150);
   });
+  if (idx === 0) {
+    s.on("answerResult", (r) => { if (!r.correct) { wrongSeen++; if ("correctIndex" in r || "correctAll" in r) leaks++; } });
+    s.on("answerReveal", (r) => { reveals++; if (!Array.isArray(r.correctAll)) leaks += 100; });
+    s.on("stealResult", (r) => { if (!r.correct) { missedSteals++; if ("correctIndex" in r || "correctAll" in r) leaks++; } });
+  }
+  // one player always tries to steal, with a wrong answer
+  if (idx === 1) s.on("stealOpen", ({ originalUid }) => {
+    if (originalUid === s.id) return;
+    const q = s.latest?.battle?.question; const a = q ? ANSWER.get(q.q) : 0;
+    s.emit("steal", { choiceIndex: (a + 1) % 4 });
+  });
   s.on("chooseAction", () => {
     const b = s.latest?.battle; if (!b) return s.emit("action", { type: "strike" });
     const meP = s.latest.players.find((p) => p.id === s.id);
@@ -43,6 +56,8 @@ function mkClient(name, idx) {
     console.log("Final combatant HP:");
     s.latest.battle.combatants.forEach((c) => console.log(`  T${c.team} ${c.name} (${c.charName}): ${c.hp}/${c.maxHp} ${c.alive ? "" : "[KO]"}`));
     console.log("Rewards (this client):", rewards[s.id]);
+    console.log(`Wrong answers: ${wrongSeen}, answers revealed after the steal window: ${reveals}, missed steals: ${missedSteals}`);
+    if (leaks || (wrongSeen && !reveals)) { console.log(`FAIL: the right answer leaked ${leaks} time(s) during a steal window, or was never revealed.`); process.exit(1); }
     console.log("PASS: 4-player 2v2 match ran to completion.");
     setTimeout(() => process.exit(0), 300);
   });
