@@ -299,7 +299,7 @@ function renderBoard() {
 // ----- footer: settings summary + the main buttons -----
 function renderFooter() {
   const st = state.settings;
-  const topic = TOPIC_BY_ID[st.topicId];
+  const topic = TOPIC_BY_ID[st.topicId] || (state.topicName ? { icon: "📝", name: state.topicName } : null);
   $("summary").innerHTML = `
     <span>${st.rounds} round${st.rounds === 1 ? "" : "s"}</span>
     <span>${st.timeLimitMin ? `${st.timeLimitMin}-minute battles` : "No time limit"}</span>
@@ -394,6 +394,20 @@ function settingRow(s, started) {
   const cur = state.settings[s.key];
   const disabledOpt = (o) => s.key === "rounds" && o.value < state.round;
   let control;
+  if (s.key === "topicId") {
+    // built-in topics, then the teacher's own sets from the question hub
+    const sets = state.sets || [];
+    const opt = (value, label) => `<option value="${esc(value)}" ${value === cur ? "selected" : ""}>${esc(label)}</option>`;
+    control = `<select class="t-select" data-set="topicId">
+      <optgroup label="Built-in questions">${s.options.map((o) => opt(o.value, o.label)).join("")}</optgroup>
+      ${sets.length ? `<optgroup label="Your question sets">${sets.map((q) => opt(q.id, `📝 ${q.title} (${q.count})`)).join("")}</optgroup>` : ""}
+    </select>`;
+    return `<div class="t-setting">
+      <div class="t-setting-label">${esc(s.label)}</div>
+      ${control}
+      <p class="t-setting-help">${esc(s.help)} Add your own questions and pictures in the <a href="/hub" target="_blank" rel="noopener">question hub</a>.</p>
+    </div>`;
+  }
   if (s.options.length <= 4) {
     control = `<div class="t-seg">${s.options.map((o) => `
       <button class="t-seg-btn ${o.value === cur ? "on" : ""}" data-set="${s.key}" data-value="${esc(String(o.value))}" ${locked ? "disabled" : ""}>${esc(o.label)}</button>`).join("")}</div>`;

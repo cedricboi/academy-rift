@@ -132,7 +132,7 @@ export function makeMatchups(pairs, settings, roundNo, rng = Math.random) {
 //   CHARACTERS                 fighter list (for random picks)
 //   later(fn, ms), SPEED       game timers (SPEED > 1 only in automated tests)
 export function setupTournaments(deps) {
-  const { io, rooms, isRoomCode, setSocketRoom, startBattle, timeUp, publicRoom, CHARACTERS } = deps;
+  const { io, rooms, isRoomCode, setSocketRoom, startBattle, timeUp, publicRoom, CHARACTERS, bank } = deps;
   const later = deps.later || setTimeout;
   const SPEED = deps.SPEED || 1;
   const tournaments = new Map();   // code -> tournament
@@ -220,6 +220,8 @@ export function setupTournaments(deps) {
       standings: standingsRows(T),
       matches: T.matches.map((m) => matchView(T, m)),
       byes: T.byes,
+      sets: bank ? bank.playableSets() : [],      // the teacher's own question sets, for the topic setting
+      topicName: bank?.topicName(T.settings.topicId) || null,
       serverNow: Date.now(),
     };
   }
@@ -629,7 +631,8 @@ export function setupTournaments(deps) {
     socket.on("tSetting", asHost((T, { key, value }) => {
       const def = SETTING_BY_KEY[key]; if (!def) return;
       if (def.lockedAfterStart && T.round > 0) return fail(`"${def.label}" can only be changed before Round 1.`);
-      const v = cleanSettingValue(key, value);
+      // a question set from the hub is also a valid "topic"
+      const v = key === "topicId" && bank?.isSetTopic(value) ? value : cleanSettingValue(key, value);
       if (v === undefined) return;
       if (key === "rounds" && v < T.round) return fail(`${T.round} rounds have already been played.`);
       T.settings[key] = v;

@@ -10,3 +10,10 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      # Question hub (/hub): the password for it, and a GitHub token so question
+      # sets are kept for good (Render's free plan wipes saved files on restart).
+      # See "Question hub" in README.md. Fill both in on Render's Environment page.
+      - key: HUB_PASSWORD
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false

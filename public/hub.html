@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question Hub · Academy Rift</title>
+  <link rel="stylesheet" href="hub.css" />
+</head>
+<body>
+  <header class="h-top">
+    <a class="h-brand" href="/hub"><span class="h-brand-name">ACADEMY RIFT</span><span class="h-brand-sub">QUESTION HUB</span></a>
+    <span class="h-store" id="storeChip" hidden></span>
+    <nav class="h-nav">
+      <a href="/teacher">Tournament page</a>
+      <a href="/">Game</a>
+      <button class="h-linkbtn" id="signOut" hidden>Sign out</button>
+    </nav>
+  </header>
+
+  <main class="h-main" id="main">
+    <p class="h-loading">Loading…</p>
+  </main>
+
+  <div class="h-toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="h-modal-back" id="modalBack" hidden>
+    <div class="h-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
+  </div>
+  <div class="h-drop" id="drop" hidden><div class="h-drop-box">Drop a spreadsheet to add its questions,<br />or a picture to add it to a question</div></div>
+  <input type="file" id="sheetFile" accept=".xlsx,.csv,.txt,.tsv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" hidden />
+  <input type="file" id="picFile" accept="image/*" hidden />
+
+  <script type="module" src="hub.js"></script>
+</body>
+</html>

@@ -496,12 +496,13 @@ function ensureChibisThenRender(combatants) {
   preloadArt(ids).then(() => { if (room?.status === "battle") renderBattle(); });
 }
 
-socket.on("answerResult", ({ uid, correct, correctIndex, explain }) => {
+socket.on("answerResult", ({ uid, correct, correctIndex, correctAll, explain }) => {
   if (uid === myId) { myAnswerCorrect = correct; SFX.play(correct ? "correct" : "wrong"); showAnswerBanner(correct); }
   if (correct) setAttackPose(uid);
+  const right = correctAll || [correctIndex];
   document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
     b.disabled = true;
-    if (i === correctIndex) b.classList.add("correct");
+    if (right.includes(i)) b.classList.add("correct");
     else if (i === mySelected && uid === myId) b.classList.add("wrong");
   });
   const fb = $("mcqFeedback");
@@ -524,14 +525,15 @@ socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
 });
 
 // Result after a steal attempt
-socket.on("stealResult", ({ uid, correct, correctIndex, explain }) => {
+socket.on("stealResult", ({ uid, correct, correctIndex, correctAll, explain }) => {
   if (correct) {
     // Successful steal — close window for everyone
     stealMeta = null;
     if (uid === myId) { myAnswerCorrect = true; SFX.play("correct"); showAnswerBanner(true); }
+    const right = correctAll || [correctIndex];
     document.querySelectorAll("#mcqChoices .choice").forEach((b, i) => {
       b.disabled = true;
-      if (i === correctIndex) b.classList.add("correct");
+      if (right.includes(i)) b.classList.add("correct");
       else if (i === mySelected && uid === myId) b.classList.add("wrong");
     });
     const fb = $("mcqFeedback");
@@ -760,14 +762,16 @@ socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament }) => {
     recap = `<div class="review-block">
       <h3 class="review-head">📖 ${missed.length > 1 ? `Review these ${missed.length} questions` : "Review this question"}</h3>` +
       missed.map((x) => {
-        const chosen = x.chosen >= 0 ? `${"ABCD"[x.chosen]}. ${x.choices[x.chosen]}` : "No answer (timed out)";
+        const chosen = x.chosen >= 0 ? `${"ABCD"[x.chosen]}. ${esc(x.choices[x.chosen])}` : "No answer (timed out)";
+        const rights = (x.answers || [x.answer]).map((k) => `✓ ${"ABCD"[k]}. ${esc(x.choices[k])}`).join("<br>");
         const bm = BLOOM_META[x.bloom];
         const badge = bm ? `<span class="review-bloom" style="color:${bm.color};border-color:${bm.color}">${bm.icon} ${x.bloom}</span>` : "";
         return `<div class="review-item">
-          <div class="review-q"><span class="review-topic">${x.topic}</span>${badge}<span class="review-qtext">${x.q}</span></div>
+          <div class="review-q"><span class="review-topic">${esc(x.topic)}</span>${badge}<span class="review-qtext">${esc(x.q)}</span></div>
+          ${x.image ? `<img class="review-pic" src="${esc(x.image)}" alt="Picture for this question" loading="lazy" />` : ""}
           <div class="review-your">Your answer: ${chosen}</div>
-          <div class="review-correct">✓ ${"ABCD"[x.answer]}. ${x.choices[x.answer]}</div>
-          <div class="review-explain">${x.explain}</div>
+          <div class="review-correct">${rights}</div>
+          ${x.explain ? `<div class="review-explain">${esc(x.explain)}</div>` : ""}
         </div>`;
       }).join("") + `</div>`;
   } else if (answered) {
@@ -845,11 +849,29 @@ function renderRoom() {
     el.addEventListener("click", () => openCharDetail(el.dataset.pick)));
 }
 
-// ---- host topic picker (spans Bloom's taxonomy) ----
+// ---- host topic picker (spans Bloom's taxonomy), plus the teacher's own sets ----
+let hubSets = null, hubSetsAt = 0;
+function loadHubSets() {
+  if (Date.now() - hubSetsAt < 15000) return;
+  hubSetsAt = Date.now();
+  socket.emit("getSets", (list) => {
+    hubSets = Array.isArray(list) ? list : [];
+    if (room?.status === "lobby" && !room.tournament) renderTopicSelect(room.hostId === myId);
+  });
+}
 function renderTopicSelect(isHost) {
   const wrap = $("topicPanel"); if (!wrap) return;
   const sel = room.topicId || "mixed";
-  const chips = TOPICS.map((t) => `
+  if (isHost) loadHubSets();
+  const own = isHost ? (hubSets || [])
+    : sel.startsWith("set:") ? [{ id: sel, title: room.topicName || "Teacher's question set", count: null }] : [];
+  const ownChips = own.map((s) => `
+    <button class="topic-chip-btn own ${s.id === sel ? "active" : ""}" data-topic="${esc(s.id)}" ${isHost ? "" : "disabled"}>
+      <span class="tc-icon">📝</span>
+      <span class="tc-name">${esc(s.title)}</span>
+      <span class="tc-blurb">${s.count != null ? `${s.count} question${s.count === 1 ? "" : "s"} from the question hub` : "From the question hub"}</span>
+    </button>`).join("");
+  const chips = ownChips + TOPICS.map((t) => `
     <button class="topic-chip-btn ${t.id === sel ? "active" : ""}" data-topic="${t.id}" ${isHost ? "" : "disabled"}>
       <span class="tc-icon">${t.icon}</span>
       <span class="tc-name">${t.name}</span>
@@ -864,6 +886,14 @@ function renderTopicSelect(isHost) {
 }
 
 // ---- in-battle Bloom's level badge ----
+// ---- picture for a question from the question hub ----
+function setMcqPic(src) {
+  const box = $("mcqPic"), img = $("mcqPicImg"); if (!box) return;
+  if (!src) { box.classList.add("hidden"); img.removeAttribute("src"); return; }
+  if (img.getAttribute("src") !== src) img.src = src;
+  box.classList.remove("hidden");
+}
+
 function setBloomChip(bloom) {
   const el = $("mcqBloom"); if (!el) return;
   const m = BLOOM_META[bloom];
@@ -1018,12 +1048,13 @@ function renderDock(b, cur, myTurn, stealActorC) {
     $("mcqTopic").textContent = q.topic;
     setBloomChip(q.bloom);
     $("mcqQ").textContent = q.q;
+    setMcqPic(q.image);
     $("mcqFeedback").classList.add("hidden");
     const wrap = $("mcqChoices"); wrap.innerHTML = ""; mySelected = -1;
     q.choices.forEach((ch, i) => {
       const btn = document.createElement("button");
       btn.className = "choice";
-      btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${ch}</span>`;
+      btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${esc(ch)}</span>`;
       if (myTurn) btn.addEventListener("click", () => {
         if (inputLocked) return; mySelected = i; lockBriefly(); socket.emit("answer", { choiceIndex: i });
       }); else btn.disabled = true;
@@ -1056,6 +1087,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
       $("mcqTopic").textContent = "⚡ STEAL — " + q.topic;
       setBloomChip(q.bloom);
       $("mcqQ").textContent = q.q;
+      setMcqPic(q.image);
       $("mcqFeedback").className = "mcq-feedback steal";
       $("mcqFeedback").textContent = "They got it wrong! Answer correctly to steal the turn (your attacks will be halved).";
       $("mcqFeedback").classList.remove("hidden");
@@ -1066,7 +1098,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
         q.choices.forEach((ch, i) => {
           const btn = document.createElement("button");
           btn.className = "choice"; btn.dataset.steal = "1";
-          btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${ch}</span>`;
+          btn.innerHTML = `<span class="choice-key">${"ABCD"[i]}</span><span class="choice-txt">${esc(ch)}</span>`;
           btn.addEventListener("click", () => {
             if (inputLocked) return; mySelected = i; lockBriefly();
             socket.emit("steal", { choiceIndex: i });

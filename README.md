@@ -69,6 +69,38 @@ same tournament. Tournaments live in the server's memory, so restarting the serv
 Test it without a class: `node test-tournament.mjs` plays a full tournament with 30 simulated
 students against a sped-up server (`node test-tournament.mjs 29` for any class size).
 
+## Question hub (your own questions)
+Open **`/hub`** (for example `https://…onrender.com/hub`) to make your own question sets:
+- **Import a spreadsheet.** Blooket's import template (.xlsx or .csv) works as it is: Question
+  Text, Answer 1–4 and Correct Answer(s) (`2`, or `1,3` for two right answers). Other sheets
+  work too if they have a Question column, answer/option columns and a Correct or Answer column
+  (a number, a letter, or the answer's text). Pictures placed on a question's row in the
+  spreadsheet are added to that question. Typing questions are left out (the game is multiple
+  choice) and Blooket's time limits are not used.
+- **Paste or type.** Paste rows copied from Excel or Google Sheets, or type questions: the
+  question on one line, its answers underneath, `*` in front of the right one, an empty line
+  between questions.
+- **Edit.** Change any question, tick the right answer (more than one is allowed), add an
+  explanation students see in their review after the battle, and add a picture (button, drag
+  and drop, or copy and paste). Changes save by themselves.
+
+To play a set, choose it under **Topic tested** in the tournament's Settings, or in a game
+room's topic list. Students only ever receive the question, the answers and the picture,
+never which answer is right.
+
+**Setting it up on Render (once):** on the game's service open **Environment** and add
+- `HUB_PASSWORD`: a password for the hub. Without it the hub only opens on the computer that
+  runs the game (`http://localhost:3100/hub`), so students can't change your questions.
+- `GITHUB_TOKEN`: Render's free plan wipes saved files whenever the game restarts, so the hub
+  keeps your sets in your GitHub repository instead, on a branch of its own called
+  `question-bank` (saving never redeploys the game). Make the token on GitHub under
+  *Settings → Developer settings → Personal access tokens → Fine-grained tokens*: give it
+  access to only this repository, with **Contents: Read and write**. The game works out which
+  repository it is from Render (`GITHUB_REPO=owner/name` sets it by hand elsewhere).
+
+On your own computer no setup is needed: sets are saved in the `question-bank` folder next to
+the game. `node test-hub.mjs` checks the hub end to end against a pretend GitHub.
+
 ## Play across iPads / computers
 It's a browser game — every player just opens a URL in Safari/Chrome (no app install). Hold
 devices in **landscape** (a portrait iPad shows a "rotate" prompt). There are two ways to host:
@@ -96,15 +128,18 @@ Academy Rift/
 ├─ server.js              Authoritative 2v2 battle engine (rooms, teams, turns, combat)
 ├─ tournament.js          Class tournament: pairs, rounds, matchmaking, leaderboard
 ├─ questions.js           Science MCQ bank — SERVER ONLY (answers never sent to clients)
+├─ bank.js                Question hub: teacher's sets and pictures (GitHub branch or folder)
 ├─ public/
 │  ├─ index.html          All screens: title, lobby, room, tournament, battle, result
 │  ├─ teacher.html/.js/.css  Teacher's class-tournament page (projector), opened at /teacher
+│  ├─ hub.html/.js/.css   Question hub, opened at /hub
 │  ├─ style.css           Art-bible UI (crimson/black shards, HP/SP cards, sync gauge…)
 │  ├─ game.js             Client: socket sync, battle render, MCQ, command shards, FX, shop
-│  └─ data/               Shared roster, topics and tournament settings (server AND client)
+│  └─ data/               Shared roster, topics, tournament settings and spreadsheet reading
 ├─ start.bat              Double-click launcher
 ├─ test-match.mjs         Headless 4-player end-to-end test (node test-match.mjs)
-└─ test-tournament.mjs    Headless 30-student class tournament test
+├─ test-tournament.mjs    Headless 30-student class tournament test
+└─ test-hub.mjs           Question hub test (import, pictures, saving, use in battles)
 ```
 
 ## Art pipeline (how the battle stage is composed)
@@ -124,7 +159,8 @@ To swap art, replace the files in `public/assets/` (keep the names) or edit the 
 map at the top of `public/game.js`. Anything left `null` falls back to a CSS placeholder.
 
 ## Editing questions / characters
-- Questions: `questions.js` (`answer` = 0-based correct index; add as many as you like).
+- Questions: use the question hub at `/hub` (above). The built-in set is `questions.js`
+  (`answer` = 0-based correct index).
 - Characters, stats, skills, items, element weaknesses: `public/data/characters.js`.
 
 ## Known gaps / next steps

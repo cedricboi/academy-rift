@@ -12,11 +12,17 @@ import { CHAR_BY_ID, CHARACTERS, ITEM_BY_ID, effectiveness } from "./public/data
 import { TOPIC_BY_ID } from "./public/data/topics.js";
 import { QUESTIONS } from "./questions.js";
 import { setupTournaments } from "./tournament.js";
+import { createBank, mountHub } from "./bank.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
+if (process.env.RENDER) app.set("trust proxy", 1);   // real visitor addresses behind Render's proxy
+
+// Question hub (/hub): the teacher's own question sets, with pictures.
+const bank = createBank({ builtIn: QUESTIONS, builtInTitle: "Sec 1 Cells (built-in)" });
+mountHub(app, bank, { publicDir: join(__dirname, "public") });
 // Static assets. The art/audio is heavy (hundreds of MB), so cache media hard in
 // the browser and let it refresh in the background (stale-while-revalidate) — this
 // makes screen-to-screen navigation and repeat visits load instantly. Code/markup
@@ -86,8 +92,11 @@ function shuffle(arr) {
   return a;
 }
 
-// Filter the question bank to the host-selected topic ("mixed" = all topics).
+// Filter the question bank to the host-selected topic ("mixed" = all topics), or
+// use one of the teacher's own sets from the question hub ("set:<id>").
 function filterQuestions(topicId) {
+  const own = bank.gameQuestions(topicId);
+  if (own && own.length) return own;
   if (!topicId || topicId === "mixed") return QUESTIONS;
   const pool = QUESTIONS.filter((q) => q.topicId === topicId);
   return pool.length ? pool : QUESTIONS;   // fall back to all if a topic is somehow empty
@@ -123,6 +132,7 @@ function publicRoom(room) {
     status: room.status,
     hostId: room.hostId,
     topicId: room.topicId || "mixed",
+    topicName: bank.topicName(room.topicId),
     tournament: room.tournament || null,
     serverNow: Date.now(),          // lets clients correct for a wrong device clock
     players: room.players.map((p) => ({
@@ -166,7 +176,7 @@ function broadcast(room) { io.to(room.code).emit("room", publicRoom(room)); }
 
 // ---------- class tournaments ----------
 const Tour = setupTournaments({
-  io, rooms, CHARACTERS, publicRoom,
+  io, rooms, bank, CHARACTERS, publicRoom,
   isRoomCode: (c) => rooms.has(c),
   setSocketRoom: (sid, code) => socketRoom.set(sid, code),
   startBattle: (room) => beginBattle(room),
@@ -220,9 +230,12 @@ io.on("connection", (socket) => {
 
   socket.on("setTopic", ({ topicId }) => {
     const room = myRoom(); if (!room || room.status !== "lobby" || room.hostId !== socket.id) return;
-    if (!TOPIC_BY_ID[topicId]) return;
+    if (!TOPIC_BY_ID[topicId] && !bank.isSetTopic(topicId)) return;
     room.topicId = topicId; broadcast(room);
   });
+
+  // The teacher's question sets from the hub, for the lobby's topic picker.
+  socket.on("getSets", (cb) => { if (typeof cb === "function") cb(bank.playableSets()); });
 
   socket.on("pickCharacter", ({ charId }) => {
     const room = myRoom(); if (!room || room.status !== "lobby") return;
@@ -394,7 +407,7 @@ function startQuestion(room) {
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
   const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0));
-  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, seconds, startedAt: Date.now() };
+  b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, image: q.image || null, seconds, startedAt: Date.now() };
   b.phase = "question";
   c._correct = false;
   broadcast(room);
@@ -436,18 +449,22 @@ function gradeAnswer(room, c, correct) {
 function recordReview(b, uid, q, chosen, correct) {
   if (!b.review) b.review = {};
   (b.review[uid] ||= []).push({
-    q: q.q, choices: q.choices, answer: q.answer, chosen,
+    q: q.q, choices: q.choices, answer: q.answer, answers: rightAnswers(q), chosen, image: q.image || null,
     correct, explain: q.explain, topic: q.topic, bloom: q.bloom,
   });
 }
 
+// Hub questions can have more than one right answer.
+const rightAnswers = (q) => (Array.isArray(q.answers) && q.answers.length ? q.answers : [q.answer]);
+const isRight = (q, i) => Number.isInteger(i) && rightAnswers(q).includes(i);
+
 function resolveAnswer(room, choiceIndex) {
   const b = room.battle; const c = b.combatants[b.current];
-  const correct = choiceIndex === b.q.answer;
+  const correct = isRight(b.q, choiceIndex);
   gradeAnswer(room, c, correct);
   if (!c.bot) recordReview(b, c.uid, b.q, choiceIndex, correct);
   io.to(room.code).emit("answerResult", {
-    uid: c.uid, correct, correctIndex: b.q.answer, explain: b.q.explain,
+    uid: c.uid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
   });
 
   // Wrong answer → open a steal window (works for both human and bot wrong answers).
@@ -495,10 +512,10 @@ function handleSteal(room, sid, choiceIndex) {
 
   const stealer = b.combatants[sid];
   if (!stealer || !stealer.alive) return;
-  const correct = choiceIndex === b.q.answer;
+  const correct = isRight(b.q, choiceIndex);
   recordReview(b, sid, b.q, choiceIndex, correct);
   io.to(room.code).emit("stealResult", {
-    uid: sid, correct, correctIndex: b.q.answer, explain: b.q.explain,
+    uid: sid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
   });
   if (!correct) {
     // everyone who can steal has had a go: no need to wait out the window
@@ -728,7 +745,7 @@ function botTurn(room) {
   const correct = Math.random() < 0.62;
   // Pick the right answer or a random wrong one, then run through the same
   // resolveAnswer path as humans so steal windows open on wrong bot answers.
-  const wrongChoices = [0, 1, 2, 3].filter((i) => i !== b.q.answer);
+  const wrongChoices = b.q.choices.map((_, i) => i).filter((i) => !isRight(b.q, i));
   const choiceIndex = correct ? b.q.answer : wrongChoices[Math.floor(Math.random() * wrongChoices.length)];
   resolveAnswer(room, choiceIndex);
 }

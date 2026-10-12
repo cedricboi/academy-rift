@@ -540,6 +540,16 @@ input:focus{outline:none;border-color:var(--cyan);}
   padding-bottom:3px;margin-bottom:5px;
 }
 
+/* question picture (question hub) beside the question text */
+.mcq-qrow{display:flex;align-items:flex-start;gap:14px;}
+.mcq-qrow .mcq-q{flex:1;min-width:0;}
+.mcq-pic{flex:0 0 auto;width:clamp(150px,24vw,300px);aspect-ratio:16/10;background:#fff;display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.2%;border:2px solid rgba(255,255,255,.25);}
+.mcq-pic.hidden{display:none;}
+.mcq-pic img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+.review-pic{display:block;max-width:min(320px,100%);max-height:180px;object-fit:contain;background:#fff;margin:4px 0 8px;}
+.topic-chip-btn.own .tc-name{overflow-wrap:anywhere;}
+
 /* ABCD choice buttons — matching Question.png colored letter badges */
 .mcq-choices{display:grid;grid-template-columns:1fr 1fr;gap:1.2% 1.4%;}
 .choice{
