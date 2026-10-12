@@ -391,9 +391,46 @@ const SFX = (() => {
     sync:    () => { tone(740, 0.12, "triangle", 0.16, 1480); setTimeout(() => tone(1480, 0.18, "triangle", 0.12), 100); },
     fizzle:  () => { tone(320, 0.22, "sine", 0.1, 120); },
   };
+  // Recorded clips (Sonniss GDC 2026 Game Audio Bundle, royalty-free) in assets/sfx. They load on the
+  // first tap; until a clip has loaded, the synthesized sound above plays instead, so nothing is ever silent.
+  // loud = each clip's measured short-term loudness, used to level them against each other.
+  const CLIPS = { ui_select: -16.4, heavy1: -14.6, heavy2: -13.5, heavy3: -14.9, punch1: -15.0, punch2: -13.5, punch3: -12.8, punch4: -13.8,
+    smack: -14.8, spell: -9.3, whoosh: -16.5, cutsweep: -7.0, metalhit: -13.0, shatter: -8.8, glass: -13.4, twinkle: -14.4,
+    braamHorn: -11.1, chordhit: -18.5, ui_correct: -13.9, ui_wrong: -6.6, ui_sync: -12.1, ui_fizzle: -10.3, shimmerhit: -16.6 };
+  const buf = {}; let bus = null, loading = false;
+  function load() {
+    if (loading) return; loading = true;
+    const c = ac(); bus = c.createDynamicsCompressor(); bus.threshold.value = -12; bus.ratio.value = 4; bus.connect(c.destination);
+    for (const k of Object.keys(CLIPS)) fetch(`assets/sfx/${k}.mp3`).then((r) => r.arrayBuffer())
+      .then((a) => new Promise((ok, no) => c.decodeAudioData(a, ok, no))).then((b) => { buf[k] = b; }).catch(() => {});
+  }
+  function clip(name, vol = 1, rate = 1, delay = 0) {
+    if (Array.isArray(name)) name = name[Math.floor(Math.random() * name.length)];
+    const b = buf[name]; if (!b) return false;
+    try {
+      const c = ac(), src = c.createBufferSource(), g = c.createGain(); src.buffer = b; src.playbackRate.value = rate;
+      g.gain.value = vol * Math.min(1, Math.pow(10, (-15 - CLIPS[name]) / 20)) * 0.85;
+      src.connect(g).connect(bus || c.destination); src.start(c.currentTime + delay); return true;
+    } catch (e) { return false; }
+  }
+  const PUNCH = ["punch1", "punch2", "punch3", "punch4"], HEAVY = ["heavy1", "heavy2", "heavy3"];
+  const rec = {
+    select:  () => clip("ui_select", 0.7, 1 + Math.random() * 0.06),
+    strike:  () => clip(HEAVY, 0.9, 0.95 + Math.random() * 0.1),
+    spell:   () => clip("spell", 0.6) && clip("whoosh", 0.4, 1.2),
+    hit:     () => clip(PUNCH, 0.8, 0.92 + Math.random() * 0.16) && clip("smack", 0.5),
+    crit:    () => clip("cutsweep", 0.8) && clip("metalhit", 0.7),
+    weak:    () => clip("shatter", 0.8) && clip("glass", 0.5),
+    heal:    () => clip("spell", 0.55, 1.1) && clip("twinkle", 0.6, 1, 0.12),
+    ultimate:() => clip("chordhit", 1) && clip("braamHorn", 0.6),
+    correct: () => clip("ui_correct", 0.8),
+    wrong:   () => clip("ui_wrong", 0.6),
+    sync:    () => clip("ui_sync", 0.8) && clip("shimmerhit", 0.5),
+    fizzle:  () => clip("ui_fizzle", 0.6),
+  };
   return {
-    play: (k) => { (lib[k] || (() => {}))(); },
-    unlock: () => { try { const c = ac(); if (c.state === "suspended") c.resume(); } catch (e) {} },
+    play: (k) => { if (!(rec[k] && rec[k]())) (lib[k] || (() => {}))(); },
+    unlock: () => { try { const c = ac(); if (c.state === "suspended") c.resume(); load(); } catch (e) {} },
   };
 })();
 document.addEventListener("pointerdown", () => SFX.unlock(), { capture: true });
