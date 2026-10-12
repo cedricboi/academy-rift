@@ -1,5 +1,8 @@
 // Headless 4-player end-to-end test: 2v2 full match to completion.
+// Start the server first. For a quick run start it with RIFT_SPEED=20 (game timers 20x faster).
 import { io } from "socket.io-client";
+import { QUESTIONS } from "./questions.js";
+const ANSWER = new Map(QUESTIONS.map((q) => [q.q, q.answer]));
 const URL = "http://localhost:3100";
 const CHARS = ["jun", "saya", "raiden", "nao"];
 let finished = false, started = false, code = null;
@@ -20,7 +23,11 @@ function mkClient(name, idx) {
       started = true; setTimeout(() => s.emit("startMatch"), 300);
     }
   });
-  s.on("yourQuestion", () => { setTimeout(() => s.emit("answer", { choiceIndex: Math.floor(Math.random() * 4) }), 150); });
+  // answer like a student who gets about 70% right
+  s.on("yourQuestion", ({ question }) => {
+    const a = ANSWER.get(question.q);
+    setTimeout(() => s.emit("answer", { choiceIndex: Math.random() < 0.7 ? a : (a + 1) % 4 }), 150);
+  });
   s.on("chooseAction", () => {
     const b = s.latest?.battle; if (!b) return s.emit("action", { type: "strike" });
     const meP = s.latest.players.find((p) => p.id === s.id);
@@ -51,4 +58,4 @@ const waitCode = setInterval(() => {
   }
 }, 200);
 
-setTimeout(() => { console.error("TIMEOUT: match did not finish in 60s"); process.exit(1); }, 60000);
+setTimeout(() => { console.error("TIMEOUT: match did not finish in 10 minutes"); process.exit(1); }, 600000);

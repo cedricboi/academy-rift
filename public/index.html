@@ -75,9 +75,10 @@
         <input id="nameInput" maxlength="14" placeholder="Enter your name" /></label>
       <button class="shard-btn primary" id="createBtn"><span>CREATE ROOM</span></button>
       <div class="join-row">
-        <input id="codeInput" maxlength="4" placeholder="CODE" />
+        <input id="codeInput" maxlength="4" placeholder="CODE" autocapitalize="characters" autocomplete="off" />
         <button class="shard-btn" id="joinBtn"><span>JOIN</span></button>
       </div>
+      <p class="join-note">Class tournament? Type your name, then the code on the board, and press JOIN.</p>
       <p id="homeMsg" class="msg"></p>
     </div>
   </section>
@@ -125,6 +126,24 @@
     </div>
   </section>
 
+  <!-- 6b. CLASS TOURNAMENT — partner, fighter, standings between battles -->
+  <section id="tourney" class="screen">
+    <div class="tn-wrap">
+      <div class="tn-head">
+        <div class="tn-title">
+          <h2 class="head">CLASS TOURNAMENT <span class="code-chip" id="tnCode">----</span></h2>
+          <div class="tn-you" id="tnYou"></div>
+        </div>
+        <button class="shard-btn ghost small" id="tnLeave"><span>LEAVE</span></button>
+      </div>
+      <div class="tn-status" id="tnStatus"></div>
+      <div class="tn-body">
+        <div class="tn-col" id="tnLeft"></div>
+        <div class="tn-col" id="tnRight"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- 7. BATTLE — full-screen 16:9 cinematic stage -->
   <section id="battle" class="screen">
     <div class="arena" id="arena">
@@ -154,6 +173,9 @@
       <div class="lane lb" id="laneAllyBack"></div>
       <div class="lane rf" id="laneEnemyFront"></div>
       <div class="lane rb" id="laneEnemyBack"></div>
+
+      <!-- tournament battles: time left -->
+      <div class="match-clock hidden" id="matchClock"></div>
 
       <!-- effects + overlays -->
       <div class="fx-layer" id="fxLayer"></div>
@@ -200,7 +222,8 @@
       <div class="result-body" id="resultBody"></div>
       <div class="result-actions">
         <button class="shard-btn primary" id="rematchBtn"><span>REMATCH</span></button>
-        <button class="shard-btn ghost" data-go="home"><span>LOBBY</span></button>
+        <button class="shard-btn ghost" data-go="home" id="lobbyBtn"><span>LOBBY</span></button>
+        <button class="shard-btn primary hidden" id="backToTourney"><span>BACK TO TOURNAMENT</span></button>
       </div>
     </div>
   </section>

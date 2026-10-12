@@ -4,10 +4,18 @@
   "description": "Academy Rift — 4-player 2v2 online science JRPG. Answer fast. Strike harder. Sync together.",
   "type": "module",
   "main": "server.js",
-  "engines": { "node": ">=18" },
-  "scripts": { "start": "node server.js" },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.19.2",
+    "qrcode-generator": "^2.0.4",
     "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.4"
   }
 }

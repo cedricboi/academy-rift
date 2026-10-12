@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academy Rift · Class Tournament</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="teacher.css" />
+</head>
+<body class="teacher">
+
+  <!-- Shown when this screen is not running a tournament yet -->
+  <section id="startScreen" class="t-start hidden">
+    <div class="panel-card t-start-card">
+      <h1 class="head">CLASS TOURNAMENT</h1>
+      <p class="t-start-text">Run Academy Rift for a whole class. Students join with one code, get into pairs,
+        and every round the pairs are matched up and battle at the same time. The leaderboard stays on this screen.</p>
+      <button class="shard-btn primary big" id="createBtn"><span>START A TOURNAMENT</span></button>
+      <p class="msg" id="startMsg"></p>
+    </div>
+  </section>
+
+  <!-- Main tournament screen -->
+  <div id="app" class="t-app hidden">
+    <header class="t-head">
+      <div class="t-brand">
+        <span class="t-brand-name">ACADEMY RIFT</span>
+        <span class="t-brand-sub">CLASS TOURNAMENT</span>
+      </div>
+      <div class="t-join" id="joinBox">
+        <div class="t-qr" id="qr"></div>
+        <div class="t-join-text">
+          <span class="t-join-label">Open</span>
+          <span class="t-join-url" id="joinUrl">…</span>
+          <span class="t-join-label">and enter code</span>
+        </div>
+        <span class="t-code" id="tCode">----</span>
+      </div>
+      <div class="t-head-right">
+        <span class="t-phase" id="phaseChip">LOBBY</span>
+        <button class="shard-btn small" id="settingsBtn"><span>⚙ SETTINGS</span></button>
+      </div>
+    </header>
+    <p class="t-warn hidden" id="hostWarn"></p>
+
+    <main class="t-main">
+      <section class="t-stage" id="stage"></section>
+      <aside class="t-side">
+        <h2 class="t-side-head" id="boardHead">LEADERBOARD</h2>
+        <div class="t-board" id="board"></div>
+      </aside>
+    </main>
+
+    <footer class="t-foot">
+      <div class="t-summary" id="summary"></div>
+      <div class="t-foot-actions" id="footActions"></div>
+    </footer>
+  </div>
+
+  <!-- Settings drawer -->
+  <div class="t-drawer-back hidden" id="drawerBack"></div>
+  <aside class="t-drawer" id="drawer" aria-hidden="true">
+    <div class="t-drawer-head">
+      <h2 class="head sub">⚙ SETTINGS</h2>
+      <button class="t-x" id="drawerClose" aria-label="Close settings">✕</button>
+    </div>
+    <p class="t-drawer-note" id="drawerNote"></p>
+    <div class="t-settings" id="settingsBody"></div>
+  </aside>
+
+  <!-- Confirm box -->
+  <div class="t-modal hidden" id="modal">
+    <div class="panel-card t-modal-card">
+      <h2 class="head sub" id="modalTitle">Are you sure?</h2>
+      <p id="modalText"></p>
+      <div class="t-modal-actions">
+        <button class="shard-btn ghost" id="modalNo"><span>CANCEL</span></button>
+        <button class="shard-btn primary" id="modalYes"><span>YES</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="teacher.js"></script>
+</body>
+</html>

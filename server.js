@@ -11,6 +11,7 @@ import os from "os";
 import { CHAR_BY_ID, CHARACTERS, ITEM_BY_ID, effectiveness } from "./public/data/characters.js";
 import { TOPIC_BY_ID } from "./public/data/topics.js";
 import { QUESTIONS } from "./questions.js";
+import { setupTournaments } from "./tournament.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -20,6 +21,24 @@ const io = new Server(httpServer);
 // the browser and let it refresh in the background (stale-while-revalidate) — this
 // makes screen-to-screen navigation and repeat visits load instantly. Code/markup
 // is sent with no-cache so it always revalidates and deploys take effect at once.
+// The teacher's tournament page lives at /teacher (projector screen).
+app.get("/teacher", (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache");
+  res.sendFile(join(__dirname, "public", "teacher.html"));
+});
+// QR code maker for the join link on the projector (served from node_modules, works offline).
+app.get("/vendor/qrcode.mjs", (_req, res) => {
+  res.type("application/javascript");
+  res.sendFile(join(__dirname, "node_modules", "qrcode-generator", "dist", "qrcode.mjs"));
+});
+// This computer's Wi-Fi addresses, so the teacher page can show a link students
+// can actually open when the teacher opened it as "localhost".
+app.get("/api/addresses", (_req, res) => {
+  const lan = [];
+  for (const list of Object.values(os.networkInterfaces()))
+    for (const ni of list || []) if (ni.family === "IPv4" && !ni.internal) lan.push(ni.address);
+  res.json({ lan, port: Number(process.env.PORT || 3100) });
+});
 app.use(express.static(join(__dirname, "public"), {
   etag: true,
   lastModified: true,
@@ -30,6 +49,11 @@ app.use(express.static(join(__dirname, "public"), {
       res.setHeader("Cache-Control", "no-cache");
   },
 }));
+
+// Test speed-up: RIFT_SPEED=20 runs every game timer 20x faster (used only by
+// the automated tests; leave it unset for real play).
+const SPEED = Math.max(1, Number(process.env.RIFT_SPEED) || 1);
+const later = (fn, ms = 0) => setTimeout(fn, ms / SPEED);
 
 // ---- tuning ----
 const QUESTION_SECONDS = 18;
@@ -78,7 +102,7 @@ function nextQuestion(b) {
 
 function makeRoomCode() {
   let c;
-  do { c = Math.random().toString(36).substring(2, 6).toUpperCase(); } while (rooms.has(c));
+  do { c = Math.random().toString(36).substring(2, 6).toUpperCase(); } while (rooms.has(c) || Tour.has(c));
   return c;
 }
 
@@ -97,6 +121,8 @@ function publicRoom(room) {
     status: room.status,
     hostId: room.hostId,
     topicId: room.topicId || "mixed",
+    tournament: room.tournament || null,
+    serverNow: Date.now(),          // lets clients correct for a wrong device clock
     players: room.players.map((p) => ({
       id: p.id, name: p.name, team: p.team, character: p.character, ready: p.ready, bot: p.bot,
     })),
@@ -113,6 +139,7 @@ function publicBattle(b) {
     currentName: b.combatants[b.current]?.name,
     currentTeam: b.combatants[b.current]?.team,
     phase: b.phase,
+    msLeft: b.endsAt ? Math.max(0, b.endsAt - Date.now()) : null,   // battle time limit
     question: b.phase ? b.publicQuestion : null,
     combatants: b.order.map((uid) => {
       const c = b.combatants[uid];
@@ -135,8 +162,23 @@ function publicBattle(b) {
 
 function broadcast(room) { io.to(room.code).emit("room", publicRoom(room)); }
 
+// ---------- class tournaments ----------
+const Tour = setupTournaments({
+  io, rooms, CHARACTERS, publicRoom,
+  isRoomCode: (c) => rooms.has(c),
+  setSocketRoom: (sid, code) => socketRoom.set(sid, code),
+  startBattle: (room) => beginBattle(room),
+  timeUp: (room) => timeUp(room),
+});
+
+// A socket's player id: tournament students keep one id across reconnects;
+// everyone else is known by their socket id.
+const pidOf = (socket) => socket.data.pid || socket.id;
+
 // ---------- lobby ----------
 io.on("connection", (socket) => {
+  Tour.bind(socket);
+
   socket.on("createRoom", ({ name }) => {
     const code = makeRoomCode();
     const room = { code, status: "lobby", hostId: socket.id, players: [], battle: null, topicId: "mixed" };
@@ -148,8 +190,9 @@ io.on("connection", (socket) => {
     broadcast(room);
   });
 
-  socket.on("joinRoom", ({ name, code }) => {
+  socket.on("joinRoom", ({ name, code, token }) => {
     code = (code || "").toUpperCase();
+    if (Tour.has(code)) return Tour.join(socket, { code, name, token });
     const room = rooms.get(code);
     if (!room) return socket.emit("errorMsg", "Room not found.");
     if (room.status !== "lobby") return socket.emit("errorMsg", "That match has already started.");
@@ -216,9 +259,9 @@ io.on("connection", (socket) => {
     beginBattle(room);
   });
 
-  socket.on("answer", ({ choiceIndex }) => handleAnswer(myRoom(), socket.id, choiceIndex));
-  socket.on("steal",  ({ choiceIndex }) => handleSteal(myRoom(), socket.id, choiceIndex));
-  socket.on("action", (action) => handleAction(myRoom(), socket.id, action));
+  socket.on("answer", ({ choiceIndex } = {}) => handleAnswer(myRoom(), pidOf(socket), choiceIndex));
+  socket.on("steal",  ({ choiceIndex } = {}) => handleSteal(myRoom(), pidOf(socket), choiceIndex));
+  socket.on("action", (action) => handleAction(myRoom(), pidOf(socket), action));
 
   socket.on("rematch", () => {
     const room = myRoom(); if (!room || room.status !== "finished" || room.hostId !== socket.id) return;
@@ -228,19 +271,26 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    const stale = Tour.onDisconnect(socket);   // also marks tournament students offline
     const room = myRoom(); socketRoom.delete(socket.id);
-    if (!room) return;
+    if (!room || stale) return;
+    const pid = pidOf(socket);
     if (room.status === "lobby") {
       room.players = room.players.filter((p) => p.id !== socket.id);
       if (room.players.filter((p) => !p.bot).length === 0) { rooms.delete(room.code); return; }
       if (room.hostId === socket.id) room.hostId = room.players.find((p) => !p.bot)?.id;
       broadcast(room);
     } else if (room.battle) {
-      // convert the seat to a bot so the battle keeps going
-      const c = room.battle.combatants[socket.id];
-      if (c) { c.bot = true; io.to(room.code).emit("toast", `${c.name} disconnected — taken over by a bot.`); }
-      if (room.hostId === socket.id) room.hostId = room.players.find((p) => !p.bot && p.id !== socket.id)?.id || room.hostId;
-      if (room.battle.current === socket.id) { clearTimers(room.battle); botTurn(room); }
+      if (room.status !== "battle") return;
+      // convert the seat to a bot so the battle keeps going (a tournament student
+      // who reconnects takes the seat back)
+      const c = room.battle.combatants[pid];
+      if (!c || c.bot) return;
+      c.bot = true;
+      io.to(room.code).emit("toast", `${c.name} disconnected — a bot is playing for them.`);
+      if (room.hostId === pid) room.hostId = room.players.find((p) => !p.bot && p.id !== pid)?.id || room.hostId;
+      if (room.battle.current === pid && room.battle.phase === "question") { clearTimeout(room.battle.timers.q); botTurn(room); }
+      else if (room.battle.current === pid && room.battle.phase === "action") { clearTimeout(room.battle.timers.a); botAction(room); }
       broadcast(room);
     }
   });
@@ -277,11 +327,20 @@ function beginBattle(room) {
     topicId: room.topicId || "mixed",
     qPool, qDeck: shuffle(qPool), qPos: 0,   // topic-filtered deck, drawn without replacement
     correctCount: {}, review: {}, timers: {},
+    // tournament battles carry the teacher's settings; normal rooms use the defaults
+    qSeconds: room.settings?.questionSeconds ?? QUESTION_SECONDS,
+    stealSeconds: room.settings?.stealSeconds ?? STEAL_SECONDS,
+    endsAt: null, limitTimer: null,
   };
+  const limitMin = room.settings?.timeLimitMin || 0;
+  if (limitMin > 0) {
+    room.battle.endsAt = Date.now() + (1200 + limitMin * 60000) / SPEED;
+    room.battle.limitTimer = later(() => timeUp(room), 1200 + limitMin * 60000);
+  }
   room.status = "battle";
   io.to(room.code).emit("battleStart");
   broadcast(room);
-  setTimeout(() => advance(room), 1200);
+  later(() => advance(room), 1200);
 }
 
 function aliveCount(b, team) {
@@ -290,7 +349,7 @@ function aliveCount(b, team) {
 function clearTimers(b) { Object.values(b.timers).forEach(clearTimeout); b.timers = {}; }
 
 function advance(room) {
-  const b = room.battle; if (!b) return;
+  const b = room.battle; if (!b || room.status !== "battle") return;
   if (aliveCount(b, 0) === 0 || aliveCount(b, 1) === 0) return endBattle(room);
 
   // Find the next alive combatant, SKIPPING any that are stunned (consume the stun).
@@ -331,7 +390,7 @@ function startQuestion(room) {
   const q = nextQuestion(b);
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
-  const seconds = Math.max(6, QUESTION_SECONDS - (c.timerDownTurns > 0 ? 4 : 0));
+  const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0));
   b.publicQuestion = { q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, seconds, startedAt: Date.now() };
   b.phase = "question";
   c._correct = false;
@@ -339,11 +398,11 @@ function startQuestion(room) {
   if (c.bot) {
     // Bot takes 4–8 seconds to "think", giving human players time to read the question
     const thinkMs = 4000 + Math.floor(Math.random() * 4001);
-    b.timers.bot = setTimeout(() => botTurn(room), thinkMs);
+    b.timers.bot = later(() => botTurn(room), thinkMs);
     return;
   }
   io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion });
-  b.timers.q = setTimeout(() => resolveAnswer(room, -1), seconds * 1000);
+  b.timers.q = later(() => resolveAnswer(room, -1), seconds * 1000);
 }
 
 function handleAnswer(room, sid, choiceIndex) {
@@ -390,14 +449,16 @@ function resolveAnswer(room, choiceIndex) {
 
   // Wrong answer → open a steal window (works for both human and bot wrong answers).
   if (!correct) {
+    const stealSecs = b.stealSeconds ?? STEAL_SECONDS;
     b.phase = "steal";
     b.stealOf = c.uid;
     b.stealAnswered = new Set();
+    if (stealSecs <= 0) return closeSteal(room);   // steals switched off: straight to guard
     broadcast(room);
     io.to(room.code).emit("stealOpen", {
-      originalUid: c.uid, originalName: c.name, seconds: STEAL_SECONDS,
+      originalUid: c.uid, originalName: c.name, seconds: stealSecs,
     });
-    b.timers.steal = setTimeout(() => closeSteal(room), STEAL_SECONDS * 1000);
+    b.timers.steal = later(() => closeSteal(room), stealSecs * 1000);
     return;
   }
 
@@ -405,13 +466,13 @@ function resolveAnswer(room, choiceIndex) {
   // highlighted correct choice and absorb the explanation before action begins.
   b.phase = "reveal";
   broadcast(room);
-  b.timers.reveal = setTimeout(() => {
+  b.timers.reveal = later(() => {
     if (!room.battle || room.battle.phase !== "reveal") return;
     b.phase = "action";
     broadcast(room);
-    if (c.bot) { b.timers.bot = setTimeout(() => botAction(room), 200); return; }
+    if (c.bot) { b.timers.bot = later(() => botAction(room), 200); return; }
     io.to(c.uid).emit("chooseAction", { syncReady: b.sync[c.team] >= 100, correct: true });
-    b.timers.a = setTimeout(() => handleAction(room, c.uid, { type: "strike" }, true), ACTION_SECONDS * 1000);
+    b.timers.a = later(() => handleAction(room, c.uid, { type: "strike" }, true), ACTION_SECONDS * 1000);
   }, 3000);
 }
 
@@ -452,7 +513,7 @@ function handleSteal(room, sid, choiceIndex) {
     broadcast(room);
     // stealer is always human (bots don't steal), so send them the prompt
     io.to(sid).emit("chooseAction", { syncReady: b.sync[stealer.team] >= 100, correct: true, halfPower: true });
-    b.timers.a = setTimeout(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
+    b.timers.a = later(() => handleAction(room, sid, { type: "strike" }), ACTION_SECONDS * 1000);
   }
 }
 
@@ -464,11 +525,11 @@ function closeSteal(room) {
   delete b.stealOf; delete b.stealAnswered;
   broadcast(room);
   const original = b.combatants[originalUid];
-  if (!original) { b.timers.next = setTimeout(() => advance(room), 500); return; }
-  if (original.bot) { b.timers.bot = setTimeout(() => botAction(room), 500); return; }
+  if (!original) { b.timers.next = later(() => advance(room), 500); return; }
+  if (original.bot) { b.timers.bot = later(() => botAction(room), 500); return; }
   // Original player still takes their action but with wrong-answer penalty (can only defend/support)
   io.to(originalUid).emit("chooseAction", { syncReady: b.sync[original.team] >= 100, correct: false });
-  b.timers.a = setTimeout(() => handleAction(room, originalUid, { type: "defend" }, true), ACTION_SECONDS * 1000);
+  b.timers.a = later(() => handleAction(room, originalUid, { type: "defend" }, true), ACTION_SECONDS * 1000);
 }
 
 // ---------- actions ----------
@@ -507,7 +568,7 @@ function handleAction(room, sid, action, auto = false) {
     actor: actor.uid, action: action?.type || "defend", name: actionLabel(actor, action || { type: "defend" }), events,
   });
   broadcast(room);
-  b.timers.next = setTimeout(() => advance(room), 1700);
+  b.timers.next = later(() => advance(room), 1700);
 }
 
 function resolveAction(room, actor, action) {
@@ -649,7 +710,7 @@ function addSync(room, team, amt) { room.battle.sync[team] = clamp(room.battle.s
 
 // ---------- bots ----------
 function botTurn(room) {
-  const b = room.battle; if (!b || !b.combatants[b.current]?.bot) return;
+  const b = room.battle; if (!b || room.status !== "battle" || b.phase !== "question" || !b.combatants[b.current]?.bot) return;
   const correct = Math.random() < 0.62;
   // Pick the right answer or a random wrong one, then run through the same
   // resolveAnswer path as humans so steal windows open on wrong bot answers.
@@ -659,7 +720,7 @@ function botTurn(room) {
 }
 
 function botAction(room) {
-  const b = room.battle; if (!b) return;
+  const b = room.battle; if (!b || room.status !== "battle") return;
   const c = b.combatants[b.current]; if (!c) return;
   const enemies = enemiesOf(b, c.team);
   const allies = alliesOf(b, c.team);
@@ -687,23 +748,50 @@ function botAction(room) {
   const events = resolveAction(room, c, action);
   io.to(room.code).emit("actionResult", { actor: c.uid, action: action.type, name: actionLabel(c, action), events });
   broadcast(room);
-  b.timers.next = setTimeout(() => advance(room), 1700);
+  b.timers.next = later(() => advance(room), 1700);
 }
 
 // ---------- end ----------
-function endBattle(room) {
+// forced: { winner: 0 | 1 | -1 (draw), reason } when the battle is stopped early
+function endBattle(room, forced = null) {
   const b = room.battle;
+  if (!b || room.status !== "battle") return;
   clearTimers(b);
-  const winner = aliveCount(b, 0) > 0 ? 0 : 1;
+  clearTimeout(b.limitTimer);
+  b.phase = "over";
+  const winner = forced ? forced.winner : (aliveCount(b, 0) > 0 ? 0 : 1);
+  const reason = forced ? forced.reason : "ko";
   room.status = "finished";
   const rewards = {};
   room.players.forEach((p) => {
     const won = p.team === winner;
     const correct = b.correctCount[p.id] || 0;
-    rewards[p.id] = { won, coins: (won ? 300 : 120) + correct * 20, correct, review: b.review[p.id] || [] };
+    rewards[p.id] = { won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20, correct, review: b.review[p.id] || [] };
   });
-  io.to(room.code).emit("battleEnd", { winnerTeam: winner, rewards });
+  io.to(room.code).emit("battleEnd", { winnerTeam: winner, reason, rewards, tournament: room.tournament || null });
   broadcast(room);
+  if (room.tournament) Tour.onBattleEnd(room, { winner, reason });
+}
+
+// Time limit reached (or the teacher ended the round): the team with the larger
+// share of its total HP left wins. Level HP → more correct answers wins. Still
+// level → draw.
+function timeUp(room) {
+  const b = room.battle;
+  if (!b || room.status !== "battle") return;
+  const share = (team) => {
+    let hp = 0, max = 0;
+    for (const c of Object.values(b.combatants)) if (c.team === team) { hp += Math.max(0, c.hp); max += c.maxHp; }
+    return max ? hp / max : 0;
+  };
+  const correct = (team) => Object.values(b.combatants)
+    .filter((c) => c.team === team).reduce((n, c) => n + (b.correctCount[c.uid] || 0), 0);
+  const h0 = share(0), h1 = share(1);
+  let winner;
+  if (Math.abs(h0 - h1) >= 0.005) winner = h0 > h1 ? 0 : 1;
+  else if (correct(0) !== correct(1)) winner = correct(0) > correct(1) ? 0 : 1;
+  else winner = -1;
+  endBattle(room, { winner, reason: "time" });
 }
 
 const PORT = process.env.PORT || 3100;
@@ -723,5 +811,6 @@ httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`\n  📱  Same Wi-Fi (share with iPads / other computers):`);
     lan.forEach((ip) => console.log(`      http://${ip}:${PORT}`));
   }
-  console.log(`\n  One player Creates a room, shares the 4-letter code; up to 4 play. 🎮\n`);
+  console.log(`\n  One player Creates a room, shares the 4-letter code; up to 4 play. 🎮`);
+  console.log(`  🏆  Class tournament: the teacher opens /teacher on the projector, e.g. http://localhost:${PORT}/teacher\n`);
 });

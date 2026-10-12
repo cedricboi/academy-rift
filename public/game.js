@@ -83,7 +83,11 @@ battleBGM.volume = 0.55;
 battleBGM.playsInline = true;
 
 const $ = (id) => document.getElementById(id);
-const SCREENS = ["title","tutorial","home","room","battle","result"];
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// Server time correction: an iPad whose clock is off would otherwise show wrong timers.
+let clockSkew = 0;
+const srvNow = () => Date.now() + clockSkew;
+const SCREENS = ["title","tutorial","home","room","tourney","battle","result"];
 function showScreen(id) {
   const was = SCREENS.find((s) => $(s).classList.contains("active"));
   SCREENS.forEach((s) => $(s).classList.toggle("active", s === id));
@@ -428,7 +432,8 @@ $("createBtn").addEventListener("click", () => socket.emit("createRoom", { name:
 $("joinBtn").addEventListener("click", () => {
   const code = $("codeInput").value.trim().toUpperCase();
   if (code.length !== 4) return ($("homeMsg").textContent = "Enter a 4-letter code.");
-  socket.emit("joinRoom", { name: $("nameInput").value.trim() || "Player", code });
+  const saved = loadTSession();
+  socket.emit("joinRoom", { name: $("nameInput").value.trim() || "Player", code, token: saved?.code === code ? saved.token : undefined });
 });
 $("switchBtn").addEventListener("click", () => socket.emit("switchTeam"));
 $("cdClose").addEventListener("click", closeCharDetail);
@@ -448,14 +453,20 @@ $("rematchBtn").addEventListener("click", () => {
 // ============================================================
 //  SOCKET EVENTS
 // ============================================================
-socket.on("connect", () => { myId = socket.id; });
-socket.on("joined", ({ code }) => { $("roomCode").textContent = code; });
+socket.on("connect", () => {
+  myId = socket.id;
+  // back in a class tournament after a reload or a dropped connection
+  const t = loadTSession();
+  if (t) socket.emit("tRejoin", { code: t.code, token: t.token });
+});
+socket.on("joined", ({ code, you }) => { if (you) myId = you; $("roomCode").textContent = code; });
 socket.on("errorMsg", (m) => { $("homeMsg").textContent = m; $("roomMsg").textContent = m; toast(m); });
 socket.on("toast", (m) => toast(m));
 
 let preppedKey = "";
 socket.on("room", (s) => {
   room = s;
+  if (typeof s.serverNow === "number") clockSkew = s.serverNow - Date.now();
   if (s.status === "lobby") { preppedKey = ""; renderRoom(); showScreen("room"); }
   else if (s.status === "battle") ensureChibisThenRender(s.battle.combatants);
 });
@@ -499,7 +510,7 @@ socket.on("answerResult", ({ uid, correct, correctIndex, explain }) => {
 
 // Steal window opened (original player answered wrong)
 socket.on("stealOpen", ({ originalUid, originalName, seconds }) => {
-  stealMeta = { originalUid, originalName, seconds, startedAt: Date.now() };
+  stealMeta = { originalUid, originalName, seconds, startedAt: srvNow() };
   if (originalUid !== myId) {
     bannerFlash(`⚡ STEAL CHANCE!  ${originalName} got it wrong!`, "");
   }
@@ -709,13 +720,15 @@ function cutIn(uid, name) {
   cutIn._t = setTimeout(() => { ci.classList.add("hidden"); cutIn._busy = false; }, 2000);
 }
 
-socket.on("battleEnd", ({ winnerTeam, rewards }) => {
+socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament }) => {
   attackPosed.clear();
+  stopMatchClock();
   const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
   const won = myTeam === winnerTeam;
+  const draw = winnerTeam === -1;
   const r = rewards[myId];
   if (r) { profile.coins += r.coins; saveProfile(profile); refreshCoins(); }
-  $("resultTitle").textContent = won ? "VICTORY!" : "DEFEAT";
+  $("resultTitle").textContent = draw ? "DRAW" : won ? "VICTORY!" : "DEFEAT";
   $("resultTitle").className = "result-title" + (won ? "" : " lose");
 
   const review  = (r && r.review) || [];
@@ -723,8 +736,13 @@ socket.on("battleEnd", ({ winnerTeam, rewards }) => {
   const gotRight = review.filter((x) => x.correct).length;
   const missed   = review.filter((x) => !x.correct);
 
+  const timeLine = reason === "time"
+    ? (draw ? "Time up. Both teams had the same HP and the same number of correct answers."
+            : won ? "Time up. Your team had more HP left." : "Time up. The other team had more HP left.")
+    : "";
   const lines = [
-    `<div class="reward-line"><span>${won ? "🏆 Your team won the Rift!" : "Study hard and try again!"}</span></div>`,
+    `<div class="reward-line"><span>${draw ? "🤝 Neither team could win this one." : won ? "🏆 Your team won the Rift!" : "Study hard and try again!"}</span></div>`,
+    ...(timeLine ? [`<div class="reward-line"><span>⏱ ${timeLine}</span></div>`] : []),
     ...(answered ? [`<div class="reward-line"><span>✅ You answered</span><span>${gotRight} / ${answered} correct</span></div>`] : []),
   ];
 
@@ -732,7 +750,7 @@ socket.on("battleEnd", ({ winnerTeam, rewards }) => {
   let recap = "";
   if (missed.length) {
     recap = `<div class="review-block">
-      <h3 class="review-head">📖 Review these ${missed.length} question${missed.length > 1 ? "s" : ""}</h3>` +
+      <h3 class="review-head">📖 ${missed.length > 1 ? `Review these ${missed.length} questions` : "Review this question"}</h3>` +
       missed.map((x) => {
         const chosen = x.chosen >= 0 ? `${"ABCD"[x.chosen]}. ${x.choices[x.chosen]}` : "No answer (timed out)";
         const bm = BLOOM_META[x.bloom];
@@ -749,7 +767,10 @@ socket.on("battleEnd", ({ winnerTeam, rewards }) => {
   }
 
   $("resultBody").innerHTML = lines.join("") + recap;
-  $("rematchBtn").style.display = room.hostId === myId ? "" : "none";
+  const inTourney = !!tournament;
+  $("rematchBtn").style.display = !inTourney && room.hostId === myId ? "" : "none";
+  $("lobbyBtn").style.display = inTourney ? "none" : "";
+  $("backToTourney").classList.toggle("hidden", !inTourney);
   showScreen("result");
 });
 
@@ -781,7 +802,7 @@ function renderRoom() {
       const thumbHtml = p.character ? `<div class="mini">${thumb(p.character)}</div>` : `<div class="mini-empty"></div>`;
       wrap.insertAdjacentHTML("beforeend",
         `<div class="${cls.join(" ")}">${thumbHtml}
-         <div><div class="slot-name">${p.name}${p.id===myId?" (you)":""}</div>
+         <div><div class="slot-name">${esc(p.name)}${p.id===myId?" (you)":""}</div>
          <div class="slot-sub">${p.ready?"✓ ready · ":""}${sub}</div></div>${rm}</div>`);
     }
   });
@@ -845,7 +866,7 @@ function setBloomChip(bloom) {
 }
 
 // ---- character detail overlay: big card art + skills/stats info sheet ----
-function openCharDetail(charId) {
+function openCharDetail(charId, onPick) {
   const c = CHAR_BY_ID[charId]; if (!c) return;
   SFX.play("select");
   const ov = $("charDetail");
@@ -853,7 +874,7 @@ function openCharDetail(charId) {
   $("cdInfo").src  = encodeURI(ASSETS.cardinfo(charId));
   $("cdName").textContent = c.name;
   $("cdMeta").innerHTML = `<span style="color:${ELEMENT_COLORS[c.element]}">${c.element}</span> · ${c.role}`;
-  $("cdPick").onclick = () => { socket.emit("pickCharacter", { charId }); closeCharDetail(); };
+  $("cdPick").onclick = () => { if (onPick) onPick(charId); else socket.emit("pickCharacter", { charId }); closeCharDetail(); };
   ov.classList.add("show");
 }
 function closeCharDetail() { $("charDetail").classList.remove("show"); }
@@ -937,6 +958,7 @@ function renderBattle() {
   fillSlot("slotEnemyBack",  "laneEnemyBack",  foes[1],   "foe", "left",  act(foes[1]),   "");
 
   setSyncMine(b.sync[myTeam]); setSyncFoe(b.sync[enmTeam]);
+  setMatchClock(b.msLeft);
 
   const cur    = b.combatants.find((c) => c.uid === b.current);
   const myTurn = b.current === myId;
@@ -1271,7 +1293,7 @@ function stopTimer() { clearInterval(timerInt); timerInt = null; }
 // Start timer accounting for time already elapsed since the server set startedAt.
 // Rounds to whole seconds so the CSS bar and number counter stay perfectly in sync.
 function startTimerFrom(totalSeconds, startedAt) {
-  const elapsed   = startedAt ? (Date.now() - startedAt) / 1000 : 0;
+  const elapsed   = startedAt ? (srvNow() - startedAt) / 1000 : 0;
   const remaining = Math.max(0, totalSeconds - elapsed);
   const left      = Math.round(remaining);            // whole seconds — syncs CSS + counter
   const fraction  = totalSeconds > 0 ? left / totalSeconds : 1;
@@ -1307,3 +1329,207 @@ function flash() {
 
 
 refreshCoins();
+
+// ============================================================
+//  CLASS TOURNAMENT (student side)
+//  The teacher runs the tournament from /teacher. Students join with the same
+//  JOIN box as a normal room; the server recognises a tournament code.
+// ============================================================
+const T_KEY = "riftTournament";
+let tView = null;          // latest tournament state for this student
+
+function loadTSession() { try { return JSON.parse(localStorage.getItem(T_KEY)); } catch { return null; } }
+function saveTSession(v) { try { localStorage.setItem(T_KEY, JSON.stringify(v)); } catch {} }
+function clearTSession() { try { localStorage.removeItem(T_KEY); } catch {} tView = null; }
+
+// A join link such as https://…/?join=ABCD fills in the code for the student.
+{
+  const code = new URLSearchParams(location.search).get("join");
+  if (code) $("codeInput").value = code.toUpperCase().slice(0, 4);
+}
+
+// The fighter detail overlay sits inside the room screen; move it to the top
+// level so the tournament screen can open it too.
+$("game").appendChild($("charDetail"));
+
+socket.on("tJoined", ({ code, you, token, name }) => {
+  myId = you;
+  saveTSession({ code, token, name });
+  $("tnCode").textContent = code;
+  const onBattle = $("battle").classList.contains("active") || $("result").classList.contains("active");
+  if (!onBattle) showScreen("tourney");
+});
+
+socket.on("tState", (v) => {
+  tView = v;
+  renderTourney();
+  // a round started without us (late joiner, bye) or we are idle on another screen
+  const idle = ["title", "tutorial", "home", "room"].some((s) => $(s).classList.contains("active"));
+  if (idle) showScreen("tourney");
+});
+
+socket.on("tGone", () => clearTSession());
+socket.on("tKicked", (msg) => {
+  clearTSession();
+  toast(msg);
+  $("homeMsg").textContent = msg;
+  showScreen("home");
+});
+
+$("tnLeave").addEventListener("click", () => {
+  const sure = !tView || tView.status === "finished" || confirm("Leave the class tournament?");
+  if (!sure) return;
+  socket.emit("tLeave");
+  clearTSession();
+  myId = socket.id;
+  showScreen("home");
+});
+$("backToTourney").addEventListener("click", () => { renderTourney(); showScreen("tourney"); });
+
+// ---- battle clock (top of the arena) ----
+let matchDeadline = null, matchClockInt = null;
+function setMatchClock(msLeft) {
+  const el = $("matchClock");
+  if (msLeft == null) { stopMatchClock(); return; }
+  matchDeadline = Date.now() + msLeft;
+  el.classList.remove("hidden");
+  const tick = () => {
+    const t = Math.max(0, Math.ceil((matchDeadline - Date.now()) / 1000));
+    el.textContent = `⏱ ${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
+    el.classList.toggle("low", t <= 30);
+  };
+  tick();
+  if (!matchClockInt) matchClockInt = setInterval(tick, 500);
+}
+function stopMatchClock() {
+  clearInterval(matchClockInt); matchClockInt = null; matchDeadline = null;
+  $("matchClock").classList.add("hidden");
+}
+
+// ---- tournament screen ----
+const ordinalOf = (n) => { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
+const outcomeText = (m) => {
+  if (!m.result) return `In battle with ${esc(m.vs)}`;
+  if (m.result.winner === "draw") return `Drew with ${esc(m.vs)}`;
+  const won = m.result.winner === m.mySide;
+  return `${won ? "Beat" : "Lost to"} ${esc(m.vs)}${m.result.reason === "time" ? " on time" : ""}`;
+};
+
+function renderTourney() {
+  const v = tView; if (!v) return;
+  $("tnCode").textContent = v.code;
+  // only touch what changed, so pictures do not flicker on every update
+  const put = (id, html) => { const el = $(id); if (el._html !== html) { el._html = html; el.innerHTML = html; return true; } return false; };
+  put("tnYou", `You are <b>${esc(v.you.name)}</b>${v.partner ? ` · partner <b>${esc(v.partner.name)}</b>` : ""}`);
+  put("tnStatus", statusHtml(v));
+  const finished = v.status === "finished";
+  const a = put("tnLeft", finished ? standingsHtml(v) : partnerHtml(v) + fighterHtml(v));
+  put("tnRight", finished ? historyHtml(v) : standingsHtml(v) + historyHtml(v));
+  if (a) wireTourney(v);
+}
+
+function statusHtml(v) {
+  const rounds = v.settings.rounds;
+  const last = v.myMatches.filter((m) => m.result).slice(-1)[0];
+  if (v.status === "finished") {
+    const place = v.mine ? `You finished <b>${ordinalOf(v.mine.rank)}</b> of ${v.totalPairs} pairs with <b>${v.mine.points}</b> points.` : "The tournament is over.";
+    return `<div class="tn-banner final">🏆 FINAL RESULTS<span>${place}</span></div>`;
+  }
+  if (v.status === "lobby") {
+    return `<div class="tn-banner">WAITING FOR ROUND 1<span>${v.you.pairId ? "Your teacher starts the round. Pick your fighter while you wait." : "Get into a pair, then pick your fighter."}</span></div>`;
+  }
+  if (v.status === "round") {
+    if (v.myBye) return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>${v.myBye.kind === "freewin" ? "No opponent is left for your pair this round, so you get a free win (+3 points)." : "No opponent is left for your pair this round, so you sit this one out."}</span></div>`;
+    const mine = v.myMatches.find((m) => m.round === v.round);
+    if (mine && !mine.result) return `<div class="tn-banner live">ROUND ${v.round} OF ${rounds}<span>Your battle against ${esc(mine.vs)} is on.</span></div>`;
+    if (mine) return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>${outcomeText(mine)}. Waiting for the other battles to finish.</span></div>`;
+    return `<div class="tn-banner">ROUND ${v.round} OF ${rounds}<span>You joined during this round. You will play from the next round.</span></div>`;
+  }
+  // between rounds
+  return `<div class="tn-banner">NEXT: ROUND ${v.round + 1} OF ${rounds}<span>${last ? `Round ${last.round}: ${outcomeText(last)}. ` : ""}Your teacher starts the next round.</span></div>`;
+}
+
+function partnerHtml(v) {
+  if (v.partner) {
+    const p = v.partner;
+    const state = p.bot ? "A bot plays with you." : p.connected ? "" : `<em class="tn-off">offline</em>`;
+    const leave = v.status === "lobby" && v.settings.pairing === "students"
+      ? `<button class="shard-btn ghost small" id="tnLeavePair"><span>CHANGE PARTNER</span></button>` : "";
+    return `<div class="tn-card"><h3 class="tn-h">YOUR PARTNER</h3>
+      <div class="tn-partner">${miniFighter(p.character)}<div><div class="tn-pname">${esc(p.name)} ${state}</div>
+      <div class="tn-psub">${p.character ? `${esc(CHAR_BY_ID[p.character]?.name || "")}` : "Has not picked a fighter yet"}</div></div></div>${leave}</div>`;
+  }
+  if (v.settings.pairing !== "students") {
+    return `<div class="tn-card"><h3 class="tn-h">YOUR PARTNER</h3>
+      <p class="tn-text">Your teacher is making the pairs. Wait here. If you have no partner when the round starts, you are paired at random.</p></div>`;
+  }
+  const mates = v.classmates;
+  const list = mates.length ? mates.map((m) => `
+      <button class="tn-mate ${v.you.wants === m.pid ? "chosen" : ""} ${m.wantsYou ? "wants" : ""}" data-mate="${m.pid}">
+        <span>${esc(m.name)}</span>${m.wantsYou ? `<b>picked you</b>` : ""}${v.you.wants === m.pid ? `<b>waiting…</b>` : ""}
+      </button>`).join("")
+    : `<p class="tn-text">Nobody else is free right now.</p>`;
+  const waiting = v.you.wants ? (mates.find((m) => m.pid === v.you.wants)?.name || "") : "";
+  return `<div class="tn-card"><h3 class="tn-h">CHOOSE YOUR PARTNER</h3>
+    <p class="tn-text">${waiting
+      ? `You picked <b>${esc(waiting)}</b>. You become a pair when they pick you too. Tap their name again to cancel.`
+      : "Tap a classmate's name. When they tap your name too, you are a pair."}</p>
+    <div class="tn-mates">${list}</div></div>`;
+}
+
+function miniFighter(charId) {
+  return charId ? `<div class="mini">${portrait(charId)}</div>` : `<div class="mini-empty"></div>`;
+}
+
+function fighterHtml(v) {
+  if (v.status === "finished") return "";
+  if (v.settings.fighters === "random") {
+    return `<div class="tn-card"><h3 class="tn-h">YOUR FIGHTER</h3><p class="tn-text">Fighters are given out at random each round.</p></div>`;
+  }
+  const mine = v.you.character, theirs = v.partner?.character;
+  const cards = CHARACTERS.map((c) => {
+    const tags = [mine === c.id ? "YOU" : "", theirs === c.id && !v.partner?.bot ? esc(v.partner.name).toUpperCase() : ""].filter(Boolean).join(" · ");
+    return `<button class="tn-fcard ${mine === c.id ? "picked" : ""}" data-fighter="${c.id}" style="--ecol:${ELEMENT_COLORS[c.element]}">
+      <div class="rport">${portrait(c.id)}</div>
+      <span class="tn-fname">${NAME[c.id]}</span>
+      ${tags ? `<span class="tn-ftag">${tags}</span>` : ""}
+    </button>`;
+  }).join("");
+  return `<div class="tn-card"><h3 class="tn-h">YOUR FIGHTER ${mine ? `<span class="tn-sub">${esc(CHAR_BY_ID[mine].name)}</span>` : ""}</h3>
+    <p class="tn-text">${mine ? "Tap a fighter to see their skills or change your pick." : "Tap a fighter to see their skills, then pick one. If you do not pick, you get a random fighter."}</p>
+    <div class="tn-fighters">${cards}</div></div>`;
+}
+
+function standingsHtml(v) {
+  if (v.standings) {
+    if (!v.standings.length) return `<div class="tn-card"><h3 class="tn-h">LEADERBOARD</h3><p class="tn-text">Pairs appear here once everyone is paired.</p></div>`;
+    const started = v.standings.some((r) => r.played > 0);
+    const rows = v.standings.map((r) => `<tr class="${r.pairId === v.you.pairId ? "me" : ""}">
+      <td>${started ? r.rank : "–"}</td><td class="l">${esc(r.name)}</td><td class="pts">${r.points}</td><td>${r.wins}-${r.draws}-${r.losses}</td></tr>`).join("");
+    return `<div class="tn-card"><h3 class="tn-h">${v.status === "finished" ? "FINAL STANDINGS" : "LEADERBOARD"}</h3>
+      <table class="tn-table"><thead><tr><th>#</th><th class="l">Pair</th><th>Pts</th><th>W-D-L</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+  if (v.mine && v.mine.played > 0) {
+    return `<div class="tn-card"><h3 class="tn-h">YOUR PLACE</h3>
+      <div class="tn-place"><b>${ordinalOf(v.mine.rank)}</b> of ${v.totalPairs} pairs · ${v.mine.points} points</div>
+      <p class="tn-text">The full leaderboard is on the board at the front.</p></div>`;
+  }
+  return `<div class="tn-card"><h3 class="tn-h">LEADERBOARD</h3><p class="tn-text">${v.round > 0 ? "The leaderboard is hidden until the end." : "Points appear after Round 1. A win is 3 points and a draw is 1."}</p></div>`;
+}
+
+function historyHtml(v) {
+  const done = v.myMatches.filter((m) => m.result);
+  if (!done.length) return "";
+  return `<div class="tn-card"><h3 class="tn-h">YOUR BATTLES</h3><ul class="tn-hist">${done.map((m) =>
+    `<li class="${m.result.winner === "draw" ? "draw" : m.result.winner === m.mySide ? "win" : "loss"}"><span>Round ${m.round}</span>${outcomeText(m)}</li>`).join("")}</ul></div>`;
+}
+
+function wireTourney(v) {
+  document.querySelectorAll("[data-mate]").forEach((b) => b.addEventListener("click", () => {
+    SFX.play("select");
+    socket.emit("tChoosePartner", { pid: v.you.wants === b.dataset.mate ? null : b.dataset.mate });
+  }));
+  $("tnLeavePair")?.addEventListener("click", () => socket.emit("tLeavePair"));
+  document.querySelectorAll("[data-fighter]").forEach((b) => b.addEventListener("click", () =>
+    openCharDetail(b.dataset.fighter, (charId) => socket.emit("tPickFighter", { charId }))));
+}
