@@ -174,8 +174,15 @@ function publicRoom(room) {
   };
 }
 
+// Battle backdrops rotate through the stage list (public/assets/stages). Starts at a
+// random stage so different classes don't all open on the same scene.
+const STAGE_COUNT = 6;
+let stageTurn = Math.floor(Math.random() * STAGE_COUNT);
+function nextStage() { stageTurn = (stageTurn + 1) % STAGE_COUNT; return stageTurn; }
+
 function publicBattle(b) {
   return {
+    stage: b.stage ?? 0,
     sync: { 0: Math.round(b.sync[0]), 1: Math.round(b.sync[1]) },
     current: b.current,
     stealOf: b.stealOf || null,
@@ -424,6 +431,7 @@ function beginBattle(room) {
   const qPool = filterQuestions(room.topicId);
   room.battle = {
     combatants, order, ptr: 0, current: null, phase: null,
+    stage: nextStage(),                      // battle backdrop, rotated so back-to-back battles differ
     sync: { 0: 0, 1: 0 }, publicQuestion: null, q: null,
     topicId: room.topicId || "mixed",
     qPool, qDeck: shuffle(qPool), qPos: 0,   // topic-filtered deck, drawn without replacement
