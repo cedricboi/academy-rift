@@ -68,7 +68,7 @@ lobbyBGM.loop = true;
 lobbyBGM.volume = 0.55;
 lobbyBGM.playsInline = true;
 
-const battleBGM = new Audio("assets/Battle Music.mp3");
+const battleBGM = new Audio("assets/Victory Fanfare.mp3");
 battleBGM.loop = true;
 battleBGM.volume = 0.55;
 battleBGM.playsInline = true;
