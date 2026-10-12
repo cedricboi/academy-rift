@@ -136,8 +136,9 @@ function storageBanner() {
 }
 
 // ---------------------------------------------------------------- list of sets
+let listSets = [], selecting = false, picked = new Set();
 async function showSets() {
-  view = "sets"; cur = null;
+  view = "sets"; cur = null; selecting = false; picked = new Set();
   main.innerHTML = `<p class="h-loading">Loading your question sets…</p>`;
   let sets;
   try { sets = (await api("GET", "/api/hub/sets")).sets; }
@@ -146,21 +147,35 @@ async function showSets() {
     main.innerHTML = storageBanner() + card("Your sets could not be loaded", `<p>${esc(e.message)}</p><button class="h-btn" data-act="reload">Try again</button>`);
     return;
   }
+  listSets = sets;
+  renderSetsList();
+}
+
+function renderSetsList() {
+  const sets = listSets, own = sets.filter((x) => !x.builtIn);
   main.innerHTML = `
     ${storageBanner()}
     <div class="h-head">
       <div>
         <h1>Question sets</h1>
-        <p class="h-sub">Make a set here, then pick it as the topic in a tournament's Settings or in a game room.</p>
+        <p class="h-sub">Make a set here, then tick it under the topic in a tournament's Settings or in a game room. You can tick several sets to test them together.</p>
       </div>
       <div class="h-actions">
         <button class="h-btn primary" data-act="new">New set</button>
         <button class="h-btn" data-act="import">Import a spreadsheet</button>
+        ${own.length ? `<button class="h-btn ghost ${selecting ? "on" : ""}" data-act="select">${selecting ? "Done selecting" : "Select sets"}</button>` : ""}
       </div>
     </div>
-    <p class="h-hint">Blooket spreadsheets (.xlsx or .csv) work as they are. You can also drop a file anywhere on this page.</p>
-    <div class="h-grid">${sets.map(setCard).join("")}</div>
-    ${sets.length === 1 ? `<p class="h-empty">You have no sets of your own yet. Press <b>New set</b>, or import a spreadsheet.</p>` : ""}`;
+    <p class="h-hint">${selecting ? "Tap the sets you want to delete." : "Blooket spreadsheets (.xlsx or .csv) work as they are. You can also drop a file anywhere on this page."}</p>
+    <div class="h-grid ${selecting ? "selecting" : ""}">${sets.map(setCard).join("")}</div>
+    ${!own.length ? `<p class="h-empty">You have no sets of your own yet. Press <b>New set</b>, or import a spreadsheet.</p>` : ""}
+    ${selecting ? `<div class="h-selbar" role="region" aria-label="Selected sets">
+      <span><b>${picked.size}</b> selected</span>
+      <button class="h-linkbtn" data-act="selall">${picked.size === own.length ? "Clear" : "Select all"}</button>
+      <span class="h-spacer"></span>
+      <button class="h-btn ghost" data-act="select">Cancel</button>
+      <button class="h-btn danger" data-act="delpicked" ${picked.size ? "" : "disabled"}>Delete ${picked.size ? plural(picked.size, "set") : "sets"}</button>
+    </div>` : ""}`;
 }
 
 function ago(iso) {
@@ -176,7 +191,16 @@ function ago(iso) {
 
 function setCard(s) {
   const fix = s.count - s.ready;
-  return `<article class="h-set ${s.builtIn ? "builtin" : ""}">
+  if (selecting && !s.builtIn) {
+    const on = picked.has(s.id);
+    return `<button class="h-set pick ${on ? "picked" : ""}" data-act="pick" data-id="${esc(s.id)}" aria-pressed="${on}">
+      <span class="h-pickbox" aria-hidden="true">${on ? "✓" : ""}</span>
+      <h2>${esc(s.title)}</h2>
+      <p class="h-set-meta">${plural(s.count, "question")}${s.pictures ? ` · ${s.pictures} with pictures` : ""}</p>
+      <p class="h-set-when">Changed ${ago(s.updatedAt)}</p>
+    </button>`;
+  }
+  return `<article class="h-set ${s.builtIn ? "builtin" : ""} ${selecting ? "dim" : ""}">
     <h2>${esc(s.title)}</h2>
     <p class="h-set-meta">${plural(s.count, "question")}${s.pictures ? ` · ${s.pictures} with pictures` : ""}</p>
     ${fix > 0 ? `<p class="h-set-fix">${fix} need${fix === 1 ? "s" : ""} fixing before ${fix === 1 ? "it" : "they"} can be played</p>` : ""}
@@ -204,14 +228,27 @@ async function copySet(id) {
   } catch (e) { toast(e.message); }
 }
 
-function askDelete(id, title) {
-  modal(`<h2 id="modalTitle">Delete "${esc(title)}"?</h2>
-    <p>The set and its questions are deleted for good. Battles already running keep their questions.</p>
-    <div class="h-modal-acts"><button class="h-btn ghost" data-close>Keep it</button><button class="h-btn danger" id="delYes">Delete set</button></div>`);
+// Delete one set or several (with one question first).
+function askDelete(list, { after } = {}) {
+  const n = list.length;
+  modal(`<h2 id="modalTitle">${n === 1 ? `Delete "${esc(list[0].title)}"?` : `Delete ${n} sets?`}</h2>
+    ${n > 1 ? `<ul class="h-found">${list.map((x) => `<li>${esc(x.title)}</li>`).join("")}</ul>` : ""}
+    <p>${n === 1 ? "The set and its questions are" : "These sets and their questions are"} deleted for good. Battles already running keep their questions.
+      A tournament or room that was using ${n === 1 ? "it" : "them"} skips ${n === 1 ? "it" : "them"} from the next battle.</p>
+    <div class="h-modal-acts"><button class="h-btn ghost" data-close>Keep ${n === 1 ? "it" : "them"}</button>
+      <button class="h-btn danger" id="delYes">Delete ${n === 1 ? "set" : plural(n, "set")}</button></div>`);
   $("delYes").addEventListener("click", async () => {
-    $("delYes").disabled = true;
-    try { await api("DELETE", `/api/hub/sets/${id}`); closeModal(); toast(`Deleted "${title}".`); showSets(); }
-    catch (e) { closeModal(); toast(e.message); }
+    const btn = $("delYes"); btn.disabled = true;
+    let done = 0;
+    try {
+      for (const x of list) {
+        if (n > 1) btn.textContent = `Deleting ${done + 1} of ${n}…`;
+        await api("DELETE", `/api/hub/sets/${x.id}`); done++;
+      }
+      closeModal();
+      toast(n === 1 ? `Deleted "${list[0].title}".` : `Deleted ${plural(n, "set")}.`);
+    } catch (e) { closeModal(); toast(done ? `Deleted ${done} of ${n}. ${e.message}` : e.message); }
+    if (after) after(); else showSets();
   });
 }
 
@@ -254,8 +291,9 @@ function renderEditor() {
       <span class="h-spacer"></span>
       <button class="h-count" id="countChip" data-act="firstbad"></button>
       <button class="h-btn ghost" data-act="csv">Download as .csv</button>
+      <button class="h-btn ghost danger" data-act="delset">Delete set</button>
     </div>
-    <p class="h-hint">To play these questions, pick this set as the topic in the tournament's Settings or in a game room.
+    <p class="h-hint">To play these questions, tick this set under the topic in the tournament's Settings or in a game room. You can tick other sets with it.
       To add a picture, press <b>Add a picture</b>, drop one on a question, or copy it and paste it (Ctrl+V or ⌘V) while you are in that question.</p>
     <div class="h-qlist" id="qlist">${cur.questions.map(qCard).join("")}</div>
     <button class="h-addq" data-act="addq">+ Add a question</button>`;
@@ -413,7 +451,20 @@ main.addEventListener("click", async (e) => {
       return;
     case "import": $("sheetFile").value = ""; $("sheetFile").click(); return;
     case "copy": return copySet(b.dataset.id);
-    case "delete": return askDelete(b.dataset.id, b.dataset.title);
+    case "delete": return askDelete([{ id: b.dataset.id, title: b.dataset.title }]);
+    case "select": selecting = !selecting; picked = new Set(); return renderSetsList();
+    case "pick": { const id = b.dataset.id; picked.has(id) ? picked.delete(id) : picked.add(id); return renderSetsList(); }
+    case "selall": {
+      const own = listSets.filter((x) => !x.builtIn);
+      picked = picked.size === own.length ? new Set() : new Set(own.map((x) => x.id));
+      return renderSetsList();
+    }
+    case "delpicked": return askDelete(listSets.filter((x) => picked.has(x.id)).map((x) => ({ id: x.id, title: x.title })));
+    case "delset":
+      await flushSave();              // finish any save first, so it can't bring the set back
+      return askDelete([{ id: cur.id, title: cur.title || "this set" }], { after: () => {
+        clearTimeout(saveTimer); savedSeq = editSeq; location.hash = "";
+      } });
     case "addq": {
       addQuestions([blankQ()]);
       main.querySelector(".h-q:last-child .h-q-text")?.focus({ preventScroll: true });

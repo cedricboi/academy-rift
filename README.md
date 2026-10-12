@@ -54,7 +54,7 @@ names on the teacher page can be paired, split or removed.
 - Who fights whom: similar scores after Round 1 (top pairs meet by the end) / random every round
 - Avoid repeat opponents: yes / no
 - Odd number of pairs: the leftover pair fights two bots / gets a free win / sits out
-- Topic tested
+- Topic tested (tick one or more built-in topics and question sets from the hub)
 - Time limit per battle (off, 3–15 minutes). At the limit, the team with more HP left wins;
   level HP goes to the team with more correct answers, otherwise it is a draw
 - Time to answer a question (10–30 s) and the steal window (off, 4–10 s; it closes early once everyone has tried)
@@ -84,8 +84,10 @@ Open **`/hub`** (for example `https://…onrender.com/hub`) to make your own que
   explanation students see in their review after the battle, and add a picture (button, drag
   and drop, or copy and paste). Changes save by themselves.
 
-To play a set, choose it under **Topic tested** in the tournament's Settings, or in a game
-room's topic list. Students only ever receive the question, the answers and the picture,
+To play a set, tick it under **Topic tested** in the tournament's Settings, or tap it in a game
+room's topic list. You can choose several sets and built-in topics at once; every battle then
+draws its questions from all of them. Delete a set with its **Delete** button, the **Delete set**
+button inside it, or **Select sets** to delete several at once. Students only ever receive the question, the answers and the picture,
 never which answer is right.
 
 **Setting it up on Render (once):** on the game's service open **Environment** and add

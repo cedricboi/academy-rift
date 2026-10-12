@@ -221,7 +221,8 @@ export function setupTournaments(deps) {
       matches: T.matches.map((m) => matchView(T, m)),
       byes: T.byes,
       sets: bank ? bank.playableSets() : [],      // the teacher's own question sets, for the topic setting
-      topicName: bank?.topicName(T.settings.topicId) || null,
+      topicName: deps.topicLabel ? deps.topicLabel(T.settings.topicId) : null,
+      topicParts: deps.topicPartsInfo ? deps.topicPartsInfo(T.settings.topicId) : [],
       serverNow: Date.now(),
     };
   }
@@ -631,8 +632,8 @@ export function setupTournaments(deps) {
     socket.on("tSetting", asHost((T, { key, value }) => {
       const def = SETTING_BY_KEY[key]; if (!def) return;
       if (def.lockedAfterStart && T.round > 0) return fail(`"${def.label}" can only be changed before Round 1.`);
-      // a question set from the hub is also a valid "topic"
-      const v = key === "topicId" && bank?.isSetTopic(value) ? value : cleanSettingValue(key, value);
+      // the topic can be several built-in topics and question sets from the hub together
+      const v = key === "topicId" && deps.normalizeTopics ? (deps.normalizeTopics(value) ?? undefined) : cleanSettingValue(key, value);
       if (v === undefined) return;
       if (key === "rounds" && v < T.round) return fail(`${T.round} rounds have already been played.`);
       T.settings[key] = v;

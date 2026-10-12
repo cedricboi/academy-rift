@@ -865,28 +865,40 @@ function loadHubSets() {
 }
 function renderTopicSelect(isHost) {
   const wrap = $("topicPanel"); if (!wrap) return;
-  const sel = room.topicId || "mixed";
+  // the host can tick several topics and question sets; the battle draws from all of them
+  const chosen = new Set(String(room.topicId || "mixed").split(","));
   if (isHost) loadHubSets();
-  const own = isHost ? (hubSets || [])
-    : sel.startsWith("set:") ? [{ id: sel, title: room.topicName || "Teacher's question set", count: null }] : [];
+  const own = isHost ? (hubSets || []) : (room.topicParts || []).filter((p) => p.own).map((p) => ({ id: p.id, title: p.title, count: null }));
   const ownChips = own.map((s) => `
-    <button class="topic-chip-btn own ${s.id === sel ? "active" : ""}" data-topic="${esc(s.id)}" ${isHost ? "" : "disabled"}>
+    <button class="topic-chip-btn own ${chosen.has(s.id) ? "active" : ""}" data-topic="${esc(s.id)}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(s.id)}">
       <span class="tc-icon">📝</span>
       <span class="tc-name">${esc(s.title)}</span>
       <span class="tc-blurb">${s.count != null ? `${s.count} question${s.count === 1 ? "" : "s"} from the question hub` : "From the question hub"}</span>
     </button>`).join("");
   const chips = ownChips + TOPICS.map((t) => `
-    <button class="topic-chip-btn ${t.id === sel ? "active" : ""}" data-topic="${t.id}" ${isHost ? "" : "disabled"}>
+    <button class="topic-chip-btn ${chosen.has(t.id) ? "active" : ""}" data-topic="${t.id}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(t.id)}">
       <span class="tc-icon">${t.icon}</span>
       <span class="tc-name">${t.name}</span>
       <span class="tc-blurb">${t.blurb}</span>
     </button>`).join("");
   wrap.innerHTML =
-    `<h3 class="head sub">📚 TOPIC TESTED${isHost ? "" : ` <span class="topic-lock">· host chooses</span>`}</h3>
+    `<h3 class="head sub">📚 TOPIC TESTED${isHost ? ` <span class="topic-lock">· tap one or more</span>` : ` <span class="topic-lock">· host chooses</span>`}</h3>
      <div class="topic-chips">${chips}</div>
      <p class="topic-bloom-note">Each topic mixes Bloom's levels — 📗 Remember · 📘 Understand · 📙 Apply · 📕 Analyse · 📓 Evaluate</p>`;
-  if (isHost) wrap.querySelectorAll("[data-topic]").forEach((b) =>
-    b.addEventListener("click", () => { SFX.play("select"); socket.emit("setTopic", { topicId: b.dataset.topic }); }));
+  if (isHost) wrap.querySelectorAll("[data-topic]").forEach((b) => b.addEventListener("click", () => {
+    const v = b.dataset.topic;
+    let next = new Set(chosen);
+    if (next.has(v)) next.delete(v);
+    else {
+      next.add(v);
+      // "Mixed" already holds every built-in topic, so it and single built-in topics replace each other
+      if (v === "mixed") next = new Set([...next].filter((x) => x === "mixed" || x.startsWith("set:")));
+      else if (!v.startsWith("set:")) next.delete("mixed");
+    }
+    if (!next.size) { toast("Choose at least one topic or question set."); return; }
+    SFX.play("select");
+    socket.emit("setTopic", { topicId: [...next].join(",") });
+  }));
 }
 
 // ---- in-battle Bloom's level badge ----

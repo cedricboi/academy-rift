@@ -98,14 +98,39 @@ function shuffle(arr) {
   return a;
 }
 
-// Filter the question bank to the host-selected topic ("mixed" = all topics), or
-// use one of the teacher's own sets from the question hub ("set:<id>").
+// What a battle tests: one or more parts joined by commas. A part is a built-in
+// topic ("micro", "parts"…, or "mixed" for all of them) or one of the teacher's
+// own sets from the question hub ("set:<id>"). Everything chosen is tested together.
+const MAX_TOPIC_PARTS = 20;
+function topicParts(value) {
+  const list = Array.isArray(value) ? value.join(",") : String(value || "");
+  return [...new Set(list.split(",").map((p) => p.trim()).filter(Boolean))];
+}
+// Keep only parts that exist; null if nothing usable was chosen.
+function normalizeTopics(value) {
+  let parts = topicParts(value).filter((p) => TOPIC_BY_ID[p] || bank.isSetTopic(p)).slice(0, MAX_TOPIC_PARTS);
+  if (parts.includes("mixed")) parts = ["mixed", ...parts.filter((p) => p.startsWith("set:"))];   // "mixed" already has every built-in topic
+  return parts.length ? parts.join(",") : null;
+}
+function topicPartsInfo(value) {
+  return topicParts(value).map((p) => p.startsWith("set:")
+    ? { id: p, title: bank.topicName(p) || "A deleted set", own: true }
+    : TOPIC_BY_ID[p] ? { id: p, title: TOPIC_BY_ID[p].name, icon: TOPIC_BY_ID[p].icon } : null).filter(Boolean);
+}
+function topicLabel(value) {
+  const parts = topicPartsInfo(value);
+  if (!parts.length) return TOPIC_BY_ID.mixed.name;
+  return parts.length <= 2 ? parts.map((p) => p.title).join(" + ") : `${parts[0].title} + ${parts.length - 1} more`;
+}
 function filterQuestions(topicId) {
-  const own = bank.gameQuestions(topicId);
-  if (own && own.length) return own;
-  if (!topicId || topicId === "mixed") return QUESTIONS;
-  const pool = QUESTIONS.filter((q) => q.topicId === topicId);
-  return pool.length ? pool : QUESTIONS;   // fall back to all if a topic is somehow empty
+  const pool = [];
+  for (const p of topicParts(topicId)) {
+    if (p === "mixed") pool.push(...QUESTIONS);
+    else if (p.startsWith("set:")) pool.push(...(bank.gameQuestions(p) || []));
+    else pool.push(...QUESTIONS.filter((q) => q.topicId === p));
+  }
+  const unique = [...new Set(pool)];
+  return unique.length ? unique : QUESTIONS;   // everything chosen was deleted or empty: use all built-in questions
 }
 
 // Per-battle question deck: draw without replacement from the chosen topic pool,
@@ -138,7 +163,8 @@ function publicRoom(room) {
     status: room.status,
     hostId: room.hostId,
     topicId: room.topicId || "mixed",
-    topicName: bank.topicName(room.topicId),
+    topicName: topicLabel(room.topicId),
+    topicParts: topicPartsInfo(room.topicId),
     tournament: room.tournament || null,
     serverNow: Date.now(),          // lets clients correct for a wrong device clock
     players: room.players.map((p) => ({
@@ -182,7 +208,7 @@ function broadcast(room) { io.to(room.code).emit("room", publicRoom(room)); }
 
 // ---------- class tournaments ----------
 const Tour = setupTournaments({
-  io, rooms, bank, CHARACTERS, publicRoom,
+  io, rooms, bank, CHARACTERS, publicRoom, normalizeTopics, topicLabel, topicPartsInfo,
   isRoomCode: (c) => rooms.has(c),
   setSocketRoom: (sid, code) => socketRoom.set(sid, code),
   startBattle: (room) => beginBattle(room),
@@ -236,8 +262,8 @@ io.on("connection", (socket) => {
 
   socket.on("setTopic", ({ topicId }) => {
     const room = myRoom(); if (!room || room.status !== "lobby" || room.hostId !== socket.id) return;
-    if (!TOPIC_BY_ID[topicId] && !bank.isSetTopic(topicId)) return;
-    room.topicId = topicId; broadcast(room);
+    const v = normalizeTopics(topicId); if (!v) return;
+    room.topicId = v; broadcast(room);
   });
 
   // The teacher's question sets from the hub, for the lobby's topic picker.

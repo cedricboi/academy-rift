@@ -186,34 +186,48 @@ check(r.status === 200 && r.data.set.title === "Cells: quick check" && r.data.se
 const many = await Promise.all(Array.from({ length: 30 }, () => fetch(`${URL}/qimg/${pic}`).then(async (x) => x.ok && Buffer.from(await x.arrayBuffer()).equals(PNG))));
 check(many.every(Boolean), "30 students load the picture at once after the restart (fetched from GitHub once)");
 
-// the set in a game room
+// a second, small set, to test two sets together
+r = await call("POST", "/api/hub/sets", { title: "Organs", questions: [{ q: "Which organ pumps blood?", choices: ["Heart", "Lung"], correct: [0] }] });
+const setB = r.data?.set;
+check(r.status === 200 && setB, "second set made");
+
+// the sets in a game room
 const s1 = io(URL, { transports: ["websocket"], forceNew: true });
 await new Promise((res) => s1.on("connect", res));
 let latest = null; const questions = []; const results = [];
-s1.on("room", (x) => (latest = x));
+const seenAll = new Set();          // every question asked in the battle, to anyone
+s1.on("room", (x) => { latest = x; if (x.battle?.question) seenAll.add(x.battle.question.q); });
 s1.on("yourQuestion", ({ question }) => questions.push(question));
 s1.on("answerResult", (x) => results.push(x));
 s1.emit("createRoom", { name: "Mei" });
 await sleep(300);
 const sets = await new Promise((res) => s1.emit("getSets", res));
-check(sets.length === 1 && sets[0].id === `set:${set.id}` && sets[0].count === 3, "room lobby lists the set (3 playable questions)");
+check(sets.length === 2 && sets.some((x) => x.id === `set:${set.id}` && x.count === 3), "room lobby lists both sets (3 playable questions in the first)");
 s1.emit("setTopic", { topicId: `set:${set.id}` }); await sleep(200);
 check(latest.topicId === `set:${set.id}` && latest.topicName === "Cells: quick check", "host picks the set as the room's topic");
 s1.emit("setTopic", { topicId: "set:doesnotexist" }); await sleep(150);
 check(latest.topicId === `set:${set.id}`, "a set that doesn't exist is refused");
+s1.emit("setTopic", { topicId: "mixed,parts,micro" }); await sleep(150);
+check(latest.topicId === "mixed", "\"Mixed\" plus single built-in topics becomes just \"Mixed\"");
+s1.emit("setTopic", { topicId: `set:${set.id},set:nope,micro` }); await sleep(150);
+check(latest.topicId === `set:${set.id},micro` && latest.topicParts.length === 2 && latest.topicName === "Cells: quick check + Microscope Basics",
+  `several topics at once, missing ones dropped ("${latest.topicName}")`);
+s1.emit("setTopic", { topicId: `set:${set.id},set:${setB.id}` }); await sleep(200);
+check(latest.topicId === `set:${set.id},set:${setB.id}`, "host picks two question sets together");
 s1.emit("addBot", { team: 0 }); s1.emit("addBot", { team: 1 }); s1.emit("addBot", { team: 1 });
 s1.emit("pickCharacter", { charId: "jun" }); s1.emit("setReady", { ready: true }); await sleep(200);
 s1.emit("startMatch");
-const RIGHT = { "Which part controls the cell?": [1], "Which of these are found in plant cells?": [0, 1], "<b>Bold</b> & sneaky": [1] };
+const RIGHT = { "Which part controls the cell?": [1], "Which of these are found in plant cells?": [0, 1], "<b>Bold</b> & sneaky": [1], "Which organ pumps blood?": [0] };
 s1.on("yourQuestion", ({ question }) => {
   const r2 = RIGHT[question.q];
   // answer with the LAST right answer, so two-answer questions test the second one
   setTimeout(() => s1.emit("answer", { choiceIndex: r2 ? r2[r2.length - 1] : 0 }), 100);
 });
 s1.on("actionPrompt", () => {});
-for (let i = 0; i < 300 && questions.length < 4; i++) await sleep(100);
+for (let i = 0; i < 300 && (questions.length < 4 || seenAll.size < 4); i++) await sleep(100);
+check(seenAll.has("Which organ pumps blood?") && [...seenAll].every((q) => RIGHT[q]), `questions came from both sets and nowhere else (${seenAll.size} different)`);
 check(questions.length >= 3, `got ${questions.length} questions in the battle`);
-check(questions.every((q) => RIGHT[q.q]), "every question came from the set (none from the built-in bank, none unfinished)");
+check(questions.every((q) => RIGHT[q.q]), "every question came from the chosen sets (none from the built-in bank, none unfinished)");
 check(questions.every((q) => !("answer" in q) && !("answers" in q) && !("correct" in q)), "answers never sent to the student");
 const withPic = questions.find((q) => q.q === "Which part controls the cell?");
 check(!withPic || withPic.image === `/qimg/${pic}`, "the question's picture is sent with it");
@@ -236,11 +250,17 @@ t.emit("tSetting", { key: "topicId", value: `set:${set.id}` }); await sleep(250)
 check(host.settings.topicId === `set:${set.id}` && host.topicName === "Cells: quick check", "tournament topic set to the question set");
 t.emit("tSetting", { key: "topicId", value: "set:nope" }); await sleep(200);
 check(host.settings.topicId === `set:${set.id}`, "tournament refuses a set that doesn't exist");
+t.emit("tSetting", { key: "topicId", value: `set:${set.id},set:${setB.id},micro` }); await sleep(250);
+check(host.settings.topicId === `set:${set.id},set:${setB.id},micro` && host.topicParts.length === 3 && /\+ 2 more/.test(host.topicName),
+  `tournament tests two sets and a built-in topic together ("${host.topicName}")`);
 t.close();
 
 // delete
 r = await call("DELETE", `/api/hub/sets/${set.id}`);
-check(r.status === 200 && !files.has(`sets/${set.id}.json`), "set deleted from GitHub");
+const r2 = await call("DELETE", `/api/hub/sets/${setB.id}`);
+check(r.status === 200 && r2.status === 200 && !files.has(`sets/${set.id}.json`) && !files.has(`sets/${setB.id}.json`), "both sets deleted from GitHub");
+r = await call("GET", "/api/hub/sets");
+check(r.data.sets.length === 1 && r.data.sets[0].builtIn, "only the built-in set is left");
 await stopServer();
 
 // ---------------------------------------------------------------- 3. bad token

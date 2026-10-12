@@ -299,7 +299,7 @@ function renderBoard() {
 // ----- footer: settings summary + the main buttons -----
 function renderFooter() {
   const st = state.settings;
-  const topic = TOPIC_BY_ID[st.topicId] || (state.topicName ? { icon: "📝", name: state.topicName } : null);
+  const topic = state.topicName ? { icon: String(st.topicId).includes("set:") ? "📝" : (TOPIC_BY_ID[st.topicId]?.icon || "📚"), name: state.topicName } : TOPIC_BY_ID[st.topicId];
   $("summary").innerHTML = `
     <span>${st.rounds} round${st.rounds === 1 ? "" : "s"}</span>
     <span>${st.timeLimitMin ? `${st.timeLimitMin}-minute battles` : "No time limit"}</span>
@@ -382,6 +382,15 @@ function renderSettings() {
       ${SETTINGS.filter((s) => s.group === g.id).map((s) => settingRow(s, started)).join("")}
     </div>`).join("");
   body.scrollTop = scroll;
+  body.querySelectorAll("[data-topic]").forEach((el) => el.addEventListener("change", () => {
+    let chosen = [...body.querySelectorAll("[data-topic]:checked")].map((x) => x.dataset.topic);
+    const v = el.dataset.topic;
+    // "Mixed" already holds every built-in topic, so it and single built-in topics replace each other
+    if (el.checked && v === "mixed") chosen = chosen.filter((x) => x === "mixed" || x.startsWith("set:"));
+    else if (el.checked && !v.startsWith("set:")) chosen = chosen.filter((x) => x !== "mixed");
+    if (!chosen.length) { el.checked = true; toast("Tick at least one topic or question set."); return; }
+    socket.emit("tSetting", { key: "topicId", value: chosen.join(",") });
+  }));
   body.querySelectorAll("[data-set]").forEach((el) => {
     const send = (value) => socket.emit("tSetting", { key: el.dataset.set, value });
     if (el.tagName === "SELECT") el.addEventListener("change", () => send(el.value));
@@ -395,17 +404,25 @@ function settingRow(s, started) {
   const disabledOpt = (o) => s.key === "rounds" && o.value < state.round;
   let control;
   if (s.key === "topicId") {
-    // built-in topics, then the teacher's own sets from the question hub
+    // tick one or more: built-in topics and the teacher's own sets from the question hub
+    const chosen = new Set(String(cur || "mixed").split(","));
     const sets = state.sets || [];
-    const opt = (value, label) => `<option value="${esc(value)}" ${value === cur ? "selected" : ""}>${esc(label)}</option>`;
-    control = `<select class="t-select" data-set="topicId">
-      <optgroup label="Built-in questions">${s.options.map((o) => opt(o.value, o.label)).join("")}</optgroup>
-      ${sets.length ? `<optgroup label="Your question sets">${sets.map((q) => opt(q.id, `📝 ${q.title} (${q.count})`)).join("")}</optgroup>` : ""}
-    </select>`;
+    const box = (value, label, sub) => `<label class="t-check ${chosen.has(value) ? "on" : ""}">
+        <input type="checkbox" data-topic="${esc(value)}" ${chosen.has(value) ? "checked" : ""} />
+        <span class="t-check-label">${esc(label)}</span>${sub ? `<small>${esc(sub)}</small>` : ""}</label>`;
+    const missing = [...chosen].filter((v) => v.startsWith("set:") && !sets.some((q) => q.id === v));
+    control = `<div class="t-checks">
+        <div class="t-checks-head">Your question sets</div>
+        ${sets.length ? sets.map((q) => box(q.id, "📝 " + q.title, `${q.count} question${q.count === 1 ? "" : "s"}`)).join("")
+          : `<p class="t-checks-empty">No sets yet. Make one in the <a href="/hub" target="_blank" rel="noopener">question hub</a>.</p>`}
+        ${missing.length ? `<p class="t-checks-empty">${missing.length} chosen set${missing.length === 1 ? " was" : "s were"} deleted and will be skipped.</p>` : ""}
+        <div class="t-checks-head">Built-in questions</div>
+        ${s.options.map((o) => box(o.value, o.label)).join("")}
+      </div>`;
     return `<div class="t-setting">
-      <div class="t-setting-label">${esc(s.label)}</div>
+      <div class="t-setting-label">${esc(s.label)} <span class="t-lock">tick one or more</span></div>
       ${control}
-      <p class="t-setting-help">${esc(s.help)} Add your own questions and pictures in the <a href="/hub" target="_blank" rel="noopener">question hub</a>.</p>
+      <p class="t-setting-help">Every battle draws its questions from everything ticked. Add your own questions and pictures in the <a href="/hub" target="_blank" rel="noopener">question hub</a>.</p>
     </div>`;
   }
   if (s.options.length <= 4) {
