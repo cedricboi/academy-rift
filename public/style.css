@@ -1024,3 +1024,18 @@ input:focus{outline:none;border-color:var(--cyan);}
 
 .result-title.small{font-size:clamp(2rem,5.4vw,3.2rem);}
 .practice-tips li{font-weight:500;}
+
+/* ===== Battle theatre: the Skill Lab cinematics play over the stage for every strike, skill and ultimate ===== */
+.theatre{position:absolute;inset:0;z-index:8;pointer-events:none;opacity:0;transition:opacity .22s ease;background:#05030a;}
+.theatre canvas{width:100%;height:100%;display:block;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;}
+.arena.theatre-on .theatre{opacity:1;}
+.arena.theatre-on .qstrip,.arena.theatre-on .turn-banner,.arena.theatre-on .action-log,.arena.theatre-on .commands,.arena.theatre-on .lane{visibility:hidden;transition:visibility 0s linear .22s;}   /* hidden once the theatre has faded in, so the stage never shows empty */
+.arena.theatre-ult .hud,.arena.theatre-ult .hud-mid{opacity:0;transition:opacity .3s ease;}
+
+/* ===== Fighters on the stage: the same sprites as the cinematics, idling frame by frame ===== */
+.tok .chibi.spr{position:relative;overflow:visible;}
+.spr-frame{position:absolute;bottom:0;width:140%;aspect-ratio:1/1;left:calc(50% - 140% * var(--ax,.5));overflow:hidden;}
+.spr-frame img{position:absolute;left:0;top:0;height:100%;width:calc(var(--n,8) * 100%);max-width:none;
+  image-rendering:pixelated;image-rendering:crisp-edges;animation:sprIdle var(--dur,1.1s) steps(var(--n,8)) infinite;}
+@keyframes sprIdle{to{transform:translateX(-100%);}}
+@media (prefers-reduced-motion: reduce){ .spr-frame img{animation:none;} }

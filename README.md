@@ -166,8 +166,9 @@ Academy Rift/
 │  ├─ hub.html/.js/.css   Question hub, opened at /hub
 │  ├─ style.css           Art-bible UI (crimson/black shards, HP/SP cards, sync gauge…)
 │  ├─ game.js             Client: socket sync, battle render, MCQ, command shards, FX, shop
-│  ├─ fonts/              Saira Semi Condensed (titles) and Lexend (reading), served by the game
-│  └─ data/               Shared roster, topics, tournament settings and spreadsheet reading
+│  ├─ fonts/              Saira Semi Condensed (titles), Lexend (reading) and Cinzel (battle cinematics)
+│  ├─ theatre/            Battle cinematics: engine.js, manifest.json, sprite sheets, effects, sounds
+│  └─ data/               Shared roster, topics, tournament settings, spreadsheet reading, animTimes.js
 ├─ start.bat              Double-click launcher
 ├─ tools/balance.mjs      Character balance check (plays thousands of battles)
 ├─ test-match.mjs         Headless 4-player end-to-end test (node test-match.mjs)
@@ -194,6 +195,21 @@ composited mockup:
   up on the stage ("TAP TO HIT KURO"). A steal chance is a shorter panel along the bottom
   for a few seconds. After a wrong answer, the right one is only shown once nobody can steal
   it any more.
+
+### Battle cinematics (the theatre)
+Every strike, skill and Ultimate plays as a short HD-2D cinematic over the stage: the
+fighter, their partner and the target, on the battle's own stage, with the move's real
+damage or healing numbers. The HP bars move when the cinematic ends.
+- `public/theatre/engine.js` is the Skill Lab engine, built from the lab by
+  `tools/theatre/build_theatre.py` from `tools/theatre/skill_lab.html` (do not edit it by hand). It loads only the four fighters in the battle.
+- `public/theatre/c/<id>/` holds each fighter's animation sheets (all made from one master
+  frame, so every pose looks the same); `public/theatre/arena/` holds the idle loops the
+  stage shows between moves. Emi switches to her angel sheets after Aurora Covenant.
+- The server waits for each cinematic before the next turn (`public/data/animTimes.js`,
+  measured from the engine). If a device has not loaded the art yet, the old stage effects
+  play instead, so nobody waits on a slow connection.
+- iPads and Safari have no canvas filters, so the engine filters each sprite sheet once in
+  JavaScript and caches it. Slow devices drop the glow passes to keep time.
 
 To swap art, replace the files in `public/assets/` (keep the names) or edit the `ASSETS`
 map at the top of `public/game.js`. Anything left `null` falls back to a CSS placeholder.
