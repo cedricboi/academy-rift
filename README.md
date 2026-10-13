@@ -208,8 +208,21 @@ damage or healing numbers. The HP bars move when the cinematic ends.
 - The server waits for each cinematic before the next turn (`public/data/animTimes.js`,
   measured from the engine). If a device has not loaded the art yet, the old stage effects
   play instead, so nobody waits on a slow connection.
-- iPads and Safari have no canvas filters, so the engine filters each sprite sheet once in
-  JavaScript and caches it. Slow devices drop the glow passes to keep time.
+- Effect colours and glows are baked into files by `tools/theatre/bake_fx.py` (run it after
+  changing an effect or the element tints), so no device filters anything while a move plays.
+  The few filters left are done once in JavaScript and cached, on every browser. Slow devices
+  drop the glow passes to keep time.
+- Smoothness rules for the battle screen: no CSS filters or blur on anything that animates,
+  shading with overlays and opacity instead, and moving parts animate `transform` only. The
+  frame-rate readout in Settings shows how a class device copes.
+
+### Settings and sound
+The gear in the top-right corner opens Settings on every screen: music and sound-effect
+volume, battle camera zoom, light cinematics for older iPads, calm effects (fewer flashes and
+no shaking), a frame-rate readout and full screen. Settings are kept on each device. The
+teacher's screen has its own gear: the projector music and **Sound on students' devices**
+(students choose, music off, or all sound off), which applies straight away. The intro theme
+(`assets/Intro Theme.mp3`) plays everywhere outside battles; Victory Fanfare plays in battle.
 
 To swap art, replace the files in `public/assets/` (keep the names) or edit the `ASSETS`
 map at the top of `public/game.js`. Anything left `null` falls back to a CSS placeholder.

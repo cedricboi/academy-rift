@@ -234,3 +234,5 @@ body.teacher::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.10;poi
 .t-check small{color:var(--ash);font-size:.82rem;white-space:nowrap;}
 .t-checks-empty{color:var(--ash);font-size:.88rem;margin:2px 0;}
 .t-checks-empty a{color:var(--gold);}
+.teacher .t-head-right{margin-right:52px;}
+.teacher .t-start{padding-top:56px;}

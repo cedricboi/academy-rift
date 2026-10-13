@@ -69,11 +69,17 @@ function setArenaBg(stage) {
   if (!url || url === arenaBg) return;
   arenaBg = url;
   $("arena").style.backgroundImage = `url('${encodeURI(url)}')`;
+  $("arena").style.setProperty("--stage-img", `url('${encodeURI(url)}')`);
 }
 setTimeout(() => ASSETS.stages.forEach((u) => { new Image().src = encodeURI(u); }), 5000);   // warm the cache after the page has loaded
 
 // Music tracks. playsInline keeps iOS from hijacking them into a fullscreen player.
-const lobbyBGM = new Audio("assets/Midnight Combo.mp3");
+// ---- player settings (top-right gear): volumes and battle display, kept on this device ----
+const SET_KEY = "riftSettings";
+const settings = Object.assign({ music: 70, sfx: 85, camera: true, lite: false, calm: false, fps: false },
+  (() => { try { return JSON.parse(localStorage.getItem(SET_KEY)) || {}; } catch { return {}; } })());
+const SOUND = { music: settings.music / 100, sfx: settings.sfx / 100 };   // what is playing now, after the teacher's class setting
+const lobbyBGM = new Audio("assets/Intro Theme.mp3");
 lobbyBGM.loop = true;
 lobbyBGM.volume = 0.55;
 lobbyBGM.playsInline = true;
@@ -298,7 +304,11 @@ const attackPosed = new Set();
 
 function chibiImg(charId, uid) {
   const posed = uid && attackPosed.has(uid) ? " posed" : "";
-  const id = spriteId(charId, uid), a = ARENA[id];
+  const id = spriteId(charId, uid), a = ARENA[id], p = POSE[id];
+  if (p && uid && focusPose.uid === uid) {          // the camera is on them: the pose plays once, then they hold their battle stance
+    const n = p[0], since = Date.now() - focusPose.start;
+    return `<div class="chibi spr posing${posed}" style="--n:${n};--ax:${(p[1] / 192).toFixed(3)};--pdur:${n * 70}ms;--psteps:${n - 1};--pend:${(-(n - 1) / n * 100).toFixed(4)}%;--pdelay:-${since}ms"><div class="spr-frame"><img src="theatre/arena/${id}_pose.webp" alt="" draggable="false" /></div></div>`;
+  }
   if (a) return `<div class="chibi spr${posed}" style="--n:${a[0]};--dur:${a[0] * a[1]}ms;--ax:${(a[2] / 192).toFixed(3)}"><div class="spr-frame"><img src="theatre/arena/${id}.webp" alt="" draggable="false" /></div></div>`;
   const src = posed ? attackSrc(charId) : idleSrc(charId);
   return `<img class="chibi${posed}" src="${src}" alt="" draggable="false" />`;
@@ -355,8 +365,14 @@ function toast(msg) {
 //  SOUND FX — synthesized via WebAudio (no audio files needed)
 // ============================================================
 const SFX = (() => {
-  let ctx = null;
-  const ac = () => (ctx ||= new (window.AudioContext || window.webkitAudioContext)());
+  let ctx = null, master = null, musicGain = null;
+  const ac = () => {
+    if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain(); master.gain.value = SOUND.sfx; master.connect(ctx.destination);
+      musicGain = ctx.createGain(); musicGain.gain.value = SOUND.music; musicGain.connect(ctx.destination); }
+    return ctx;
+  };
+  const out = () => (ac(), master);
   function tone(freq, dur, type = "sine", gain = 0.18, slideTo = null) {
     try {
       const c = ac(), o = c.createOscillator(), g = c.createGain();
@@ -364,7 +380,7 @@ const SFX = (() => {
       if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, c.currentTime + dur);
       g.gain.setValueAtTime(gain, c.currentTime);
       g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
-      o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + dur);
+      o.connect(g).connect(out()); o.start(); o.stop(c.currentTime + dur);
     } catch (e) {}
   }
   function noise(dur, gain = 0.22, hp = 700) {
@@ -376,7 +392,7 @@ const SFX = (() => {
       const g = c.createGain(); g.gain.setValueAtTime(gain, c.currentTime);
       g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
       const f = c.createBiquadFilter(); f.type = "highpass"; f.frequency.value = hp;
-      n.connect(f).connect(g).connect(c.destination); n.start(); n.stop(c.currentTime + dur);
+      n.connect(f).connect(g).connect(out()); n.start(); n.stop(c.currentTime + dur);
     } catch (e) {}
   }
   const lib = {
@@ -402,7 +418,7 @@ const SFX = (() => {
   const buf = {}; let bus = null, loading = false;
   function load() {
     if (loading) return; loading = true;
-    const c = ac(); bus = c.createDynamicsCompressor(); bus.threshold.value = -12; bus.ratio.value = 4; bus.connect(c.destination);
+    const c = ac(); bus = c.createDynamicsCompressor(); bus.threshold.value = -12; bus.ratio.value = 4; bus.connect(out());
     for (const k of Object.keys(CLIPS)) fetch(`assets/sfx/${k}.mp3`).then((r) => r.arrayBuffer())
       .then((a) => new Promise((ok, no) => c.decodeAudioData(a, ok, no))).then((b) => { buf[k] = b; }).catch(() => {});
   }
@@ -412,8 +428,13 @@ const SFX = (() => {
     try {
       const c = ac(), src = c.createBufferSource(), g = c.createGain(); src.buffer = b; src.playbackRate.value = rate;
       g.gain.value = vol * Math.min(1, Math.pow(10, (-15 - CLIPS[name]) / 20)) * 0.85;
-      src.connect(g).connect(bus || c.destination); src.start(c.currentTime + delay); return true;
+      src.connect(g).connect(bus || out()); src.start(c.currentTime + delay); return true;
     } catch (e) { return false; }
+  }
+  let routed = false;
+  function routeMusic() {
+    if (routed || !ctx) return; routed = true;
+    for (const el of [lobbyBGM, battleBGM]) { try { ctx.createMediaElementSource(el).connect(musicGain); } catch (e) {} }
   }
   const PUNCH = ["punch1", "punch2", "punch3", "punch4"], HEAVY = ["heavy1", "heavy2", "heavy3"];
   const rec = {
@@ -432,7 +453,9 @@ const SFX = (() => {
   };
   return {
     play: (k) => { if (!(rec[k] && rec[k]())) (lib[k] || (() => {}))(); },
-    unlock: () => { try { const c = ac(); if (c.state === "suspended") c.resume(); load(); } catch (e) {} },
+    unlock: () => { try { const c = ac(); if (c.state === "suspended") c.resume(); load(); routeMusic(); } catch (e) {} },
+    // volumes from the settings panel: the element volume alone does nothing on iPads, so music also runs through a gain node
+    setVolumes(music, sfx) { if (!ctx) return; master.gain.value = sfx; musicGain.gain.value = music; },
   };
 })();
 document.addEventListener("pointerdown", () => SFX.unlock(), { capture: true });
@@ -448,6 +471,9 @@ const LAB = { jun: "J", kuro: "K", emi: "E", saya: "S", raiden: "R", nao: "N", t
 // stage idle loops (theatre/arena/<id>.webp): frames, ms per frame, where the fighter stands in the 192 px frame
 const ARENA = { J: [8, 120, 72], K: [10, 160, 80], E: [8, 150, 96], EA: [8, 150, 96], S: [8, 140, 96], R: [8, 140, 96],
   N: [8, 140, 96], T: [8, 140, 96], H: [8, 140, 96], M: [8, 140, 96], X: [8, 140, 96] };
+// the pose a fighter strikes when the camera lands on them (theatre/arena/<id>_pose.webp): frames, where they stand in the 192 px frame
+const POSE = { J: [14, 80], K: [13, 80], E: [11, 96], EA: [11, 96], S: [15, 96], R: [15, 96], N: [15, 96], T: [15, 96], H: [15, 96], M: [15, 96], X: [15, 96] };
+let focusPose = { uid: null, start: 0 };
 const angelUids = new Set();      // an Emi who used Aurora Covenant keeps her angel form for the rest of the battle
 let theatreOn = false, heldRoom = null, theatreDone = Promise.resolve();
 if (TH) {
@@ -457,6 +483,82 @@ if (TH) {
   document.addEventListener("pointerdown", () => TH.unlock(), { capture: true });
 }
 const labId = (c) => (c ? LAB[c.charId] : null);
+
+// ============================================================
+//  SETTINGS PANEL (top-right gear)
+// ============================================================
+const MUSIC_BASE = 0.55;
+function applySettings() {
+  const rule = tView?.settings?.studentSound || "on";          // the teacher's class-wide sound setting
+  SOUND.music = rule === "on" ? settings.music / 100 : 0;
+  SOUND.sfx = rule === "off" ? 0 : settings.sfx / 100;
+  SFX.setVolumes(SOUND.music, SOUND.sfx);
+  for (const el of [lobbyBGM, battleBGM]) { el.volume = Math.min(1, MUSIC_BASE * SOUND.music); el.muted = SOUND.music === 0; }
+  if (TH) { TH.setSfxVolume(SOUND.sfx); TH.setCalm(settings.calm); TH.setLite(settings.lite); }
+  document.body.classList.toggle("calm", !!settings.calm);
+  fpsMeter(!!settings.fps);
+  const note = $("setRule");
+  const mus = $("setPanel")?.querySelector('[data-vol="music"]'); if (mus) mus.disabled = rule !== "on";
+  const fx = $("setPanel")?.querySelector('[data-vol="sfx"]'); if (fx) fx.disabled = rule === "off";
+  if (note) { note.textContent = rule === "sfx" ? "Your teacher has turned music off for the class." : rule === "off" ? "Your teacher has turned sound off for the class." : ""; note.classList.toggle("hidden", rule === "on"); }
+  if (room?.battle) updateCamera();
+}
+// a small frame-rate readout, to check how smooth battles are on a class iPad
+let fpsRaf = 0;
+function fpsMeter(on) {
+  const el = $("fpsMeter"); if (!el) return;
+  el.classList.toggle("hidden", !on); cancelAnimationFrame(fpsRaf); if (!on) return;
+  let n = 0, t0 = performance.now(), worst = 0, last = t0;
+  const tick = (t) => { n++; worst = Math.max(worst, t - last); last = t;
+    if (t - t0 >= 1000) { const f = Math.round(n * 1000 / (t - t0)); el.textContent = `${f} fps · slowest ${Math.round(worst)} ms`; el.dataset.ok = f >= 50 ? "good" : f >= 30 ? "fair" : "poor"; n = 0; t0 = t; worst = 0; }
+    fpsRaf = requestAnimationFrame(tick); };
+  fpsRaf = requestAnimationFrame(tick);
+}
+function saveSettings() { try { localStorage.setItem(SET_KEY, JSON.stringify(settings)); } catch {} applySettings(); }
+function renderSettingsPanel() {
+  const p = $("setPanel"); if (!p) return;
+  const sw = (key, on, off) => `<div class="set-seg" role="group">${[[true, on], [false, off]].map(([v, l]) =>
+    `<button type="button" data-set="${key}" data-v="${v}" class="${settings[key] === v ? "on" : ""}" aria-pressed="${settings[key] === v}">${l}</button>`).join("")}</div>`;
+  const fs = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+  p.innerHTML = `
+    <h2 class="set-title">Settings</h2>
+    <p class="set-rule hidden" id="setRule"></p>
+    <label class="set-row"><span class="set-label">Music</span>
+      <input type="range" min="0" max="100" step="5" value="${settings.music}" data-vol="music" aria-label="Music volume" />
+      <output class="set-val">${settings.music}</output></label>
+    <label class="set-row"><span class="set-label">Sound effects</span>
+      <input type="range" min="0" max="100" step="5" value="${settings.sfx}" data-vol="sfx" aria-label="Sound effects volume" />
+      <output class="set-val">${settings.sfx}</output></label>
+    <div class="set-row"><span class="set-label">Battle camera</span>${sw("camera", "Zoom in", "Stay wide")}</div>
+    <div class="set-row"><span class="set-label">Cinematics</span>${sw("lite", "Light", "Full")}</div>
+    <p class="set-help">Light runs smoother on older iPads.</p>
+    <div class="set-row"><span class="set-label">Flashes and shaking</span>${sw("calm", "Calm", "Full")}</div>
+    <div class="set-row"><span class="set-label">Frame rate</span>${sw("fps", "Show", "Hide")}</div>
+    ${fs ? `<button type="button" class="set-full" data-full="1">${document.fullscreenElement || document.webkitFullscreenElement ? "Leave full screen" : "Full screen"}</button>` : ""}`;
+  p.querySelectorAll("[data-vol]").forEach((r) => r.addEventListener("input", () => {
+    settings[r.dataset.vol] = +r.value; r.nextElementSibling.textContent = r.value; saveSettings();
+  }));
+  p.querySelectorAll("[data-set]").forEach((b) => b.addEventListener("click", () => {
+    settings[b.dataset.set] = b.dataset.v === "true"; saveSettings(); renderSettingsPanel(); SFX.play("select");
+  }));
+  p.querySelector("[data-full]")?.addEventListener("click", () => {
+    const d = document, el = d.documentElement;
+    if (d.fullscreenElement || d.webkitFullscreenElement) (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+    else (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+    setTimeout(renderSettingsPanel, 300);
+  });
+  applySettings();
+}
+function toggleSettings(open) {
+  const p = $("setPanel"), b = $("setBtn"); if (!p) return;
+  const show = open ?? p.classList.contains("hidden");
+  if (show) renderSettingsPanel();
+  p.classList.toggle("hidden", !show); b.setAttribute("aria-expanded", show);
+}
+$("setBtn")?.addEventListener("click", (e) => { e.stopPropagation(); toggleSettings(); });
+document.addEventListener("pointerdown", (e) => { const p = $("setPanel"); if (p && !p.classList.contains("hidden") && !p.contains(e.target) && e.target !== $("setBtn")) toggleSettings(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggleSettings(false); });
+setTimeout(applySettings, 0);
 const spriteId = (charId, uid) => { const id = LAB[charId]; return id === "E" && uid && angelUids.has(uid) ? "EA" : id; };
 function prepTheatre(cids, stage = 0) { if (TH) TH.prepare(cids.filter(Boolean), stage).catch(() => {}); }
 
@@ -486,11 +588,11 @@ function playTheatre({ actor, action, name, events }) {
     heals: evs.filter((e) => e.heal != null).map((e) => e.heal),
   };
   clearAttackPose(actor);
-  theatreOn = true;
+  theatreOn = true; hideMoves(); updateCamera();
   $("arena").classList.add("theatre-on"); $("arena").classList.toggle("theatre-ult", kind === "ult");
   theatreDone = TH.play(opts).then(() => {
     if (actC.charId === "emi" && action === "ultimate") angelUids.add(actC.uid);
-    theatreOn = false;
+    theatreOn = false; applySettings();
     $("arena").classList.remove("theatre-on", "theatre-ult");
     showActionLog(actC, action, name, evs);
     const s = heldRoom; heldRoom = null;
@@ -606,6 +708,7 @@ socket.on("errorMsg", (m) => { $("homeMsg").textContent = m; $("roomMsg").textCo
 socket.on("toast", (m) => toast(m));
 
 let preppedKey = "";
+const preDecoded = [];   // keeps decoded pictures alive for the battle
 socket.on("room", (s) => onRoom(s));
 function onRoom(s) {
   // the same turn still resolving: hold the update until the cinematic ends; a new question means it must stop now
@@ -647,6 +750,11 @@ function ensureChibisThenRender(combatants) {
   if (key === preppedKey) return;
   preppedKey = key;
   prepTheatre(ids.map((id) => LAB[id]), room?.battle?.stage || 0);
+  // decode the stage poses and the skill cards now, so the first spotlight and the first skill sheet do not stall
+  const dec = (u) => { const im = new Image(); im.src = encodeURI(u); im.decode?.().catch(() => {}); return im; };
+  preDecoded.length = 0;
+  for (const id of new Set(ids.map((x) => LAB[x]).flatMap((x) => (x === "E" ? ["E", "EA"] : [x])))) preDecoded.push(dec(`theatre/arena/${id}_pose.webp`), dec(`theatre/arena/${id}.webp`));
+  if (mine) preDecoded.push(dec(ASSETS.skillSheet(mine.charId)));
   preloadArt(ids).then(() => { if (room?.status === "battle") renderBattle(); });
 }
 
@@ -804,7 +912,9 @@ function spawnEfx(uid, type, colorHex, dy = 0.45) {
   setTimeout(() => d.remove(), 900);
 }
 
+let actedKey = "";       // the turn whose move has already played, so the camera does not swing back onto that fighter
 socket.on("actionResult", (msg) => {
+  actedKey = `${msg.actor}|${room?.battle?.question?.startedAt}`;
   if (theatreOn) TH.skip();
   if (playTheatre(msg)) return;
   stageEffects(msg);
@@ -1471,6 +1581,53 @@ function renderDock(b, cur, myTurn, stealActorC) {
   setStage(mode); renderStrip(strip); showWait(wait);
   applyFlags();
   updateCoach();
+  updateCamera();
+}
+
+// ---- the camera: when someone is choosing a move, it zooms onto them with a Dutch tilt and the rest of the stage goes dark.
+// The move menu then bursts out of your own fighter. While you pick a target, it pulls back so every fighter is in view.
+function updateCamera() {
+  const b = room?.battle, a = $("arena"), cam = $("stagecam"); if (!cam) return;
+  let actor = b && !theatreOn && (b.phase === "steal-action" ? b.stealActor : b.phase === "action" ? b.current : null);
+  if (actor && `${actor}|${b.question?.startedAt}` === actedKey) actor = null;
+  if ((actor || null) !== focusPose.uid) {            // a new fighter in the spotlight: they strike a pose
+    const old = focusPose.uid; focusPose = { uid: actor || null, start: Date.now() };
+    [old, actor].forEach((uid) => refreshChibi(uid));
+  }
+  const tok = actor ? tokenEl(actor) : null;
+  document.querySelectorAll("#arena .tok.focus").forEach((t) => t !== tok && t.classList.remove("focus"));
+  if (!tok) { a.classList.remove("focus", "p5", "aim"); cam.style.transform = ""; return; }
+  const W = a.clientWidth, H = a.clientHeight, mid = (t) => [t.parentElement.offsetLeft, t.parentElement.offsetTop + t.offsetHeight * 0.52];
+  const ally = tok.dataset.side === "ally";
+  if (movePicking) {                                  // aiming: the camera swings over to the targets
+    const ts = [...document.querySelectorAll("#arena .tok.target-pick")].map(mid);
+    if (ts.length) {
+      const ax = ts.reduce((n, p) => n + p[0], 0) / ts.length, ay = ts.reduce((n, p) => n + p[1], 0) / ts.length;
+      const tx = W * (ax > W / 2 ? 0.6 : 0.4), ty = H * 0.6;
+      cam.style.transformOrigin = `${ax}px ${ay}px`;
+      cam.style.transform = `translate(${tx - ax}px, ${ty - ay}px) rotate(${ax > W / 2 ? 2.5 : -2.5}deg) scale(1.14)`;
+    }
+    a.classList.add("focus", "aim"); a.classList.toggle("p5", actor === myId); return;
+  }
+  a.classList.remove("aim");
+  const [cx, cy] = mid(tok);                          // the fighter's middle, before any zoom
+  const zoom = settings.camera !== false;
+  const tx = zoom ? W * (ally ? 0.3 : 0.7) : cx, ty = zoom ? H * 0.56 : cy, s = zoom ? 1.38 : 1, r = zoom ? (ally ? -4 : 4) : 0;  // where the camera puts them, how close, how tilted
+  const c = b.combatants.find((x) => x.uid === actor);
+  a.style.setProperty("--fcol", fxColor(c?.element)); $("focusName").textContent = upper(c?.charName.split(" ")[0] || "");
+  cam.style.transformOrigin = `${cx}px ${cy}px`;
+  cam.style.transform = `translate(${tx - cx}px, ${ty - cy}px) rotate(${r}deg) scale(${s})`;
+  a.style.setProperty("--fx", tx + "px"); a.style.setProperty("--fy", ty + "px");
+  a.style.setProperty("--cx", cx + "px"); a.style.setProperty("--cy", cy + "px");
+  tok.classList.add("focus");
+  a.classList.add("focus"); a.classList.toggle("focus-foe", !ally);
+  a.classList.toggle("p5", actor === myId && !$("commands").classList.contains("hidden"));
+}
+window.addEventListener("resize", () => updateCamera());
+function refreshChibi(uid) {
+  const tok = uid && tokenEl(uid), c = uid && room?.battle?.combatants.find((x) => x.uid === uid);
+  const old = tok && tok.querySelector(".chibi"); if (!old || !c) return;
+  old.outerHTML = chibiImg(c.charId, uid);
 }
 
 // ---- your move: one strip along the bottom ----
@@ -1611,8 +1768,10 @@ function buildMovePanel(me, b, halfPower = false) {
       <span class="ms-name">ITEMS</span><span class="ms-eff">${itemsLeft} left</span>
     </button>
     ${itemsPop}
+    ${picking ? `<button class="ms-back" data-move="back">BACK</button>` : ""}
   </div>`;
   tickMoveTimer();
+  if (fresh) setTimeout(() => cmds.querySelector(".ms.enter")?.classList.remove("enter"), 1150);   // shards landed: the rim and shadow can go on
 
   cmds.querySelectorAll("[data-move]").forEach((el) => el.addEventListener("click", () => {
     if (inputLocked) return;
@@ -1623,6 +1782,7 @@ function buildMovePanel(me, b, halfPower = false) {
     else if (m === "items") { SFX.play("select"); itemsOpen = !itemsOpen; buildMovePanel(me, b, halfPower); }
     else if (m === "skills") { SFX.play("select"); itemsOpen = false; openSkillSheet(me, b, halfPower); }
     else if (m === "ult") { SFX.play("select"); send({ type: "ultimate" }); }
+    else if (m === "back") { SFX.play("select"); moveSel = null; buildMovePanel(me, b, halfPower); }
   }));
 
   // targets light up on the stage: tap the fighter or the flag above them
@@ -1643,6 +1803,7 @@ function buildMovePanel(me, b, halfPower = false) {
   }
   applyFlags();
   updateCoach();
+  updateCamera();
 }
 
 // What each ultimate does, in a few words.
@@ -1730,19 +1891,22 @@ let timerInt = null;
 function startTimer(seconds) {
   stopTimer();
   const fill = $("mcqTimerFill");
-  fill.classList.remove("run"); fill.style.transition="none"; fill.style.width="100%";
-  void fill.offsetWidth;
-  fill.style.transition = `width ${seconds}s linear`; fill.style.width = "0%";
+  barRun(fill, 1, seconds);
   let left = seconds;
   timerRing(1, seconds); $("mcqTimer").textContent = fmt(left);
-  timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); $("mcqTimer").classList.toggle("low", left <= 5); if (left<=0) stopTimer(); }, 1000);
+  timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); timerRing(left / seconds, left); if (left<=0) stopTimer(); }, 1000);
 }
 function stopTimer() { clearInterval(timerInt); timerInt = null; }
-// the lantern ring round the timer burns down over the same seconds as the bar
-function timerRing(from, secs) {
-  const t = $("mcqTimer"); t.classList.toggle("low", secs <= 5);
-  t.style.transition = "none"; t.style.setProperty("--tp", from); void t.offsetWidth;
-  t.style.transition = `--tp ${secs}s linear`; t.style.setProperty("--tp", 0);
+// the lantern ring round the timer ticks down once a second, like a clock (a continuous animation repainted every frame)
+function timerRing(frac, secsLeft) {
+  const t = $("mcqTimer"); t.classList.toggle("low", secsLeft <= 5);
+  t.style.setProperty("--tp", Math.max(0, Math.min(1, frac)).toFixed(3));
+}
+// the bar shrinks with a transform, which the graphics chip runs without redrawing the page
+function barRun(fill, from, secs) {
+  fill.style.transition = "none"; fill.style.width = "100%"; fill.style.transformOrigin = "left center"; fill.style.transform = `scaleX(${from})`;
+  void fill.offsetWidth;
+  fill.style.transition = `transform ${secs}s linear`; fill.style.transform = "scaleX(0)";
 }
 // Start timer accounting for time already elapsed since the server set startedAt.
 // Rounds to whole seconds so the CSS bar and number counter stay perfectly in sync.
@@ -1753,12 +1917,10 @@ function startTimerFrom(totalSeconds, startedAt) {
   const fraction  = totalSeconds > 0 ? left / totalSeconds : 1;
   stopTimer();
   const fill = $("mcqTimerFill");
-  fill.style.transition = "none"; fill.style.width = (fraction * 100) + "%";
-  void fill.offsetWidth;
-  fill.style.transition = `width ${left}s linear`; fill.style.width = "0%";
+  barRun(fill, fraction, left);
   let count = left;
   timerRing(fraction, left); $("mcqTimer").textContent = fmt(count);
-  timerInt = setInterval(() => { count--; $("mcqTimer").textContent = fmt(Math.max(0,count)); $("mcqTimer").classList.toggle("low", count <= 5); if (count<=0) stopTimer(); }, 1000);
+  timerInt = setInterval(() => { count--; $("mcqTimer").textContent = fmt(Math.max(0,count)); timerRing(count / Math.max(1, totalSeconds), count); if (count<=0) stopTimer(); }, 1000);
 }
 function fmt(s) { return "0:" + String(s).padStart(2,"0"); }
 
@@ -1815,7 +1977,9 @@ socket.on("tJoined", ({ code, you, token, name }) => {
 });
 
 socket.on("tState", (v) => {
+  const ruleWas = tView?.settings?.studentSound;
   tView = v;
+  if (v?.settings?.studentSound !== ruleWas) applySettings();
   renderTourney();
   // a round started without us (late joiner, bye) or we are idle on another screen
   const idle = ["title", "tutorial", "home", "room"].some((s) => $(s).classList.contains("active"));

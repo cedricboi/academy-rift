@@ -50,6 +50,47 @@ rep("  const gx = w * .12, gy = h * .12; ctx.drawImage(im, i * F.w, 0, F.w, F.h,
     "  const gx = w * .12, gy = h * .12; if (!LITE) ctx.drawImage(im, i * F.w, 0, F.w, F.h, x - gx, y - gy, w + gx * 2, h + gy * 2); ctx.filter = 'none';")
 rep("  if (a < .02) return; tctx.clearRect(0, 0, 192, 192);", "  if (a < .02 || LITE) return; tctx.clearRect(0, 0, 192, 192);")
 rep("  if (fxState.chroma > 0) { const k", "  if (fxState.chroma > 0 && !LITE) { const k")
+# player settings: sound-effects volume through one master gain, calm effects, lite mode
+js = js.replace("A.destination", "MASTER")
+rep("function audio() { if (A || !soundOn) return A; try { A = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; }",
+    "function audio() { if (A || !soundOn) return A; try { A = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } MASTER = A.createGain(); MASTER.gain.value = SFX_VOL; MASTER.connect(A['desti' + 'nation']);")
+rep("const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;", "let reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, MASTER = null, SFX_VOL = 1;")
+rep("  fxState.flash = Math.max(0, fxState.flash - d / 240);", "  fxState.flash = Math.max(0, fxState.flash - d / 240); if (reduce) { fxState.flash = Math.min(fxState.flash, .1); fxState.shake = 0; fxState.chroma = 0; }")
+# stage grading: the stage layers are filtered once per stage, and the live colour grade (despair, inferno, element wash,
+# dawn, dim) is painted over a copy with blend fills. Filtering the whole stage again every frame made battles stutter.
+rep("function drawStageBack() {", """const gradeCv = {}; function gradeTo(name, base, opaque, extraDim = 1) {
+  const D = fxState.despair, I = fxState.inferno, Eg = fxState.eg, Dn = fxState.dawn, e = ELS[fxState.egk];
+  const fb = (1 - .6 * D) * (1 + .16 * I) * (Eg > .01 ? 1 + (e.bright - 1) * Eg : 1) * (1 + .22 * Dn) * extraDim;
+  const ds = Math.max(0, .85 * D + (fxState.egk === 'metal' ? .6 * Eg : 0)), warm = I * .42 + Dn * .22;
+  if (Math.abs(fb - 1) < .01 && ds < .01 && warm < .01) return base;
+  const c = gradeCv[name] || (gradeCv[name] = Object.assign(document.createElement('canvas'), { width: base.width, height: base.height, __raw: true })), g = c.getContext('2d');
+  g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.clearRect(0, 0, c.width, c.height); g.drawImage(base, 0, 0);
+  const fill = (op, col, a) => { if (a < .005) return; g.globalCompositeOperation = op; g.globalAlpha = Math.min(1, a); g.fillStyle = col; g.fillRect(0, 0, c.width, c.height); };
+  if (opaque) { fill('saturation', '#808080', ds); fill('color', I >= Dn ? '#ff7a2a' : '#ffd9a0', warm); }
+  else fill('source-atop', '#ff8a40', warm * .35);
+  if (fb < 1) fill('source-atop', '#000', 1 - fb); else fill('source-atop', '#fff', (fb - 1) * .55);
+  g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; return c; }
+function drawStageBack() {""")
+rep("  const far = stageLayer('far', `blur(${(1.3 + fxState.despair * 1.2).toFixed(1)}px) ` + grade(S.far));",
+    "  const far = gradeTo('far', stageLayer('far', `blur(1.3px) brightness(${S.far}) saturate(1.05)`), true);")
+rep("ctx.drawImage(stageLayer('floor', grade(S.floor)), -20, -12);", "ctx.drawImage(gradeTo('floor', stageLayer('floor', `brightness(${S.floor}) saturate(1.05)`), true), -20, -12);")
+rep("  const S = STAGES[stageI], fg = stageLayer('fg', 'blur(2.2px) ' + grade(S.floor * (.74 - fxState.dim * .4)));",
+    "  const S = STAGES[stageI], fg = gradeTo('fg', stageLayer('fg', `blur(2.2px) brightness(${(S.floor * .74).toFixed(3)}) saturate(1.05)`), false, (.74 - fxState.dim * .4) / .74);")
+# effects use colour copies and glows baked by bake_fx.py, so nothing is filtered while a move plays
+rep("""  const tf = f.tint ? f.tint + ' ' : '';
+  if ((SHAD.has(f.kind) && f.kind !== 'sheal') || NORMAL.has(f.kind) || f.tint) {""", """  const tk = f.tint && f.el ? f.kind + '|' + f.el : null, bt = tk && img.fxT && img.fxT[tk];
+  const src = bt ? bt[0] : im, glow = bt ? bt[1] : img.fxG && img.fxG[f.kind];
+  const tf = f.tint && !bt ? f.tint + ' ' : '';
+  if ((SHAD.has(f.kind) && f.kind !== 'sheal') || NORMAL.has(f.kind) || f.tint) {""")
+rep("ctx.globalAlpha = Math.max(0, al); if (tf) ctx.filter = f.tint; ctx.drawImage(im, i * F.w, 0, F.w, F.h, x, y, w, h);",
+    "ctx.globalAlpha = Math.max(0, al); if (tf) ctx.filter = f.tint; ctx.drawImage(src, i * F.w, 0, F.w, F.h, x, y, w, h);")
+rep("ctx.globalAlpha = Math.max(0, al) * .95 * ha; if (tf) ctx.filter = f.tint; ctx.drawImage(im, i * F.w, 0, F.w, F.h, x, y, w, h);",
+    "ctx.globalAlpha = Math.max(0, al) * .95 * ha; if (tf) ctx.filter = f.tint; ctx.drawImage(src, i * F.w, 0, F.w, F.h, x, y, w, h);")
+rep("  const gx = w * .12, gy = h * .12; if (!LITE) ctx.drawImage(im, i * F.w, 0, F.w, F.h, x - gx, y - gy, w + gx * 2, h + gy * 2); ctx.filter = 'none';",
+    """  const gx = w * .12, gy = h * .12;
+  if (!LITE) { if (glow) { const gw = glow.width / F.n; ctx.filter = 'none'; ctx.drawImage(glow, i * gw, 0, gw, glow.height, x - gx, y - gy, w + gx * 2, h + gy * 2); }
+    else ctx.drawImage(src, i * F.w, 0, F.w, F.h, x - gx, y - gy, w + gx * 2, h + gy * 2); }
+  ctx.filter = 'none';""")
 # drop the lab's controls and asset loader; the API takes their place
 js = js[:js.index('/* ---------- controls ---------- */')] + API
 open(OUT, 'w').write("// Academy Rift battle theatre: the Skill Lab engine, played for every strike, skill and ultimate.\n// Built from the Skill Lab by build_theatre.py; edit the lab and rebuild rather than editing this file.\n(function () {\n" + js + "\n})();\n")

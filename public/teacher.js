@@ -31,7 +31,7 @@ socket.on("tHostMoved", () => {
     "This tournament is now being run from another tab or device. Take control back on this screen?",
     "TAKE CONTROL", () => { const s = loadSession(); if (s) socket.emit("tResume", s); });
 });
-socket.on("tHost", (v) => { state = v; receivedAt = Date.now(); render(); });
+socket.on("tHost", (v) => { state = v; receivedAt = Date.now(); render(); if (!$("setPanel").classList.contains("hidden")) renderSoundPanel(); });
 socket.on("tError", (m) => toast(m));
 socket.on("disconnect", () => toast("Connection lost. Reconnecting…"));
 
@@ -475,3 +475,51 @@ function closeWatch() {
 $("watchClose").addEventListener("click", closeWatch);
 $("watchModal").addEventListener("click", (e) => { if (e.target.id === "watchModal") closeWatch(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeWatch(); });
+
+
+// ---------------------------------------------------------------- sound (top-right gear)
+// The projector plays the intro theme between battles. The class setting below decides the sound on every student's device.
+const T_SOUND_KEY = "riftTeacherSound";
+const tSound = Object.assign({ music: 50, playing: true }, (() => { try { return JSON.parse(localStorage.getItem(T_SOUND_KEY)) || {}; } catch { return {}; } })());
+const theme = new Audio("assets/Intro Theme.mp3"); theme.loop = true; theme.playsInline = true;
+let themeCtx = null, themeGain = null;
+function themeVolume() {
+  const v = tSound.playing ? tSound.music / 100 * 0.6 : 0;
+  if (themeGain) themeGain.gain.value = v; else theme.volume = Math.min(1, v);   // the gain node is what works on iPads
+}
+function startTheme() {
+  if (!themeCtx) { try { themeCtx = new (window.AudioContext || window.webkitAudioContext)(); themeGain = themeCtx.createGain(); themeGain.connect(themeCtx.destination); themeCtx.createMediaElementSource(theme).connect(themeGain); } catch { themeCtx = null; themeGain = null; } }
+  if (themeCtx?.state === "suspended") themeCtx.resume();
+  themeVolume();
+  if (tSound.playing && tSound.music > 0 && theme.paused) theme.play().catch(() => {});
+  if ((!tSound.playing || tSound.music === 0) && !theme.paused) theme.pause();
+}
+document.addEventListener("pointerdown", startTheme, { once: true, capture: true });
+function saveTSound() { try { localStorage.setItem(T_SOUND_KEY, JSON.stringify(tSound)); } catch {} startTheme(); }
+function renderSoundPanel() {
+  const p = $("setPanel"); const rule = state?.settings?.studentSound || "on";
+  const opts = [["on", "Students choose"], ["sfx", "Music off"], ["off", "All sound off"]];
+  p.innerHTML = `
+    <h2 class="set-title">Sound</h2>
+    <div class="set-row"><span class="set-label">Music on this screen</span><div class="set-seg" role="group">
+      <button type="button" data-play="true" class="${tSound.playing ? "on" : ""}">On</button><button type="button" data-play="false" class="${tSound.playing ? "" : "on"}">Off</button></div></div>
+    <label class="set-row"><span class="set-label">Volume</span>
+      <input type="range" min="0" max="100" step="5" value="${tSound.music}" data-vol="music" aria-label="Music volume on this screen" />
+      <output class="set-val">${tSound.music}</output></label>
+    <h2 class="set-title" style="margin-top:14px">Students' devices</h2>
+    ${state ? `<div class="set-seg" role="group" style="display:grid;grid-template-columns:repeat(3,1fr)">${opts.map(([v, l]) =>
+      `<button type="button" data-rule="${v}" class="${rule === v ? "on" : ""}">${l}</button>`).join("")}</div>
+    <p class="set-help" style="margin-top:8px">Changes every student's screen straight away, even in battles already running. Students can still turn their own sound down.</p>`
+      : `<p class="set-help">Start a tournament to control the sound on students' devices.</p>`}`;
+  p.querySelector("[data-vol]").addEventListener("input", (e) => { tSound.music = +e.target.value; e.target.nextElementSibling.textContent = e.target.value; saveTSound(); });
+  p.querySelectorAll("[data-play]").forEach((b) => b.addEventListener("click", () => { tSound.playing = b.dataset.play === "true"; saveTSound(); renderSoundPanel(); }));
+  p.querySelectorAll("[data-rule]").forEach((b) => b.addEventListener("click", () => socket.emit("tSetting", { key: "studentSound", value: b.dataset.rule })));
+}
+function toggleSoundPanel(open) {
+  const p = $("setPanel"), show = open ?? p.classList.contains("hidden");
+  if (show) renderSoundPanel();
+  p.classList.toggle("hidden", !show); $("setBtn").setAttribute("aria-expanded", show);
+}
+$("setBtn").addEventListener("click", (e) => { e.stopPropagation(); startTheme(); toggleSoundPanel(); });
+document.addEventListener("pointerdown", (e) => { const p = $("setPanel"); if (!p.classList.contains("hidden") && !p.contains(e.target) && !$("setBtn").contains(e.target)) toggleSoundPanel(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggleSoundPanel(false); });

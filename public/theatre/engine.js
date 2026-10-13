@@ -8,7 +8,8 @@ const cv = document.createElement('canvas'); cv.width = 640; cv.height = 360; cv
 /* ---------- canvas filters on iPad and Safari ----------
    Safari has no ctx.filter, and the effects lean on it (element tints, glows, stage grading).
    Where it is missing, a filtered drawImage draws a cached copy of the source that has been filtered once in JS. */
-const FILTER_OK = (() => { if (window.__theatreNoFilter) return false; try { const c = document.createElement('canvas'); c.width = c.height = 2; const g = c.getContext('2d'); g.filter = 'grayscale(1)'; g.fillStyle = '#ff0000'; g.fillRect(0, 0, 2, 2); return g.getImageData(0, 0, 1, 1).data[1] > 40; } catch (e) { return false; } })();
+const FILTER_OK = (() => { if (!window.__theatreNativeFilter) return false;   // the cached copies are faster than ctx.filter on every browser we measured
+  if (window.__theatreNoFilter) return false; try { const c = document.createElement('canvas'); c.width = c.height = 2; const g = c.getContext('2d'); g.filter = 'grayscale(1)'; g.fillStyle = '#ff0000'; g.fillRect(0, 0, 2, 2); return g.getImageData(0, 0, 1, 1).data[1] > 40; } catch (e) { return false; } })();
 if (!FILTER_OK) (function shim() {
   const P = CanvasRenderingContext2D.prototype, di = P.drawImage;
   Object.defineProperty(P, 'filter', { configurable: true, get() { return this.__f || 'none'; }, set(v) { this.__f = v; } });
@@ -35,16 +36,21 @@ if (!FILTER_OK) (function shim() {
   }
   function filtered(src, f) {
     const w = src.naturalWidth || src.width, h = src.naturalHeight || src.height; if (!w || !h) return null;
-    const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); di.call(g, src, 0, 0);
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d', { willReadFrequently: true }); di.call(g, src, 0, 0);
     const ops = [...f.matchAll(/([a-z-]+)\(\s*(-?\d*\.?\d+)\s*(px|deg)?\s*\)/g)].map(m => [m[1], +m[2]]);
-    let id = null, d = null;
-    const pixels = () => { if (!id) { id = g.getImageData(0, 0, w, h); d = id.data; } };
-    const flush = () => { if (id) { g.putImageData(id, 0, 0); id = null; d = null; } };
+    let run = [];
+    const flush = () => {                                    // every colour step in a row, done in one pass over the pixels
+      if (!run.length) return; const id = g.getImageData(0, 0, w, h), d = id.data, n = run.length, Ms = run; run = [];
+      for (let i = 0; i < d.length; i += 4) { if (!d[i + 3]) continue; let r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255;
+        for (let k = 0; k < n; k++) { const M = Ms[k];   // each step clamps, as CSS filters do
+          const r2 = M[0] * r + M[1] * gg + M[2] * b + M[3], g2 = M[4] * r + M[5] * gg + M[6] * b + M[7], b2 = M[8] * r + M[9] * gg + M[10] * b + M[11];
+          r = r2 < 0 ? 0 : r2 > 1 ? 1 : r2; gg = g2 < 0 ? 0 : g2 > 1 ? 1 : g2; b = b2 < 0 ? 0 : b2 > 1 ? 1 : b2; }
+        d[i] = r * 255; d[i + 1] = gg * 255; d[i + 2] = b * 255; }
+      g.putImageData(id, 0, 0);
+    };
     for (const [fn, v] of ops) {
       if (fn === 'blur') { flush(); blur(c, g, w, h, v); continue; }
-      const M = matrix(fn, v); if (!M) continue; pixels();
-      for (let i = 0; i < d.length; i += 4) { if (!d[i + 3]) continue; const r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255;   // each step clamps, as CSS filters do
-        d[i] = clamp(M[0] * r + M[1] * gg + M[2] * b + M[3]) * 255; d[i + 1] = clamp(M[4] * r + M[5] * gg + M[6] * b + M[7]) * 255; d[i + 2] = clamp(M[8] * r + M[9] * gg + M[10] * b + M[11]) * 255; }
+      const M = matrix(fn, v); if (M) run.push(M);
     }
     flush(); return c;
   }
@@ -98,7 +104,7 @@ const NEWC = {
 for (const [cid, n] of Object.entries(NEWC)) { const anch = {}; for (const k of ['idle', 'calm', 'sig', 'dash', 'hurt', 'ult', ...n.sk]) anch[k] = 96;
   CH[cid] = { name: n.name, el: n.el, anch, hurt: [0, 2, 3, 4, 3, 1], idle: [0, 1, 2, 3, 4, 5, 6, 7], idleMs: 140, dashF: [2, 3, 4, 5], afterTint: 'brightness(1.5) saturate(1.4)', armed: n.sk[0] }; }
 const isNew = a => !!NEWC[a.cid];
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, MASTER = null, SFX_VOL = 1;
 const rnd = (a, b) => a + Math.random() * (b - a);
 const range = (a, b) => { const r = []; if (a <= b) for (let i = a; i <= b; i++) r.push(i); else for (let i = a; i >= b; i--) r.push(i); return r; };
 const ease = { inout: p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2, out: p => 1 - Math.pow(1 - p, 3), in: p => p * p * p, lin: p => p };
@@ -192,22 +198,22 @@ function musicStep(dt) { if (!PLAY && duckLv === 1) return; if (duckT > 0) { duc
 
 /* ---------- sound ---------- */
 let A = null, noise = null;
-function audio() { if (A || !soundOn) return A; try { A = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } loadSfx();
+function audio() { if (A || !soundOn) return A; try { A = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } MASTER = A.createGain(); MASTER.gain.value = SFX_VOL; MASTER.connect(A['desti' + 'nation']); loadSfx();
   noise = A.createBuffer(1, A.sampleRate * 2, A.sampleRate); const d = noise.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; return A; }
 function env(g, t, a, peak, dur) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + dur); }
 function nz(type, f0, f1, dur, peak, delay = 0, q = 1, atk) { if (!A || !soundOn) return; const t = A.currentTime + delay;
   const s = A.createBufferSource(); s.buffer = noise; s.loop = true; const f = A.createBiquadFilter(); f.type = type; f.Q.value = q;
   f.frequency.setValueAtTime(f0, t); f.frequency.exponentialRampToValueAtTime(f1, t + dur); const g = A.createGain(); env(g, t, atk ?? Math.min(.03, dur / 4), peak, dur);
-  s.connect(f).connect(g).connect(A.destination); s.start(t); s.stop(t + dur + .05); }
+  s.connect(f).connect(g).connect(MASTER); s.start(t); s.stop(t + dur + .05); }
 function tone(type, f0, f1, dur, peak, delay = 0) { if (!A || !soundOn) return; const t = A.currentTime + delay; const o = A.createOscillator(); o.type = type;
-  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur); const g = A.createGain(); env(g, t, .005, peak, dur); o.connect(g).connect(A.destination); o.start(t); o.stop(t + dur + .05); }
+  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur); const g = A.createGain(); env(g, t, .005, peak, dur); o.connect(g).connect(MASTER); o.start(t); o.stop(t + dur + .05); }
 function crackle(dur, n) { for (let i = 0; i < n; i++) nz('highpass', 2500, 2000, .015 + Math.random() * .02, rnd(.06, .25), Math.random() * dur, .7); }
 // Sound effects: recorded clips from the Sonniss GDC 2026 Game Audio Bundle (royalty-free), trimmed and normalised.
 const SND = { src: {}, loud: {} };
 const BUF = {}; let sfxBus = null, sfxLoading = false;
 function loadSfx() { if (sfxLoading || !A) return; sfxLoading = true;
   sfxBus = A.createDynamicsCompressor(); sfxBus.threshold.value = -12; sfxBus.ratio.value = 4; sfxBus.attack.value = .003; sfxBus.release.value = .2;
-  const out = A.createGain(); out.gain.value = .9; sfxBus.connect(out).connect(A.destination);
+  const out = A.createGain(); out.gain.value = .9; sfxBus.connect(out).connect(MASTER);
   for (const [k, url] of Object.entries(SND.src)) fetch(BASE + url).then(r => r.arrayBuffer()).then(ab => A.decodeAudioData(ab, b => BUF[k] = b, () => {})).catch(() => {}); }
 // play a clip: a name or a list to pick from at random. vol is relative to a common loudness.
 function smp(name, o = {}) { if (!A || !soundOn) return; if (Array.isArray(name)) name = name[Math.random() * name.length | 0]; const b = BUF[name]; if (!b) return;
@@ -215,7 +221,7 @@ function smp(name, o = {}) { if (!A || !soundOn) return; if (Array.isArray(name)
   const norm = Math.min(1, Math.pow(10, (-15 - (SND.loud[name] ?? -15)) / 20)), v = (o.vol ?? 1) * norm; g.gain.setValueAtTime(v, t);
   const len = o.dur ? Math.min(o.dur, b.duration - (o.offset || 0)) : null;
   if (len) { g.gain.setValueAtTime(v, t + Math.max(0, len - .25) / (o.rate || 1)); g.gain.linearRampToValueAtTime(.0001, t + len / (o.rate || 1)); }
-  src.connect(g).connect(sfxBus || A.destination); src.start(t, o.offset || 0, len ? len + .02 : undefined); }
+  src.connect(g).connect(sfxBus || MASTER); src.start(t, o.offset || 0, len ? len + .02 : undefined); }
 const PUNCH = ['punch1', 'punch2', 'punch3', 'punch4'], CLINK = ['clink1', 'clink2', 'clink3'];
 const voice = (n, o) => smp(n, Object.assign({ vol: .8 }, o));
 const SFX = {
@@ -295,16 +301,21 @@ function drawFx(f) {
   if (w < 1 || h < 1) return;
   let x = Math.round(f.x + (f.follow ? enemy.kb : 0) - w / 2); const y = Math.round(f.anchor === 'center' ? f.y - h / 2 : f.y - h);
   ctx.imageSmoothingEnabled = true; ctx.save(); if (f.flip) { ctx.translate(2 * x + w, 0); ctx.scale(-1, 1); }
-  const tf = f.tint ? f.tint + ' ' : '';
+  const tk = f.tint && f.el ? f.kind + '|' + f.el : null, bt = tk && img.fxT && img.fxT[tk];
+  const src = bt ? bt[0] : im, glow = bt ? bt[1] : img.fxG && img.fxG[f.kind];
+  const tf = f.tint && !bt ? f.tint + ' ' : '';
   if ((SHAD.has(f.kind) && f.kind !== 'sheal') || NORMAL.has(f.kind) || f.tint) {   // shadow (and the sun, so its red detail survives): the darkness stays dark, the violet edges glow
-    ctx.globalAlpha = Math.max(0, al); if (tf) ctx.filter = f.tint; ctx.drawImage(im, i * F.w, 0, F.w, F.h, x, y, w, h);
+    ctx.globalAlpha = Math.max(0, al); if (tf) ctx.filter = f.tint; ctx.drawImage(src, i * F.w, 0, F.w, F.h, x, y, w, h);
     ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.max(0, al) * (f.tint ? .14 + (f.glow || 0) * .2 : .35 + (f.glow || 0) * .4); ctx.filter = tf + 'blur(9px)';
   } else {                  // fire: additive light
     const ha = HALPHA[f.kind] ?? 1, gk = HOLY.has(f.kind) ? .45 : 1;   // holy light is softer so the characters inside it stay visible
-    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.max(0, al) * .95 * ha; if (tf) ctx.filter = f.tint; ctx.drawImage(im, i * F.w, 0, F.w, F.h, x, y, w, h);
+    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.max(0, al) * .95 * ha; if (tf) ctx.filter = f.tint; ctx.drawImage(src, i * F.w, 0, F.w, F.h, x, y, w, h);
     ctx.globalAlpha = Math.max(0, al) * (.3 + (f.glow || 0) * .35) * ha * gk; ctx.filter = tf + 'blur(10px)';
   }
-  const gx = w * .12, gy = h * .12; if (!LITE) ctx.drawImage(im, i * F.w, 0, F.w, F.h, x - gx, y - gy, w + gx * 2, h + gy * 2); ctx.filter = 'none';
+  const gx = w * .12, gy = h * .12;
+  if (!LITE) { if (glow) { const gw = glow.width / F.n; ctx.filter = 'none'; ctx.drawImage(glow, i * gw, 0, gw, glow.height, x - gx, y - gy, w + gx * 2, h + gy * 2); }
+    else ctx.drawImage(src, i * F.w, 0, F.w, F.h, x - gx, y - gy, w + gx * 2, h + gy * 2); }
+  ctx.filter = 'none';
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.imageSmoothingEnabled = false; ctx.restore();
 }
 function groundFire(x, scale, life) {
@@ -1065,7 +1076,7 @@ function stepActor(a, d) { const s = a.seq; if (!s) return; s.t += d;
   a.f = s.frames[s.i]; }
 function step(dt) {
   const d = dt * speed;
-  fxState.flash = Math.max(0, fxState.flash - d / 240); fxState.chroma = Math.max(0, fxState.chroma - d); if (shards) shards.age += 0;
+  fxState.flash = Math.max(0, fxState.flash - d / 240); if (reduce) { fxState.flash = Math.min(fxState.flash, .1); fxState.shake = 0; fxState.chroma = 0; } fxState.chroma = Math.max(0, fxState.chroma - d); if (shards) shards.age += 0;
   if (fxState.hitstop > 0) { fxState.hitstop -= d; fxState.shake = Math.max(0, fxState.shake - d); return; }
   for (const tm of timers) tm.t -= d; const due = timers.filter(tm => tm.t <= 0); timers = timers.filter(tm => tm.t > 0); due.forEach(tm => tm.fn());
   for (const tw of tweens) { tw.age += d; const p = Math.min(1, tw.age / tw.dur); tw.obj[tw.key] = tw.from + (tw.to - tw.from) * tw.e(p); }
@@ -1138,15 +1149,27 @@ function grade(b) { const D = fxState.despair, I = fxState.inferno;
   const Dn = fxState.dawn; if (Dn > .01) f += ` brightness(${(1 + Dn * .22).toFixed(2)}) sepia(${(Dn * .3).toFixed(2)}) saturate(${(1 - Dn * .1).toFixed(2)})`; return f; }
 function stageLayer(k, filter) { const L = layers[k], key = stageI + filter; if (L.key !== key) { L.key = key; L.g.clearRect(0, 0, W + 40, H + 24); L.g.filter = filter; L.g.imageSmoothingEnabled = true; L.g.drawImage(img.stages[stageI], 0, 0, W + 40, H + 24); L.g.filter = 'none';
     if (k === 'fg') { const m = L.g.createLinearGradient(0, FGY + 12 - 16, 0, FGY + 12 + 14); m.addColorStop(0, 'rgba(0,0,0,0)'); m.addColorStop(1, 'rgba(0,0,0,1)'); L.g.globalCompositeOperation = 'destination-in'; L.g.fillStyle = m; L.g.fillRect(0, 0, W + 40, H + 24); L.g.globalCompositeOperation = 'source-over'; } } return L.c; }
+const gradeCv = {}; function gradeTo(name, base, opaque, extraDim = 1) {
+  const D = fxState.despair, I = fxState.inferno, Eg = fxState.eg, Dn = fxState.dawn, e = ELS[fxState.egk];
+  const fb = (1 - .6 * D) * (1 + .16 * I) * (Eg > .01 ? 1 + (e.bright - 1) * Eg : 1) * (1 + .22 * Dn) * extraDim;
+  const ds = Math.max(0, .85 * D + (fxState.egk === 'metal' ? .6 * Eg : 0)), warm = I * .42 + Dn * .22;
+  if (Math.abs(fb - 1) < .01 && ds < .01 && warm < .01) return base;
+  const c = gradeCv[name] || (gradeCv[name] = Object.assign(document.createElement('canvas'), { width: base.width, height: base.height, __raw: true })), g = c.getContext('2d');
+  g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.clearRect(0, 0, c.width, c.height); g.drawImage(base, 0, 0);
+  const fill = (op, col, a) => { if (a < .005) return; g.globalCompositeOperation = op; g.globalAlpha = Math.min(1, a); g.fillStyle = col; g.fillRect(0, 0, c.width, c.height); };
+  if (opaque) { fill('saturation', '#808080', ds); fill('color', I >= Dn ? '#ff7a2a' : '#ffd9a0', warm); }
+  else fill('source-atop', '#ff8a40', warm * .35);
+  if (fb < 1) fill('source-atop', '#000', 1 - fb); else fill('source-atop', '#fff', (fb - 1) * .55);
+  g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; return c; }
 function drawStageBack() {
   const S = STAGES[stageI], par = (cam.z - 1) * 60, I = fxState.inferno, t = performance.now();
-  const far = stageLayer('far', `blur(${(1.3 + fxState.despair * 1.2).toFixed(1)}px) ` + grade(S.far));
+  const far = gradeTo('far', stageLayer('far', `blur(1.3px) brightness(${S.far}) saturate(1.05)`), true);
   ctx.save(); ctx.beginPath(); ctx.rect(-60, -60, W + 120, S.hor + 60); ctx.clip();
   const wob = I > .04 ? I * 2.6 : (fxState.eg > .04 && (fxState.egk === 'water' || fxState.egk === 'mind')) ? fxState.eg * 3.2 : 0;
   if (wob && !reduce) { for (let y = 0; y < S.hor + 16; y += 3) { const off = Math.sin(y / (fxState.egk === 'water' && !I ? 13 : 8) + t / (fxState.egk === 'water' && !I ? 260 : 120)) * wob; ctx.drawImage(far, 0, y, W + 40, 3, -20 - par * .4 + off, y - 12, W + 40, 3); } }   // heat shimmer
   else ctx.drawImage(far, -20 - par * .4, -12);
   ctx.restore();
-  ctx.save(); ctx.beginPath(); ctx.rect(-60, S.hor, W + 120, H + 60); ctx.clip(); ctx.drawImage(stageLayer('floor', grade(S.floor)), -20, -12); ctx.restore();
+  ctx.save(); ctx.beginPath(); ctx.rect(-60, S.hor, W + 120, H + 60); ctx.clip(); ctx.drawImage(gradeTo('floor', stageLayer('floor', `brightness(${S.floor}) saturate(1.05)`), true), -20, -12); ctx.restore();
   const fade = ctx.createLinearGradient(0, S.hor - 10, 0, S.hor + 10); fade.addColorStop(0, 'rgba(0,0,0,0)'); fade.addColorStop(.5, 'rgba(10,6,14,.16)'); fade.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = fade; ctx.fillRect(-40, S.hor - 10, W + 80, 20);
   ctx.fillStyle = S.wash; ctx.fillRect(-40, -40, W + 80, H + 80);
   if (I > .01) { const g = ctx.createLinearGradient(0, -40, 0, H); g.addColorStop(0, `rgba(255,60,20,${I * .22})`); g.addColorStop(.6, `rgba(255,90,30,${I * .08})`); g.addColorStop(1, `rgba(255,120,40,${I * .12})`);
@@ -1170,7 +1193,7 @@ function drawStageBack() {
   if (fxState.dim > 0) { ctx.fillStyle = `rgba(6,2,8,${fxState.dim * .8})`; ctx.fillRect(-40, -40, W + 80, H + 80); }
 }
 function drawStageFront() {   // the blurred foreground strip in front of the fighters
-  const S = STAGES[stageI], fg = stageLayer('fg', 'blur(2.2px) ' + grade(S.floor * (.74 - fxState.dim * .4)));
+  const S = STAGES[stageI], fg = gradeTo('fg', stageLayer('fg', `blur(2.2px) brightness(${(S.floor * .74).toFixed(3)}) saturate(1.05)`), false, (.74 - fxState.dim * .4) / .74);
   ctx.drawImage(fg, -20, -12);
 }
 function changeStage(next, then) { if (stageBusy) return; stageBusy = true; setButtons(); tween(fxState, 'black', 1, 350);
@@ -1510,7 +1533,12 @@ function init(o = {}) {
     Object.assign(SND.src, m.sfx); Object.assign(SND.loud, m.loud); img.fx = {}; img.stages = []; });
   return initP;
 }
-function loadCore() { return coreP || (coreP = init().then(() => Promise.all(Object.entries(MAN.FX).map(([k, v]) => loadImg(v.src).then(i => { img.fx[k] = i; }))))); }
+function loadCore() { return coreP || (coreP = init().then(() => { img.fxG = {}; img.fxT = {}; if (MAN.GS) AS.GS = MAN.GS;
+  return Promise.all([...Object.entries(MAN.FX).map(([k, v]) => loadImg(v.src).then(i => { img.fx[k] = i; })),
+    ...Object.entries(MAN.FXG || {}).map(([k, u]) => loadImg(u).then(i => { if (i) img.fxG[k] = i; }))]); })); }
+const tintP = {};
+function loadTints(el) { return tintP[el] || (tintP[el] = loadCore().then(() => Promise.all(Object.entries(MAN.FXT || {}).filter(([k]) => k.endsWith('|' + el))
+  .map(([k, [a, b]]) => Promise.all([loadImg(a), loadImg(b)]).then(([x, y]) => { if (x && y) img.fxT[k] = [x, y]; }))))); }
 // stages are scaled once to the size they are drawn at, so grading them (in JS on iPads) touches as few pixels as possible
 function loadStage(i) { return stageP[i] || (stageP[i] = init().then(() => loadImg(STAGE_URLS[i % STAGE_URLS.length] || STAGE_URLS[0]).then(im => {
   if (!im) return; const c = document.createElement('canvas'); c.width = W + 40; c.height = H + 24; const g = c.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high'; g.drawImage(im, 0, 0, c.width, c.height); img.stages[i] = c; }))); }
@@ -1523,14 +1551,17 @@ function loadChar(cid) {
 // the element tints are filtered once up front on browsers without canvas filters, so the first cast does not stall
 function warm(cids) {
   if (FILTER_OK || !window.__theatreWarm) return;
-  const els = new Set(cids.map(c => CH[c] && CH[c].el).filter(Boolean)), jobs = [];
-  for (const el of els) for (const k of ['slash', 'wave', 'pillar', 'blast', 'storm', 'aura', 'wall', 'burst']) if (img.fx[k]) { jobs.push([img.fx[k], TINT[el]]); jobs.push([img.fx[k], TINT[el] + ' blur(9px)']); }
-  const next = () => { const j = jobs.shift(); if (!j) return; window.__theatreWarm(j[0], j[1]); setTimeout(next, 16); }; setTimeout(next, 50);
+  const jobs = [];
+  for (const c of cids) if (CH[c] && img[c] && img[c].dash) jobs.push([img[c].dash, CH[c].afterTint]);   // the afterimages of a dash
+  if (!(MAN && MAN.FXT)) for (const el of new Set(cids.map(c => CH[c] && CH[c].el).filter(Boolean))) for (const k of ['slash', 'wave', 'pillar', 'blast', 'storm', 'aura', 'wall', 'burst']) if (img.fx[k]) { jobs.push([img.fx[k], TINT[el]]); jobs.push([img.fx[k], TINT[el] + ' blur(9px)']); }
+  const idle = window.requestIdleCallback ? (fn) => requestIdleCallback(fn, { timeout: 4000 }) : (fn) => setTimeout(fn, 60);
+  const next = () => { if (PLAY) return idle(next); const j = jobs.shift(); if (!j) return; window.__theatreWarm(j[0], j[1]); idle(next); }; idle(next);
 }
 function prepare(cids, stage = 0) {
   const all = [...new Set(cids.filter(Boolean).flatMap(c => c === 'E' ? ['E', 'EA'] : [c]))];
   const fonts = document.fonts ? Promise.all(['italic 900 40px Cinzel', '700 22px Cinzel', '600 14px "Rift Body"'].map(f => document.fonts.load(f).catch(() => {}))) : null;
-  return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar)]).then(() => {
+  const els = [...new Set(all.map(c => CH[c] && CH[c].el).filter(Boolean))];
+  return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar), ...els.map(loadTints)]).then(() => {
     warm(all);
     if (!PLAY) { stageI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
   });
@@ -1568,6 +1599,9 @@ window.Theatre = {
   unlock() { audio(); },
   setSound(on) { soundOn = !!on; },
   setMusic(el) { MUSIC.el = el; },
+  setSfxVolume(v) { SFX_VOL = Math.max(0, Math.min(1, v)); if (MASTER) MASTER.gain.value = SFX_VOL; },
+  setCalm(on) { reduce = !!on || matchMedia('(prefers-reduced-motion: reduce)').matches; },
+  setLite(on) { LITE = !!on; },
   skillCount: cid => (SKILLS[cid] || []).length,
   skillNames: cid => (SKILLS[cid] || []).map(k => k.name),
   _sim(ms) { SIM = true; step(ms); },
