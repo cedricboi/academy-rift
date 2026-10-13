@@ -332,9 +332,9 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .cd-sheet{position:relative;height:74vh;width:min(46vw,calc(74vh * .78));overflow:hidden;display:flex;flex-direction:column;
   border:1px solid var(--ln-gold);border-radius:3px;padding:3.2vh 2.4vh 2.4vh;text-align:left;
   box-shadow:inset 0 0 0 4px rgba(5,6,16,.92),inset 0 0 0 5px var(--ln-gold-lo),0 20px 50px rgba(0,0,0,.6);}
-/* a frame painted by the image AI (assets/Card Sheet/frame.webp) sits over the window when it exists */
-.cd-sheet{background-image:url("assets/Card Sheet/frame.webp"),radial-gradient(120% 55% at 50% 0%,rgba(255,206,130,.12),transparent 62%),linear-gradient(180deg,var(--ln-win-a),var(--ln-win-b));
-  background-size:100% 100%,auto,auto;}
+/* a frame painted by the image AI (assets/Card Sheet/frame.webp, 1024 x 1536) is sliced round the edge when it exists;
+   its corners stay square-on and its sides stretch, so it fits the sheet at any size. Without the file the window frame shows. */
+.cd-sheet{border-image:url("assets/Card Sheet/frame.webp") 150 fill / 54px / 0 stretch;}
 .cs-scroll{flex:1;min-height:0;overflow-y:auto;padding:0 .6vh;scrollbar-width:thin;scrollbar-color:var(--ln-gold-lo) transparent;}
 .cs-crest{display:flex;justify-content:center;align-items:center;gap:12px;font-family:"Rift Display",serif;font-weight:900;letter-spacing:.12em;font-size:clamp(.9rem,1.9vh,1.15rem);color:var(--ln-text);}
 .cs-crest .cs-el{color:var(--ecol);text-shadow:0 0 12px var(--ecol);}
