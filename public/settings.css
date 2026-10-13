@@ -1,0 +1,30 @@
+/* ===== Settings panel: the gear in the top-right corner of the game and the teacher's screen ===== */
+:root{--st-gold:#e2b865;--st-gold-hi:#ffe3a6;--st-gold-lo:rgba(226,184,101,.32);--st-text:#f3e9d2;--st-mute:#b4aa92;--st-a:rgba(22,26,52,.97);--st-b:rgba(9,10,24,.97);}
+@keyframes stFade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.set-btn{position:fixed;top:8px;right:8px;z-index:200;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  border-radius:50%;border:1px solid var(--st-gold);background:rgba(9,10,24,.88);box-shadow:0 0 0 3px rgba(9,10,24,.8),0 0 0 4px var(--st-gold-lo),0 6px 16px rgba(0,0,0,.5);}
+.set-btn svg{width:22px;height:22px;fill:var(--st-gold-hi);transition:transform .3s ease;}
+.set-btn:hover svg,.set-btn[aria-expanded="true"] svg{transform:rotate(60deg);}
+.set-btn:focus-visible{outline:2px solid var(--st-gold-hi);outline-offset:3px;}
+.set-panel{position:fixed;top:58px;right:8px;z-index:200;width:min(330px,calc(100vw - 16px));max-height:calc(100dvh - 70px);overflow-y:auto;
+  padding:16px 18px 18px;border:1px solid var(--st-gold);border-radius:3px;color:var(--st-text);
+  background:radial-gradient(120% 55% at 50% 0%,rgba(255,206,130,.12),transparent 62%),linear-gradient(180deg,var(--st-a),var(--st-b));
+  box-shadow:inset 0 0 0 3px rgba(5,6,16,.92),inset 0 0 0 4px var(--st-gold-lo),0 18px 44px rgba(0,0,0,.6);animation:stFade .18s ease;}
+.set-title{font-family:"Rift Display",Georgia,serif;font-weight:900;letter-spacing:.08em;font-size:1.25rem;margin:0 0 10px;color:var(--st-gold-hi);}
+.set-rule{margin:0 0 10px;padding:8px 10px;font-size:.88rem;line-height:1.35;color:var(--st-gold-hi);background:rgba(226,184,101,.1);border-left:2px solid var(--st-gold);}
+.set-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 10px;margin:10px 0;}
+label.set-row{grid-template-columns:auto 1fr auto;}
+.set-label{font-weight:600;font-size:.95rem;}
+.set-val{font-family:"Rift Display",Georgia,serif;font-weight:700;min-width:2.2em;text-align:right;color:var(--st-gold-hi);}
+.set-row input[type=range]{width:100%;min-width:110px;accent-color:#e2b865;height:28px;background:none;border:none;box-shadow:none;transform:none;padding:0;}
+.set-seg{display:flex;border:1px solid var(--st-gold-lo);border-radius:3px;overflow:hidden;}
+.set-seg button{min-height:36px;padding:0 12px;border:none;background:rgba(5,6,16,.6);color:var(--st-mute);font-family:"Rift Body";font-weight:600;font-size:.88rem;cursor:pointer;}
+.set-seg button + button{border-left:1px solid var(--st-gold-lo);}
+.set-seg button.on{background:linear-gradient(180deg,#ffe3a6,#c48f3e);color:#22170a;}
+.set-help{margin:-6px 0 4px;font-size:.78rem;color:var(--st-mute);}
+.set-full{width:100%;margin-top:8px;min-height:40px;border:1px solid var(--st-gold-lo);border-radius:3px;background:rgba(5,6,16,.6);color:var(--st-text);font-family:"Rift Body";font-weight:600;cursor:pointer;}
+.set-full:hover,.set-seg button:hover:not(.on){color:var(--st-gold-hi);}
+.fps-meter{position:fixed;left:50%;bottom:6px;transform:translateX(-50%);z-index:199;padding:3px 10px;border-radius:3px;font:600 12px/1.3 "Rift Body",system-ui;
+  background:rgba(5,6,16,.85);color:#9ff5c2;pointer-events:none;font-variant-numeric:tabular-nums;}
+.fps-meter[data-ok="fair"]{color:var(--st-gold-hi);} .fps-meter[data-ok="poor"]{color:#ff8a7a;}
+.set-row input[type=range]:disabled{opacity:.35;}

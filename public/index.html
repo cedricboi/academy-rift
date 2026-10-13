@@ -6,9 +6,16 @@
   <title>Academy Rift</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="lantern.css" />
+  <link rel="stylesheet" href="settings.css" />
 </head>
 <body>
 <div id="game">
+  <!-- settings: the gear in the top-right corner of every screen -->
+  <button class="set-btn" id="setBtn" type="button" aria-label="Settings" aria-expanded="false" aria-controls="setPanel">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 0 0-1.7-1L15 3.5h-4l-.4 2.5a7.4 7.4 0 0 0-1.7 1l-2.4-1-2 3.4L6.6 11a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7.4 7.4 0 0 0 1.7-1l2.4 1 2-3.4zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+  </button>
+  <div class="set-panel hidden" id="setPanel" role="dialog" aria-label="Settings"></div>
+  <div class="fps-meter hidden" id="fpsMeter" aria-hidden="true"></div>
 
   <!-- 1. TITLE — full-art landing page; the "ENTER THE RIFT" button is baked into
        the artwork, so we overlay a transparent hot-zone aligned to it. -->

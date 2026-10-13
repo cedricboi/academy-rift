@@ -5,7 +5,8 @@ const cv = document.createElement('canvas'); cv.width = 640; cv.height = 360; cv
 /* ---------- canvas filters on iPad and Safari ----------
    Safari has no ctx.filter, and the effects lean on it (element tints, glows, stage grading).
    Where it is missing, a filtered drawImage draws a cached copy of the source that has been filtered once in JS. */
-const FILTER_OK = (() => { if (window.__theatreNoFilter) return false; try { const c = document.createElement('canvas'); c.width = c.height = 2; const g = c.getContext('2d'); g.filter = 'grayscale(1)'; g.fillStyle = '#ff0000'; g.fillRect(0, 0, 2, 2); return g.getImageData(0, 0, 1, 1).data[1] > 40; } catch (e) { return false; } })();
+const FILTER_OK = (() => { if (!window.__theatreNativeFilter) return false;   // the cached copies are faster than ctx.filter on every browser we measured
+  if (window.__theatreNoFilter) return false; try { const c = document.createElement('canvas'); c.width = c.height = 2; const g = c.getContext('2d'); g.filter = 'grayscale(1)'; g.fillStyle = '#ff0000'; g.fillRect(0, 0, 2, 2); return g.getImageData(0, 0, 1, 1).data[1] > 40; } catch (e) { return false; } })();
 if (!FILTER_OK) (function shim() {
   const P = CanvasRenderingContext2D.prototype, di = P.drawImage;
   Object.defineProperty(P, 'filter', { configurable: true, get() { return this.__f || 'none'; }, set(v) { this.__f = v; } });
@@ -32,16 +33,21 @@ if (!FILTER_OK) (function shim() {
   }
   function filtered(src, f) {
     const w = src.naturalWidth || src.width, h = src.naturalHeight || src.height; if (!w || !h) return null;
-    const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); di.call(g, src, 0, 0);
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d', { willReadFrequently: true }); di.call(g, src, 0, 0);
     const ops = [...f.matchAll(/([a-z-]+)\(\s*(-?\d*\.?\d+)\s*(px|deg)?\s*\)/g)].map(m => [m[1], +m[2]]);
-    let id = null, d = null;
-    const pixels = () => { if (!id) { id = g.getImageData(0, 0, w, h); d = id.data; } };
-    const flush = () => { if (id) { g.putImageData(id, 0, 0); id = null; d = null; } };
+    let run = [];
+    const flush = () => {                                    // every colour step in a row, done in one pass over the pixels
+      if (!run.length) return; const id = g.getImageData(0, 0, w, h), d = id.data, n = run.length, Ms = run; run = [];
+      for (let i = 0; i < d.length; i += 4) { if (!d[i + 3]) continue; let r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255;
+        for (let k = 0; k < n; k++) { const M = Ms[k];   // each step clamps, as CSS filters do
+          const r2 = M[0] * r + M[1] * gg + M[2] * b + M[3], g2 = M[4] * r + M[5] * gg + M[6] * b + M[7], b2 = M[8] * r + M[9] * gg + M[10] * b + M[11];
+          r = r2 < 0 ? 0 : r2 > 1 ? 1 : r2; gg = g2 < 0 ? 0 : g2 > 1 ? 1 : g2; b = b2 < 0 ? 0 : b2 > 1 ? 1 : b2; }
+        d[i] = r * 255; d[i + 1] = gg * 255; d[i + 2] = b * 255; }
+      g.putImageData(id, 0, 0);
+    };
     for (const [fn, v] of ops) {
       if (fn === 'blur') { flush(); blur(c, g, w, h, v); continue; }
-      const M = matrix(fn, v); if (!M) continue; pixels();
-      for (let i = 0; i < d.length; i += 4) { if (!d[i + 3]) continue; const r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255;   // each step clamps, as CSS filters do
-        d[i] = clamp(M[0] * r + M[1] * gg + M[2] * b + M[3]) * 255; d[i + 1] = clamp(M[4] * r + M[5] * gg + M[6] * b + M[7]) * 255; d[i + 2] = clamp(M[8] * r + M[9] * gg + M[10] * b + M[11]) * 255; }
+      const M = matrix(fn, v); if (M) run.push(M);
     }
     flush(); return c;
   }

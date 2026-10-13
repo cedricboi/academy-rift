@@ -92,7 +92,12 @@ function init(o = {}) {
     Object.assign(SND.src, m.sfx); Object.assign(SND.loud, m.loud); img.fx = {}; img.stages = []; });
   return initP;
 }
-function loadCore() { return coreP || (coreP = init().then(() => Promise.all(Object.entries(MAN.FX).map(([k, v]) => loadImg(v.src).then(i => { img.fx[k] = i; }))))); }
+function loadCore() { return coreP || (coreP = init().then(() => { img.fxG = {}; img.fxT = {}; if (MAN.GS) AS.GS = MAN.GS;
+  return Promise.all([...Object.entries(MAN.FX).map(([k, v]) => loadImg(v.src).then(i => { img.fx[k] = i; })),
+    ...Object.entries(MAN.FXG || {}).map(([k, u]) => loadImg(u).then(i => { if (i) img.fxG[k] = i; }))]); })); }
+const tintP = {};
+function loadTints(el) { return tintP[el] || (tintP[el] = loadCore().then(() => Promise.all(Object.entries(MAN.FXT || {}).filter(([k]) => k.endsWith('|' + el))
+  .map(([k, [a, b]]) => Promise.all([loadImg(a), loadImg(b)]).then(([x, y]) => { if (x && y) img.fxT[k] = [x, y]; }))))); }
 // stages are scaled once to the size they are drawn at, so grading them (in JS on iPads) touches as few pixels as possible
 function loadStage(i) { return stageP[i] || (stageP[i] = init().then(() => loadImg(STAGE_URLS[i % STAGE_URLS.length] || STAGE_URLS[0]).then(im => {
   if (!im) return; const c = document.createElement('canvas'); c.width = W + 40; c.height = H + 24; const g = c.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high'; g.drawImage(im, 0, 0, c.width, c.height); img.stages[i] = c; }))); }
@@ -105,14 +110,17 @@ function loadChar(cid) {
 // the element tints are filtered once up front on browsers without canvas filters, so the first cast does not stall
 function warm(cids) {
   if (FILTER_OK || !window.__theatreWarm) return;
-  const els = new Set(cids.map(c => CH[c] && CH[c].el).filter(Boolean)), jobs = [];
-  for (const el of els) for (const k of ['slash', 'wave', 'pillar', 'blast', 'storm', 'aura', 'wall', 'burst']) if (img.fx[k]) { jobs.push([img.fx[k], TINT[el]]); jobs.push([img.fx[k], TINT[el] + ' blur(9px)']); }
-  const next = () => { const j = jobs.shift(); if (!j) return; window.__theatreWarm(j[0], j[1]); setTimeout(next, 16); }; setTimeout(next, 50);
+  const jobs = [];
+  for (const c of cids) if (CH[c] && img[c] && img[c].dash) jobs.push([img[c].dash, CH[c].afterTint]);   // the afterimages of a dash
+  if (!(MAN && MAN.FXT)) for (const el of new Set(cids.map(c => CH[c] && CH[c].el).filter(Boolean))) for (const k of ['slash', 'wave', 'pillar', 'blast', 'storm', 'aura', 'wall', 'burst']) if (img.fx[k]) { jobs.push([img.fx[k], TINT[el]]); jobs.push([img.fx[k], TINT[el] + ' blur(9px)']); }
+  const idle = window.requestIdleCallback ? (fn) => requestIdleCallback(fn, { timeout: 4000 }) : (fn) => setTimeout(fn, 60);
+  const next = () => { if (PLAY) return idle(next); const j = jobs.shift(); if (!j) return; window.__theatreWarm(j[0], j[1]); idle(next); }; idle(next);
 }
 function prepare(cids, stage = 0) {
   const all = [...new Set(cids.filter(Boolean).flatMap(c => c === 'E' ? ['E', 'EA'] : [c]))];
   const fonts = document.fonts ? Promise.all(['italic 900 40px Cinzel', '700 22px Cinzel', '600 14px "Rift Body"'].map(f => document.fonts.load(f).catch(() => {}))) : null;
-  return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar)]).then(() => {
+  const els = [...new Set(all.map(c => CH[c] && CH[c].el).filter(Boolean))];
+  return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar), ...els.map(loadTints)]).then(() => {
     warm(all);
     if (!PLAY) { stageI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
   });
@@ -150,6 +158,9 @@ window.Theatre = {
   unlock() { audio(); },
   setSound(on) { soundOn = !!on; },
   setMusic(el) { MUSIC.el = el; },
+  setSfxVolume(v) { SFX_VOL = Math.max(0, Math.min(1, v)); if (MASTER) MASTER.gain.value = SFX_VOL; },
+  setCalm(on) { reduce = !!on || matchMedia('(prefers-reduced-motion: reduce)').matches; },
+  setLite(on) { LITE = !!on; },
   skillCount: cid => (SKILLS[cid] || []).length,
   skillNames: cid => (SKILLS[cid] || []).map(k => k.name),
   _sim(ms) { SIM = true; step(ms); },

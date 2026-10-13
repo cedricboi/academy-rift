@@ -136,6 +136,15 @@ export const SETTINGS = [
     ],
     help: "The projector always shows the full leaderboard.",
   },
+  {
+    key: "studentSound", group: "screens", label: "Sound on students' devices", default: "on",
+    options: [
+      { value: "on", label: "Students choose in their own settings" },
+      { value: "sfx", label: "Music off, sound effects on" },
+      { value: "off", label: "All sound off" },
+    ],
+    help: "Takes effect straight away, even in battles that are already running. Students can still turn their own sound down.",
+  },
 ];
 
 export const SETTING_BY_KEY = Object.fromEntries(SETTINGS.map((s) => [s.key, s]));

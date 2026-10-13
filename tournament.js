@@ -247,7 +247,7 @@ export function setupTournaments(deps) {
       code: T.code, status: T.status, round: T.round,
       settings: {
         pairing: T.settings.pairing, fighters: T.settings.fighters, rounds: T.settings.rounds, showStandings: T.settings.showStandings,
-        autoStart: T.settings.autoStart, breakSeconds: T.settings.breakSeconds,
+        autoStart: T.settings.autoStart, breakSeconds: T.settings.breakSeconds, studentSound: T.settings.studentSound,
       },
       startsIn: startsIn(T), hold: T.hold,
       readyCount: online.filter((o) => o.ready).length, onlineCount: online.length,
