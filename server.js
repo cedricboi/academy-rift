@@ -65,7 +65,7 @@ const SPEED = Math.max(1, Number(process.env.RIFT_SPEED) || 1);
 const later = (fn, ms = 0) => setTimeout(fn, ms / SPEED);
 
 // ---- tuning ----
-const QUESTION_SECONDS = 18;
+const QUESTION_SECONDS = 21;        // time to answer (was 18; 3 more seconds to read and think)
 const ACTION_SECONDS = 12;          // time to pick a move after a correct answer (was 20)
 const REVEAL_MS = 1000;             // correct answer stays highlighted before the move panel (was 3000)
 const NEXT_TURN_MS = 1300;          // pause after a move before the next turn (was 1700)

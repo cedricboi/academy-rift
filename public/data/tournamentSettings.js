@@ -87,8 +87,8 @@ export const SETTINGS = [
     help: "When time runs out, the team with more HP left wins. If HP is level, the team with more correct answers wins.",
   },
   {
-    key: "questionSeconds", group: "battle", label: "Time to answer a question", default: 18,
-    options: [10, 12, 15, 18, 20, 25, 30].map((n) => ({ value: n, label: `${n} seconds` })),
+    key: "questionSeconds", group: "battle", label: "Time to answer a question", default: 21,
+    options: [10, 12, 15, 18, 21, 25, 30].map((n) => ({ value: n, label: `${n} seconds` })),
     help: "How long the player whose turn it is has to answer.",
   },
   {
