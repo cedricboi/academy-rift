@@ -440,3 +440,68 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .arena.p5 .ms-move .ms-eff,.arena.p5 .ms-move .ms-name{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
 .arena.p5 .ms-move.ult .ms-name{font-size:max(15px,calc(24 * var(--u)));}
 .arena{overflow:hidden;overflow:clip;}   /* zoomed stage never scrolls the screen */
+
+/* ===================== Battle camera II =====================
+   The spotlight gets a Persona-style splash behind the fighter, their name written huge across it, a pose as the
+   camera lands, and a menu with a white outline and a hard black shadow. While you aim, the camera swings to the
+   targets and the menu folds down to the chosen move and a back button. */
+/* the pose: played once from the start of the spotlight, then held on the last frame */
+.chibi.posing .spr-frame img{animation:sprPose var(--pdur,1s) steps(var(--psteps,14),end) var(--pdelay,0s) 1 forwards;}
+@keyframes sprPose{from{transform:translateX(0);}to{transform:translateX(var(--pend,-93%));}}
+
+/* splash: a jagged star of the fighter's element, halftone-dotted, with a white rim */
+.stage-splash{position:absolute;z-index:3;left:var(--cx,50%);top:var(--cy,60%);width:calc(470 * var(--u));height:calc(470 * var(--u));
+  margin:calc(-250 * var(--u)) 0 0 calc(-235 * var(--u));pointer-events:none;opacity:0;transform:scale(.15) rotate(-60deg);
+  transition:opacity .18s ease,transform .55s cubic-bezier(.2,1.45,.35,1);filter:drop-shadow(0 0 0 #fff) drop-shadow(calc(4 * var(--u)) 0 0 #fff) drop-shadow(calc(-4 * var(--u)) 0 0 #fff) drop-shadow(0 calc(4 * var(--u)) 0 #fff) drop-shadow(0 calc(-4 * var(--u)) 0 #fff) drop-shadow(calc(12 * var(--u)) calc(12 * var(--u)) 0 rgba(0,0,0,.9));}
+.stage-splash i{position:absolute;inset:0;clip-path:polygon(50.0% 8.7%,55.9% 24.1%,70.5% 7.5%,66.5% 29.3%,81.4% 25.0%,73.9% 38.5%,93.4% 40.1%,82.6% 50.0%,90.1% 59.2%,80.3% 64.6%,87.1% 79.6%,71.1% 76.4%,69.2% 89.9%,56.3% 77.6%,50.0% 89.5%,42.8% 81.7%,30.4% 90.6%,30.6% 74.3%,13.9% 78.8%,26.1% 61.5%,9.6% 59.2%,20.6% 50.0%,5.3% 39.8%,23.3% 37.1%,14.2% 21.4%,30.3% 25.3%,30.3% 9.0%,43.3% 20.6%);
+  background:radial-gradient(circle,rgba(0,0,0,.42) 1.3px,transparent 1.7px) 0 0/9px 9px,
+    radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--fcol,#e2b865) 70%,#fff) 0,var(--fcol,#e2b865) 38%,color-mix(in srgb,var(--fcol,#e2b865) 35%,#07081a) 80%);}
+.arena.focus:not(.aim) .stage-splash{opacity:1;transform:scale(1) rotate(-9deg);}
+/* the name, huge and outlined, across the back of the spotlight */
+.focus-name{position:absolute;z-index:3;left:var(--cx,50%);top:var(--cy,60%);transform:translate(-62%,-118%) rotate(-11deg) scale(.6);opacity:0;pointer-events:none;
+  font-family:"Rift Display",serif;font-weight:900;font-style:italic;font-size:calc(150 * var(--u));line-height:1;letter-spacing:.02em;white-space:nowrap;
+  color:rgba(255,255,255,.08);-webkit-text-stroke:calc(2 * var(--u)) rgba(255,255,255,.55);transition:opacity .25s ease .12s,transform .5s cubic-bezier(.2,1.3,.4,1) .12s;}
+.arena.focus:not(.aim) .focus-name{opacity:1;transform:translate(-62%,-118%) rotate(-11deg) scale(1);}
+.arena.aim .stage-shade,.arena.aim .focus-lines{opacity:0;}
+.arena.aim .tok:not(.target-pick):not(.focus){filter:brightness(.4) saturate(.6);}
+.arena.aim .tok.target-pick{filter:none;}
+
+/* ---- the menu: white rim and hard shadow round every shard, italic display type ---- */
+.arena.p5 .ms{filter:drop-shadow(calc(3 * var(--u)) 0 0 #fff) drop-shadow(calc(-3 * var(--u)) 0 0 #fff) drop-shadow(0 calc(3 * var(--u)) 0 #fff) drop-shadow(0 calc(-3 * var(--u)) 0 #fff) drop-shadow(calc(9 * var(--u)) calc(9 * var(--u)) 0 rgba(0,0,0,.92));
+  animation:p5float 2.6s ease-in-out .6s infinite alternate;}
+@keyframes p5float{to{translate:0 calc(-6 * var(--u));}}
+.arena.p5 .ms.enter > *{animation-name:p5pop;animation-duration:.42s;}
+.arena.p5 .ms.enter > :nth-child(1){animation-delay:.38s;}
+.arena.p5 .ms.enter > :nth-child(2){animation-delay:.44s;}
+.arena.p5 .ms.enter > :nth-child(3){animation-delay:.5s;}
+.arena.p5 .ms.enter > :nth-child(4){animation-delay:.56s;}
+.arena.p5 .ms.enter > :nth-child(5){animation-delay:.62s;}
+.arena.p5 .ms-move .ms-name{font-style:italic;}
+.arena.p5 .ms-move .ms-name.big{font-size:max(24px,calc(46 * var(--u)));letter-spacing:.03em;line-height:1;}
+.arena.p5 .ms-state{background:#000;padding-right:calc(28 * var(--u));}
+.arena.p5 .ms-timer{font-style:italic;color:#fff;font-size:max(22px,calc(40 * var(--u)));}
+.arena.p5 .ms-ok{color:var(--ln-gold-hi);}
+/* hover and chosen: the shard flips to white, the words to ink */
+.arena.p5 .ms-move:hover:not(:disabled),.arena.p5 .ms-move.sel{background:#fff;color:#0b0c1c;filter:none;outline:none;box-shadow:none;}
+.arena.p5 .ms-move:hover:not(:disabled) .ms-eff,.arena.p5 .ms-move.sel .ms-eff,.arena.p5 .ms-move:hover:not(:disabled) .ms-k,.arena.p5 .ms-move.sel .ms-k{color:#b31b2c;}
+.arena.p5 .ms-move:hover:not(:disabled){animation:p5jit .16s steps(2) 2;}
+@keyframes p5jit{50%{translate:calc(3 * var(--u)) calc(-2 * var(--u));}}
+.arena.p5 .ms-move.ult.ready:hover:not(:disabled){background:#fff;}
+
+/* ---- aiming: only the chosen move, the hint and a back button stay ---- */
+.arena.p5.aim .ms{left:3.5%;top:auto;bottom:7%;width:calc(560 * var(--u));height:calc(200 * var(--u));animation:none;}
+.arena.p5.aim .ms-move:not(.sel),.arena.p5.aim .ms-items{display:none;}
+.arena.p5.aim .ms-move.sel{left:0;top:calc(58 * var(--u));width:calc(400 * var(--u));--t:rotate(-5deg) skewX(-13deg);transform:var(--t);background:#fff;color:#0b0c1c;}
+.arena.p5.aim .ms-hint{color:var(--ln-gold-hi);font-weight:700;}
+.arena.p5 .ms-back{left:calc(330 * var(--u));top:calc(138 * var(--u));min-height:44px;padding:0 calc(26 * var(--u));border:none;cursor:pointer;
+  font-family:"Rift Display",serif;font-weight:900;font-style:italic;letter-spacing:.08em;font-size:max(14px,calc(20 * var(--u)));
+  background:#b31b2c;color:#fff;transform:rotate(-5deg) skewX(-13deg);clip-path:polygon(4% 0,100% 8%,96% 100%,0 90%);}
+.arena.p5 .ms-back:hover{background:#fff;color:#b31b2c;}
+@media (prefers-reduced-motion: reduce){ .arena.p5 .ms{animation:none;} .stage-splash,.focus-name{transition:none;} .chibi.posing .spr-frame img{animation-duration:1ms;} }
+.arena.p5 .ms-move:hover:not(:disabled) .ms-name,.arena.p5 .ms-move.sel .ms-name{color:#0b0c1c;}
+.focus-name{transform:translate(-40%,-108%) rotate(-11deg) scale(.6);}
+.arena.focus:not(.aim) .focus-name{transform:translate(-40%,-108%) rotate(-11deg) scale(1);}
+.arena.aim .stage-splash,.arena.aim .focus-name{opacity:0;transition:opacity .15s ease;}
+.focus-name{transform:translate(8%,30%) rotate(-11deg) scale(.6);color:rgba(255,227,166,.06);-webkit-text-stroke:calc(2 * var(--u)) rgba(255,227,166,.5);font-size:calc(170 * var(--u));}
+.arena.focus:not(.aim) .focus-name{transform:translate(8%,30%) rotate(-11deg) scale(1);}
+.arena:not(.p5) .commands{display:none;}   /* the move menu only ever appears on your fighter */

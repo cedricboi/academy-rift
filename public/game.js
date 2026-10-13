@@ -299,7 +299,11 @@ const attackPosed = new Set();
 
 function chibiImg(charId, uid) {
   const posed = uid && attackPosed.has(uid) ? " posed" : "";
-  const id = spriteId(charId, uid), a = ARENA[id];
+  const id = spriteId(charId, uid), a = ARENA[id], p = POSE[id];
+  if (p && uid && focusPose.uid === uid) {          // the camera is on them: the pose plays once, then they hold their battle stance
+    const n = p[0], since = Date.now() - focusPose.start;
+    return `<div class="chibi spr posing${posed}" style="--n:${n};--ax:${(p[1] / 192).toFixed(3)};--pdur:${n * 70}ms;--psteps:${n - 1};--pend:${(-(n - 1) / n * 100).toFixed(4)}%;--pdelay:-${since}ms"><div class="spr-frame"><img src="theatre/arena/${id}_pose.webp" alt="" draggable="false" /></div></div>`;
+  }
   if (a) return `<div class="chibi spr${posed}" style="--n:${a[0]};--dur:${a[0] * a[1]}ms;--ax:${(a[2] / 192).toFixed(3)}"><div class="spr-frame"><img src="theatre/arena/${id}.webp" alt="" draggable="false" /></div></div>`;
   const src = posed ? attackSrc(charId) : idleSrc(charId);
   return `<img class="chibi${posed}" src="${src}" alt="" draggable="false" />`;
@@ -449,6 +453,9 @@ const LAB = { jun: "J", kuro: "K", emi: "E", saya: "S", raiden: "R", nao: "N", t
 // stage idle loops (theatre/arena/<id>.webp): frames, ms per frame, where the fighter stands in the 192 px frame
 const ARENA = { J: [8, 120, 72], K: [10, 160, 80], E: [8, 150, 96], EA: [8, 150, 96], S: [8, 140, 96], R: [8, 140, 96],
   N: [8, 140, 96], T: [8, 140, 96], H: [8, 140, 96], M: [8, 140, 96], X: [8, 140, 96] };
+// the pose a fighter strikes when the camera lands on them (theatre/arena/<id>_pose.webp): frames, where they stand in the 192 px frame
+const POSE = { J: [14, 80], K: [13, 80], E: [11, 96], EA: [11, 96], S: [15, 96], R: [15, 96], N: [15, 96], T: [15, 96], H: [15, 96], M: [15, 96], X: [15, 96] };
+let focusPose = { uid: null, start: 0 };
 const angelUids = new Set();      // an Emi who used Aurora Covenant keeps her angel form for the rest of the battle
 let theatreOn = false, heldRoom = null, theatreDone = Promise.resolve();
 if (TH) {
@@ -487,7 +494,7 @@ function playTheatre({ actor, action, name, events }) {
     heals: evs.filter((e) => e.heal != null).map((e) => e.heal),
   };
   clearAttackPose(actor);
-  theatreOn = true; updateCamera();
+  theatreOn = true; hideMoves(); updateCamera();
   $("arena").classList.add("theatre-on"); $("arena").classList.toggle("theatre-ult", kind === "ult");
   theatreDone = TH.play(opts).then(() => {
     if (actC.charId === "emi" && action === "ultimate") angelUids.add(actC.uid);
@@ -805,7 +812,9 @@ function spawnEfx(uid, type, colorHex, dy = 0.45) {
   setTimeout(() => d.remove(), 900);
 }
 
+let actedKey = "";       // the turn whose move has already played, so the camera does not swing back onto that fighter
 socket.on("actionResult", (msg) => {
+  actedKey = `${msg.actor}|${room?.battle?.question?.startedAt}`;
   if (theatreOn) TH.skip();
   if (playTheatre(msg)) return;
   stageEffects(msg);
@@ -1479,14 +1488,32 @@ function renderDock(b, cur, myTurn, stealActorC) {
 // The move menu then bursts out of your own fighter. While you pick a target, it pulls back so every fighter is in view.
 function updateCamera() {
   const b = room?.battle, a = $("arena"), cam = $("stagecam"); if (!cam) return;
-  const actor = b && (b.phase === "steal-action" ? b.stealActor : b.phase === "action" ? b.current : null);
-  const tok = actor && !movePicking && !theatreOn ? tokenEl(actor) : null;
+  let actor = b && !theatreOn && (b.phase === "steal-action" ? b.stealActor : b.phase === "action" ? b.current : null);
+  if (actor && `${actor}|${b.question?.startedAt}` === actedKey) actor = null;
+  if ((actor || null) !== focusPose.uid) {            // a new fighter in the spotlight: they strike a pose
+    const old = focusPose.uid; focusPose = { uid: actor || null, start: Date.now() };
+    [old, actor].forEach((uid) => refreshChibi(uid));
+  }
+  const tok = actor ? tokenEl(actor) : null;
   document.querySelectorAll("#arena .tok.focus").forEach((t) => t !== tok && t.classList.remove("focus"));
-  if (!tok) { a.classList.remove("focus", "p5"); cam.style.transform = ""; return; }
-  const lane = tok.parentElement, W = a.clientWidth, H = a.clientHeight;
-  const cx = lane.offsetLeft, cy = lane.offsetTop + tok.offsetHeight * 0.52;    // the fighter's middle, before any zoom
+  if (!tok) { a.classList.remove("focus", "p5", "aim"); cam.style.transform = ""; return; }
+  const W = a.clientWidth, H = a.clientHeight, mid = (t) => [t.parentElement.offsetLeft, t.parentElement.offsetTop + t.offsetHeight * 0.52];
   const ally = tok.dataset.side === "ally";
+  if (movePicking) {                                  // aiming: the camera swings over to the targets
+    const ts = [...document.querySelectorAll("#arena .tok.target-pick")].map(mid);
+    if (ts.length) {
+      const ax = ts.reduce((n, p) => n + p[0], 0) / ts.length, ay = ts.reduce((n, p) => n + p[1], 0) / ts.length;
+      const tx = W * (ax > W / 2 ? 0.6 : 0.4), ty = H * 0.6;
+      cam.style.transformOrigin = `${ax}px ${ay}px`;
+      cam.style.transform = `translate(${tx - ax}px, ${ty - ay}px) rotate(${ax > W / 2 ? 2.5 : -2.5}deg) scale(1.14)`;
+    }
+    a.classList.add("focus", "aim"); a.classList.toggle("p5", actor === myId); return;
+  }
+  a.classList.remove("aim");
+  const [cx, cy] = mid(tok);                          // the fighter's middle, before any zoom
   const tx = W * (ally ? 0.3 : 0.7), ty = H * 0.56, s = 1.38, r = ally ? -4 : 4;  // where the camera puts them, how close, how tilted
+  const c = b.combatants.find((x) => x.uid === actor);
+  a.style.setProperty("--fcol", fxColor(c?.element)); $("focusName").textContent = upper(c?.charName.split(" ")[0] || "");
   cam.style.transformOrigin = `${cx}px ${cy}px`;
   cam.style.transform = `translate(${tx - cx}px, ${ty - cy}px) rotate(${r}deg) scale(${s})`;
   a.style.setProperty("--fx", tx + "px"); a.style.setProperty("--fy", ty + "px");
@@ -1496,6 +1523,11 @@ function updateCamera() {
   a.classList.toggle("p5", actor === myId && !$("commands").classList.contains("hidden"));
 }
 window.addEventListener("resize", () => updateCamera());
+function refreshChibi(uid) {
+  const tok = uid && tokenEl(uid), c = uid && room?.battle?.combatants.find((x) => x.uid === uid);
+  const old = tok && tok.querySelector(".chibi"); if (!old || !c) return;
+  old.outerHTML = chibiImg(c.charId, uid);
+}
 
 // ---- your move: one strip along the bottom ----
 // After a right answer: Strike, the four skills, the Ultimate and items in one
@@ -1635,6 +1667,7 @@ function buildMovePanel(me, b, halfPower = false) {
       <span class="ms-name">ITEMS</span><span class="ms-eff">${itemsLeft} left</span>
     </button>
     ${itemsPop}
+    ${picking ? `<button class="ms-back" data-move="back">BACK</button>` : ""}
   </div>`;
   tickMoveTimer();
 
@@ -1647,6 +1680,7 @@ function buildMovePanel(me, b, halfPower = false) {
     else if (m === "items") { SFX.play("select"); itemsOpen = !itemsOpen; buildMovePanel(me, b, halfPower); }
     else if (m === "skills") { SFX.play("select"); itemsOpen = false; openSkillSheet(me, b, halfPower); }
     else if (m === "ult") { SFX.play("select"); send({ type: "ultimate" }); }
+    else if (m === "back") { SFX.play("select"); moveSel = null; buildMovePanel(me, b, halfPower); }
   }));
 
   // targets light up on the stage: tap the fighter or the flag above them
