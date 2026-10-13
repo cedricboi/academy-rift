@@ -606,3 +606,8 @@ body.calm .stagecam{transition-duration:.2s;} body.calm .arena.p5 .ms.enter > *{
 /* keep the headers' own buttons clear of the settings gear */
 .tn-head{padding-right:54px;}
 @media (max-width:1060px){ .room-head{padding-right:54px;} }
+/* the spotlight: the fighter wears a strong white and element-colour outline (baked into the pose art), no splash behind */
+.stage-splash{display:none;}
+/* a move you cannot use yet: a dim solid shard (see-through shards showed the white rim through them) */
+.arena.p5 .ms-move:disabled{opacity:1;background:linear-gradient(100deg,#29241a,#15120b);color:#8f8162;}
+.arena.p5 .ms-move:disabled .ms-k,.arena.p5 .ms-move:disabled .ms-eff{color:#7d7259;}

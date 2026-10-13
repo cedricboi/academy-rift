@@ -307,7 +307,7 @@ function chibiImg(charId, uid) {
   const id = spriteId(charId, uid), a = ARENA[id], p = POSE[id];
   if (p && uid && focusPose.uid === uid) {          // the camera is on them: the pose plays once, then they hold their battle stance
     const n = p[0], since = Date.now() - focusPose.start;
-    return `<div class="chibi spr posing${posed}" style="--n:${n};--ax:${(p[1] / 192).toFixed(3)};--pdur:${n * 70}ms;--psteps:${n - 1};--pend:${(-(n - 1) / n * 100).toFixed(4)}%;--pdelay:-${since}ms"><div class="spr-frame"><img src="theatre/arena/${id}_pose.webp" alt="" draggable="false" /></div></div>`;
+    return `<div class="chibi spr posing${posed}" style="--n:${n};--ax:${(p[1] / 192).toFixed(3)};--pdur:${n * 70}ms;--psteps:${n - 1};--pend:${(-(n - 1) / n * 100).toFixed(4)}%;--pdelay:-${since}ms"><div class="spr-frame"><img src="theatre/arena/${id}_pose_ol.webp" alt="" draggable="false" /></div></div>`;
   }
   if (a) return `<div class="chibi spr${posed}" style="--n:${a[0]};--dur:${a[0] * a[1]}ms;--ax:${(a[2] / 192).toFixed(3)}"><div class="spr-frame"><img src="theatre/arena/${id}.webp" alt="" draggable="false" /></div></div>`;
   const src = posed ? attackSrc(charId) : idleSrc(charId);
@@ -471,7 +471,7 @@ const LAB = { jun: "J", kuro: "K", emi: "E", saya: "S", raiden: "R", nao: "N", t
 // stage idle loops (theatre/arena/<id>.webp): frames, ms per frame, where the fighter stands in the 192 px frame
 const ARENA = { J: [8, 120, 72], K: [10, 160, 80], E: [8, 150, 96], EA: [8, 150, 96], S: [8, 140, 96], R: [8, 140, 96],
   N: [8, 140, 96], T: [8, 140, 96], H: [8, 140, 96], M: [8, 140, 96], X: [8, 140, 96] };
-// the pose a fighter strikes when the camera lands on them (theatre/arena/<id>_pose.webp): frames, where they stand in the 192 px frame
+// the pose a fighter strikes when the camera lands on them (theatre/arena/<id>_pose_ol.webp, with its outline): frames, where they stand in the 192 px frame
 const POSE = { J: [14, 80], K: [13, 80], E: [11, 96], EA: [11, 96], S: [15, 96], R: [15, 96], N: [15, 96], T: [15, 96], H: [15, 96], M: [15, 96], X: [15, 96] };
 let focusPose = { uid: null, start: 0 };
 const angelUids = new Set();      // an Emi who used Aurora Covenant keeps her angel form for the rest of the battle
@@ -753,7 +753,7 @@ function ensureChibisThenRender(combatants) {
   // decode the stage poses and the skill cards now, so the first spotlight and the first skill sheet do not stall
   const dec = (u) => { const im = new Image(); im.src = encodeURI(u); im.decode?.().catch(() => {}); return im; };
   preDecoded.length = 0;
-  for (const id of new Set(ids.map((x) => LAB[x]).flatMap((x) => (x === "E" ? ["E", "EA"] : [x])))) preDecoded.push(dec(`theatre/arena/${id}_pose.webp`), dec(`theatre/arena/${id}.webp`));
+  for (const id of new Set(ids.map((x) => LAB[x]).flatMap((x) => (x === "E" ? ["E", "EA"] : [x])))) preDecoded.push(dec(`theatre/arena/${id}_pose_ol.webp`), dec(`theatre/arena/${id}.webp`));
   if (mine) preDecoded.push(dec(ASSETS.skillSheet(mine.charId)));
   preloadArt(ids).then(() => { if (room?.status === "battle") renderBattle(); });
 }
