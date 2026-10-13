@@ -247,3 +247,124 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .coach-exit{border-radius:3px;border-color:rgba(226,184,101,.35);color:var(--ln-mute);}
 
 @media (prefers-reduced-motion: reduce){ .mcq,.mcq.steal,.screen{animation:none;} .choice:hover:not(:disabled){transform:none;} }
+
+/* ===================== Lantern Light II: the ornate pass =====================
+   Filigree corners on the big windows, ornament rules under titles, a lantern ring round the timer,
+   a pointer on the answer you are about to pick, and one sweep of light when your question opens. */
+:root{--ln-fl-tl:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 48 48'%3E%3Cg transform=''%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M2.5 44V9.5Q2.5 2.5 9.5 2.5H44' stroke='%23e2b865' stroke-width='1.4'/%3E%3Cpath d='M7 30V13Q7 7 13 7H30' stroke='%23ffe3a6' stroke-width='1' stroke-opacity='.7'/%3E%3Cpath d='M13 24q0-11 11-11' stroke='%23e2b865' stroke-width='1'/%3E%3Cpath d='M18 13.5q4.5-5 9-1.5t-1.5 6.5-4-1.5' stroke='%23ffe3a6' stroke-width='1'/%3E%3Cpath d='M13.5 18q-5 4.5-1.5 9t6.5-1.5-1.5-4' stroke='%23ffe3a6' stroke-width='1'/%3E%3C/g%3E%3Cpath d='M2.5 -1.5 6.5 2.5 2.5 6.5 -1.5 2.5Z' fill='%23ffe3a6'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23ffe3a6'/%3E%3C/g%3E%3C/svg%3E");--ln-fl-tr:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 48 48'%3E%3Cg transform='translate(44 0) scale(-1 1)'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M2.5 44V9.5Q2.5 2.5 9.5 2.5H44' stroke='%23e2b865' stroke-width='1.4'/%3E%3Cpath d='M7 30V13Q7 7 13 7H30' stroke='%23ffe3a6' stroke-width='1' stroke-opacity='.7'/%3E%3Cpath d='M13 24q0-11 11-11' stroke='%23e2b865' stroke-width='1'/%3E%3Cpath d='M18 13.5q4.5-5 9-1.5t-1.5 6.5-4-1.5' stroke='%23ffe3a6' stroke-width='1'/%3E%3Cpath d='M13.5 18q-5 4.5-1.5 9t6.5-1.5-1.5-4' stroke='%23ffe3a6' stroke-width='1'/%3E%3C/g%3E%3Cpath d='M2.5 -1.5 6.5 2.5 2.5 6.5 -1.5 2.5Z' fill='%23ffe3a6'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23ffe3a6'/%3E%3C/g%3E%3C/svg%3E");--ln-fl-bl:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 48 48'%3E%3Cg transform='translate(0 44) scale(1 -1)'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M2.5 44V9.5Q2.5 2.5 9.5 2.5H44' stroke='%23e2b865' stroke-width='1.4'/%3E%3Cpath d='M7 30V13Q7 7 13 7H30' stroke='%23ffe3a6' stroke-width='1' stroke-opacity='.7'/%3E%3Cpath d='M13 24q0-11 11-11' stroke='%23e2b865' stroke-width='1'/%3E%3Cpath d='M18 13.5q4.5-5 9-1.5t-1.5 6.5-4-1.5' stroke='%23ffe3a6' stroke-width='1'/%3E%3Cpath d='M13.5 18q-5 4.5-1.5 9t6.5-1.5-1.5-4' stroke='%23ffe3a6' stroke-width='1'/%3E%3C/g%3E%3Cpath d='M2.5 -1.5 6.5 2.5 2.5 6.5 -1.5 2.5Z' fill='%23ffe3a6'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23ffe3a6'/%3E%3C/g%3E%3C/svg%3E");--ln-fl-br:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 48 48'%3E%3Cg transform='translate(44 44) scale(-1 -1)'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M2.5 44V9.5Q2.5 2.5 9.5 2.5H44' stroke='%23e2b865' stroke-width='1.4'/%3E%3Cpath d='M7 30V13Q7 7 13 7H30' stroke='%23ffe3a6' stroke-width='1' stroke-opacity='.7'/%3E%3Cpath d='M13 24q0-11 11-11' stroke='%23e2b865' stroke-width='1'/%3E%3Cpath d='M18 13.5q4.5-5 9-1.5t-1.5 6.5-4-1.5' stroke='%23ffe3a6' stroke-width='1'/%3E%3Cpath d='M13.5 18q-5 4.5-1.5 9t6.5-1.5-1.5-4' stroke='%23ffe3a6' stroke-width='1'/%3E%3C/g%3E%3Cpath d='M2.5 -1.5 6.5 2.5 2.5 6.5 -1.5 2.5Z' fill='%23ffe3a6'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23ffe3a6'/%3E%3C/g%3E%3C/svg%3E");--ln-rule:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23e2b865' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23e2b865'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23e2b865' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23e2b865'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10 7H128' stroke='url(%23a)' stroke-width='1.2'/%3E%3Cpath d='M172 7H290' stroke='url(%23b)' stroke-width='1.2'/%3E%3Cpath d='M150 0 157 7 150 14 143 7Z' fill='%23e2b865'/%3E%3Cpath d='M150 3.2 153.8 7 150 10.8 146.2 7Z' fill='%23ffe3a6'/%3E%3Cpath d='M136 7l4-3 4 3-4 3z M156 7l4-3 4 3-4 3z' fill='%23e2b865' opacity='.8'/%3E%3Ccircle cx='131' cy='7' r='1.3' fill='%23ffe3a6'/%3E%3Ccircle cx='169' cy='7' r='1.3' fill='%23ffe3a6'/%3E%3C/svg%3E");--ln-pointer:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M2 3 18 10 2 17 6 10Z' fill='%23ffe3a6' stroke='%235a3a10' stroke-width='1'/%3E%3C/svg%3E");}
+
+/* windows: lantern light falls from the top edge, over a faint grain of stars */
+.panel-card,.tut-card,.result-card,.team-col,.mcq,.qstrip,.ms,.coach,.cd-sheet,.cd-artframe{
+  background:radial-gradient(120% 55% at 50% 0%,rgba(255,206,130,.12),transparent 62%),
+    radial-gradient(rgba(255,227,166,.07) .7px,transparent 1px) 0 0/22px 22px,
+    linear-gradient(180deg,var(--ln-win-a),var(--ln-win-b));}
+/* the big windows trade the corner gems for filigree */
+.panel-card::before,.tut-card::before,.result-card::before,.team-col::before,.mcq::before,.cd-sheet::before,.cd-artframe::before{
+  inset:-3px;background:var(--ln-fl-tl) top left/42px 42px no-repeat,var(--ln-fl-tr) top right/42px 42px no-repeat,
+    var(--ln-fl-bl) bottom left/42px 42px no-repeat,var(--ln-fl-br) bottom right/42px 42px no-repeat;}
+.mcq::before{inset:0;}
+
+/* titles carry an ornament rule */
+.panel-card .head::after,.tut-card .head::after,.result-title::after,.cd-name::after{content:"";display:block;height:14px;width:min(300px,80%);margin:6px auto 0;
+  background:var(--ln-rule) center/contain no-repeat;}
+.panel-card .head{text-align:center;}
+.head.sub{display:flex;align-items:center;gap:12px;justify-content:center;white-space:nowrap;}
+.head.sub::before,.head.sub::after{content:"";flex:0 1 90px;height:1px;background:linear-gradient(90deg,transparent,var(--ln-gold));}
+.head.sub::after{background:linear-gradient(270deg,transparent,var(--ln-gold));}
+
+/* the main button wears a gem at each end */
+.shard-btn.primary span::before,.shard-btn.primary span::after{content:"";display:inline-block;width:.5em;height:.5em;margin:0 .6em;vertical-align:.1em;
+  background:#22170a;transform:rotate(45deg);opacity:.7;}
+
+/* ---- your question ---- */
+.mcq::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:linear-gradient(105deg,transparent 42%,rgba(255,236,196,.18) 50%,transparent 58%) no-repeat;background-size:260% 100%;
+  animation:lnSheen 1.2s .18s ease-out 1 both;}
+@keyframes lnSheen{from{background-position:130% 0;}to{background-position:-30% 0;}}
+.mcq-top{padding-bottom:calc(6 * var(--u));border-bottom:1px solid var(--ln-gold-lo);}
+.mcq-tag::before{content:"";display:inline-block;width:.45em;height:.45em;margin-right:.55em;vertical-align:.15em;background:var(--ln-gem) center/contain no-repeat;}
+/* the timer sits in a lantern ring that burns down with the clock */
+@property --tp{syntax:'<number>';inherits:true;initial-value:1;}
+.timer{position:relative;display:flex;align-items:center;justify-content:center;width:calc(76 * var(--u));height:calc(76 * var(--u));min-width:50px;min-height:50px;
+  font-size:max(16px,calc(26 * var(--u)));border-radius:50%;background:radial-gradient(circle,rgba(40,30,10,.9) 0 58%,transparent 60%);}
+.timer::before{content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--ln-gold-hi) calc(var(--tp) * 360deg),rgba(226,184,101,.14) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));
+  filter:drop-shadow(0 0 6px rgba(255,214,140,.7));}
+.timer.low{color:#ffd2b8;}
+.timer.low::before{background:conic-gradient(from 0deg,var(--ln-ember) calc(var(--tp) * 360deg),rgba(255,122,69,.15) 0);animation:pulse .7s infinite;}
+.mcq.steal .timer{width:calc(64 * var(--u));height:calc(64 * var(--u));font-size:max(15px,calc(22 * var(--u)));}
+/* a pointer marks the answer under your finger */
+.choice:hover:not(:disabled){box-shadow:inset 3px 0 0 var(--ln-gold-hi),inset 0 0 0 2px rgba(5,6,16,.7),0 0 22px rgba(226,184,101,.28);}
+.choice::after{content:"";position:absolute;right:calc(14 * var(--u));top:50%;width:calc(22 * var(--u));height:calc(22 * var(--u));min-width:14px;min-height:14px;
+  transform:translate(6px,-50%);opacity:0;background:var(--ln-pointer) center/contain no-repeat;transition:opacity .12s,transform .12s;pointer-events:none;}
+.choice:hover:not(:disabled)::after{opacity:1;transform:translate(0,-50%) scaleX(-1);}
+
+/* ---- HUD: the sync gauge is marked in quarters ---- */
+.hud-sync-track::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(25% - 1px),rgba(5,6,16,.9) calc(25% - 1px) 25%);}
+.hud-row{position:relative;}
+
+/* ---- roster: each fighter on a parchment plate in a gold frame ---- */
+.rcard{position:relative;padding:5px 5px 8px;}
+.rport{position:relative;background:radial-gradient(90% 70% at 50% 30%,#fbf3dc,#e6d3a3 70%,#c9ae72);box-shadow:inset 0 0 0 1px rgba(90,60,20,.5);}
+.rport img{mix-blend-mode:multiply;}
+.rport::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(10,12,28,.9),inset 0 0 0 3px var(--ln-gold),inset 0 -40px 30px -20px rgba(10,12,28,.55);}
+.rgem{position:absolute;left:50%;top:-1px;z-index:2;width:12px;height:12px;transform:translate(-50%,-50%) rotate(45deg);
+  background:var(--ecol,var(--ln-gold));box-shadow:0 0 0 1px #2a1a06,0 0 0 2px var(--ln-gold),0 0 10px var(--ecol,var(--ln-gold));}
+.rname{font-weight:900;color:var(--ln-gold-hi);}
+.relem{letter-spacing:.04em;}
+.tn-fcard .rport img{mix-blend-mode:multiply;}
+
+/* ---- character details: the card art in a gilt frame, the skills as a live sheet ---- */
+.char-detail{background:radial-gradient(80% 70% at 50% 40%,rgba(30,34,70,.55),rgba(4,5,12,.92));backdrop-filter:blur(6px);}
+.cd-box{gap:1.2vh;}
+.cd-name{font-weight:900;letter-spacing:.08em;background:linear-gradient(180deg,#fff4d6,var(--ln-gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cd-name::after{width:min(260px,60%);}
+.cd-head{flex-direction:column;align-items:center;gap:2px;}
+.cd-meta{color:var(--ln-mute);font-family:"Rift Display",serif;font-weight:700;letter-spacing:.1em;}
+.cd-close{border:1px solid var(--ln-gold);background:rgba(9,10,24,.95);color:var(--ln-gold-hi);box-shadow:0 0 0 3px rgba(9,10,24,.9),0 0 0 4px var(--ln-gold-lo);}
+.cd-close:hover{background:var(--ln-gold);color:#22170a;}
+.cd-images{gap:1.4vw;}
+.cd-artframe{position:relative;padding:12px;border:1px solid var(--ln-gold);border-radius:3px;height:74vh;
+  box-shadow:inset 0 0 0 4px rgba(5,6,16,.92),inset 0 0 0 5px var(--ln-gold-lo),0 20px 50px rgba(0,0,0,.6);}
+.cd-artframe .cd-art{height:100%;max-height:none;max-width:42vw;border:none;border-radius:2px;box-shadow:0 0 0 1px var(--ln-gold-lo);background:#05060d;}
+.cd-sheet{position:relative;height:74vh;width:min(46vw,calc(74vh * .78));overflow:hidden;display:flex;flex-direction:column;
+  border:1px solid var(--ln-gold);border-radius:3px;padding:3.2vh 2.4vh 2.4vh;text-align:left;
+  box-shadow:inset 0 0 0 4px rgba(5,6,16,.92),inset 0 0 0 5px var(--ln-gold-lo),0 20px 50px rgba(0,0,0,.6);}
+/* a frame painted by the image AI (assets/Card Sheet/frame.webp) sits over the window when it exists */
+.cd-sheet{background-image:url("assets/Card Sheet/frame.webp"),radial-gradient(120% 55% at 50% 0%,rgba(255,206,130,.12),transparent 62%),linear-gradient(180deg,var(--ln-win-a),var(--ln-win-b));
+  background-size:100% 100%,auto,auto;}
+.cs-scroll{flex:1;min-height:0;overflow-y:auto;padding:0 .6vh;scrollbar-width:thin;scrollbar-color:var(--ln-gold-lo) transparent;}
+.cs-crest{display:flex;justify-content:center;align-items:center;gap:12px;font-family:"Rift Display",serif;font-weight:900;letter-spacing:.12em;font-size:clamp(.9rem,1.9vh,1.15rem);color:var(--ln-text);}
+.cs-crest .cs-el{color:var(--ecol);text-shadow:0 0 12px var(--ecol);}
+.cs-crest i{width:8px;height:8px;transform:rotate(45deg);background:var(--ln-gold);}
+.cs-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 10px;margin:1.2vh 0 .4vh;padding:.8vh 0;border-top:1px solid var(--ln-gold-lo);border-bottom:1px solid var(--ln-gold-lo);}
+.cs-stat{display:flex;flex-direction:column;align-items:center;}
+.cs-stat b{font-family:"Rift Display",serif;font-weight:900;font-size:clamp(1rem,2.4vh,1.45rem);color:var(--ln-gold-hi);line-height:1.1;}
+.cs-stat span{font-size:clamp(.66rem,1.3vh,.8rem);color:var(--ln-mute);}
+.cs-match{grid-column:1/-1;text-align:center;font-size:clamp(.7rem,1.4vh,.85rem);color:var(--ln-mute);}
+.cs-match b{color:var(--ln-text);font-weight:600;}
+.cs-h{display:flex;align-items:center;gap:10px;justify-content:center;margin:1.3vh 0 .6vh;font-family:"Rift Display",serif;font-weight:900;letter-spacing:.16em;
+  font-size:clamp(.8rem,1.7vh,1rem);color:var(--ln-gold-hi);}
+.cs-h::before,.cs-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--ln-gold));}
+.cs-h::after{background:linear-gradient(270deg,transparent,var(--ln-gold));}
+.cs-sk{display:flex;gap:1.2vh;align-items:flex-start;padding:.8vh 0;border-bottom:1px solid rgba(226,184,101,.12);}
+.cs-sk:last-child{border-bottom:none;}
+.sk-ico{flex:0 0 auto;width:clamp(36px,6.4vh,58px);aspect-ratio:1/1;border-radius:4px;
+  background:var(--sk-img,none) calc(var(--i) * 25%) 0/500% 100% no-repeat,
+    radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--ecol) 55%,#fff) 0,var(--ecol) 35%,#0b0d20 75%);
+  box-shadow:0 0 0 1px #2a1a06,0 0 0 2px var(--ln-gold),0 0 0 4px rgba(5,6,16,.9),0 0 0 5px var(--ln-gold-lo);}
+.cs-sk.ult .sk-ico{box-shadow:0 0 0 1px #2a1a06,0 0 0 2px var(--ln-gold-hi),0 0 14px rgba(255,214,140,.6);}
+.cs-body{flex:1;min-width:0;}
+.cs-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;}
+.cs-name b{font-family:"Rift Display",serif;font-weight:900;letter-spacing:.05em;font-size:clamp(.9rem,2vh,1.2rem);color:var(--ecol);filter:brightness(1.25);}
+.cs-tag{font-size:clamp(.66rem,1.3vh,.8rem);color:var(--ln-gold-hi);border:1px solid var(--ln-gold-lo);border-radius:2px;padding:0 6px;white-space:nowrap;}
+.cs-desc{margin-top:2px;font-size:clamp(.72rem,1.5vh,.92rem);line-height:1.38;color:var(--ln-text);opacity:.9;}
+@media (max-width:760px){ .cd-artframe{height:auto;} .cd-artframe .cd-art{max-width:80vw;max-height:40vh;} .cd-sheet{height:auto;max-height:60vh;width:86vw;} }
+@media (prefers-reduced-motion: reduce){ .mcq::after{animation:none;opacity:0;} }
+.timer:empty{display:none;}
+
+.cd-meta{display:none;}   /* the sheet's crest already says element and role */
+.cs-desc{font-size:clamp(.7rem,1.42vh,.88rem);}
+.cd-sheet::before,.cd-artframe::before{content:"";position:absolute;pointer-events:none;z-index:2;inset:0;}

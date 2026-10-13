@@ -1059,7 +1059,8 @@ function renderRoom() {
     const picked = meP?.character === c.id;
     const col = ELEMENT_COLORS[c.element];
     ros.insertAdjacentHTML("beforeend",
-      `<div class="rcard ${picked?"picked":""}" data-pick="${c.id}" style="${picked?`--ecol:${col}`:``}">
+      `<div class="rcard ${picked?"picked":""}" data-pick="${c.id}" style="--ecol:${col}">
+        <i class="rgem"></i>
         <div class="rport">${portrait(c.id)}</div>
         <div class="rname">${NAME[c.id]}</div>
         <div class="relem" style="color:${col}">${c.element}</div>
@@ -1143,13 +1144,40 @@ function openCharDetail(charId, onPick) {
   SFX.play("select");
   const ov = $("charDetail");
   $("cdArt").src   = encodeURI(ASSETS.bigcard(charId));
-  $("cdInfo").src  = encodeURI(ASSETS.cardinfo(charId));
+  $("cdSheet").innerHTML = skillSheetHTML(c);
+  $("cdSheet").style.setProperty("--ecol", ELEMENT_COLORS[c.element]);
   $("cdName").textContent = c.name;
   $("cdMeta").innerHTML = `<span style="color:${ELEMENT_COLORS[c.element]}">${c.element}</span> · ${c.role}`;
   $("cdPick").onclick = () => { if (onPick) onPick(charId); else socket.emit("pickCharacter", { charId }); closeCharDetail(); };
   ov.classList.add("show");
 }
 function closeCharDetail() { $("charDetail").classList.remove("show"); }
+
+// The skills sheet beside the card art, written from the game data so it always matches what the moves do.
+// Skill icons come from assets/Skill Icons/<id>.webp (five icons in a row) when that file exists; until then each icon is an element gem.
+const KIND_TXT = { atk: "Attack", heavy: "Heavy attack", heal: "Heal", buff: "Buff", guard: "Guard", debuff: "Debuff", cleanse: "Cleanse" };
+const ULT_TXT = { damage: "Heavy damage to the enemy team", stun: "Damage, and the target misses their next turn", heal: "Heals the whole team", shield: "Shields the whole team" };
+function skillSheetHTML(c) {
+  const icons = `--sk-img:url('${encodeURI(`assets/Skill Icons/${c.id}.webp`)}')`;
+  const tags = (sk) => [KIND_TXT[sk.kind] || sk.kind, sk.power ? `Power ${sk.power}` : "", `${sk.sp} SP`, sk.cd ? `Cooldown ${sk.cd}` : ""].filter(Boolean)
+    .map((t) => `<span class="cs-tag">${t}</span>`).join("");
+  const skill = (sk, i) => `<li class="cs-sk"><i class="sk-ico" style="${icons};--i:${i}"></i><div class="cs-body">
+      <div class="cs-name"><b>${esc(sk.name)}</b>${tags(sk)}</div><p class="cs-desc">${esc(sk.desc)}</p></div></li>`;
+  const u = c.ultimate;
+  return `<div class="cs-scroll">
+    <div class="cs-crest"><span class="cs-el">${esc(c.element)}</span><i></i><span>${esc(c.role)}</span></div>
+    <div class="cs-stats">
+      <div class="cs-stat"><b>${c.hp}</b><span>HP</span></div><div class="cs-stat"><b>${c.sp}</b><span>SP</span></div><div class="cs-stat"><b>${c.atk}</b><span>ATK</span></div>
+      <div class="cs-match">Weak to <b>${esc(c.weakTo)}</b> · Resists <b>${esc((c.resists || []).join(", "))}</b></div>
+    </div>
+    <h4 class="cs-h">Skills</h4>
+    <ul class="cs-list">${c.skills.map(skill).join("")}</ul>
+    <h4 class="cs-h">Ultimate</h4>
+    <ul class="cs-list"><li class="cs-sk ult"><i class="sk-ico" style="${icons};--i:4"></i><div class="cs-body">
+      <div class="cs-name"><b>${esc(u.name)}</b><span class="cs-tag">Power ${u.power}</span><span class="cs-tag">Team Sync 100</span></div>
+      <p class="cs-desc">${ULT_TXT[u.archetype] || ""}.</p></div></li></ul>
+  </div>`;
+}
 
 // ============================================================
 //  BATTLE RENDER  — strict stage: corner cards + chibi lanes
@@ -1706,10 +1734,16 @@ function startTimer(seconds) {
   void fill.offsetWidth;
   fill.style.transition = `width ${seconds}s linear`; fill.style.width = "0%";
   let left = seconds;
-  $("mcqTimer").textContent = fmt(left);
-  timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); if (left<=0) stopTimer(); }, 1000);
+  timerRing(1, seconds); $("mcqTimer").textContent = fmt(left);
+  timerInt = setInterval(() => { left--; $("mcqTimer").textContent = fmt(Math.max(0,left)); $("mcqTimer").classList.toggle("low", left <= 5); if (left<=0) stopTimer(); }, 1000);
 }
 function stopTimer() { clearInterval(timerInt); timerInt = null; }
+// the lantern ring round the timer burns down over the same seconds as the bar
+function timerRing(from, secs) {
+  const t = $("mcqTimer"); t.classList.toggle("low", secs <= 5);
+  t.style.transition = "none"; t.style.setProperty("--tp", from); void t.offsetWidth;
+  t.style.transition = `--tp ${secs}s linear`; t.style.setProperty("--tp", 0);
+}
 // Start timer accounting for time already elapsed since the server set startedAt.
 // Rounds to whole seconds so the CSS bar and number counter stay perfectly in sync.
 function startTimerFrom(totalSeconds, startedAt) {
@@ -1723,8 +1757,8 @@ function startTimerFrom(totalSeconds, startedAt) {
   void fill.offsetWidth;
   fill.style.transition = `width ${left}s linear`; fill.style.width = "0%";
   let count = left;
-  $("mcqTimer").textContent = fmt(count);
-  timerInt = setInterval(() => { count--; $("mcqTimer").textContent = fmt(Math.max(0,count)); if (count<=0) stopTimer(); }, 1000);
+  timerRing(fraction, left); $("mcqTimer").textContent = fmt(count);
+  timerInt = setInterval(() => { count--; $("mcqTimer").textContent = fmt(Math.max(0,count)); $("mcqTimer").classList.toggle("low", count <= 5); if (count<=0) stopTimer(); }, 1000);
 }
 function fmt(s) { return "0:" + String(s).padStart(2,"0"); }
 
