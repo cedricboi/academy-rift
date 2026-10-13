@@ -92,7 +92,9 @@ lobbyBGM.loop = true;
 lobbyBGM.volume = 0.55;
 lobbyBGM.playsInline = true;
 
-const battleBGM = new Audio("assets/Victory Fanfare.mp3");
+const battleBGM = new Audio();
+battleBGM.preload = "none";                 // fetched when the first battle starts, not with the page (30 students share the Wi-Fi)
+battleBGM.src = "assets/Victory Fanfare.mp3";
 battleBGM.loop = true;
 battleBGM.volume = 0.55;
 battleBGM.playsInline = true;
@@ -259,44 +261,13 @@ function blackKnockout(url) {
   });
 }
 
-// Designed player-card frames — trim the transparent padding to a tight landscape card.
-const cardCache = {};   // charId -> { src, ar }
-function trimBoxFull(d, w, h) {
-  let x0 = w, y0 = h, x1 = 0, y1 = 0, hit = false;
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++)
-    if (d[(y * w + x) * 4 + 3] > 16) { hit = true;
-      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
-  return hit ? { x0, y0, x1: x1 + 1, y1: y1 + 1 } : { x0: 0, y0: 0, x1: w, y1: h };
-}
-function processCard(id) {
-  if (cardCache[id] !== undefined) return Promise.resolve(cardCache[id]);
-  const url = ASSETS.card(id);
-  return new Promise((res) => {
-    const im = new Image();
-    im.onload = () => {
-      try {
-        const W = im.naturalWidth, H = im.naturalHeight;
-        const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
-        const ctx = cv.getContext("2d", { willReadFrequently: true });
-        ctx.drawImage(im, 0, 0);
-        const b = trimBoxFull(ctx.getImageData(0, 0, W, H).data, W, H);
-        const bw = b.x1 - b.x0, bh = b.y1 - b.y0;
-        const out = document.createElement("canvas"); out.width = bw; out.height = bh;
-        out.getContext("2d").drawImage(cv, b.x0, b.y0, bw, bh, 0, 0, bw, bh);
-        cardCache[id] = { src: out.toDataURL("image/png"), ar: bw / bh };
-      } catch (e) { cardCache[id] = { src: encodeURI(url), ar: 3 }; }
-      res(cardCache[id]);
-    };
-    im.onerror = () => { cardCache[id] = { src: encodeURI(url), ar: 3 }; res(cardCache[id]); };
-    im.src = encodeURI(url);
-  });
-}
-const cardData = (id) => cardCache[id] || { src: encodeURI(ASSETS.card(id)), ar: 3.1 };
 
+// Every fighter has an arena sprite sheet, so the old idle/costume art (keyed out pixel by pixel on the main thread,
+// a half-second freeze per fighter on a slow iPad) is only prepared for a fighter that has no sheet.
 function preloadArt(ids) {
   const jobs = [];
   [...new Set(ids)].forEach((id) => {
-    jobs.push(transparentize(ASSETS.idle(id)), blackKnockout(ASSETS.attack(id)), processCard(id));
+    if (!ARENA[spriteId(id)]) jobs.push(transparentize(ASSETS.idle(id)), blackKnockout(ASSETS.attack(id)));
     const im = new Image(); im.src = encodeURI(ASSETS.ult(id));   // warm cut-in art
   });
   return Promise.all(jobs);
@@ -766,7 +737,7 @@ function ensureChibisThenRender(combatants) {
   preDecoded.length = 0;
   for (const id of new Set(ids.map((x) => LAB[x]).flatMap((x) => (x === "E" ? ["E", "EA"] : [x])))) preDecoded.push(dec(`theatre/arena/${id}_pose_ol.webp`), dec(`theatre/arena/${id}.webp`));
   if (mine) preDecoded.push(dec(ASSETS.skillSheet(mine.charId)));
-  preloadArt(ids).then(() => { if (room?.status === "battle") renderBattle(); });
+  preloadArt(ids).then((done) => { if (done.length && room?.status === "battle") renderBattle(); });
 }
 
 socket.on("answerResult", ({ uid, correct, correctIndex, correctAll, explain }) => {
@@ -1368,15 +1339,6 @@ function hudRowHTML(c, side, acting) {
 }
 
 // ambient elemental particles rising around a fighter
-function particleHTML() {
-  let s = "";
-  for (let i = 0; i < 5; i++) {
-    const x = (8 + Math.random() * 84).toFixed(0), sz = (3 + Math.random() * 5).toFixed(1);
-    const d = (Math.random() * 2.2).toFixed(2), dur = (1.6 + Math.random() * 1.1).toFixed(2);
-    s += `<span class="p" style="--x:${x}%;--s:${sz}px;--d:${d}s;--dur:${dur}s"></span>`;
-  }
-  return s;
-}
 
 // Fighter on the stage — large ready-stance art with element aura + particles,
 // and a flag above the head (YOU, NAME IS ANSWERING, TAP TO HIT…).
@@ -1387,7 +1349,6 @@ function tokenHTML(c, facing, acting, side) {
        style="--glow:${hexRGBA(col,0.8)};--pc:${col};--ef:${col}">
     <div class="tok-spot"></div>
     <div class="tok-aura"></div>
-    <div class="tok-fxp">${particleHTML()}</div>
     ${chibiImg(c.charId, c.uid)}
     <div class="tok-tag">${esc(c.charName.split(" ")[0])}</div>
     <div class="tok-flag"></div>
@@ -1419,9 +1380,16 @@ function renderBattle() {
 
   const lanes = [["laneAllyFront", allies[0], "right", "ally"], ["laneAllyBack", allies[1], "right", "ally"],
                  ["laneEnemyFront", foes[0], "left", "foe"], ["laneEnemyBack", foes[1], "left", "foe"]];
-  for (const [id, c, facing, side] of lanes) $(id).innerHTML = c ? tokenHTML(c, facing, act(c), side) : "";
-  $("hudMineRows").innerHTML = allies.map((c) => hudRowHTML(c, "mine", act(c))).join("");
-  $("hudFoeRows").innerHTML = foes.map((c) => hudRowHTML(c, "foe", act(c))).join("");
+  // Each room update used to rebuild all four fighters and the HUD, restarting every sprite and costing a frame or two.
+  // Now a fighter is rebuilt only when something it shows has changed.
+  for (const [id, c, facing, side] of lanes) {
+    const el = $(id);
+    const key = c ? [c.uid, c.charId, spriteId(c.charId, c.uid), c.alive, act(c), attackPosed.has(c.uid), focusPose.uid === c.uid ? focusPose.start : 0, facing, side, c.element].join("|") : "";
+    if (el.dataset.k === key) continue;
+    el.dataset.k = key; el.innerHTML = c ? tokenHTML(c, facing, act(c), side) : "";
+  }
+  putHTML($("hudMineRows"), allies.map((c) => hudRowHTML(c, "mine", act(c))).join(""));
+  putHTML($("hudFoeRows"), foes.map((c) => hudRowHTML(c, "foe", act(c))).join(""));
   $("arena").classList.toggle("spectating", !!spectating);
   $("arena").classList.toggle("practice", !!room.practice);
 
@@ -1436,6 +1404,10 @@ function renderBattle() {
   renderDock(b, cur, myTurn, stealActorC);
 }
 
+// countdowns tick several times a second; the page is only touched when the shown text actually changes
+function setText(el, t) { if (el.textContent !== t) el.textContent = t; }
+// set innerHTML only when it differs from what this element was last given
+function putHTML(el, html) { if (el._html !== html) { el._html = html; el.innerHTML = html; } }
 function setSyncMine(val) {
   $("syncMine").style.width = Math.min(100, val) + "%";
   $("hudMine").classList.toggle("ready", val >= 100);
@@ -1503,7 +1475,7 @@ function renderStrip(s) {
 function tickDeadlines() {
   document.querySelectorAll("#arena [data-deadline]").forEach((el) => {
     const left = Math.max(0, Math.ceil((Number(el.dataset.deadline) - Date.now()) / 1000));
-    el.textContent = `0:${String(left).padStart(2, "0")}`;
+    setText(el, `0:${String(left).padStart(2, "0")}`);
   });
 }
 setInterval(tickDeadlines, 250);
@@ -1770,7 +1742,7 @@ function buildMovePanel(me, b, halfPower = false) {
   const later = (k) => (only && only !== k ? "later" : "");
   const usable = me.skills.filter((sk, i) => !(cds[i] > 0) && me.sp >= sk.sp).length;
   const chosenSkill = moveSel?.kind === "skill" ? me.skills[moveSel.index] : null;
-  const skills = `<button class="ms-move skills ${chosenSkill ? "sel" : ""} ${later("skills")}" data-move="skills" ${later("skills") ? "disabled" : ""}>
+  const skills = `<button class="ms-move skills ${chosenSkill ? "sel" : ""} ${later("skills")}" data-move="skills" ${later("skills") ? "disabled" : ""}><i class="ms-sk" aria-hidden="true"></i>
       <span class="ms-name big">SKILLS</span>
       <span class="ms-eff">${chosenSkill ? `${esc(chosenSkill.name)} chosen` : `${usable} of ${me.skills.length} ready · tap to see them`}</span>
     </button>`;
@@ -1792,33 +1764,40 @@ function buildMovePanel(me, b, halfPower = false) {
   const hint = picking ? (targetVerb(moveSel, me) === "TAP TO HIT" ? "Tap an enemy" : "Tap a teammate")
     : halfPower ? "Half damage" : hintedMove ? "Hint used: not powered up" : "Powered up";
 
-  cmds.innerHTML = `<div class="ms ${fresh ? "enter" : ""}">
-    <div class="ms-state">
+  const html = `<div class="ms ${fresh ? "enter" : ""}">
+    <div class="ms-state"><i class="ms-sk" aria-hidden="true"></i>
       <span class="ms-ok ${halfPower ? "steal" : ""}">${halfPower ? "⚡ STOLEN" : hintedMove ? "✓ CORRECT · 💡" : "✓ CORRECT"}</span>
       <span class="ms-timer" id="mpTimer"></span>
       <span class="ms-hint ${picking ? "go" : ""}">${hint}</span>
     </div>
-    <button class="ms-move strike ${selIs("strike") ? "sel" : ""} ${later("strike")}" data-move="strike" ${later("strike") ? "disabled" : ""}>
+    <button class="ms-move strike ${selIs("strike") ? "sel" : ""} ${later("strike")}" data-move="strike" ${later("strike") ? "disabled" : ""}><i class="ms-sk" aria-hidden="true"></i>
       <span class="ms-name big">STRIKE</span>
       <span class="ms-eff">${esc(me.element)} hit on one enemy</span>
     </button>
     ${skills}
-    <button class="ms-move ult ${ultReady && !later("ult") ? "ready" : ""} ${later("ult")}" data-move="ult" ${ultReady && !later("ult") ? "" : "disabled"}>
+    <button class="ms-move ult ${ultReady && !later("ult") ? "ready" : ""} ${later("ult")}" data-move="ult" ${ultReady && !later("ult") ? "" : "disabled"}><i class="ms-sk" aria-hidden="true"></i>
       <span class="ms-k">ULTIMATE</span>
       <span class="ms-name">${esc(me.ultimate?.name || "Ultimate")}</span>
       <span class="ms-eff">${ultEffect(me.ultimate)}${ultReady ? "" : ` · Sync ${syncPct}%`}</span>
     </button>
-    <button class="ms-move items ${itemsOpen || moveSel?.kind === "item" ? "sel" : ""} ${later("items")}" data-move="items" ${itemsLeft && !later("items") ? "" : "disabled"}>
+    <button class="ms-move items ${itemsOpen || moveSel?.kind === "item" ? "sel" : ""} ${later("items")}" data-move="items" ${itemsLeft && !later("items") ? "" : "disabled"}><i class="ms-sk" aria-hidden="true"></i>
       <span class="ms-name">ITEMS</span><span class="ms-eff">${itemsLeft} left</span>
     </button>
     ${itemsPop}
-    ${picking ? `<button class="ms-back" data-move="back">BACK</button>` : ""}
+    ${picking ? `<button class="ms-back" data-move="back"><i class="ms-sk" aria-hidden="true"></i>BACK</button>` : ""}
   </div>`;
+  // Room updates arrive every few seconds while the menu is up; an unchanged menu is left alone (rebuilding it
+  // repainted every shard). The buttons read the latest fighter and battle from M, not from the render they were made in.
+  const M = buildMovePanel._m = { me, b, halfPower };
+  const hkey = html.replace(/class="ms[^"]*"/, 'class="ms"');
+  const same = !fresh && cmds._html === hkey && cmds.querySelector(".ms");
+  if (!same) { cmds._html = hkey; cmds.innerHTML = html; }
   tickMoveTimer();
-  if (fresh) setTimeout(() => cmds.querySelector(".ms.enter")?.classList.remove("enter"), 1150);   // shards landed: the rim and shadow can go on
+  if (fresh) setTimeout(() => cmds.querySelector(".ms.enter")?.classList.remove("enter"), 1150);   // shards landed
 
-  cmds.querySelectorAll("[data-move]").forEach((el) => el.addEventListener("click", () => {
+  if (!same) cmds.querySelectorAll("[data-move]").forEach((el) => el.addEventListener("click", () => {
     if (inputLocked) return;
+    const { me, b, halfPower } = buildMovePanel._m;
     const m = el.dataset.move;
     if (m === "strike") chooseMove({ kind: "strike" }, me, b);
     else if (m === "skill") chooseMove({ kind: "skill", index: +el.dataset.i }, me, b);
@@ -1908,7 +1887,7 @@ function tickMoveTimer() {
   const el = $("mpTimer");
   if (!el) return;
   const left = Math.max(0, Math.ceil((moveDeadline - Date.now()) / 1000));
-  el.textContent = `0:${String(left).padStart(2, "0")}`;
+  setText(el, `0:${String(left).padStart(2, "0")}`);
   el.classList.toggle("low", left <= 4);
 }
 
@@ -2063,7 +2042,7 @@ function setMatchClock(msLeft) {
   $("arena").classList.add("clocked");            // the question strip sits just under the clock
   const tick = () => {
     const t = Math.max(0, Math.ceil((matchDeadline - Date.now()) / 1000));
-    el.textContent = `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`;
+    setText(el, `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`);
     el.classList.toggle("low", t <= 30);
   };
   tick();
@@ -2122,7 +2101,7 @@ let tDeadline = null;
 function tickCountdowns() {
   const left = tDeadline ? Math.max(0, Math.ceil((tDeadline - Date.now()) / 1000)) : 0;
   document.querySelectorAll(".tn-count").forEach((el) => {
-    el.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+    setText(el, `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`);
   });
 }
 setInterval(tickCountdowns, 500);

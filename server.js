@@ -3,6 +3,7 @@
 // leave the server. Real-time sync over Socket.IO. Empty/disconnected seats
 // are driven by bots so a match always continues.
 import express from "express";
+import compression from "compression";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
@@ -19,8 +20,10 @@ import { PRACTICE_TEAM, PRACTICE_HP, newPractice, nextLesson, practiceQuestion, 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+app.use(compression({ threshold: 1024 }));   // code, styles and data go out gzipped (pictures and audio are compressed already)
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+// battle updates are JSON of a few kB; deflating them cuts what a class of 30 pulls over the school Wi-Fi to about a fifth
+const io = new Server(httpServer, { perMessageDeflate: { threshold: 1024 } });
 if (process.env.RENDER) app.set("trust proxy", 1);   // real visitor addresses behind Render's proxy
 
 // Question hub (/hub): the teacher's own question sets, with pictures.

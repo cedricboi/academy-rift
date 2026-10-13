@@ -218,7 +218,13 @@ damage or healing numbers. The HP bars move when the cinematic ends.
   shading with overlays and opacity instead, and moving parts animate `transform` only. Each
   fighter is one frame-sized box whose background steps through its sheet, with no layer of its
   own: sheet-wide sprite layers, tilted and zoomed by the camera, were what made the zoom stutter.
-  The frame-rate readout in Settings shows how a class device copes.
+  Fighters and the HUD are rebuilt only when something they show changes, the move menu's white rim and shadow are
+  plain shapes rather than filters, countdowns touch the page only when the number changes, and a device that cannot
+  hold 60 fps in a cinematic draws a steady 30. The frame-rate readout in Settings shows how a class device copes.
+- Class load: a real-time 30-student tournament (29 scripted students, one real browser student and the teacher's
+  dashboard) used about 1% of one CPU core on the server, answered every move within 25 ms, and ran 150 students at
+  under 4%. Code and battle updates are sent compressed; the media is cached on each device for a day, so the first
+  visit downloads about 13 MB per student and later visits very little.
 
 ### Settings and sound
 The gear in the top-right corner opens Settings on every screen: music and sound-effect

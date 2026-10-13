@@ -1495,13 +1495,19 @@ for (const cid of Object.keys(NEWC)) STRIKES[cid] = () => { const el = CH[cid].e
 
 // ---------- running one action ----------
 let SIM = false, slow = 0, running = false, lastT = 0, idleFrames = 0, safety = 0;
+// A device that cannot hold 60 fps draws a steady 30 instead: an even 33 ms beat looks smoother than frames that
+// wander between 17 and 50 ms. Decided from most recent frames, so one heavy frame at the start of a move does not count.
+let PACE30 = false, jitter = 0;
 function loop(now) {
+  if (PACE30 && lastT && now - lastT < 27) { requestAnimationFrame(loop); return; }   // hold this frame, draw on the next beat
   const dt = Math.min(100, now - (lastT || now)); lastT = now;
   if (!SIM) { musicStep(dt); step(dt); } draw();
+  if (PLAY && !SIM && !PACE30) { jitter = jitter * .93 + (dt > 24 ? .07 : 0); if (jitter > .5) PACE30 = true; }
   if (PLAY && !SIM && !LITE) { slow = slow * .95 + (dt > 40 ? .05 : 0); if (slow > .6) LITE = true; }   // most recent frames over 40 ms: go lite for the session
   if (PLAY || idleFrames-- > 0) requestAnimationFrame(loop); else running = false;
 }
-function startLoop() { idleFrames = 30; if (!running) { running = true; lastT = 0; requestAnimationFrame(loop); } }
+function startLoop() { idleFrames = 2;   // the game hides the canvas as soon as a move ends, so drawing on afterwards is wasted
+  if (!running) { running = true; lastT = 0; requestAnimationFrame(loop); } }
 
 function resetWorld() {
   timers = []; tweens = []; fxs = []; parts = []; scorch = []; nums = []; pools = []; sigils = []; streaks = []; trail = []; featherRain = 0; elRain = null; snapFX = null; snapNext = null;
@@ -1525,7 +1531,8 @@ function endPlay() {
 const MUSIC = { el: null, vol: .38 };
 const STAGE_URLS = [];
 let MAN = null, initP = null, coreP = null; const charP = {}, stageP = {};
-const loadImg = src => new Promise(r => { const i = new Image(); i.decoding = 'async'; i.onload = () => r(i); i.onerror = () => r(null); i.src = BASE + src; });
+// decoded before it is handed over, so the first frame that draws a sheet does not stop to decode it
+const loadImg = src => new Promise(r => { const i = new Image(); i.decoding = 'async'; i.onload = () => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()).then(() => r(i)); i.onerror = () => r(null); i.src = BASE + src; });
 function init(o = {}) {
   if (initP) return initP; BASE = o.base || ''; if (o.stages) STAGE_URLS.push(...o.stages);
   initP = fetch(BASE + 'theatre/manifest.json').then(r => r.json()).then(m => { MAN = m;

@@ -616,6 +616,7 @@ body.calm .stagecam{transition-duration:.2s;} body.calm .arena.p5 .ms.enter > *{
 .stage-shade{inset:-30%;background:radial-gradient(circle at var(--sx,50%) var(--sy,50%),rgba(3,3,10,0) 0,rgba(3,3,10,0) calc(110 * var(--u)),
   rgba(3,3,10,.72) calc(190 * var(--u)),rgba(3,3,10,.93) calc(300 * var(--u)),rgba(3,3,10,.97) calc(420 * var(--u)));}
 .arena.focus .stage-bg{filter:none;}          /* a filter on the whole stage was redrawn on every frame of the zoom */
+.stage-bg{inset:-20%;}                        /* far enough past the screen that the aiming swing never shows its edge */
 .focus-lines{display:none;}
 .stage-shade,.focus-name{will-change:opacity,transform;}
 /* an Ultimate breaks the stage: a violet rift flash and a jolt as the next damage level lands */
@@ -634,3 +635,31 @@ body.calm .arena.rift-break .stagecam{animation:none;} body.calm .arena.rift-bre
 .chibi.posing .spr-frame{animation:sprPoseB var(--pdur,1s) steps(var(--psteps,14),end) var(--pdelay,0s) 1 forwards;}
 @keyframes sprPoseB{from{background-position-x:0%}to{background-position-x:100%}}
 @media (prefers-reduced-motion: reduce){ .spr-frame{animation:none;} .chibi.posing .spr-frame{animation:sprPoseB 1ms steps(1,end) 1 forwards;} }
+
+/* ===================== Menu II: the rim and shadow without filters ===================== */
+/* The white rim and hard shadow used to be five drop-shadow filters on the whole menu, redrawn every time anything in it
+   changed (the timer, a tap, a room update). Each shard now carries them as plain shapes behind it: the face (::before),
+   a white copy 3 units bigger (::after) and a black copy pushed down-right (.ms-sk). Nothing is filtered. */
+.arena.p5 .ms,.arena.p5 .ms.enter{filter:none;}
+.arena.p5 .ms-move{--poly:polygon(2% 10%,99% 0,96% 88%,100% 100%,0 94%);--bg:#0d0f24;}
+.arena.p5 .ms-state{--poly:polygon(0 8%,100% 0,96% 100%,3% 92%);--bg:#000;}
+.arena.p5 .ms-back{--poly:polygon(4% 0,100% 8%,96% 100%,0 90%);--bg:#b31b2c;}
+.arena.p5 .ms .ms-move,.arena.p5 .ms .ms-state,.arena.p5 .ms .ms-back{background:none!important;clip-path:none!important;box-shadow:none!important;isolation:isolate;}
+.arena.p5 .ms .ms-move::before,.arena.p5 .ms .ms-state::before,.arena.p5 .ms .ms-back::before,
+.arena.p5 .ms .ms-move::after,.arena.p5 .ms .ms-state::after,.arena.p5 .ms .ms-back::after,
+.arena.p5 .ms .ms-sk{content:"";position:absolute;inset:0;clip-path:var(--poly);pointer-events:none;display:block;}
+.arena.p5 .ms .ms-move::before,.arena.p5 .ms .ms-state::before,.arena.p5 .ms .ms-back::before{background:var(--bg);z-index:-1;}
+.arena.p5 .ms .ms-move::after,.arena.p5 .ms .ms-state::after,.arena.p5 .ms .ms-back::after{inset:calc(-3 * var(--u));background:#fff;z-index:-2;}
+.arena.p5 .ms .ms-sk{inset:calc(-3 * var(--u));background:rgba(0,0,0,.92);z-index:-3;transform:translate(calc(9 * var(--u)),calc(9 * var(--u)));}
+/* each face colour, as before */
+.arena.p5 .ms-move.strike{--bg:linear-gradient(100deg,#b31b2c 0%,#7a0e1c 70%,#4a0610 100%);}
+.arena.p5 .ms-move.skills{--bg:linear-gradient(100deg,#0d0f24 0%,#1a1f44 100%);}
+.arena.p5 .ms .ms-move.skills::before{box-shadow:inset calc(6 * var(--u)) 0 0 var(--ln-gold);}
+.arena.p5 .ms-move.ult{--bg:linear-gradient(100deg,#3a2c10,#1a1406);}
+.arena.p5 .ms-move.ult.ready{--bg:linear-gradient(100deg,#ffe3a6 0%,#e2b865 55%,#a8742c 100%);}
+.arena.p5 .ms-move.items{--bg:#f3e9d2;}
+.arena.p5 .ms-move:disabled{--bg:linear-gradient(100deg,#29241a,#15120b);}
+.arena.p5 .ms-move:hover:not(:disabled),.arena.p5 .ms-move.sel,.arena.p5 .ms-move.ult.ready:hover:not(:disabled),.arena.p5.aim .ms-move.sel{--bg:#fff;}
+.arena.p5 .ms .ms-move:hover:not(:disabled)::before,.arena.p5 .ms .ms-move.sel::before{box-shadow:none;}
+.arena.p5 .ms-back:hover{--bg:#fff;}
+.arena.p5 .ms-items{box-shadow:0 0 0 calc(3 * var(--u)) #fff,calc(9 * var(--u)) calc(9 * var(--u)) 0 rgba(0,0,0,.92);}
