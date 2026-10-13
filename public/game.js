@@ -723,7 +723,7 @@ function onRoom(s) {
   }
   room = s;
   if (typeof s.serverNow === "number") clockSkew = s.serverNow - Date.now();
-  if (s.status === "lobby") { preppedKey = ""; angelUids.clear(); renderRoom(); showScreen("room"); prepTheatre(s.players.map((p) => LAB[p.character])); }
+  if (s.status === "lobby") { preppedKey = ""; angelUids.clear(); renderRoom(); if (!$("topicScreen").classList.contains("hidden")) renderTopicSelect(s.hostId === myId); showScreen("room"); prepTheatre(s.players.map((p) => LAB[p.character])); }
   else if (s.status === "battle") ensureChibisThenRender(s.battle.combatants);
 }
 
@@ -1163,23 +1163,55 @@ function renderRoom() {
   $("startBtn").disabled = !canStart;
   $("startBtn").querySelector("span").textContent = canStart ? "⚔ START MATCH" : "⚔ NEED 2v2 + PICKS";
 
-  // roster
-  const ros = $("roster"); ros.innerHTML = "";
-  CHARACTERS.forEach((c) => {
-    const picked = meP?.character === c.id;
-    const col = ELEMENT_COLORS[c.element];
-    ros.insertAdjacentHTML("beforeend",
-      `<div class="rcard ${picked?"picked":""}" data-pick="${c.id}" style="--ecol:${col}">
+  // the two cards: topics and your fighter
+  $("topicCard").innerHTML = `<span class="rc-label">Topics tested</span><span class="rc-value">${esc(topicSummary())}</span>
+    <span class="rc-action">${isHost ? "Change topics" : "See topics"}</span>`;
+  const mc = meP?.character && CHAR_BY_ID[meP.character];
+  $("fighterCard").style.setProperty("--ecol", mc ? ELEMENT_COLORS[mc.element] : "var(--gold)");
+  $("fighterCard").innerHTML = mc
+    ? `<span class="rc-port">${portrait(mc.id)}</span><span class="rc-text"><span class="rc-label">Your fighter</span><span class="rc-value">${esc(mc.name)}</span>
+       <span class="rc-meta" style="color:${ELEMENT_COLORS[mc.element]}">${esc(mc.element)} · ${esc(mc.role)}</span><span class="rc-action">Change fighter</span></span>`
+    : `<span class="rc-port empty">?</span><span class="rc-text"><span class="rc-label">Your fighter</span><span class="rc-value">Not chosen yet</span><span class="rc-action">Choose fighter</span></span>`;
+  fighterPicker.mine = meP?.character || null; fighterPicker.tags = {};
+  for (const p of room.players) if (p.character && p.id !== myId) (fighterPicker.tags[p.character] ||= []).push(p.bot ? "BOT" : upper(p.name));
+  if (!$("fighterScreen").classList.contains("hidden") && fighterPicker.from === "room") renderRoster();
+  // first time in a room without a fighter: the fighter screen opens by itself
+  if (meP && !meP.character && fighterPicker.autoRoom !== room.code) { fighterPicker.autoRoom = room.code; openFighterScreen("room"); }
+}
+
+// ---- topics: a short summary on the room card, the full list on its own screen ----
+function topicSummary() {
+  const chosen = String(room?.topicId || "mixed").split(",");
+  const names = chosen.map((id) => TOPICS.find((t) => t.id === id)?.name || (room.topicParts || []).find((p) => p.id === id)?.title
+    || (hubSets || []).find((p) => p.id === id)?.title || "Your question set");
+  return names.length > 3 ? `${names.slice(0, 2).join(", ")} and ${names.length - 2} more` : names.join(", ");
+}
+function openTopicScreen() { SFX.play("select"); renderTopicSelect(room?.hostId === myId); $("topicScreen").classList.remove("hidden"); }
+
+// ---- choose your fighter: one screen for the room and the class tournament ----
+const fighterPicker = { from: null, mine: null, tags: {}, onPick: null, autoRoom: null };
+function renderRoster() {
+  const ros = $("roster");
+  ros.innerHTML = CHARACTERS.map((c) => {
+    const col = ELEMENT_COLORS[c.element], picked = fighterPicker.mine === c.id, tags = [picked ? "YOU" : "", ...(fighterPicker.tags[c.id] || [])].filter(Boolean);
+    return `<button type="button" class="rcard ${picked ? "picked" : ""}" data-pick="${c.id}" style="--ecol:${col}">
         <i class="rgem"></i>
         <div class="rport">${portrait(c.id)}</div>
         <div class="rname">${NAME[c.id]}</div>
         <div class="relem" style="color:${col}">${c.element}</div>
         <div class="rrole">${c.role}</div>
-      </div>`);
-  });
-  ros.querySelectorAll("[data-pick]").forEach((el) =>
-    el.addEventListener("click", () => openCharDetail(el.dataset.pick)));
+        ${tags.length ? `<span class="rtag">${esc(tags.join(" · "))}</span>` : ""}
+      </button>`;
+  }).join("");
+  ros.querySelectorAll("[data-pick]").forEach((el) => el.addEventListener("click", () =>
+    openCharDetail(el.dataset.pick, (charId) => { closeFighterScreen(); if (fighterPicker.onPick) fighterPicker.onPick(charId); else socket.emit("pickCharacter", { charId }); })));
 }
+function openFighterScreen(from, onPick = null) {
+  fighterPicker.from = from; fighterPicker.onPick = onPick;
+  $("fighterSub").textContent = from === "tourney" && !fighterPicker.mine ? "Tap a fighter to see their skills. If you do not pick, you get a random fighter." : "Tap a fighter to see their skills.";
+  renderRoster(); $("fighterScreen").classList.remove("hidden");
+}
+function closeFighterScreen() { $("fighterScreen").classList.add("hidden"); }
 
 // ---- host topic picker (spans Bloom's taxonomy), plus the teacher's own sets ----
 let hubSets = null, hubSetsAt = 0;
@@ -1210,7 +1242,7 @@ function renderTopicSelect(isHost) {
       <span class="tc-blurb">${t.blurb}</span>
     </button>`).join("");
   wrap.innerHTML =
-    `<h3 class="head sub">📚 TOPIC TESTED${isHost ? ` <span class="topic-lock">· tap one or more</span>` : ` <span class="topic-lock">· host chooses</span>`}</h3>
+    `<p class="pick-sub">${isHost ? "Tap one or more. The battle mixes questions from everything you choose." : "The host chooses the topics for this room."}</p>
      <div class="topic-chips">${chips}</div>
      <p class="topic-bloom-note">Each topic mixes Bloom's levels — 📗 Remember · 📘 Understand · 📙 Apply · 📕 Analyse · 📓 Evaluate</p>`;
   if (isHost) wrap.querySelectorAll("[data-topic]").forEach((b) => b.addEventListener("click", () => {
@@ -1967,6 +1999,11 @@ function clearTSession() { try { localStorage.removeItem(T_KEY); } catch {} tVie
 // The fighter detail overlay sits inside the room screen; move it to the top
 // level so the tournament screen can open it too.
 $("game").appendChild($("charDetail"));
+$("game").appendChild($("fighterScreen")); $("game").appendChild($("topicScreen"));
+$("topicCard").addEventListener("click", openTopicScreen);
+$("fighterCard").addEventListener("click", () => { SFX.play("select"); openFighterScreen("room"); });
+document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => { SFX.play("select"); $(b.dataset.close).classList.add("hidden"); }));
+for (const id of ["fighterScreen", "topicScreen"]) $(id).addEventListener("click", (e) => { if (e.target.id === id) $(id).classList.add("hidden"); });
 
 socket.on("tJoined", ({ code, you, token, name }) => {
   myId = you;
@@ -2058,7 +2095,7 @@ $("tourney").addEventListener("click", (e) => {
     SFX.play("select");
     socket.emit("tChoosePartner", { pid: tView.you.wants === el.dataset.mate ? null : el.dataset.mate });
   } else if (el.dataset.fighter) {
-    openCharDetail(el.dataset.fighter, (charId) => socket.emit("tPickFighter", { charId }));
+    SFX.play("select"); openFighterScreen("tourney", (charId) => socket.emit("tPickFighter", { charId }));
   } else if (el.dataset.watch) {
     SFX.play("select");
     socket.emit("tWatch", { matchId: el.dataset.watch });
@@ -2159,18 +2196,15 @@ function fighterHtml(v) {
   if (v.settings.fighters === "random") {
     return `<div class="tn-card"><h3 class="tn-h">YOUR FIGHTER</h3><p class="tn-text">Fighters are given out at random each round.</p></div>`;
   }
-  const mine = v.you.character, theirs = v.partner?.character;
-  const cards = CHARACTERS.map((c) => {
-    const tags = [mine === c.id ? "YOU" : "", theirs === c.id && !v.partner?.bot ? esc(v.partner.name).toUpperCase() : ""].filter(Boolean).join(" · ");
-    return `<button class="tn-fcard ${mine === c.id ? "picked" : ""}" data-fighter="${c.id}" style="--ecol:${ELEMENT_COLORS[c.element]}">
-      <div class="rport">${portrait(c.id)}</div>
-      <span class="tn-fname">${NAME[c.id]}</span>
-      ${tags ? `<span class="tn-ftag">${tags}</span>` : ""}
-    </button>`;
-  }).join("");
-  return `<div class="tn-card"><h3 class="tn-h">YOUR FIGHTER ${mine ? `<span class="tn-sub">${esc(CHAR_BY_ID[mine].name)}</span>` : ""}</h3>
-    <p class="tn-text">${mine ? "Tap a fighter to see their skills or change your pick." : "Tap a fighter to see their skills, then pick one. If you do not pick, you get a random fighter."}</p>
-    <div class="tn-fighters">${cards}</div></div>`;
+  const mine = v.you.character, theirs = v.partner?.character, mc = mine && CHAR_BY_ID[mine];
+  fighterPicker.mine = mine || null; fighterPicker.tags = theirs && !v.partner?.bot ? { [theirs]: [upper(v.partner.name)] } : {};
+  if (!$("fighterScreen").classList.contains("hidden") && fighterPicker.from === "tourney") renderRoster();
+  return `<div class="tn-card"><h3 class="tn-h">YOUR FIGHTER</h3>
+    <button type="button" class="room-card fighter tn-fpick" data-fighter="open" style="--ecol:${mc ? ELEMENT_COLORS[mc.element] : "var(--gold)"}">
+      ${mc ? `<span class="rc-port">${portrait(mc.id)}</span><span class="rc-text"><span class="rc-value">${esc(mc.name)}</span>
+        <span class="rc-meta" style="color:${ELEMENT_COLORS[mc.element]}">${esc(mc.element)} · ${esc(mc.role)}</span><span class="rc-action">Change fighter</span></span>`
+      : `<span class="rc-port empty">?</span><span class="rc-text"><span class="rc-value">Not chosen yet</span><span class="rc-meta">If you do not pick, you get a random fighter.</span><span class="rc-action">Choose fighter</span></span>`}
+    </button></div>`;
 }
 
 function standingsHtml(v) {

@@ -560,3 +560,49 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .hud.foe{right:calc(14 * var(--u) + 52px);}
 /* calm effects: no camera tilt or burst on the page either */
 body.calm .stagecam{transition-duration:.2s;} body.calm .arena.p5 .ms.enter > *{animation:none;}
+
+/* ===================== Room: two cards, and the topics and fighters on their own screens ===================== */
+.room-cards{width:min(920px,96vw);display:grid;grid-template-columns:1fr 1.2fr;gap:12px;margin:6px 0 4px;}
+.room-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;min-height:110px;padding:14px 18px;text-align:left;cursor:pointer;
+  color:var(--ln-text);border:1px solid var(--ln-gold);border-radius:3px;
+  background:radial-gradient(120% 70% at 50% 0%,rgba(255,206,130,.12),transparent 62%),linear-gradient(180deg,var(--ln-win-a),var(--ln-win-b));
+  box-shadow:inset 0 0 0 3px rgba(5,6,16,.92),inset 0 0 0 4px var(--ln-gold-lo),0 12px 30px rgba(0,0,0,.45);transition:transform .12s,box-shadow .15s;}
+.room-card:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 3px rgba(5,6,16,.92),inset 0 0 0 4px rgba(226,184,101,.6),0 0 24px rgba(226,184,101,.22),0 12px 30px rgba(0,0,0,.45);}
+.room-card:focus-visible{outline:2px solid var(--ln-gold-hi);outline-offset:3px;}
+.room-card.fighter{flex-direction:row;align-items:center;gap:16px;}
+.rc-text{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.rc-label{font-family:"Rift Display",serif;font-weight:700;letter-spacing:.1em;font-size:.82rem;color:var(--ln-mute);}
+.rc-value{font-family:"Rift Display",serif;font-weight:900;font-size:1.3rem;letter-spacing:.04em;color:var(--ln-gold-hi);line-height:1.2;}
+.rc-meta{font-size:.9rem;font-weight:600;color:var(--ln-mute);}
+.rc-action{margin-top:4px;font-family:"Rift Display",serif;font-weight:700;font-size:.85rem;letter-spacing:.1em;color:var(--ln-text);
+  padding:3px 12px;border:1px solid var(--ln-gold-lo);border-radius:2px;background:rgba(5,6,16,.5);}
+.room-card:hover .rc-action{border-color:var(--ln-gold);color:var(--ln-gold-hi);}
+.rc-port{flex:0 0 auto;width:76px;height:96px;overflow:hidden;border-radius:2px;background:radial-gradient(90% 70% at 50% 30%,#fbf3dc,#e6d3a3 70%,#c9ae72);
+  box-shadow:0 0 0 1px #2a1a06,0 0 0 2px var(--ecol,var(--ln-gold)),0 0 16px color-mix(in srgb,var(--ecol,#e2b865) 45%,transparent);}
+.rc-port img{mix-blend-mode:multiply;}
+.rc-port.empty{display:flex;align-items:center;justify-content:center;font-family:"Rift Display",serif;font-weight:900;font-size:2.4rem;color:#7a6440;}
+@media (max-width:640px){ .room-cards{grid-template-columns:1fr;} }
+
+.pick-screen{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;padding:2vh 2vw;
+  background:radial-gradient(80% 70% at 50% 40%,rgba(30,34,70,.6),rgba(4,5,12,.94));animation:lnFade .2s ease;}
+.pick-screen.hidden{display:none;}
+.pick-box{position:relative;width:min(760px,96vw);max-height:94vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:20px 22px 22px;
+  border:1px solid var(--ln-gold);border-radius:3px;
+  background:radial-gradient(120% 55% at 50% 0%,rgba(255,206,130,.12),transparent 62%),linear-gradient(180deg,var(--ln-win-a),var(--ln-win-b));
+  box-shadow:inset 0 0 0 3px rgba(5,6,16,.92),inset 0 0 0 4px var(--ln-gold-lo),0 20px 50px rgba(0,0,0,.6);}
+.pick-box.wide{width:min(1000px,96vw);}
+.pick-head{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.pick-head .cd-close{position:static;flex:0 0 auto;}
+.pick-title{margin:0;font-family:"Rift Display",serif;font-weight:900;letter-spacing:.08em;font-size:clamp(1.3rem,3vw,2rem);
+  background:linear-gradient(180deg,#fff4d6,var(--ln-gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pick-sub{margin:0;color:var(--ln-mute);font-size:.95rem;}
+.pick-box .topic-panel{margin:0;max-width:none;}
+.pick-done{align-self:center;min-width:220px;margin-top:6px;}
+.pick-box .roster{width:100%;margin:0;}
+.rcard{font:inherit;color:inherit;}
+.rtag{position:absolute;left:50%;top:8px;transform:translateX(-50%);z-index:3;padding:1px 8px;border-radius:2px;white-space:nowrap;
+  font-family:"Rift Display",serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;background:linear-gradient(180deg,#ffe3a6,#c48f3e);color:#22170a;}
+.tn-fpick{width:100%;min-height:96px;margin-top:6px;}
+/* keep the headers' own buttons clear of the settings gear */
+.tn-head{padding-right:54px;}
+@media (max-width:1060px){ .room-head{padding-right:54px;} }

@@ -120,8 +120,11 @@
       <div class="team-col" id="teamB"><h3 class="team-title b">TEAM AZURE</h3><div class="slots" id="slotsB"></div></div>
     </div>
 
-    <!-- Host-chosen quiz topic (spans Bloom's taxonomy levels) -->
-    <div class="topic-panel" id="topicPanel"></div>
+    <!-- two cards: the topics (opens the topics screen) and your fighter (opens the fighter screen) -->
+    <div class="room-cards">
+      <button type="button" class="room-card topics" id="topicCard"></button>
+      <button type="button" class="room-card fighter" id="fighterCard"></button>
+    </div>
 
     <div class="room-controls">
       <button class="shard-btn" id="switchBtn"><span>⇄ SWITCH TEAM</span></button>
@@ -130,8 +133,22 @@
       <button class="shard-btn ghost" id="addBotBBtn"><span>+ BOT AZURE</span></button>
       <button class="shard-btn primary" id="startBtn"><span>⚔ START MATCH</span></button>
     </div>
-    <h3 class="head sub">CHOOSE YOUR FIGHTER</h3>
-    <div class="roster" id="roster"></div>
+    <!-- topics tested: its own screen, opened from the card -->
+    <div class="pick-screen hidden" id="topicScreen" role="dialog" aria-labelledby="topicTitle">
+      <div class="pick-box">
+        <div class="pick-head"><h2 class="pick-title" id="topicTitle">Topics tested</h2><button type="button" class="cd-close" data-close="topicScreen" aria-label="Close">✕</button></div>
+        <div class="topic-panel" id="topicPanel"></div>
+        <button type="button" class="shard-btn primary pick-done" data-close="topicScreen"><span>DONE</span></button>
+      </div>
+    </div>
+    <!-- choose your fighter: its own screen -->
+    <div class="pick-screen hidden" id="fighterScreen" role="dialog" aria-labelledby="fighterTitle">
+      <div class="pick-box wide">
+        <div class="pick-head"><h2 class="pick-title" id="fighterTitle">Choose your fighter</h2><button type="button" class="cd-close" data-close="fighterScreen" aria-label="Close">✕</button></div>
+        <p class="pick-sub" id="fighterSub">Tap a fighter to see their skills.</p>
+        <div class="roster" id="roster"></div>
+      </div>
+    </div>
     <p id="roomMsg" class="msg"></p>
 
     <!-- Character detail overlay: full card art + skills/stats info sheet -->
