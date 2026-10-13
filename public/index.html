@@ -191,10 +191,16 @@
       </div>
 
       <!-- fighters in 2v2 lanes -->
-      <div class="lane lf" id="laneAllyFront"></div>
-      <div class="lane lb" id="laneAllyBack"></div>
-      <div class="lane rf" id="laneEnemyFront"></div>
-      <div class="lane rb" id="laneEnemyBack"></div>
+      <!-- the camera: the stage and the four fighters move together when it zooms onto whoever is acting -->
+      <div class="stagecam" id="stagecam">
+        <div class="stage-bg"></div>
+        <div class="stage-shade"></div>
+        <div class="lane lf" id="laneAllyFront"></div>
+        <div class="lane lb" id="laneAllyBack"></div>
+        <div class="lane rf" id="laneEnemyFront"></div>
+        <div class="lane rb" id="laneEnemyBack"></div>
+      </div>
+      <div class="focus-lines" aria-hidden="true"></div>
 
       <!-- battle theatre: every strike, skill and ultimate plays here as a cinematic, then the stage comes back -->
       <div class="theatre" id="theatre" aria-hidden="true"></div>

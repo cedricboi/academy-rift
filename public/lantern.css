@@ -368,3 +368,74 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .cd-meta{display:none;}   /* the sheet's crest already says element and role */
 .cs-desc{font-size:clamp(.7rem,1.42vh,.88rem);}
 .cd-sheet::before,.cd-artframe::before{content:"";position:absolute;pointer-events:none;z-index:2;inset:0;}
+
+/* ===================== Battle camera =====================
+   Fighters stand a little smaller and further apart. When someone is choosing a move the camera zooms onto them
+   with a Dutch tilt, the rest of the stage drops into shadow, and your move menu bursts out of your fighter. */
+.lane .tok{width:calc(330 * var(--u));}
+.lane.lb .tok,.lane.rf .tok{width:calc(290 * var(--u));}
+.lane.lf{left:13%;} .lane.lb{left:32%;} .lane.rf{left:68%;} .lane.rb{left:87%;}
+
+.arena::before{display:none;}
+.stagecam{position:absolute;inset:0;z-index:4;transform-origin:50% 60%;transition:transform .6s cubic-bezier(.2,.85,.25,1);will-change:transform;}
+.stage-bg{position:absolute;inset:-10%;background:var(--stage-img) center/cover no-repeat;transition:filter .45s ease;}
+.arena.asking .stage-bg{filter:blur(3px) brightness(.55);}
+.stage-shade{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .45s ease;
+  background:radial-gradient(circle at var(--cx,50%) var(--cy,60%),transparent 0 6%,rgba(4,4,14,.66) 16%,rgba(2,2,10,.9) 36%);}
+.arena.focus .stage-bg{filter:brightness(.62) saturate(.75);}
+.arena.focus .stage-shade{opacity:1;}
+.arena.focus .tok:not(.focus){filter:brightness(.32) saturate(.55);}
+.tok{transition:filter .4s ease,transform .2s;}
+.tok.focus .chibi{filter:brightness(1.08) drop-shadow(0 0 calc(18 * var(--u)) var(--glow,rgba(255,214,140,.7))) drop-shadow(0 8px 8px rgba(0,0,0,.6));}
+.tok.focus .tok-flag{display:none;}
+/* rays from the fighter, like a stage spotlight */
+.focus-lines{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .4s ease;
+  background:repeating-conic-gradient(from 0deg at var(--fx,50%) var(--fy,55%),rgba(255,227,166,.09) 0 1.6deg,transparent 1.6deg 8deg);
+  -webkit-mask:radial-gradient(circle at var(--fx,50%) var(--fy,55%),transparent 0 17%,#000 42%);mask:radial-gradient(circle at var(--fx,50%) var(--fy,55%),transparent 0 17%,#000 42%);}
+.arena.focus .focus-lines{opacity:1;}
+
+/* ---- your move menu, bursting out of your fighter ---- */
+.arena.p5 .commands{left:0;right:0;top:0;bottom:0;pointer-events:none;}
+.arena.p5 .ms{position:absolute;left:calc(var(--fx) + 105 * var(--u));top:calc(var(--fy) - 235 * var(--u));width:calc(430 * var(--u));height:calc(420 * var(--u));
+  min-height:0;display:block;padding:0;background:none;border:none;box-shadow:none;pointer-events:none;filter:drop-shadow(calc(7 * var(--u)) calc(7 * var(--u)) 0 rgba(0,0,0,.85));}
+.arena.p5 .ms::before{display:none;}
+.arena.p5 .ms > *{position:absolute;pointer-events:auto;}
+.arena.p5 .ms-state{left:calc(10 * var(--u));top:0;flex-direction:row;align-items:center;gap:calc(10 * var(--u));width:auto;min-width:0;
+  padding:calc(4 * var(--u)) calc(22 * var(--u)) calc(4 * var(--u)) calc(14 * var(--u));background:#0b0c1c;transform:rotate(-7deg) skewX(-14deg);
+  clip-path:polygon(0 8%,100% 0,96% 100%,3% 92%);}
+.arena.p5 .ms-state > *{transform:skewX(14deg);}
+.arena.p5 .ms-timer{font-size:max(20px,calc(34 * var(--u)));}
+.arena.p5 .ms-move{--t:rotate(-6deg) skewX(-13deg);transform:var(--t);border:none;border-radius:0;align-items:flex-start;justify-content:center;
+  height:calc(78 * var(--u));min-height:52px;padding:0 calc(26 * var(--u)) 0 calc(30 * var(--u));box-shadow:none;
+  clip-path:polygon(2% 10%,99% 0,96% 88%,100% 100%,0 94%);transition:transform .14s ease,filter .14s ease;}
+.arena.p5 .ms-move > *{transform:skewX(9deg);}
+.arena.p5 .ms-move:hover:not(:disabled){transform:var(--t) translateX(calc(14 * var(--u))) scale(1.05);filter:brightness(1.15);box-shadow:none;}
+.arena.p5 .ms-move .ms-name.big{font-size:max(22px,calc(40 * var(--u)));letter-spacing:.06em;}
+.arena.p5 .ms-move .ms-eff{font-size:max(11px,calc(14 * var(--u)));}
+.arena.p5 .ms-move.strike{left:0;top:calc(62 * var(--u));width:calc(330 * var(--u));--t:rotate(-7deg) skewX(-13deg);
+  background:linear-gradient(100deg,#b31b2c 0%,#7a0e1c 70%,#4a0610 100%);color:#fff2e0;}
+.arena.p5 .ms-move.skills{left:calc(46 * var(--u));top:calc(150 * var(--u));width:calc(370 * var(--u));--t:rotate(-3deg) skewX(-13deg);
+  background:linear-gradient(100deg,#0d0f24 0%,#1a1f44 100%);color:var(--ln-gold-hi);box-shadow:inset calc(6 * var(--u)) 0 0 var(--ln-gold);}
+.arena.p5 .ms-move.ult{left:calc(22 * var(--u));top:calc(238 * var(--u));width:calc(350 * var(--u));--t:rotate(-6deg) skewX(-13deg);
+  background:linear-gradient(100deg,#3a2c10,#1a1406);color:var(--ln-mute);}
+.arena.p5 .ms-move.ult.ready{background:linear-gradient(100deg,#ffe3a6 0%,#e2b865 55%,#a8742c 100%);color:#22170a;animation:none;}
+.arena.p5 .ms-move.ult.ready .ms-k,.arena.p5 .ms-move.ult.ready .ms-eff{color:#3a2608;}
+.arena.p5 .ms-move.items{left:calc(92 * var(--u));top:calc(326 * var(--u));width:calc(220 * var(--u));--t:rotate(-4deg) skewX(-13deg);
+  background:#f3e9d2;color:#14162c;align-items:flex-start;}
+.arena.p5 .ms-move.items .ms-eff{color:#4a4a5a;}
+.arena.p5 .ms-move.sel{filter:brightness(1.2);outline:calc(3 * var(--u)) solid var(--ln-gold-hi);outline-offset:-6px;}
+.arena.p5 .ms-move:disabled{opacity:.5;}
+.arena.p5 .ms-items{left:calc(250 * var(--u));top:calc(300 * var(--u));right:auto;bottom:auto;}
+/* the burst: each command flies out of the fighter, one after another */
+.arena.p5 .ms.enter{animation:none;}
+.arena.p5 .ms.enter > *{animation:p5pop .42s cubic-bezier(.2,1.35,.4,1) both;}
+.arena.p5 .ms.enter > :nth-child(1){animation-delay:0s;}
+.arena.p5 .ms.enter > :nth-child(2){animation-delay:.05s;}
+.arena.p5 .ms.enter > :nth-child(3){animation-delay:.1s;}
+.arena.p5 .ms.enter > :nth-child(4){animation-delay:.15s;}
+.arena.p5 .ms.enter > :nth-child(5){animation-delay:.2s;}
+@keyframes p5pop{from{opacity:0;transform:translate(calc(-170 * var(--u)),calc(40 * var(--u))) rotate(-28deg) scale(.25);}to{opacity:1;}}
+@media (prefers-reduced-motion: reduce){ .stagecam{transition:none;} .arena.p5 .ms.enter > *{animation:none;} }
+
+.arena.p5 .ms-move .ms-eff,.arena.p5 .ms-move .ms-name{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
+.arena.p5 .ms-move.ult .ms-name{font-size:max(15px,calc(24 * var(--u)));}

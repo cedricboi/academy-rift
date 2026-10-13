@@ -69,6 +69,7 @@ function setArenaBg(stage) {
   if (!url || url === arenaBg) return;
   arenaBg = url;
   $("arena").style.backgroundImage = `url('${encodeURI(url)}')`;
+  $("arena").style.setProperty("--stage-img", `url('${encodeURI(url)}')`);
 }
 setTimeout(() => ASSETS.stages.forEach((u) => { new Image().src = encodeURI(u); }), 5000);   // warm the cache after the page has loaded
 
@@ -486,7 +487,7 @@ function playTheatre({ actor, action, name, events }) {
     heals: evs.filter((e) => e.heal != null).map((e) => e.heal),
   };
   clearAttackPose(actor);
-  theatreOn = true;
+  theatreOn = true; updateCamera();
   $("arena").classList.add("theatre-on"); $("arena").classList.toggle("theatre-ult", kind === "ult");
   theatreDone = TH.play(opts).then(() => {
     if (actC.charId === "emi" && action === "ultimate") angelUids.add(actC.uid);
@@ -1471,7 +1472,30 @@ function renderDock(b, cur, myTurn, stealActorC) {
   setStage(mode); renderStrip(strip); showWait(wait);
   applyFlags();
   updateCoach();
+  updateCamera();
 }
+
+// ---- the camera: when someone is choosing a move, it zooms onto them with a Dutch tilt and the rest of the stage goes dark.
+// The move menu then bursts out of your own fighter. While you pick a target, it pulls back so every fighter is in view.
+function updateCamera() {
+  const b = room?.battle, a = $("arena"), cam = $("stagecam"); if (!cam) return;
+  const actor = b && (b.phase === "steal-action" ? b.stealActor : b.phase === "action" ? b.current : null);
+  const tok = actor && !movePicking && !theatreOn ? tokenEl(actor) : null;
+  document.querySelectorAll("#arena .tok.focus").forEach((t) => t !== tok && t.classList.remove("focus"));
+  if (!tok) { a.classList.remove("focus", "p5"); cam.style.transform = ""; return; }
+  const lane = tok.parentElement, W = a.clientWidth, H = a.clientHeight;
+  const cx = lane.offsetLeft, cy = lane.offsetTop + tok.offsetHeight * 0.52;    // the fighter's middle, before any zoom
+  const ally = tok.dataset.side === "ally";
+  const tx = W * (ally ? 0.3 : 0.7), ty = H * 0.56, s = 1.38, r = ally ? -4 : 4;  // where the camera puts them, how close, how tilted
+  cam.style.transformOrigin = `${cx}px ${cy}px`;
+  cam.style.transform = `translate(${tx - cx}px, ${ty - cy}px) rotate(${r}deg) scale(${s})`;
+  a.style.setProperty("--fx", tx + "px"); a.style.setProperty("--fy", ty + "px");
+  a.style.setProperty("--cx", cx + "px"); a.style.setProperty("--cy", cy + "px");
+  tok.classList.add("focus");
+  a.classList.add("focus"); a.classList.toggle("focus-foe", !ally);
+  a.classList.toggle("p5", actor === myId && !$("commands").classList.contains("hidden"));
+}
+window.addEventListener("resize", () => updateCamera());
 
 // ---- your move: one strip along the bottom ----
 // After a right answer: Strike, the four skills, the Ultimate and items in one
@@ -1643,6 +1667,7 @@ function buildMovePanel(me, b, halfPower = false) {
   }
   applyFlags();
   updateCoach();
+  updateCamera();
 }
 
 // What each ultimate does, in a few words.
