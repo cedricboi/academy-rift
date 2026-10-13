@@ -5,7 +5,9 @@
 A 4-player (2v2) online science JRPG. You and a friend join a room by code and battle
 two other players in a gothic castle arena. Each turn you answer a science MCQ, then act —
 strike, cast a spell, defend, use an item, tag, or unleash your **Team Ultimate** when the
-**Team Sync Gauge** is full. Correct answers power your action; weakness hits charge sync.
+**Team Sync Gauge** is full. Correct answers power your action; only a team streak charges sync
+(2 right answers in a row +20, 3 in a row +25, 4 or more +30 each; a wrong answer resets it).
+Every Ultimate breaks the stage a step further: each of the 6 places has 5 damage levels.
 
 > Real online multiplayer — the server (Node + Socket.IO) is authoritative: it holds the
 > questions/answers and resolves all combat, so no client can cheat.
@@ -103,8 +105,8 @@ Open **`/hub`** (for example `https://…onrender.com/hub`) to make your own que
 
 **Hints in battle.** On their own question a student can tap **💡 HINT** (and tap again to
 confirm). They see the hint written for that question, or, if there is none, two wrong answers
-are taken away. The price: a right answer after a hint is not powered up and fills only half
-as much of the team's Sync gauge. The tournament Settings set how many hints each student gets
+are taken away. The price: a right answer after a hint is not powered up and its streak sync
+is halved. The tournament Settings set how many hints each student gets
 per battle (off, 1, 2 or 3; normal rooms allow 2) and whether a hint also costs 10% HP. Other
 players see that a hint was used, and the results spreadsheet has a "Hints used" column.
 
@@ -213,8 +215,10 @@ damage or healing numbers. The HP bars move when the cinematic ends.
   The few filters left are done once in JavaScript and cached, on every browser. Slow devices
   drop the glow passes to keep time.
 - Smoothness rules for the battle screen: no CSS filters or blur on anything that animates,
-  shading with overlays and opacity instead, and moving parts animate `transform` only. The
-  frame-rate readout in Settings shows how a class device copes.
+  shading with overlays and opacity instead, and moving parts animate `transform` only. Each
+  fighter is one frame-sized box whose background steps through its sheet, with no layer of its
+  own: sheet-wide sprite layers, tilted and zoomed by the camera, were what made the zoom stutter.
+  The frame-rate readout in Settings shows how a class device copes.
 
 ### Settings and sound
 The gear in the top-right corner opens Settings on every screen: music and sound-effect
@@ -243,7 +247,7 @@ again after changing any number in `characters.js`. Options: `50000` for more ba
 `--try changes.json` to test new numbers without editing the file.
 
 The element chart is even: each element is the weak spot of exactly one fighter, and
-exactly one fighter resists it. A WEAK hit does 1.75× damage and fills extra Sync; a resisted
+exactly one fighter resists it. A WEAK hit does 1.75× damage; a resisted
 hit does half.
 
 | Element | Weak spot of | Resisted by |

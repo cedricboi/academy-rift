@@ -91,6 +91,20 @@ rep("  const gx = w * .12, gy = h * .12; if (!LITE) ctx.drawImage(im, i * F.w, 0
   if (!LITE) { if (glow) { const gw = glow.width / F.n; ctx.filter = 'none'; ctx.drawImage(glow, i * gw, 0, gw, glow.height, x - gx, y - gy, w + gx * 2, h + gy * 2); }
     else ctx.drawImage(src, i * F.w, 0, F.w, F.h, x - gx, y - gy, w + gx * 2, h + gy * 2); }
   ctx.filter = 'none';""")
+# battle stages v3: six locations, five damage levels each; stageI picks the location's light, stageImgI the picture
+js = js[:js.index("const STAGES = [")] + """const STAGES = [
+  { name: 'Grand Library', hor: 190, far: .96, floor: 1, wash: 'rgba(14,10,34,.06)', amb: '#9a9cff', ambA: .05, rays: null },
+  { name: 'Science Lab', hor: 190, far: .96, floor: 1, wash: 'rgba(14,12,30,.06)', amb: '#9ab4ff', ambA: .05, rays: null },
+  { name: 'Academy Rooftop', hor: 190, far: .96, floor: 1, wash: 'rgba(16,8,34,.06)', amb: '#a888ff', ambA: .06, rays: null },
+  { name: 'Academy Courtyard', hor: 190, far: .96, floor: 1, wash: 'rgba(20,12,30,.06)', amb: '#b49cff', ambA: .05, rays: null },
+  { name: 'Classroom 2-A', hor: 190, far: .96, floor: 1, wash: 'rgba(24,14,20,.05)', amb: '#c0a8ff', ambA: .05, rays: null },
+  { name: 'East Corridor', hor: 190, far: .96, floor: 1, wash: 'rgba(10,12,34,.06)', amb: '#8aa8ff', ambA: .05, rays: null },
+];
+let stageImgI = 0;
+""" + js[js.index("const FGY = 318;"):]
+rep("function stageLayer(k, filter) { const L = layers[k], key = stageI + filter;", "function stageLayer(k, filter) { const L = layers[k], key = stageImgI + '|' + filter;")
+js = js.replace("L.g.drawImage(img.stages[stageI], 0, 0, W + 40, H + 24)", "L.g.drawImage(img.stages[stageImgI], 0, 0, W + 40, H + 24)")
+assert "img.stages[stageImgI]" in js
 # drop the lab's controls and asset loader; the API takes their place
 js = js[:js.index('/* ---------- controls ---------- */')] + API
 open(OUT, 'w').write("// Academy Rift battle theatre: the Skill Lab engine, played for every strike, skill and ultimate.\n// Built from the Skill Lab by build_theatre.py; edit the lab and rebuild rather than editing this file.\n(function () {\n" + js + "\n})();\n")

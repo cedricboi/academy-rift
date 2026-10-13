@@ -446,8 +446,6 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
    camera lands, and a menu with a white outline and a hard black shadow. While you aim, the camera swings to the
    targets and the menu folds down to the chosen move and a back button. */
 /* the pose: played once from the start of the spotlight, then held on the last frame */
-.chibi.posing .spr-frame img{animation:sprPose var(--pdur,1s) steps(var(--psteps,14),end) var(--pdelay,0s) 1 forwards;}
-@keyframes sprPose{from{transform:translateX(0);}to{transform:translateX(var(--pend,-93%));}}
 
 /* splash: a jagged star of the fighter's element, halftone-dotted, with a white rim */
 .stage-splash{position:absolute;z-index:3;left:var(--cx,50%);top:var(--cy,60%);width:calc(470 * var(--u));height:calc(470 * var(--u));
@@ -497,7 +495,7 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
   font-family:"Rift Display",serif;font-weight:900;font-style:italic;letter-spacing:.08em;font-size:max(14px,calc(20 * var(--u)));
   background:#b31b2c;color:#fff;transform:rotate(-5deg) skewX(-13deg);clip-path:polygon(4% 0,100% 8%,96% 100%,0 90%);}
 .arena.p5 .ms-back:hover{background:#fff;color:#b31b2c;}
-@media (prefers-reduced-motion: reduce){ .arena.p5 .ms{animation:none;} .stage-splash,.focus-name{transition:none;} .chibi.posing .spr-frame img{animation-duration:1ms;} }
+@media (prefers-reduced-motion: reduce){ .arena.p5 .ms{animation:none;} .stage-splash,.focus-name{transition:none;} .chibi.posing .spr-frame{animation-duration:1ms;} }
 .arena.p5 .ms-move:hover:not(:disabled) .ms-name,.arena.p5 .ms-move.sel .ms-name{color:#0b0c1c;}
 .focus-name{transform:translate(-40%,-108%) rotate(-11deg) scale(.6);}
 .arena.focus:not(.aim) .focus-name{transform:translate(-40%,-108%) rotate(-11deg) scale(1);}
@@ -514,7 +512,6 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .tok,.lane .tok.acting{animation:none;}
 .tok.target-pick{animation:none;}
 .tok-fxp,.tok-aura{display:none;}
-.spr-frame img{will-change:transform;}
 .lane{will-change:transform;}
 /* darkening the others: opacity on the fighter, not a filter */
 .arena.focus .tok:not(.focus),.arena.aim .tok:not(.target-pick):not(.focus){filter:none;opacity:.4;}
@@ -542,7 +539,7 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 /* while your question is open, or the spotlight is on someone else, the fighters behind hold still */
 .arena.asking .lane{opacity:1;}
 .arena.asking .stagecam::after{background:rgba(6,6,16,.62);}
-.arena.asking .spr-frame img,.arena.focus .tok:not(.focus):not(.target-pick) .spr-frame img{animation-play-state:paused;}
+.arena.asking .spr-frame,.arena.focus .tok:not(.focus):not(.target-pick) .spr-frame{animation-play-state:paused;}
 /* the skill sheet covers the stage: no live blur behind it */
 .ss-overlay,.char-detail{backdrop-filter:none;-webkit-backdrop-filter:none;}
 .ss-overlay{background:rgba(6,4,10,.93);}
@@ -554,7 +551,7 @@ input:focus{border-color:var(--ln-gold-hi);box-shadow:inset 0 2px 8px rgba(0,0,0
 .stage-splash{isolation:isolate;}
 /* the menu's white rim and shadow switch on once the shards have landed */
 .arena.p5 .ms.enter{filter:none;}
-.arena:has(.ss-overlay) .spr-frame img{animation-play-state:paused;}
+.arena:has(.ss-overlay) .spr-frame{animation-play-state:paused;}
 
 /* the gear sits where the other team's HUD starts: move that HUD left a little */
 .hud.foe{right:calc(14 * var(--u) + 52px);}
@@ -611,3 +608,29 @@ body.calm .stagecam{transition-duration:.2s;} body.calm .arena.p5 .ms.enter > *{
 /* a move you cannot use yet: a dim solid shard (see-through shards showed the white rim through them) */
 .arena.p5 .ms-move:disabled{opacity:1;background:linear-gradient(100deg,#29241a,#15120b);color:#8f8162;}
 .arena.p5 .ms-move:disabled .ms-k,.arena.p5 .ms-move:disabled .ms-eff{color:#7d7259;}
+
+/* ===================== Spotlight II: the whole screen goes dark, and the zoom stays smooth ===================== */
+/* the shade lives in the camera, under the fighters, and reaches far past the screen on every side, so however the camera
+   zooms and tilts the whole arena goes dark; only a soft pool of light stays round the fighter (--sx/--sy from game.js) */
+.arena.focus{background-image:none!important;background-color:#05050c;}
+.stage-shade{inset:-30%;background:radial-gradient(circle at var(--sx,50%) var(--sy,50%),rgba(3,3,10,0) 0,rgba(3,3,10,0) calc(110 * var(--u)),
+  rgba(3,3,10,.72) calc(190 * var(--u)),rgba(3,3,10,.93) calc(300 * var(--u)),rgba(3,3,10,.97) calc(420 * var(--u)));}
+.arena.focus .stage-bg{filter:none;}          /* a filter on the whole stage was redrawn on every frame of the zoom */
+.focus-lines{display:none;}
+.stage-shade,.focus-name{will-change:opacity,transform;}
+/* an Ultimate breaks the stage: a violet rift flash and a jolt as the next damage level lands */
+.arena::after{content:"";position:absolute;inset:0;z-index:60;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 40%,rgba(255,240,255,.95),rgba(170,90,255,.7) 45%,rgba(20,0,40,0) 80%);}
+.arena.rift-break::after{animation:riftFlash 1s ease-out;}
+.arena.rift-break .stagecam{animation:riftJolt .5s cubic-bezier(.3,1.6,.5,1);}
+@keyframes riftFlash{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+@keyframes riftJolt{0%,100%{translate:0 0}20%{translate:-10px 6px}40%{translate:9px -5px}60%{translate:-6px 3px}80%{translate:3px -2px}}
+body.calm .arena.rift-break .stagecam{animation:none;} body.calm .arena.rift-break::after{animation-duration:.4s;opacity:.4;}
+
+/* ===================== Sprites II: one frame-sized box per fighter ===================== */
+/* the background steps through the sheet; no layer of its own (a sprite layer per fighter, tilted and zoomed by the camera, was what made the zoom stutter) */
+.spr-frame{overflow:visible;background-repeat:no-repeat;background-position:0 0;background-size:calc(var(--n,8) * 100%) 100%;
+  image-rendering:crisp-edges;image-rendering:pixelated;animation:sprIdleB var(--dur,1.1s) steps(var(--n,8)) infinite;}
+@keyframes sprIdleB{from{background-position-x:0%}to{background-position-x:var(--bend,114.2857%)}}
+.chibi.posing .spr-frame{animation:sprPoseB var(--pdur,1s) steps(var(--psteps,14),end) var(--pdelay,0s) 1 forwards;}
+@keyframes sprPoseB{from{background-position-x:0%}to{background-position-x:100%}}
+@media (prefers-reduced-motion: reduce){ .spr-frame{animation:none;} .chibi.posing .spr-frame{animation:sprPoseB 1ms steps(1,end) 1 forwards;} }

@@ -1133,13 +1133,14 @@ function drawChain() {
 // hor = where the back wall meets the floor (canvas px). The far wall is softly blurred, the floor
 // stays sharp, and the bottom strip is drawn blurred in front of the fighters for HD-2D depth.
 const STAGES = [
-  { name: 'Grand Library', hor: 211, far: .86, floor: .94, wash: 'rgba(14,8,34,.1)', amb: '#8f8cff', ambA: .06, rays: { col: '170,185,255', a: .05, ang: .28, xs: [[372, 50], [436, 30]] } },
-  { name: 'Alchemy Lab', hor: 180, far: .86, floor: .94, wash: 'rgba(36,16,30,.08)', amb: '#ffb27a', ambA: .06, rays: { col: '255,190,130', a: .06, ang: -.55, xs: [[30, 60], [120, 40]] } },
-  { name: 'Academy Rooftop', hor: 192, far: .9, floor: .98, wash: 'rgba(16,6,34,.1)', amb: '#a57cff', ambA: .07, rays: null },
-  { name: 'Academy Gate', hor: 203, far: .84, floor: .92, wash: 'rgba(40,18,10,.08)', amb: '#ffc480', ambA: .06, rays: { col: '255,210,150', a: .05, ang: .2, xs: [[250, 60], [380, 40]] } },
-  { name: 'Classroom 2-A', hor: 198, far: .84, floor: .92, wash: 'rgba(40,16,6,.08)', amb: '#ffad66', ambA: .07, rays: { col: '255,190,120', a: .07, ang: -.6, xs: [[30, 70], [120, 50], [200, 40]] } },
-  { name: 'East Hallway', hor: 172, far: .88, floor: .96, wash: 'rgba(10,10,34,.1)', amb: '#8aa0ff', ambA: .06, rays: null },
+  { name: 'Grand Library', hor: 190, far: .96, floor: 1, wash: 'rgba(14,10,34,.06)', amb: '#9a9cff', ambA: .05, rays: null },
+  { name: 'Science Lab', hor: 190, far: .96, floor: 1, wash: 'rgba(14,12,30,.06)', amb: '#9ab4ff', ambA: .05, rays: null },
+  { name: 'Academy Rooftop', hor: 190, far: .96, floor: 1, wash: 'rgba(16,8,34,.06)', amb: '#a888ff', ambA: .06, rays: null },
+  { name: 'Academy Courtyard', hor: 190, far: .96, floor: 1, wash: 'rgba(20,12,30,.06)', amb: '#b49cff', ambA: .05, rays: null },
+  { name: 'Classroom 2-A', hor: 190, far: .96, floor: 1, wash: 'rgba(24,14,20,.05)', amb: '#c0a8ff', ambA: .05, rays: null },
+  { name: 'East Corridor', hor: 190, far: .96, floor: 1, wash: 'rgba(10,12,34,.06)', amb: '#8aa8ff', ambA: .05, rays: null },
 ];
+let stageImgI = 0;
 const FGY = 318;
 const layers = {}; for (const k of ['far', 'floor', 'fg']) { const c = document.createElement('canvas'); c.__raw = true; c.width = W + 40; c.height = H + 24; layers[k] = { c, g: c.getContext('2d'), key: '' }; }
 function grade(b) { const D = fxState.despair, I = fxState.inferno;
@@ -1147,7 +1148,7 @@ function grade(b) { const D = fxState.despair, I = fxState.inferno;
   if (I > .01) f += ` sepia(${(I * .5).toFixed(2)}) hue-rotate(${(-I * 14).toFixed(0)}deg) saturate(${(1 + I * 1.1).toFixed(2)})`;
   const Eg = fxState.eg; if (Eg > .01) { const e = ELS[fxState.egk]; f += ` brightness(${(1 + (e.bright - 1) * Eg).toFixed(2)})` + (fxState.egk === 'metal' ? ` saturate(${(1 - Eg * .6).toFixed(2)})` : ''); }
   const Dn = fxState.dawn; if (Dn > .01) f += ` brightness(${(1 + Dn * .22).toFixed(2)}) sepia(${(Dn * .3).toFixed(2)}) saturate(${(1 - Dn * .1).toFixed(2)})`; return f; }
-function stageLayer(k, filter) { const L = layers[k], key = stageI + filter; if (L.key !== key) { L.key = key; L.g.clearRect(0, 0, W + 40, H + 24); L.g.filter = filter; L.g.imageSmoothingEnabled = true; L.g.drawImage(img.stages[stageI], 0, 0, W + 40, H + 24); L.g.filter = 'none';
+function stageLayer(k, filter) { const L = layers[k], key = stageImgI + '|' + filter; if (L.key !== key) { L.key = key; L.g.clearRect(0, 0, W + 40, H + 24); L.g.filter = filter; L.g.imageSmoothingEnabled = true; L.g.drawImage(img.stages[stageImgI], 0, 0, W + 40, H + 24); L.g.filter = 'none';
     if (k === 'fg') { const m = L.g.createLinearGradient(0, FGY + 12 - 16, 0, FGY + 12 + 14); m.addColorStop(0, 'rgba(0,0,0,0)'); m.addColorStop(1, 'rgba(0,0,0,1)'); L.g.globalCompositeOperation = 'destination-in'; L.g.fillStyle = m; L.g.fillRect(0, 0, W + 40, H + 24); L.g.globalCompositeOperation = 'source-over'; } } return L.c; }
 const gradeCv = {}; function gradeTo(name, base, opaque, extraDim = 1) {
   const D = fxState.despair, I = fxState.inferno, Eg = fxState.eg, Dn = fxState.dawn, e = ELS[fxState.egk];
@@ -1563,7 +1564,7 @@ function prepare(cids, stage = 0) {
   const els = [...new Set(all.map(c => CH[c] && CH[c].el).filter(Boolean))];
   return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar), ...els.map(loadTints)]).then(() => {
     warm(all);
-    if (!PLAY) { stageI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
+    if (!PLAY) { stageI = Math.floor(stage / 5) % STAGES.length; stageImgI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
   });
 }
 const readyFor = (cids, stage) => !!(MAN && img.fx && Object.keys(AS.FX).every(k => img.fx[k]) && img.stages[stage] && cids.filter(Boolean).every(c => img[c] && Object.keys(MAN.chars[c]).every(k => img[c][k])));
@@ -1575,8 +1576,9 @@ function playAction(o) {
     if (PLAY) endPlay();
     const em = (c, a) => c === 'E' && a ? 'EA' : c;
     const actorId = em(o.actor, o.angel && o.angel.actor), allyId = o.ally ? em(o.ally, o.angel && o.angel.ally) : null, tgtId = em(o.target || (o.actor === 'K' ? 'J' : 'K'), o.angel && o.angel.target);
-    if (!readyFor([actorId, allyId, tgtId], o.stage || 0) || !SKILLS[actorId]) { res({ skipped: true }); return; }
-    resetWorld(); stageI = o.stage || 0;
+    const simg = (o.stage || 0) * 5 + Math.max(0, Math.min(4, (o.level || 1) - 1));   // picture: location x 5 + damage level
+    if (!readyFor([actorId, allyId, tgtId], simg) || !SKILLS[actorId]) { res({ skipped: true }); return; }
+    resetWorld(); stageI = (o.stage || 0) % STAGES.length; stageImgI = simg;
     hero.cid = actorId; hero.x = HOME; hero.y = 0; hero.armed = false; hero.angelLap = false;
     tgt.cid = tgtId; tgt.x = ENEMY; tgt.y = 0; tgt.armed = false; tgt.hidden = false;
     ally.hidden = !allyId; ally.cid = allyId || 'E'; ally.x = EMI_X; ally.y = 0; ally.armed = false;

@@ -194,6 +194,8 @@ function nextStage() { stageTurn = (stageTurn + 1) % STAGE_COUNT; return stageTu
 function publicBattle(b) {
   return {
     stage: b.stage ?? 0,
+    stageLevel: b.stageLevel || 1,
+    streak: { 0: b.streak?.[0] || 0, 1: b.streak?.[1] || 0 },
     sync: { 0: Math.round(b.sync[0]), 1: Math.round(b.sync[1]) },
     current: b.current,
     stealOf: b.stealOf || null,
@@ -443,7 +445,8 @@ function beginBattle(room) {
   room.battle = {
     combatants, order, ptr: 0, current: null, phase: null,
     stage: nextStage(),                      // battle backdrop, rotated so back-to-back battles differ
-    sync: { 0: 0, 1: 0 }, publicQuestion: null, q: null,
+    sync: { 0: 0, 1: 0 }, streak: { 0: 0, 1: 0 }, publicQuestion: null, q: null,
+    stageLevel: 1,                           // the stage breaks apart a step with every Ultimate (1 to 5)
     topicId: room.topicId || "mixed",
     qPool, qDeck: shuffle(qPool), qPos: 0,   // topic-filtered deck, drawn without replacement
     correctCount: {}, review: {}, timers: {},
@@ -586,14 +589,19 @@ function gradeAnswer(room, c, correct) {
   c._correct = correct;
   c._answered = true;
   b.correctCount[c.uid] = (b.correctCount[c.uid] || 0) + (correct ? 1 : 0);
-  if (correct) {
-    addSync(room, c.team, c._hinted ? Math.round(SYNC_CORRECT * HINT_SYNC_FACTOR) : SYNC_CORRECT);
-    const mate = b.order.map((u) => b.combatants[u]).find((x) => x.team === c.team && x.uid !== c.uid);
-    if (mate && mate._answered && mate._correct) {       // both teammates correct → in sync!
-      addSync(room, c.team, SYNC_TEAM);
-      io.to(room.code).emit("teamSync", { team: c.team, amount: SYNC_TEAM });
-    }
-  }
+  teamStreak(room, c.team, correct, c._hinted);
+}
+
+// The Sync gauge only fills when a team answers correctly IN A ROW: the first right answer starts the streak,
+// every right answer after it adds to the gauge, and a wrong answer (or a missed steal) ends the streak.
+const STREAK_SYNC = [0, 0, 20, 25, 30];          // gain for the 1st, 2nd, 3rd, 4th (and later) right answer in a row
+function teamStreak(room, team, correct, hinted) {
+  const b = room.battle; if (!b.streak) b.streak = { 0: 0, 1: 0 };
+  if (!correct) { b.streak[team] = 0; return; }
+  const n = ++b.streak[team];
+  let gain = STREAK_SYNC[Math.min(n, STREAK_SYNC.length - 1)];
+  if (hinted) gain = Math.round(gain * HINT_SYNC_FACTOR);
+  if (gain > 0) { addSync(room, team, gain); io.to(room.code).emit("teamSync", { team, amount: gain, streak: n }); }
 }
 
 // Record a player's answer attempt for the end-of-match learning recap (humans only).
@@ -679,6 +687,7 @@ function handleSteal(room, sid, choiceIndex) {
   } : { uid: sid, correct });                 // a missed steal doesn't give the answer away to the others
   if (correct) b.revealPending = false;
   if (!correct) {
+    teamStreak(room, stealer.team, false);      // a missed steal ends the team's streak
     // everyone who can steal has had a go: no need to wait out the window
     if (stealersOf(b, b.stealOf).every((x) => b.stealAnswered.has(x.uid))) closeSteal(room);
     return;

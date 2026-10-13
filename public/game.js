@@ -60,18 +60,26 @@ const ASSETS = {
   skillSheet: (id) => `assets/Skill Menu Art/${SKILL_SHEET_NUM[id] || 1}.webp`,
   ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).webp`,
   bg: { castle: "assets/CASTLE BACKGROUND.webp", opening: "assets/Opening Scene.webp", shop: null, lobby: null },
-  // battle backdrops; the server picks one per battle (battle.stage) so all four players see the same scene
-  stages: ["library", "alchemy-lab", "rooftop", "courtyard", "classroom", "hallway"].map((n) => `assets/stages/${n}.webp`),
+  // battle backdrops: six places, each in five damage levels. The server picks the place per battle (battle.stage)
+  // and every Ultimate breaks it one level further (battle.stageLevel), so all four players see the same scene.
+  stages: ["library", "alchemy-lab", "rooftop", "courtyard", "classroom", "hallway"].flatMap((n) => [1, 2, 3, 4, 5].map((l) => `assets/stages/${n}-${l}.webp`)),
 };
-let arenaBg = "";
-function setArenaBg(stage) {
-  const url = Number.isInteger(stage) ? ASSETS.stages[stage % ASSETS.stages.length] : (arenaBg || ASSETS.bg.castle);
+const stageImg = (stage, level) => (Math.max(0, stage | 0) % 6) * 5 + Math.max(0, Math.min(4, (level || 1) - 1));
+let arenaBg = "", arenaKey = "";
+function setArenaBg(stage, level = 1) {
+  const url = Number.isInteger(stage) ? ASSETS.stages[stageImg(stage, level)] : (arenaBg || ASSETS.bg.castle);
   if (!url || url === arenaBg) return;
-  arenaBg = url;
-  $("arena").style.backgroundImage = `url('${encodeURI(url)}')`;
-  $("arena").style.setProperty("--stage-img", `url('${encodeURI(url)}')`);
+  const key = Number.isInteger(stage) ? `${stage}` : "", worse = key && key === arenaKey && level > 1;
+  arenaBg = url; arenaKey = key;
+  const put = () => { $("arena").style.backgroundImage = `url('${encodeURI(url)}')`; $("arena").style.setProperty("--stage-img", `url('${encodeURI(url)}')`); };
+  if (!worse) return put();
+  // the same place, broken further by an Ultimate: a rift flash and a shake as the new picture lands
+  const im = new Image(); im.src = encodeURI(url);
+  const land = () => { const a = $("arena"); a.classList.remove("rift-break"); void a.offsetWidth; a.classList.add("rift-break"); setTimeout(put, 180); setTimeout(() => a.classList.remove("rift-break"), 1100); };
+  (im.decode ? im.decode() : Promise.resolve()).then(land, land);
 }
-setTimeout(() => ASSETS.stages.forEach((u) => { new Image().src = encodeURI(u); }), 5000);   // warm the cache after the page has loaded
+// the next damage level of this battle's place is fetched ahead, so it is ready when an Ultimate lands
+function preloadStage(stage, level) { for (const l of [level, level + 1]) if (l <= 5) { const im = new Image(); im.src = encodeURI(ASSETS.stages[stageImg(stage, l)]); } }
 
 // Music tracks. playsInline keeps iOS from hijacking them into a fullscreen player.
 // ---- player settings (top-right gear): volumes and battle display, kept on this device ----
@@ -305,11 +313,13 @@ const attackPosed = new Set();
 function chibiImg(charId, uid) {
   const posed = uid && attackPosed.has(uid) ? " posed" : "";
   const id = spriteId(charId, uid), a = ARENA[id], p = POSE[id];
+  // Each fighter is one frame-sized box whose background steps through the sheet. (A whole sheet as a sliding <img> made a
+  // layer up to 15 frames wide per fighter; clipped, scaled and tilted by the camera, those were what made the zoom stutter.)
   if (p && uid && focusPose.uid === uid) {          // the camera is on them: the pose plays once, then they hold their battle stance
     const n = p[0], since = Date.now() - focusPose.start;
-    return `<div class="chibi spr posing${posed}" style="--n:${n};--ax:${(p[1] / 192).toFixed(3)};--pdur:${n * 70}ms;--psteps:${n - 1};--pend:${(-(n - 1) / n * 100).toFixed(4)}%;--pdelay:-${since}ms"><div class="spr-frame"><img src="theatre/arena/${id}_pose_ol.webp" alt="" draggable="false" /></div></div>`;
+    return `<div class="chibi spr posing${posed}" style="--n:${n};--ax:${(p[1] / 192).toFixed(3)};--pdur:${n * 70}ms;--psteps:${n - 1};--pend:${(-(n - 1) / n * 100).toFixed(4)}%;--pdelay:-${since}ms"><div class="spr-frame" style="background-image:url(theatre/arena/${id}_pose_ol.webp)"></div></div>`;
   }
-  if (a) return `<div class="chibi spr${posed}" style="--n:${a[0]};--dur:${a[0] * a[1]}ms;--ax:${(a[2] / 192).toFixed(3)}"><div class="spr-frame"><img src="theatre/arena/${id}.webp" alt="" draggable="false" /></div></div>`;
+  if (a) return `<div class="chibi spr${posed}" style="--n:${a[0]};--dur:${a[0] * a[1]}ms;--ax:${(a[2] / 192).toFixed(3)};--bend:${(100 * a[0] / (a[0] - 1)).toFixed(4)}%"><div class="spr-frame" style="background-image:url(theatre/arena/${id}.webp)"></div></div>`;
   const src = posed ? attackSrc(charId) : idleSrc(charId);
   return `<img class="chibi${posed}" src="${src}" alt="" draggable="false" />`;
 }
@@ -576,11 +586,11 @@ function playTheatre({ actor, action, name, events }) {
   const allyC = mates.find((c) => c.alive) || null;
   const idx = action === "spell" ? actC.skills.findIndex((s) => s.name === name) : -1;
   const kind = action === "ultimate" ? "ult" : idx >= 0 ? "skill" : "strike";
-  const stage = b.stage || 0, cids = [labId(actC), labId(allyC), labId(tgtC)];
-  if (!TH.readyFor(cids, stage)) { prepTheatre(all.map(labId), stage); return false; }
+  const stage = b.stage || 0, level = b.stageLevel || 1, simg = stageImg(stage, level), cids = [labId(actC), labId(allyC), labId(tgtC)];
+  if (!TH.readyFor(cids, simg)) { prepTheatre(all.map(labId), simg); return false; }
   const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
   const opts = {
-    actor: cids[0], ally: cids[1], target: cids[2], kind, index: idx, stage, mirror: actC.team !== myTeam,
+    actor: cids[0], ally: cids[1], target: cids[2], kind, index: idx, stage, level, mirror: actC.team !== myTeam,
     angel: { actor: angelUids.has(actC.uid), ally: !!allyC && angelUids.has(allyC.uid), target: !!tgtC && angelUids.has(tgtC.uid) },
     dmg: hits.length ? hits.reduce((n, e) => n + e.dmg, 0) : null,
     crit: hits.some((e) => e.crit), weak: hits.some((e) => e.eff === "WEAK"), resist: hits.some((e) => e.eff === "RESIST"),
@@ -731,13 +741,14 @@ function onRoom(s) {
 // but the authoritative sprite prep happens whenever battle data lands (ensureChibisThenRender).
 socket.on("battleStart", () => {
   angelUids.clear();
-  setArenaBg(room?.status === "battle" ? room.battle?.stage : undefined);
+  setArenaBg(room?.status === "battle" ? room.battle?.stage : undefined, room?.battle?.stageLevel);
   showScreen("battle");
 });
 
 // Render immediately (fallback sprites), then upgrade to transparent chibis once ready.
 function ensureChibisThenRender(combatants) {
-  setArenaBg(room?.battle?.stage);
+  setArenaBg(room?.battle?.stage, room?.battle?.stageLevel);
+  if (room?.battle) { preloadStage(room.battle.stage || 0, room.battle.stageLevel || 1); prepTheatre([], stageImg(room.battle.stage || 0, (room.battle.stageLevel || 1) + 1)); }
   showScreen("battle");
   renderBattle();
   const ids = combatants.map((c) => c.charId);
@@ -749,7 +760,7 @@ function ensureChibisThenRender(combatants) {
   const key = ids.slice().sort().join(",");
   if (key === preppedKey) return;
   preppedKey = key;
-  prepTheatre(ids.map((id) => LAB[id]), room?.battle?.stage || 0);
+  prepTheatre(ids.map((id) => LAB[id]), stageImg(room?.battle?.stage || 0, room?.battle?.stageLevel || 1));
   // decode the stage poses and the skill cards now, so the first spotlight and the first skill sheet do not stall
   const dec = (u) => { const im = new Image(); im.src = encodeURI(u); im.decode?.().catch(() => {}); return im; };
   preDecoded.length = 0;
@@ -876,10 +887,10 @@ socket.on("stealResult", ({ uid, correct, correctIndex, correctAll, explain }) =
 });
 
 // Both teammates answered correctly → sync surge
-socket.on("teamSync", ({ team }) => {
+socket.on("teamSync", ({ team, amount, streak }) => {
   if (spectating) return;
   const myTeam = room?.players.find((p) => p.id === myId)?.team ?? 0;
-  if (team === myTeam) { SFX.play("sync"); bannerFlash("⚡ TEAM IN SYNC!  +GAUGE", "mine"); }
+  if (team === myTeam) { SFX.play("sync"); bannerFlash(`🔥 ${streak || 2} RIGHT IN A ROW · SYNC +${amount || ""}`, "mine"); }
 });
 
 function bannerFlash(text, cls) {
@@ -1651,6 +1662,7 @@ function updateCamera() {
   cam.style.transform = `translate(${tx - cx}px, ${ty - cy}px) rotate(${r}deg) scale(${s})`;
   a.style.setProperty("--fx", tx + "px"); a.style.setProperty("--fy", ty + "px");
   a.style.setProperty("--cx", cx + "px"); a.style.setProperty("--cy", cy + "px");
+  a.style.setProperty("--sx", cx + W * 0.3 + "px"); a.style.setProperty("--sy", cy + H * 0.3 + "px");   // the same point inside the shade, which starts 30% out
   tok.classList.add("focus");
   a.classList.add("focus"); a.classList.toggle("focus-foe", !ally);
   a.classList.toggle("p5", actor === myId && !$("commands").classList.contains("hidden"));

@@ -11,7 +11,7 @@ export const SP_DMG_SCALE = 140;           // higher-SP skills hit harder: power
 export const DMG_SCALE = 0.62;             // global damage scale — lower = longer battles (0.55 before the character balance in Oct 2026)
 export const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
 export const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
-export const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // 4 correct = 100%
+export const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // kept for older tools; the gauge now fills from answer streaks (server.js teamStreak)
 export const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
@@ -95,24 +95,20 @@ export function resolveAction(room, actor, action) {
       const t = allyTarget(action.targetId);
       const amt = Math.round(sk.power * cm);
       t.hp = Math.min(t.maxHp, t.hp + amt); if (t.hp > 0) t.alive = true;
-      addSync(room, actor.team, SYNC_SUPPORT);
-      events.push({ target: t.uid, heal: amt, kind: "heal" });
+            events.push({ target: t.uid, heal: amt, kind: "heal" });
 
     } else if (sk.kind === "buff") {
-      addSync(room, actor.team, SYNC_SUPPORT);
-      if (sk.eff === "atk") { actor.atkUpTurns = 1; events.push({ target: actor.uid, kind: "buff", eff: "atk" }); }
+            if (sk.eff === "atk") { actor.atkUpTurns = 1; events.push({ target: actor.uid, kind: "buff", eff: "atk" }); }
       else if (sk.eff === "def") { actor.defUpTurns = 1; events.push({ target: actor.uid, kind: "buff", eff: "def" }); }
       else if (sk.eff === "accuracy") { allies.filter((a) => a.alive).forEach((a) => { a.accProtectTurns = 1; events.push({ target: a.uid, kind: "buff", eff: "acc" }); }); }
       else { actor.atkBuff += 20; events.push({ target: actor.uid, kind: "buff" }); }
 
     } else if (sk.kind === "guard") {
-      addSync(room, actor.team, SYNC_SUPPORT);
-      const targets = sk.target === "party" ? allies.filter((a) => a.alive) : [actor];
+            const targets = sk.target === "party" ? allies.filter((a) => a.alive) : [actor];
       targets.forEach((t) => { t.defUpTurns = Math.max(t.defUpTurns, 1); events.push({ target: t.uid, kind: "guard" }); });
 
     } else if (sk.kind === "cleanse") {
-      addSync(room, actor.team, SYNC_SUPPORT);
-      const t = allyTarget(action.targetId);
+            const t = allyTarget(action.targetId);
       t.atkDownTurns = 0; t.defDownTurns = 0; t.accDownTurns = 0; t.timerDownTurns = 0;
       events.push({ target: t.uid, kind: "cleanse" });
 
@@ -137,6 +133,7 @@ export function resolveAction(room, actor, action) {
     if (!actor._correct) return fizzle();
     if (b.sync[actor.team] < 100) return events;            // team sync gauge must be full
     b.sync[actor.team] = 0;                                  // consume the whole team's gauge
+    b.stageLevel = Math.min(5, (b.stageLevel || 1) + 1);     // every Ultimate breaks the stage a step further
     const ult = actor.ultimate, arch = ult.archetype || "damage";
     if (arch === "heal") {                                   // hybrid: heal both allies + damage enemies
       const half = ult.power / 2;
@@ -174,7 +171,6 @@ export function damage(room, actor, target, basePower, element, correctMult, opt
   if (room.practice && target.team === 0) target.hp = Math.max(1, target.hp);   // practice: your team can't be knocked out
   if (target.shield) target.shield = false;
   if (target.hp <= 0) target.alive = false;
-  if (eff.tag === "WEAK") addSync(room, actor.team, SYNC_WEAK);
   return { target: target.uid, dmg, eff: eff.tag, crit: crit > 1, ko: !target.alive, kind: opts.ult ? "ult" : "hit" };
 }
 

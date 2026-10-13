@@ -122,7 +122,7 @@ function prepare(cids, stage = 0) {
   const els = [...new Set(all.map(c => CH[c] && CH[c].el).filter(Boolean))];
   return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar), ...els.map(loadTints)]).then(() => {
     warm(all);
-    if (!PLAY) { stageI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
+    if (!PLAY) { stageI = Math.floor(stage / 5) % STAGES.length; stageImgI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
   });
 }
 const readyFor = (cids, stage) => !!(MAN && img.fx && Object.keys(AS.FX).every(k => img.fx[k]) && img.stages[stage] && cids.filter(Boolean).every(c => img[c] && Object.keys(MAN.chars[c]).every(k => img[c][k])));
@@ -134,8 +134,9 @@ function playAction(o) {
     if (PLAY) endPlay();
     const em = (c, a) => c === 'E' && a ? 'EA' : c;
     const actorId = em(o.actor, o.angel && o.angel.actor), allyId = o.ally ? em(o.ally, o.angel && o.angel.ally) : null, tgtId = em(o.target || (o.actor === 'K' ? 'J' : 'K'), o.angel && o.angel.target);
-    if (!readyFor([actorId, allyId, tgtId], o.stage || 0) || !SKILLS[actorId]) { res({ skipped: true }); return; }
-    resetWorld(); stageI = o.stage || 0;
+    const simg = (o.stage || 0) * 5 + Math.max(0, Math.min(4, (o.level || 1) - 1));   // picture: location x 5 + damage level
+    if (!readyFor([actorId, allyId, tgtId], simg) || !SKILLS[actorId]) { res({ skipped: true }); return; }
+    resetWorld(); stageI = (o.stage || 0) % STAGES.length; stageImgI = simg;
     hero.cid = actorId; hero.x = HOME; hero.y = 0; hero.armed = false; hero.angelLap = false;
     tgt.cid = tgtId; tgt.x = ENEMY; tgt.y = 0; tgt.armed = false; tgt.hidden = false;
     ally.hidden = !allyId; ally.cid = allyId || 'E'; ally.x = EMI_X; ally.y = 0; ally.armed = false;
