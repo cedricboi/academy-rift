@@ -14,6 +14,7 @@ import { TOPIC_BY_ID } from "./public/data/topics.js";
 import { QUESTIONS } from "./questions.js";
 import { setupTournaments } from "./tournament.js";
 import { createBank, mountHub } from "./bank.js";
+import { ANIM_MS } from "./public/data/animTimes.js";
 import { PRACTICE_TEAM, PRACTICE_HP, newPractice, nextLesson, practiceQuestion, botPlan, botMove } from "./practice.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -68,6 +69,16 @@ const QUESTION_SECONDS = 18;
 const ACTION_SECONDS = 12;          // time to pick a move after a correct answer (was 20)
 const REVEAL_MS = 1000;             // correct answer stays highlighted before the move panel (was 3000)
 const NEXT_TURN_MS = 1300;          // pause after a move before the next turn (was 1700)
+const ANIM_MARGIN_MS = 700;          // slack for loading and network delay on top of each cinematic
+// How long to wait after a move: strikes, skills and ultimates play a cinematic on every screen (public/data/animTimes.js)
+function afterMoveMs(actor, action) {
+  const a = ANIM_MS[actor?.charId], t = action?.type;
+  if (!a) return NEXT_TURN_MS;
+  if (t === "strike") return a.strike + ANIM_MARGIN_MS;
+  if (t === "spell") return (a.skills[action.skillIndex] ?? a.strike) + ANIM_MARGIN_MS;
+  if (t === "ultimate") return a.ultimate + ANIM_MARGIN_MS;
+  return NEXT_TURN_MS;
+}
 const STEAL_SECONDS = 6;            // closes early once everyone who can steal has tried (was a fixed 10)
 // Hints: a player may ask for one on their own question. The price: a right answer
 // after a hint is not powered up and fills only half as much Sync; with the "hp"
@@ -750,7 +761,7 @@ function handleAction(room, sid, action, auto = false) {
     actor: actor.uid, action: action?.type || "defend", name: actionLabel(actor, action || { type: "defend" }), events,
   });
   broadcast(room);
-  b.timers.next = later(() => advance(room), NEXT_TURN_MS);
+  b.timers.next = later(() => advance(room), afterMoveMs(actor, action));
 }
 
 // ---------- bots ----------
@@ -796,8 +807,8 @@ function botAction(room) {
   io.to(room.code).emit("actionResult", { actor: c.uid, action: action.type, name: actionLabel(c, action), events });
   broadcast(room);
   const after = room.practice && b.botPlan?.after;    // practice: the coach explains what just happened
-  if (after) b.timers.next = later(() => practiceGate(room, after, () => advance(room)), NEXT_TURN_MS);
-  else b.timers.next = later(() => advance(room), NEXT_TURN_MS);
+  if (after) b.timers.next = later(() => practiceGate(room, after, () => advance(room)), afterMoveMs(c, action));
+  else b.timers.next = later(() => advance(room), afterMoveMs(c, action));
 }
 
 // ---------- end ----------

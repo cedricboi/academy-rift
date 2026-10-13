@@ -195,6 +195,9 @@
       <div class="lane rf" id="laneEnemyFront"></div>
       <div class="lane rb" id="laneEnemyBack"></div>
 
+      <!-- battle theatre: every strike, skill and ultimate plays here as a cinematic, then the stage comes back -->
+      <div class="theatre" id="theatre" aria-hidden="true"></div>
+
       <!-- someone else's turn: the question they are answering, small, at the top -->
       <div class="qstrip hidden" id="qStrip" aria-live="polite"></div>
 
@@ -288,6 +291,7 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="theatre/engine.js"></script>
 <script type="module" src="game.js"></script>
 </body>
 </html>

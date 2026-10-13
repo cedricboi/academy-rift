@@ -297,8 +297,10 @@ const attackSrc = (id) => artCache[ASSETS.attack(id)] || encodeURI(ASSETS.attack
 const attackPosed = new Set();
 
 function chibiImg(charId, uid) {
-  const src = (uid && attackPosed.has(uid)) ? attackSrc(charId) : idleSrc(charId);
   const posed = uid && attackPosed.has(uid) ? " posed" : "";
+  const id = spriteId(charId, uid), a = ARENA[id];
+  if (a) return `<div class="chibi spr${posed}" style="--n:${a[0]};--dur:${a[0] * a[1]}ms;--ax:${(a[2] / 192).toFixed(3)}"><div class="spr-frame"><img src="theatre/arena/${id}.webp" alt="" draggable="false" /></div></div>`;
+  const src = posed ? attackSrc(charId) : idleSrc(charId);
   return `<img class="chibi${posed}" src="${src}" alt="" draggable="false" />`;
 }
 
@@ -436,6 +438,68 @@ const SFX = (() => {
 document.addEventListener("pointerdown", () => SFX.unlock(), { capture: true });
 
 // ============================================================
+//  BATTLE THEATRE — the Skill Lab cinematics, played for every strike, skill and ultimate
+// ============================================================
+// theatre/engine.js (built from the Skill Lab) draws the fight on its own canvas: the actor, their partner and
+// the target, on this battle's stage. The server waits for the animation before the next turn starts.
+// If the art is not loaded yet, the old stage effects play instead, so a slow connection never holds anyone up.
+const TH = window.Theatre || null;
+const LAB = { jun: "J", kuro: "K", emi: "E", saya: "S", raiden: "R", nao: "N", taiga: "T", hina: "H", mina: "M", renji: "X" };
+// stage idle loops (theatre/arena/<id>.webp): frames, ms per frame, where the fighter stands in the 192 px frame
+const ARENA = { J: [8, 120, 72], K: [10, 160, 80], E: [8, 150, 96], EA: [8, 150, 96], S: [8, 140, 96], R: [8, 140, 96],
+  N: [8, 140, 96], T: [8, 140, 96], H: [8, 140, 96], M: [8, 140, 96], X: [8, 140, 96] };
+const angelUids = new Set();      // an Emi who used Aurora Covenant keeps her angel form for the rest of the battle
+let theatreOn = false, heldRoom = null, theatreDone = Promise.resolve();
+if (TH) {
+  TH.init({ stages: ASSETS.stages });
+  TH.setMusic(battleBGM);
+  $("theatre").appendChild(TH.canvas);
+  document.addEventListener("pointerdown", () => TH.unlock(), { capture: true });
+}
+const labId = (c) => (c ? LAB[c.charId] : null);
+const spriteId = (charId, uid) => { const id = LAB[charId]; return id === "E" && uid && angelUids.has(uid) ? "EA" : id; };
+function prepTheatre(cids, stage = 0) { if (TH) TH.prepare(cids.filter(Boolean), stage).catch(() => {}); }
+
+// Plays one action as a cinematic. Returns false when it cannot (no art yet, or not an attack-type action).
+function playTheatre({ actor, action, name, events }) {
+  const b = room?.battle;
+  if (!TH || !b || !["strike", "spell", "ultimate"].includes(action)) return false;
+  const all = b.combatants, find = (uid) => all.find((c) => c.uid === uid);
+  const actC = find(actor); if (!actC) return false;
+  const evs = events || [], hits = evs.filter((e) => e.dmg != null);
+  const foes = all.filter((c) => c.team !== actC.team), mates = all.filter((c) => c.team === actC.team && c.uid !== actC.uid);
+  const tgtC = (hits[0] && find(hits[0].target)) ||
+    evs.filter((e) => ["debuff", "stun", "fizzle"].includes(e.kind)).map((e) => find(e.target)).find((c) => c && c.team !== actC.team) ||
+    foes.find((c) => c.alive) || foes[0];
+  const allyC = mates.find((c) => c.alive) || null;
+  const idx = action === "spell" ? actC.skills.findIndex((s) => s.name === name) : -1;
+  const kind = action === "ultimate" ? "ult" : idx >= 0 ? "skill" : "strike";
+  const stage = b.stage || 0, cids = [labId(actC), labId(allyC), labId(tgtC)];
+  if (!TH.readyFor(cids, stage)) { prepTheatre(all.map(labId), stage); return false; }
+  const myTeam = room.players.find((p) => p.id === myId)?.team ?? 0;
+  const opts = {
+    actor: cids[0], ally: cids[1], target: cids[2], kind, index: idx, stage, mirror: actC.team !== myTeam,
+    angel: { actor: angelUids.has(actC.uid), ally: !!allyC && angelUids.has(allyC.uid), target: !!tgtC && angelUids.has(tgtC.uid) },
+    dmg: hits.length ? hits.reduce((n, e) => n + e.dmg, 0) : null,
+    crit: hits.some((e) => e.crit), weak: hits.some((e) => e.eff === "WEAK"), resist: hits.some((e) => e.eff === "RESIST"),
+    miss: !hits.length && evs.some((e) => e.kind === "fizzle"), ko: !!tgtC && hits.some((e) => e.ko && e.target === tgtC.uid),
+    heals: evs.filter((e) => e.heal != null).map((e) => e.heal),
+  };
+  clearAttackPose(actor);
+  theatreOn = true;
+  $("arena").classList.add("theatre-on"); $("arena").classList.toggle("theatre-ult", kind === "ult");
+  theatreDone = TH.play(opts).then(() => {
+    if (actC.charId === "emi" && action === "ultimate") angelUids.add(actC.uid);
+    theatreOn = false;
+    $("arena").classList.remove("theatre-on", "theatre-ult");
+    showActionLog(actC, action, name, evs);
+    const s = heldRoom; heldRoom = null;
+    if (s) onRoom(s); else { updateBars(); if (room?.status === "battle") renderBattle(); }
+  });
+  return true;
+}
+
+// ============================================================
 //  NAVIGATION
 // ============================================================
 document.querySelectorAll("[data-go]").forEach((b) =>
@@ -542,7 +606,11 @@ socket.on("errorMsg", (m) => { $("homeMsg").textContent = m; $("roomMsg").textCo
 socket.on("toast", (m) => toast(m));
 
 let preppedKey = "";
-socket.on("room", (s) => {
+socket.on("room", (s) => onRoom(s));
+function onRoom(s) {
+  // the same turn still resolving: hold the update until the cinematic ends; a new question means it must stop now
+  if (theatreOn && s.status === "battle" && s.battle?.phase !== "question" && s.code === room?.code) { heldRoom = s; return; }
+  if (theatreOn) { heldRoom = null; TH.skip(); }
   if (s.practice && s.code === practiceLeft) return;           // a practice fight we just left
   if (s.tournament) {
     const mine = s.players.some((p) => p.id === myId);
@@ -552,13 +620,14 @@ socket.on("room", (s) => {
   }
   room = s;
   if (typeof s.serverNow === "number") clockSkew = s.serverNow - Date.now();
-  if (s.status === "lobby") { preppedKey = ""; renderRoom(); showScreen("room"); }
+  if (s.status === "lobby") { preppedKey = ""; angelUids.clear(); renderRoom(); showScreen("room"); prepTheatre(s.players.map((p) => LAB[p.character])); }
   else if (s.status === "battle") ensureChibisThenRender(s.battle.combatants);
-});
+}
 
 // battleStart can arrive before or after the room(battle) broadcast — handle bg here,
 // but the authoritative sprite prep happens whenever battle data lands (ensureChibisThenRender).
 socket.on("battleStart", () => {
+  angelUids.clear();
   setArenaBg(room?.status === "battle" ? room.battle?.stage : undefined);
   showScreen("battle");
 });
@@ -577,6 +646,7 @@ function ensureChibisThenRender(combatants) {
   const key = ids.slice().sort().join(",");
   if (key === preppedKey) return;
   preppedKey = key;
+  prepTheatre(ids.map((id) => LAB[id]), room?.battle?.stage || 0);
   preloadArt(ids).then(() => { if (room?.status === "battle") renderBattle(); });
 }
 
@@ -734,7 +804,12 @@ function spawnEfx(uid, type, colorHex, dy = 0.45) {
   setTimeout(() => d.remove(), 900);
 }
 
-socket.on("actionResult", ({ actor, action, name, events }) => {
+socket.on("actionResult", (msg) => {
+  if (theatreOn) TH.skip();
+  if (playTheatre(msg)) return;
+  stageEffects(msg);
+});
+function stageEffects({ actor, action, name, events }) {
   const actC  = room?.battle?.combatants?.find((c) => c.uid === actor);
   const col   = fxColor(actC?.element);
   const type  = action;   // server sends the action TYPE as a string ("strike"/"spell"/"ultimate"/…)
@@ -790,7 +865,7 @@ socket.on("actionResult", ({ actor, action, name, events }) => {
   }
   // re-render HP bars without rebuilding DOM (avoids animation flicker)
   updateBars();
-});
+}
 
 // Action narration popup: "Saya used Crystal Lock — 142 dmg to Renji ⚡WEAK"
 function showActionLog(actC, type, name, events) {
@@ -872,7 +947,8 @@ function cutIn(uid, name) {
   cutIn._t = setTimeout(() => { ci.classList.add("hidden"); cutIn._busy = false; }, 2000);
 }
 
-socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament, practice }) => {
+socket.on("battleEnd", (d) => { if (theatreOn) theatreDone.then(() => battleEnded(d)); else battleEnded(d); });
+function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
   attackPosed.clear();
   if (spectating) return spectatedBattleEnded(winnerTeam, reason);
   stopMatchClock();
@@ -930,7 +1006,7 @@ socket.on("battleEnd", ({ winnerTeam, reason, rewards, tournament, practice }) =
   $("backToTourney").classList.toggle("hidden", !inTourney);
   updateWatchFromResult();
   showScreen("result");
-});
+}
 
 // ============================================================
 //  ROOM RENDER
