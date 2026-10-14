@@ -6,7 +6,7 @@
   --wood:#2a160e;--wood2:#4a2a17;--cream:#fff4dc;--line:#2b170d;--gold:#f2b84b;}
 @supports (height:100dvh){ .mama{--mw:min(100vw, calc(100dvh * 16 / 9));} }
 /* the same room, dimmed, fills any space around the scene */
-.mama::before{content:"";position:absolute;inset:-4%;background:url("assets/shop/shop_bg.webp") center/cover;
+.mama::before{content:"";position:absolute;inset:-4%;background:url("assets/shop/shop_room.webp") center/cover;
   image-rendering:pixelated;opacity:.32;}
 .mm-scene{position:absolute;left:50%;top:50%;width:var(--mw);aspect-ratio:16/9;transform:translate(-50%,-50%);
   overflow:hidden;box-shadow:0 0 calc(30 * var(--px)) rgba(0,0,0,.8);}

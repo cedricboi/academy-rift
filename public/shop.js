@@ -43,7 +43,7 @@ export function setupShop({ socket, SFX }) {
   root.setAttribute("role", "dialog"); root.setAttribute("aria-label", "Auntie's shop");
   root.innerHTML = `
     <div class="mm-scene" id="mmScene">
-      <img class="mm-bg" src="${ART}shop_bg.webp" alt="" draggable="false">
+      <img class="mm-bg" src="${ART}shop_room.webp" alt="" draggable="false">
       <i class="mm-glow g1"></i><i class="mm-glow g2"></i><i class="mm-glow g3"></i>
       <div class="mm-motes" aria-hidden="true">${"<i></i>".repeat(8)}</div>
       <div class="mm-auntie" id="mmAuntie"><div class="mm-aunt-in">

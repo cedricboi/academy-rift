@@ -91,8 +91,8 @@ body{font-family:"Rift Body",system-ui,sans-serif;color:var(--paper);background:
 .ts-embers i:nth-child(14){left:49%;--dx:calc(2 * var(--tpx));animation-delay:-3.4s;animation-duration:4.5s;}
 /* the fighters, from behind, coats, capes and hair flapping in the wind (8 frames animated in PixelLab) */
 .ts-heroes{position:absolute;left:calc(60 * var(--tpx));bottom:0;width:calc(352 * var(--tpx));height:calc(160 * var(--tpx));
-  background:url('assets/title/heroes.webp') 0 0/800% 100% no-repeat;image-rendering:pixelated;pointer-events:none;
-  animation:tsFlap .9s steps(8) infinite;}
+  background:url('assets/title/heroes_v2.webp') 0 0/800% 100% no-repeat;image-rendering:pixelated;pointer-events:none;
+  animation:tsFlap 1.08s steps(8) infinite;}
 @keyframes tsFlap{to{background-position:114.2857% 0;}}
 .ts-logo{position:absolute;left:50%;top:calc(20 * var(--tpx));width:calc(157 * var(--tpx));transform:translateX(-50%);margin:0;line-height:0;
   animation:tsLogo .9s .7s cubic-bezier(.2,1.4,.4,1) both;}
