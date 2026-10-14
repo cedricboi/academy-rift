@@ -340,7 +340,10 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
     // path of a picture file on this server, fetching it from GitHub the first time
     inflight: new Map(),
     async imageFile(name) {
-      if (!isImage(name) || !store) return null;
+      if (!isImage(name)) return null;
+      const lib = join(dirname(fileURLToPath(import.meta.url)), "library", "img", name);   // pictures for the chapter quizzes
+      if (existsSync(lib)) return lib;
+      if (!store) return null;
       const p = store.imagePath(name);
       if (existsSync(p)) return p;
       if (store.kind !== "github") return null;
