@@ -228,6 +228,8 @@ Academy Rift/
 │  ├─ game.js             Client: socket sync, battle render, MCQ, command shards, FX
 │  ├─ shop.js/.css        Auntie's Magic Mama, the first-person shop between tournament rounds
 │  ├─ assets/shop/        Auntie, the shop backdrop and the 9 item icons (PixelLab pixel art)
+│  ├─ assets/title/       Title screen: the Rift tearing the academy apart, the fighters from behind
+│  │                      (a 6-frame strip of their coats flapping) and the pixel logo
 │  ├─ fonts/              Saira Semi Condensed (titles), Lexend (reading) and Cinzel (battle cinematics)
 │  ├─ theatre/            Battle cinematics: engine.js, manifest.json, sprite sheets, effects, sounds
 │  └─ data/               Shared roster, topics, tournament settings, spreadsheet reading, animTimes.js

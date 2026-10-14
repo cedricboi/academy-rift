@@ -41,21 +41,82 @@ body{font-family:"Rift Body",system-ui,sans-serif;color:var(--paper);background:
 .shard-btn.small{padding:8px 16px;font-size:.95rem;letter-spacing:1px;}
 .shard-btn:disabled{opacity:.4;cursor:not-allowed;}
 
-/* ===== TITLE — faithful full-art landing page ===== */
-#title{padding:0;background:#08080c;overflow:hidden;}
-/* the largest 16:9 box that fits the viewport — keeps the baked-in button aligned */
-.title-stage{position:relative;
-  width:min(100vw, calc(100vh * 16 / 9));
-  height:min(100vh, calc(100vw * 9 / 16));
-  width:min(100vw, calc(100dvh * 16 / 9));
-  height:min(100dvh, calc(100vw * 9 / 16));
-  background:#08080c url('assets/Landing Page.webp') center/cover no-repeat;}
-/* transparent hot-zone sitting exactly over the artwork's "ENTER THE RIFT" pill */
-.enter-btn{position:absolute;left:50%;top:69.5%;transform:translate(-50%,-50%);
-  width:28%;height:10%;background:transparent;border:none;cursor:pointer;
-  border-radius:40px/50%;transition:filter .15s,transform .12s;}
-.enter-btn:hover{filter:drop-shadow(0 0 18px rgba(212,20,58,.9));transform:translate(-50%,-50%) scale(1.04);}
-.enter-btn:active{transform:translate(-50%,-50%) scale(.98);}
+/* ===== TITLE — pixel-art scene: the fighters watch the Rift tear the academy apart =====
+   The scene is the 480×270 backdrop scaled to cover the screen (an iPad crops a little off each side, never the
+   fighters); --tpx is one backdrop pixel. */
+#title{padding:0;overflow:hidden;background:#07040a;position:relative;}
+#title::before{content:"";position:absolute;inset:-4%;background:url('assets/title/title_bg.webp') center/cover;image-rendering:pixelated;opacity:.28;}
+.title-stage{position:relative;overflow:hidden;
+  flex:none;
+  width:max(100vw, calc(100vh * 16 / 9));
+  height:max(100vh, calc(100vw * 9 / 16));
+  width:max(100vw, calc(100dvh * 16 / 9));
+  height:max(100dvh, calc(100vw * 9 / 16));
+  --tpx:calc(max(100vw, calc(100vh * 16 / 9)) / 480);
+  animation:tsFade 1.4s ease-out both;}
+@supports (height:100dvh){ .title-stage{--tpx:calc(max(100vw, calc(100dvh * 16 / 9)) / 480);} }
+@keyframes tsFade{from{filter:brightness(0);}to{filter:none;}}
+.ts-bg{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;pointer-events:none;
+  animation:tsRumble 7s 2s infinite;}
+/* now and then the Rift tears wider: the ground shakes and the light flares */
+@keyframes tsRumble{0%,88%,100%{transform:none;}89%{transform:translate(var(--tpx),0);}90%{transform:translate(calc(-1 * var(--tpx)),var(--tpx));}
+  91%{transform:translate(var(--tpx),calc(-1 * var(--tpx)));}92%{transform:translate(0,var(--tpx));}93%{transform:none;}}
+.ts-rift{position:absolute;left:calc(240 * var(--tpx));top:calc(40 * var(--tpx));width:calc(260 * var(--tpx));height:calc(220 * var(--tpx));
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(closest-side,rgba(255,70,110,.55),rgba(212,20,58,.22) 50%,transparent 100%);
+  animation:tsRift 7s 2s infinite;}
+@keyframes tsRift{0%,100%{opacity:.55;}40%{opacity:.8;}88%{opacity:.6;}90%{opacity:1;}95%{opacity:.7;}}
+/* red haze behind the fighters, so their silhouettes stand out from the castle */
+.ts-haze{position:absolute;left:0;right:0;bottom:0;height:calc(150 * var(--tpx));pointer-events:none;
+  background:radial-gradient(60% 70% at 50% 75%,rgba(255,60,90,.28),rgba(212,20,58,.1) 55%,transparent 80%);mix-blend-mode:screen;}
+/* embers and grit pulled up into the Rift */
+.ts-embers i{position:absolute;bottom:calc(-4 * var(--tpx));width:var(--tpx);height:var(--tpx);background:#ff7a5c;opacity:0;pointer-events:none;
+  animation:tsEmber 6s linear infinite;}
+.ts-embers i:nth-child(3n){background:#ffd27a;}
+.ts-embers i:nth-child(4n){background:#2a1220;width:calc(2 * var(--tpx));height:calc(2 * var(--tpx));}
+@keyframes tsEmber{0%{transform:translate(0,0);opacity:0;}10%{opacity:1;}100%{transform:translate(var(--dx),calc(-230 * var(--tpx)));opacity:0;}}
+.ts-embers i:nth-child(1){left:6%;--dx:calc(60 * var(--tpx));animation-delay:-0.4s;}
+.ts-embers i:nth-child(2){left:14%;--dx:calc(70 * var(--tpx));animation-delay:-3.1s;animation-duration:7s;}
+.ts-embers i:nth-child(3){left:22%;--dx:calc(55 * var(--tpx));animation-delay:-1.7s;}
+.ts-embers i:nth-child(4){left:30%;--dx:calc(40 * var(--tpx));animation-delay:-4.6s;animation-duration:8s;}
+.ts-embers i:nth-child(5){left:38%;--dx:calc(20 * var(--tpx));animation-delay:-2.2s;}
+.ts-embers i:nth-child(6){left:45%;--dx:calc(8 * var(--tpx));animation-delay:-5.3s;animation-duration:5s;}
+.ts-embers i:nth-child(7){left:52%;--dx:calc(-6 * var(--tpx));animation-delay:-0.9s;}
+.ts-embers i:nth-child(8){left:58%;--dx:calc(-20 * var(--tpx));animation-delay:-3.8s;animation-duration:7.5s;}
+.ts-embers i:nth-child(9){left:65%;--dx:calc(-35 * var(--tpx));animation-delay:-1.2s;}
+.ts-embers i:nth-child(10){left:72%;--dx:calc(-48 * var(--tpx));animation-delay:-4.1s;animation-duration:6.5s;}
+.ts-embers i:nth-child(11){left:79%;--dx:calc(-60 * var(--tpx));animation-delay:-2.7s;}
+.ts-embers i:nth-child(12){left:86%;--dx:calc(-70 * var(--tpx));animation-delay:-5.9s;animation-duration:8s;}
+.ts-embers i:nth-child(13){left:93%;--dx:calc(-78 * var(--tpx));animation-delay:-0.2s;}
+.ts-embers i:nth-child(14){left:49%;--dx:calc(2 * var(--tpx));animation-delay:-3.4s;animation-duration:4.5s;}
+/* the fighters, from behind, coats and capes flapping in the wind (6-frame strip) */
+.ts-heroes{position:absolute;left:calc(76 * var(--tpx));bottom:0;width:calc(328 * var(--tpx));height:calc(160 * var(--tpx));
+  background:url('assets/title/heroes.webp') 0 0/600% 100% no-repeat;image-rendering:pixelated;pointer-events:none;
+  animation:tsFlap .78s steps(6) infinite;}
+@keyframes tsFlap{to{background-position:120% 0;}}
+.ts-logo{position:absolute;left:50%;top:calc(20 * var(--tpx));width:calc(157 * var(--tpx));transform:translateX(-50%);margin:0;line-height:0;
+  animation:tsLogo .9s .7s cubic-bezier(.2,1.4,.4,1) both;}
+.ts-logo img{width:100%;image-rendering:pixelated;filter:drop-shadow(0 0 calc(5 * var(--tpx)) rgba(255,40,80,.55));}
+@keyframes tsLogo{from{opacity:0;transform:translateX(-50%) scale(1.6);filter:brightness(4);}60%{opacity:1;}to{opacity:1;transform:translateX(-50%) scale(1);filter:none;}}
+.enter-btn{position:absolute;left:50%;top:calc(104 * var(--tpx));transform:translateX(-50%);cursor:pointer;
+  padding:calc(3 * var(--tpx)) calc(10 * var(--tpx));background:rgba(14,4,10,.82);color:#fff4e6;
+  border:var(--tpx) solid #d4143a;box-shadow:0 0 0 var(--tpx) #16060a,0 calc(2 * var(--tpx)) 0 var(--tpx) rgba(0,0,0,.6),0 0 calc(10 * var(--tpx)) rgba(212,20,58,.45);
+  font-family:"Rift Display",system-ui;font-weight:800;font-size:calc(8 * var(--tpx));letter-spacing:.18em;line-height:1;white-space:nowrap;text-shadow:0 var(--tpx) 0 #000;
+  animation:tsBtnIn .6s 1.5s ease-out both;transition:background .15s,transform .12s;}
+.enter-btn span{display:inline-block;animation:tsBlink 1.6s 2.1s steps(1) infinite;}
+.enter-btn::before,.enter-btn::after{content:"";position:absolute;top:50%;width:0;height:0;margin-top:calc(-3 * var(--tpx));
+  border:calc(3 * var(--tpx)) solid transparent;}
+.enter-btn::before{left:calc(-9 * var(--tpx));border-left-color:#ff4a6a;animation:tsNudgeL 1s ease-in-out infinite;}
+.enter-btn::after{right:calc(-9 * var(--tpx));border-right-color:#ff4a6a;animation:tsNudgeR 1s ease-in-out infinite;}
+@keyframes tsNudgeL{50%{transform:translateX(calc(2 * var(--tpx)));}}
+@keyframes tsNudgeR{50%{transform:translateX(calc(-2 * var(--tpx)));}}
+@keyframes tsBtnIn{from{opacity:0;transform:translate(-50%,calc(4 * var(--tpx)));}to{opacity:1;transform:translateX(-50%);}}
+@keyframes tsBlink{0%,100%{opacity:1;}50%{opacity:.72;}}
+.enter-btn:hover{background:#d4143a;}
+.enter-btn:hover span{animation:none;}
+.enter-btn:active{transform:translate(-50%,var(--tpx));}
+.gfx-smooth .ts-embers,.gfx-smooth .ts-rift{display:none;}
+.gfx-smooth .ts-bg{animation:none;}
 
 /* ===== HOME / FORMS ===== */
 #home,#room{background:linear-gradient(rgba(8,4,12,.70),rgba(8,4,12,.70)),

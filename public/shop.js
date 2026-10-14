@@ -6,10 +6,10 @@ import { ITEMS, ITEM_BY_ID, SHOP_LIMIT } from "./data/characters.js";
 const ART = "assets/shop/";
 // where each item sits on the shelves, in the 480×270 pixels of the backdrop: [centre x, shelf y]
 const SLOTS = {
-  revive: [41, 147], tonic: [41, 190],
-  energy: [127, 113], bento: [127, 147], crystal: [127, 178],
-  notes: [404, 113], shield: [404, 147],
-  chilli: [454, 147], durian: [454, 190],
+  revive: [44, 143], tonic: [44, 177],
+  energy: [130, 112], bento: [130, 144], crystal: [130, 175],
+  shield: [402, 145], notes: [402, 175],
+  chilli: [453, 143], durian: [453, 182],
 };
 // Auntie's patter for each item (the card underneath gives the exact effect)
 const PATTER = {

@@ -18,11 +18,16 @@
   <div class="set-panel hidden" id="setPanel" role="dialog" aria-label="Settings"></div>
   <div class="fps-meter hidden" id="fpsMeter" aria-hidden="true"></div>
 
-  <!-- 1. TITLE — full-art landing page; the "ENTER THE RIFT" button is baked into
-       the artwork, so we overlay a transparent hot-zone aligned to it. -->
+  <!-- 1. TITLE — pixel art: the fighters, seen from behind, watch the Rift tear their academy apart -->
   <section id="title" class="screen active">
     <div class="title-stage">
-      <button class="enter-btn" data-go="tutorial" aria-label="Enter the Rift"></button>
+      <img class="ts-bg" src="assets/title/title_bg.webp" alt="" draggable="false">
+      <i class="ts-rift" aria-hidden="true"></i>
+      <div class="ts-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <i class="ts-haze" aria-hidden="true"></i>
+      <div class="ts-heroes" aria-hidden="true"></div>
+      <h1 class="ts-logo"><img src="assets/title/logo.webp" alt="Academy Rift" draggable="false"></h1>
+      <button class="enter-btn" data-go="tutorial"><span>ENTER THE RIFT</span></button>
     </div>
   </section>
 
