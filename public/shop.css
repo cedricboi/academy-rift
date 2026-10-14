@@ -99,7 +99,7 @@
 .mama.menu-open .mm-bubble::before{left:calc(66 * var(--px));top:auto;bottom:calc(-8.4 * var(--px));clip-path:polygon(0 0,100% 0,50% 100%);}
 .mama.menu-open .mm-bubble::after{left:calc(66.7 * var(--px));top:auto;bottom:calc(-6 * var(--px));width:calc(6.6 * var(--px));height:calc(6.6 * var(--px));clip-path:polygon(0 0,100% 0,50% 100%);}
 .mama.menu-open .mm-sign{opacity:0;pointer-events:none;}
-.mm-menu{position:absolute;left:calc(186 * var(--px));right:calc(6 * var(--px));top:calc(22 * var(--px));bottom:calc(58 * var(--px));
+.mm-menu{position:absolute;left:calc(186 * var(--px));right:calc(6 * var(--px));top:calc(22 * var(--px));bottom:calc(90 * var(--px));
   display:flex;flex-direction:column;padding:calc(4 * var(--px)) calc(6 * var(--px)) calc(6 * var(--px));
   background:linear-gradient(180deg,rgba(54,30,17,.97),rgba(30,16,9,.98));
   border:calc(1 * var(--px)) solid #c9913c;box-shadow:0 0 0 calc(.8 * var(--px)) var(--line),0 calc(3 * var(--px)) 0 calc(.8 * var(--px)) rgba(0,0,0,.6),0 0 calc(30 * var(--px)) rgba(0,0,0,.6);
@@ -157,13 +157,14 @@
 .mm-sign,.mm-bag,.mm-card,.mm-leave{position:absolute;background:linear-gradient(180deg,rgba(54,30,17,.96),rgba(30,16,9,.97));
   border:calc(1 * var(--px)) solid #c9913c;box-shadow:0 0 0 calc(.8 * var(--px)) var(--line),0 calc(2 * var(--px)) 0 calc(.8 * var(--px)) rgba(0,0,0,.6);
   color:var(--cream);}
-.mm-sign{left:calc(6 * var(--px));top:calc(6 * var(--px));padding:calc(2.5 * var(--px)) calc(6 * var(--px));
-  font-family:"Rift Display",system-ui;line-height:1;text-align:left;}
-.mm-sign span{display:block;font-size:calc(5 * var(--px));letter-spacing:.2em;color:#e9c58a;}
-.mm-sign b{display:block;font-weight:400;font-size:calc(10 * var(--px));color:var(--gold);letter-spacing:.06em;text-shadow:0 calc(1 * var(--px)) 0 #6b2a0a;}
-.mm-sign em{display:block;font-style:normal;font-family:"Rift Body",system-ui;font-size:calc(5 * var(--px));color:var(--cream);margin-top:calc(2 * var(--px));}
-.mm-sign em:empty{display:none;}
+/* the round countdown, a small plaque top-left */
+.mm-sign{left:calc(6 * var(--px));top:calc(6 * var(--px));padding:calc(2.5 * var(--px)) calc(5 * var(--px));line-height:1;}
+.mm-sign:has(em:empty){display:none;}
+.mm-sign em{display:block;font-style:normal;font-family:"Rift Body",system-ui;font-weight:700;font-size:calc(5.6 * var(--px));color:var(--cream);}
 .mm-sign em .tn-count{color:var(--gold);}
+/* the shop's long signboard, along the front of the counter */
+.mm-board{position:absolute;left:calc(254 * var(--px));bottom:calc(3 * var(--px));width:calc(253 * var(--px));height:calc(34 * var(--px));transform:translateX(-50%);
+  image-rendering:pixelated;pointer-events:none;filter:drop-shadow(0 calc(2 * var(--px)) 0 rgba(0,0,0,.55));}
 
 .mm-bag{left:calc(6 * var(--px));bottom:calc(5 * var(--px));width:calc(118 * var(--px));padding:calc(3 * var(--px)) calc(4 * var(--px)) calc(4 * var(--px));}
 .mm-purse{display:flex;align-items:center;gap:calc(2 * var(--px));font-family:"Rift Display",system-ui;font-size:calc(11 * var(--px));line-height:1;color:var(--gold);}
@@ -180,7 +181,7 @@
 @keyframes mmLand{0%{transform:scale(1.4);background:rgba(242,184,75,.6);}100%{transform:none;}}
 .mm-fly{position:fixed;z-index:80;pointer-events:none;image-rendering:pixelated;}
 
-.mm-card{left:calc(132 * var(--px));right:calc(104 * var(--px));bottom:calc(5 * var(--px));min-height:calc(46 * var(--px));
+.mm-card{left:calc(132 * var(--px));right:calc(104 * var(--px));bottom:calc(41 * var(--px));min-height:calc(42 * var(--px));
   display:flex;align-items:center;gap:calc(5 * var(--px));padding:calc(4 * var(--px)) calc(5 * var(--px));
   animation:mmCard .3s cubic-bezier(.2,1.2,.4,1);}
 @keyframes mmCard{from{transform:translateY(calc(6 * var(--px)));opacity:.4;}to{transform:none;opacity:1;}}
