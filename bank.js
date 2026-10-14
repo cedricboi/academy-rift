@@ -265,6 +265,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
       const raw = JSON.parse(readFileSync(join(libDir, f), "utf8"));
       const s = cleanSet(raw, { id: `lib-${raw.id}`.replace(/[^a-z0-9]/g, "").slice(0, 24), createdAt: null });
       Object.assign(s, { library: true, builtIn: true, chapter: raw.chapter || 0, updatedAt: null });
+      s.questions.forEach((q, i) => { const r = raw.questions?.[i] || {}; q.lo = String(r.lo || ""); q.ao = String(r.ao || ""); });   // learning objective and AO from the AO map
       library.set(s.id, s);
     }
     console.log(`[bank] ${library.size} chapter set${library.size === 1 ? "" : "s"} come with the game`);
@@ -351,6 +352,20 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
       const own = [...sets.values()].map(row).filter((s) => s.count > 0).sort((a, b) => a.title.localeCompare(b.title));
       return [...libSorted().map(row).filter((s) => s.count > 0), ...own].sort((a, b) => folderRank(a.folder) - folderRank(b.folder));
     },
+    libraryQuestions() {
+      const out = [];
+      for (const s of library.values()) for (const q of s.questions) out.push({ qid: `${s.id}:${q.id}`, q: q.q, choices: q.choices, correct: q.correct.slice(), explain: q.explain || "", folder: s.folder, lo: q.lo });
+      return out;
+    },
+    // Other chapter questions on the same learning objective (answers included: server use only), for review sheets.
+    sameObjective(lo, exclude = new Set()) {
+      const out = [];
+      for (const s of library.values()) for (const q of s.questions) {
+        const qid = `${s.id}:${q.id}`;
+        if (q.lo && q.lo === lo && !exclude.has(qid) && playable(q)) out.push({ qid, q: q.q, choices: q.choices, correct: q.correct.slice(), lo: q.lo, ao: q.ao, chapter: s.chapter, folder: s.folder, setTitle: s.title });
+      }
+      return out;
+    },
     isSetTopic(topicId) {
       const s = typeof topicId === "string" && topicId.startsWith("set:") ? anySet(topicId.slice(4)) : null;
       return !!s && s.questions.some(playable);
@@ -363,6 +378,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
       if (!s) return null;
       return s.questions.filter(playable).map((q) => ({
         q: q.q, choices: q.choices, answer: q.correct[0], answers: q.correct.slice(),
+        qid: `${s.id}:${q.id}`, lo: q.lo || s.title, ao: q.ao || "", chapter: s.chapter || 0,
         topic: s.title, topicId: "set:" + s.id, bloom: null, explain: q.explain || "", hint: q.hint || "",
         image: q.image ? `/qimg/${q.image}` : null,
       }));

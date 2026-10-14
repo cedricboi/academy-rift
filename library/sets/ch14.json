@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain the importance of the digestive system (food must become small soluble molecules)",
+   "ao": "A"
   },
   {
    "id": "c14q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain the importance of the digestive system (food must become small soluble molecules)",
+   "ao": "A"
   },
   {
    "id": "c14q3",
@@ -50,7 +54,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain the importance of the digestive system (food must become small soluble molecules)",
+   "ao": "B"
   },
   {
    "id": "c14q4",
@@ -66,7 +72,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify foods rich in carbohydrates, proteins and fats",
+   "ao": "A"
   },
   {
    "id": "c14q5",
@@ -82,7 +90,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify foods rich in carbohydrates, proteins and fats",
+   "ao": "A"
   },
   {
    "id": "c14q6",
@@ -98,7 +108,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify foods rich in carbohydrates, proteins and fats",
+   "ao": "B"
   },
   {
    "id": "c14q7",
@@ -114,7 +126,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify foods rich in carbohydrates, proteins and fats",
+   "ao": "B"
   },
   {
    "id": "c14q8",
@@ -130,7 +144,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a process as physical or chemical digestion",
+   "ao": "A"
   },
   {
    "id": "c14q9",
@@ -146,7 +162,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a process as physical or chemical digestion",
+   "ao": "A"
   },
   {
    "id": "c14q10",
@@ -161,7 +179,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a process as physical or chemical digestion",
+   "ao": "B"
   },
   {
    "id": "c14q11",
@@ -176,7 +196,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a process as physical or chemical digestion",
+   "ao": "B"
   },
   {
    "id": "c14q12",
@@ -191,7 +213,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a process as physical or chemical digestion",
+   "ao": "B"
   },
   {
    "id": "c14q13",
@@ -207,7 +231,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a process as physical or chemical digestion",
+   "ao": "B"
   },
   {
    "id": "c14q14",
@@ -223,7 +249,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the role of enzymes and that they are specific",
+   "ao": "A"
   },
   {
    "id": "c14q15",
@@ -239,7 +267,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the role of enzymes and that they are specific",
+   "ao": "A"
   },
   {
    "id": "c14q16",
@@ -255,7 +285,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the role of enzymes and that they are specific",
+   "ao": "B"
   },
   {
    "id": "c14q17",
@@ -271,7 +303,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each enzyme class to its food and end product",
+   "ao": "A"
   },
   {
    "id": "c14q18",
@@ -287,7 +321,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each enzyme class to its food and end product",
+   "ao": "A"
   },
   {
    "id": "c14q19",
@@ -303,7 +339,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each enzyme class to its food and end product",
+   "ao": "A"
   },
   {
    "id": "c14q20",
@@ -318,7 +356,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each enzyme class to its food and end product",
+   "ao": "B"
   },
   {
    "id": "c14q21",
@@ -334,7 +374,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each enzyme class to its food and end product",
+   "ao": "B"
   },
   {
    "id": "c14q22",
@@ -349,7 +391,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each enzyme class to its food and end product",
+   "ao": "B"
   },
   {
    "id": "c14q23",
@@ -365,7 +409,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Place the organs of the digestive system in order",
+   "ao": "B"
   },
   {
    "id": "c14q24",
@@ -381,7 +427,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Place the organs of the digestive system in order",
+   "ao": "A"
   },
   {
    "id": "c14q25",
@@ -397,7 +445,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Place the organs of the digestive system in order",
+   "ao": "B"
   },
   {
    "id": "c14q26",
@@ -413,7 +463,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Place the organs of the digestive system in order",
+   "ao": "B"
   },
   {
    "id": "c14q27",
@@ -429,7 +481,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "A"
   },
   {
    "id": "c14q28",
@@ -445,7 +499,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "A"
   },
   {
    "id": "c14q29",
@@ -461,7 +517,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "A"
   },
   {
    "id": "c14q30",
@@ -477,7 +535,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "A"
   },
   {
    "id": "c14q31",
@@ -493,7 +553,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "A"
   },
   {
    "id": "c14q32",
@@ -509,7 +571,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "A"
   },
   {
    "id": "c14q33",
@@ -525,7 +589,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the function of each part of the digestive system",
+   "ao": "B"
   },
   {
    "id": "c14q34",
@@ -541,7 +607,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "A"
   },
   {
    "id": "c14q35",
@@ -557,7 +625,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "A"
   },
   {
    "id": "c14q36",
@@ -573,7 +643,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "A"
   },
   {
    "id": "c14q37",
@@ -589,7 +661,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "A"
   },
   {
    "id": "c14q38",
@@ -605,7 +679,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "B"
   },
   {
    "id": "c14q39",
@@ -621,7 +697,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "B"
   },
   {
    "id": "c14q40",
@@ -637,7 +715,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify where carbohydrates, proteins and fats are digested",
+   "ao": "B"
   },
   {
    "id": "c14q41",
@@ -653,7 +733,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain why the organs must work together to digest food",
+   "ao": "A"
   },
   {
    "id": "c14q42",
@@ -669,7 +751,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that end products are used for respiration, growth and tissue repair",
+   "ao": "A"
   },
   {
    "id": "c14q43",
@@ -685,7 +769,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that end products are used for respiration, growth and tissue repair",
+   "ao": "A"
   },
   {
    "id": "c14q44",
@@ -701,7 +787,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that end products are used for respiration, growth and tissue repair",
+   "ao": "A"
   },
   {
    "id": "c14q45",
@@ -717,7 +805,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that end products are used for respiration, growth and tissue repair",
+   "ao": "B"
   },
   {
    "id": "c14q46",
@@ -733,7 +823,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that end products are used for respiration, growth and tissue repair",
+   "ao": "B"
   },
   {
    "id": "c14q47",
@@ -749,7 +841,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
+   "ao": "A"
   },
   {
    "id": "c14q48",
@@ -765,7 +859,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
+   "ao": "A"
   },
   {
    "id": "c14q49",
@@ -781,7 +877,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
+   "ao": "A"
   },
   {
    "id": "c14q50",
@@ -797,7 +895,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
+   "ao": "B"
   },
   {
    "id": "c14q51",
@@ -813,7 +913,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
+   "ao": "B"
   },
   {
    "id": "c14q52",
@@ -829,7 +931,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
+   "ao": "A"
   },
   {
    "id": "c14q53",
@@ -845,7 +949,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
+   "ao": "A"
   },
   {
    "id": "c14q54",
@@ -861,7 +967,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
+   "ao": "B"
   },
   {
    "id": "c14q55",
@@ -877,7 +985,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
+   "ao": "B"
   },
   {
    "id": "c14q56",
@@ -893,7 +1003,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
+   "ao": "B"
   },
   {
    "id": "c14q57",
@@ -909,7 +1021,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
+   "ao": "B"
   },
   {
    "id": "c14q58",
@@ -925,7 +1039,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply food safety tips for handling and choosing food",
+   "ao": "A"
   },
   {
    "id": "c14q59",
@@ -941,7 +1057,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply food safety tips for handling and choosing food",
+   "ao": "A"
   },
   {
    "id": "c14q60",
@@ -957,7 +1075,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply food safety tips for handling and choosing food",
+   "ao": "B"
   },
   {
    "id": "c14q61",
@@ -973,7 +1093,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply food safety tips for handling and choosing food",
+   "ao": "B"
   },
   {
    "id": "c14q62",
@@ -989,7 +1111,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply food safety tips for handling and choosing food",
+   "ao": "B"
   },
   {
    "id": "c14q63",
@@ -1005,7 +1129,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
+   "ao": "A"
   },
   {
    "id": "c14q64",
@@ -1021,7 +1147,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
+   "ao": "B"
   },
   {
    "id": "c14q65",
@@ -1036,7 +1164,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
+   "ao": "B"
   },
   {
    "id": "c14q66",
@@ -1052,7 +1182,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
+   "ao": "B"
   },
   {
    "id": "c14q67",
@@ -1068,7 +1200,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Interpret an investigation of the effect of enzymes on food",
+   "ao": "B"
   },
   {
    "id": "c14q68",
@@ -1084,7 +1218,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Interpret an investigation of the effect of enzymes on food",
+   "ao": "B"
   },
   {
    "id": "c14q69",
@@ -1100,7 +1236,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Interpret an investigation of the effect of enzymes on food",
+   "ao": "B"
   },
   {
    "id": "c14q70",
@@ -1115,7 +1253,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Interpret an investigation of the effect of enzymes on food",
+   "ao": "B"
   }
  ]
 }

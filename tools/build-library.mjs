@@ -13,14 +13,23 @@ if (!src) { console.log("usage: node tools/build-library.mjs <folder>"); process
 const out = new URL("../library/sets/", import.meta.url).pathname;
 fs.mkdirSync(out, { recursive: true });
 
+const norm = (v) => String(v || "").replace(/\s+/g, " ").trim().toLowerCase();
 const sheetRows = (ws) => { const rows = []; for (let r = 1; r <= ws.rowCount; r++) { const row = ws.getRow(r), cells = []; for (let c = 1; c <= row.cellCount; c++) cells.push(row.getCell(c).text ?? ""); rows.push(cells); } return rows; };
 
-// chapter titles from the AO map (one sheet per chapter, title in A1)
-const titles = {};
+// chapter titles and each question's learning objective and AO from the AO map (one sheet per chapter, title in A1)
+const titles = {}, objectives = {};
 const map = fs.readdirSync(src).find((f) => /ao map/i.test(f) && f.endsWith(".xlsx"));
 if (map) {
   const wb = new ExcelJS.Workbook(); await wb.xlsx.readFile(join(src, map));
-  for (const ws of wb.worksheets) { const t = String(ws.getCell("A1").text || ws.getRow(1).getCell(2).text || ""); const m = t.match(/Chapter\s+(\d+)\s*:\s*(.+)/i); if (m) titles[+m[1]] = m[2].trim(); }
+  for (const ws of wb.worksheets) {
+    const t = String(ws.getCell("A1").text || ws.getRow(1).getCell(2).text || ""); const m = t.match(/Chapter\s+(\d+)\s*:\s*(.+)/i); if (!m) continue;
+    const ch = +m[1]; titles[ch] = m[2].trim(); objectives[ch] = {};
+    for (const row of sheetRows(ws)) {                    // Q#, AO, Learning objective, Question, Correct answer, Time
+      const cells = row.map((x) => String(x).trim()), i = cells.findIndex((x) => /^\d+$/.test(x));
+      if (i < 0 || !cells[i + 2]) continue;
+      objectives[ch][norm(cells[i + 3])] = { ao: cells[i + 1], lo: cells[i + 2] };
+    }
+  }
 }
 
 let total = 0;
@@ -30,12 +39,14 @@ for (const f of fs.readdirSync(src).filter((f) => /^Blooket_Ch(\d+)/i.test(f) &&
   let best = null;
   for (const ws of wb.worksheets) { const r = rowsToQuestions(sheetRows(ws)); if (!best || r.questions.length > best.questions.length) best = r; }
   const questions = best.questions.filter((q) => questionProblems(q).length === 0)
-    .map((q, i) => ({ id: `c${String(ch).padStart(2, "0")}q${i + 1}`, q: q.q, choices: q.choices, correct: q.correct, explain: q.explain || "", hint: q.hint || "", image: null }));
+    .map((q, i) => { const o = objectives[ch]?.[norm(q.q)] || {};
+      return { id: `c${String(ch).padStart(2, "0")}q${i + 1}`, q: q.q, choices: q.choices, correct: q.correct, explain: q.explain || "", hint: q.hint || "", image: null, lo: o.lo || "", ao: o.ao || "" }; });
   const name = titles[ch] || basename(f, ".xlsx").replace(/^Blooket_Ch\d+_/i, "").replace(/_/g, " ");
   const folder = ch <= 8 ? "sec1" : ch <= 16 ? "sec2" : "sec3g1";
   const set = { id: `ch${String(ch).padStart(2, "0")}`, title: `Ch ${ch} · ${name}`, folder, chapter: ch, questions };
   fs.writeFileSync(join(out, `${set.id}.json`), JSON.stringify(set, null, 1));
   total += questions.length;
-  console.log(`${set.id}  ${folder.padEnd(6)}  ${String(questions.length).padStart(3)} questions${best.skipped.length ? `  (${best.skipped.length} rows skipped)` : ""}  ${set.title}`);
+  const tagged = questions.filter((q) => q.lo).length;
+  console.log(`${set.id}  ${folder.padEnd(6)}  ${String(questions.length).padStart(3)} questions, ${tagged} with a learning objective${best.skipped.length ? `  (${best.skipped.length} rows skipped)` : ""}  ${set.title}`);
 }
 console.log(`${total} questions written to library/sets`);

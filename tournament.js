@@ -435,6 +435,41 @@ export function setupTournaments(deps) {
     return { id: pid, name: s.name, team, character, ready: true, bot: s.bot || !s.connected };
   }
 
+  // ---------- learning: what the class got wrong, for the teacher's report ----------
+  // T.learn.questions: qid → { q, right, lo, ao, chapter, topic, asked, wrong, students:Set }
+  // each student's missed: qids still wrong (asked again early in their next battle); s.report: their latest prompts
+  function learnFromBattle(T, b, rewards) {
+    const L = (T.learn ||= { questions: new Map(), written: [] });
+    for (const [pid, review] of Object.entries(b.review || {})) {
+      const s = T.students.get(pid); if (!s || s.bot) continue;
+      s.missed ||= new Set();
+      for (const r of review) {
+        const k = r.qid || r.q;
+        const e = L.questions.get(k) || { q: r.q, right: (r.answers || [r.answer]).map((i) => r.choices?.[i]).filter(Boolean).join(" / "), choices: r.choices,
+          lo: r.lo || r.topic || "", ao: r.ao || "", chapter: r.chapter || 0, topic: r.topic || "", asked: 0, wrong: 0, students: new Set(), wrongPicks: {} };
+        e.asked++;
+        if (!r.correct) { e.wrong++; e.students.add(pid); const pick = r.choices?.[r.chosen] ?? "no answer"; e.wrongPicks[pick] = (e.wrongPicks[pick] || 0) + 1; }
+        L.questions.set(k, e);
+        if (r.qid) { if (r.correct) s.missed.delete(r.qid); else s.missed.add(r.qid); }
+      }
+      if (rewards[pid]?.report) s.report = { round: T.round, prompts: rewards[pid].report.prompts, sent: false };
+    }
+  }
+  function learningReport(T) {
+    const L = T.learn || { questions: new Map(), written: [] };
+    const qs = [...L.questions.values()];
+    const wrong = qs.filter((e) => e.wrong > 0).sort((a, b) => (b.wrong - a.wrong) || (b.wrong / b.asked - a.wrong / a.asked))
+      .map((e) => ({ q: e.q, right: e.right, lo: e.lo, ao: e.ao, chapter: e.chapter, topic: e.topic, asked: e.asked, wrong: e.wrong, students: e.students.size,
+        commonWrong: Object.entries(e.wrongPicks).sort((a, b) => b[1] - a[1])[0]?.[0] || "" }));
+    const los = new Map();
+    for (const e of qs) { const o = los.get(e.lo) || { lo: e.lo, chapter: e.chapter, topic: e.topic, asked: 0, wrong: 0 }; o.asked += e.asked; o.wrong += e.wrong; los.set(e.lo, o); }
+    const objectives = [...los.values()].map((o) => ({ ...o, pct: o.asked ? Math.round(100 * (o.asked - o.wrong) / o.asked) : 0 })).sort((a, b) => a.pct - b.pct || b.asked - a.asked);
+    const totals = { answers: qs.reduce((n, e) => n + e.asked, 0), wrong: qs.reduce((n, e) => n + e.wrong, 0), questions: qs.length };
+    const written = L.written.map((w) => ({ ...w, name: T.students.get(w.pid)?.name || "?" }));
+    return { code: T.code, round: T.round, totals, wrong, objectives, written };
+  }
+
+  const RETRY_CARRY = 4;   // questions still wrong from earlier battles, asked again early in the next one
   function startMatch(T, pairA, pairB) {
     const m = { id: "m" + (++T.seq), round: T.round, a: pairA.id, b: pairB ? pairB.id : null, status: "live", roomCode: null, result: null };
     const players = [...pairA.members.map((pid) => seatFor(T, pid, 0))];
@@ -448,6 +483,7 @@ export function setupTournaments(deps) {
     const room = {
       code, status: "lobby", hostId: null, players, battle: null,
       topicId: T.settings.topicId, tournament: T.code, matchId: m.id,
+      retrySeed: Object.fromEntries(players.filter((p) => !p.bot).map((p) => [p.id, [...(T.students.get(p.id)?.missed || [])].slice(-RETRY_CARRY)])),
       settings: {
         questionSeconds: T.settings.questionSeconds,
         stealSeconds: T.settings.stealSeconds,
@@ -517,16 +553,17 @@ export function setupTournaments(deps) {
   }
 
   // Called by server.js when any battle ends. winner: 0 | 1 | -1 (draw)
-  function onBattleEnd(room, { winner, reason }) {
+  function onBattleEnd(room, { winner, reason, rewards = {} }) {
     const T = tournaments.get(room.tournament); if (!T) return;
     const m = T.matches.find((x) => x.id === room.matchId); if (!m || m.status !== "live") return;
     const b = room.battle;
+    learnFromBattle(T, b, rewards);
     const sideStats = (team, pairId) => {
       const hp = teamHp(b, team);
       const p = pairId ? T.pairs.get(pairId) : null;
       let correct = 0, answered = 0;
       for (const pid of p?.members || []) {
-        const rev = b.review?.[pid] || [];
+        const rev = (b.review?.[pid] || []).filter((x) => x.how !== "along");   // standings count own turns and steals
         const c = rev.filter((x) => x.correct).length;
         correct += c; answered += rev.length;
         const s = T.students.get(pid);
@@ -728,6 +765,19 @@ export function setupTournaments(deps) {
       push(T);
     });
 
+    // a student's written answers from their Rift Report (the prompts were stored when the battle ended)
+    socket.on("tReport", ({ answers } = {}) => {
+      const T = myT(), st = meS(T); if (!st || !st.report || st.report.sent || !Array.isArray(answers)) return;
+      const L = (T.learn ||= { questions: new Map(), written: [] });
+      for (const p of st.report.prompts) {
+        const a = answers.find((x) => x && x.id === p.id); const text = String(a?.text || "").replace(/\s+/g, " ").trim().slice(0, 600);
+        if (text) L.written.push({ pid: st.pid, round: st.report.round, prompt: p.text, answer: text, model: p.model, lo: p.lo });
+      }
+      st.report.sent = true;
+      socket.emit("tReportSaved");
+      touch(T); io.to("host:" + T.code).emit("tLearningChanged");
+    });
+
     socket.on("tReady", ({ ready } = {}) => {
       const T = myT(), s = meS(T); if (!T || !s || T.status !== "lobby") return;
       s.ready = !!ready;
@@ -779,5 +829,10 @@ export function setupTournaments(deps) {
     }
   }, 10 * 60 * 1000).unref();
 
-  return { has, join, bind, onBattleEnd, onDisconnect, _tournaments: tournaments };
+  // the teacher's learning report, for the /report page (checked against the host token)
+  function reportFor(code, hostToken) {
+    const T = tournaments.get(String(code || "").toUpperCase());
+    return T && hostToken && T.hostToken === hostToken ? T : null;
+  }
+  return { has, join, bind, onBattleEnd, onDisconnect, reportFor, learningReport, _tournaments: tournaments };
 }

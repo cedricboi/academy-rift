@@ -718,3 +718,37 @@ body.calm .chibi.posing .spr-frame{animation:sprPoseB var(--pdur,1s) steps(var(-
 @keyframes stageBreathe{from{scale:1;translate:0 0}to{scale:1.035;translate:-1.2% -.6%}}
 body.calm .stage-ambient,body.calm .stage-bg{animation:none!important;}
 @media (prefers-reduced-motion: reduce){ .stage-ambient{display:none!important;} .stage-bg{animation:none!important;} }
+
+/* ===================== learning: answering along, recall first, the Rift Report ===================== */
+.qstrip{flex-wrap:wrap;}
+.qs-along{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:1px solid rgba(226,184,101,.25);}
+.qa-tag{font-family:"Rift Display",serif;font-weight:900;letter-spacing:.08em;font-size:max(11px,calc(13 * var(--u)));color:var(--ln-gold-hi,#ffe3a6);margin-right:4px;}
+.qa-think{font-size:max(12px,calc(14 * var(--u)));color:var(--ln-mute,#a99f8a);font-style:italic;}
+.qa-btn{display:flex;align-items:center;gap:6px;min-height:36px;max-width:100%;padding:4px 10px 4px 6px;border:1px solid rgba(226,184,101,.35);border-radius:3px;
+  background:rgba(10,12,28,.85);color:var(--ln-text,#f3e9d2);font:inherit;font-size:max(12px,calc(14 * var(--u)));text-align:left;cursor:pointer;}
+.qa-btn b{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:2px;background:linear-gradient(180deg,#ffe3a6,#c48f3e);color:#22170a;font-size:.8em;}
+.qa-btn:hover:not(:disabled){border-color:#ffe3a6;}
+.qa-btn.picked{background:linear-gradient(180deg,#ffe3a6,#c48f3e);color:#22170a;border-color:#ffe3a6;}
+.qa-btn.picked b{background:#22170a;color:#ffe3a6;}
+.qa-btn:disabled:not(.picked){opacity:.45;cursor:default;}
+.qs-along.ok .qa-tag{color:#7CF29B;} .qs-along.bad .qa-tag{color:#ff8fa3;}
+/* recall first: the choices wait under a cover */
+.mcq-choices{position:relative;}
+.mcq-choices.recalling .choice{visibility:hidden;}
+.mcq-recall{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;
+  border:1px dashed rgba(226,184,101,.45);border-radius:3px;background:rgba(6,6,16,.55);}
+.mcq-recall b{font-family:"Rift Display",serif;font-size:max(18px,calc(26 * var(--u)));color:var(--ln-gold-hi,#ffe3a6);letter-spacing:.04em;}
+.mcq-recall span{color:var(--ln-mute,#a99f8a);}
+/* the recap and the written prompts */
+.review-fixed{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:999px;font-size:.78em;background:rgba(124,242,155,.15);color:#7CF29B;}
+.review-fixed.bad{background:rgba(255,90,117,.15);color:#ff8fa3;}
+.review-item.fixed{opacity:.8;}
+.review-lo{font-size:.85em;color:var(--ln-mute,#a99f8a);margin:2px 0 4px;}
+.report-block{margin-top:14px;padding:12px 14px;border:1px solid rgba(226,184,101,.35);border-radius:4px;background:rgba(10,12,28,.6);text-align:left;}
+.report-sub{margin:2px 0 10px;color:var(--ln-mute,#a99f8a);font-size:.92em;}
+.report-item{margin:0 0 12px;}
+.report-q{display:block;font-weight:600;margin-bottom:4px;}
+.report-item textarea{width:100%;box-sizing:border-box;min-height:52px;padding:8px 10px;font:inherit;color:var(--ln-text,#f3e9d2);background:rgba(5,6,16,.75);border:1px solid rgba(226,184,101,.3);border-radius:3px;resize:vertical;}
+.report-model{margin-top:6px;padding:6px 10px;border-left:3px solid #7CF29B;background:rgba(124,242,155,.07);}
+.report-model small{display:block;color:var(--ln-mute,#a99f8a);margin-top:2px;}
+.report-done{color:#7CF29B;margin:8px 0 0;}

@@ -114,6 +114,7 @@ async function blooketXlsx() {
 
 // ---------------------------------------------------------------- 1. GitHub store, first run
 await startServer({ GITHUB_TOKEN: "test-token", GITHUB_REPO: "teacher/academy-rift", GITHUB_API_URL: `http://localhost:${MOCK}`, HUB_PASSWORD: "owl-42" }, "GitHub storage, first start");
+for (let t = 0; t < 40 && !(branchMade && files.has("README.md")); t++) await new Promise((r) => setTimeout(r, 100));   // the bank sets itself up just after the server starts
 check(branchMade && files.has("README.md"), "made the question-bank branch with only a README on it");
 
 let r = await call("GET", "/api/hub/status");

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academy Rift · Learning report</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="report.css" />
+</head>
+<body class="report">
+  <header class="r-head">
+    <div class="r-brand"><span class="r-brand-name">ACADEMY RIFT</span><span class="r-brand-sub">LEARNING REPORT</span></div>
+    <div class="r-head-acts">
+      <button class="r-btn" id="refresh">Refresh</button>
+      <button class="r-btn" id="mdBtn">Download for Claude (.md)</button>
+      <button class="r-btn" id="printBtn">Print</button>
+    </div>
+  </header>
+  <p class="r-private">This page shows students' names and answers. Keep it on your own screen, not the projector.</p>
+  <main id="main" class="r-main"><p class="r-loading">Loading the report…</p></main>
+  <section id="sheetPrint" class="sheet-print" aria-hidden="true"></section>
+  <script type="module" src="report.js"></script>
+</body>
+</html>

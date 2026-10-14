@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a change that forms new substances as a chemical change",
+   "ao": "A"
   },
   {
    "id": "c11q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a change that forms new substances as a chemical change",
+   "ao": "A"
   },
   {
    "id": "c11q3",
@@ -49,7 +53,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a change that forms new substances as a chemical change",
+   "ao": "B"
   },
   {
    "id": "c11q4",
@@ -64,7 +70,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a change that forms new substances as a chemical change",
+   "ao": "B"
   },
   {
    "id": "c11q5",
@@ -79,7 +87,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a change that forms new substances as a chemical change",
+   "ao": "B"
   },
   {
    "id": "c11q6",
@@ -94,7 +104,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a change that forms new substances as a chemical change",
+   "ao": "B"
   },
   {
    "id": "c11q7",
@@ -110,7 +122,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use word equations to represent chemical reactions",
+   "ao": "A"
   },
   {
    "id": "c11q8",
@@ -126,7 +140,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use word equations to represent chemical reactions",
+   "ao": "B"
   },
   {
    "id": "c11q9",
@@ -142,7 +158,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use word equations to represent chemical reactions",
+   "ao": "B"
   },
   {
    "id": "c11q10",
@@ -158,7 +176,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use word equations to represent chemical reactions",
+   "ao": "B"
   },
   {
    "id": "c11q11",
@@ -174,7 +194,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use word equations to represent chemical reactions",
+   "ao": "B"
   },
   {
    "id": "c11q12",
@@ -190,7 +212,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
+   "ao": "A"
   },
   {
    "id": "c11q13",
@@ -206,7 +230,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
+   "ao": "A"
   },
   {
    "id": "c11q14",
@@ -222,7 +248,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
+   "ao": "B"
   },
   {
    "id": "c11q15",
@@ -238,7 +266,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
+   "ao": "B"
   },
   {
    "id": "c11q16",
@@ -254,7 +284,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
+   "ao": "B"
   },
   {
    "id": "c11q17",
@@ -270,7 +302,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that mass is conserved during a chemical reaction",
+   "ao": "A"
   },
   {
    "id": "c11q18",
@@ -286,7 +320,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that mass is conserved during a chemical reaction",
+   "ao": "B"
   },
   {
    "id": "c11q19",
@@ -302,7 +338,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that mass is conserved during a chemical reaction",
+   "ao": "B"
   },
   {
    "id": "c11q20",
@@ -318,7 +356,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that mass is conserved during a chemical reaction",
+   "ao": "B"
   },
   {
    "id": "c11q21",
@@ -334,7 +374,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that mass is conserved during a chemical reaction",
+   "ao": "B"
   },
   {
    "id": "c11q22",
@@ -350,7 +392,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "A"
   },
   {
    "id": "c11q23",
@@ -366,7 +410,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "A"
   },
   {
    "id": "c11q24",
@@ -382,7 +428,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "A"
   },
   {
    "id": "c11q25",
@@ -398,7 +446,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "B"
   },
   {
    "id": "c11q26",
@@ -414,7 +464,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "B"
   },
   {
    "id": "c11q27",
@@ -430,7 +482,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "B"
   },
   {
    "id": "c11q28",
@@ -446,7 +500,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
+   "ao": "A"
   },
   {
    "id": "c11q29",
@@ -462,7 +518,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the properties of acids and alkalis",
+   "ao": "A"
   },
   {
    "id": "c11q30",
@@ -478,7 +536,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the properties of acids and alkalis",
+   "ao": "A"
   },
   {
    "id": "c11q31",
@@ -494,7 +554,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the properties of acids and alkalis",
+   "ao": "A"
   },
   {
    "id": "c11q32",
@@ -510,7 +572,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the properties of acids and alkalis",
+   "ao": "B"
   },
   {
    "id": "c11q33",
@@ -526,7 +590,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the properties of acids and alkalis",
+   "ao": "B"
   },
   {
    "id": "c11q34",
@@ -542,7 +608,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the properties of acids and alkalis",
+   "ao": "B"
   },
   {
    "id": "c11q35",
@@ -558,7 +626,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "A"
   },
   {
    "id": "c11q36",
@@ -574,7 +644,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "A"
   },
   {
    "id": "c11q37",
@@ -590,7 +662,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "A"
   },
   {
    "id": "c11q38",
@@ -606,7 +680,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "B"
   },
   {
    "id": "c11q39",
@@ -622,7 +698,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "B"
   },
   {
    "id": "c11q40",
@@ -638,7 +716,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "A"
   },
   {
    "id": "c11q41",
@@ -654,7 +734,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "A"
   },
   {
    "id": "c11q42",
@@ -670,7 +752,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "B"
   },
   {
    "id": "c11q43",
@@ -686,7 +770,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
+   "ao": "A"
   },
   {
    "id": "c11q44",
@@ -702,7 +788,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
+   "ao": "A"
   },
   {
    "id": "c11q45",
@@ -717,7 +805,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
+   "ao": "B"
   },
   {
    "id": "c11q46",
@@ -732,7 +822,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
+   "ao": "B"
   },
   {
    "id": "c11q47",
@@ -748,7 +840,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
+   "ao": "B"
   },
   {
    "id": "c11q48",
@@ -764,7 +858,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
+   "ao": "B"
   },
   {
    "id": "c11q49",
@@ -779,7 +875,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "B"
   },
   {
    "id": "c11q50",
@@ -794,7 +892,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "B"
   },
   {
    "id": "c11q51",
@@ -809,7 +909,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "B"
   },
   {
    "id": "c11q52",
@@ -825,7 +927,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "A"
   },
   {
    "id": "c11q53",
@@ -841,7 +945,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "B"
   },
   {
    "id": "c11q54",
@@ -857,7 +963,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "A"
   },
   {
    "id": "c11q55",
@@ -872,7 +980,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
+   "ao": "B"
   },
   {
    "id": "c11q56",
@@ -888,7 +998,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain uses of neutralisation in daily life",
+   "ao": "A"
   },
   {
    "id": "c11q57",
@@ -904,7 +1016,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain uses of neutralisation in daily life",
+   "ao": "B"
   },
   {
    "id": "c11q58",
@@ -920,7 +1034,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
+   "ao": "B"
   },
   {
    "id": "c11q59",
@@ -936,7 +1052,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
+   "ao": "B"
   },
   {
    "id": "c11q60",
@@ -952,7 +1070,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
+   "ao": "B"
   },
   {
    "id": "c11q61",
@@ -968,7 +1088,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
+   "ao": "B"
   },
   {
    "id": "c11q62",
@@ -984,7 +1106,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
+   "ao": "A"
   },
   {
    "id": "c11q63",
@@ -1000,7 +1124,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "B"
   },
   {
    "id": "c11q64",
@@ -1016,7 +1142,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "A"
   },
   {
    "id": "c11q65",
@@ -1032,7 +1160,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "A"
   },
   {
    "id": "c11q66",
@@ -1048,7 +1178,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "B"
   },
   {
    "id": "c11q67",
@@ -1064,7 +1196,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "A"
   },
   {
    "id": "c11q68",
@@ -1080,7 +1214,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "A"
   },
   {
    "id": "c11q69",
@@ -1096,7 +1232,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "A"
   },
   {
    "id": "c11q70",
@@ -1112,7 +1250,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
+   "ao": "B"
   }
  ]
 }

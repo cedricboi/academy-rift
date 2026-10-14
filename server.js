@@ -38,6 +38,51 @@ app.get("/teacher", (_req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.sendFile(join(__dirname, "public", "teacher.html"));
 });
+// ---------- the teacher's learning report (/report) ----------
+// Reads the tournament the teacher's page is running (its code and host token are in that browser's storage).
+app.get("/report", (_req, res) => { res.setHeader("Cache-Control", "no-cache"); res.sendFile(join(__dirname, "public", "report.html")); });
+app.get("/api/report", (req, res) => {
+  const T = Tour.reportFor(req.query.code, String(req.get("x-host-token") || ""));
+  if (!T) return res.status(404).json({ error: "This tournament is not running on the server any more, or this browser is not its teacher." });
+  res.json(Tour.learningReport(T));
+});
+// An MCQ sheet of DIFFERENT questions on the learning objectives the class got wrong most: other questions from the
+// chapter sets (or the built-in topics) on the same objective that were not asked in this tournament.
+app.post("/api/report/sheet", express.json(), (req, res) => {
+  const T = Tour.reportFor(req.body?.code, String(req.get("x-host-token") || ""));
+  if (!T) return res.status(404).json({ error: "This tournament is not running on the server any more." });
+  const rep = Tour.learningReport(T);
+  const asked = new Set(T.learn ? [...T.learn.questions.keys()] : []);
+  const perLo = Math.max(1, Math.min(4, +req.body?.perLo || 2)), minPct = Number.isFinite(+req.body?.below) ? Math.max(0, Math.min(100, +req.body.below)) : 80;
+  const weak = rep.objectives.filter((o) => o.wrong > 0 && o.pct < minPct).slice(0, 15);
+  const items = [], missing = [];
+  for (const o of weak) {
+    let alt = bank.sameObjective(o.lo, asked);
+    if (!alt.length) alt = QUESTIONS.filter((q) => q.lo === o.lo && !asked.has(q.qid)).map((q) => ({ qid: q.qid, q: q.q, choices: q.choices, correct: [q.answer], lo: q.lo, chapter: 0, setTitle: q.topic }));
+    if (!alt.length) { missing.push(o); continue; }
+    items.push({ lo: o.lo, chapter: o.chapter, pct: o.pct, questions: shuffle(alt).slice(0, perLo).map((q) => ({ q: q.q, choices: q.choices, correct: q.correct, qid: q.qid, setTitle: q.setTitle })) });
+  }
+  res.json({ items, missing });
+});
+
+// Save the sheet as a question set in the hub, so the class can play it as a topic. Built on the server from the
+// questions' ids, so only real questions from the game go in.
+app.post("/api/report/sheet/save", express.json(), async (req, res) => {
+  const T = Tour.reportFor(req.body?.code, String(req.get("x-host-token") || ""));
+  if (!T) return res.status(404).json({ error: "This tournament is not running on the server any more." });
+  const qids = (Array.isArray(req.body?.qids) ? req.body.qids : []).map(String).slice(0, 120);
+  const pool = new Map([...bank.libraryQuestions(), ...QUESTIONS.map((q) => ({ qid: q.qid, q: q.q, choices: q.choices, correct: [q.answer], folder: "sec3g1", explain: q.explain || "" }))].map((q) => [q.qid, q]));
+  const qs = qids.map((id) => pool.get(id)).filter(Boolean);
+  if (!qs.length) return res.status(400).json({ error: "No questions to save." });
+  const folders = {}; qs.forEach((q) => { folders[q.folder] = (folders[q.folder] || 0) + 1; });
+  const folder = Object.entries(folders).sort((a, b) => b[1] - a[1])[0][0];
+  const day = new Date().toLocaleDateString("en-SG", { day: "numeric", month: "short" });
+  try {
+    const set = await bank.create({ title: `Review sheet · ${day} · ${qs.length} questions`, folder, questions: qs.map((q) => ({ q: q.q, choices: q.choices, correct: q.correct, explain: q.explain || "" })) });
+    res.json({ ok: true, title: set.title, id: set.id });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // QR code maker for the join link on the projector (served from node_modules, works offline).
 app.get("/vendor/qrcode.mjs", (_req, res) => {
   res.type("application/javascript");
@@ -110,6 +155,10 @@ function shuffle(arr) {
   return a;
 }
 
+// Every built-in question gets a stable id and, as its learning objective, its topic's name (the chapter sets carry
+// the objectives from the AO map). The learning report and the "mistakes come back" queue key on these.
+QUESTIONS.forEach((q, i) => { q.qid ||= `builtin:${i}`; q.lo ||= TOPIC_BY_ID[q.topicId]?.name || "Cells"; q.chapter ||= 0; });
+
 // What a battle tests: one or more parts joined by commas. A part is a built-in
 // topic ("micro", "parts"…, or "mixed" for all of them) or one of the teacher's
 // own sets from the question hub ("set:<id>"). Everything chosen is tested together.
@@ -148,10 +197,37 @@ function filterQuestions(topicId) {
 // Per-battle question deck: draw without replacement from the chosen topic pool,
 // reshuffle when exhausted, so every question is seen once before any repeats and
 // the order varies each match.
+// Interleaved: when several topics or chapters are chosen, the deck deals one from each in turn (in a shuffled
+// order each lap) instead of letting a shuffle bunch one chapter together. Mixed practice is remembered better.
+function dealDeck(pool) {
+  const groups = new Map();
+  for (const q of pool) { const k = q.topicId || "x"; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(q); }
+  if (groups.size < 2) return shuffle(pool);
+  const lists = [...groups.values()].map((g) => shuffle(g)), out = [];
+  while (lists.some((l) => l.length)) for (const l of shuffle(lists)) if (l.length) out.push(l.pop());
+  return out;
+}
+// Mistakes come back: a question a player got wrong (on their turn, answering along, or stealing) is asked to them
+// again on their own turn a few questions later, and anything still wrong carries into their next tournament battle.
+const RETRY_GAP = 3, RETRY_MAX = 6;
+// A question comes back once per battle (still wrong after that, it is in the Rift Report and carries to the next
+// battle), and at most every other turn of that player, so the battle keeps bringing new questions too.
+function queueRetry(b, uid, q) {
+  if (!q || b.practice || b.combatants[uid]?.bot) return;
+  const list = (b.retry[uid] ||= []), done = (b.retried[uid] ||= new Set());
+  if (done.has(q) || list.some((r) => r.q === q) || list.length >= RETRY_MAX) return;
+  list.push({ q, due: (b.asked || 0) + RETRY_GAP });
+}
 function nextQuestion(b) {
+  const lastWasRetry = b.lastRetry?.[b.current];
+  b.qRetry = false;
   if (b.practice) return practiceQuestion(b.practice, !b.combatants[b.current]?.bot);
+  const list = b.retry?.[b.current];
+  const i = list && !lastWasRetry ? list.findIndex((r) => r.due <= (b.asked || 0)) : -1;
+  (b.lastRetry ||= {})[b.current] = i >= 0;
+  if (i >= 0) { b.qRetry = true; const q = list.splice(i, 1)[0].q; (b.retried[b.current] ||= new Set()).add(q); return q; }
   const pool = b.qPool && b.qPool.length ? b.qPool : QUESTIONS;
-  if (!b.qDeck || b.qPos >= b.qDeck.length) { b.qDeck = shuffle(pool); b.qPos = 0; }
+  if (!b.qDeck || b.qPos >= b.qDeck.length) { b.qDeck = dealDeck(pool); b.qPos = 0; }
   return b.qDeck[b.qPos++];
 }
 
@@ -368,6 +444,7 @@ io.on("connection", (socket) => {
   socket.on("answer", ({ choiceIndex } = {}) => handleAnswer(myRoom(), pidOf(socket), choiceIndex));
   socket.on("steal",  ({ choiceIndex } = {}) => handleSteal(myRoom(), pidOf(socket), choiceIndex));
   socket.on("useHint", () => handleHint(myRoom(), pidOf(socket)));
+  socket.on("shadowAnswer", ({ choiceIndex } = {}) => handleShadow(myRoom(), pidOf(socket), choiceIndex));
   socket.on("action", (action) => handleAction(myRoom(), pidOf(socket), action));
 
   socket.on("rematch", () => {
@@ -451,8 +528,9 @@ function beginBattle(room) {
     sync: { 0: 0, 1: 0 }, streak: { 0: 0, 1: 0 }, publicQuestion: null, q: null,
     stageLevel: 1,                           // the stage breaks apart a step with every Ultimate (1 to 5)
     topicId: room.topicId || "mixed",
-    qPool, qDeck: shuffle(qPool), qPos: 0,   // topic-filtered deck, drawn without replacement
+    qPool, qDeck: dealDeck(qPool), qPos: 0,  // topic-filtered deck, drawn without replacement, topics interleaved
     correctCount: {}, review: {}, timers: {},
+    retry: {}, retried: {}, asked: 0, shadow: {},   // mistakes to ask again (and those already asked again), questions so far, answers-along
     // tournament battles carry the teacher's settings; normal rooms use the defaults
     qSeconds: room.settings?.questionSeconds ?? QUESTION_SECONDS,
     stealSeconds: room.settings?.stealSeconds ?? STEAL_SECONDS,
@@ -460,6 +538,14 @@ function beginBattle(room) {
     endsAt: null, limitTimer: null,
     practice: room.practice || null,
   };
+  // a tournament hands over each student's questions still wrong from earlier battles: they come back early on
+  if (room.retrySeed) {
+    const byQid = new Map(qPool.map((q) => [q.qid, q]));
+    for (const [pid, qids] of Object.entries(room.retrySeed)) {
+      if (!combatants[pid]) continue;
+      room.battle.retry[pid] = qids.map((id) => byQid.get(id)).filter(Boolean).slice(0, RETRY_MAX).map((q, k) => ({ q, due: 1 + k * 2 }));
+    }
+  }
   const limitMin = room.settings?.timeLimitMin || 0;
   if (limitMin > 0) {
     room.battle.endsAt = Date.now() + (1200 + limitMin * 60000) / SPEED;
@@ -517,14 +603,20 @@ function startQuestion(room) {
   const q = nextQuestion(b);
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
-  const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0));
+  b.asked = (b.asked || 0) + 1;
+  // Recall first: from the 7th question on, the answers stay hidden for a few seconds so players recall the answer
+  // before they can recognise it. The clock gets those seconds back.
+  const recall = !p && b.asked >= RECALL_FROM ? RECALL_SECONDS : 0;
+  const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0)) + recall;
   // practice: hints are only offered from the hint lesson on
   const hint = p && (p.lesson === "strike" || p.lesson === "skills" || c.bot) ? null : hintKind(q);
   b.publicQuestion = {
     q: q.q, choices: q.choices, topic: q.topic, bloom: q.bloom, image: q.image || null, seconds, startedAt: Date.now(),
     hint, hintCost: b.hintCost, hinted: false,   // the hint text itself is only sent to the player who asks
     untimed: !!p,                                // practice: no clock on anything
+    recall, retry: !!b.qRetry,                   // answers hidden at first · a question this player got wrong before
   };
+  b.shadow = {};
   Object.values(b.combatants).forEach((x) => { x._hinted = false; });   // a hint only counts for the question it was used on
   b.phase = "question";
   c._correct = false;
@@ -539,10 +631,34 @@ function startQuestion(room) {
     // Bot takes 3–6 seconds to "think", giving human players time to read the question
     const thinkMs = 3000 + Math.floor(Math.random() * 3001);
     b.timers.bot = later(() => botTurn(room), thinkMs);
+    openShadow(room);
     return;
   }
   io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion });
   if (!p) b.timers.q = later(() => resolveAnswer(room, -1), seconds * 1000);
+  openShadow(room);
+}
+
+// ---------- answering along ----------
+// While one player answers, every other student in the battle (knocked-out ones too) answers the same question on
+// their own screen. Nobody is told if they were right until the question is over, so it never gives a steal away.
+// A right answer adds a little Sync for their team; a wrong one comes back to them later.
+const SHADOW_SYNC = 2, RECALL_FROM = 7, RECALL_SECONDS = 4;
+function openShadow(room) {
+  const b = room.battle; if (!b || b.practice) return;
+  for (const c of Object.values(b.combatants))
+    if (!c.bot && c.uid !== b.current) io.to(c.uid).emit("shadowOpen", { question: b.publicQuestion });
+}
+function handleShadow(room, sid, choiceIndex) {
+  const b = room?.battle;
+  if (!b || b.practice || b.phase !== "question" || sid === b.current) return;
+  const c = b.combatants[sid];
+  if (!c || c.bot || b.shadow[sid] || !Number.isInteger(choiceIndex) || choiceIndex < 0 || choiceIndex >= b.q.choices.length) return;
+  const correct = isRight(b.q, choiceIndex);
+  b.shadow[sid] = { choiceIndex, correct };
+  recordReview(b, sid, b.q, choiceIndex, correct, "along");
+  if (correct) addSync(room, c.team, SHADOW_SYNC); else queueRetry(b, sid, b.q);
+  io.to(sid).emit("shadowLocked", { choiceIndex, startedAt: b.publicQuestion?.startedAt });
 }
 
 // What kind of hint a question has: the teacher's own hint text, or else
@@ -608,12 +724,14 @@ function teamStreak(room, team, correct, hinted) {
 }
 
 // Record a player's answer attempt for the end-of-match learning recap (humans only).
-function recordReview(b, uid, q, chosen, correct) {
+// how: "turn" (their own question), "along" (answering along with someone else's), "steal"
+function recordReview(b, uid, q, chosen, correct, how = "turn") {
   if (!b.review) b.review = {};
   (b.review[uid] ||= []).push({
     q: q.q, choices: q.choices, answer: q.answer, answers: rightAnswers(q), chosen, image: q.image || null,
-    hinted: !!b.combatants[uid]?._hinted && b.current === uid,
+    hinted: how === "turn" && !!b.combatants[uid]?._hinted && b.current === uid,
     correct, explain: q.explain, topic: q.topic, bloom: q.bloom,
+    qid: q.qid || null, lo: q.lo || q.topic || "", ao: q.ao || "", chapter: q.chapter || 0, how,
   });
 }
 
@@ -628,7 +746,7 @@ function resolveAnswer(room, choiceIndex) {
   // battle would make you guard instead)
   if (room.practice && !c.bot && !correct) { io.to(c.uid).emit("practiceRetry", { choiceIndex }); return; }
   gradeAnswer(room, c, correct);
-  if (!c.bot) recordReview(b, c.uid, b.q, choiceIndex, correct);
+  if (!c.bot) { recordReview(b, c.uid, b.q, choiceIndex, correct); if (!correct) queueRetry(b, c.uid, b.q); }
   // After a wrong answer the right one stays secret while the others can still
   // steal the question; it is revealed when the steal window closes.
   const stealing = !correct && (b.stealSeconds ?? STEAL_SECONDS) > 0 && stealersOf(b, c.uid).length > 0;
@@ -684,7 +802,8 @@ function handleSteal(room, sid, choiceIndex) {
   // practice: a missed steal can be tried again
   if (room.practice && !correct) { io.to(sid).emit("practiceRetry", { choiceIndex, steal: true }); return; }
   b.stealAnswered.add(sid);
-  recordReview(b, sid, b.q, choiceIndex, correct);
+  recordReview(b, sid, b.q, choiceIndex, correct, "steal");
+  if (!correct) queueRetry(b, sid, b.q);
   io.to(room.code).emit("stealResult", correct ? {
     uid: sid, correct, correctIndex: b.q.answer, correctAll: rightAnswers(b.q), explain: b.q.explain,
   } : { uid: sid, correct });                 // a missed steal doesn't give the answer away to the others
@@ -825,6 +944,31 @@ function botAction(room) {
 
 // ---------- end ----------
 // forced: { winner: 0 | 1 | -1 (draw), reason } when the battle is stopped early
+// ---------- the Rift Report: what each player gets at the end of a battle ----------
+// The questions they missed (with the right answer and the learning objective), then two or three short written
+// prompts to answer in full sentences. A prompt is the missed question asked without its options when it reads well
+// on its own; otherwise it asks them to explain the learning objective in their own words.
+// a stem that only makes sense with its options in front of it ("Which of these…", "Which is NOT…")
+const needsOptions = (stem) => /which of|the following|which statement|which option|\bthese\b|\bbelow\b|\babove\b|\btrue\b|\bfalse\b|\bbest\b/i.test(stem) || /\bNOT\b/.test(stem);
+function promptFor(r) {
+  const stem = String(r.q || "").trim(), answer = (r.answers || [r.answer]).map((i) => r.choices?.[i]).filter(Boolean).join(" / ");
+  if (stem && !needsOptions(stem) && !r.image) {
+    return { kind: "direct", text: /[?]$/.test(stem) ? `Answer in a full sentence, using the proper term: ${stem}` : `Finish this sentence in your own words: ${stem.replace(/[.…\s]+$/, "")} …`, model: answer, lo: r.lo, qid: r.qid };
+  }
+  const lo = String(r.lo || "").trim().replace(/\.$/, "");
+  const idea = lo.replace(/^(state|recognise|recognize|understand|show)\s+that\s+/i, "");
+  return { kind: "lo", text: idea !== lo ? `Explain in your own words: ${idea}.` : `Write two or three sentences: ${lo}.`, model: `${stem} ${answer}`, lo: r.lo, qid: r.qid };
+}
+function buildReport(review) {
+  const byQ = new Map();
+  for (const r of review) { const k = r.qid || r.q; const e = byQ.get(k) || { ...r, tries: 0, wrong: 0, fixed: false }; e.tries++; if (r.correct) { if (e.wrong) e.fixed = true; } else e.wrong++; byQ.set(k, e); }
+  const missed = [...byQ.values()].filter((e) => e.wrong > 0).sort((a, b) => (a.fixed - b.fixed) || (b.wrong - a.wrong));
+  let pick = missed.slice(0, 3);
+  if (!pick.length) pick = shuffle([...new Map(review.map((r) => [r.lo, r])).values()]).slice(0, 2);   // nothing missed: explain two of today's objectives
+  const prompts = pick.map((r, i) => ({ id: "p" + i, ...promptFor(r) }));
+  return { missed: missed.map((e) => ({ q: e.q, lo: e.lo, wrong: e.wrong, fixed: e.fixed, right: (e.answers || [e.answer]).map((i) => e.choices?.[i]).filter(Boolean).join(" / ") })), prompts };
+}
+
 function endBattle(room, forced = null) {
   const b = room.battle;
   if (!b || room.status !== "battle") return;
@@ -838,11 +982,14 @@ function endBattle(room, forced = null) {
   room.players.forEach((p) => {
     const won = p.team === winner;
     const correct = b.correctCount[p.id] || 0;
-    rewards[p.id] = { won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20, correct, review: b.review[p.id] || [] };
+    const review = b.review[p.id] || [];
+    const along = review.filter((x) => x.how === "along");
+    rewards[p.id] = { won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20 + along.filter((x) => x.correct).length * 5, correct,
+      along: { answered: along.length, right: along.filter((x) => x.correct).length }, review, report: p.bot ? null : buildReport(review) };
   });
   io.to(room.code).emit("battleEnd", { winnerTeam: winner, reason, rewards, tournament: room.tournament || null, practice: !!room.practice });
   broadcast(room);
-  if (room.tournament) Tour.onBattleEnd(room, { winner, reason });
+  if (room.tournament) Tour.onBattleEnd(room, { winner, reason, rewards });
   if (room.practice) {                      // nothing more happens in a finished practice fight
     rooms.delete(room.code); socketRoom.delete(room.practice.student);
     io.sockets.sockets.get(room.practice.student)?.leave(room.code);

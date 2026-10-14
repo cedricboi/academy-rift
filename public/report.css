@@ -1,0 +1,68 @@
+/* ===== Academy Rift — the teacher's learning report (/report) ===== */
+body.report{user-select:text;overflow:auto;background:var(--ink);}
+.r-head{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 20px;background:rgba(8,4,12,.94);border-bottom:3px solid var(--crimson);}
+.r-brand{display:flex;flex-direction:column;line-height:1;transform:skewX(-5deg);}
+.r-brand-name{font-family:"Rift Display",system-ui;font-size:1.5rem;letter-spacing:1.5px;color:var(--paper);text-shadow:3px 3px 0 var(--dark-red);}
+.r-brand-sub{font-family:"Rift Display",system-ui;font-size:.85rem;letter-spacing:3px;color:var(--gold);margin-top:3px;}
+.r-head-acts{display:flex;gap:8px;flex-wrap:wrap;}
+.r-btn{min-height:40px;padding:0 16px;border:2px solid #3a3a45;background:#16141B;color:var(--paper);font:inherit;font-weight:700;cursor:pointer;}
+.r-btn:hover{border-color:var(--gold);}
+.r-btn.primary{background:var(--crimson);border-color:var(--crimson);}
+.r-btn:disabled{opacity:.5;cursor:default;}
+.r-private{margin:0;padding:8px 20px;background:rgba(242,184,75,.12);color:var(--gold);font-size:.92rem;}
+.r-main{max-width:1180px;margin:0 auto;padding:18px 20px 60px;}
+.r-loading,.r-empty{color:var(--ash);}
+.r-title{font-family:"Rift Display",system-ui;font-size:1.6rem;letter-spacing:1px;margin:6px 0 4px;}
+.r-sub{color:var(--ash);margin:0 0 16px;}
+.r-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:22px;}
+.r-card{background:#16141B;border:2px solid #34303D;border-left:5px solid var(--gold);padding:12px 14px;}
+.r-card b{display:block;font-family:"Rift Display",system-ui;font-size:1.7rem;color:var(--paper);}
+.r-card span{color:var(--ash);font-size:.92rem;}
+.r-sec{margin:26px 0 10px;font-family:"Rift Display",system-ui;letter-spacing:1px;font-size:1.15rem;color:var(--gold);}
+.r-table{width:100%;border-collapse:collapse;font-size:.95rem;}
+.r-table th{text-align:left;padding:8px 10px;color:var(--ash);font-weight:600;border-bottom:2px solid #34303D;position:sticky;top:64px;background:var(--ink);}
+.r-table td{padding:8px 10px;border-bottom:1px solid #26232d;vertical-align:top;}
+.r-table tr:hover td{background:rgba(255,255,255,.03);}
+.r-num{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;}
+.r-bar{display:inline-block;width:80px;height:8px;background:#26232d;margin-right:8px;vertical-align:middle;}
+.r-bar i{display:block;height:100%;background:linear-gradient(90deg,#ff5a75,#f2b84b 60%,#55f28b);}
+.r-lo{color:var(--ash);font-size:.86rem;}
+.r-right{color:#55F28B;}
+.r-wrongpick{color:#ff8fa3;font-size:.86rem;}
+.r-offer{margin:26px 0;padding:16px 18px;border:2px solid var(--gold);background:linear-gradient(180deg,rgba(242,184,75,.12),rgba(242,184,75,.03));}
+.r-offer h3{margin:0 0 6px;font-family:"Rift Display",system-ui;letter-spacing:.5px;font-size:1.2rem;}
+.r-offer p{margin:0 0 10px;color:var(--ash);}
+.r-offer-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.r-offer select{min-height:40px;padding:0 10px;font:inherit;background:#16141B;color:var(--paper);border:2px solid #3a3a45;}
+.r-sheet{margin-top:16px;padding:16px;background:#f8f6f2;color:#14121a;border-radius:2px;}
+.r-sheet h4{margin:16px 0 6px;font-size:1rem;color:#6E0B1E;}
+.r-sheet h4:first-child{margin-top:0;}
+.r-sheet ol{margin:0;padding-left:22px;}
+.r-sheet li{margin:0 0 10px;}
+.r-sheet .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 18px;margin-top:4px;}
+.r-sheet .src{color:#777;font-size:.8rem;}
+.r-sheet-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.r-missing{margin-top:10px;color:#6E0B1E;font-size:.92rem;}
+.r-written{display:grid;gap:12px;}
+.r-wprompt{background:#16141B;border:2px solid #34303D;padding:12px 14px;}
+.r-wprompt h4{margin:0 0 4px;font-size:1rem;}
+.r-wmodel{color:#55F28B;font-size:.9rem;margin:0 0 8px;}
+.r-wans{margin:6px 0 0;padding:6px 0 0;border-top:1px solid #26232d;}
+.r-wans b{color:var(--gold);margin-right:6px;}
+.r-toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);padding:10px 16px;background:#16141B;border:2px solid var(--gold);color:var(--paper);z-index:20;}
+/* printing: only the MCQ sheet (questions, then the answer key on a new page) */
+.sheet-print{display:none;}
+@media print{
+  body.report > *:not(.sheet-print){display:none!important;}
+  body.report{background:#fff;color:#000;overflow:visible;}
+  .sheet-print{display:block;color:#000;font-family:Arial,Helvetica,sans-serif;font-size:11pt;}
+  .sheet-print h1{font-size:16pt;margin:0 0 4pt;} .sheet-print .sp-sub{margin:0 0 12pt;color:#333;}
+  .sheet-print h2{font-size:11pt;margin:12pt 0 4pt;border-bottom:1px solid #999;}
+  .sheet-print ol{padding-left:18pt;margin:0;} .sheet-print li{margin:0 0 9pt;break-inside:avoid;}
+  .sheet-print .opts{display:grid;grid-template-columns:1fr 1fr;gap:1pt 14pt;margin-top:3pt;}
+  .sheet-print .key{break-before:page;} .sheet-print .key table{border-collapse:collapse;} .sheet-print .key td{border:1px solid #999;padding:3pt 8pt;}
+}
+@media print{ body.report.print-all > *{display:block!important;} body.report.print-all .r-head,body.report.print-all .r-offer,body.report.print-all .sheet-print{display:none!important;}
+  body.report.print-all .r-table th{position:static;background:#fff;color:#000;} body.report.print-all{color:#000;} }
+
+#sheetBox,.r-sec,#offer{scroll-margin-top:80px;}

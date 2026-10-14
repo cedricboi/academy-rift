@@ -142,6 +142,28 @@ goes into the folder that is open when it is made, and the folder can be changed
 To replace the chapter quizzes, put the Blooket files (`Blooket_ChNN_*.xlsx`, plus the AO map for
 the chapter names) in a folder and run `node tools/build-library.mjs <folder>`.
 
+## Learning in battle (so students remember, not just recognise)
+- **Everyone answers every question.** On another player's turn the question strip carries the answers too, so
+  each student answers about four times as many questions as before. Nobody learns whether they were right until the
+  question is over (so it never gives a steal away); a right answer adds 2 Sync for the team and 5 coins.
+- **Mistakes come back.** A question a student gets wrong, on their turn, answering along or stealing, is asked to
+  them again on their own turn a few questions later ("Back again"). Each question comes back once per battle and
+  at most every other turn. Questions still wrong carry into the student's next tournament battle (up to four).
+- **Interleaving.** With several topics or chapters ticked, the deck deals one from each in turn.
+- **Recall first.** From the 7th question of a battle, the choices stay covered for 4 seconds (the clock gives the
+  time back), so students recall the answer before they can recognise it.
+- **The Rift Report.** After each battle a student sees each question they missed (with the right answer, the
+  learning objective, and whether they put it right later), then writes two or three short answers in full
+  sentences: the missed question without its options, or the learning objective in their own words. Only after
+  writing do they see the right answer to compare with. In a tournament the answers go to the teacher.
+- **The teacher's learning report.** "📖 Learning report" on the tournament page opens `/report` in a new tab (it
+  shows names, so keep it off the projector): every question answered wrong with how many times and the most common
+  wrong answer, the weakest learning objectives, and the students' written answers. It offers to build an MCQ sheet
+  of different questions on the same learning objectives (other chapter questions this class was not asked), to
+  print with an answer key or save as a question set to play, and downloads the whole report as Markdown to hand to
+  Claude for brand-new questions. The chapter questions carry their learning objective and AO from the AO map.
+- `node test-learning.mjs` tests all of this end to end.
+
 ## Play across iPads / computers
 It's a browser game — every player just opens a URL in Safari/Chrome (no app install). Hold
 devices in **landscape** (a portrait iPad shows a "rotate" prompt). There are two ways to host:

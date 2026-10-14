@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that science is the study of natural phenomena, in and out of the laboratory",
+   "ao": "A"
   },
   {
    "id": "c01q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify data as qualitative or quantitative",
+   "ao": "A"
   },
   {
    "id": "c01q3",
@@ -50,7 +54,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify data as qualitative or quantitative",
+   "ao": "A"
   },
   {
    "id": "c01q4",
@@ -65,7 +71,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify data as qualitative or quantitative",
+   "ao": "B"
   },
   {
    "id": "c01q5",
@@ -80,7 +88,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify data as qualitative or quantitative",
+   "ao": "B"
   },
   {
    "id": "c01q6",
@@ -95,7 +105,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify data as qualitative or quantitative",
+   "ao": "B"
   },
   {
    "id": "c01q7",
@@ -110,7 +122,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify data as qualitative or quantitative",
+   "ao": "B"
   },
   {
    "id": "c01q8",
@@ -126,7 +140,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the nature of scientific knowledge (evidence-based, open to change, multiple interpretations)",
+   "ao": "A"
   },
   {
    "id": "c01q9",
@@ -142,7 +158,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the nature of scientific knowledge (evidence-based, open to change, multiple interpretations)",
+   "ao": "A"
   },
   {
    "id": "c01q10",
@@ -158,7 +176,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the nature of scientific knowledge (evidence-based, open to change, multiple interpretations)",
+   "ao": "B"
   },
   {
    "id": "c01q11",
@@ -174,7 +194,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a hypothesis and a scientific question",
+   "ao": "A"
   },
   {
    "id": "c01q12",
@@ -190,7 +212,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a hypothesis and a scientific question",
+   "ao": "B"
   },
   {
    "id": "c01q13",
@@ -206,7 +230,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the variable changed, measured and kept constant",
+   "ao": "A"
   },
   {
    "id": "c01q14",
@@ -222,7 +248,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the variable changed, measured and kept constant",
+   "ao": "B"
   },
   {
    "id": "c01q15",
@@ -238,7 +266,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the variable changed, measured and kept constant",
+   "ao": "B"
   },
   {
    "id": "c01q16",
@@ -253,7 +283,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the variable changed, measured and kept constant",
+   "ao": "B"
   },
   {
    "id": "c01q17",
@@ -269,7 +301,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the variable changed, measured and kept constant",
+   "ao": "B"
   },
   {
    "id": "c01q18",
@@ -285,7 +319,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the variable changed, measured and kept constant",
+   "ao": "B"
   },
   {
    "id": "c01q19",
@@ -301,7 +337,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q20",
@@ -317,7 +355,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q21",
@@ -333,7 +373,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q22",
@@ -349,7 +391,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q23",
@@ -365,7 +409,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q24",
@@ -381,7 +427,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q25",
@@ -397,7 +445,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the SI units of mass, length, time, temperature and volume",
+   "ao": "A"
   },
   {
    "id": "c01q26",
@@ -413,7 +463,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Judge the accuracy and precision of a set of readings",
+   "ao": "A"
   },
   {
    "id": "c01q27",
@@ -429,7 +481,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Judge the accuracy and precision of a set of readings",
+   "ao": "A"
   },
   {
    "id": "c01q28",
@@ -445,7 +499,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Judge the accuracy and precision of a set of readings",
+   "ao": "B"
   },
   {
    "id": "c01q29",
@@ -461,7 +517,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Judge the accuracy and precision of a set of readings",
+   "ao": "B"
   },
   {
    "id": "c01q30",
@@ -477,7 +535,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Judge the accuracy and precision of a set of readings",
+   "ao": "B"
   },
   {
    "id": "c01q31",
@@ -493,7 +553,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Judge the accuracy and precision of a set of readings",
+   "ao": "A"
   },
   {
    "id": "c01q32",
@@ -509,7 +571,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify zero error and correct readings for it",
+   "ao": "A"
   },
   {
    "id": "c01q33",
@@ -525,7 +589,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify zero error and correct readings for it",
+   "ao": "A"
   },
   {
    "id": "c01q34",
@@ -541,7 +607,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify zero error and correct readings for it",
+   "ao": "B"
   },
   {
    "id": "c01q35",
@@ -557,7 +625,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify zero error and correct readings for it",
+   "ao": "B"
   },
   {
    "id": "c01q36",
@@ -573,7 +643,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify zero error and correct readings for it",
+   "ao": "B"
   },
   {
    "id": "c01q37",
@@ -589,7 +661,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how to avoid parallax error for common instruments",
+   "ao": "A"
   },
   {
    "id": "c01q38",
@@ -605,7 +679,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how to avoid parallax error for common instruments",
+   "ao": "A"
   },
   {
    "id": "c01q39",
@@ -621,7 +697,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how to avoid parallax error for common instruments",
+   "ao": "A"
   },
   {
    "id": "c01q40",
@@ -637,7 +715,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how to avoid parallax error for common instruments",
+   "ao": "B"
   },
   {
    "id": "c01q41",
@@ -652,7 +732,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify errors as consistent or unpredictable",
+   "ao": "B"
   },
   {
    "id": "c01q42",
@@ -667,7 +749,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify errors as consistent or unpredictable",
+   "ao": "B"
   },
   {
    "id": "c01q43",
@@ -682,7 +766,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify errors as consistent or unpredictable",
+   "ao": "B"
   },
   {
    "id": "c01q44",
@@ -698,7 +784,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify errors as consistent or unpredictable",
+   "ao": "A"
   },
   {
    "id": "c01q45",
@@ -714,7 +802,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify scientific attitudes from a described action",
+   "ao": "B"
   },
   {
    "id": "c01q46",
@@ -730,7 +820,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify scientific attitudes from a described action",
+   "ao": "B"
   },
   {
    "id": "c01q47",
@@ -746,7 +838,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify scientific attitudes from a described action",
+   "ao": "B"
   },
   {
    "id": "c01q48",
@@ -762,7 +856,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply laboratory safety rules",
+   "ao": "A"
   },
   {
    "id": "c01q49",
@@ -778,7 +874,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply laboratory safety rules",
+   "ao": "A"
   },
   {
    "id": "c01q50",
@@ -794,7 +892,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply laboratory safety rules",
+   "ao": "B"
   },
   {
    "id": "c01q51",
@@ -810,7 +910,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply laboratory safety rules",
+   "ao": "B"
   },
   {
    "id": "c01q52",
@@ -826,7 +928,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply laboratory safety rules",
+   "ao": "A"
   },
   {
    "id": "c01q53",
@@ -842,7 +946,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match a hazard symbol to the danger it warns of",
+   "ao": "B"
   },
   {
    "id": "c01q54",
@@ -858,7 +964,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match a hazard symbol to the danger it warns of",
+   "ao": "B"
   },
   {
    "id": "c01q55",
@@ -874,7 +982,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match a hazard symbol to the danger it warns of",
+   "ao": "B"
   },
   {
    "id": "c01q56",
@@ -890,7 +1000,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match a hazard symbol to the danger it warns of",
+   "ao": "B"
   },
   {
    "id": "c01q57",
@@ -906,7 +1018,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match a hazard symbol to the danger it warns of",
+   "ao": "A"
   },
   {
    "id": "c01q58",
@@ -922,7 +1036,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify considerations as ethical, social, environmental or economic",
+   "ao": "A"
   },
   {
    "id": "c01q59",
@@ -938,7 +1054,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify considerations as ethical, social, environmental or economic",
+   "ao": "B"
   },
   {
    "id": "c01q60",
@@ -954,7 +1072,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify considerations as ethical, social, environmental or economic",
+   "ao": "B"
   },
   {
    "id": "c01q61",
@@ -970,7 +1090,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify considerations as ethical, social, environmental or economic",
+   "ao": "B"
   },
   {
    "id": "c01q62",
@@ -986,7 +1108,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify considerations as ethical, social, environmental or economic",
+   "ao": "A"
   },
   {
    "id": "c01q63",
@@ -1002,7 +1126,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Draw conclusions from data and improve how it is presented",
+   "ao": "B"
   },
   {
    "id": "c01q64",
@@ -1018,7 +1144,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Draw conclusions from data and improve how it is presented",
+   "ao": "B"
   },
   {
    "id": "c01q65",
@@ -1034,7 +1162,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Draw conclusions from data and improve how it is presented",
+   "ao": "B"
   },
   {
    "id": "c01q66",
@@ -1050,7 +1180,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Draw conclusions from data and improve how it is presented",
+   "ao": "B"
   }
  ]
 }

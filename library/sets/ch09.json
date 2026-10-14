@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the destructive power of forces in nature",
+   "ao": "A"
   },
   {
    "id": "c09q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the destructive power of forces in nature",
+   "ao": "B"
   },
   {
    "id": "c09q3",
@@ -49,7 +53,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a force as a contact or non-contact force",
+   "ao": "A"
   },
   {
    "id": "c09q4",
@@ -65,7 +71,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a force as a contact or non-contact force",
+   "ao": "B"
   },
   {
    "id": "c09q5",
@@ -81,7 +89,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a force as a contact or non-contact force",
+   "ao": "B"
   },
   {
    "id": "c09q6",
@@ -97,7 +107,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a force as a contact or non-contact force",
+   "ao": "B"
   },
   {
    "id": "c09q7",
@@ -113,7 +125,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a force as a contact or non-contact force",
+   "ao": "B"
   },
   {
    "id": "c09q8",
@@ -128,7 +142,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether magnetic poles attract or repel",
+   "ao": "A"
   },
   {
    "id": "c09q9",
@@ -143,7 +159,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether magnetic poles attract or repel",
+   "ao": "B"
   },
   {
    "id": "c09q10",
@@ -158,7 +176,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether magnetic poles attract or repel",
+   "ao": "B"
   },
   {
    "id": "c09q11",
@@ -174,7 +194,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether magnetic poles attract or repel",
+   "ao": "A"
   },
   {
    "id": "c09q12",
@@ -190,7 +212,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Measure force in newtons using a spring balance",
+   "ao": "A"
   },
   {
    "id": "c09q13",
@@ -206,7 +230,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Measure force in newtons using a spring balance",
+   "ao": "A"
   },
   {
    "id": "c09q14",
@@ -221,7 +247,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Measure force in newtons using a spring balance",
+   "ao": "B"
   },
   {
    "id": "c09q15",
@@ -237,7 +265,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare weight and mass",
+   "ao": "A"
   },
   {
    "id": "c09q16",
@@ -253,7 +283,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare weight and mass",
+   "ao": "A"
   },
   {
    "id": "c09q17",
@@ -269,7 +301,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare weight and mass",
+   "ao": "A"
   },
   {
    "id": "c09q18",
@@ -285,7 +319,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare weight and mass",
+   "ao": "B"
   },
   {
    "id": "c09q19",
@@ -301,7 +337,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare weight and mass",
+   "ao": "B"
   },
   {
    "id": "c09q20",
@@ -317,7 +355,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare weight and mass",
+   "ao": "B"
   },
   {
    "id": "c09q21",
@@ -333,7 +373,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the change a force causes when objects interact",
+   "ao": "B"
   },
   {
    "id": "c09q22",
@@ -349,7 +391,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the change a force causes when objects interact",
+   "ao": "B"
   },
   {
    "id": "c09q23",
@@ -365,7 +409,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the change a force causes when objects interact",
+   "ao": "B"
   },
   {
    "id": "c09q24",
@@ -381,7 +427,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the change a force causes when objects interact",
+   "ao": "B"
   },
   {
    "id": "c09q25",
@@ -397,7 +445,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the change a force causes when objects interact",
+   "ao": "A"
   },
   {
    "id": "c09q26",
@@ -413,7 +463,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the turning effect of a force about a pivot",
+   "ao": "A"
   },
   {
    "id": "c09q27",
@@ -429,7 +481,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the turning effect of a force about a pivot",
+   "ao": "B"
   },
   {
    "id": "c09q28",
@@ -445,7 +499,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "A"
   },
   {
    "id": "c09q29",
@@ -461,7 +517,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "A"
   },
   {
    "id": "c09q30",
@@ -477,7 +535,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "B"
   },
   {
    "id": "c09q31",
@@ -493,7 +553,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "B"
   },
   {
    "id": "c09q32",
@@ -509,7 +571,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "B"
   },
   {
    "id": "c09q33",
@@ -525,7 +589,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "B"
   },
   {
    "id": "c09q34",
@@ -541,7 +607,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate pressure, force or area using pressure = force/area",
+   "ao": "B"
   },
   {
    "id": "c09q35",
@@ -557,7 +625,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain daily life phenomena using pressure and contact area",
+   "ao": "A"
   },
   {
    "id": "c09q36",
@@ -573,7 +643,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain daily life phenomena using pressure and contact area",
+   "ao": "A"
   },
   {
    "id": "c09q37",
@@ -588,7 +660,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain daily life phenomena using pressure and contact area",
+   "ao": "B"
   },
   {
    "id": "c09q38",
@@ -604,7 +678,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain daily life phenomena using pressure and contact area",
+   "ao": "B"
   },
   {
    "id": "c09q39",
@@ -620,7 +696,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain daily life phenomena using pressure and contact area",
+   "ao": "A"
   },
   {
    "id": "c09q40",
@@ -635,7 +713,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
+   "ao": "A"
   },
   {
    "id": "c09q41",
@@ -651,7 +731,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
+   "ao": "A"
   },
   {
    "id": "c09q42",
@@ -667,7 +749,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
+   "ao": "A"
   },
   {
    "id": "c09q43",
@@ -682,7 +766,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
+   "ao": "A"
   },
   {
    "id": "c09q44",
@@ -698,7 +784,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
+   "ao": "B"
   },
   {
    "id": "c09q45",
@@ -714,7 +802,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
+   "ao": "B"
   },
   {
    "id": "c09q46",
@@ -730,7 +820,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Decide whether work is done on an object",
+   "ao": "A"
   },
   {
    "id": "c09q47",
@@ -746,7 +838,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Decide whether work is done on an object",
+   "ao": "B"
   },
   {
    "id": "c09q48",
@@ -762,7 +856,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Decide whether work is done on an object",
+   "ao": "B"
   },
   {
    "id": "c09q49",
@@ -778,7 +874,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Decide whether work is done on an object",
+   "ao": "B"
   },
   {
    "id": "c09q50",
@@ -794,7 +892,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Decide whether work is done on an object",
+   "ao": "B"
   },
   {
    "id": "c09q51",
@@ -810,7 +910,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the joule as the SI unit of work and energy",
+   "ao": "A"
   },
   {
    "id": "c09q52",
@@ -826,7 +928,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the joule as the SI unit of work and energy",
+   "ao": "A"
   },
   {
    "id": "c09q53",
@@ -842,7 +946,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Infer the energy conversion in a situation",
+   "ao": "B"
   },
   {
    "id": "c09q54",
@@ -858,7 +964,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Infer the energy conversion in a situation",
+   "ao": "B"
   },
   {
    "id": "c09q55",
@@ -874,7 +982,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Infer the energy conversion in a situation",
+   "ao": "B"
   },
   {
    "id": "c09q56",
@@ -890,7 +1000,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Infer the energy conversion in a situation",
+   "ao": "B"
   },
   {
    "id": "c09q57",
@@ -906,7 +1018,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Infer the energy conversion in a situation",
+   "ao": "B"
   },
   {
    "id": "c09q58",
@@ -922,7 +1036,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that energy is conserved when transferred or converted",
+   "ao": "A"
   },
   {
    "id": "c09q59",
@@ -938,7 +1054,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that energy is conserved when transferred or converted",
+   "ao": "B"
   },
   {
    "id": "c09q60",
@@ -954,7 +1072,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that energy is conserved when transferred or converted",
+   "ao": "B"
   },
   {
    "id": "c09q61",
@@ -970,7 +1090,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "A"
   },
   {
    "id": "c09q62",
@@ -986,7 +1108,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "A"
   },
   {
    "id": "c09q63",
@@ -1002,7 +1126,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "A"
   },
   {
    "id": "c09q64",
@@ -1018,7 +1144,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "A"
   },
   {
    "id": "c09q65",
@@ -1034,7 +1162,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "A"
   },
   {
    "id": "c09q66",
@@ -1050,7 +1180,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "B"
   },
   {
    "id": "c09q67",
@@ -1066,7 +1198,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "B"
   },
   {
    "id": "c09q68",
@@ -1082,7 +1216,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify sources of energy and their impact on the environment",
+   "ao": "A"
   }
  ]
 }

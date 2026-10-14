@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that light travels in straight lines, shown as rays with arrows",
+   "ao": "A"
   },
   {
    "id": "c05q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that light travels in straight lines, shown as rays with arrows",
+   "ao": "A"
   },
   {
    "id": "c05q3",
@@ -50,7 +54,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that light travels in straight lines, shown as rays with arrows",
+   "ao": "B"
   },
   {
    "id": "c05q4",
@@ -66,7 +72,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify objects as luminous or non-luminous",
+   "ao": "A"
   },
   {
    "id": "c05q5",
@@ -82,7 +90,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify objects as luminous or non-luminous",
+   "ao": "B"
   },
   {
    "id": "c05q6",
@@ -98,7 +108,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify objects as luminous or non-luminous",
+   "ao": "B"
   },
   {
    "id": "c05q7",
@@ -114,7 +126,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify objects as luminous or non-luminous",
+   "ao": "B"
   },
   {
    "id": "c05q8",
@@ -130,7 +144,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify objects as luminous or non-luminous",
+   "ao": "B"
   },
   {
    "id": "c05q9",
@@ -146,7 +162,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain how we see objects using reflection",
+   "ao": "A"
   },
   {
    "id": "c05q10",
@@ -162,7 +180,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain how we see objects using reflection",
+   "ao": "A"
   },
   {
    "id": "c05q11",
@@ -178,7 +198,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain how we see objects using reflection",
+   "ao": "B"
   },
   {
    "id": "c05q12",
@@ -194,7 +216,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the parts of a reflection ray diagram",
+   "ao": "A"
   },
   {
    "id": "c05q13",
@@ -210,7 +234,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the parts of a reflection ray diagram",
+   "ao": "A"
   },
   {
    "id": "c05q14",
@@ -226,7 +252,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the parts of a reflection ray diagram",
+   "ao": "A"
   },
   {
    "id": "c05q15",
@@ -242,7 +270,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the parts of a reflection ray diagram",
+   "ao": "A"
   },
   {
    "id": "c05q16",
@@ -258,7 +288,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the parts of a reflection ray diagram",
+   "ao": "A"
   },
   {
    "id": "c05q17",
@@ -274,7 +306,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply angle of reflection equals angle of incidence",
+   "ao": "A"
   },
   {
    "id": "c05q18",
@@ -290,7 +324,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply angle of reflection equals angle of incidence",
+   "ao": "B"
   },
   {
    "id": "c05q19",
@@ -306,7 +342,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply angle of reflection equals angle of incidence",
+   "ao": "B"
   },
   {
    "id": "c05q20",
@@ -322,7 +360,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply angle of reflection equals angle of incidence",
+   "ao": "B"
   },
   {
    "id": "c05q21",
@@ -338,7 +378,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply angle of reflection equals angle of incidence",
+   "ao": "B"
   },
   {
    "id": "c05q22",
@@ -354,7 +396,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Apply angle of reflection equals angle of incidence",
+   "ao": "B"
   },
   {
    "id": "c05q23",
@@ -370,7 +414,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "A"
   },
   {
    "id": "c05q24",
@@ -386,7 +432,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "A"
   },
   {
    "id": "c05q25",
@@ -402,7 +450,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "A"
   },
   {
    "id": "c05q26",
@@ -418,7 +468,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "B"
   },
   {
    "id": "c05q27",
@@ -434,7 +486,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "B"
   },
   {
    "id": "c05q28",
@@ -450,7 +504,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "B"
   },
   {
    "id": "c05q29",
@@ -465,7 +521,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "B"
   },
   {
    "id": "c05q30",
@@ -481,7 +539,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State and apply the characteristics of a plane mirror image",
+   "ao": "B"
   },
   {
    "id": "c05q31",
@@ -497,7 +557,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "A"
   },
   {
    "id": "c05q32",
@@ -513,7 +575,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "A"
   },
   {
    "id": "c05q33",
@@ -528,7 +592,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "B"
   },
   {
    "id": "c05q34",
@@ -543,7 +609,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "B"
   },
   {
    "id": "c05q35",
@@ -558,7 +626,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "B"
   },
   {
    "id": "c05q36",
@@ -573,7 +643,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "B"
   },
   {
    "id": "c05q37",
@@ -588,7 +660,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Choose a plane, convex or concave mirror for a given use",
+   "ao": "B"
   },
   {
    "id": "c05q38",
@@ -604,7 +678,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare reflection on smooth and rough surfaces",
+   "ao": "A"
   },
   {
    "id": "c05q39",
@@ -620,7 +696,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare reflection on smooth and rough surfaces",
+   "ao": "A"
   },
   {
    "id": "c05q40",
@@ -636,7 +714,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare reflection on smooth and rough surfaces",
+   "ao": "A"
   },
   {
    "id": "c05q41",
@@ -652,7 +732,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare reflection on smooth and rough surfaces",
+   "ao": "B"
   },
   {
    "id": "c05q42",
@@ -668,7 +750,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare reflection on smooth and rough surfaces",
+   "ao": "B"
   },
   {
    "id": "c05q43",
@@ -684,7 +768,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain refraction as a change in the speed of light",
+   "ao": "A"
   },
   {
    "id": "c05q44",
@@ -700,7 +786,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain refraction as a change in the speed of light",
+   "ao": "A"
   },
   {
    "id": "c05q45",
@@ -716,7 +804,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain refraction as a change in the speed of light",
+   "ao": "A"
   },
   {
    "id": "c05q46",
@@ -732,7 +822,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether light bends towards or away from the normal",
+   "ao": "A"
   },
   {
    "id": "c05q47",
@@ -748,7 +840,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether light bends towards or away from the normal",
+   "ao": "B"
   },
   {
    "id": "c05q48",
@@ -764,7 +858,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether light bends towards or away from the normal",
+   "ao": "B"
   },
   {
    "id": "c05q49",
@@ -780,7 +876,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether light bends towards or away from the normal",
+   "ao": "B"
   },
   {
    "id": "c05q50",
@@ -796,7 +894,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether light bends towards or away from the normal",
+   "ao": "B"
   },
   {
    "id": "c05q51",
@@ -812,7 +912,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict whether light bends towards or away from the normal",
+   "ao": "B"
   },
   {
    "id": "c05q52",
@@ -828,7 +930,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe effects of refraction in everyday life",
+   "ao": "B"
   },
   {
    "id": "c05q53",
@@ -844,7 +948,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe effects of refraction in everyday life",
+   "ao": "B"
   },
   {
    "id": "c05q54",
@@ -860,7 +966,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe effects of refraction in everyday life",
+   "ao": "B"
   },
   {
    "id": "c05q55",
@@ -876,7 +984,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe effects of refraction in everyday life",
+   "ao": "B"
   },
   {
    "id": "c05q56",
@@ -892,7 +1002,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe dispersion of white light by a prism",
+   "ao": "A"
   },
   {
    "id": "c05q57",
@@ -908,7 +1020,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe dispersion of white light by a prism",
+   "ao": "A"
   },
   {
    "id": "c05q58",
@@ -924,7 +1038,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe dispersion of white light by a prism",
+   "ao": "B"
   },
   {
    "id": "c05q59",
@@ -940,7 +1056,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe dispersion of white light by a prism",
+   "ao": "B"
   },
   {
    "id": "c05q60",
@@ -956,7 +1074,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe dispersion of white light by a prism",
+   "ao": "B"
   },
   {
    "id": "c05q61",
@@ -971,7 +1091,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State beneficial and harmful effects of infrared, UV and visible light",
+   "ao": "A"
   },
   {
    "id": "c05q62",
@@ -986,7 +1108,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State beneficial and harmful effects of infrared, UV and visible light",
+   "ao": "B"
   },
   {
    "id": "c05q63",
@@ -1001,7 +1125,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State beneficial and harmful effects of infrared, UV and visible light",
+   "ao": "B"
   },
   {
    "id": "c05q64",
@@ -1016,7 +1142,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State beneficial and harmful effects of infrared, UV and visible light",
+   "ao": "B"
   },
   {
    "id": "c05q65",
@@ -1031,7 +1159,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State beneficial and harmful effects of infrared, UV and visible light",
+   "ao": "B"
   },
   {
    "id": "c05q66",
@@ -1046,7 +1176,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State beneficial and harmful effects of infrared, UV and visible light",
+   "ao": "B"
   },
   {
    "id": "c05q67",
@@ -1062,7 +1194,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the impact of artificial lighting on society and the environment",
+   "ao": "A"
   },
   {
    "id": "c05q68",
@@ -1078,7 +1212,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the impact of artificial lighting on society and the environment",
+   "ao": "A"
   },
   {
    "id": "c05q69",
@@ -1094,7 +1230,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe the impact of artificial lighting on society and the environment",
+   "ao": "A"
   }
  ]
 }

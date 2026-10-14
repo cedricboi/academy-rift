@@ -1099,7 +1099,10 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
   const review  = (r && r.review) || [];
   const answered = review.length;
   const gotRight = review.filter((x) => x.correct).length;
-  const missed   = review.filter((x) => !x.correct);
+  // one entry per question, newest attempt last, and whether it was put right later in the battle
+  const seen = new Map();
+  for (const x of review) { const k = x.qid || x.q; const e = seen.get(k) || { ...x, wrong: 0, fixed: false }; if (x.correct) { if (e.wrong) e.fixed = true; } else { e.wrong++; e.chosen = x.chosen; } seen.set(k, e); }
+  const missed   = [...seen.values()].filter((x) => x.wrong > 0).sort((a, b) => a.fixed - b.fixed);
 
   const timeLine = reason === "time"
     ? (draw ? "Time up. Both teams had the same HP and the same number of correct answers."
@@ -1109,6 +1112,7 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
     `<div class="reward-line"><span>${draw ? "🤝 Neither team could win this one." : won ? "🏆 Your team won the Rift!" : "Study hard and try again!"}</span></div>`,
     ...(timeLine ? [`<div class="reward-line"><span>⏱ ${timeLine}</span></div>`] : []),
     ...(answered ? [`<div class="reward-line"><span>✅ You answered</span><span>${gotRight} / ${answered} correct</span></div>`] : []),
+    ...(r?.along?.answered ? [`<div class="reward-line"><span>👥 Answering along</span><span>${r.along.right} / ${r.along.answered} correct</span></div>`] : []),
   ];
 
   // Learning recap — show the questions THIS player got wrong, with the right answer + why.
@@ -1121,8 +1125,9 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
         const rights = (x.answers || [x.answer]).map((k) => `✓ ${"ABCD"[k]}. ${esc(x.choices[k])}`).join("<br>");
         const bm = BLOOM_META[x.bloom];
         const badge = bm ? `<span class="review-bloom" style="color:${bm.color};border-color:${bm.color}">${bm.icon} ${x.bloom}</span>` : "";
-        return `<div class="review-item">
-          <div class="review-q"><span class="review-topic">${esc(x.topic)}</span>${badge}<span class="review-qtext">${esc(x.q)}</span></div>
+        return `<div class="review-item ${x.fixed ? "fixed" : ""}">
+          <div class="review-q"><span class="review-topic">${esc(x.topic)}</span>${badge}${x.fixed ? `<span class="review-fixed">✓ Put right later</span>` : x.wrong > 1 ? `<span class="review-fixed bad">Wrong ${x.wrong} times</span>` : ""}<span class="review-qtext">${esc(x.q)}</span></div>
+          ${x.lo && x.lo !== x.topic ? `<div class="review-lo">Learning objective: ${esc(x.lo)}</div>` : ""}
           ${x.image ? `<img class="review-pic" src="${esc(x.image)}" alt="Picture for this question" loading="lazy" />` : ""}
           <div class="review-your">Your answer: ${chosen}</div>
           <div class="review-correct">${rights}</div>
@@ -1133,13 +1138,47 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
     recap = `<div class="review-block"><h3 class="review-head good">🌟 Perfect — you answered every question correctly!</h3></div>`;
   }
 
-  $("resultBody").innerHTML = lines.join("") + recap;
+  $("resultBody").innerHTML = lines.join("") + recap + reportHTML(r?.report, !!tournament);
+  bindReport(r?.report, !!tournament);
   const inTourney = !!tournament;
   $("rematchBtn").style.display = !inTourney && room.hostId === myId ? "" : "none";
   $("lobbyBtn").style.display = inTourney ? "none" : "";
   $("backToTourney").classList.toggle("hidden", !inTourney);
   updateWatchFromResult();
   showScreen("result");
+}
+
+// ---- the Rift Report: write it down ----
+// Two or three short prompts from what this player missed (or, with nothing missed, from today's objectives), answered
+// in full sentences. Only after writing do they see the right answer to compare with. In a tournament the answers go
+// to the teacher's learning report.
+function reportHTML(rep, inTourney) {
+  if (!rep?.prompts?.length) return "";
+  return `<div class="report-block" id="riftReport">
+    <h3 class="review-head">✍️ Write it down</h3>
+    <p class="report-sub">Answer in full sentences, using the proper terms.${inTourney ? " Your teacher will read your answers." : ""}</p>
+    ${rep.prompts.map((p, i) => `<div class="report-item" data-pid="${esc(p.id)}">
+      <label class="report-q" for="rp${i}">${i + 1}. ${esc(p.text)}</label>
+      <textarea id="rp${i}" rows="2" maxlength="600" placeholder="Write your answer here"></textarea>
+      <div class="report-model hidden">${p.kind === "lo" ? "Compare with the question you missed:" : "Compare with the right answer:"} <b>${esc(p.model)}</b>${p.lo ? `<small>Learning objective: ${esc(p.lo)}</small>` : ""}</div>
+    </div>`).join("")}
+    <button type="button" class="shard-btn small" id="reportSend"><span>${inTourney ? "SEND TO MY TEACHER" : "CHECK MY ANSWERS"}</span></button>
+    <p class="report-done hidden" id="reportDone"></p>
+  </div>`;
+}
+function bindReport(rep, inTourney) {
+  const btn = $("reportSend"); if (!btn || !rep) return;
+  btn.addEventListener("click", () => {
+    const answers = rep.prompts.map((p, i) => ({ id: p.id, text: $("rp" + i)?.value.trim() || "" }));
+    if (answers.filter((a) => a.text.length >= 3).length < answers.length) { toast("Write an answer for each one first."); return; }
+    SFX.play("select");
+    if (inTourney) socket.emit("tReport", { answers });
+    document.querySelectorAll("#riftReport textarea").forEach((t) => (t.readOnly = true));
+    document.querySelectorAll("#riftReport .report-model").forEach((m) => m.classList.remove("hidden"));
+    btn.disabled = true;
+    const done = $("reportDone"); done.classList.remove("hidden");
+    done.textContent = inTourney ? "Sent. Now compare each answer with the right one." : "Now compare each answer with the right one.";
+  });
 }
 
 // ============================================================
@@ -1507,6 +1546,39 @@ function showWait(text) {
   if (!text) { w.classList.add("hidden"); return; }
   $("waitText").textContent = text; w.classList.remove("hidden");
 }
+// ---- answering along with someone else's question ----
+// Everyone in the battle answers every question: on another player's turn the strip at the top carries the answers
+// too. You find out if you were right when the question is over, and a right answer adds a little to your team's Sync.
+let along = { key: "", choice: null, told: "" };
+function alongState(q, meC, open) {
+  if (!q || !meC || spectating || room?.practice) return null;
+  const key = qKey(q);
+  if (along.key !== key) along = { key, choice: null, told: "" };
+  const right = lastReveal && lastReveal.key === key ? lastReveal.right : null;
+  if (open) {
+    const wait = q.recall ? Math.max(0, q.startedAt + q.recall * 1000 - srvNow()) : 0;
+    if (wait > 0) setTimeout(() => { if (room?.battle?.phase === "question") renderBattle(); }, wait + 60);
+    return { mode: wait > 0 ? "recall" : along.choice == null ? "ask" : "locked", choice: along.choice, n: q.choices.length, recall: Math.ceil(wait / 1000) };
+  }
+  if (along.choice == null || !right) return null;
+  const ok = right.includes(along.choice);
+  if (along.told !== key) { along.told = key; if (ok) toast("✓ You answered along correctly: +2 Sync for your team."); }
+  return { mode: "result", ok, picked: q.choices[along.choice] };
+}
+function alongHTML(a, q) {
+  if (!a) return "";
+  if (a.mode === "result") return `<div class="qs-along ${a.ok ? "ok" : "bad"}"><span class="qa-tag">${a.ok ? "✓ You were right" : `✗ You picked ${esc(a.picked)}`}</span></div>`;
+  if (a.mode === "recall") return `<div class="qs-along"><span class="qa-tag">ANSWER ALONG</span><span class="qa-think">Think of the answer first… the choices appear in a moment</span></div>`;
+  return `<div class="qs-along"><span class="qa-tag">${a.mode === "locked" ? "LOCKED IN" : "ANSWER ALONG"}</span>${q.choices.map((c, i) =>
+    `<button type="button" class="qa-btn ${a.choice === i ? "picked" : ""}" data-along="${i}" ${a.mode === "locked" ? "disabled" : ""}><b>${"ABCD"[i]}</b>${esc(c)}</button>`).join("")}</div>`;
+}
+$("qStrip").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-along]"); if (!b || b.disabled || along.choice != null) return;
+  along.choice = +b.dataset.along; SFX.play("select");
+  socket.emit("shadowAnswer", { choiceIndex: along.choice });
+  renderBattle();
+});
+
 function renderStrip(s) {
   const el = $("qStrip");
   if (!s) { el.classList.add("hidden"); return; }
@@ -1520,7 +1592,8 @@ function renderStrip(s) {
       <span class="qs-q">${esc(q.q)}</span>
       ${s.answer ? `<span class="qs-ans">✓ ${esc(s.answer)}</span>` : ""}
     </div>
-    ${s.deadline ? `<span class="qs-timer" data-deadline="${s.deadline}"></span>` : ""}`;
+    ${s.deadline ? `<span class="qs-timer" data-deadline="${s.deadline}"></span>` : ""}
+    ${alongHTML(s.along, q)}`;
   el.classList.remove("hidden");
   tickDeadlines();
 }
@@ -1551,7 +1624,8 @@ function fillQuestionCard(mode, q, cur, onPick) {
   $("mcqPlayerName").textContent = mode === "steal" ? "⚡ STEAL CHANCE" : "YOUR TURN";
   const stealName = room?.practice && cur ? NAME[cur.charId] : stealMeta?.originalName;
   $("mcqSub").textContent = mode === "steal"
-    ? `Answer right to steal ${stealName || "their"}'s turn. Your attacks do half damage.` : "";
+    ? `Answer right to steal ${stealName || "their"}'s turn. Your attacks do half damage.`
+    : q.retry ? "Back again: you got this one wrong earlier. Get it right this time." : "";
   $("mcqTopic").textContent = q.topic || "";
   setBloomChip(mode === "steal" ? null : q.bloom);
   $("mcqQ").textContent = q.q;
@@ -1566,6 +1640,19 @@ function fillQuestionCard(mode, q, cur, onPick) {
     btn.addEventListener("click", () => { if (inputLocked || btn.disabled) return; mySelected = i; lockBriefly(); onPick(i); });
     wrap.appendChild(btn);
   });
+  // Recall first: the choices stay covered for a few seconds so the answer is remembered before it is recognised
+  clearInterval(fillQuestionCard._recall);
+  const recallLeft = mode === "ask" && q.recall ? Math.max(0, q.startedAt + q.recall * 1000 - srvNow()) : 0;
+  wrap.classList.toggle("recalling", recallLeft > 0);
+  wrap.querySelector(".mcq-recall")?.remove();
+  if (recallLeft > 0) {
+    const cover = document.createElement("div"); cover.className = "mcq-recall";
+    const end = Date.now() + recallLeft;
+    const tick = () => { const n = Math.ceil((end - Date.now()) / 1000);
+      if (n <= 0) { clearInterval(fillQuestionCard._recall); wrap.classList.remove("recalling"); cover.remove(); return; }
+      cover.innerHTML = `<b>Think of the answer first</b><span>The choices appear in ${n}</span>`; };
+    tick(); wrap.appendChild(cover); fillQuestionCard._recall = setInterval(tick, 200);
+  }
   stopTimer();
   const untimed = mode === "steal" ? !!stealMeta?.untimed : !!q.untimed;   // practice: no clock
   mcq.classList.toggle("untimed", untimed);
@@ -1601,7 +1688,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
       fillQuestionCard("ask", q, cur, (i) => socket.emit("answer", { choiceIndex: i }));
     } else {
       hideQuestionCard();
-      strip = { label: `${who(cur)}'S QUESTION${q.hinted ? " · 💡 HINT USED" : ""}`, cls: side(cur), q, deadline: q.untimed ? null : localDeadline(q.startedAt, q.seconds) };
+      strip = { label: `${who(cur)}'S QUESTION${q.hinted ? " · 💡 HINT USED" : ""}`, cls: side(cur), q, deadline: q.untimed ? null : localDeadline(q.startedAt, q.seconds), along: alongState(q, meC, true) };
       flag(cur, q.hinted ? `${who(cur)} IS ANSWERING · 💡 HINT` : `${who(cur)} IS ANSWERING`);
     }
 
@@ -1644,6 +1731,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
     if (ans) strip = { label: "THE ANSWER", cls: "good", q, answer: ans };
   }
 
+  if (strip && !strip.along && b.phase !== "question") strip.along = alongState(q, meC, false);   // how their answer-along went
   if (!keepMoves) hideMoves();
   updateHintButton(q, meC, mode === "asking" && b.phase === "question");
   setStage(mode); renderStrip(strip); showWait(wait);

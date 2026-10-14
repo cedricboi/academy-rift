@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the main components of an electrical system and their functions",
+   "ao": "A"
   },
   {
    "id": "c13q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the main components of an electrical system and their functions",
+   "ao": "A"
   },
   {
    "id": "c13q3",
@@ -50,7 +54,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Name the main components of an electrical system and their functions",
+   "ao": "A"
   },
   {
    "id": "c13q4",
@@ -66,7 +72,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify open and closed circuits",
+   "ao": "A"
   },
   {
    "id": "c13q5",
@@ -82,7 +90,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify open and closed circuits",
+   "ao": "B"
   },
   {
    "id": "c13q6",
@@ -97,7 +107,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify open and closed circuits",
+   "ao": "B"
   },
   {
    "id": "c13q7",
@@ -112,7 +124,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify open and closed circuits",
+   "ao": "B"
   },
   {
    "id": "c13q8",
@@ -128,7 +142,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify open and closed circuits",
+   "ao": "A"
   },
   {
    "id": "c13q9",
@@ -144,7 +160,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe current and potential difference and state their SI units",
+   "ao": "A"
   },
   {
    "id": "c13q10",
@@ -160,7 +178,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe current and potential difference and state their SI units",
+   "ao": "A"
   },
   {
    "id": "c13q11",
@@ -176,7 +196,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe current and potential difference and state their SI units",
+   "ao": "A"
   },
   {
    "id": "c13q12",
@@ -192,7 +214,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe resistance and state its SI unit",
+   "ao": "A"
   },
   {
    "id": "c13q13",
@@ -208,7 +232,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe resistance and state its SI unit",
+   "ao": "A"
   },
   {
    "id": "c13q14",
@@ -224,7 +250,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "A"
   },
   {
    "id": "c13q15",
@@ -240,7 +268,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "A"
   },
   {
    "id": "c13q16",
@@ -256,7 +286,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "A"
   },
   {
    "id": "c13q17",
@@ -272,7 +304,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "A"
   },
   {
    "id": "c13q18",
@@ -288,7 +322,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "B"
   },
   {
    "id": "c13q19",
@@ -304,7 +340,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "B"
   },
   {
    "id": "c13q20",
@@ -320,7 +358,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "B"
   },
   {
    "id": "c13q21",
@@ -336,7 +376,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Match each quantity to its SI unit and measuring instrument",
+   "ao": "A"
   },
   {
    "id": "c13q22",
@@ -352,7 +394,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Connect ammeters and voltmeters correctly in a circuit",
+   "ao": "A"
   },
   {
    "id": "c13q23",
@@ -368,7 +412,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Connect ammeters and voltmeters correctly in a circuit",
+   "ao": "A"
   },
   {
    "id": "c13q24",
@@ -384,7 +430,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Connect ammeters and voltmeters correctly in a circuit",
+   "ao": "B"
   },
   {
    "id": "c13q25",
@@ -400,7 +448,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Connect ammeters and voltmeters correctly in a circuit",
+   "ao": "B"
   },
   {
    "id": "c13q26",
@@ -416,7 +466,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify materials by their resistance",
+   "ao": "A"
   },
   {
    "id": "c13q27",
@@ -432,7 +484,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify materials by their resistance",
+   "ao": "B"
   },
   {
    "id": "c13q28",
@@ -448,7 +502,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify materials by their resistance",
+   "ao": "B"
   },
   {
    "id": "c13q29",
@@ -464,7 +520,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify materials by their resistance",
+   "ao": "B"
   },
   {
    "id": "c13q30",
@@ -480,7 +538,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify materials by their resistance",
+   "ao": "B"
   },
   {
    "id": "c13q31",
@@ -495,7 +555,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how adding resistors in series or parallel changes the current",
+   "ao": "A"
   },
   {
    "id": "c13q32",
@@ -510,7 +572,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how adding resistors in series or parallel changes the current",
+   "ao": "B"
   },
   {
    "id": "c13q33",
@@ -525,7 +589,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how adding resistors in series or parallel changes the current",
+   "ao": "B"
   },
   {
    "id": "c13q34",
@@ -540,7 +606,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how adding resistors in series or parallel changes the current",
+   "ao": "B"
   },
   {
    "id": "c13q35",
@@ -555,7 +623,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how adding resistors in series or parallel changes the current",
+   "ao": "B"
   },
   {
    "id": "c13q36",
@@ -570,7 +640,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how adding resistors in series or parallel changes the current",
+   "ao": "B"
   },
   {
    "id": "c13q37",
@@ -586,7 +658,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how a variable resistor changes current and brightness",
+   "ao": "A"
   },
   {
    "id": "c13q38",
@@ -601,7 +675,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how a variable resistor changes current and brightness",
+   "ao": "B"
   },
   {
    "id": "c13q39",
@@ -616,7 +692,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how a variable resistor changes current and brightness",
+   "ao": "B"
   },
   {
    "id": "c13q40",
@@ -631,7 +709,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how a variable resistor changes current and brightness",
+   "ao": "B"
   },
   {
    "id": "c13q41",
@@ -646,7 +726,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Predict how a variable resistor changes current and brightness",
+   "ao": "B"
   },
   {
    "id": "c13q42",
@@ -662,7 +744,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "A"
   },
   {
    "id": "c13q43",
@@ -677,7 +761,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "B"
   },
   {
    "id": "c13q44",
@@ -692,7 +778,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "B"
   },
   {
    "id": "c13q45",
@@ -707,7 +795,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "B"
   },
   {
    "id": "c13q46",
@@ -722,7 +812,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "B"
   },
   {
    "id": "c13q47",
@@ -738,7 +830,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "A"
   },
   {
    "id": "c13q48",
@@ -753,7 +847,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify the chemical, heating or magnetic effect in an application",
+   "ao": "B"
   },
   {
    "id": "c13q49",
@@ -769,7 +865,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how changes to an electrical system cause hazards",
+   "ao": "A"
   },
   {
    "id": "c13q50",
@@ -785,7 +883,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how changes to an electrical system cause hazards",
+   "ao": "B"
   },
   {
    "id": "c13q51",
@@ -801,7 +901,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how changes to an electrical system cause hazards",
+   "ao": "B"
   },
   {
    "id": "c13q52",
@@ -817,7 +919,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State how changes to an electrical system cause hazards",
+   "ao": "B"
   },
   {
    "id": "c13q53",
@@ -833,7 +937,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State precautions and safety devices for using electricity at home",
+   "ao": "A"
   },
   {
    "id": "c13q54",
@@ -849,7 +955,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State precautions and safety devices for using electricity at home",
+   "ao": "A"
   },
   {
    "id": "c13q55",
@@ -865,7 +973,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State precautions and safety devices for using electricity at home",
+   "ao": "B"
   },
   {
    "id": "c13q56",
@@ -881,7 +991,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State precautions and safety devices for using electricity at home",
+   "ao": "B"
   },
   {
    "id": "c13q57",
@@ -897,7 +1009,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State precautions and safety devices for using electricity at home",
+   "ao": "B"
   },
   {
    "id": "c13q58",
@@ -913,7 +1027,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain what power is and state its SI unit",
+   "ao": "A"
   },
   {
    "id": "c13q59",
@@ -929,7 +1045,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain what power is and state its SI unit",
+   "ao": "A"
   },
   {
    "id": "c13q60",
@@ -945,7 +1063,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Explain what power is and state its SI unit",
+   "ao": "B"
   },
   {
    "id": "c13q61",
@@ -961,7 +1081,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "A"
   },
   {
    "id": "c13q62",
@@ -977,7 +1099,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "A"
   },
   {
    "id": "c13q63",
@@ -993,7 +1117,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "B"
   },
   {
    "id": "c13q64",
@@ -1009,7 +1135,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "B"
   },
   {
    "id": "c13q65",
@@ -1025,7 +1153,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "B"
   },
   {
    "id": "c13q66",
@@ -1041,7 +1171,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "B"
   },
   {
    "id": "c13q67",
@@ -1057,7 +1189,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "B"
   },
   {
    "id": "c13q68",
@@ -1073,7 +1207,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Calculate electrical energy in kWh and its cost",
+   "ao": "B"
   },
   {
    "id": "c13q69",
@@ -1089,7 +1225,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Suggest ways to reduce household electrical energy consumption",
+   "ao": "A"
   },
   {
    "id": "c13q70",
@@ -1105,7 +1243,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Suggest ways to reduce household electrical energy consumption",
+   "ao": "B"
   },
   {
    "id": "c13q71",
@@ -1121,7 +1261,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Suggest ways to reduce household electrical energy consumption",
+   "ao": "B"
   },
   {
    "id": "c13q72",
@@ -1137,7 +1279,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Suggest ways to reduce household electrical energy consumption",
+   "ao": "B"
   }
  ]
 }

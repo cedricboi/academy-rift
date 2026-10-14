@@ -18,7 +18,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe an atom as the simplest unit of an element",
+   "ao": "A"
   },
   {
    "id": "c08q2",
@@ -34,7 +36,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe an atom as the simplest unit of an element",
+   "ao": "B"
   },
   {
    "id": "c08q3",
@@ -50,7 +54,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare the size of an atom with the sizes of everyday objects",
+   "ao": "A"
   },
   {
    "id": "c08q4",
@@ -66,7 +72,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare the size of an atom with the sizes of everyday objects",
+   "ao": "A"
   },
   {
    "id": "c08q5",
@@ -82,7 +90,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare the size of an atom with the sizes of everyday objects",
+   "ao": "B"
   },
   {
    "id": "c08q6",
@@ -97,7 +107,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "A"
   },
   {
    "id": "c08q7",
@@ -112,7 +124,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "A"
   },
   {
    "id": "c08q8",
@@ -128,7 +142,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "A"
   },
   {
    "id": "c08q9",
@@ -144,7 +160,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "A"
   },
   {
    "id": "c08q10",
@@ -160,7 +178,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "A"
   },
   {
    "id": "c08q11",
@@ -176,7 +196,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "A"
   },
   {
    "id": "c08q12",
@@ -192,7 +214,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "B"
   },
   {
    "id": "c08q13",
@@ -207,7 +231,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "B"
   },
   {
    "id": "c08q14",
@@ -222,7 +248,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify a sub-atomic particle from its charge, mass and position",
+   "ao": "B"
   },
   {
    "id": "c08q15",
@@ -238,7 +266,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "A"
   },
   {
    "id": "c08q16",
@@ -254,7 +284,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "A"
   },
   {
    "id": "c08q17",
@@ -270,7 +302,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "B"
   },
   {
    "id": "c08q18",
@@ -286,7 +320,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "B"
   },
   {
    "id": "c08q19",
@@ -302,7 +338,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "B"
   },
   {
    "id": "c08q20",
@@ -318,7 +356,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "B"
   },
   {
    "id": "c08q21",
@@ -334,7 +374,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
+   "ao": "B"
   },
   {
    "id": "c08q22",
@@ -350,7 +392,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that the number of neutrons in an atom need not equal the number of protons",
+   "ao": "B"
   },
   {
    "id": "c08q23",
@@ -366,7 +410,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that the mass of an atom is mainly the mass of its nucleus",
+   "ao": "A"
   },
   {
    "id": "c08q24",
@@ -382,7 +428,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that the mass of an atom is mainly the mass of its nucleus",
+   "ao": "A"
   },
   {
    "id": "c08q25",
@@ -398,7 +446,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Recognise that the mass of an atom is mainly the mass of its nucleus",
+   "ao": "B"
   },
   {
    "id": "c08q26",
@@ -414,7 +464,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "A"
   },
   {
    "id": "c08q27",
@@ -430,7 +482,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "A"
   },
   {
    "id": "c08q28",
@@ -446,7 +500,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "A"
   },
   {
    "id": "c08q29",
@@ -462,7 +518,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "B"
   },
   {
    "id": "c08q30",
@@ -478,7 +536,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "B"
   },
   {
    "id": "c08q31",
@@ -494,7 +554,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "B"
   },
   {
    "id": "c08q32",
@@ -510,7 +572,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "B"
   },
   {
    "id": "c08q33",
@@ -526,7 +590,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Use the number of protons to identify an element",
+   "ao": "B"
   },
   {
    "id": "c08q34",
@@ -542,7 +608,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that a molecule is two or more atoms chemically combined",
+   "ao": "A"
   },
   {
    "id": "c08q35",
@@ -558,7 +626,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State that a molecule is two or more atoms chemically combined",
+   "ao": "B"
   },
   {
    "id": "c08q36",
@@ -574,7 +644,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "A"
   },
   {
    "id": "c08q37",
@@ -590,7 +662,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q38",
@@ -606,7 +680,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q39",
@@ -622,7 +698,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q40",
@@ -638,7 +716,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q41",
@@ -654,7 +734,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q42",
@@ -670,7 +752,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q43",
@@ -686,7 +770,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q44",
@@ -702,7 +788,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q45",
@@ -718,7 +806,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q46",
@@ -734,7 +824,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q47",
@@ -750,7 +842,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "State the numbers and types of atoms from a chemical formula",
+   "ao": "B"
   },
   {
    "id": "c08q48",
@@ -766,7 +860,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "A"
   },
   {
    "id": "c08q49",
@@ -782,7 +878,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "A"
   },
   {
    "id": "c08q50",
@@ -797,7 +895,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "B"
   },
   {
    "id": "c08q51",
@@ -812,7 +912,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "B"
   },
   {
    "id": "c08q52",
@@ -827,7 +929,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "B"
   },
   {
    "id": "c08q53",
@@ -843,7 +947,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "B"
   },
   {
    "id": "c08q54",
@@ -859,7 +965,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Classify a molecule as an element or a compound from its formula",
+   "ao": "B"
   },
   {
    "id": "c08q55",
@@ -875,7 +983,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare atoms and molecules",
+   "ao": "A"
   },
   {
    "id": "c08q56",
@@ -891,7 +1001,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Compare atoms and molecules",
+   "ao": "B"
   },
   {
    "id": "c08q57",
@@ -907,7 +1019,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe how atomic models are simplified and revised with new evidence",
+   "ao": "A"
   },
   {
    "id": "c08q58",
@@ -923,7 +1037,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe how atomic models are simplified and revised with new evidence",
+   "ao": "A"
   },
   {
    "id": "c08q59",
@@ -939,7 +1055,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Describe how atomic models are simplified and revised with new evidence",
+   "ao": "B"
   },
   {
    "id": "c08q60",
@@ -955,7 +1073,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify applications of atomic technologies and the issues and risks they raise",
+   "ao": "A"
   },
   {
    "id": "c08q61",
@@ -971,7 +1091,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify applications of atomic technologies and the issues and risks they raise",
+   "ao": "A"
   },
   {
    "id": "c08q62",
@@ -987,7 +1109,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify applications of atomic technologies and the issues and risks they raise",
+   "ao": "A"
   },
   {
    "id": "c08q63",
@@ -1002,7 +1126,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify applications of atomic technologies and the issues and risks they raise",
+   "ao": "B"
   },
   {
    "id": "c08q64",
@@ -1018,7 +1144,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify applications of atomic technologies and the issues and risks they raise",
+   "ao": "B"
   },
   {
    "id": "c08q65",
@@ -1034,7 +1162,9 @@
    ],
    "explain": "",
    "hint": "",
-   "image": null
+   "image": null,
+   "lo": "Identify applications of atomic technologies and the issues and risks they raise",
+   "ao": "B"
   }
  ]
 }
