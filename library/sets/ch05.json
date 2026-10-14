@@ -1,0 +1,1100 @@
+{
+ "id": "ch05",
+ "title": "Ch 5 · Ray Model of Light",
+ "folder": "sec1",
+ "chapter": 5,
+ "questions": [
+  {
+   "id": "c05q1",
+   "q": "Light travels in",
+   "choices": [
+    "curved lines",
+    "circles",
+    "straight lines",
+    "zigzag lines"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q2",
+   "q": "In a ray diagram, the arrow on a ray shows the",
+   "choices": [
+    "direction light travels",
+    "speed of light",
+    "colour of light",
+    "brightness of light"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q3",
+   "q": "One card in a row of holed cards is moved. Why is the flame now hidden?",
+   "choices": [
+    "the flame stops emitting light",
+    "light travels in curves",
+    "light bends around cards",
+    "light travels in straight lines"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q4",
+   "q": "A luminous object is one that",
+   "choices": [
+    "can only be seen in the dark",
+    "emits light on its own",
+    "reflects light from other objects",
+    "absorbs all light"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q5",
+   "q": "Which object is luminous?",
+   "choices": [
+    "a firefly",
+    "a mirror",
+    "the moon",
+    "a white flower"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q6",
+   "q": "Which object is non-luminous?",
+   "choices": [
+    "a lit candle",
+    "a switched-on lamp",
+    "the sun",
+    "the moon"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q7",
+   "q": "Which of these emits its own light?",
+   "choices": [
+    "a book",
+    "a white ball",
+    "a lit mobile phone screen",
+    "a plane mirror"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q8",
+   "q": "Which object is seen only because it reflects light?",
+   "choices": [
+    "a candle flame",
+    "a plane mirror",
+    "the sun",
+    "a firefly"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q9",
+   "q": "The bouncing of light off a surface is called",
+   "choices": [
+    "dispersion",
+    "refraction",
+    "absorption",
+    "reflection"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q10",
+   "q": "We see a non-luminous object when light",
+   "choices": [
+    "passes around it",
+    "reflects off it into our eyes",
+    "travels from our eyes to it",
+    "is absorbed by it"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q11",
+   "q": "A white ball and a black ball are in a totally dark room. Which is seen?",
+   "choices": [
+    "neither ball",
+    "the black ball only",
+    "both balls",
+    "the white ball only"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q12",
+   "q": "The line perpendicular to the mirror at the point of incidence is the",
+   "choices": [
+    "incident ray",
+    "boundary",
+    "normal",
+    "reflected ray"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q13",
+   "q": "The ray of light hitting a reflecting surface is the",
+   "choices": [
+    "refracted ray",
+    "incident ray",
+    "normal",
+    "reflected ray"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q14",
+   "q": "The ray travelling away from a surface after bouncing off it is the",
+   "choices": [
+    "reflected ray",
+    "normal",
+    "refracted ray",
+    "incident ray"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q15",
+   "q": "The angle of incidence is measured between the incident ray and the",
+   "choices": [
+    "horizontal",
+    "reflected ray",
+    "mirror surface",
+    "normal"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q16",
+   "q": "The angle between the reflected ray and the normal is the",
+   "choices": [
+    "angle of refraction",
+    "right angle",
+    "angle of reflection",
+    "angle of incidence"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q17",
+   "q": "For reflection, the angle of reflection is",
+   "choices": [
+    "smaller than the angle of incidence",
+    "always 90°",
+    "equal to the angle of incidence",
+    "greater than the angle of incidence"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q18",
+   "q": "The angle of incidence is 30°. What is the angle of reflection?",
+   "choices": [
+    "90°",
+    "15°",
+    "60°",
+    "30°"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q19",
+   "q": "The angle of incidence is 45°. What is the angle of reflection?",
+   "choices": [
+    "45°",
+    "135°",
+    "22.5°",
+    "90°"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q20",
+   "q": "A ray hits a mirror along the normal. What is the angle of reflection?",
+   "choices": [
+    "90°",
+    "0°",
+    "45°",
+    "180°"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q21",
+   "q": "The angle of reflection is 25°. What is the angle of incidence?",
+   "choices": [
+    "50°",
+    "25°",
+    "155°",
+    "65°"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q22",
+   "q": "A ray makes 60° with the mirror surface. What is the angle of incidence?",
+   "choices": [
+    "30°",
+    "90°",
+    "120°",
+    "60°"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q23",
+   "q": "An image in a plane mirror is",
+   "choices": [
+    "inverted and the same size",
+    "inverted and diminished",
+    "upright and magnified",
+    "upright and the same size"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q24",
+   "q": "A virtual image is one that",
+   "choices": [
+    "is larger than the object",
+    "is upside down",
+    "cannot be formed on a screen",
+    "can be formed on a screen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q25",
+   "q": "A plane mirror reversing left and right is called",
+   "choices": [
+    "magnification",
+    "dispersion",
+    "refraction",
+    "lateral inversion"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q26",
+   "q": "A girl stands 2 m from a plane mirror. How far is her image from the mirror?",
+   "choices": [
+    "0 m",
+    "2 m",
+    "1 m",
+    "4 m"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q27",
+   "q": "A boy stands 1.5 m from a plane mirror. How far is he from his image?",
+   "choices": [
+    "6 m",
+    "0.75 m",
+    "3 m",
+    "1.5 m"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q28",
+   "q": "A cat is 6 m from its image in a plane mirror. How far is it from the mirror?",
+   "choices": [
+    "3 m",
+    "2 m",
+    "6 m",
+    "12 m"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q29",
+   "q": "You raise your right hand in front of a plane mirror. Your image raises its",
+   "choices": [
+    "left hand",
+    "right hand",
+    "both hands"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q30",
+   "q": "Why is \"AMBULANCE\" printed in reverse on the front of an ambulance?",
+   "choices": [
+    "it can be seen at night",
+    "it is larger in a mirror",
+    "it reads correctly in a driver's mirror",
+    "it looks more colourful"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q31",
+   "q": "A convex mirror forms an image that is",
+   "choices": [
+    "upright and magnified",
+    "the same size",
+    "inverted and magnified",
+    "upright and diminished"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q32",
+   "q": "A concave mirror used close up forms an image that is",
+   "choices": [
+    "upright and diminished",
+    "upright and magnified",
+    "inverted and diminished",
+    "the same size"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q33",
+   "q": "Which mirror is used at road junctions to see around blind corners?",
+   "choices": [
+    "plane mirror",
+    "concave mirror",
+    "convex mirror"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q34",
+   "q": "Which mirror does a dentist use to examine teeth closely?",
+   "choices": [
+    "concave mirror",
+    "convex mirror",
+    "plane mirror"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q35",
+   "q": "Which mirror is used in a periscope?",
+   "choices": [
+    "convex mirror",
+    "plane mirror",
+    "concave mirror"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q36",
+   "q": "Which mirror is used in car headlights to form a strong beam?",
+   "choices": [
+    "concave mirror",
+    "plane mirror",
+    "convex mirror"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q37",
+   "q": "A mirror forms an upright, magnified image of a face. Which mirror is it?",
+   "choices": [
+    "plane mirror",
+    "concave mirror",
+    "convex mirror"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q38",
+   "q": "Parallel rays falling on a smooth surface are reflected",
+   "choices": [
+    "into the surface",
+    "in different directions",
+    "back along the normal only",
+    "in the same direction"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q39",
+   "q": "Parallel rays falling on a rough surface are reflected",
+   "choices": [
+    "in the same direction",
+    "back along the normal only",
+    "into the surface",
+    "in different directions"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q40",
+   "q": "For a rough surface, the angle of reflection of each ray is",
+   "choices": [
+    "always zero",
+    "larger than its angle of incidence",
+    "equal to its angle of incidence",
+    "smaller than its angle of incidence"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q41",
+   "q": "Why can we not see our reflection on white paper?",
+   "choices": [
+    "it absorbs all light",
+    "it is luminous",
+    "it refracts light",
+    "its rough surface scatters light"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q42",
+   "q": "On which surface will a clear image form?",
+   "choices": [
+    "a sheet of paper",
+    "calm water in a pond",
+    "a wooden table",
+    "a brick wall"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q43",
+   "q": "The bending of light at the boundary between two transparent materials is",
+   "choices": [
+    "refraction",
+    "dispersion",
+    "reflection",
+    "absorption"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q44",
+   "q": "Refraction happens because light",
+   "choices": [
+    "is absorbed by the material",
+    "changes colour between materials",
+    "changes speed between materials",
+    "stops at the boundary"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q45",
+   "q": "The more optically dense a material is, the",
+   "choices": [
+    "slower light travels in it",
+    "heavier the material is",
+    "faster light travels in it",
+    "brighter light becomes"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q46",
+   "q": "Light travels from air into glass. It",
+   "choices": [
+    "slows down and bends away from the normal",
+    "speeds up and bends away from the normal",
+    "slows down and bends towards the normal",
+    "speeds up and bends towards the normal"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q47",
+   "q": "Light travels from glass into air. It",
+   "choices": [
+    "speeds up and bends towards the normal",
+    "slows down and bends away from the normal",
+    "slows down and bends towards the normal",
+    "speeds up and bends away from the normal"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q48",
+   "q": "Light travels from air into water at an angle. It bends",
+   "choices": [
+    "away from the normal",
+    "towards the normal",
+    "back into the air",
+    "along the boundary"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q49",
+   "q": "Light travels from water into air at an angle. It bends",
+   "choices": [
+    "towards the normal",
+    "along the boundary",
+    "away from the normal",
+    "back into the water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q50",
+   "q": "Light enters a block along the normal. What happens to its direction?",
+   "choices": [
+    "it bends towards the normal",
+    "it bends away from the normal",
+    "it reflects back",
+    "it does not change"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q51",
+   "q": "A ray bends towards the normal entering material X from air. Light in X is",
+   "choices": [
+    "slower than in air",
+    "stopped completely",
+    "faster than in air",
+    "the same speed as in air"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q52",
+   "q": "A pencil in a glass of water appears bent because of",
+   "choices": [
+    "reflection",
+    "refraction",
+    "dispersion",
+    "lateral inversion"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q53",
+   "q": "Due to refraction, a swimming pool appears",
+   "choices": [
+    "the same depth",
+    "deeper than it is",
+    "wider than it is",
+    "shallower than it is"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q54",
+   "q": "Letters under a glass block appear",
+   "choices": [
+    "larger and upside down",
+    "further from the surface than they are",
+    "nearer to the surface than they are",
+    "laterally inverted"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q55",
+   "q": "Which is an effect of refraction?",
+   "choices": [
+    "a shadow behind a tree",
+    "a coin in water looks nearer the surface",
+    "seeing the moon at night",
+    "seeing your face in a mirror"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q56",
+   "q": "The splitting of white light into its colours is called",
+   "choices": [
+    "dispersion",
+    "reflection",
+    "lateral inversion",
+    "absorption"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q57",
+   "q": "How many colours make up white light?",
+   "choices": [
+    "6",
+    "5",
+    "7",
+    "3"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q58",
+   "q": "White light passes through a prism. Which colour bends the most?",
+   "choices": [
+    "yellow",
+    "violet",
+    "red",
+    "green"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q59",
+   "q": "White light passes through a prism. Which colour bends the least?",
+   "choices": [
+    "red",
+    "violet",
+    "green",
+    "blue"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q60",
+   "q": "A prism splits white light because each colour",
+   "choices": [
+    "is absorbed by the glass",
+    "is reflected by the glass",
+    "travels at the same speed in glass",
+    "travels at a different speed in glass"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q61",
+   "q": "Which type of EM radiation can we see?",
+   "choices": [
+    "UV radiation",
+    "visible light",
+    "infrared radiation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q62",
+   "q": "Thermal imaging cameras screen people for fever by detecting",
+   "choices": [
+    "infrared radiation",
+    "visible light",
+    "UV radiation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q63",
+   "q": "Which radiation helps the body produce vitamin D?",
+   "choices": [
+    "infrared radiation",
+    "visible light",
+    "UV radiation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q64",
+   "q": "Sunscreen is worn to protect skin from",
+   "choices": [
+    "UV radiation",
+    "infrared radiation",
+    "visible light"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q65",
+   "q": "Which radiation trapped in the atmosphere contributes to climate change?",
+   "choices": [
+    "visible light",
+    "infrared radiation",
+    "UV radiation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q66",
+   "q": "Which radiation do plants use for photosynthesis?",
+   "choices": [
+    "UV radiation",
+    "infrared radiation",
+    "visible light"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q67",
+   "q": "Too much artificial light in the environment is called",
+   "choices": [
+    "climate change",
+    "refraction",
+    "dispersion",
+    "light pollution"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q68",
+   "q": "How can artificial lighting harm migratory birds?",
+   "choices": [
+    "it improves their vision",
+    "it helps them find nests",
+    "it gives them more food",
+    "it disrupts their migration timing"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c05q69",
+   "q": "Which lighting reduces energy use and light pollution?",
+   "choices": [
+    "LEDs used prudently",
+    "more street lamps",
+    "brighter floodlights",
+    "lights left on all night"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

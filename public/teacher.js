@@ -2,6 +2,7 @@
 import { SETTINGS, SETTING_GROUPS } from "./data/tournamentSettings.js";
 import { CHAR_BY_ID } from "./data/characters.js";
 import { TOPIC_BY_ID } from "./data/topics.js";
+import { FOLDERS, DEFAULT_FOLDER, folderOf } from "./data/folders.js";
 import qrcode from "/vendor/qrcode.mjs";
 
 const socket = io();
@@ -388,6 +389,8 @@ function renderSettings() {
     // "Mixed" already holds every built-in topic, so it and single built-in topics replace each other
     if (el.checked && v === "mixed") chosen = chosen.filter((x) => x === "mixed" || x.startsWith("set:"));
     else if (el.checked && !v.startsWith("set:")) chosen = chosen.filter((x) => x !== "mixed");
+    // the first set ticked over the starting "Mixed" replaces it (otherwise the cell questions would be mixed in)
+    else if (el.checked && String(state.settings.topicId || "mixed") === "mixed") chosen = chosen.filter((x) => x !== "mixed");
     if (!chosen.length) { el.checked = true; toast("Tick at least one topic or question set."); return; }
     socket.emit("tSetting", { key: "topicId", value: chosen.join(",") });
   }));
@@ -398,6 +401,9 @@ function renderSettings() {
   });
 }
 
+// which topic folders the teacher has opened or closed (the page redraws often, so remember it here)
+const tFolderOpen = new Map();
+document.addEventListener("click", (e) => { const d = e.target.closest?.(".t-folder > summary")?.parentElement; if (d) tFolderOpen.set(d.dataset.folder, !d.open); });
 function settingRow(s, started) {
   const locked = s.lockedAfterStart && started;
   const cur = state.settings[s.key];
@@ -411,13 +417,19 @@ function settingRow(s, started) {
         <input type="checkbox" data-topic="${esc(value)}" ${chosen.has(value) ? "checked" : ""} />
         <span class="t-check-label">${esc(label)}</span>${sub ? `<small>${esc(sub)}</small>` : ""}</label>`;
     const missing = [...chosen].filter((v) => v.startsWith("set:") && !sets.some((q) => q.id === v));
+    // one group per folder: the chapter quizzes and the teacher's own sets by folder, the built-in cell topics in the last folder
+    const groups = FOLDERS.map((f) => {
+      const mine = sets.filter((q) => folderOf(q.folder) === f.id);
+      const rows = mine.map((q) => box(q.id, (q.library ? "📘 " : "📝 ") + q.title, `${q.count} question${q.count === 1 ? "" : "s"}`)).join("")
+        + (f.id === DEFAULT_FOLDER ? s.options.map((o) => box(o.value, o.label)).join("") : "");
+      const ticked = mine.filter((q) => chosen.has(q.id)).length + (f.id === DEFAULT_FOLDER ? s.options.filter((o) => chosen.has(o.value)).length : 0);
+      const open = tFolderOpen.has(f.id) ? tFolderOpen.get(f.id) : (ticked > 0 || f.id === FOLDERS[0].id);
+      return `<details class="t-folder" data-folder="${f.id}" ${open ? "open" : ""}><summary class="t-checks-head">📁 ${esc(f.name)}${ticked ? ` <span class="t-folder-n">${ticked} ticked</span>` : ""}</summary>
+        ${rows || `<p class="t-checks-empty">Nothing here yet. Add sets in the <a href="/hub" target="_blank" rel="noopener">question hub</a>.</p>`}</details>`;
+    }).join("");
     control = `<div class="t-checks">
-        <div class="t-checks-head">Your question sets</div>
-        ${sets.length ? sets.map((q) => box(q.id, "📝 " + q.title, `${q.count} question${q.count === 1 ? "" : "s"}`)).join("")
-          : `<p class="t-checks-empty">No sets yet. Make one in the <a href="/hub" target="_blank" rel="noopener">question hub</a>.</p>`}
+        ${groups}
         ${missing.length ? `<p class="t-checks-empty">${missing.length} chosen set${missing.length === 1 ? " was" : "s were"} deleted and will be skipped.</p>` : ""}
-        <div class="t-checks-head">Built-in questions</div>
-        ${s.options.map((o) => box(o.value, o.label)).join("")}
       </div>`;
     return `<div class="t-setting">
       <div class="t-setting-label">${esc(s.label)} <span class="t-lock">tick one or more</span></div>

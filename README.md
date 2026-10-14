@@ -132,6 +132,16 @@ never which answer is right.
 On your own computer no setup is needed: sets are saved in the `question-bank` folder next to
 the game. `node test-hub.mjs` checks the hub end to end against a pretend GitHub.
 
+### Folders and the chapter quizzes
+Every set sits in a folder: **Sec 1 Science** (Chapters 1 to 8), **Sec 2 Science** (Chapters 9 to 16)
+and **Sec 3 G1 Science** (everything else, including the built-in cell questions). The 16 chapter
+Blooket quizzes (1,081 questions) come with the game in `library/sets/` and appear in the hub, in a
+room's topic screen and in the tournament Settings, each under its folder. They can't be changed or
+deleted, but **Make a copy to edit** gives an editable copy in the same folder. A teacher's own set
+goes into the folder that is open when it is made, and the folder can be changed in the editor.
+To replace the chapter quizzes, put the Blooket files (`Blooket_ChNN_*.xlsx`, plus the AO map for
+the chapter names) in a folder and run `node tools/build-library.mjs <folder>`.
+
 ## Play across iPads / computers
 It's a browser game — every player just opens a URL in Safari/Chrome (no app install). Hold
 devices in **landscape** (a portrait iPad shows a "rotate" prompt). There are two ways to host:

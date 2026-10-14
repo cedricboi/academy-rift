@@ -3,6 +3,7 @@
 // other spreadsheet, and add pictures. Sets are saved on the game server
 // (and from there to GitHub when that is set up). Changes save by themselves.
 import { parsePasted, questionProblems, MAX_CHOICES, MAX_QUESTIONS } from "./data/importRows.js";
+import { FOLDERS, folderOf } from "./data/folders.js";
 
 const $ = (id) => document.getElementById(id);
 const main = $("main");
@@ -10,7 +11,8 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const newId = () => [...crypto.getRandomValues(new Uint8Array(6))].map((b) => b.toString(16).padStart(2, "0")).join("");
 const plural = (n, one, many = one + "s") => `${n} ${n === 1 ? one : many}`;
-const KEY = "riftHubKey";
+const KEY = "riftHubKey", FOLDER_KEY = "riftHubFolder";
+let openFolder = (() => { try { const v = localStorage.getItem(FOLDER_KEY); return v ? folderOf(v) : FOLDERS[0].id; } catch { return FOLDERS[0].id; } })();
 
 let key = "";
 try { key = localStorage.getItem(KEY) || ""; } catch {}
@@ -152,13 +154,20 @@ async function showSets() {
 }
 
 function renderSetsList() {
-  const sets = listSets, own = sets.filter((x) => !x.builtIn);
+  const all = listSets, own = all.filter((x) => !x.builtIn && folderOf(x.folder) === openFolder);
+  const sets = all.filter((x) => folderOf(x.folder) === openFolder);
+  const fname = FOLDERS.find((f) => f.id === openFolder)?.name || "";
+  const tabs = `<div class="h-folders" role="tablist" aria-label="Folders">${FOLDERS.map((f) => {
+    const n = all.filter((x) => folderOf(x.folder) === f.id).length;
+    return `<button class="h-folder ${f.id === openFolder ? "on" : ""}" role="tab" aria-selected="${f.id === openFolder}" data-act="folder" data-id="${f.id}">
+      <span class="h-folder-ico" aria-hidden="true">📁</span><span class="h-folder-name">${esc(f.name)}</span><span class="h-folder-n">${n}</span></button>`;
+  }).join("")}</div>`;
   main.innerHTML = `
     ${storageBanner()}
     <div class="h-head">
       <div>
         <h1>Question sets</h1>
-        <p class="h-sub">Make a set here, then tick it under the topic in a tournament's Settings or in a game room. You can tick several sets to test them together.</p>
+        <p class="h-sub">Sets are kept in folders. Make a set here, then tick it under the topic in a tournament's Settings or in a game room. You can tick several sets to test them together.</p>
       </div>
       <div class="h-actions">
         <button class="h-btn primary" data-act="new">New set</button>
@@ -166,9 +175,10 @@ function renderSetsList() {
         ${own.length ? `<button class="h-btn ghost ${selecting ? "on" : ""}" data-act="select">${selecting ? "Done selecting" : "Select sets"}</button>` : ""}
       </div>
     </div>
-    <p class="h-hint">${selecting ? "Tap the sets you want to delete." : "Blooket spreadsheets (.xlsx or .csv) work as they are. You can also drop a file anywhere on this page."}</p>
+    ${tabs}
+    <p class="h-hint">${selecting ? "Tap the sets you want to delete." : `New sets and imports go into <b>${esc(fname)}</b>. Blooket spreadsheets (.xlsx or .csv) work as they are. You can also drop a file anywhere on this page.`}</p>
     <div class="h-grid ${selecting ? "selecting" : ""}">${sets.map(setCard).join("")}</div>
-    ${!own.length ? `<p class="h-empty">You have no sets of your own yet. Press <b>New set</b>, or import a spreadsheet.</p>` : ""}
+    ${!own.length ? `<p class="h-empty">You have no sets of your own in ${esc(fname)} yet. Press <b>New set</b>, or import a spreadsheet.</p>` : ""}
     ${selecting ? `<div class="h-selbar" role="region" aria-label="Selected sets">
       <span><b>${picked.size}</b> selected</span>
       <button class="h-linkbtn" data-act="selall">${picked.size === own.length ? "Clear" : "Select all"}</button>
@@ -204,7 +214,7 @@ function setCard(s) {
     <h2>${esc(s.title)}</h2>
     <p class="h-set-meta">${plural(s.count, "question")}${s.pictures ? ` · ${s.pictures} with pictures` : ""}</p>
     ${fix > 0 ? `<p class="h-set-fix">${fix} need${fix === 1 ? "s" : ""} fixing before ${fix === 1 ? "it" : "they"} can be played</p>` : ""}
-    <p class="h-set-when">${s.builtIn ? "Comes with the game · can't be changed" : "Changed " + ago(s.updatedAt)}</p>
+    <p class="h-set-when">${s.library ? "Chapter quiz · comes with the game · can't be changed" : s.builtIn ? "Comes with the game · can't be changed" : "Changed " + ago(s.updatedAt)}</p>
     <div class="h-set-actions">
       ${s.builtIn
         ? `<button class="h-btn" data-act="copy" data-id="${esc(s.id)}">Make a copy to edit</button>`
@@ -215,8 +225,8 @@ function setCard(s) {
   </article>`;
 }
 
-async function newSet(title, questions) {
-  const { set } = await api("POST", "/api/hub/sets", { title, questions: questions.map(outQ) });
+async function newSet(title, questions, folder = openFolder) {
+  const { set } = await api("POST", "/api/hub/sets", { title, folder: folderOf(folder), questions: questions.map(outQ) });
   location.hash = `#set/${set.id}`;
 }
 
@@ -224,7 +234,7 @@ async function copySet(id) {
   try {
     const { set } = await api("GET", `/api/hub/sets/${id}`);
     const title = set.builtIn ? `${set.title.replace(/\s*\(built-in\)\s*$/i, "")} (my copy)` : `Copy of ${set.title}`;
-    await newSet(title.slice(0, 80), set.questions);
+    await newSet(title.slice(0, 80), set.questions, set.folder);
   } catch (e) { toast(e.message); }
 }
 
@@ -282,6 +292,7 @@ function renderEditor() {
     <div class="h-ed-head">
       <a class="h-back" href="#">← All sets</a>
       <input class="h-title" id="setTitle" maxlength="80" value="${esc(cur.title)}" aria-label="Name of this set" placeholder="Name this set" />
+      <label class="h-folder-pick">📁 <select id="setFolder" aria-label="Folder">${FOLDERS.map((f) => `<option value="${f.id}" ${folderOf(cur.folder) === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>
       <span class="h-save" id="saveState"></span>
     </div>
     <div class="h-ed-bar">
@@ -392,7 +403,7 @@ async function save() {
   if (!cur || saving || editSeq === savedSeq) return;
   saving = true; const seq = editSeq; updateSaveState();
   try {
-    const { set } = await api("PUT", `/api/hub/sets/${cur.id}`, { title: cur.title, questions: cur.questions.map(outQ), version: cur.updatedAt });
+    const { set } = await api("PUT", `/api/hub/sets/${cur.id}`, { title: cur.title, folder: cur.folder, questions: cur.questions.map(outQ), version: cur.updatedAt });
     cur.updatedAt = set.updatedAt; savedSeq = seq;
   } catch (e) {
     saveError = e.status === 409 ? "This set was changed in another window. Reload the page to see the latest." : `Not saved: ${e.message}`;
@@ -432,6 +443,12 @@ main.addEventListener("input", (e) => {
   if (t.tagName === "TEXTAREA") autoGrow(t);
   refreshProblems(el, q); updateCounts(); changed();
 });
+main.addEventListener("change", (e) => {
+  if (view !== "editor" || e.target.id !== "setFolder") return;
+  cur.folder = folderOf(e.target.value); openFolder = cur.folder;
+  try { localStorage.setItem(FOLDER_KEY, openFolder); } catch {}
+  changed();
+});
 main.addEventListener("focusin", (e) => {
   const el = e.target.closest?.(".h-q");
   if (el) focusQ = +el.dataset.qi;
@@ -456,6 +473,7 @@ main.addEventListener("click", async (e) => {
   const el = b.closest(".h-q"), i = el ? +el.dataset.qi : -1, q = el ? cur.questions[i] : null;
   switch (act) {
     case "reload": return showSets();
+    case "folder": openFolder = folderOf(b.dataset.id); try { localStorage.setItem(FOLDER_KEY, openFolder); } catch {} selecting = false; picked = new Set(); return renderSetsList();
     case "new":
       try { await newSet("New set", [blankQ()]); } catch (err) { toast(err.message); }
       return;
@@ -465,7 +483,7 @@ main.addEventListener("click", async (e) => {
     case "select": selecting = !selecting; picked = new Set(); return renderSetsList();
     case "pick": { const id = b.dataset.id; picked.has(id) ? picked.delete(id) : picked.add(id); return renderSetsList(); }
     case "selall": {
-      const own = listSets.filter((x) => !x.builtIn);
+      const own = listSets.filter((x) => !x.builtIn && folderOf(x.folder) === openFolder);
       picked = picked.size === own.length ? new Set() : new Set(own.map((x) => x.id));
       return renderSetsList();
     }

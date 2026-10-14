@@ -1,0 +1,1143 @@
+{
+ "id": "ch13",
+ "title": "Ch 13 · Electrical Systems",
+ "folder": "sec2",
+ "chapter": 13,
+ "questions": [
+  {
+   "id": "c13q1",
+   "q": "In an electrical system, which component is like the pump in a water system?",
+   "choices": [
+    "wire",
+    "switch",
+    "cell",
+    "bulb"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q2",
+   "q": "Electric charge in wires is carried by",
+   "choices": [
+    "neutrons",
+    "electrons",
+    "protons",
+    "atoms"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q3",
+   "q": "Two or more cells connected end to end form a",
+   "choices": [
+    "battery",
+    "fuse",
+    "resistor",
+    "rheostat"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q4",
+   "q": "In a closed circuit,",
+   "choices": [
+    "the switch is open",
+    "no current flows",
+    "the bulb cannot light up",
+    "current flows"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q5",
+   "q": "A cell, bulb and open switch are connected. The bulb",
+   "choices": [
+    "lights up dimly",
+    "does not light up",
+    "melts",
+    "lights up brightly"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q6",
+   "q": "A wire to a bulb is cut. The circuit is",
+   "choices": [
+    "open",
+    "in parallel",
+    "closed"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q7",
+   "q": "A bulb lights up when the switch is pressed. The switch is",
+   "choices": [
+    "removed",
+    "open",
+    "closed"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q8",
+   "q": "In a circuit diagram, which component is shown as a long line beside a short line?",
+   "choices": [
+    "switch",
+    "bulb",
+    "fixed resistor",
+    "cell"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q9",
+   "q": "Electric current is the",
+   "choices": [
+    "energy to move a unit charge",
+    "rate of flow of electric charge",
+    "opposition to the flow of charge",
+    "energy used per unit time"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q10",
+   "q": "Potential difference is the",
+   "choices": [
+    "energy used per unit time",
+    "opposition to the flow of charge",
+    "energy needed to move a unit charge",
+    "rate of flow of electric charge"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q11",
+   "q": "Potential difference is also called",
+   "choices": [
+    "voltage",
+    "resistance",
+    "power",
+    "current"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q12",
+   "q": "Resistance is a measure of how much a component",
+   "choices": [
+    "measures the current",
+    "pushes charge around a circuit",
+    "stores chemical energy",
+    "opposes the flow of current"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q13",
+   "q": "Adding a resistor to a circuit with a bulb makes the bulb",
+   "choices": [
+    "less bright",
+    "flicker on and off",
+    "equally bright",
+    "brighter"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q14",
+   "q": "What is the SI unit of current?",
+   "choices": [
+    "volt (V)",
+    "watt (W)",
+    "ampere (A)",
+    "ohm (Ω)"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q15",
+   "q": "What is the SI unit of potential difference?",
+   "choices": [
+    "watt (W)",
+    "ohm (Ω)",
+    "ampere (A)",
+    "volt (V)"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q16",
+   "q": "What is the SI unit of resistance?",
+   "choices": [
+    "joule (J)",
+    "ohm (Ω)",
+    "volt (V)",
+    "ampere (A)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q17",
+   "q": "Which SI unit is not correct?",
+   "choices": [
+    "resistance = ohm (Ω)",
+    "energy = joule (J)",
+    "power = watt (W)",
+    "current = volt (V)"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q18",
+   "q": "A reading is 2.5 A. Which quantity is being measured?",
+   "choices": [
+    "current",
+    "potential difference",
+    "resistance",
+    "power"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q19",
+   "q": "A reading is 6 V. Which instrument gave this reading?",
+   "choices": [
+    "ammeter",
+    "fuse",
+    "voltmeter",
+    "rheostat"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q20",
+   "q": "A student wants to measure the current through a bulb. Which instrument should she use?",
+   "choices": [
+    "rheostat",
+    "ammeter",
+    "voltmeter",
+    "thermometer"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q21",
+   "q": "In a circuit diagram, a circle with the letter A inside represents",
+   "choices": [
+    "a voltmeter",
+    "a cell",
+    "a bulb",
+    "an ammeter"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q22",
+   "q": "An ammeter is connected",
+   "choices": [
+    "in parallel with the component",
+    "across the cell only",
+    "in series with the component",
+    "in place of the cell"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q23",
+   "q": "A voltmeter is connected",
+   "choices": [
+    "in parallel with the component",
+    "in place of the cell",
+    "in series with the component",
+    "in place of the switch"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q24",
+   "q": "To measure the potential difference across a bulb, the voltmeter is connected",
+   "choices": [
+    "in series with the bulb",
+    "in parallel with the bulb",
+    "in series with the cell",
+    "in place of the bulb"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q25",
+   "q": "To measure the current through a resistor, the ammeter is connected",
+   "choices": [
+    "in place of the resistor",
+    "in series with the resistor",
+    "in parallel with the resistor",
+    "across the cell"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q26",
+   "q": "Electrical insulators have",
+   "choices": [
+    "very high resistance",
+    "adjustable resistance",
+    "low resistance",
+    "no resistance"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q27",
+   "q": "Copper is used for connecting wires because its resistance is",
+   "choices": [
+    "adjustable",
+    "high",
+    "low",
+    "very high"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q28",
+   "q": "Plastic covers wires because it is",
+   "choices": [
+    "a conductor with low resistance",
+    "a variable resistor",
+    "a conductor with high resistance",
+    "an insulator with very high resistance"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q29",
+   "q": "Which material is a conductor that converts much electrical energy to heat?",
+   "choices": [
+    "copper",
+    "glass",
+    "nichrome",
+    "silver"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q30",
+   "q": "Which material is a conductor with low resistance?",
+   "choices": [
+    "silver",
+    "tungsten",
+    "glass",
+    "plastic"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q31",
+   "q": "Resistors with only one path for current are arranged in",
+   "choices": [
+    "parallel",
+    "series",
+    "a short circuit"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q32",
+   "q": "A second resistor is added in series. The ammeter reading will",
+   "choices": [
+    "decrease",
+    "stay the same",
+    "increase"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q33",
+   "q": "A second resistor is added in parallel. The ammeter reading will",
+   "choices": [
+    "decrease",
+    "stay the same",
+    "increase"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q34",
+   "q": "A second resistor is added in series. The overall resistance will",
+   "choices": [
+    "stay the same",
+    "increase",
+    "decrease"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q35",
+   "q": "A second resistor is added in parallel. The bulb will become",
+   "choices": [
+    "brighter",
+    "equally bright",
+    "less bright"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q36",
+   "q": "After a second resistor is added, the bulb becomes brighter. It was added in",
+   "choices": [
+    "place of the bulb",
+    "series",
+    "parallel"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q37",
+   "q": "A rheostat changes the current by changing its",
+   "choices": [
+    "voltage",
+    "power rating",
+    "number of cells",
+    "resistance"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q38",
+   "q": "The resistance of a rheostat is increased. The bulb will become",
+   "choices": [
+    "equally bright",
+    "less bright",
+    "brighter"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q39",
+   "q": "The resistance of a rheostat is decreased. The ammeter reading will",
+   "choices": [
+    "increase",
+    "stay the same",
+    "decrease"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q40",
+   "q": "A dimmer is turned so the lights become dimmer. The resistance has",
+   "choices": [
+    "decreased",
+    "stayed the same",
+    "increased"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q41",
+   "q": "The ammeter reading rises when a rheostat slider is moved. The resistance has",
+   "choices": [
+    "increased",
+    "decreased",
+    "stayed the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q42",
+   "q": "A heating element is usually made of",
+   "choices": [
+    "glass",
+    "copper",
+    "plastic",
+    "nichrome"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q43",
+   "q": "Surgical tweezers are coated with a thin layer of silver. Which effect is used?",
+   "choices": [
+    "chemical effect",
+    "heating effect",
+    "magnetic effect"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q44",
+   "q": "A rice cooker cooks rice. Which effect of current is used?",
+   "choices": [
+    "magnetic effect",
+    "heating effect",
+    "chemical effect"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q45",
+   "q": "An MRI machine produces images of soft tissues. Which effect is used?",
+   "choices": [
+    "chemical effect",
+    "heating effect",
+    "magnetic effect"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q46",
+   "q": "A knee implant is electroplated with titanium. Which effect is used?",
+   "choices": [
+    "magnetic effect",
+    "heating effect",
+    "chemical effect"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q47",
+   "q": "The strength of an electromagnet increases when",
+   "choices": [
+    "the coil is removed",
+    "a plastic core is placed in the coil",
+    "the current is switched off",
+    "an iron core is placed in the coil"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q48",
+   "q": "A compass needle near a wire deflects. This shows the",
+   "choices": [
+    "magnetic effect of current",
+    "heating effect of current",
+    "chemical effect of current"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q49",
+   "q": "Plugging many appliances into one socket can cause",
+   "choices": [
+    "less heat in the wires",
+    "a stronger magnet",
+    "a lower current",
+    "an electrical fire"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q50",
+   "q": "The insulation on a wire is worn out. What is the hazard?",
+   "choices": [
+    "the current stops completely",
+    "the fuse becomes stronger",
+    "the wire becomes an insulator",
+    "electric shock from exposed wires"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q51",
+   "q": "Why should a hairdryer not be used with wet hands?",
+   "choices": [
+    "water melts the fuse",
+    "water conducts electricity",
+    "water is an insulator",
+    "water increases resistance"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q52",
+   "q": "A damaged circuit draws a very large current. What is the hazard?",
+   "choices": [
+    "the wires become insulators",
+    "the bulb becomes dimmer",
+    "the current becomes zero",
+    "wires overheat and may cause a fire"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q53",
+   "q": "A fuse protects an appliance by",
+   "choices": [
+    "storing extra charge",
+    "increasing the current",
+    "changing the voltage",
+    "melting when the current is too large"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q54",
+   "q": "Which device trips and cuts off current when a fault occurs?",
+   "choices": [
+    "circuit breaker",
+    "voltmeter",
+    "rheostat",
+    "ammeter"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q55",
+   "q": "A fuse has melted. After the fault is corrected, you should",
+   "choices": [
+    "use the old fuse",
+    "replace the fuse",
+    "connect a copper wire instead",
+    "remove the fuse completely"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q56",
+   "q": "What should be done before washing an electrical appliance?",
+   "choices": [
+    "use a wet cloth on the plug",
+    "remove the insulation",
+    "switch off the power supply",
+    "keep the appliance switched on"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q57",
+   "q": "A two-pin plug does not fit a three-pin socket. You should use",
+   "choices": [
+    "a plug adaptor",
+    "your fingers to open the hole",
+    "a metal object in the hole",
+    "a wire pushed into the hole"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q58",
+   "q": "Power is the",
+   "choices": [
+    "rate of flow of charge",
+    "opposition to current",
+    "electrical energy used per unit time",
+    "energy to move a unit charge"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q59",
+   "q": "What is the SI unit of power?",
+   "choices": [
+    "volt (V)",
+    "watt (W)",
+    "kilowatt-hour (kWh)",
+    "joule (J)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q60",
+   "q": "An oven is rated 2 kW. What is its power in watts?",
+   "choices": [
+    "20 W",
+    "20 000 W",
+    "200 W",
+    "2000 W"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q61",
+   "q": "Electrical energy (kWh) =",
+   "choices": [
+    "time (h) ÷ power (kW)",
+    "power (kW) × time (h)",
+    "power (kW) ÷ time (h)",
+    "power (kW) + time (h)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q62",
+   "q": "1 kWh is the energy used by a",
+   "choices": [
+    "1000 W appliance for one second",
+    "100 W appliance for one hour",
+    "1 W appliance for one hour",
+    "1000 W appliance for one hour"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q63",
+   "q": "A 2 kW heater is used for 3 h. How much energy is used?",
+   "choices": [
+    "0.67 kWh",
+    "5 kWh",
+    "6 kWh",
+    "1.5 kWh"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q64",
+   "q": "A 500 W iron is used for 2 h. How much energy is used?",
+   "choices": [
+    "1 kWh",
+    "250 kWh",
+    "1000 kWh",
+    "0.25 kWh"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q65",
+   "q": "Energy used is 4 kWh at 30 cents per kWh. What is the cost?",
+   "choices": [
+    "$0.12",
+    "$12.00",
+    "$7.50",
+    "$1.20"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q66",
+   "q": "A 1.5 kW heater runs for 2 h. The tariff is 20 cents per kWh. Cost?",
+   "choices": [
+    "$6.00",
+    "$0.30",
+    "$0.60",
+    "$60.00"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q67",
+   "q": "A 2 kW kettle used 4 kWh of energy. For how long was it used?",
+   "choices": [
+    "2 h",
+    "0.5 h",
+    "8 h",
+    "6 h"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q68",
+   "q": "An appliance used 6 kWh in 3 h. What is its power?",
+   "choices": [
+    "9 kW",
+    "2 kW",
+    "0.5 kW",
+    "18 kW"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q69",
+   "q": "Standby power is used when appliances are",
+   "choices": [
+    "fully charged",
+    "left on at the power socket",
+    "unplugged",
+    "switched off at the socket"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q70",
+   "q": "Which habit reduces electrical energy consumption?",
+   "choices": [
+    "leaving the TV on standby",
+    "using the air conditioner all day",
+    "using an electric hot water dispenser",
+    "switching off the water heater after use"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q71",
+   "q": "Which appliance energy label should you choose to save energy?",
+   "choices": [
+    "one with the highest power",
+    "one with fewer ticks",
+    "one with more ticks",
+    "one with no label"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c13q72",
+   "q": "Switching from an air conditioner to a fan saves energy because the fan",
+   "choices": [
+    "has a lower power rating",
+    "has a higher power rating",
+    "draws a larger current",
+    "uses no electricity"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

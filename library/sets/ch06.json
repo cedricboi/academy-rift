@@ -1,0 +1,931 @@
+{
+ "id": "ch06",
+ "title": "Ch 6 · Model of Cells - The Basic Units of Life",
+ "folder": "sec1",
+ "chapter": 6,
+ "questions": [
+  {
+   "id": "c06q1",
+   "q": "What are the basic building blocks of all living things?",
+   "choices": [
+    "organs",
+    "cells",
+    "tissues",
+    "systems"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q2",
+   "q": "Why do we need a microscope to study cells?",
+   "choices": [
+    "most cells are too small to see",
+    "cells only exist inside the body",
+    "cells move too quickly",
+    "cells are always transparent"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q3",
+   "q": "What does a light microscope use to magnify images?",
+   "choices": [
+    "sound waves",
+    "mirrors only",
+    "visible light and lenses",
+    "electrons and magnets"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q4",
+   "q": "Which microscope shows more detail of a cell?",
+   "choices": [
+    "telescope",
+    "hand lens",
+    "light microscope",
+    "electron microscope"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q5",
+   "q": "Small structures in a cell could not be seen until microscopes improved. This shows that",
+   "choices": [
+    "scientific knowledge never changes",
+    "cells did not have these structures before",
+    "advances in technology help build scientific knowledge",
+    "only large structures are important"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q6",
+   "q": "What is the function of the cell membrane?",
+   "choices": [
+    "allows photosynthesis to take place",
+    "controls what enters and leaves the cell",
+    "gives the cell a regular shape",
+    "stores liquids, food and waste"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q7",
+   "q": "What is the function of the cell wall?",
+   "choices": [
+    "protects and supports the cell",
+    "controls all activities of the cell",
+    "allows photosynthesis to take place",
+    "stores liquids, food and waste"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q8",
+   "q": "What is the function of the nucleus?",
+   "choices": [
+    "site of most chemical reactions",
+    "stores liquids, food and waste",
+    "protects and supports the cell",
+    "controls all activities of the cell"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q9",
+   "q": "What is the function of the chloroplast?",
+   "choices": [
+    "stores liquids, food and waste",
+    "controls all activities of the cell",
+    "allows photosynthesis to take place",
+    "protects and supports the cell"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q10",
+   "q": "What is the function of the vacuole?",
+   "choices": [
+    "site of most chemical reactions",
+    "stores liquids, food and waste materials",
+    "controls all activities of the cell",
+    "allows photosynthesis to take place"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q11",
+   "q": "What is the function of the cytoplasm?",
+   "choices": [
+    "stores liquids, food and waste",
+    "controls all activities of the cell",
+    "protects and supports the cell",
+    "site where most chemical reactions take place"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q12",
+   "q": "A jelly-like substance fills the cell. Which part is this?",
+   "choices": [
+    "cytoplasm",
+    "vacuole",
+    "cell membrane",
+    "nucleus"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q13",
+   "q": "A tough, rigid layer gives a plant cell its regular shape. Which part is this?",
+   "choices": [
+    "chloroplast",
+    "cytoplasm",
+    "cell membrane",
+    "cell wall"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q14",
+   "q": "A thin layer lies just below the cell wall. Which part is this?",
+   "choices": [
+    "cell membrane",
+    "cytoplasm",
+    "nucleus",
+    "vacuole"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q15",
+   "q": "A cell part is called the \"food factory\" of a plant cell. Which part is this?",
+   "choices": [
+    "cytoplasm",
+    "vacuole",
+    "chloroplast",
+    "nucleus"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q16",
+   "q": "A cell dies when one part is removed. Which part was removed?",
+   "choices": [
+    "chloroplast",
+    "nucleus",
+    "cell wall",
+    "vacuole"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q17",
+   "q": "The chloroplasts in a leaf cell are damaged. Which process stops in that cell?",
+   "choices": [
+    "movement of substances into the cell",
+    "support of the cell",
+    "photosynthesis",
+    "storage of waste materials"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q18",
+   "q": "Which part of the cell contains DNA?",
+   "choices": [
+    "nucleus",
+    "vacuole",
+    "cytoplasm",
+    "cell membrane"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q19",
+   "q": "DNA is the genetic material that is",
+   "choices": [
+    "used to store food and waste",
+    "used to make food by photosynthesis",
+    "found only in plant cells",
+    "passed down from parents to offspring"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q20",
+   "q": "Where is a cell wall found?",
+   "choices": [
+    "in animal cells only",
+    "in plant cells only",
+    "in both plant and animal cells"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q21",
+   "q": "Where is a nucleus found?",
+   "choices": [
+    "in animal cells only",
+    "in plant cells only",
+    "in both plant and animal cells"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q22",
+   "q": "Where are chloroplasts found?",
+   "choices": [
+    "in both plant and animal cells",
+    "in plant cells only",
+    "in animal cells only"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q23",
+   "q": "Where is a cell membrane found?",
+   "choices": [
+    "in both plant and animal cells",
+    "in plant cells only",
+    "in animal cells only"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q24",
+   "q": "Where is cytoplasm found?",
+   "choices": [
+    "in animal cells only",
+    "in both plant and animal cells",
+    "in plant cells only"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q25",
+   "q": "Which is NOT a difference between a plant and an animal cell?",
+   "choices": [
+    "presence of cell wall",
+    "presence of chloroplasts",
+    "presence of a large central vacuole",
+    "presence of cell membrane"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q26",
+   "q": "What are the vacuoles like in a typical plant cell?",
+   "choices": [
+    "many small vacuoles",
+    "one small vacuole",
+    "no vacuoles at all",
+    "one or two large vacuoles"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q27",
+   "q": "What are the vacuoles like in a typical animal cell?",
+   "choices": [
+    "many small vacuoles",
+    "no vacuoles at all",
+    "one or two large vacuoles",
+    "one large central vacuole"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q28",
+   "q": "A typical cell model shows what cells",
+   "choices": [
+    "never have",
+    "cannot have",
+    "usually have",
+    "must always have"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q29",
+   "q": "A red blood cell has no nucleus. What does this show about typical cell models?",
+   "choices": [
+    "the nucleus is not needed by any cell",
+    "red blood cells are not animal cells",
+    "real cells can differ from the model",
+    "the model is useless"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q30",
+   "q": "A root hair cell has no chloroplasts. Which statement is correct?",
+   "choices": [
+    "it is still a plant cell",
+    "it is a unicellular organism",
+    "it must be an animal cell",
+    "it cannot be a living cell"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q31",
+   "q": "A cell has a cell wall, a nucleus and no chloroplasts. It is from",
+   "choices": [
+    "an animal, because it has no chloroplasts",
+    "a plant, because it has a cell wall",
+    "an animal, because it has a nucleus",
+    "a plant, because it has a nucleus"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q32",
+   "q": "A cell stores oil and has a nucleus but no cell wall. It is from",
+   "choices": [
+    "a plant, because it has a nucleus",
+    "an animal, because it has a nucleus",
+    "a plant, because it stores oil",
+    "an animal, because it has no cell wall"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q33",
+   "q": "A cell has chloroplasts, a cell wall and a large vacuole. It is from",
+   "choices": [
+    "a plant, because it has chloroplasts",
+    "a plant, because it has a nucleus",
+    "an animal, because it has a vacuole",
+    "an animal, because it has a membrane"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q34",
+   "q": "A cell has no nucleus, no cell wall and no chloroplasts. It is from",
+   "choices": [
+    "a plant, because it has no chloroplasts",
+    "a plant, because it has no nucleus",
+    "an animal, because it has no cell wall",
+    "an animal, because it has no nucleus"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q35",
+   "q": "A cell has many small vacuoles and no cell wall. It is from",
+   "choices": [
+    "a plant, because it has many vacuoles",
+    "an animal, because it has vacuoles",
+    "a plant, because it has vacuoles",
+    "an animal, because it has no cell wall"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q36",
+   "q": "Which observation shows that an unknown cell comes from a plant?",
+   "choices": [
+    "it has cytoplasm",
+    "it has a cell wall",
+    "it has a cell membrane",
+    "it has a nucleus"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q37",
+   "q": "A cell was inferred to be from an animal. Which part did it lack?",
+   "choices": [
+    "nucleus",
+    "cell wall",
+    "cell membrane",
+    "cytoplasm"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q38",
+   "q": "A unicellular organism is made up of",
+   "choices": [
+    "many similar cells",
+    "tissues and organs",
+    "many types of cells",
+    "only one cell"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q39",
+   "q": "Which organism is unicellular?",
+   "choices": [
+    "bacterium",
+    "mushroom",
+    "worm",
+    "cat"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q40",
+   "q": "Which organism is multicellular?",
+   "choices": [
+    "Euglena",
+    "bacterium",
+    "mushroom",
+    "diatom"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q41",
+   "q": "A tiny worm is made of 300 cells. It is",
+   "choices": [
+    "multicellular, because it has many cells",
+    "unicellular, because it is tiny",
+    "unicellular, because it is very light",
+    "multicellular, because it is large"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q42",
+   "q": "A diatom can only be seen under a microscope. It has one cell. It is",
+   "choices": [
+    "unicellular, because it is tiny",
+    "unicellular, because it has one cell",
+    "multicellular, because it has a nucleus",
+    "multicellular, because it is alive"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q43",
+   "q": "How can we tell if an organism is unicellular?",
+   "choices": [
+    "measure the size of the organism",
+    "check if it can move",
+    "check if it lives in water",
+    "count the number of cells in it"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q44",
+   "q": "Which shows the correct order of organisation?",
+   "choices": [
+    "cell, tissue, system, organ, organism",
+    "tissue, cell, organ, system, organism",
+    "cell, tissue, organ, system, organism",
+    "cell, organ, tissue, system, organism"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q45",
+   "q": "In the levels of organisation, which level comes directly after tissue?",
+   "choices": [
+    "system",
+    "organism",
+    "cell",
+    "organ"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q46",
+   "q": "In the levels of organisation, which level comes directly after organ?",
+   "choices": [
+    "tissue",
+    "cell",
+    "system",
+    "organism"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q47",
+   "q": "Cells that perform the same function work together to form a",
+   "choices": [
+    "organ",
+    "tissue",
+    "organism",
+    "system"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q48",
+   "q": "Many organs working together to perform a function form a",
+   "choices": [
+    "system",
+    "organism",
+    "cell",
+    "tissue"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q49",
+   "q": "Different tissues work together to perform a function. What do they form?",
+   "choices": [
+    "cell",
+    "organism",
+    "system",
+    "organ"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q50",
+   "q": "The stomach is an example of",
+   "choices": [
+    "a tissue",
+    "a system",
+    "an organ",
+    "a cell"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q51",
+   "q": "Blood in the human body is an example of",
+   "choices": [
+    "a tissue",
+    "a system",
+    "a cell",
+    "an organ"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q52",
+   "q": "A single root hair cell is an example of",
+   "choices": [
+    "a tissue",
+    "a cell",
+    "an organ",
+    "a system"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q53",
+   "q": "The root and stem working together to transport water form",
+   "choices": [
+    "a tissue",
+    "a system",
+    "an organism",
+    "an organ"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q54",
+   "q": "The stem of a plant is an example of",
+   "choices": [
+    "an organ",
+    "a tissue",
+    "a cell",
+    "a system"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q55",
+   "q": "A whole cat is an example of",
+   "choices": [
+    "an organ",
+    "a tissue",
+    "an organism",
+    "a system"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q56",
+   "q": "Different parts working together in a coordinated way to perform various functions is called",
+   "choices": [
+    "photosynthesis",
+    "diffusion",
+    "pasteurisation",
+    "division of labour"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q57",
+   "q": "In a root hair cell, what does the cell wall do as water enters?",
+   "choices": [
+    "controls entry of water",
+    "stores mineral salts",
+    "prevents the cell from bursting",
+    "makes food for the cell"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c06q58",
+   "q": "Why can the vacuole not take over the job of the chloroplast?",
+   "choices": [
+    "the chloroplast stores waste",
+    "each part has its own specific function",
+    "plant cells have no vacuole",
+    "the vacuole is too small"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

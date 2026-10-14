@@ -124,7 +124,9 @@ r = await call("POST", "/api/hub/login", { password: "owl-42" });
 key = r.data?.key || "";
 check(r.status === 200 && key.length === 64, "right password gives a key");
 r = await call("GET", "/api/hub/sets");
-check(r.status === 200 && r.data.sets.length === 1 && r.data.sets[0].builtIn && r.data.sets[0].count === 60, "only the built-in set at first (60 questions)");
+const libCount = r.data?.sets?.filter((x) => x.library).length || 0;
+check(r.status === 200 && libCount === 16 && r.data.sets.every((x) => x.library ? ["sec1", "sec2"].includes(x.folder) : true), "the 16 chapter sets come with the game, in the Sec 1 and Sec 2 folders");
+check(r.status === 200 && r.data.sets.filter((x) => !x.library).length === 1 && r.data.sets.find((x) => !x.library).builtIn && r.data.sets.find((x) => !x.library).count === 60, "only the built-in set at first (60 questions)");
 check((await call("GET", "/hub")).status === 200 || true, "hub page served");
 const page = await fetch(URL + "/hub"); check(page.ok && (await page.text()).includes("hub.js"), "hub page loads");
 
@@ -202,7 +204,8 @@ s1.on("answerResult", (x) => results.push(x));
 s1.emit("createRoom", { name: "Mei" });
 await sleep(300);
 const sets = await new Promise((res) => s1.emit("getSets", res));
-check(sets.length === 2 && sets.some((x) => x.id === `set:${set.id}` && x.count === 3), "room lobby lists both sets (3 playable questions in the first)");
+check(sets.filter((x) => !x.library).length === 2 && sets.some((x) => x.id === `set:${set.id}` && x.count === 3), "room lobby lists both sets (3 playable questions in the first)");
+check(sets.filter((x) => x.library).length === 16 && sets[0].folder === "sec1", "room lobby lists the chapter sets, Sec 1 first");
 s1.emit("setTopic", { topicId: `set:${set.id}` }); await sleep(200);
 check(latest.topicId === `set:${set.id}` && latest.topicName === "Cells: quick check", "host picks the set as the room's topic");
 s1.emit("setTopic", { topicId: "set:doesnotexist" }); await sleep(150);
@@ -292,7 +295,9 @@ const r2 = await call("DELETE", `/api/hub/sets/${setB.id}`);
 await call("DELETE", `/api/hub/sets/${setC.id}`);
 check(r.status === 200 && r2.status === 200 && !files.has(`sets/${set.id}.json`) && !files.has(`sets/${setB.id}.json`), "both sets deleted from GitHub");
 r = await call("GET", "/api/hub/sets");
-check(r.data.sets.length === 1 && r.data.sets[0].builtIn, "only the built-in set is left");
+check(r.data.sets.filter((x) => !x.library).length === 1 && r.data.sets.find((x) => !x.library).builtIn, "only the built-in set is left");
+r = await call("DELETE", "/api/hub/sets/libch01");
+check(r.status === 400, "a chapter set can't be deleted");
 await stopServer();
 
 // ---------------------------------------------------------------- 3. bad token

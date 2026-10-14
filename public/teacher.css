@@ -236,3 +236,11 @@ body.teacher::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.10;poi
 .t-checks-empty a{color:var(--gold);}
 .teacher .t-head-right{margin-right:52px;}
 .teacher .t-start{padding-top:56px;}
+
+/* topic folders in Settings */
+.t-folder{display:flex;flex-direction:column;gap:6px;border-top:1px solid #2c2c36;padding-top:4px;}
+.t-folder > summary::before{content:"▸ ";color:var(--ash);}
+.t-folder[open] > summary::before{content:"▾ ";}
+.t-folder > summary{cursor:pointer;list-style:none;}
+.t-folder > summary::-webkit-details-marker{display:none;}
+.t-folder-n{font-size:.8em;margin-left:6px;padding:1px 8px;border-radius:999px;background:rgba(226,184,101,.22);color:#ffe3a6;}

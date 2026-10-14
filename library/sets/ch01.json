@@ -1,0 +1,1056 @@
+{
+ "id": "ch01",
+ "title": "Ch 1 · The Scientific Endeavour",
+ "folder": "sec1",
+ "chapter": 1,
+ "questions": [
+  {
+   "id": "c01q1",
+   "q": "Science is the study of",
+   "choices": [
+    "only things inside a laboratory",
+    "only living things",
+    "opinions about the world",
+    "natural phenomena in the world"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q2",
+   "q": "Quantitative data is collected using",
+   "choices": [
+    "measuring instruments",
+    "descriptions in words",
+    "the sense of smell only",
+    "drawings of objects"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q3",
+   "q": "Qualitative data is usually expressed as",
+   "choices": [
+    "numbers with units",
+    "readings on a scale",
+    "words or drawings",
+    "SI units only"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q4",
+   "q": "\"The coconut shell is hard and smooth.\" What type of data is this?",
+   "choices": [
+    "quantitative",
+    "qualitative",
+    "both qualitative and quantitative"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q5",
+   "q": "\"The coconut has a mass of 1.2 kg.\" What type of data is this?",
+   "choices": [
+    "qualitative",
+    "quantitative",
+    "both qualitative and quantitative"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q6",
+   "q": "\"The chair is taller than the table.\" What type of data is this?",
+   "choices": [
+    "qualitative",
+    "both qualitative and quantitative",
+    "quantitative"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q7",
+   "q": "\"The orange juice tasted sour and was at 8 °C.\" What type of data is this?",
+   "choices": [
+    "quantitative",
+    "qualitative",
+    "both qualitative and quantitative"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q8",
+   "q": "Scientific knowledge must be based on",
+   "choices": [
+    "what most people think",
+    "feelings",
+    "imagination alone",
+    "evidence"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q9",
+   "q": "When can scientific knowledge be changed?",
+   "choices": [
+    "when most people disagree with it",
+    "when it becomes very old",
+    "when a famous scientist says so",
+    "when the scientific community accepts new evidence"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q10",
+   "q": "Two scientists study the same data but reach different conclusions. This shows that",
+   "choices": [
+    "the data must be wrong",
+    "one of the scientists must be dishonest",
+    "evidence can be interpreted in different ways",
+    "science does not use evidence"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q11",
+   "q": "A proposed explanation for an observation that can be tested is a",
+   "choices": [
+    "hypothesis",
+    "conclusion",
+    "variable",
+    "result"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q12",
+   "q": "Which is a scientific question?",
+   "choices": [
+    "Is chocolate the best flavour?",
+    "How does temperature affect how fast sugar dissolves?",
+    "Which cookie looks the nicest?",
+    "Why are cookies eaten at festivals?"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q13",
+   "q": "In a fair experiment, how many variables are changed?",
+   "choices": [
+    "three",
+    "two",
+    "all of them",
+    "one"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q14",
+   "q": "A student tests how sugar mass affects jelly setting time. Which is the variable changed?",
+   "choices": [
+    "temperature of the fridge",
+    "sugar mass",
+    "jelly setting time",
+    "volume of water"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q15",
+   "q": "A student tests how sugar mass affects jelly setting time. Which is the variable measured?",
+   "choices": [
+    "jelly setting time",
+    "volume of water",
+    "temperature of the fridge",
+    "sugar mass"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q16",
+   "q": "A student tests how ramp height affects a toy car's speed. Which is kept constant?",
+   "choices": [
+    "speed of the toy car",
+    "height of the ramp",
+    "mass of the toy car"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q17",
+   "q": "A student tests how ramp height affects a toy car's speed. Which is the variable measured?",
+   "choices": [
+    "speed of the toy car",
+    "length of the ramp",
+    "height of the ramp",
+    "mass of the toy car"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q18",
+   "q": "Only the amount of light given to identical plants is changed. What is being investigated?",
+   "choices": [
+    "how plant type affects growth",
+    "how water affects plant growth",
+    "how light affects plant growth",
+    "how soil affects plant growth"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q19",
+   "q": "What is the SI unit of mass?",
+   "choices": [
+    "N",
+    "kg",
+    "g",
+    "mg"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q20",
+   "q": "What is the SI unit of length?",
+   "choices": [
+    "cm",
+    "mm",
+    "km",
+    "m"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q21",
+   "q": "What is the SI unit of time?",
+   "choices": [
+    "s",
+    "h",
+    "min",
+    "ms"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q22",
+   "q": "What is the SI unit of temperature?",
+   "choices": [
+    "J",
+    "°C",
+    "°F",
+    "K"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q23",
+   "q": "What is the SI unit of volume?",
+   "choices": [
+    "ml",
+    "cm³",
+    "m³",
+    "l"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q24",
+   "q": "Which SI unit is not correct?",
+   "choices": [
+    "time = second (s)",
+    "mass = gram (g)",
+    "temperature = kelvin (K)",
+    "length = metre (m)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q25",
+   "q": "Which quantity has the SI unit kelvin (K)?",
+   "choices": [
+    "length",
+    "temperature",
+    "mass",
+    "time"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q26",
+   "q": "Accuracy refers to how close a reading is to",
+   "choices": [
+    "the zero mark",
+    "other readings",
+    "the largest reading",
+    "the true value"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q27",
+   "q": "Precision refers to how close repeated readings are to",
+   "choices": [
+    "the smallest division",
+    "the zero mark",
+    "one another",
+    "the true value"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q28",
+   "q": "The true length is 10.0 cm. Readings are 10.0, 10.1 and 9.9 cm. They are",
+   "choices": [
+    "precise and accurate",
+    "neither precise nor accurate",
+    "accurate but not precise",
+    "precise but not accurate"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q29",
+   "q": "The true mass is 50 g. Readings are 45, 45 and 46 g. They are",
+   "choices": [
+    "precise and accurate",
+    "accurate but not precise",
+    "neither precise nor accurate",
+    "precise but not accurate"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q30",
+   "q": "The true temperature is 25 °C. Readings are 12, 41 and 33 °C. They are",
+   "choices": [
+    "neither precise nor accurate",
+    "precise but not accurate",
+    "precise and accurate",
+    "accurate but not precise"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q31",
+   "q": "Readings are close to one another but far from the true value. They are",
+   "choices": [
+    "accurate but not precise",
+    "precise but not accurate",
+    "neither precise nor accurate",
+    "precise and accurate"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q32",
+   "q": "Zero error is when an instrument",
+   "choices": [
+    "is read from the wrong angle",
+    "gives readings far apart",
+    "reads non-zero when it should read zero",
+    "cannot measure small values"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q33",
+   "q": "Which function on an electronic balance removes zero error?",
+   "choices": [
+    "hold",
+    "unit",
+    "off",
+    "tare"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q34",
+   "q": "A balance reads 2 g when empty. A rock reads 50 g. What is the mass of the rock?",
+   "choices": [
+    "48 g",
+    "50 g",
+    "52 g",
+    "2 g"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q35",
+   "q": "A scale reads −200 g with nothing on it. An apple reads 0 g. What is the mass of the apple?",
+   "choices": [
+    "400 g",
+    "200 g",
+    "0 g",
+    "−200 g"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q36",
+   "q": "A balance has a zero error of +5 g. A 30 g object is placed on it. What is the reading?",
+   "choices": [
+    "25 g",
+    "30 g",
+    "35 g",
+    "5 g"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q37",
+   "q": "Parallax error is caused by",
+   "choices": [
+    "a slow reaction time",
+    "an instrument not reading zero",
+    "wind during the experiment",
+    "viewing the scale from the wrong position"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q38",
+   "q": "When reading a measuring cylinder of water, the eye should be level with the",
+   "choices": [
+    "top of the meniscus",
+    "base of the cylinder",
+    "bottom of the meniscus",
+    "top of the cylinder"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q39",
+   "q": "When reading a ruler, the line of sight should be",
+   "choices": [
+    "perpendicular to the marking",
+    "at an angle from the right",
+    "at an angle from the left",
+    "parallel to the ruler"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q40",
+   "q": "A student reads a measuring cylinder while looking down from above. The reading will",
+   "choices": [
+    "be more precise",
+    "have parallax error",
+    "have zero error",
+    "be accurate"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q41",
+   "q": "A balance always shows 3 g more than the true mass. What type of error is this?",
+   "choices": [
+    "consistent error",
+    "no error",
+    "unpredictable error"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q42",
+   "q": "A student starts a stopwatch late because of reaction time. What type of error is this?",
+   "choices": [
+    "consistent error",
+    "no error",
+    "unpredictable error"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q43",
+   "q": "Wind makes water in one beaker evaporate faster. What type of error is this?",
+   "choices": [
+    "consistent error",
+    "unpredictable error",
+    "no error"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q44",
+   "q": "Zero error in an instrument causes readings that are",
+   "choices": [
+    "always precise and accurate",
+    "consistently accurate",
+    "sometimes too high and sometimes too low",
+    "consistently inaccurate"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q45",
+   "q": "A student records her results as obtained, even though they do not support her hypothesis. This shows",
+   "choices": [
+    "perseverance",
+    "integrity",
+    "creativity",
+    "curiosity"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q46",
+   "q": "A student repeats a difficult experiment many times until it works. This shows",
+   "choices": [
+    "perseverance",
+    "integrity",
+    "creativity",
+    "objectivity"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q47",
+   "q": "A student considers a classmate's different explanation before deciding. This shows",
+   "choices": [
+    "integrity",
+    "perseverance",
+    "open-mindedness",
+    "creativity"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q48",
+   "q": "Where should broken glassware be discarded?",
+   "choices": [
+    "the sink",
+    "a paper bag",
+    "a normal dustbin",
+    "a puncture-proof sharps container"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q49",
+   "q": "A student spills a chemical on the bench. What should she do first?",
+   "choices": [
+    "continue the experiment",
+    "report it to the teacher immediately",
+    "leave the laboratory quietly",
+    "wipe it up with her hands"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q50",
+   "q": "When heating a test tube, its mouth should point",
+   "choices": [
+    "towards the person beside you",
+    "towards yourself",
+    "towards the Bunsen burner",
+    "away from yourself and others"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q51",
+   "q": "Which is unsafe when using electrical devices?",
+   "choices": [
+    "switching off before unplugging",
+    "keeping devices away from water",
+    "touching a plug with wet hands",
+    "reporting a frayed wire"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q52",
+   "q": "Why are some chemicals diluted for use in the laboratory?",
+   "choices": [
+    "to make them safer to use",
+    "to make them react faster",
+    "to change their colour",
+    "to make them hazardous"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q53",
+   "q": "A label warns that a substance can severely damage eyes and skin. Which hazard is this?",
+   "choices": [
+    "flammable",
+    "corrosive",
+    "explosive",
+    "oxidising"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q54",
+   "q": "A substance releases oxygen easily, which can cause fire. Which hazard is this?",
+   "choices": [
+    "oxidising",
+    "gas under pressure",
+    "corrosive",
+    "environmental toxicity"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q55",
+   "q": "A substance can be fatal if swallowed or breathed in. Which hazard is this?",
+   "choices": [
+    "gas under pressure",
+    "flammable",
+    "oxidising",
+    "acute toxicity"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q56",
+   "q": "A substance can cause cancer or damage to organs. Which hazard is this?",
+   "choices": [
+    "explosive",
+    "corrosive",
+    "carcinogenicity",
+    "flammable"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q57",
+   "q": "What does the flammable hazard symbol warn of?",
+   "choices": [
+    "the substance harms the environment",
+    "the substance damages skin",
+    "the substance releases oxygen",
+    "the substance catches fire easily"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q58",
+   "q": "Which is a harmful effect of plastics?",
+   "choices": [
+    "land and water pollution",
+    "they are lightweight",
+    "they make cheap containers",
+    "they are waterproof"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q59",
+   "q": "\"How much does it cost to make plastic-free utensils?\" Which consideration is this?",
+   "choices": [
+    "social",
+    "ethical",
+    "economic",
+    "environmental"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q60",
+   "q": "\"How does producing plastics affect living things?\" Which consideration is this?",
+   "choices": [
+    "economic",
+    "environmental",
+    "social",
+    "ethical"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q61",
+   "q": "\"How often are plastic products used in daily life?\" Which consideration is this?",
+   "choices": [
+    "environmental",
+    "ethical",
+    "social",
+    "economic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q62",
+   "q": "Which statement about science is correct?",
+   "choices": [
+    "it can answer every question",
+    "it is only done by scientists",
+    "it only brings benefits",
+    "it cannot solve every problem in the world"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q63",
+   "q": "Ice melts in 90 s, 60 s and 30 s in water at 20 °C, 40 °C and 60 °C. Which conclusion is correct?",
+   "choices": [
+    "ice never melts below 20 °C",
+    "the higher the temperature, the shorter the time",
+    "temperature has no effect",
+    "the higher the temperature, the longer the time"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q64",
+   "q": "Which is the best way to show a trend in a set of readings?",
+   "choices": [
+    "a line graph",
+    "a drawing of the apparatus",
+    "a photograph",
+    "a paragraph of text"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q65",
+   "q": "Three readings were taken for each temperature. How close they are shows the",
+   "choices": [
+    "zero error of the instrument",
+    "precision of the readings",
+    "variable changed",
+    "accuracy of the readings"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c01q66",
+   "q": "An investigation gives no clear conclusion. What should the student do?",
+   "choices": [
+    "modify the investigation",
+    "remove readings that disagree",
+    "make up new data",
+    "copy a friend's results"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

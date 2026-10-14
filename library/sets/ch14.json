@@ -1,0 +1,1121 @@
+{
+ "id": "ch14",
+ "title": "Ch 14 · Human Digestive System",
+ "folder": "sec2",
+ "chapter": 14,
+ "questions": [
+  {
+   "id": "c14q1",
+   "q": "Why must food be digested?",
+   "choices": [
+    "so the body can make more enzymes",
+    "so food can be passed out as faeces",
+    "so food can be stored in the stomach",
+    "so nutrients can be absorbed into the blood"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q2",
+   "q": "The end products of digestion are",
+   "choices": [
+    "small and soluble",
+    "large and insoluble",
+    "small and insoluble",
+    "large and soluble"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q3",
+   "q": "An amoeba has no digestive system. How does it get nutrients?",
+   "choices": [
+    "it makes them with lipases only",
+    "it chews food into small pieces",
+    "it absorbs them from its surroundings",
+    "it digests food in a stomach"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q4",
+   "q": "Rice is rich in which nutrient?",
+   "choices": [
+    "proteins",
+    "carbohydrates",
+    "fats",
+    "fibre"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q5",
+   "q": "Butter is rich in which nutrient?",
+   "choices": [
+    "fats",
+    "carbohydrates",
+    "fibre",
+    "proteins"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q6",
+   "q": "A meal of avocado, peanuts and full cream milk is richest in",
+   "choices": [
+    "carbohydrates",
+    "proteins",
+    "fibre",
+    "fats"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q7",
+   "q": "A student wants a snack rich in proteins. Which should she choose?",
+   "choices": [
+    "potatoes",
+    "biscuits",
+    "tofu",
+    "cooking oil"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q8",
+   "q": "Physical digestion breaks food down by",
+   "choices": [
+    "killing harmful microorganisms",
+    "crushing, grinding and mixing",
+    "the action of enzymes",
+    "absorption into the blood"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q9",
+   "q": "Chemical digestion breaks food down by",
+   "choices": [
+    "chewing with the teeth",
+    "the action of enzymes",
+    "mixing with mucus",
+    "churning in the stomach"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q10",
+   "q": "Teeth crush a piece of bread. Which process is this?",
+   "choices": [
+    "physical digestion",
+    "chemical digestion",
+    "absorption"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q11",
+   "q": "Proteases break down protein in a piece of fish. Which process is this?",
+   "choices": [
+    "physical digestion",
+    "absorption",
+    "chemical digestion"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q12",
+   "q": "The stomach churns a meal into smaller pieces. Which process is this?",
+   "choices": [
+    "absorption",
+    "chemical digestion",
+    "physical digestion"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q13",
+   "q": "Which organ carries out chemical digestion but no physical digestion?",
+   "choices": [
+    "rectum",
+    "stomach",
+    "mouth",
+    "small intestine"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q14",
+   "q": "Enzymes in the digestive system",
+   "choices": [
+    "speed up the breakdown of large food molecules",
+    "absorb digested food into the blood",
+    "push food along the gullet",
+    "slow down the breakdown of food"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q15",
+   "q": "Enzymes are specific. This means each enzyme",
+   "choices": [
+    "works only in the stomach",
+    "acts on only one type of substance",
+    "acts on every type of food",
+    "makes food molecules larger"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q16",
+   "q": "Lipases are added to a mixture of starch and protein. What happens?",
+   "choices": [
+    "only the protein is broken down",
+    "only the starch is broken down",
+    "both are broken down",
+    "neither is broken down"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q17",
+   "q": "Carbohydrases break down carbohydrates into",
+   "choices": [
+    "fatty acids and glycerol",
+    "proteins",
+    "simple sugars",
+    "amino acids"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q18",
+   "q": "Proteases break down proteins into",
+   "choices": [
+    "amino acids",
+    "starch",
+    "simple sugars",
+    "fatty acids and glycerol"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q19",
+   "q": "Lipases break down fats into",
+   "choices": [
+    "amino acids",
+    "fatty acids and glycerol",
+    "proteins",
+    "simple sugars"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q20",
+   "q": "Digestion of a food produces amino acids. Which enzymes acted?",
+   "choices": [
+    "lipases",
+    "proteases",
+    "carbohydrases"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q21",
+   "q": "Digestion of a food produces fatty acids and glycerol. Which food was it?",
+   "choices": [
+    "carbohydrates",
+    "proteins",
+    "fibre",
+    "fats"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q22",
+   "q": "Which enzymes are needed to fully digest the starch in bread?",
+   "choices": [
+    "lipases",
+    "proteases",
+    "carbohydrases"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q23",
+   "q": "A piece of apple has just been swallowed. Which organ is it in now?",
+   "choices": [
+    "stomach",
+    "small intestine",
+    "rectum",
+    "gullet"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q24",
+   "q": "Which organ comes directly after the stomach?",
+   "choices": [
+    "small intestine",
+    "gullet",
+    "rectum",
+    "large intestine"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q25",
+   "q": "Food has just left the large intestine. Where does it go next?",
+   "choices": [
+    "rectum",
+    "anus",
+    "small intestine",
+    "stomach"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q26",
+   "q": "Food is now in the small intestine. Where was it just before?",
+   "choices": [
+    "large intestine",
+    "gullet",
+    "mouth",
+    "stomach"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q27",
+   "q": "Besides starting starch digestion, saliva",
+   "choices": [
+    "kills harmful microorganisms",
+    "softens and lubricates food",
+    "absorbs water",
+    "digests proteins"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q28",
+   "q": "What do the muscles of the gullet do?",
+   "choices": [
+    "release gastric juice",
+    "churn food into smaller pieces",
+    "push food towards the stomach",
+    "absorb digested food"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q29",
+   "q": "The hydrochloric acid in gastric juice",
+   "choices": [
+    "digests fats",
+    "absorbs mineral salts",
+    "lubricates food for swallowing",
+    "kills harmful microorganisms"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q30",
+   "q": "What is the function of the mucus lining the stomach?",
+   "choices": [
+    "protects the stomach from acid",
+    "kills harmful microorganisms",
+    "digests proteins",
+    "absorbs digested food"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q31",
+   "q": "Remaining water and mineral salts in food are absorbed in the",
+   "choices": [
+    "gullet",
+    "stomach",
+    "large intestine",
+    "rectum"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q32",
+   "q": "Where is faeces stored before it leaves the body?",
+   "choices": [
+    "stomach",
+    "rectum",
+    "large intestine",
+    "anus"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q33",
+   "q": "The small intestine has many internal folds. This helps it",
+   "choices": [
+    "release hydrochloric acid",
+    "churn food faster",
+    "absorb more digested food",
+    "store faeces"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q34",
+   "q": "Where does the digestion of starch begin?",
+   "choices": [
+    "small intestine",
+    "mouth",
+    "gullet",
+    "stomach"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q35",
+   "q": "Where does the digestion of proteins begin?",
+   "choices": [
+    "stomach",
+    "mouth",
+    "small intestine",
+    "gullet"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q36",
+   "q": "Where does the digestion of fats begin?",
+   "choices": [
+    "stomach",
+    "large intestine",
+    "mouth",
+    "small intestine"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q37",
+   "q": "Where are carbohydrates, proteins and fats all fully digested?",
+   "choices": [
+    "stomach",
+    "mouth",
+    "small intestine",
+    "large intestine"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q38",
+   "q": "A boy eats a fried egg. Where does digestion of its fat begin?",
+   "choices": [
+    "mouth",
+    "stomach",
+    "gullet",
+    "small intestine"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q39",
+   "q": "Starch is still digested in the gullet. Why?",
+   "choices": [
+    "the gullet releases carbohydrases",
+    "carbohydrases from saliva are mixed with food",
+    "the gullet churns the food",
+    "gastric juice flows into the gullet"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q40",
+   "q": "A boy drinks orange juice containing fibre. What happens to the fibre?",
+   "choices": [
+    "it forms part of the faeces",
+    "it is digested into simple sugars",
+    "it is absorbed in the stomach",
+    "it is digested by lipases"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q41",
+   "q": "Why is the digestive system made up of several organs?",
+   "choices": [
+    "no single organ can complete digestion",
+    "each organ digests every nutrient",
+    "food is digested only in the mouth",
+    "the stomach can digest all food alone"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q42",
+   "q": "Cells use simple sugars to",
+   "choices": [
+    "repair damaged tissues",
+    "release energy in respiration",
+    "form faeces",
+    "make fats in the body"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q43",
+   "q": "Amino acids are used by the body for",
+   "choices": [
+    "forming faeces",
+    "making fats in the body",
+    "killing microorganisms",
+    "tissue repair and cell growth"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q44",
+   "q": "Fatty acids and glycerol are used to",
+   "choices": [
+    "repair damaged tissues",
+    "kill microorganisms",
+    "make fats in the body",
+    "make simple sugars"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q45",
+   "q": "An athlete is recovering from a muscle injury. Which nutrient helps repair most?",
+   "choices": [
+    "fibre",
+    "carbohydrates",
+    "proteins",
+    "fats"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q46",
+   "q": "A runner needs energy quickly. Which end product do her cells use?",
+   "choices": [
+    "amino acids",
+    "simple sugars",
+    "glycerol",
+    "fatty acids"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q47",
+   "q": "Diabetes is a disease in which the blood sugar level is",
+   "choices": [
+    "always normal",
+    "zero",
+    "too low",
+    "too high"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q48",
+   "q": "What does insulin do?",
+   "choices": [
+    "keeps the blood sugar level balanced",
+    "digests simple sugars",
+    "breaks down fats",
+    "kills harmful bacteria"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q49",
+   "q": "Which is a common symptom of diabetes?",
+   "choices": [
+    "fast healing of wounds",
+    "frequent urination",
+    "sudden weight gain",
+    "loss of hunger"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q50",
+   "q": "Which choice lowers the risk of diabetes?",
+   "choices": [
+    "exercising 30 minutes, five days a week",
+    "eating more fried food",
+    "skipping health screenings",
+    "drinking sugary drinks every day"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q51",
+   "q": "Prediabetes has no symptoms. How can it be detected?",
+   "choices": [
+    "counting heartbeats",
+    "waiting for weight loss",
+    "checking for blurred vision",
+    "checking the blood sugar level"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q52",
+   "q": "In constipation, faeces is hard and dry because",
+   "choices": [
+    "too little water is absorbed from it",
+    "it moves too quickly",
+    "too much water is absorbed from it",
+    "too much acid is made"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q53",
+   "q": "Gastritis is the inflammation of the",
+   "choices": [
+    "large intestine",
+    "stomach lining",
+    "rectum",
+    "gullet"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q54",
+   "q": "Which habit helps prevent constipation?",
+   "choices": [
+    "skipping meals",
+    "eating more oily food",
+    "eating food high in fibre",
+    "drinking less water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q55",
+   "q": "Which habit increases the risk of gastritis?",
+   "choices": [
+    "drinking more water",
+    "eating food high in fibre",
+    "exercising regularly",
+    "skipping meals"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q56",
+   "q": "A girl rarely drinks water and passes hard, dry faeces. Which issue is this?",
+   "choices": [
+    "constipation",
+    "diabetes",
+    "food poisoning",
+    "gastritis"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q57",
+   "q": "A man has diarrhoea and vomiting after eating spoilt food. Which issue is this?",
+   "choices": [
+    "diabetes",
+    "food poisoning",
+    "constipation",
+    "gastritis"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q58",
+   "q": "Raw food in a refrigerator should be kept below",
+   "choices": [
+    "25 °C",
+    "10 °C",
+    "5 °C",
+    "18 °C"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q59",
+   "q": "Frozen food should be stored below",
+   "choices": [
+    "4 °C",
+    "−5 °C",
+    "0 °C",
+    "−18 °C"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q60",
+   "q": "Where should cooked food be placed in a refrigerator?",
+   "choices": [
+    "above raw food",
+    "uncovered next to raw food",
+    "below raw food",
+    "touching raw food"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q61",
+   "q": "A shop keeps frozen fish at −5 °C. Should you buy it?",
+   "choices": [
+    "no, because it is too cold",
+    "yes, because frozen food cannot spoil",
+    "no, because it is not cold enough",
+    "yes, because it is below 0 °C"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q62",
+   "q": "Which can of food should not be eaten?",
+   "choices": [
+    "a tightly sealed can",
+    "a can within its expiry date",
+    "a can stored in a cool place",
+    "a badly dented can"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q63",
+   "q": "Most bacteria in our digestive system are",
+   "choices": [
+    "beneficial",
+    "found only in food",
+    "harmful",
+    "always deadly"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q64",
+   "q": "Which food is produced using bacteria?",
+   "choices": [
+    "plain rice",
+    "yoghurt",
+    "fresh apple",
+    "boiled egg"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q65",
+   "q": "Gut bacteria help us digest some carbohydrates. This effect is",
+   "choices": [
+    "neither beneficial nor harmful",
+    "harmful",
+    "beneficial"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q66",
+   "q": "Which is a harmful effect of bacteria?",
+   "choices": [
+    "helping to absorb mineral salts",
+    "helping to digest some food",
+    "producing certain vitamins",
+    "causing a stomach ulcer"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q67",
+   "q": "Carbohydrase is added to starch and to protein. Only starch is digested. Enzymes are",
+   "choices": [
+    "specific",
+    "used up",
+    "able to digest all food",
+    "found only in saliva"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q68",
+   "q": "Protease is added to egg white in one tube and water to another. The water tube is the",
+   "choices": [
+    "variable measured",
+    "control",
+    "conclusion",
+    "hypothesis"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q69",
+   "q": "A student tests how temperature affects protease action. Which is the variable changed?",
+   "choices": [
+    "mass of egg white",
+    "volume of protease",
+    "time taken to digest protein",
+    "temperature"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c14q70",
+   "q": "A detergent removes oil stains from clothes. Which enzyme does it contain?",
+   "choices": [
+    "lipases",
+    "proteases",
+    "carbohydrases"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

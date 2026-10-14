@@ -1,0 +1,1013 @@
+{
+ "id": "ch07",
+ "title": "Ch 7 · Model of Matter - The Particulate Nature of Matter",
+ "folder": "sec1",
+ "chapter": 7,
+ "questions": [
+  {
+   "id": "c07q1",
+   "q": "Matter is anything that",
+   "choices": [
+    "has mass and takes up space",
+    "is a solid or a liquid only",
+    "can be seen with the naked eye",
+    "can be felt by touch"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q2",
+   "q": "Which is NOT matter?",
+   "choices": [
+    "steam from a kettle",
+    "air in a balloon",
+    "water in a cup",
+    "light from a torch"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q3",
+   "q": "In the particulate nature of matter, matter is made up of",
+   "choices": [
+    "tiny cells",
+    "large visible pieces",
+    "small discrete particles",
+    "one continuous piece"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q4",
+   "q": "The particles that make up matter are in",
+   "choices": [
+    "fixed positions at all times",
+    "constant and random motion",
+    "constant motion in straight lines",
+    "motion only when heated"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q5",
+   "q": "The random movement of tiny particles suspended in a liquid or gas is",
+   "choices": [
+    "expansion",
+    "diffusion",
+    "condensation",
+    "Brownian motion"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q6",
+   "q": "Smoke particles in air are seen moving randomly. Why?",
+   "choices": [
+    "air particles bombard them",
+    "smoke particles expand",
+    "wind blows them in one direction",
+    "smoke particles are alive"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q7",
+   "q": "Pollen grains in water move about randomly. This is evidence that",
+   "choices": [
+    "pollen grains are living",
+    "water particles are fixed in place",
+    "water is made of moving particles",
+    "water particles are visible"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q8",
+   "q": "In the particle model, what is the space between the particles?",
+   "choices": [
+    "water",
+    "vacuum",
+    "more particles",
+    "air"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q9",
+   "q": "In the particle model, each circle represents",
+   "choices": [
+    "a grain of sand",
+    "a drop of liquid",
+    "a particle too small to see",
+    "a cell"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q10",
+   "q": "Which is a limitation of the particle model drawing?",
+   "choices": [
+    "it shows solid particles closely packed",
+    "it does not show particle movement",
+    "it shows three states",
+    "it shows the spaces between particles"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q11",
+   "q": "Which state has a definite volume and a definite shape?",
+   "choices": [
+    "solid",
+    "gas",
+    "liquid"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q12",
+   "q": "Which state has a definite volume but no definite shape?",
+   "choices": [
+    "gas",
+    "liquid",
+    "solid"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q13",
+   "q": "Which state has no definite volume and no definite shape?",
+   "choices": [
+    "gas",
+    "solid",
+    "liquid"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q14",
+   "q": "Which state can be compressed?",
+   "choices": [
+    "liquid",
+    "solid",
+    "gas"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q15",
+   "q": "Water poured from a cup into a bowl keeps its volume. Its shape",
+   "choices": [
+    "changes to fit the bowl",
+    "stays fixed in any container",
+    "stays the same as the cup"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q16",
+   "q": "A substance cannot be compressed and takes the shape of its container. It is a",
+   "choices": [
+    "gas",
+    "solid",
+    "liquid"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q17",
+   "q": "How are the particles in a solid arranged?",
+   "choices": [
+    "far apart in a disorderly manner",
+    "closely packed in a disorderly manner",
+    "far apart in an orderly manner",
+    "very closely packed in an orderly manner"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q18",
+   "q": "How are the particles in a liquid arranged?",
+   "choices": [
+    "very closely packed in an orderly manner",
+    "far apart in an orderly manner",
+    "far apart in a disorderly manner",
+    "closely packed in a disorderly manner"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q19",
+   "q": "How are the particles in a gas arranged?",
+   "choices": [
+    "closely packed in a disorderly manner",
+    "far apart in a disorderly manner",
+    "far apart in an orderly manner",
+    "very closely packed in an orderly manner"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q20",
+   "q": "How do the particles in a solid move?",
+   "choices": [
+    "slide past one another",
+    "move randomly and quickly",
+    "do not move at all",
+    "vibrate about fixed positions"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q21",
+   "q": "How do the particles in a liquid move?",
+   "choices": [
+    "move randomly and slide past one another",
+    "do not move at all",
+    "vibrate about fixed positions",
+    "move only in straight lines"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q22",
+   "q": "The forces of attraction between gas particles are",
+   "choices": [
+    "very strong",
+    "the same as in a solid",
+    "weak",
+    "strong"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q23",
+   "q": "Which state has the strongest forces of attraction between particles?",
+   "choices": [
+    "liquid",
+    "solid",
+    "gas"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q24",
+   "q": "Particles vibrate about fixed positions. Which state is this?",
+   "choices": [
+    "gas",
+    "liquid",
+    "solid"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q25",
+   "q": "Particles are far apart and move quickly. Which state is this?",
+   "choices": [
+    "liquid",
+    "gas",
+    "solid"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q26",
+   "q": "Particles are closely packed and slide past one another. Which state is this?",
+   "choices": [
+    "liquid",
+    "gas",
+    "solid"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q27",
+   "q": "Particles are held by weak forces of attraction. Which state is this?",
+   "choices": [
+    "gas",
+    "liquid",
+    "solid"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q28",
+   "q": "A substance has a fixed volume but no fixed shape. How do its particles move?",
+   "choices": [
+    "vibrate about fixed positions",
+    "do not move",
+    "move quickly and far apart",
+    "slide past one another"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q29",
+   "q": "A substance keeps its shape in any container. How are its particles arranged?",
+   "choices": [
+    "closely packed in a disorderly manner",
+    "far apart in an orderly manner",
+    "far apart in a disorderly manner",
+    "very closely packed in an orderly manner"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q30",
+   "q": "Why can a gas be compressed?",
+   "choices": [
+    "the particles can be squashed smaller",
+    "there is a lot of space between particles",
+    "the particles vibrate about fixed positions",
+    "the particles have no mass"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q31",
+   "q": "Why can a solid not be compressed?",
+   "choices": [
+    "the particles are too large",
+    "the particles are far apart",
+    "the particles do not move at all",
+    "there is very little space between particles"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q32",
+   "q": "A syringe of air is pushed in and the volume decreases. What happens to the particles?",
+   "choices": [
+    "some particles are destroyed",
+    "they move further apart",
+    "they move closer together",
+    "they become smaller"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q33",
+   "q": "A sealed syringe of water is pushed hard. What happens to its volume?",
+   "choices": [
+    "it increases",
+    "it decreases a lot",
+    "it stays the same",
+    "it drops to zero"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q34",
+   "q": "The contents of a sealed syringe are easily pushed in. Which state is inside?",
+   "choices": [
+    "gas",
+    "liquid",
+    "solid"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q35",
+   "q": "When a solid is heated, its particles",
+   "choices": [
+    "become larger",
+    "stop moving",
+    "vibrate less vigorously",
+    "vibrate more vigorously"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q36",
+   "q": "When a solid is heated and expands, the distance between its particles",
+   "choices": [
+    "decreases",
+    "increases",
+    "stays the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q37",
+   "q": "A metal ball is heated and no longer fits through a ring. Why?",
+   "choices": [
+    "its particles became larger",
+    "its particles gained mass",
+    "the distance between its particles increased",
+    "more particles were made"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q38",
+   "q": "A metal lid is cooled in the fridge. What happens to its volume?",
+   "choices": [
+    "it increases",
+    "it decreases",
+    "it stays the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q39",
+   "q": "Liquid in a thermometer rises when it is warmed. Why?",
+   "choices": [
+    "the liquid gains particles",
+    "the liquid particles become larger",
+    "the liquid contracts",
+    "the liquid expands"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q40",
+   "q": "A balloon shrinks when placed in a freezer. What happened to the air particles?",
+   "choices": [
+    "they moved closer together",
+    "they gained energy",
+    "they were destroyed",
+    "they became smaller"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q41",
+   "q": "During expansion, the number and size of particles",
+   "choices": [
+    "only the size increases",
+    "do not change",
+    "both decrease",
+    "both increase"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q42",
+   "q": "A 50 g metal rod is heated and expands. What is its mass now?",
+   "choices": [
+    "0 g",
+    "less than 50 g",
+    "more than 50 g",
+    "50 g"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q43",
+   "q": "A 200 g block of iron is cooled and contracts. What is its mass now?",
+   "choices": [
+    "200 g",
+    "0 g",
+    "more than 200 g",
+    "less than 200 g"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q44",
+   "q": "A heated copper wire has a mass of 30 g. What was its mass before heating?",
+   "choices": [
+    "more than 30 g",
+    "less than 30 g",
+    "30 g",
+    "0 g"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q45",
+   "q": "A sealed bottle of air has a mass of 120 g. It is warmed in the sun. Its mass is",
+   "choices": [
+    "120 g",
+    "more than 120 g",
+    "less than 120 g",
+    "0 g"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q46",
+   "q": "A solid changes into a liquid. What is this process?",
+   "choices": [
+    "boiling",
+    "melting",
+    "condensation",
+    "freezing"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q47",
+   "q": "A gas changes into a liquid. What is this process?",
+   "choices": [
+    "boiling",
+    "melting",
+    "freezing",
+    "condensation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q48",
+   "q": "Water droplets form on a cold glass of water. What is this process?",
+   "choices": [
+    "boiling",
+    "melting",
+    "condensation",
+    "freezing"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q49",
+   "q": "Liquid wax hardens as it cools. What is this process?",
+   "choices": [
+    "freezing",
+    "condensation",
+    "boiling",
+    "melting"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q50",
+   "q": "During melting, the particles gain enough energy to",
+   "choices": [
+    "become larger in size",
+    "increase in number",
+    "stop vibrating",
+    "overcome the very strong forces of attraction"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q51",
+   "q": "When a liquid is cooled and freezes, its particles",
+   "choices": [
+    "lose energy and become smaller",
+    "gain energy and move further apart",
+    "lose energy and are held in fixed positions",
+    "gain energy and slide past each other"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q52",
+   "q": "What happens to the temperature while pure ice is melting?",
+   "choices": [
+    "it falls steadily",
+    "it stays the same",
+    "it rises steadily"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q53",
+   "q": "Liquid particles gain energy and move far apart. Which process occurs?",
+   "choices": [
+    "boiling",
+    "melting",
+    "freezing",
+    "condensation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q54",
+   "q": "Diffusion is the net movement of particles from a region of",
+   "choices": [
+    "lower to higher concentration",
+    "higher to lower temperature",
+    "higher to lower concentration",
+    "lower to higher temperature"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q55",
+   "q": "Which is an example of diffusion?",
+   "choices": [
+    "ice melting in a drink",
+    "water vapour condensing on glass",
+    "a metal rod expanding when heated",
+    "the smell of perfume spreading in a room"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q56",
+   "q": "A helium balloon gets smaller over a few days. Why?",
+   "choices": [
+    "helium particles become smaller",
+    "helium particles diffuse out through the balloon",
+    "helium particles condense",
+    "helium particles are destroyed"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q57",
+   "q": "A solution of high concentration has",
+   "choices": [
+    "a high temperature",
+    "many solute particles per unit volume",
+    "large solute particles",
+    "few solute particles per unit volume"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q58",
+   "q": "Region X has 40 ink particles per cm³. Region Y has 10 per cm³. Ink particles move",
+   "choices": [
+    "from X to Y",
+    "from Y to X",
+    "in neither direction"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q59",
+   "q": "Region P has 6 ink particles per cm³. Region Q has 18 per cm³. Ink particles move",
+   "choices": [
+    "in neither direction",
+    "from P to Q",
+    "from Q to P"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q60",
+   "q": "Region R has 20 particles in 2 cm³. Region S has 20 particles in 5 cm³. Particles move",
+   "choices": [
+    "in neither direction",
+    "from R to S",
+    "from S to R"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q61",
+   "q": "A drop of ink is added to water. When does the net movement of ink stop?",
+   "choices": [
+    "when the water boils",
+    "when the ink reaches the bottom",
+    "after exactly one minute",
+    "when the concentration is uniform"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q62",
+   "q": "Sugar diffuses from region A to region B. Which had the higher concentration?",
+   "choices": [
+    "both were equal",
+    "region B",
+    "region A"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q63",
+   "q": "Scientists re-examined an old idea when a new observation did not fit it. This shows",
+   "choices": [
+    "curiosity",
+    "perseverance",
+    "integrity",
+    "open-mindedness"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c07q64",
+   "q": "A student uses beads to build a new model of particles in a liquid. This shows",
+   "choices": [
+    "creativity",
+    "perseverance",
+    "integrity",
+    "objectivity"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

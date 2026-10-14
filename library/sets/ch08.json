@@ -1,0 +1,1040 @@
+{
+ "id": "ch08",
+ "title": "Ch 8 · Model of Matter - Atoms and Molecules",
+ "folder": "sec1",
+ "chapter": 8,
+ "questions": [
+  {
+   "id": "c08q1",
+   "q": "The simplest unit of an element is",
+   "choices": [
+    "a mixture",
+    "a compound",
+    "a molecule",
+    "an atom"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q2",
+   "q": "A sample of the element carbon is made up of",
+   "choices": [
+    "carbon dioxide molecules",
+    "carbon and hydrogen atoms",
+    "only carbon atoms",
+    "atoms of many different elements"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q3",
+   "q": "Why can an atom not be seen with the naked eye?",
+   "choices": [
+    "it has no charge",
+    "it is extremely tiny",
+    "it moves too fast",
+    "it has no mass"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q4",
+   "q": "About 1 million carbon atoms in a row span the width of a",
+   "choices": [
+    "strand of human hair",
+    "fingernail",
+    "football stadium",
+    "grain of rice"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q5",
+   "q": "Which list is in order of increasing size?",
+   "choices": [
+    "atom, strand of hair, grain of rice",
+    "strand of hair, atom, grain of rice",
+    "atom, grain of rice, strand of hair",
+    "grain of rice, atom, strand of hair"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q6",
+   "q": "Which sub-atomic particle has a negative charge?",
+   "choices": [
+    "proton",
+    "electron",
+    "neutron"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q7",
+   "q": "Which sub-atomic particle has no charge?",
+   "choices": [
+    "electron",
+    "proton",
+    "neutron"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q8",
+   "q": "The nucleus of an atom is made up of",
+   "choices": [
+    "protons and electrons",
+    "electrons only",
+    "neutrons and electrons",
+    "protons and neutrons"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q9",
+   "q": "Where are electrons found in an atom?",
+   "choices": [
+    "moving around the nucleus",
+    "inside the nucleus",
+    "joined to the neutrons",
+    "inside the protons"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q10",
+   "q": "What is the relative charge of an electron?",
+   "choices": [
+    "+2",
+    "+1",
+    "−1",
+    "0"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q11",
+   "q": "What is the relative mass of a proton?",
+   "choices": [
+    "−1",
+    "0",
+    "almost zero",
+    "1"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q12",
+   "q": "A particle is in the nucleus and has a charge of +1. It is",
+   "choices": [
+    "a molecule",
+    "a proton",
+    "a neutron",
+    "an electron"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q13",
+   "q": "A particle has a relative mass of 1 and no charge. It is",
+   "choices": [
+    "an electron",
+    "a neutron",
+    "a proton"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q14",
+   "q": "A particle moves around the nucleus and has a charge of −1. It is",
+   "choices": [
+    "an electron",
+    "a proton",
+    "a neutron"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q15",
+   "q": "An atom is electrically neutral because it has equal numbers of",
+   "choices": [
+    "protons and neutrons",
+    "neutrons and electrons",
+    "protons and electrons",
+    "atoms and molecules"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q16",
+   "q": "A lithium atom has 4 neutrons. Why do they not affect its charge?",
+   "choices": [
+    "they have no mass",
+    "they move around the nucleus",
+    "they are outside the nucleus",
+    "they have no charge"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q17",
+   "q": "An oxygen atom has 8 protons. How many electrons does it have?",
+   "choices": [
+    "4",
+    "16",
+    "0",
+    "8"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q18",
+   "q": "A sodium atom has 11 protons and 12 neutrons. How many electrons does it have?",
+   "choices": [
+    "11",
+    "12",
+    "23",
+    "1"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q19",
+   "q": "A carbon atom has 6 protons and 8 neutrons. How many electrons does it have?",
+   "choices": [
+    "14",
+    "2",
+    "6",
+    "8"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q20",
+   "q": "An atom has 13 electrons. How many protons does it have?",
+   "choices": [
+    "26",
+    "13",
+    "0",
+    "14"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q21",
+   "q": "A helium atom has 2 protons and 2 electrons. What is its overall charge?",
+   "choices": [
+    "−2",
+    "0",
+    "+4",
+    "+2"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q22",
+   "q": "Carbon atoms have 6 protons and 6, 7 or 8 neutrons. This shows the number of neutrons",
+   "choices": [
+    "decides which element it is",
+    "always equals the number of protons",
+    "can differ from the number of protons",
+    "always equals the number of electrons"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q23",
+   "q": "The mass of an atom is mainly the mass of its",
+   "choices": [
+    "empty space",
+    "electrons",
+    "outer pathways",
+    "nucleus"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q24",
+   "q": "Why is the mass of electrons in an atom considered negligible?",
+   "choices": [
+    "they are much lighter than protons and neutrons",
+    "they are outside the nucleus",
+    "they have a negative charge",
+    "they move at high speed"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q25",
+   "q": "An atom has 6 protons, 6 neutrons and 6 electrons. Which particles give most of its mass?",
+   "choices": [
+    "protons and neutrons",
+    "protons and electrons",
+    "electrons only",
+    "neutrons and electrons"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q26",
+   "q": "In the periodic table, the number above an element's symbol shows the number of",
+   "choices": [
+    "atoms in one of its molecules",
+    "neutrons in one of its atoms",
+    "protons in one of its atoms",
+    "molecules in the element"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q27",
+   "q": "Elements in the periodic table are arranged in order of increasing",
+   "choices": [
+    "size of atoms",
+    "number of protons",
+    "number of neutrons",
+    "number of molecules"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q28",
+   "q": "What makes the atoms of one element different from another element?",
+   "choices": [
+    "the speed of the electrons",
+    "the number of neutrons",
+    "the colour of the atoms",
+    "the number of protons"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q29",
+   "q": "Atom X has 6 protons and 6 neutrons. Atom Y has 6 protons and 8 neutrons. They are",
+   "choices": [
+    "atoms with different charges",
+    "molecules of a compound",
+    "atoms of the same element",
+    "atoms of different elements"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q30",
+   "q": "Atom P has 7 protons. Atom Q has 8 protons. They are",
+   "choices": [
+    "atoms of the same element",
+    "molecules of the same element",
+    "atoms with the same mass",
+    "atoms of different elements"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q31",
+   "q": "An atom has 3 protons, 3 electrons and 4 neutrons. Which element is it?",
+   "choices": [
+    "hydrogen",
+    "lithium",
+    "carbon",
+    "helium"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q32",
+   "q": "An atom has 7 protons and 8 neutrons. Which element is it?",
+   "choices": [
+    "nitrogen",
+    "lithium",
+    "oxygen",
+    "carbon"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q33",
+   "q": "A neutral atom has 2 electrons. Which element is it?",
+   "choices": [
+    "helium",
+    "lithium",
+    "carbon",
+    "hydrogen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q34",
+   "q": "A molecule is made up of",
+   "choices": [
+    "one atom of an element",
+    "two or more substances mixed together",
+    "protons and neutrons only",
+    "two or more atoms chemically combined"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q35",
+   "q": "Which formula represents a molecule?",
+   "choices": [
+    "H",
+    "H₂",
+    "He",
+    "C"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q36",
+   "q": "A chemical formula shows the",
+   "choices": [
+    "size of each atom in a molecule",
+    "colour of each atom in a molecule",
+    "types and numbers of atoms in a molecule",
+    "number of protons in each atom"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q37",
+   "q": "In H₂O, how many hydrogen atoms are there?",
+   "choices": [
+    "3",
+    "1",
+    "2",
+    "0"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q38",
+   "q": "In NH₃, how many hydrogen atoms are there?",
+   "choices": [
+    "3",
+    "2",
+    "1",
+    "4"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q39",
+   "q": "How many oxygen atoms are in one NO₂ molecule?",
+   "choices": [
+    "1",
+    "2",
+    "0",
+    "3"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q40",
+   "q": "What is the total number of atoms in one CO₂ molecule?",
+   "choices": [
+    "1",
+    "2",
+    "4",
+    "3"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q41",
+   "q": "What is the total number of atoms in one CH₄ molecule?",
+   "choices": [
+    "1",
+    "5",
+    "4",
+    "2"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q42",
+   "q": "Which types of atoms are in NH₃?",
+   "choices": [
+    "nitrogen and hydrogen",
+    "nitrogen only",
+    "sodium and hydrogen",
+    "nitrogen and helium"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q43",
+   "q": "Which types of atoms are in HCl?",
+   "choices": [
+    "chlorine only",
+    "helium and chlorine",
+    "hydrogen and carbon",
+    "hydrogen and chlorine"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q44",
+   "q": "In C₆H₁₂O₆, how many carbon atoms are there?",
+   "choices": [
+    "1",
+    "12",
+    "6",
+    "24"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q45",
+   "q": "What is the total number of atoms in one C₆H₁₂O₆ molecule?",
+   "choices": [
+    "24",
+    "18",
+    "3",
+    "6"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q46",
+   "q": "A molecule has 1 nitrogen atom and 3 hydrogen atoms. Which formula represents it?",
+   "choices": [
+    "N₃H",
+    "N₃H₃",
+    "NH",
+    "NH₃"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q47",
+   "q": "A molecule has 1 carbon atom and 2 oxygen atoms. Which formula represents it?",
+   "choices": [
+    "C₂O",
+    "CO₂",
+    "C₂O₂",
+    "CO"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q48",
+   "q": "A molecule of an element contains",
+   "choices": [
+    "two or more types of atoms",
+    "only one atom",
+    "only one type of atom",
+    "atoms that are not combined"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q49",
+   "q": "A molecule of a compound contains",
+   "choices": [
+    "atoms that are not combined",
+    "two or more types of atoms",
+    "only one atom",
+    "only one type of atom"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q50",
+   "q": "Does O₂ represent an element or a compound?",
+   "choices": [
+    "an element",
+    "a mixture",
+    "a compound"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q51",
+   "q": "Does CO represent an element or a compound?",
+   "choices": [
+    "a mixture",
+    "an element",
+    "a compound"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q52",
+   "q": "Does S₈ represent an element or a compound?",
+   "choices": [
+    "a mixture",
+    "a compound",
+    "an element"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q53",
+   "q": "Which formula represents a molecule of a compound?",
+   "choices": [
+    "Cl₂",
+    "I₂",
+    "N₂",
+    "NH₃"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q54",
+   "q": "Which formula represents a molecule of an element?",
+   "choices": [
+    "H₂O",
+    "I₂",
+    "HCl",
+    "CO₂"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q55",
+   "q": "Which statement about atoms and molecules is correct?",
+   "choices": [
+    "atoms and molecules are the same",
+    "atoms are larger than molecules",
+    "atoms are made up of molecules",
+    "molecules are made up of atoms"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q56",
+   "q": "How is a hydrogen molecule different from a hydrogen atom?",
+   "choices": [
+    "it has two hydrogen atoms combined",
+    "it has no electrons",
+    "it is a different element",
+    "it has different types of atoms"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q57",
+   "q": "Based on the planetary model, an atom is mostly",
+   "choices": [
+    "protons",
+    "neutrons",
+    "empty space",
+    "electrons"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q58",
+   "q": "Why were older models of the atom replaced?",
+   "choices": [
+    "most people disliked them",
+    "they were too hard to draw",
+    "they were too old",
+    "they could not explain many properties of atoms"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q59",
+   "q": "Atoms are drawn as coloured circles. Which is a limitation of this model?",
+   "choices": [
+    "real atoms have no colour",
+    "atoms cannot combine",
+    "atoms are larger than molecules",
+    "atoms cannot be labelled"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q60",
+   "q": "Which is a medical use of atomic technology?",
+   "choices": [
+    "burning fuel to heat water",
+    "X-ray imaging of broken bones",
+    "chalk to improve a climber's grip",
+    "a beam balance to measure mass"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q61",
+   "q": "Nuclear power plants generate electricity using energy from",
+   "choices": [
+    "atoms such as uranium",
+    "sunlight",
+    "moving water",
+    "burning oil"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q62",
+   "q": "Which is a risk of using nuclear power plants?",
+   "choices": [
+    "producing too little heat",
+    "accidents causing pollution and loss of life",
+    "running out of oil",
+    "needing sunlight to work"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q63",
+   "q": "\"Should atomic bombs ever be used in war?\" Which issue is this?",
+   "choices": [
+    "environmental",
+    "economic",
+    "ethical"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q64",
+   "q": "\"How much does it cost to build a nuclear power plant?\" Which issue is this?",
+   "choices": [
+    "environmental",
+    "social",
+    "ethical",
+    "economic"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c08q65",
+   "q": "A country has no oil. Why might it choose nuclear energy?",
+   "choices": [
+    "it produces no waste at all",
+    "it carries no risk of accidents",
+    "it can generate electricity without oil",
+    "it needs no turbines"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

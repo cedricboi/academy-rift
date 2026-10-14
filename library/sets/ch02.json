@@ -1,0 +1,1124 @@
+{
+ "id": "ch02",
+ "title": "Ch 2 · Exploring Diversity of Matter by its Physical Properties",
+ "folder": "sec1",
+ "chapter": 2,
+ "questions": [
+  {
+   "id": "c02q1",
+   "q": "Why do we classify things?",
+   "choices": [
+    "to change their physical properties",
+    "to recognise patterns and study them better",
+    "to measure their mass",
+    "to make every object the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q2",
+   "q": "Spoons can be grouped by material or by size. This shows that",
+   "choices": [
+    "material is the only criterion",
+    "spoons cannot be classified",
+    "there is only one way to classify",
+    "objects can be classified in many ways"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q3",
+   "q": "A copper wire is grouped by electrical conductivity. Which item belongs with it?",
+   "choices": [
+    "iron nail",
+    "glass marble",
+    "plastic ruler",
+    "rubber band"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q4",
+   "q": "Why is classifying items by material sometimes difficult?",
+   "choices": [
+    "all materials look the same",
+    "most items contain only one material",
+    "most items contain more than one material",
+    "materials have no physical properties"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q5",
+   "q": "Which are the five main classes of materials?",
+   "choices": [
+    "ceramic, metal, glass, fibres and plastic",
+    "ceramic, metal, water, air and plastic",
+    "metal, wood, paper, glass and rubber",
+    "glass, fibres, stone, sand and clay"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q6",
+   "q": "A material is made from clay, is hard and is fragile. Which class is it?",
+   "choices": [
+    "metal",
+    "glass",
+    "ceramic",
+    "plastic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q7",
+   "q": "A material is shiny and a good conductor of electricity. Which class is it?",
+   "choices": [
+    "ceramic",
+    "fibres",
+    "glass",
+    "metal"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q8",
+   "q": "Which is a property of plastics?",
+   "choices": [
+    "made from clay",
+    "low melting point",
+    "fragile",
+    "shiny"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q9",
+   "q": "A material can be spun into threads and absorbs dyes. Which class is it?",
+   "choices": [
+    "plastic",
+    "fibres",
+    "metal",
+    "glass"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q10",
+   "q": "Which is a property of metals?",
+   "choices": [
+    "poor conductor of heat",
+    "made from clay",
+    "can be bent without breaking",
+    "low melting point"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q11",
+   "q": "Which is a physical property of a material?",
+   "choices": [
+    "melting point",
+    "ability to rust",
+    "ability to react with acid",
+    "ability to burn"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q12",
+   "q": "Electrical conductivity is a measure of how easily",
+   "choices": [
+    "heat flows through a material",
+    "a material scratches another material",
+    "a material bends without breaking",
+    "an electric current flows through a material"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q13",
+   "q": "Thermal conductivity is a measure of how easily",
+   "choices": [
+    "heat flows through a material",
+    "an electric current flows through a material",
+    "a material supports a load",
+    "a material changes state"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q14",
+   "q": "The temperature at which a solid changes to a liquid is its",
+   "choices": [
+    "density",
+    "boiling point",
+    "melting point",
+    "freezing time"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q15",
+   "q": "The temperature at which a liquid changes to a gas is its",
+   "choices": [
+    "room temperature",
+    "boiling point",
+    "melting point",
+    "thermal conductivity"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q16",
+   "q": "Substance X melts at 80 °C and boils at 220 °C. What is its state at 100 °C?",
+   "choices": [
+    "gas",
+    "solid",
+    "liquid"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q17",
+   "q": "Substance Y melts at −20 °C and boils at 60 °C. What is its state at 90 °C?",
+   "choices": [
+    "liquid",
+    "gas",
+    "solid"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q18",
+   "q": "A substance is a gas at 25 °C. What could its boiling point be?",
+   "choices": [
+    "100 °C",
+    "250 °C",
+    "30 °C",
+    "−30 °C"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q19",
+   "q": "The ability of a material to bend without breaking and return to its shape is",
+   "choices": [
+    "flexibility",
+    "density",
+    "strength",
+    "hardness"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q20",
+   "q": "The ability to support a heavy load without changing shape permanently is",
+   "choices": [
+    "density",
+    "flexibility",
+    "hardness",
+    "strength"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q21",
+   "q": "The resistance of a material to wear and tear and scratches is",
+   "choices": [
+    "hardness",
+    "flexibility",
+    "strength",
+    "thermal conductivity"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q22",
+   "q": "A piece of glass scratches a plastic ruler. This shows that glass is",
+   "choices": [
+    "softer than plastic",
+    "less dense than plastic",
+    "harder than plastic",
+    "more flexible than plastic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q23",
+   "q": "A garden hose can be coiled for storage without breaking. Which property is this?",
+   "choices": [
+    "hardness",
+    "flexibility",
+    "strength",
+    "thermal conductivity"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q24",
+   "q": "Which material is best for a frying pan handle?",
+   "choices": [
+    "copper",
+    "aluminium",
+    "steel",
+    "plastic"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q25",
+   "q": "Which material is best for the inside of an electrical wire?",
+   "choices": [
+    "rubber",
+    "glass",
+    "copper",
+    "plastic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q26",
+   "q": "Material P has a high melting point and high thermal conductivity. What is it best for?",
+   "choices": [
+    "a raincoat",
+    "a cooking pot",
+    "a pan handle",
+    "an oven glove"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q27",
+   "q": "Material Q is flexible, absorbs dyes and is a poor conductor of heat. What is it best for?",
+   "choices": [
+    "a T-shirt",
+    "a frying pan",
+    "a window",
+    "an electrical wire"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q28",
+   "q": "Mass is the",
+   "choices": [
+    "distance between two points",
+    "amount of space an object occupies",
+    "mass per unit volume",
+    "amount of matter in an object"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q29",
+   "q": "Volume is the",
+   "choices": [
+    "amount of matter in an object",
+    "mass per unit volume",
+    "amount of space an object occupies",
+    "distance between two points"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q30",
+   "q": "Which SI unit is not correct?",
+   "choices": [
+    "mass = kilogram (kg)",
+    "density = kilogram per cubic metre (kg/m³)",
+    "length = metre (m)",
+    "volume = cubic centimetre (cm³)"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q31",
+   "q": "What is 2 ℓ in cm³?",
+   "choices": [
+    "200 cm³",
+    "2000 cm³",
+    "20 cm³",
+    "2 cm³"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q32",
+   "q": "A bottle holds 1500 cm³ of water. What is this in ℓ?",
+   "choices": [
+    "1.5 ℓ",
+    "15 ℓ",
+    "0.15 ℓ",
+    "150 ℓ"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q33",
+   "q": "What is 3.5 cm in mm?",
+   "choices": [
+    "0.35 mm",
+    "35 mm",
+    "350 mm",
+    "3500 mm"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q34",
+   "q": "Which unit is most practical for the mass of an elephant?",
+   "choices": [
+    "tonne (t)",
+    "cubic metre (m³)",
+    "gram (g)",
+    "milligram (mg)"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q35",
+   "q": "Which instrument measures the length of a curved surface?",
+   "choices": [
+    "measuring cylinder",
+    "metre rule",
+    "digital calipers",
+    "measuring tape"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q36",
+   "q": "Which instrument is best for measuring the diameter of a coin?",
+   "choices": [
+    "measuring tape",
+    "metre rule",
+    "digital calipers",
+    "electronic balance"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q37",
+   "q": "Which instrument is best for measuring the mass of a stone?",
+   "choices": [
+    "measuring cylinder",
+    "metre rule",
+    "electronic balance",
+    "digital calipers"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q38",
+   "q": "Which instrument is best for measuring 40 cm³ of water?",
+   "choices": [
+    "measuring cylinder",
+    "measuring tape",
+    "digital calipers",
+    "electronic balance"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q39",
+   "q": "Which part of digital calipers measures the depth of a test tube?",
+   "choices": [
+    "digital display",
+    "tail",
+    "outside jaws",
+    "inside jaws"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q40",
+   "q": "Which part of digital calipers measures the internal diameter of a pipe?",
+   "choices": [
+    "outside jaws",
+    "digital display",
+    "tail",
+    "inside jaws"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q41",
+   "q": "What is the best estimate of the height of a classroom door?",
+   "choices": [
+    "2 m",
+    "20 m",
+    "20 cm",
+    "2 km"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q42",
+   "q": "What is the best estimate of the mass of a grape?",
+   "choices": [
+    "5 mg",
+    "5 g",
+    "5 kg",
+    "500 g"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q43",
+   "q": "What is the best estimate of the volume of a can of soft drink?",
+   "choices": [
+    "3300 cm³",
+    "3 cm³",
+    "33 cm³",
+    "330 cm³"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q44",
+   "q": "What is the best estimate of the length of a new pencil?",
+   "choices": [
+    "18 m",
+    "1.8 cm",
+    "18 cm",
+    "18 mm"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q45",
+   "q": "A fully submerged object displaces water equal to its",
+   "choices": [
+    "volume",
+    "length",
+    "mass",
+    "density"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q46",
+   "q": "Water reads 50 cm³. A stone is added and it reads 58 cm³. Volume of stone?",
+   "choices": [
+    "108 cm³",
+    "58 cm³",
+    "50 cm³",
+    "8 cm³"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q47",
+   "q": "A 12 cm³ stone is lowered into water reading 40 cm³. What is the new reading?",
+   "choices": [
+    "40 cm³",
+    "52 cm³",
+    "28 cm³",
+    "12 cm³"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q48",
+   "q": "Why is a sinker used to find the volume of a cork?",
+   "choices": [
+    "the cork is a regular shape",
+    "the cork is too heavy",
+    "the cork floats on water",
+    "the cork dissolves in water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q49",
+   "q": "A cuboid measures 2 cm by 3 cm by 4 cm. What is its volume?",
+   "choices": [
+    "24 cm³",
+    "24 cm²",
+    "12 cm³",
+    "9 cm³"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q50",
+   "q": "A box of volume 60 cm³ has a base 5 cm by 4 cm. What is its height?",
+   "choices": [
+    "300 cm",
+    "3 cm",
+    "20 cm",
+    "12 cm"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q51",
+   "q": "Density is defined as",
+   "choices": [
+    "the amount of matter in an object",
+    "mass multiplied by volume",
+    "volume per unit mass",
+    "mass per unit volume"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q52",
+   "q": "Blocks A and B have the same volume. A has twice the mass. Which is correct?",
+   "choices": [
+    "B has twice the density of A",
+    "A has half the density of B",
+    "A has twice the density of B",
+    "both have the same density"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q53",
+   "q": "A block of iron is cut into two halves. The density of each half",
+   "choices": [
+    "is doubled",
+    "stays the same",
+    "becomes zero",
+    "is halved"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q54",
+   "q": "density =",
+   "choices": [
+    "mass × volume",
+    "mass + volume",
+    "mass / volume",
+    "volume / mass"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q55",
+   "q": "What is the SI unit of density?",
+   "choices": [
+    "kg/m³",
+    "kg",
+    "m³",
+    "g/cm³"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q56",
+   "q": "An object has a mass of 40 g and a volume of 10 cm³. What is its density?",
+   "choices": [
+    "0.25 g/cm³",
+    "30 g/cm³",
+    "400 g/cm³",
+    "4 g/cm³"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q57",
+   "q": "A liquid has a mass of 60 g and a volume of 20 cm³. What is its density?",
+   "choices": [
+    "1200 g/cm³",
+    "40 g/cm³",
+    "3 g/cm³",
+    "0.33 g/cm³"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q58",
+   "q": "A stone has a density of 2 g/cm³ and a volume of 15 cm³. What is its mass?",
+   "choices": [
+    "30 g",
+    "17 g",
+    "13 g",
+    "7.5 g"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q59",
+   "q": "A metal has a density of 5 g/cm³ and a mass of 50 g. What is its volume?",
+   "choices": [
+    "45 cm³",
+    "10 cm³",
+    "250 cm³",
+    "55 cm³"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q60",
+   "q": "An object floats on a liquid when it is",
+   "choices": [
+    "heavier than the liquid",
+    "denser than the liquid",
+    "larger than the container",
+    "less dense than the liquid"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q61",
+   "q": "Pine wood is 0.510 g/cm³ and water is 1.00 g/cm³. In water, pine wood",
+   "choices": [
+    "sinks",
+    "dissolves",
+    "floats"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q62",
+   "q": "A block has a mass of 30 g and a volume of 20 cm³. In water, it",
+   "choices": [
+    "sinks",
+    "dissolves",
+    "floats"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q63",
+   "q": "An object floats in water (1.00 g/cm³). What could its density be?",
+   "choices": [
+    "2.7 g/cm³",
+    "0.8 g/cm³",
+    "7.87 g/cm³",
+    "1.2 g/cm³"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q64",
+   "q": "Why does a steel ship float on seawater?",
+   "choices": [
+    "the ship has a very large mass",
+    "seawater is denser than steel",
+    "steel is less dense than seawater",
+    "its hollow hull contains a lot of air"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q65",
+   "q": "Ice floats on water. What does this show?",
+   "choices": [
+    "ice is less dense than water",
+    "ice and water have the same density",
+    "ice is denser than water",
+    "ice has a larger mass than water"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q66",
+   "q": "Reusing items helps to",
+   "choices": [
+    "increase waste sent to landfill",
+    "prevent waste and save raw materials",
+    "make plastics break down faster",
+    "use up more natural resources"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q67",
+   "q": "Bringing your own container to a hawker centre is an example of",
+   "choices": [
+    "dispose",
+    "recycle",
+    "incinerate",
+    "reduce"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q68",
+   "q": "Using an old mug to grow a plant is an example of",
+   "choices": [
+    "reduce",
+    "incinerate",
+    "reuse",
+    "recycle"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q69",
+   "q": "Why is a cloth bag a more sustainable choice than a plastic bag?",
+   "choices": [
+    "it is single-use",
+    "it is lighter",
+    "it forms microplastics",
+    "it can be reused many times"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c02q70",
+   "q": "Why are unclean food containers not put in recycling bins?",
+   "choices": [
+    "they contaminate the bin contents",
+    "they are too light",
+    "they are too small",
+    "they are made of metal"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

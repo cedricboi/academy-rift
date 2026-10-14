@@ -1,0 +1,1082 @@
+{
+ "id": "ch12",
+ "title": "Ch 12 · Interactions within Ecosystems",
+ "folder": "sec2",
+ "chapter": 12,
+ "questions": [
+  {
+   "id": "c12q1",
+   "q": "Conserving the environment means",
+   "choices": [
+    "using only the resources we need",
+    "using no resources at all",
+    "replacing forests with farms",
+    "using resources as fast as possible"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q2",
+   "q": "Why is fresh water a limited resource?",
+   "choices": [
+    "most of Earth's water is fresh",
+    "fresh water is only found in ice",
+    "fresh water is made by plants",
+    "less than 1% of Earth's water is fresh"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q3",
+   "q": "Which action reduces the use of fossil fuels?",
+   "choices": [
+    "using an old, inefficient fridge",
+    "leaving the lights on all day",
+    "taking public transport instead of a car",
+    "driving to a nearby shop"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q4",
+   "q": "Which action most directly reduces deforestation?",
+   "choices": [
+    "taking a car to school",
+    "using less paper",
+    "leaving the fan on",
+    "using more plastic bags"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q5",
+   "q": "Reforestation reduces carbon dioxide in the air because trees",
+   "choices": [
+    "give out carbon dioxide for photosynthesis",
+    "take in carbon dioxide for photosynthesis",
+    "give out heat for respiration",
+    "take in oxygen for photosynthesis"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q6",
+   "q": "Composting food waste reduces greenhouse gases because",
+   "choices": [
+    "more waste needs to be burnt",
+    "compost absorbs all carbon dioxide",
+    "less waste needs to be burnt",
+    "compost produces fossil fuels"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q7",
+   "q": "The place where an organism lives is its",
+   "choices": [
+    "habitat",
+    "community",
+    "population",
+    "food chain"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q8",
+   "q": "Which is a physical factor of an environment?",
+   "choices": [
+    "type of prey",
+    "number of predators",
+    "number of parasites",
+    "light intensity"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q9",
+   "q": "A student compares the acidity of two ponds. Which should she use?",
+   "choices": [
+    "a temperature probe with a data logger",
+    "a light probe with a data logger",
+    "a measuring cylinder",
+    "a pH probe with a data logger"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q10",
+   "q": "A student compares how bright two parts of a forest are. Which should he use?",
+   "choices": [
+    "a pH probe with a data logger",
+    "a measuring cylinder",
+    "a light probe with a data logger",
+    "a temperature probe with a data logger"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q11",
+   "q": "Why are few organisms found in hot deserts?",
+   "choices": [
+    "extreme temperatures and lack of water",
+    "soil too rich in minerals",
+    "too little sunlight",
+    "too much rainfall"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q12",
+   "q": "Suitable physical factors let plants grow. How does this help animals?",
+   "choices": [
+    "plants provide heat energy",
+    "plants provide food and shelter",
+    "plants produce minerals for them",
+    "plants remove all predators"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q13",
+   "q": "Cold desert plants have shallow roots. Which condition explains this?",
+   "choices": [
+    "rainfall is frequent and abundant",
+    "the soil is deep and warm",
+    "only a thin soil layer is ice-free",
+    "the soil is very acidic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q14",
+   "q": "A structural adaptation is",
+   "choices": [
+    "a physical factor of the habitat",
+    "a physical characteristic that helps survival",
+    "a change in the habitat",
+    "a behaviour that helps survival"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q15",
+   "q": "A pangolin curls into a ball when attacked. This adaptation is",
+   "choices": [
+    "behavioural",
+    "structural",
+    "not an adaptation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q16",
+   "q": "A waxplant has waxy leaves that reduce water loss. This adaptation is",
+   "choices": [
+    "not an adaptation",
+    "structural",
+    "behavioural"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q17",
+   "q": "A mudskipper digs burrows to keep itself cool. This adaptation is",
+   "choices": [
+    "not an adaptation",
+    "structural",
+    "behavioural"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q18",
+   "q": "A crocodile has scales that protect it from heat and injury. This adaptation is",
+   "choices": [
+    "structural",
+    "not an adaptation",
+    "behavioural"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q19",
+   "q": "Which is a behavioural adaptation?",
+   "choices": [
+    "a mangrove tree has breathing roots",
+    "a pangolin has a long, sticky tongue",
+    "a mangrove snail has a thick shell",
+    "a king cobra hunts at dawn or dusk"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q20",
+   "q": "The buttress roots of a rainforest tree help it to",
+   "choices": [
+    "store water in the trunk",
+    "remove salt from seawater",
+    "trap more sunlight",
+    "take in minerals near the soil surface"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q21",
+   "q": "A moth's brown colour matches tree bark. This helps it to",
+   "choices": [
+    "trap more sunlight",
+    "attract a mate",
+    "avoid being spotted by predators",
+    "keep itself cool"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q22",
+   "q": "A rainforest tree grows very tall. This helps its leaves to",
+   "choices": [
+    "reduce water loss",
+    "take in more minerals",
+    "obtain more oxygen",
+    "trap more sunlight"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q23",
+   "q": "A mangrove snail releases mucus to cling to trees. This helps it to",
+   "choices": [
+    "remove salt from seawater",
+    "avoid being washed away at high tide",
+    "keep its gills damp",
+    "catch prey off guard"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q24",
+   "q": "Adaptive traits in organisms develop",
+   "choices": [
+    "over many generations",
+    "immediately after a change",
+    "within one generation",
+    "within a few days"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q25",
+   "q": "When conditions change, organisms that cannot survive the new conditions will",
+   "choices": [
+    "develop new traits at once",
+    "reproduce more",
+    "die",
+    "become producers"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q26",
+   "q": "A crab is adapted to clean, oxygen-rich streams. These streams are decreasing. Its population will",
+   "choices": [
+    "decrease",
+    "stay the same",
+    "increase"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q27",
+   "q": "Rising temperatures make mosquito eggs hatch faster. The mosquito population will",
+   "choices": [
+    "stay the same",
+    "increase",
+    "decrease"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q28",
+   "q": "Which animal has the highest chance of survival if one food source disappears?",
+   "choices": [
+    "one that eats only bamboo",
+    "one that eats only gum leaves",
+    "one that eats only milkweed",
+    "one that eats many kinds of food"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q29",
+   "q": "Organisms of the same kind living in the same environment form a",
+   "choices": [
+    "community",
+    "ecosystem",
+    "population",
+    "habitat"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q30",
+   "q": "An ecosystem is made up of",
+   "choices": [
+    "only a community of organisms",
+    "one population and its food",
+    "only the physical environment",
+    "a community and its physical environment"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q31",
+   "q": "All the frogs in a pond are a",
+   "choices": [
+    "ecosystem",
+    "population",
+    "community",
+    "organism"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q32",
+   "q": "All the fish, plants and snails living in a pond are a",
+   "choices": [
+    "community",
+    "ecosystem",
+    "population",
+    "organism"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q33",
+   "q": "The pond organisms together with the water, light and temperature form",
+   "choices": [
+    "an ecosystem",
+    "an organism",
+    "a population",
+    "a community"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q34",
+   "q": "Which is an example of a community?",
+   "choices": [
+    "all the mudskippers in a mangrove",
+    "the seawater in a mangrove",
+    "one mangrove tree",
+    "all the plants and animals in a mangrove"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q35",
+   "q": "A relationship in which both organisms benefit is",
+   "choices": [
+    "parasitism",
+    "a predator-prey relationship",
+    "mutualism"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q36",
+   "q": "A parasite",
+   "choices": [
+    "kills its prey for food",
+    "harms its host without killing it",
+    "benefits its host in return",
+    "makes its own food"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q37",
+   "q": "Ants protect scale insects and feed on their sugary solution. This is",
+   "choices": [
+    "a predator-prey relationship",
+    "parasitism",
+    "mutualism"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q38",
+   "q": "Roundworms live in human intestines and take food from them. This is",
+   "choices": [
+    "mutualism",
+    "parasitism",
+    "a predator-prey relationship"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q39",
+   "q": "A sea eagle catches and eats fish. This is",
+   "choices": [
+    "a predator-prey relationship",
+    "parasitism",
+    "mutualism"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q40",
+   "q": "A sea anemone protects a clownfish and eats fish the clownfish attracts. This is",
+   "choices": [
+    "parasitism",
+    "mutualism",
+    "a predator-prey relationship"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q41",
+   "q": "A stable ecosystem results when",
+   "choices": [
+    "one predator is removed",
+    "all decomposers are removed",
+    "herbivores keep increasing",
+    "all interrelationships between organisms are maintained"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q42",
+   "q": "Wolves that eat elk are removed from a park. The number of elk will",
+   "choices": [
+    "stay the same",
+    "decrease",
+    "increase"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q43",
+   "q": "More elk eat more plants. Beavers also eat these plants. Beaver numbers will",
+   "choices": [
+    "decrease",
+    "stay the same",
+    "increase"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q44",
+   "q": "In grass --> grasshopper --> frog, all the frogs are removed. Grasshoppers will at first",
+   "choices": [
+    "decrease",
+    "increase",
+    "stay the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q45",
+   "q": "Green plants are producers because they",
+   "choices": [
+    "feed only on animals",
+    "eat other organisms",
+    "break down dead matter",
+    "make their own food"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q46",
+   "q": "In rice plant --> grasshopper --> frog --> snake, which is the primary consumer?",
+   "choices": [
+    "frog",
+    "rice plant",
+    "snake",
+    "grasshopper"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q47",
+   "q": "In rice plant --> grasshopper --> frog --> snake, which is the secondary consumer?",
+   "choices": [
+    "snake",
+    "rice plant",
+    "frog",
+    "grasshopper"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q48",
+   "q": "In rice plant --> grasshopper --> frog --> snake, which is the tertiary consumer?",
+   "choices": [
+    "snake",
+    "rice plant",
+    "grasshopper",
+    "frog"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q49",
+   "q": "In which food chain is the frog a secondary consumer?",
+   "choices": [
+    "frog --> insect --> plant",
+    "plant --> frog --> insect",
+    "plant --> insect --> frog",
+    "insect --> frog --> plant"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q50",
+   "q": "Food webs show",
+   "choices": [
+    "only the producers",
+    "only one food chain",
+    "only the decomposers",
+    "how food chains are interconnected"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q51",
+   "q": "During photosynthesis, plants make food from",
+   "choices": [
+    "carbon dioxide and oxygen",
+    "carbon dioxide and water",
+    "oxygen and minerals",
+    "oxygen and water"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q52",
+   "q": "Respiration releases energy from food in the presence of",
+   "choices": [
+    "oxygen",
+    "carbon dioxide",
+    "nitrogen",
+    "light"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q53",
+   "q": "In grass --> goat --> tiger, which organisms carry out respiration?",
+   "choices": [
+    "all three",
+    "tiger only",
+    "goat and tiger only",
+    "grass only"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q54",
+   "q": "The energy in a food chain first comes from",
+   "choices": [
+    "heat from the soil",
+    "light energy from the sun",
+    "decomposers",
+    "minerals in the soil"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q55",
+   "q": "At each stage of a food chain, about 90% of the energy is",
+   "choices": [
+    "returned to the sun",
+    "passed to the next organism",
+    "stored in the producer",
+    "released as heat"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q56",
+   "q": "The flow of energy in a food chain is",
+   "choices": [
+    "cyclical",
+    "reused by producers",
+    "non-cyclical",
+    "increasing at each stage"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q57",
+   "q": "A producer has 10 000 kJ of energy. About how much reaches the primary consumer?",
+   "choices": [
+    "100 kJ",
+    "9000 kJ",
+    "1000 kJ",
+    "10 000 kJ"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q58",
+   "q": "A primary consumer gets 500 kJ. About how much reaches the secondary consumer?",
+   "choices": [
+    "50 kJ",
+    "450 kJ",
+    "500 kJ",
+    "5000 kJ"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q59",
+   "q": "A secondary consumer gets about 200 kJ. About how much did the primary consumer get?",
+   "choices": [
+    "20 kJ",
+    "2000 kJ",
+    "220 kJ",
+    "180 kJ"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q60",
+   "q": "Decomposers feed on",
+   "choices": [
+    "living plants only",
+    "living animals only",
+    "light energy",
+    "dead organisms and faeces"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q61",
+   "q": "The flow of nutrients in an ecosystem is",
+   "choices": [
+    "one-directional",
+    "cyclical",
+    "only from animals to plants",
+    "non-cyclical"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q62",
+   "q": "All decomposers are removed from a forest. What will happen?",
+   "choices": [
+    "plants get more nutrients",
+    "dead leaves break down faster",
+    "nutrients are not returned to the soil",
+    "energy flow becomes cyclical"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q63",
+   "q": "Motor vehicles harm the environment by",
+   "choices": [
+    "giving off oxygen",
+    "reducing sea levels",
+    "taking in carbon dioxide",
+    "giving off greenhouse gases"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q64",
+   "q": "A toad brought in to eat beetles also ate many local animals. This shows",
+   "choices": [
+    "introduced organisms can disrupt an ecosystem",
+    "ecosystems never change",
+    "introduced organisms always help farmers",
+    "toads are producers"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q65",
+   "q": "Imported food adds to climate change mainly because its transport",
+   "choices": [
+    "gives off oxygen",
+    "takes in carbon dioxide",
+    "burns fuels that give off greenhouse gases",
+    "uses no energy"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q66",
+   "q": "Slowing down climate change helps organisms because it",
+   "choices": [
+    "makes them adapt in one generation",
+    "stops decomposers from working",
+    "removes all predators",
+    "gives them time to adapt"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q67",
+   "q": "Some communities wrap food in banana leaves to",
+   "choices": [
+    "use more fossil fuels",
+    "reduce the use of plastic",
+    "attract more insects",
+    "increase food waste"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c12q68",
+   "q": "A community limits how many salmon can be caught each year. This is",
+   "choices": [
+    "sustainable living",
+    "deforestation",
+    "parasitism",
+    "overfishing"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

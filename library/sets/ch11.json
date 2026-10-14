@@ -1,0 +1,1118 @@
+{
+ "id": "ch11",
+ "title": "Ch 11 · Chemical Changes",
+ "folder": "sec2",
+ "chapter": 11,
+ "questions": [
+  {
+   "id": "c11q1",
+   "q": "A chemical change is a change in which",
+   "choices": [
+    "no new substances are formed",
+    "the change is easily reversed",
+    "only the state changes",
+    "new substances are formed"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q2",
+   "q": "Which is a characteristic of a chemical change?",
+   "choices": [
+    "it is usually not easily reversed",
+    "only the shape changes",
+    "no new substance is formed",
+    "it can be reversed by evaporation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q3",
+   "q": "Water freezes into ice. What type of change is this?",
+   "choices": [
+    "both physical and chemical",
+    "physical change",
+    "chemical change"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q4",
+   "q": "Table salt dissolves in water. What type of change is this?",
+   "choices": [
+    "chemical change",
+    "both physical and chemical",
+    "physical change"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q5",
+   "q": "An iron nail rusts. What type of change is this?",
+   "choices": [
+    "both physical and chemical",
+    "physical change",
+    "chemical change"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q6",
+   "q": "Water droplets form under the lid of a pot of hot soup. This is a",
+   "choices": [
+    "both physical and chemical",
+    "physical change",
+    "chemical change"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q7",
+   "q": "In a word equation, the reactants are written on the",
+   "choices": [
+    "right-hand side",
+    "below the arrow",
+    "above the arrow",
+    "left-hand side"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q8",
+   "q": "methane + oxygen --> carbon dioxide + water. Which are the products?",
+   "choices": [
+    "carbon dioxide and water",
+    "methane and water",
+    "oxygen and carbon dioxide",
+    "methane and oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q9",
+   "q": "Hydrogen reacts with oxygen to form water. Which word equation represents this?",
+   "choices": [
+    "hydrogen + water --> oxygen",
+    "hydrogen + oxygen --> water",
+    "water --> hydrogen + oxygen",
+    "oxygen --> hydrogen + water"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q10",
+   "q": "Calcium carbonate breaks down on heating. Which word equation is correct?",
+   "choices": [
+    "calcium oxide + carbon dioxide --> calcium carbonate",
+    "calcium carbonate + oxygen --> calcium oxide",
+    "calcium oxide --> calcium carbonate + carbon dioxide",
+    "calcium carbonate --> calcium oxide + carbon dioxide"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q11",
+   "q": "Charcoal burns. ? + oxygen --> carbon dioxide. What is the missing reactant?",
+   "choices": [
+    "hydrogen",
+    "carbon dioxide",
+    "carbon",
+    "water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q12",
+   "q": "During a chemical reaction, atoms are",
+   "choices": [
+    "rearranged to form new substances",
+    "destroyed to form new substances",
+    "created to form new substances",
+    "changed into other types of atoms"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q13",
+   "q": "In a chemical reaction, the number of each type of atom",
+   "choices": [
+    "decreases",
+    "increases",
+    "stays the same",
+    "becomes zero"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q14",
+   "q": "The reactants contain 4 hydrogen atoms. How many hydrogen atoms are in the products?",
+   "choices": [
+    "8",
+    "0",
+    "2",
+    "4"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q15",
+   "q": "Reactants contain 1 C, 4 H and 4 O atoms. How many atoms do the products have?",
+   "choices": [
+    "5",
+    "9",
+    "8",
+    "4"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q16",
+   "q": "The products contain 6 oxygen atoms. How many oxygen atoms were in the reactants?",
+   "choices": [
+    "6",
+    "12",
+    "3",
+    "0"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q17",
+   "q": "Why is mass conserved in a chemical reaction?",
+   "choices": [
+    "no atoms are lost or formed",
+    "new atoms are formed",
+    "the atoms change into other atoms",
+    "some atoms are destroyed"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q18",
+   "q": "12 g of carbon burns in 32 g of oxygen. What mass of carbon dioxide forms?",
+   "choices": [
+    "12 g",
+    "20 g",
+    "44 g",
+    "32 g"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q19",
+   "q": "10 g of a solid breaks down into 6 g of P and some Q. What is the mass of Q?",
+   "choices": [
+    "6 g",
+    "16 g",
+    "10 g",
+    "4 g"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q20",
+   "q": "50 g of reactants react completely. What is the total mass of the products?",
+   "choices": [
+    "more than 50 g",
+    "50 g",
+    "less than 50 g",
+    "0 g"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q21",
+   "q": "18 g of X reacts with Y to form 30 g of products. What is the mass of Y?",
+   "choices": [
+    "12 g",
+    "30 g",
+    "48 g",
+    "18 g"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q22",
+   "q": "process by which a substance breaks down into two or more simpler substances upon heating",
+   "choices": [
+    "oxidation",
+    "thermal decomposition",
+    "combustion",
+    "neutralisation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q23",
+   "q": "When a substance gains oxygen, it undergoes",
+   "choices": [
+    "thermal decomposition",
+    "electroplating",
+    "neutralisation",
+    "oxidation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q24",
+   "q": "A substance heated in oxygen gives out heat and light. This reaction is",
+   "choices": [
+    "photosynthesis",
+    "thermal decomposition",
+    "combustion",
+    "neutralisation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q25",
+   "q": "Charcoal burns in a barbecue pit. What type of chemical change is this?",
+   "choices": [
+    "thermal decomposition",
+    "combustion",
+    "neutralisation",
+    "photosynthesis"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q26",
+   "q": "Hydrochloric acid is mixed with sodium hydroxide. What type of chemical change is this?",
+   "choices": [
+    "thermal decomposition",
+    "combustion",
+    "oxidation",
+    "neutralisation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q27",
+   "q": "glucose + oxygen --> carbon dioxide + water. This type of chemical change is",
+   "choices": [
+    "oxidation",
+    "thermal decomposition",
+    "neutralisation",
+    "photosynthesis"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q28",
+   "q": "Rusting occurs when iron reacts with",
+   "choices": [
+    "water only",
+    "carbon dioxide and water",
+    "oxygen and water",
+    "oxygen only"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q29",
+   "q": "Which is a property of acids?",
+   "choices": [
+    "bitter taste",
+    "turns blue litmus red",
+    "turns red litmus blue",
+    "soapy feel"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q30",
+   "q": "How do acids taste?",
+   "choices": [
+    "soapy",
+    "bitter",
+    "sour",
+    "salty"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q31",
+   "q": "Which is a property of alkalis?",
+   "choices": [
+    "soapy feel",
+    "sour taste",
+    "reacts with metals to give hydrogen",
+    "turns blue litmus red"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q32",
+   "q": "Which substance is an acid?",
+   "choices": [
+    "baking soda",
+    "ammonia",
+    "sodium hydroxide",
+    "citric acid"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q33",
+   "q": "Which substance is an alkali?",
+   "choices": [
+    "ascorbic acid",
+    "acetic acid",
+    "calcium hydroxide",
+    "sulfuric acid"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q34",
+   "q": "A liquid tastes bitter and feels soapy. It is most likely",
+   "choices": [
+    "a neutral solution",
+    "a salt",
+    "an acid",
+    "an alkali"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q35",
+   "q": "acid + alkali -->",
+   "choices": [
+    "salt + water",
+    "salt + oxygen",
+    "salt + carbon dioxide + water",
+    "salt + hydrogen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q36",
+   "q": "acid + metal -->",
+   "choices": [
+    "salt + water",
+    "salt + hydrogen",
+    "salt + oxygen",
+    "salt + carbon dioxide + water"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q37",
+   "q": "acid + carbonate -->",
+   "choices": [
+    "salt + carbon dioxide + water",
+    "salt + carbon dioxide",
+    "salt + water",
+    "salt + hydrogen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q38",
+   "q": "hydrochloric acid + magnesium -->",
+   "choices": [
+    "magnesium chloride + carbon dioxide + water",
+    "magnesium chloride + hydrogen",
+    "magnesium chloride + water",
+    "magnesium hydroxide + hydrogen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q39",
+   "q": "hydrochloric acid + sodium hydroxide -->",
+   "choices": [
+    "sodium chloride + hydrogen",
+    "sodium chloride + carbon dioxide",
+    "sodium hydroxide + water",
+    "sodium chloride + water"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q40",
+   "q": "What gas extinguishes a lighted splint with a pop sound?",
+   "choices": [
+    "nitrogen",
+    "carbon dioxide",
+    "hydrogen",
+    "oxygen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q41",
+   "q": "Limewater turns chalky when which gas is bubbled through it?",
+   "choices": [
+    "hydrogen",
+    "nitrogen",
+    "carbon dioxide",
+    "oxygen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q42",
+   "q": "A gas from an acid reaction turns limewater chalky. The acid reacted with",
+   "choices": [
+    "water",
+    "an alkali",
+    "a metal",
+    "a carbonate"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q43",
+   "q": "Which metal does not react with hydrochloric acid?",
+   "choices": [
+    "zinc",
+    "copper",
+    "iron",
+    "magnesium"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q44",
+   "q": "What is the pH of pure water?",
+   "choices": [
+    "7",
+    "1",
+    "14",
+    "0"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q45",
+   "q": "A solution has pH 3. It is",
+   "choices": [
+    "neutral",
+    "alkaline",
+    "acidic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q46",
+   "q": "A solution has pH 11. It is",
+   "choices": [
+    "alkaline",
+    "neutral",
+    "acidic"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q47",
+   "q": "Which pH is the most acidic?",
+   "choices": [
+    "pH 5",
+    "pH 1",
+    "pH 13",
+    "pH 7"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q48",
+   "q": "An alkali is added to an acid until neutralisation is complete. The pH",
+   "choices": [
+    "increases to 14",
+    "decreases to 0",
+    "decreases to 7",
+    "increases to 7"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q49",
+   "q": "Blue litmus paper turns red in a solution. The solution is",
+   "choices": [
+    "alkaline",
+    "acidic",
+    "neutral"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q50",
+   "q": "Red litmus paper turns blue in a solution. The solution is",
+   "choices": [
+    "neutral",
+    "acidic",
+    "alkaline"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q51",
+   "q": "Red and blue litmus paper both stay the same colour. The solution is",
+   "choices": [
+    "neutral",
+    "alkaline",
+    "acidic"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q52",
+   "q": "What colour does Universal Indicator turn at pH 7?",
+   "choices": [
+    "red",
+    "yellow",
+    "purple",
+    "green"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q53",
+   "q": "Universal Indicator turns red in a solution. What is its pH?",
+   "choices": [
+    "14",
+    "10",
+    "7",
+    "1"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q54",
+   "q": "Why can Universal Indicator show approximate pH values?",
+   "choices": [
+    "it is a mixture of indicators",
+    "it contains an acid",
+    "it is made from red cabbage",
+    "it is a single pure dye"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q55",
+   "q": "Red cabbage indicator turns red in a solution. The solution is",
+   "choices": [
+    "neutral",
+    "alkaline",
+    "acidic"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q56",
+   "q": "Why do antacids relieve stomach discomfort?",
+   "choices": [
+    "they add more acid to the stomach",
+    "they neutralise excess stomach acid",
+    "they kill all stomach bacteria",
+    "they are strongly acidic"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q57",
+   "q": "Why does weakly alkaline toothpaste help prevent tooth decay?",
+   "choices": [
+    "it makes the mouth acidic",
+    "it reacts with the teeth",
+    "it neutralises acid in the mouth",
+    "it adds acid to the mouth"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q58",
+   "q": "A cake bakes in an oven. What causes this chemical change?",
+   "choices": [
+    "interacting with oxygen",
+    "heating",
+    "using an electric current",
+    "exposure to light"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q59",
+   "q": "A plant makes glucose in its leaves. What causes this chemical change?",
+   "choices": [
+    "exposure to light",
+    "using an electric current",
+    "heating",
+    "interacting with oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q60",
+   "q": "A copper coin slowly turns green. What causes this chemical change?",
+   "choices": [
+    "using an electric current",
+    "heating",
+    "exposure to light",
+    "interacting with oxygen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q61",
+   "q": "A silver medal is coated with gold. What causes this chemical change?",
+   "choices": [
+    "using an electric current",
+    "interacting with oxygen",
+    "exposure to light",
+    "heating"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q62",
+   "q": "carbon dioxide + water --> glucose + oxygen. Which condition is needed?",
+   "choices": [
+    "an alkali",
+    "electric current",
+    "light",
+    "darkness"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q63",
+   "q": "Which chemical reaction benefits us?",
+   "choices": [
+    "rusting of a bridge's cables",
+    "respiration releasing energy in cells",
+    "decay of stored food",
+    "burning of forests"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q64",
+   "q": "How does painting an iron gate prevent rusting?",
+   "choices": [
+    "it adds oxygen to the iron",
+    "it neutralises the iron",
+    "it makes the iron harder",
+    "it keeps out water and oxygen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q65",
+   "q": "Galvanising prevents rusting by coating iron with",
+   "choices": [
+    "zinc",
+    "oil",
+    "chromium",
+    "paint"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q66",
+   "q": "Why does vacuum packing slow down the decay of food?",
+   "choices": [
+    "it heats the food",
+    "it makes the food acidic",
+    "it adds oxygen to the package",
+    "it reduces the oxygen in the package"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q67",
+   "q": "Which chemical process returns nutrients to the environment?",
+   "choices": [
+    "electroplating",
+    "rusting",
+    "decay",
+    "neutralisation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q68",
+   "q": "Which air pollutant reduces the oxygen taken up by red blood cells?",
+   "choices": [
+    "carbon dioxide",
+    "carbon monoxide",
+    "oxides of nitrogen",
+    "sulfur dioxide"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q69",
+   "q": "Sulfur dioxide dissolves in rainwater to form",
+   "choices": [
+    "carbon monoxide",
+    "pure water",
+    "acid rain",
+    "limewater"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c11q70",
+   "q": "More carbon dioxide dissolves in seawater. What happens to the seawater?",
+   "choices": [
+    "it becomes more acidic",
+    "its pH increases",
+    "it becomes neutral",
+    "it becomes more alkaline"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

@@ -1,0 +1,1108 @@
+{
+ "id": "ch10",
+ "title": "Ch 10 · Transfer of Heat Energy and its Effects",
+ "folder": "sec2",
+ "chapter": 10,
+ "questions": [
+  {
+   "id": "c10q1",
+   "q": "Temperature is a measure of",
+   "choices": [
+    "how much space an object takes up",
+    "the total heat energy in an object",
+    "how heavy an object is",
+    "how hot an object is"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q2",
+   "q": "What is the SI unit of temperature?",
+   "choices": [
+    "kelvin (K)",
+    "degree Celsius (°C)",
+    "joule (J)",
+    "degree Fahrenheit (°F)"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q3",
+   "q": "Heat energy is transferred from",
+   "choices": [
+    "a larger object to a smaller object",
+    "a colder object to a hotter object",
+    "a hotter object to a colder object",
+    "a heavier object to a lighter object"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q4",
+   "q": "A beaker of water at 25 °C stands in water at 60 °C. Heat flows",
+   "choices": [
+    "equally in both directions",
+    "from 60 °C water to 25 °C water",
+    "from 25 °C water to 60 °C water"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q5",
+   "q": "Ice cubes are added to water at 30 °C. The water temperature",
+   "choices": [
+    "decreases",
+    "increases",
+    "stays the same"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q6",
+   "q": "Heat transfer between two objects in contact stops when they",
+   "choices": [
+    "reach the same mass",
+    "reach the same volume",
+    "reach 0 °C",
+    "reach the same temperature"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q7",
+   "q": "Heat flows from block P into block Q. Which statement is correct?",
+   "choices": [
+    "P and Q are at the same temperature",
+    "Q is at a higher temperature than P",
+    "P is at a higher temperature than Q",
+    "P has a larger mass than Q"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q8",
+   "q": "Which statement about expansion is correct?",
+   "choices": [
+    "substances contract when heated",
+    "solids, liquids and gases all expand when heated",
+    "only solids and liquids expand when heated",
+    "only gases expand when heated"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q9",
+   "q": "A balloon is moved from a warm room into a refrigerator. Its volume will",
+   "choices": [
+    "increase",
+    "decrease",
+    "stay the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q10",
+   "q": "Thermometer liquid falls back into the bulb. The temperature around it has",
+   "choices": [
+    "decreased",
+    "stayed the same",
+    "increased"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q11",
+   "q": "Oceans absorb more heat due to global warming. The sea level",
+   "choices": [
+    "stays the same because mass is constant",
+    "falls because the water evaporates",
+    "falls because the water contracts",
+    "rises because the water expands"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q12",
+   "q": "A metal rod becomes slightly shorter. What has happened to it?",
+   "choices": [
+    "it gained mass",
+    "it lost mass",
+    "it lost heat energy",
+    "it gained heat energy"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q13",
+   "q": "Liquid rises up a thermometer tube when heated because the liquid",
+   "choices": [
+    "expands",
+    "evaporates",
+    "gains mass",
+    "contracts"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q14",
+   "q": "When the air in a hot air balloon is heated, its mass",
+   "choices": [
+    "increases",
+    "stays the same",
+    "decreases"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q15",
+   "q": "When the air in a hot air balloon is heated, its density",
+   "choices": [
+    "increases",
+    "stays the same",
+    "decreases"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q16",
+   "q": "A block of metal is cooled. What happens to its volume and density?",
+   "choices": [
+    "volume decreases, density decreases",
+    "volume increases, density increases",
+    "volume increases, density decreases",
+    "volume decreases, density increases"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q17",
+   "q": "A liquid's density decreases but its mass stays the same. It was",
+   "choices": [
+    "stirred",
+    "cooled",
+    "partly poured away",
+    "heated"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q18",
+   "q": "How can a hot air balloon be made to come back down?",
+   "choices": [
+    "heat the air inside more",
+    "make the flame bigger",
+    "let the air inside cool",
+    "let more hot air in"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q19",
+   "q": "Why are gaps left between sections of a railway track?",
+   "choices": [
+    "to let the track expand in hot weather",
+    "to let the track contract in hot weather",
+    "to let rainwater drain away",
+    "to reduce the mass of the track"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q20",
+   "q": "A railway track is laid as one continuous piece. In hot weather it may",
+   "choices": [
+    "lose mass",
+    "buckle",
+    "melt",
+    "become shorter"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q21",
+   "q": "Rollers are placed under one end of a bridge. What is their purpose?",
+   "choices": [
+    "to let the bridge conduct heat",
+    "to let the bridge expand and contract safely",
+    "to make the bridge lighter",
+    "to stop the bridge from expanding"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q22",
+   "q": "Metal pipes carrying steam are built with flexible bends. Why?",
+   "choices": [
+    "so the steam flows faster",
+    "so the pipes do not get hot",
+    "so the pipes contract when heated",
+    "so the pipes can expand without breaking"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q23",
+   "q": "Why does hot water help loosen a tight metal lid on a glass jar?",
+   "choices": [
+    "the metal lid contracts in hot water",
+    "the hot water makes the lid lighter",
+    "the metal lid expands more than the glass",
+    "the glass jar expands more than the lid"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q24",
+   "q": "A bimetallic strip is made of two metals that",
+   "choices": [
+    "expand at different rates",
+    "do not expand",
+    "contract when heated",
+    "expand at the same rate"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q25",
+   "q": "Brass expands more than steel. A brass-steel strip is heated. It bends",
+   "choices": [
+    "not at all",
+    "towards the steel side",
+    "towards the brass side"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q26",
+   "q": "Brass contracts more than steel. A brass-steel strip is cooled. It bends",
+   "choices": [
+    "towards the steel side",
+    "not at all",
+    "towards the brass side"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q27",
+   "q": "The bimetallic strip in a hot iron bends away from the contact. What happens?",
+   "choices": [
+    "the circuit closes and the iron heats up",
+    "the iron becomes hotter",
+    "the knob turns by itself",
+    "the circuit opens and the iron switches off"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q28",
+   "q": "The bimetallic coil in a food thermometer unwinds. What has happened to the temperature?",
+   "choices": [
+    "it has increased",
+    "it has stayed the same",
+    "it has decreased"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q29",
+   "q": "Conduction is the transfer of heat energy",
+   "choices": [
+    "without the physical movement of the medium",
+    "by the physical movement of the medium",
+    "only through a vacuum",
+    "without the need for a medium"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q30",
+   "q": "Why do solids generally conduct heat better than liquids and gases?",
+   "choices": [
+    "their particles are further apart",
+    "they have more mass",
+    "their particles are larger",
+    "their particles are closer together"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q31",
+   "q": "Which is a good conductor of heat?",
+   "choices": [
+    "air",
+    "aluminium",
+    "plastic",
+    "wood"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q32",
+   "q": "Which is a poor conductor of heat?",
+   "choices": [
+    "copper",
+    "iron",
+    "glass",
+    "steel"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q33",
+   "q": "A can and a carton are taken from one fridge. Why does the can feel colder?",
+   "choices": [
+    "metal gives out cold to the hand",
+    "metal conducts heat from the hand faster",
+    "paper conducts heat from the hand faster",
+    "the can is at a lower temperature"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q34",
+   "q": "Wax-coated copper, iron, plastic and wooden rods are heated equally. Which wax melts first?",
+   "choices": [
+    "the wax on the plastic rod",
+    "the wax on the wooden rod",
+    "the wax on the copper rod",
+    "the wax on the iron rod"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q35",
+   "q": "Wax on rod X melts before wax on identical rod Y. What does this show?",
+   "choices": [
+    "Y is at a higher temperature",
+    "X and Y conduct equally well",
+    "Y is a better conductor than X",
+    "X is a better conductor than Y"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q36",
+   "q": "Convection is the transfer of heat energy",
+   "choices": [
+    "by the physical movement of a medium",
+    "only through solids",
+    "without the movement of a medium",
+    "without the need for a medium"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q37",
+   "q": "Heat energy is transferred mainly by convection in",
+   "choices": [
+    "a vacuum",
+    "liquids and gases",
+    "solids only",
+    "solids and liquids"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q38",
+   "q": "A beaker of water is heated at the bottom. The cooler water at the top",
+   "choices": [
+    "boils first",
+    "stays at the top",
+    "rises",
+    "sinks"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q39",
+   "q": "Radiation is the transfer of energy",
+   "choices": [
+    "without the need for a medium",
+    "by the physical movement of a medium",
+    "only through solids",
+    "only through liquids"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q40",
+   "q": "Why can heat cross a vacuum only by radiation?",
+   "choices": [
+    "a vacuum is a good conductor",
+    "radiation needs moving particles",
+    "conduction and convection need a medium",
+    "convection only works upwards"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q41",
+   "q": "A metal ladle handle in hot soup gets hot. Which method is this?",
+   "choices": [
+    "radiation",
+    "convection",
+    "conduction"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q42",
+   "q": "Air heated by a candle rises up a chimney. Which method is this?",
+   "choices": [
+    "radiation",
+    "convection",
+    "conduction"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q43",
+   "q": "Heat from the sun reaches Earth through space. Which method is this?",
+   "choices": [
+    "radiation",
+    "conduction",
+    "convection"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q44",
+   "q": "Heated water at the bottom of a kettle rises. Which method is this?",
+   "choices": [
+    "radiation",
+    "conduction",
+    "convection"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q45",
+   "q": "Which situation is an example of conduction?",
+   "choices": [
+    "water circulating in a kettle",
+    "feeling the warmth of the sun",
+    "warm air rising above a heater",
+    "a spoon handle getting hot in tea"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q46",
+   "q": "Which surface is the best absorber of radiation?",
+   "choices": [
+    "dull black",
+    "shiny silver",
+    "dull white",
+    "shiny white"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q47",
+   "q": "Which surface is the poorest emitter of radiation?",
+   "choices": [
+    "dull grey",
+    "shiny silver",
+    "dull black",
+    "rough black"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q48",
+   "q": "Identical black and white cans hold water at 100 °C. Which cools faster?",
+   "choices": [
+    "the white can",
+    "the black can",
+    "both cool at the same rate"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q49",
+   "q": "Two identical metal blocks are at 200 °C and 100 °C. Which radiates heat faster?",
+   "choices": [
+    "the block at 200 °C",
+    "both radiate at the same rate",
+    "the block at 100 °C"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q50",
+   "q": "In the sun, can P warms faster than identical can Q. Which is black?",
+   "choices": [
+    "both cans",
+    "can Q",
+    "can P"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q51",
+   "q": "Why is the handle of a frying pan made of wood?",
+   "choices": [
+    "wood expands more than metal",
+    "wood is a good emitter of radiation",
+    "wood is a good conductor of heat",
+    "wood is a poor conductor of heat"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q52",
+   "q": "Why does woollen clothing keep us warm?",
+   "choices": [
+    "wool is a good conductor of heat",
+    "wool produces its own heat",
+    "it reflects radiation back to the body",
+    "it traps air, which is a poor conductor"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q53",
+   "q": "Why do double-glazed windows reduce heat loss?",
+   "choices": [
+    "the trapped air between panes is an insulator",
+    "the panes reflect all radiation",
+    "air moves freely between the panes",
+    "the glass panes are good conductors"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q54",
+   "q": "Where should an air conditioner be placed to cool a room?",
+   "choices": [
+    "in the middle of the floor",
+    "near the top of the room",
+    "under a table",
+    "near the bottom of the room"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q55",
+   "q": "Where should a heater be placed to warm a room?",
+   "choices": [
+    "near the top of the room",
+    "just under the ceiling",
+    "on top of a cupboard",
+    "near the bottom of the room"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q56",
+   "q": "During the day, why does a sea breeze blow towards the land?",
+   "choices": [
+    "the sea heats up faster than the land",
+    "warm air above the sea rises",
+    "warm air above the land rises",
+    "cool air above the land rises"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q57",
+   "q": "Why are petrol storage tanks painted white or silver?",
+   "choices": [
+    "to reflect radiation from the sun",
+    "to emit heat quickly",
+    "to conduct heat away",
+    "to absorb radiation from the sun"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q58",
+   "q": "Why are the cooling fins of a refrigerator dull black?",
+   "choices": [
+    "they are good reflectors of radiation",
+    "they are good emitters of radiation",
+    "they are poor conductors of heat",
+    "they are poor emitters of radiation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q59",
+   "q": "Why are the plates in a solar collector painted black?",
+   "choices": [
+    "to reduce conduction to the water",
+    "to emit less radiation to the pipes",
+    "to absorb more radiation from the sun",
+    "to reflect more radiation from the sun"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q60",
+   "q": "An emergency blanket has a shiny surface. How does it keep a person warm?",
+   "choices": [
+    "it is a good emitter of radiation",
+    "it is a good conductor of heat",
+    "it is a good absorber of radiation",
+    "it is a poor emitter of radiation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q61",
+   "q": "Why do many people in tropical countries wear light-coloured clothes?",
+   "choices": [
+    "light colours absorb less radiation",
+    "light colours conduct more heat",
+    "light colours absorb more radiation",
+    "light colours emit more radiation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q62",
+   "q": "Why do highly polished teapots keep tea warm longer?",
+   "choices": [
+    "shiny surfaces are good emitters of radiation",
+    "shiny surfaces are poor emitters of radiation",
+    "shiny surfaces are good conductors of heat",
+    "shiny surfaces are good absorbers of radiation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q63",
+   "q": "Which part of a vacuum flask prevents conduction completely?",
+   "choices": [
+    "the insulated cap",
+    "the silvered inner walls",
+    "the vacuum between the walls",
+    "the insulated support"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q64",
+   "q": "The silvered inner walls of a vacuum flask reduce heat loss by",
+   "choices": [
+    "radiation",
+    "conduction",
+    "convection"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q65",
+   "q": "A tightly screwed flask cap stops warm air escaping. This reduces heat loss by",
+   "choices": [
+    "conduction",
+    "radiation",
+    "convection"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q66",
+   "q": "Gaps in an igloo's walls are filled with snow. This reduces heat loss by",
+   "choices": [
+    "conduction",
+    "convection",
+    "radiation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q67",
+   "q": "An igloo floor is covered with air-trapping fur. This reduces heat loss by",
+   "choices": [
+    "radiation",
+    "conduction",
+    "convection"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q68",
+   "q": "Which gas is a greenhouse gas?",
+   "choices": [
+    "hydrogen",
+    "nitrogen",
+    "oxygen",
+    "carbon dioxide"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q69",
+   "q": "Which human activity increases the greenhouse effect?",
+   "choices": [
+    "planting trees",
+    "using solar collectors",
+    "painting roofs white",
+    "burning fossil fuels"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c10q70",
+   "q": "Which is an effect of global warming?",
+   "choices": [
+    "rising sea levels",
+    "thicker polar ice caps",
+    "growing glaciers",
+    "falling sea levels"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

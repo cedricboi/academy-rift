@@ -1,0 +1,1003 @@
+{
+ "id": "ch15",
+ "title": "Ch 15 · Transport Systems in Living Things",
+ "folder": "sec2",
+ "chapter": 15,
+ "questions": [
+  {
+   "id": "c15q1",
+   "q": "Which are the three main parts of the human transport system?",
+   "choices": [
+    "blood, xylem and phloem",
+    "heart, blood and blood vessels",
+    "heart, stomach and blood vessels",
+    "heart, lungs and blood"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q2",
+   "q": "What is the function of the heart?",
+   "choices": [
+    "to exchange substances with cells",
+    "to carry oxygen in red blood cells",
+    "to make digested food",
+    "to pump blood around the body"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q3",
+   "q": "The transport system is like pipes, a liquid and a pump. The pipes are the",
+   "choices": [
+    "blood vessels",
+    "blood",
+    "lungs",
+    "heart"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q4",
+   "q": "Which part of blood transports oxygen?",
+   "choices": [
+    "white blood cells",
+    "platelets",
+    "red blood cells",
+    "plasma"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q5",
+   "q": "Digested food and waste products are carried dissolved in the",
+   "choices": [
+    "white blood cells",
+    "plasma",
+    "red blood cells",
+    "platelets"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q6",
+   "q": "Which part of blood helps to form a blood clot?",
+   "choices": [
+    "platelets",
+    "plasma",
+    "red blood cells",
+    "white blood cells"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q7",
+   "q": "Which part of blood protects the body against infection?",
+   "choices": [
+    "plasma",
+    "platelets",
+    "white blood cells",
+    "red blood cells"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q8",
+   "q": "A person cuts a finger and the bleeding soon stops. Which part of blood acted?",
+   "choices": [
+    "red blood cells",
+    "white blood cells",
+    "plasma",
+    "platelets"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q9",
+   "q": "Mineral salts absorbed in the large intestine are carried in the",
+   "choices": [
+    "red blood cells",
+    "platelets",
+    "plasma",
+    "white blood cells"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q10",
+   "q": "Which blood vessel carries blood away from the heart?",
+   "choices": [
+    "vein",
+    "xylem",
+    "capillary",
+    "artery"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q11",
+   "q": "Which blood vessel carries blood towards the heart?",
+   "choices": [
+    "vein",
+    "artery",
+    "phloem",
+    "capillary"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q12",
+   "q": "Which blood vessel is the site of exchange of substances?",
+   "choices": [
+    "vein",
+    "capillary",
+    "phloem",
+    "artery"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q13",
+   "q": "Capillaries are suited to exchange because they have",
+   "choices": [
+    "very thick walls",
+    "no blood inside them",
+    "very thin walls",
+    "a pump inside them"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q14",
+   "q": "A blood vessel carries blood from the heart to the legs. What is it?",
+   "choices": [
+    "artery",
+    "capillary",
+    "vein"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q15",
+   "q": "A blood vessel carries blood from the arm back to the heart. What is it?",
+   "choices": [
+    "artery",
+    "vein",
+    "capillary"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q16",
+   "q": "Oxygen moves from a blood vessel into muscle cells. Which vessel is it?",
+   "choices": [
+    "artery",
+    "capillary",
+    "vein"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q17",
+   "q": "Which is the correct order of blood flow from the heart?",
+   "choices": [
+    "artery, vein, capillary",
+    "capillary, artery, vein",
+    "vein, capillary, artery",
+    "artery, capillary, vein"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q18",
+   "q": "Blood in the veins of the body is",
+   "choices": [
+    "poor in oxygen, rich in carbon dioxide",
+    "rich in oxygen, poor in carbon dioxide",
+    "poor in oxygen and carbon dioxide",
+    "rich in oxygen and carbon dioxide"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q19",
+   "q": "Blood has just left the capillaries in an arm. It now flows into a",
+   "choices": [
+    "xylem",
+    "capillary in the leg",
+    "vein",
+    "artery"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q20",
+   "q": "Blood returns to the heart from the legs. Where is it pumped next?",
+   "choices": [
+    "small intestine",
+    "legs",
+    "brain",
+    "lungs"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q21",
+   "q": "Arteries branch into smaller vessels near the cells. These smaller vessels are",
+   "choices": [
+    "veins",
+    "capillaries",
+    "phloem",
+    "arteries"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q22",
+   "q": "Multicellular organisms need a transport system to",
+   "choices": [
+    "make all cells the same size",
+    "stop diffusion in cells",
+    "remove the need for food",
+    "move substances quickly to all cells"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q23",
+   "q": "A large animal has no transport system. What would happen to its inner cells?",
+   "choices": [
+    "nothing would happen",
+    "they would grow faster",
+    "they would die from lack of food",
+    "they would make their own oxygen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q24",
+   "q": "What does the xylem transport?",
+   "choices": [
+    "water and mineral salts",
+    "blood",
+    "sugar",
+    "oxygen and carbon dioxide"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q25",
+   "q": "What does the phloem transport?",
+   "choices": [
+    "oxygen",
+    "food made in the leaves",
+    "soil particles",
+    "water and mineral salts"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q26",
+   "q": "In which direction does the xylem transport substances?",
+   "choices": [
+    "upwards and downwards",
+    "downwards only",
+    "upwards only",
+    "sideways only"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q27",
+   "q": "Sugar made in a leaf reaches the roots. Which tissue carried it?",
+   "choices": [
+    "phloem",
+    "stomata",
+    "xylem"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q28",
+   "q": "Mineral salts from the soil reach a flower bud. Which tissue carried them?",
+   "choices": [
+    "phloem",
+    "stomata",
+    "xylem"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q29",
+   "q": "A ring of phloem is removed from a tree trunk. What stops reaching the roots?",
+   "choices": [
+    "water",
+    "mineral salts",
+    "oxygen from the soil",
+    "sugar"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q30",
+   "q": "A celery stalk stands in red dye. Which tissue turns red first?",
+   "choices": [
+    "xylem",
+    "stomata",
+    "bark",
+    "phloem"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q31",
+   "q": "A stalk stands in dyed water. Dye reaches the leaves. This shows the xylem",
+   "choices": [
+    "takes in carbon dioxide",
+    "transports water upwards",
+    "makes food",
+    "transports sugar downwards"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q32",
+   "q": "Dyed water is added to the soil of a potted plant. Which tissue becomes stained?",
+   "choices": [
+    "stomata",
+    "bark",
+    "phloem",
+    "xylem"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q33",
+   "q": "A plant's xylem is blocked. What happens to its leaves?",
+   "choices": [
+    "they grow faster",
+    "they stay the same",
+    "they make more sugar",
+    "they wilt"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q34",
+   "q": "Diffusion is the net movement of particles from a region of",
+   "choices": [
+    "water to soil",
+    "higher to lower concentration",
+    "lower to higher concentration",
+    "equal concentration"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q35",
+   "q": "Region X has more oxygen than region Y. Which way does oxygen diffuse?",
+   "choices": [
+    "it does not move",
+    "from Y to X",
+    "from X to Y"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q36",
+   "q": "A body cell has more carbon dioxide than the blood. Carbon dioxide diffuses",
+   "choices": [
+    "from the cell into the blood",
+    "from the blood into the cell",
+    "it does not move"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q37",
+   "q": "Oxygen diffuses from region P to region Q. Which region had more oxygen?",
+   "choices": [
+    "both had the same",
+    "region Q",
+    "region P"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q38",
+   "q": "A medicine patch on the skin works by diffusion. Where is the medicine more concentrated?",
+   "choices": [
+    "in the patch",
+    "both are the same",
+    "in the skin"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q39",
+   "q": "Digested food moves from the capillaries into body cells by",
+   "choices": [
+    "osmosis",
+    "diffusion",
+    "churning",
+    "pumping by the heart"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q40",
+   "q": "Why does oxygen leave a capillary and enter muscle cells?",
+   "choices": [
+    "the vein pushes oxygen in",
+    "the cells pump oxygen in",
+    "oxygen is more concentrated in the cells",
+    "oxygen is more concentrated in the blood"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q41",
+   "q": "Waste substances diffuse into the capillaries because they are more concentrated in the",
+   "choices": [
+    "body cells",
+    "blood",
+    "arteries",
+    "heart"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q42",
+   "q": "As blood flows through a capillary in a muscle, its oxygen concentration",
+   "choices": [
+    "increases",
+    "stays the same",
+    "decreases"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q43",
+   "q": "Gases diffuse into and out of a leaf through tiny openings called",
+   "choices": [
+    "root cells",
+    "xylem",
+    "phloem",
+    "stomata"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q44",
+   "q": "During photosynthesis, which gas diffuses into the leaf?",
+   "choices": [
+    "oxygen",
+    "carbon dioxide",
+    "nitrogen",
+    "water vapour"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q45",
+   "q": "During photosynthesis, oxygen diffuses out of a leaf because it is",
+   "choices": [
+    "more concentrated inside the leaf",
+    "pumped out by the xylem",
+    "carried by the phloem",
+    "more concentrated outside the leaf"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q46",
+   "q": "Before mineral salts can diffuse into a root cell, they must be",
+   "choices": [
+    "solid",
+    "dissolved",
+    "made into sugar",
+    "heated"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q47",
+   "q": "Root cells keep taking in mineral salts. Why?",
+   "choices": [
+    "the phloem brings in more salts",
+    "the leaves make the salts",
+    "the soil has no salts",
+    "the xylem carries the salts away"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q48",
+   "q": "Water enters root cells from the soil by",
+   "choices": [
+    "the stomata",
+    "the phloem",
+    "osmosis",
+    "diffusion of mineral salts"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q49",
+   "q": "Osmosis needs water molecules and a",
+   "choices": [
+    "phloem tissue",
+    "cell wall only",
+    "partially permeable membrane",
+    "solid mineral salt"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q50",
+   "q": "A man lost at sea drinks seawater. Water leaves his body cells by",
+   "choices": [
+    "the capillaries bursting",
+    "osmosis",
+    "diffusion of oxygen",
+    "the heart pumping"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q51",
+   "q": "Drug abuse is using drugs in a way that",
+   "choices": [
+    "harms one's health",
+    "improves fitness",
+    "treats an illness",
+    "follows a doctor's prescription"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q52",
+   "q": "Which is an effect of drug abuse on the circulatory system?",
+   "choices": [
+    "stomach ulcer",
+    "memory loss",
+    "lung cancer",
+    "increased blood pressure"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q53",
+   "q": "A drug abuser has narrowed arteries. What is the result?",
+   "choices": [
+    "lower blood pressure",
+    "reduced blood flow to the limbs",
+    "slower heart rate",
+    "more blood to the limbs"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q54",
+   "q": "A smoker develops lung cancer. Which body system is affected?",
+   "choices": [
+    "circulatory system",
+    "digestive system",
+    "nervous system",
+    "respiratory system"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q55",
+   "q": "A drug abuser has an irregular heartbeat. Which body system is affected?",
+   "choices": [
+    "nervous system",
+    "respiratory system",
+    "circulatory system",
+    "digestive system"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q56",
+   "q": "A drug abuser has slower reactions and memory loss. Which body system is affected?",
+   "choices": [
+    "nervous system",
+    "respiratory system",
+    "circulatory system",
+    "digestive system"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q57",
+   "q": "Second-hand smoke from cigarettes",
+   "choices": [
+    "improves heart health",
+    "harms only the smoker",
+    "is harmless to others",
+    "also harms people nearby"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q58",
+   "q": "In an organ transplant, the person who gives the organ is the",
+   "choices": [
+    "donor",
+    "recipient",
+    "patient",
+    "doctor"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q59",
+   "q": "In an organ transplant, the person who receives the organ is the",
+   "choices": [
+    "nurse",
+    "recipient",
+    "surgeon",
+    "donor"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q60",
+   "q": "\"Is the donor making the decision willingly?\" Which ethical principle is this?",
+   "choices": [
+    "justice",
+    "minimal harm and maximised benefits",
+    "respect for persons"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q61",
+   "q": "\"Is the way organs are allocated fair?\" Which ethical principle is this?",
+   "choices": [
+    "minimal harm and maximised benefits",
+    "respect for persons",
+    "justice"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q62",
+   "q": "\"Will the transplant improve the patient's quality of life?\" Which ethical principle is this?",
+   "choices": [
+    "minimal harm and maximised benefits",
+    "justice",
+    "respect for persons"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c15q63",
+   "q": "Why do some countries use an opt-out scheme for organ donation?",
+   "choices": [
+    "to lengthen waiting lists",
+    "to make organs cheaper to buy",
+    "to reduce the supply of organs",
+    "to increase the supply of organs"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

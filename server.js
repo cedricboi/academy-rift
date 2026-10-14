@@ -126,7 +126,7 @@ function normalizeTopics(value) {
 }
 function topicPartsInfo(value) {
   return topicParts(value).map((p) => p.startsWith("set:")
-    ? { id: p, title: bank.topicName(p) || "A deleted set", own: true }
+    ? { id: p, title: bank.topicName(p) || "A deleted set", own: true, folder: bank.topicFolder(p) }
     : TOPIC_BY_ID[p] ? { id: p, title: TOPIC_BY_ID[p].name, icon: TOPIC_BY_ID[p].icon } : null).filter(Boolean);
 }
 function topicLabel(value) {

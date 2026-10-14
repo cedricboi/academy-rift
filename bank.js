@@ -15,13 +15,15 @@
 import express from "express";
 import crypto from "crypto";
 import fs from "fs/promises";
-import { existsSync, mkdirSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync } from "fs";
+import { fileURLToPath } from "url";
 import os from "os";
-import { join } from "path";
+import { join, dirname } from "path";
 import ExcelJS from "exceljs";
 import {
   rowsToQuestions, parseDelimited, guessDelimiter, questionProblems, MAX_CHOICES, MAX_QUESTIONS,
 } from "./public/data/importRows.js";
+import { FOLDERS, folderOf } from "./public/data/folders.js";
 
 const IMG_RE = /^[a-f0-9]{20}\.(jpg|png|webp|gif)$/;
 const ID_RE = /^[a-z0-9]{4,24}$/;
@@ -68,6 +70,7 @@ function cleanSet(input, { id, createdAt } = {}) {
     title: cleanText(input?.title, 80) || "Untitled set",
     createdAt: createdAt || input?.createdAt || now,
     updatedAt: input?.updatedAt || now,
+    folder: folderOf(input?.folder),
     questions: (Array.isArray(input?.questions) ? input.questions : []).slice(0, MAX_QUESTIONS).map(cleanQuestion),
   };
 }
@@ -254,9 +257,23 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
     if (!state.ok) throw new Error(state.error || "The question bank is not ready.");
   }
 
+  // ---- sets that come with the game: the chapter quizzes in library/sets (read-only, can be copied) ----
+  const library = new Map();
+  try {
+    const libDir = join(dirname(fileURLToPath(import.meta.url)), "library", "sets");
+    for (const f of readdirSync(libDir).filter((f) => f.endsWith(".json")).sort()) {
+      const raw = JSON.parse(readFileSync(join(libDir, f), "utf8"));
+      const s = cleanSet(raw, { id: `lib-${raw.id}`.replace(/[^a-z0-9]/g, "").slice(0, 24), createdAt: null });
+      Object.assign(s, { library: true, builtIn: true, chapter: raw.chapter || 0, updatedAt: null });
+      library.set(s.id, s);
+    }
+    console.log(`[bank] ${library.size} chapter set${library.size === 1 ? "" : "s"} come with the game`);
+  } catch (e) { if (e.code !== "ENOENT") console.warn(`[bank] library: ${e.message}`); }
+  const anySet = (id) => sets.get(id) || library.get(id) || null;
+
   // ---- built-in questions (read-only, can be copied) ----
   const builtInSet = {
-    id: BUILT_IN_ID, title: builtInTitle, builtIn: true, createdAt: null, updatedAt: null,
+    id: BUILT_IN_ID, title: builtInTitle, builtIn: true, createdAt: null, updatedAt: null, folder: folderOf(null),
     questions: builtIn.map((q, i) => ({
       id: `b${i}`, q: q.q, choices: q.choices.slice(), correct: [q.answer], explain: q.explain || "", hint: q.hint || "", image: null, topic: q.topic,
     })),
@@ -265,7 +282,10 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
   const summary = (s) => ({
     id: s.id, title: s.title, count: s.questions.length, ready: s.questions.filter(playable).length,
     pictures: s.questions.filter((q) => q.image).length, updatedAt: s.updatedAt, builtIn: !!s.builtIn,
+    library: !!s.library, folder: folderOf(s.folder), chapter: s.chapter || 0,
   });
+  const folderRank = (f) => FOLDERS.findIndex((x) => x.id === folderOf(f));
+  const libSorted = () => [...library.values()].sort((a, b) => a.chapter - b.chapter);
 
   const bank = {
     ready,
@@ -277,8 +297,12 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
         onRender: !!process.env.RENDER,
       };
     },
-    async list() { await ensure(); return [summary(builtInSet), ...[...sets.values()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).map(summary)]; },
-    async get(id) { if (id === BUILT_IN_ID) return builtInSet; await ensure(); return sets.get(id) || null; },
+    async list() {
+      // the sets that come with the game are always listed, even while the teacher's own sets can't be loaded
+      try { await ensure(); } catch { return [...libSorted().map(summary), summary(builtInSet)]; }
+      return [...libSorted().map(summary), summary(builtInSet), ...[...sets.values()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).map(summary)]; },
+    async get(id) { if (id === BUILT_IN_ID) return builtInSet; if (library.has(id)) return library.get(id); await ensure(); return sets.get(id) || null; },
+    isReadOnly(id) { return id === BUILT_IN_ID || library.has(id); },
     async create(input) {
       await ensure();
       const set = cleanSet({ ...input, id: undefined, createdAt: undefined, updatedAt: undefined });
@@ -321,20 +345,21 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
 
     // ---- for the game ----
     // Sets that can be played, for the lobby and tournament pickers.
+    // The chapter sets first (in chapter order), then the teacher's own, each with its folder.
     playableSets() {
-      return [...sets.values()]
-        .map((s) => ({ id: "set:" + s.id, title: s.title, count: s.questions.filter(playable).length }))
-        .filter((s) => s.count > 0)
-        .sort((a, b) => a.title.localeCompare(b.title));
+      const row = (s) => ({ id: "set:" + s.id, title: s.title, count: s.questions.filter(playable).length, folder: folderOf(s.folder), library: !!s.library, chapter: s.chapter || 0 });
+      const own = [...sets.values()].map(row).filter((s) => s.count > 0).sort((a, b) => a.title.localeCompare(b.title));
+      return [...libSorted().map(row).filter((s) => s.count > 0), ...own].sort((a, b) => folderRank(a.folder) - folderRank(b.folder));
     },
     isSetTopic(topicId) {
-      const s = typeof topicId === "string" && topicId.startsWith("set:") ? sets.get(topicId.slice(4)) : null;
+      const s = typeof topicId === "string" && topicId.startsWith("set:") ? anySet(topicId.slice(4)) : null;
       return !!s && s.questions.some(playable);
     },
-    topicName(topicId) { return typeof topicId === "string" && topicId.startsWith("set:") ? sets.get(topicId.slice(4))?.title || null : null; },
+    topicFolder(topicId) { const s = typeof topicId === "string" && topicId.startsWith("set:") ? anySet(topicId.slice(4)) : null; return s ? folderOf(s.folder) : null; },
+    topicName(topicId) { return typeof topicId === "string" && topicId.startsWith("set:") ? anySet(topicId.slice(4))?.title || null : null; },
     // Battle-ready questions from a set (answers included: server use only).
     gameQuestions(topicId) {
-      const s = typeof topicId === "string" && topicId.startsWith("set:") ? sets.get(topicId.slice(4)) : null;
+      const s = typeof topicId === "string" && topicId.startsWith("set:") ? anySet(topicId.slice(4)) : null;
       if (!s) return null;
       return s.questions.filter(playable).map((q) => ({
         q: q.q, choices: q.choices, answer: q.correct[0], answers: q.correct.slice(),
@@ -448,10 +473,13 @@ export function mountHub(app, bank, { publicDir }) {
   }));
   app.post("/api/hub/sets", auth, json, handle(async (req, res) => res.json({ set: await bank.create(req.body || {}) })));
   app.put("/api/hub/sets/:id", auth, json, handle(async (req, res) => {
-    if (req.params.id === BUILT_IN_ID) return res.status(400).json({ error: "The built-in set can't be changed. Make a copy instead." });
+    if (bank.isReadOnly(req.params.id)) return res.status(400).json({ error: "Sets that come with the game can't be changed. Make a copy instead." });
     res.json({ set: await bank.update(req.params.id, req.body || {}, req.body?.version) });
   }));
-  app.delete("/api/hub/sets/:id", auth, handle(async (req, res) => { await bank.remove(req.params.id); res.json({ ok: true }); }));
+  app.delete("/api/hub/sets/:id", auth, handle(async (req, res) => {
+    if (bank.isReadOnly(req.params.id)) return res.status(400).json({ error: "Sets that come with the game can't be deleted." });
+    await bank.remove(req.params.id); res.json({ ok: true });
+  }));
   app.post("/api/hub/images", auth, raw("4mb"), handle(async (req, res) => {
     const name = await bank.addImage(Buffer.isBuffer(req.body) ? req.body : Buffer.alloc(0));
     res.json({ name, url: `/qimg/${name}` });

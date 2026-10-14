@@ -1,0 +1,1088 @@
+{
+ "id": "ch09",
+ "title": "Ch 9 · Application of Forces and Transfer of Energy",
+ "folder": "sec2",
+ "chapter": 9,
+ "questions": [
+  {
+   "id": "c09q1",
+   "q": "Earthquakes happen when",
+   "choices": [
+    "magma cools inside Earth",
+    "rain loosens the soil",
+    "plates of Earth's surface slide against each other",
+    "strong winds blow over the sea"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q2",
+   "q": "Floodwaters loosen the soil on a hillside. What may happen next?",
+   "choices": [
+    "a volcanic eruption",
+    "a landslide",
+    "a tsunami",
+    "an earthquake"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q3",
+   "q": "Which is a non-contact force?",
+   "choices": [
+    "gravitational force",
+    "elastic force",
+    "friction"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q4",
+   "q": "A climber's rubber shoes grip the rock wall. Which force is this?",
+   "choices": [
+    "gravitational force",
+    "elastic force",
+    "magnetic force",
+    "friction"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q5",
+   "q": "A climbing rope stretches and slows a falling climber. Which force is this?",
+   "choices": [
+    "friction",
+    "magnetic force",
+    "elastic force",
+    "gravitational force"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q6",
+   "q": "Raindrops fall from the sky. Which force pulls them down?",
+   "choices": [
+    "friction",
+    "magnetic force",
+    "elastic force",
+    "gravitational force"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q7",
+   "q": "A magnet pulls an iron nail towards it without touching. Which force is this?",
+   "choices": [
+    "elastic force",
+    "magnetic force",
+    "gravitational force",
+    "friction"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q8",
+   "q": "Like poles of two magnets will",
+   "choices": [
+    "repel",
+    "attract",
+    "have no effect"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q9",
+   "q": "A north pole is brought near a south pole. What happens?",
+   "choices": [
+    "nothing happens",
+    "they attract",
+    "they repel"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q10",
+   "q": "A south pole is brought near a south pole. What happens?",
+   "choices": [
+    "they attract",
+    "nothing happens",
+    "they repel"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q11",
+   "q": "A Maglev train floats above its track because of",
+   "choices": [
+    "attraction between unlike poles",
+    "friction between train and track",
+    "gravitational force on the train",
+    "repulsion between like poles"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q12",
+   "q": "What is the SI unit of force?",
+   "choices": [
+    "newton (N)",
+    "joule (J)",
+    "pascal (Pa)",
+    "kilogram (kg)"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q13",
+   "q": "Which instrument measures force?",
+   "choices": [
+    "electronic balance",
+    "barometer",
+    "spring balance",
+    "beam balance"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q14",
+   "q": "A spring balance pulls a block across two surfaces. Which needs a larger force?",
+   "choices": [
+    "the rough surface",
+    "both need the same force",
+    "the smooth surface"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q15",
+   "q": "Weight is the",
+   "choices": [
+    "pressure an object exerts",
+    "energy stored in an object",
+    "amount of matter in an object",
+    "gravitational force acting on an object"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q16",
+   "q": "Mass is the",
+   "choices": [
+    "gravitational force acting on an object",
+    "amount of matter in an object",
+    "pressure an object exerts",
+    "energy stored in an object"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q17",
+   "q": "Which statement about mass is correct?",
+   "choices": [
+    "it is measured with a spring balance",
+    "it is measured in newtons",
+    "it stays the same in any location",
+    "it is smaller on the moon"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q18",
+   "q": "A 10 kg bag of rice is taken to the moon. What is its mass there?",
+   "choices": [
+    "100 kg",
+    "16 kg",
+    "0 kg",
+    "10 kg"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q19",
+   "q": "A bag of rice weighs 100 N on Earth. On the moon, its weight is",
+   "choices": [
+    "the same",
+    "smaller",
+    "larger",
+    "zero"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q20",
+   "q": "A label says \"Net weight: 5 kg\". In science, the 5 kg is the",
+   "choices": [
+    "mass",
+    "weight",
+    "force",
+    "pressure"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q21",
+   "q": "A golfer hits a stationary golf ball. What change does the force cause?",
+   "choices": [
+    "it moves a stationary object",
+    "it produces a turning effect",
+    "it changes the object's shape only",
+    "it stops a moving object"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q22",
+   "q": "A goalkeeper catches a moving ball. What change does the force cause?",
+   "choices": [
+    "it produces a turning effect",
+    "it changes the object's size",
+    "it stops a moving object",
+    "it moves a stationary object"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q23",
+   "q": "A badminton player hits a shuttlecock back over the net. What changes?",
+   "choices": [
+    "the size of the shuttlecock",
+    "the shuttlecock's turning effect",
+    "the mass of the shuttlecock",
+    "the direction of motion"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q24",
+   "q": "A sponge is squeezed in your hand. What change does the force cause?",
+   "choices": [
+    "a change in direction",
+    "a change in shape",
+    "a turning effect",
+    "a change in mass"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q25",
+   "q": "When two objects interact and exert forces on each other,",
+   "choices": [
+    "their masses change",
+    "energy is transferred between them",
+    "energy is destroyed",
+    "no energy is involved"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q26",
+   "q": "A force can cause a turning effect about a fixed point called the",
+   "choices": [
+    "surface",
+    "nucleus",
+    "pivot",
+    "load"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q27",
+   "q": "Which uses the turning effect of a force?",
+   "choices": [
+    "squeezing a sponge",
+    "catching a ball",
+    "pumping air into a balloon",
+    "tightening a nut with a spanner"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q28",
+   "q": "pressure =",
+   "choices": [
+    "force ÷ area",
+    "force × area",
+    "force + area",
+    "area ÷ force"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q29",
+   "q": "What is the SI unit of pressure?",
+   "choices": [
+    "kilogram (kg)",
+    "joule (J)",
+    "pascal (Pa)",
+    "newton (N)"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q30",
+   "q": "A force of 20 N acts on an area of 4 m². What is the pressure?",
+   "choices": [
+    "5 Pa",
+    "24 Pa",
+    "80 Pa",
+    "0.2 Pa"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q31",
+   "q": "A box of weight 50 N rests on an area of 2 m². What is the pressure?",
+   "choices": [
+    "52 Pa",
+    "100 Pa",
+    "48 Pa",
+    "25 Pa"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q32",
+   "q": "A pressure of 50 Pa acts on an area of 2 m². What is the force?",
+   "choices": [
+    "52 N",
+    "100 N",
+    "48 N",
+    "25 N"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q33",
+   "q": "A force of 60 N gives a pressure of 20 Pa. What is the area?",
+   "choices": [
+    "80 m²",
+    "40 m²",
+    "3 m²",
+    "1200 m²"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q34",
+   "q": "A pressure of 10 Pa acts on an area of 8 m². What is the force?",
+   "choices": [
+    "0.8 N",
+    "80 N",
+    "1.25 N",
+    "18 N"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q35",
+   "q": "For the same force, a smaller area of contact gives",
+   "choices": [
+    "a higher pressure",
+    "the same pressure",
+    "no pressure",
+    "a lower pressure"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q36",
+   "q": "Why does a sharp knife cut a tomato more easily than a blunt knife?",
+   "choices": [
+    "smaller area, so lower pressure",
+    "larger area, so higher pressure",
+    "larger force, so lower pressure",
+    "smaller area, so higher pressure"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q37",
+   "q": "A woman steps on a phone screen. Which footwear is most likely to crack it?",
+   "choices": [
+    "sneakers",
+    "high-heeled shoes",
+    "flat sandals"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q38",
+   "q": "Why does carrying a backpack with two straps feel more comfortable than one?",
+   "choices": [
+    "larger area, so lower pressure",
+    "larger area, so higher pressure",
+    "smaller area, so lower pressure",
+    "smaller force, so higher pressure"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q39",
+   "q": "An injection needle is very sharp so that it exerts",
+   "choices": [
+    "no force on the skin",
+    "a low pressure on the skin",
+    "a large area on the skin",
+    "a high pressure on the skin"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q40",
+   "q": "As a swimmer goes deeper underwater, the water pressure on her",
+   "choices": [
+    "decreases",
+    "stays the same",
+    "increases"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q41",
+   "q": "Why is the wall at the base of a dam thicker than at the top?",
+   "choices": [
+    "water is lighter at the base",
+    "water pressure is higher at the base",
+    "air pressure is higher at the base",
+    "water pressure is lower at the base"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q42",
+   "q": "Why does every submarine have a depth limit?",
+   "choices": [
+    "water pressure increases with depth",
+    "atmospheric pressure increases with depth",
+    "water pressure decreases with depth",
+    "water has no pressure deep down"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q43",
+   "q": "Compared with sea level, atmospheric pressure at the top of a mountain is",
+   "choices": [
+    "the same",
+    "higher",
+    "lower"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q44",
+   "q": "A boy sucks on a straw. What pushes the drink up the straw?",
+   "choices": [
+    "water pressure in the straw",
+    "the boy's mouth pulling the drink",
+    "gravitational force",
+    "atmospheric pressure outside"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q45",
+   "q": "A suction cup is pressed onto a tile. Why does it stay in place?",
+   "choices": [
+    "magnetic force from the tile",
+    "friction from the glue on the cup",
+    "higher air pressure inside the cup",
+    "higher atmospheric pressure outside holds it"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q46",
+   "q": "Work is done on an object when it moves",
+   "choices": [
+    "without any force",
+    "opposite to the force",
+    "in the direction of the force",
+    "at right angles to the force"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q47",
+   "q": "A boy pushes a heavy box but it does not move. Is work done?",
+   "choices": [
+    "no, because the box does not move",
+    "yes, because a force is applied",
+    "yes, because the boy gets tired",
+    "no, because no force is applied"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q48",
+   "q": "A girl lifts a bag from the floor onto a table. Is work done?",
+   "choices": [
+    "no, because it moves against the force",
+    "yes, because it moves along the force",
+    "no, because it does not move",
+    "no, because no force is applied"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q49",
+   "q": "A boy holds a box still at waist height. Is work done on the box?",
+   "choices": [
+    "no, because the box does not move",
+    "no, because no force is applied",
+    "yes, because the box is above the floor",
+    "yes, because a force is applied"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q50",
+   "q": "A boy carries a box and walks forward. Is work done by his upward force?",
+   "choices": [
+    "yes, because a force is applied",
+    "no, because no force is applied",
+    "no, because the box does not move upwards",
+    "yes, because the box moves forwards"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q51",
+   "q": "What is the SI unit of work?",
+   "choices": [
+    "pascal (Pa)",
+    "newton (N)",
+    "kilogram (kg)",
+    "joule (J)"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q52",
+   "q": "Which SI unit is not correct?",
+   "choices": [
+    "work = joule (J)",
+    "energy = newton (N)",
+    "force = newton (N)",
+    "pressure = pascal (Pa)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q53",
+   "q": "An electric fan is switched on. Which energy conversion takes place?",
+   "choices": [
+    "electrical energy --> chemical potential energy",
+    "electrical energy --> kinetic energy",
+    "kinetic energy --> electrical energy",
+    "light energy --> kinetic energy"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q54",
+   "q": "A solar panel powers a street light. What does the panel convert?",
+   "choices": [
+    "kinetic energy --> electrical energy",
+    "electrical energy --> light energy",
+    "light energy --> electrical energy",
+    "heat energy --> light energy"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q55",
+   "q": "A rollercoaster car rolls from the top to the bottom. Which conversion is this?",
+   "choices": [
+    "kinetic energy --> gravitational potential energy",
+    "chemical potential energy --> kinetic energy",
+    "kinetic energy --> heat energy",
+    "gravitational potential energy --> kinetic energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q56",
+   "q": "A boy lifts a box onto a shelf. Which conversion takes place?",
+   "choices": [
+    "chemical potential energy --> gravitational potential energy",
+    "heat energy --> kinetic energy",
+    "gravitational potential energy --> chemical potential energy",
+    "kinetic energy --> electrical energy"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q57",
+   "q": "A desk lamp plugged into a wall socket gives out light. Which energy does it use?",
+   "choices": [
+    "gravitational potential energy",
+    "kinetic energy",
+    "sound energy",
+    "electrical energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q58",
+   "q": "Which statement about energy is correct?",
+   "choices": [
+    "it can be created by machines",
+    "it can be destroyed when used",
+    "it cannot be created or destroyed",
+    "it is lost when converted"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q59",
+   "q": "A car has 100 J of total energy at the top. What is its total energy at the bottom?",
+   "choices": [
+    "100 J",
+    "0 J",
+    "200 J",
+    "50 J"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q60",
+   "q": "A ball has 40 J of potential energy and 60 J of kinetic energy. Its total energy is",
+   "choices": [
+    "60 J",
+    "100 J",
+    "40 J",
+    "20 J"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q61",
+   "q": "Most of the energy found on Earth comes from",
+   "choices": [
+    "Earth's core",
+    "the ocean",
+    "the moon",
+    "the sun"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q62",
+   "q": "Which harmful effect comes from burning fossil fuels?",
+   "choices": [
+    "birds hitting turbine blades",
+    "noise from rotating blades",
+    "release of greenhouse gases",
+    "flooding of land behind a dam"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q63",
+   "q": "Which source of energy does not need turbines to make electricity?",
+   "choices": [
+    "solar energy",
+    "hydroelectric energy",
+    "fossil fuels",
+    "geothermal energy"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q64",
+   "q": "Which energy source floods land and forces animals to move away?",
+   "choices": [
+    "nuclear energy",
+    "hydroelectric energy",
+    "geothermal energy",
+    "solar energy"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q65",
+   "q": "Which energy source can kill birds and cause noise pollution?",
+   "choices": [
+    "wind energy",
+    "solar energy",
+    "nuclear energy",
+    "geothermal energy"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q66",
+   "q": "A power source uses heat from deep inside Earth. Which source is it?",
+   "choices": [
+    "solar energy",
+    "biofuels",
+    "geothermal energy",
+    "nuclear energy"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q67",
+   "q": "Ethanol is made from sugarcane to power cars. Which source is it?",
+   "choices": [
+    "nuclear energy",
+    "biofuels",
+    "geothermal energy",
+    "fossil fuels"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c09q68",
+   "q": "Which energy source uses heat released when heavy atoms such as uranium split?",
+   "choices": [
+    "geothermal energy",
+    "solar energy",
+    "biofuels",
+    "nuclear energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 // ===== Academy Rift — client =====
 import { CHARACTERS, CHAR_BY_ID, ELEMENT_COLORS, ITEMS, ITEM_BY_ID } from "./data/characters.js";
 import { TOPICS, BLOOM_META } from "./data/topics.js";
+import { FOLDERS, DEFAULT_FOLDER, folderOf } from "./data/folders.js";
 
 const socket = io();
 let myId = null;
@@ -1205,28 +1206,38 @@ function loadHubSets() {
     if (room?.status === "lobby" && !room.tournament) renderTopicSelect(room.hostId === myId);
   });
 }
+// Topics sit in folders (Sec 1, Sec 2, Sec 3 G1): one folder open at a time keeps the screen short.
+// The chapter quizzes and the teacher's sets carry their folder; the built-in cell topics are in the last folder.
+let topicFolder = null;
 function renderTopicSelect(isHost) {
   const wrap = $("topicPanel"); if (!wrap) return;
   // the host can tick several topics and question sets; the battle draws from all of them
   const chosen = new Set(String(room.topicId || "mixed").split(","));
   if (isHost) loadHubSets();
-  const own = isHost ? (hubSets || []) : (room.topicParts || []).filter((p) => p.own).map((p) => ({ id: p.id, title: p.title, count: null }));
-  const ownChips = own.map((s) => `
-    <button class="topic-chip-btn hubset ${chosen.has(s.id) ? "active" : ""}" data-topic="${esc(s.id)}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(s.id)}">
-      <span class="tc-icon">📝</span>
-      <span class="tc-name">${esc(s.title)}</span>
-      <span class="tc-blurb">${s.count != null ? `${s.count} question${s.count === 1 ? "" : "s"} from the question hub` : "From the question hub"}</span>
-    </button>`).join("");
-  const chips = ownChips + TOPICS.map((t) => `
-    <button class="topic-chip-btn ${chosen.has(t.id) ? "active" : ""}" data-topic="${t.id}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(t.id)}">
+  const sets = isHost ? (hubSets || []) : (room.topicParts || []).filter((p) => p.own).map((p) => ({ id: p.id, title: p.title, count: null, folder: p.folder }));
+  const items = (fid) => [
+    ...sets.filter((x) => folderOf(x.folder) === fid).map((x) => ({ id: x.id, icon: x.library ? "📘" : "📝", name: x.title,
+      blurb: x.count != null ? `${x.count} question${x.count === 1 ? "" : "s"}${x.library ? "" : " from the question hub"}` : "From the question hub" })),
+    ...(fid === DEFAULT_FOLDER ? TOPICS.map((t) => ({ id: t.id, icon: t.icon, name: t.name, blurb: t.blurb })) : []),
+  ];
+  const inFolder = (fid) => items(fid).filter((t) => chosen.has(t.id)).length;
+  if (!topicFolder || !FOLDERS.some((f) => f.id === topicFolder)) topicFolder = (FOLDERS.find((f) => inFolder(f.id)) || FOLDERS[0]).id;
+  const tabs = FOLDERS.map((f) => { const n = inFolder(f.id);
+    return `<button class="topic-folder ${f.id === topicFolder ? "on" : ""}" data-folder="${f.id}" role="tab" aria-selected="${f.id === topicFolder}">
+      <span class="tf-name">${esc(f.name)}</span>${n ? `<span class="tf-n">${n} ticked</span>` : ""}</button>`; }).join("");
+  const list = items(topicFolder);
+  const chips = list.map((t) => `
+    <button class="topic-chip-btn ${t.id.startsWith("set:") ? "hubset" : ""} ${chosen.has(t.id) ? "active" : ""}" data-topic="${esc(t.id)}" ${isHost ? "" : "disabled"} aria-pressed="${chosen.has(t.id)}">
       <span class="tc-icon">${t.icon}</span>
-      <span class="tc-name">${t.name}</span>
-      <span class="tc-blurb">${t.blurb}</span>
-    </button>`).join("");
+      <span class="tc-name">${esc(t.name)}</span>
+      <span class="tc-blurb">${esc(t.blurb)}</span>
+    </button>`).join("") || `<p class="topic-empty">${isHost ? "Nothing in this folder yet." : "The host has not chosen anything from this folder."}</p>`;
   wrap.innerHTML =
-    `<p class="pick-sub">${isHost ? "Tap one or more. The battle mixes questions from everything you choose." : "The host chooses the topics for this room."}</p>
+    `<p class="pick-sub">${isHost ? "Open a folder and tap one or more. The battle mixes questions from everything you choose, across folders." : "The host chooses the topics for this room."}</p>
+     <div class="topic-folders" role="tablist">${tabs}</div>
      <div class="topic-chips">${chips}</div>
      <p class="topic-bloom-note">Each topic mixes Bloom's levels — 📗 Remember · 📘 Understand · 📙 Apply · 📕 Analyse · 📓 Evaluate</p>`;
+  wrap.querySelectorAll("[data-folder]").forEach((b) => b.addEventListener("click", () => { topicFolder = b.dataset.folder; SFX.play("select"); renderTopicSelect(isHost); }));
   if (isHost) wrap.querySelectorAll("[data-topic]").forEach((b) => b.addEventListener("click", () => {
     const v = b.dataset.topic;
     let next = new Set(chosen);
@@ -1236,6 +1247,7 @@ function renderTopicSelect(isHost) {
       // "Mixed" already holds every built-in topic, so it and single built-in topics replace each other
       if (v === "mixed") next = new Set([...next].filter((x) => x === "mixed" || x.startsWith("set:")));
       else if (!v.startsWith("set:")) next.delete("mixed");
+      else if (chosen.size === 1 && chosen.has("mixed")) next.delete("mixed");   // the first set picked over the starting "Mixed" replaces it
     }
     if (!next.size) { toast("Choose at least one topic or question set."); return; }
     SFX.play("select");

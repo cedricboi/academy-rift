@@ -1,0 +1,1097 @@
+{
+ "id": "ch03",
+ "title": "Ch 3 · Exploring Diversity of Matter by its Chemical Composition",
+ "folder": "sec1",
+ "chapter": 3,
+ "questions": [
+  {
+   "id": "c03q1",
+   "q": "Melamine is used to make containers because it is",
+   "choices": [
+    "a good conductor of heat",
+    "transparent and fragile",
+    "safe to eat",
+    "light, strong and easily moulded"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q2",
+   "q": "Babies became ill from milk powder mixed with melamine. This shows melamine is",
+   "choices": [
+    "harmful in food",
+    "useful in food",
+    "a source of protein",
+    "an element"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q3",
+   "q": "Why do we need to know what waste materials are made of?",
+   "choices": [
+    "to make them heavier",
+    "to recycle them correctly",
+    "to burn them faster",
+    "to change their colour"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q4",
+   "q": "Elements are",
+   "choices": [
+    "mixtures of compounds",
+    "two or more substances chemically combined",
+    "the basic building blocks of matter",
+    "substances made in a chemical reaction"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q5",
+   "q": "Which statement about elements is correct?",
+   "choices": [
+    "they can be separated easily",
+    "they cannot be broken down into simpler substances",
+    "they are formed by a chemical reaction",
+    "they contain two or more substances"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q6",
+   "q": "Elements are grouped by their properties in the",
+   "choices": [
+    "Periodic Table of Elements",
+    "list of mixtures",
+    "table of compounds",
+    "density table"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q7",
+   "q": "Is copper (Cu) a metal or a non-metal?",
+   "choices": [
+    "compound",
+    "non-metal",
+    "metal"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q8",
+   "q": "Is sulfur (S) a metal or a non-metal?",
+   "choices": [
+    "non-metal",
+    "metal",
+    "compound"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q9",
+   "q": "Is nitrogen (N) a metal or a non-metal?",
+   "choices": [
+    "metal",
+    "non-metal",
+    "compound"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q10",
+   "q": "Which element is a non-metal?",
+   "choices": [
+    "aluminium",
+    "iron",
+    "sodium",
+    "oxygen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q11",
+   "q": "Which element is a metal?",
+   "choices": [
+    "chlorine",
+    "neon",
+    "carbon",
+    "zinc"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q12",
+   "q": "Compounds consist of two or more elements that are",
+   "choices": [
+    "not chemically combined",
+    "physically mixed",
+    "chemically combined",
+    "always in the gaseous state"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q13",
+   "q": "Which elements make up water?",
+   "choices": [
+    "hydrogen and oxygen",
+    "carbon and oxygen",
+    "hydrogen and nitrogen",
+    "sodium and oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q14",
+   "q": "Which elements make up sodium chloride?",
+   "choices": [
+    "chlorine and hydrogen",
+    "sodium and oxygen",
+    "sodium and chlorine",
+    "sodium, carbon and oxygen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q15",
+   "q": "Which elements make up carbon dioxide?",
+   "choices": [
+    "carbon only",
+    "oxygen and nitrogen",
+    "carbon and hydrogen",
+    "carbon and oxygen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q16",
+   "q": "Which elements make up ammonia?",
+   "choices": [
+    "carbon and nitrogen",
+    "nitrogen and hydrogen",
+    "nitrogen and oxygen",
+    "hydrogen and oxygen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q17",
+   "q": "Calcium carbonate contains which elements?",
+   "choices": [
+    "calcium and carbon only",
+    "calcium, carbon and oxygen",
+    "carbon and oxygen only",
+    "calcium, chlorine and oxygen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q18",
+   "q": "A compound contains only hydrogen and oxygen. Which could it be?",
+   "choices": [
+    "carbon dioxide",
+    "ammonia",
+    "water",
+    "sodium chloride"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q19",
+   "q": "Which statement about compounds is correct?",
+   "choices": [
+    "they have different properties from their elements",
+    "they keep the properties of their elements",
+    "their elements are separated easily",
+    "their elements are in any proportion"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q20",
+   "q": "The elements in a compound are combined in",
+   "choices": [
+    "any proportion",
+    "equal volumes only",
+    "a proportion that changes with time",
+    "a fixed proportion by mass"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q21",
+   "q": "hydrogen (gas) + oxygen (gas) --> water. What is the state of water at room temperature?",
+   "choices": [
+    "solid",
+    "gas",
+    "liquid"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q22",
+   "q": "carbon (solid) + oxygen (gas) --> carbon dioxide. What is the state of carbon dioxide?",
+   "choices": [
+    "solid",
+    "gas",
+    "liquid"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q23",
+   "q": "Why is it hard to obtain hydrogen and oxygen from water?",
+   "choices": [
+    "water is a mixture",
+    "water has no constituent elements",
+    "water is an element",
+    "breaking it down needs a lot of energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q24",
+   "q": "Sodium chloride is safe to eat but chlorine is harmful. This shows a compound",
+   "choices": [
+    "has different properties from its elements",
+    "can be separated easily",
+    "is a mixture of its elements",
+    "has the same properties as its elements"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q25",
+   "q": "A mixture is made up of two or more substances that are",
+   "choices": [
+    "in a fixed proportion",
+    "always elements",
+    "not chemically combined",
+    "chemically combined"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q26",
+   "q": "Which statement about mixtures is correct?",
+   "choices": [
+    "they have new properties",
+    "they keep the properties of their constituents",
+    "their constituents are in a fixed proportion",
+    "their constituents are hard to separate"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q27",
+   "q": "Salt solution tastes salty because a mixture",
+   "choices": [
+    "keeps the properties of its constituents",
+    "has new properties",
+    "has a fixed proportion of constituents",
+    "is formed by a chemical reaction"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q28",
+   "q": "Which gas makes up about 78% of air?",
+   "choices": [
+    "oxygen",
+    "water vapour",
+    "carbon dioxide",
+    "nitrogen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q29",
+   "q": "Which constituent of air varies most with time and place?",
+   "choices": [
+    "nitrogen",
+    "carbon dioxide",
+    "oxygen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q30",
+   "q": "Steel is a mixture of iron, carbon and other elements. It is made up of",
+   "choices": [
+    "compounds only",
+    "both elements and compounds",
+    "elements only"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q31",
+   "q": "Salt solution is a mixture of sodium chloride and water. It is made up of",
+   "choices": [
+    "compounds only",
+    "both elements and compounds",
+    "elements only"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q32",
+   "q": "Seawater contains sodium chloride, water and a little iodine. It is made up of",
+   "choices": [
+    "elements only",
+    "compounds only",
+    "both elements and compounds"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q33",
+   "q": "Pewter is a mixture of tin, copper and silver. It is made up of",
+   "choices": [
+    "elements only",
+    "both elements and compounds",
+    "compounds only"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q34",
+   "q": "Concrete contains calcium carbonate, silicon dioxide and water. It is made up of",
+   "choices": [
+    "elements only",
+    "compounds only",
+    "both elements and compounds"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q35",
+   "q": "A mixture is made up of elements only. Which could it be?",
+   "choices": [
+    "a mixture of sugar and water",
+    "a mixture of salt and water",
+    "a mixture of sand and water",
+    "a mixture of nitrogen and oxygen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q36",
+   "q": "In a solution, the substance that dissolves is the",
+   "choices": [
+    "solvent",
+    "suspension",
+    "mixture",
+    "solute"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q37",
+   "q": "In a solution, the substance in which the solute dissolves is the",
+   "choices": [
+    "suspension",
+    "solvent",
+    "solute",
+    "compound"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q38",
+   "q": "Sugar dissolves in water to form sugar solution. Which is the solute?",
+   "choices": [
+    "sugar solution",
+    "water",
+    "sugar"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q39",
+   "q": "Salt dissolves in water to form salt solution. Which is the solvent?",
+   "choices": [
+    "water",
+    "salt",
+    "salt solution"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q40",
+   "q": "Iodine dissolves in alcohol. Which is the solute?",
+   "choices": [
+    "iodine",
+    "alcohol",
+    "iodine solution"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q41",
+   "q": "Cup A has more sugar dissolved in the same volume of water. Cup A is",
+   "choices": [
+    "a suspension",
+    "a pure substance",
+    "more dilute",
+    "more concentrated"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q42",
+   "q": "The rate of dissolving refers to",
+   "choices": [
+    "how well a solute dissolves",
+    "the colour of the solution",
+    "how quickly a solute dissolves in a solvent",
+    "how much solvent is used"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q43",
+   "q": "Which sugar dissolves fastest in water?",
+   "choices": [
+    "rock sugar",
+    "fine sugar",
+    "sugar cubes"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q44",
+   "q": "In which water does sugar dissolve fastest?",
+   "choices": [
+    "water at 20 °C",
+    "cold water at 5 °C",
+    "water at 30 °C",
+    "hot water at 80 °C"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q45",
+   "q": "Coffee powder is stirred faster. The rate of dissolving will",
+   "choices": [
+    "decrease",
+    "increase",
+    "stay the same"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q46",
+   "q": "A sugar cube dissolved slowly. Which change makes it dissolve faster?",
+   "choices": [
+    "stirring more slowly",
+    "using a bigger cube",
+    "crushing the cube first",
+    "using colder water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q47",
+   "q": "How well a solute dissolves in a fixed volume of a particular solvent is its",
+   "choices": [
+    "solubility",
+    "rate of dissolving",
+    "density",
+    "concentration"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q48",
+   "q": "Which is a factor that affects solubility?",
+   "choices": [
+    "shape of the beaker",
+    "rate of stirring",
+    "size of solute particles",
+    "type of solvent"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q49",
+   "q": "Salt dissolves in water but not in oil. This shows solubility depends on",
+   "choices": [
+    "rate of stirring",
+    "type of solvent",
+    "size of solute particles",
+    "type of solute"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q50",
+   "q": "In the same volume of water, more sugar dissolves than flour. This shows solubility depends on",
+   "choices": [
+    "type of solvent",
+    "temperature of the room",
+    "type of solute",
+    "rate of stirring"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q51",
+   "q": "A substance does not dissolve in a solvent. It is described as",
+   "choices": [
+    "soluble",
+    "concentrated",
+    "dilute",
+    "insoluble"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q52",
+   "q": "A suspension is a mixture that contains",
+   "choices": [
+    "insoluble substances in a solvent",
+    "only one element",
+    "a solute dissolved completely",
+    "elements chemically combined"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q53",
+   "q": "Light passes fully through a liquid and nothing settles. What is it?",
+   "choices": [
+    "an element",
+    "a solution",
+    "a suspension"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q54",
+   "q": "A liquid is cloudy and solid deposits form at the bottom. What is it?",
+   "choices": [
+    "a suspension",
+    "a solution",
+    "a compound"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q55",
+   "q": "Is soda water a solution or a suspension?",
+   "choices": [
+    "compound",
+    "suspension",
+    "solution"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q56",
+   "q": "Is calamine lotion a solution or a suspension?",
+   "choices": [
+    "compound",
+    "solution",
+    "suspension"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q57",
+   "q": "Is muddy water a solution or a suspension?",
+   "choices": [
+    "compound",
+    "suspension",
+    "solution"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q58",
+   "q": "Which is observed in a suspension?",
+   "choices": [
+    "the particles cannot be seen",
+    "light passes through fully",
+    "the liquid is clear",
+    "solid deposits settle at the bottom"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q59",
+   "q": "Which process removes insoluble substances from a suspension?",
+   "choices": [
+    "filtration",
+    "heating",
+    "stirring",
+    "dissolving"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q60",
+   "q": "Which type of matter is formed by a physical change?",
+   "choices": [
+    "compound",
+    "element",
+    "mixture"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q61",
+   "q": "Which type of matter is formed by a chemical reaction?",
+   "choices": [
+    "compound",
+    "mixture",
+    "element"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q62",
+   "q": "A substance has a fixed proportion of constituents that are hard to separate. It is a",
+   "choices": [
+    "element",
+    "compound",
+    "mixture"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q63",
+   "q": "A substance keeps the properties of its constituents, which are easily separated. It is a",
+   "choices": [
+    "element",
+    "mixture",
+    "compound"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q64",
+   "q": "A substance cannot be broken down into simpler substances. Which type of matter is it?",
+   "choices": [
+    "compound",
+    "mixture",
+    "element"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q65",
+   "q": "Is aluminium an element, a compound or a mixture?",
+   "choices": [
+    "element",
+    "compound",
+    "mixture"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q66",
+   "q": "Is carbon dioxide an element, a compound or a mixture?",
+   "choices": [
+    "compound",
+    "element",
+    "mixture"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q67",
+   "q": "Is air an element, a compound or a mixture?",
+   "choices": [
+    "compound",
+    "mixture",
+    "element"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q68",
+   "q": "Is baking soda (sodium hydrogencarbonate) an element, a compound or a mixture?",
+   "choices": [
+    "element",
+    "mixture",
+    "compound"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q69",
+   "q": "Is milk an element, a compound or a mixture?",
+   "choices": [
+    "element",
+    "compound",
+    "mixture"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c03q70",
+   "q": "Which substance is a compound?",
+   "choices": [
+    "oxygen",
+    "steel",
+    "air",
+    "water"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

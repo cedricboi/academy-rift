@@ -1,0 +1,1078 @@
+{
+ "id": "ch04",
+ "title": "Ch 4 · Exploring Diversity of Matter using Separation Techniques",
+ "folder": "sec1",
+ "chapter": 4,
+ "questions": [
+  {
+   "id": "c04q1",
+   "q": "Separating mixtures into their constituents helps us to",
+   "choices": [
+    "change the boiling point of water",
+    "increase the amount of waste",
+    "make new elements",
+    "reduce, reuse and recycle resources"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q2",
+   "q": "Water that is safe for drinking is called",
+   "choices": [
+    "groundwater",
+    "potable water",
+    "used water",
+    "seawater"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q3",
+   "q": "Separation is possible because constituents of a mixture",
+   "choices": [
+    "have the same boiling point",
+    "form a new substance",
+    "keep their own physical properties",
+    "are chemically combined"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q4",
+   "q": "Besides physical properties, which factor affects the choice of technique?",
+   "choices": [
+    "cost",
+    "name of the mixture",
+    "size of the laboratory",
+    "colour of the apparatus"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q5",
+   "q": "Why is reverse osmosis not the only method used for potable water in Singapore?",
+   "choices": [
+    "it needs no electricity",
+    "it produces unsafe water",
+    "it is costly",
+    "it does not remove salt"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q6",
+   "q": "Magnetic attraction separates substances based on whether they are",
+   "choices": [
+    "soluble in water",
+    "of different particle sizes",
+    "of different boiling points",
+    "attracted to a magnet"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q7",
+   "q": "A magnet is placed near iron filings and sulfur. What is left behind?",
+   "choices": [
+    "iron filings and sulfur",
+    "sulfur",
+    "nothing",
+    "iron filings"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q8",
+   "q": "A magnet passes over scrap metal. Which metal is removed?",
+   "choices": [
+    "iron",
+    "aluminium",
+    "copper"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q9",
+   "q": "Which object in a scrapyard is picked up by a magnet?",
+   "choices": [
+    "plastic bumper",
+    "steel bolts",
+    "rubber tyre",
+    "glass mirror"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q10",
+   "q": "Which mixture can be separated using a magnet?",
+   "choices": [
+    "steel pins and sand",
+    "ink and water",
+    "copper and aluminium",
+    "salt and sand"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q11",
+   "q": "Filtration separates substances with different",
+   "choices": [
+    "solubilities",
+    "magnetic properties",
+    "particle sizes",
+    "boiling points"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q12",
+   "q": "The solid left on the filter paper is called the",
+   "choices": [
+    "filtrate",
+    "distillate",
+    "solvent",
+    "residue"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q13",
+   "q": "The liquid that passes through the filter paper is called the",
+   "choices": [
+    "solute",
+    "filtrate",
+    "residue",
+    "distillate"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q14",
+   "q": "Chalk and water are filtered. What is the residue?",
+   "choices": [
+    "chalk and water",
+    "filter paper",
+    "chalk",
+    "water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q15",
+   "q": "Tea is poured through a tea strainer. What is the filtrate?",
+   "choices": [
+    "tea",
+    "tea leaves",
+    "tea leaves and tea",
+    "the strainer"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q16",
+   "q": "Sand and water are filtered. Sand is left on the paper because sand particles are",
+   "choices": [
+    "magnetic",
+    "soluble in water",
+    "smaller than the pores",
+    "bigger than the pores"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q17",
+   "q": "The residue is sand and the filtrate is water. What was filtered?",
+   "choices": [
+    "salt and water",
+    "sugar and water",
+    "sand and water",
+    "iron and sand"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q18",
+   "q": "Why can salt not be separated from salt solution by filtration?",
+   "choices": [
+    "salt is magnetic",
+    "dissolved salt passes through the filter paper",
+    "salt particles are bigger than the pores",
+    "salt has a low boiling point"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q19",
+   "q": "Evaporation is used to obtain",
+   "choices": [
+    "an insoluble solid from a liquid",
+    "iron from a mixture",
+    "a pure liquid from a solution",
+    "a dissolved solid from a solution"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q20",
+   "q": "In evaporation, the solvent is removed because it",
+   "choices": [
+    "changes to a gas at a lower temperature",
+    "has bigger particles",
+    "stays on the filter paper",
+    "is attracted to a magnet"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q21",
+   "q": "Salt solution is heated until all the water evaporates. What is left?",
+   "choices": [
+    "salt",
+    "nothing",
+    "salt solution",
+    "water"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q22",
+   "q": "Distillation separates substances with different",
+   "choices": [
+    "magnetic properties",
+    "colours",
+    "particle sizes",
+    "boiling points"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q23",
+   "q": "Distillation involves",
+   "choices": [
+    "melting and freezing",
+    "boiling and condensation",
+    "dissolving and filtering",
+    "boiling and freezing"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q24",
+   "q": "The pure liquid collected in distillation is called the",
+   "choices": [
+    "residue",
+    "filtrate",
+    "distillate",
+    "solute"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q25",
+   "q": "What is the function of the condenser?",
+   "choices": [
+    "to heat the mixture",
+    "to stop the flask shaking",
+    "to cool the vapour into a liquid",
+    "to measure the boiling point"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q26",
+   "q": "What is the function of boiling chips?",
+   "choices": [
+    "to make boiling smoother",
+    "to cool the vapour",
+    "to absorb the salt",
+    "to lower the boiling point"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q27",
+   "q": "Salt solution is distilled. What remains in the distillation flask?",
+   "choices": [
+    "pure water",
+    "nothing",
+    "steam",
+    "salt"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q28",
+   "q": "In a distillation, which substance in the mixture turns into vapour first?",
+   "choices": [
+    "the one with the largest particles",
+    "the one with the lowest boiling point",
+    "the one that is magnetic",
+    "the one with the highest boiling point"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q29",
+   "q": "The cold water supply to the condenser is turned off. What happens?",
+   "choices": [
+    "more distillate is collected",
+    "the flask stops heating",
+    "the salt boils over",
+    "less distillate is collected"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q30",
+   "q": "Paper chromatography separates substances that",
+   "choices": [
+    "have different boiling points",
+    "are magnetic and non-magnetic",
+    "dissolve to different extents in a solvent",
+    "have different particle sizes"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q31",
+   "q": "The paper with separated coloured spots is called a",
+   "choices": [
+    "filtrate",
+    "chromatogram",
+    "distillate",
+    "residue"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q32",
+   "q": "On a chromatogram, the spot that travels furthest is the",
+   "choices": [
+    "most soluble substance",
+    "least soluble substance",
+    "insoluble substance",
+    "heaviest substance"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q33",
+   "q": "A spot remains on the start line. This substance is",
+   "choices": [
+    "insoluble in the solvent",
+    "very soluble in the solvent",
+    "the solvent itself",
+    "a magnetic substance"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q34",
+   "q": "An ink gives three separate spots. How many coloured substances does it contain?",
+   "choices": [
+    "1",
+    "3",
+    "2",
+    "4"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q35",
+   "q": "Spots move 2 cm, 5 cm and 7 cm. Which belongs to the least soluble substance?",
+   "choices": [
+    "7 cm",
+    "5 cm",
+    "2 cm"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q36",
+   "q": "Dye P gives one spot at 4 cm. Ink Q gives spots at 4 cm and 6 cm. Which is correct?",
+   "choices": [
+    "Q is a pure substance",
+    "P contains Q",
+    "P and Q are identical",
+    "Q contains P"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q37",
+   "q": "Which technique obtains water from muddy water?",
+   "choices": [
+    "filtration",
+    "chromatography",
+    "magnetic attraction",
+    "evaporation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q38",
+   "q": "Which technique obtains pure water from sugar solution?",
+   "choices": [
+    "magnetic attraction",
+    "evaporation",
+    "distillation",
+    "filtration"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q39",
+   "q": "Which technique obtains iron filings from sand?",
+   "choices": [
+    "distillation",
+    "magnetic attraction",
+    "filtration",
+    "evaporation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q40",
+   "q": "Which technique obtains solid salt from salt solution?",
+   "choices": [
+    "filtration",
+    "magnetic attraction",
+    "chromatography",
+    "evaporation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q41",
+   "q": "Which technique separates the dyes in a food colouring?",
+   "choices": [
+    "chromatography",
+    "filtration",
+    "evaporation",
+    "magnetic attraction"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q42",
+   "q": "A student wants solid sugar from sugar solution. Which technique?",
+   "choices": [
+    "filtration",
+    "chromatography",
+    "magnetic attraction",
+    "evaporation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q43",
+   "q": "Pure water was obtained and solid salt was left behind. Which technique was used?",
+   "choices": [
+    "magnetic attraction",
+    "filtration",
+    "distillation",
+    "chromatography"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q44",
+   "q": "Iron filings, salt and sawdust are mixed. What is done first?",
+   "choices": [
+    "evaporate the mixture",
+    "use a magnet",
+    "distil the mixture",
+    "filter the mixture"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q45",
+   "q": "After removing iron, salt and sawdust are stirred in water. Sawdust is removed by",
+   "choices": [
+    "magnetic attraction",
+    "filtration",
+    "evaporation",
+    "distillation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q46",
+   "q": "Salt solution is left after removing the sawdust. Solid salt is obtained by",
+   "choices": [
+    "chromatography",
+    "magnetic attraction",
+    "evaporation",
+    "filtration"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q47",
+   "q": "To get pure water from muddy salt water, which order is correct?",
+   "choices": [
+    "filtration, then evaporation",
+    "evaporation, then filtration",
+    "filtration, then chromatography",
+    "filtration, then distillation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q48",
+   "q": "Sand and salt are mixed. Which order gives dry salt?",
+   "choices": [
+    "add water, filter, evaporate",
+    "add water, evaporate, filter",
+    "filter, add water, evaporate",
+    "evaporate, add water, filter"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q49",
+   "q": "Ikan bilis is dried to keep it longer. Which technique is this?",
+   "choices": [
+    "chromatography",
+    "filtration",
+    "evaporation",
+    "distillation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q50",
+   "q": "Food testers check canned food for harmful colourings using",
+   "choices": [
+    "evaporation",
+    "magnetic attraction",
+    "filtration",
+    "chromatography"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q51",
+   "q": "Hairs and mucus in the nose trap dust particles. This is an example of",
+   "choices": [
+    "filtration",
+    "evaporation",
+    "magnetic attraction",
+    "distillation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q52",
+   "q": "Perfume is made by boiling petals and collecting the vapour. This is",
+   "choices": [
+    "chromatography",
+    "distillation",
+    "filtration",
+    "evaporation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q53",
+   "q": "Groundwater flows through sand and rocks in a siltation pond. This is",
+   "choices": [
+    "evaporation",
+    "filtration",
+    "chromatography",
+    "distillation"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q54",
+   "q": "Which is one of Singapore's Four National Taps?",
+   "choices": [
+    "desalinated water",
+    "mineral water",
+    "distilled water",
+    "bottled water"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q55",
+   "q": "Where is rainwater from the local catchment stored?",
+   "choices": [
+    "desalination plants",
+    "NEWater plants",
+    "reservoirs",
+    "sewers"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q56",
+   "q": "At waterworks, water is chemically treated, filtered and then",
+   "choices": [
+    "magnetised",
+    "distilled",
+    "evaporated",
+    "disinfected"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q57",
+   "q": "NEWater is produced from",
+   "choices": [
+    "treated used water",
+    "seawater",
+    "imported water",
+    "rainwater only"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q58",
+   "q": "What is the first purification step in a NEWater plant?",
+   "choices": [
+    "distillation",
+    "microfiltration",
+    "ultraviolet disinfection",
+    "reverse osmosis"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q59",
+   "q": "What is the last purification step in a NEWater plant?",
+   "choices": [
+    "evaporation",
+    "microfiltration",
+    "ultraviolet disinfection",
+    "reverse osmosis"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q60",
+   "q": "Which step comes right after microfiltration in a NEWater plant?",
+   "choices": [
+    "evaporation",
+    "ultraviolet disinfection",
+    "distillation",
+    "reverse osmosis"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q61",
+   "q": "A step destroys remaining bacteria and viruses with light. Which step is it?",
+   "choices": [
+    "distillation",
+    "microfiltration",
+    "reverse osmosis",
+    "ultraviolet disinfection"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q62",
+   "q": "Obtaining drinking water from seawater is called",
+   "choices": [
+    "reclamation",
+    "desalination",
+    "filtration",
+    "chromatography"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q63",
+   "q": "Why is distillation not used for desalination in Singapore?",
+   "choices": [
+    "heating seawater uses a lot of energy",
+    "it does not remove salt",
+    "it removes too much water",
+    "it produces salty water"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q64",
+   "q": "In reverse osmosis, the membrane lets through",
+   "choices": [
+    "bacteria and water particles",
+    "salt particles only",
+    "water particles only",
+    "water and salt particles"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q65",
+   "q": "Which action reuses water?",
+   "choices": [
+    "washing clothes on full load",
+    "turning off the tap while brushing",
+    "using the half-flush",
+    "watering plants with water used to wash vegetables"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q66",
+   "q": "Which action reduces water wastage?",
+   "choices": [
+    "washing a few clothes at a time",
+    "washing the car with a running hose",
+    "washing the car with a pail of water",
+    "leaving the shower on while soaping"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  },
+  {
+   "id": "c04q67",
+   "q": "Why must Singapore conserve water?",
+   "choices": [
+    "water is a scarce resource",
+    "tap water is unsafe",
+    "reservoirs store too much water",
+    "water supply is unlimited"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null
+  }
+ ]
+}

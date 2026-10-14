@@ -225,3 +225,13 @@ button,input,textarea{font:inherit;color:inherit;}
   .h-example{display:none;}
   h1,.h-title{font-size:1.5rem;}
 }
+
+/* folders */
+.h-folders{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 4px;}
+.h-folder{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--panel);border:2px solid var(--line);color:var(--paper);font:inherit;font-weight:700;cursor:pointer;}
+.h-folder:hover{border-color:var(--cyan);}
+.h-folder.on{border-color:var(--gold);background:linear-gradient(180deg,rgba(242,184,75,.16),rgba(242,184,75,.04));color:#fff;}
+.h-folder-n{min-width:26px;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.1);font-size:.85rem;text-align:center;color:var(--ash);}
+.h-folder.on .h-folder-n{background:var(--gold);color:#1a1206;}
+.h-folder-pick{display:flex;align-items:center;gap:6px;color:var(--ash);font-size:.95rem;}
+.h-folder-pick select{font:inherit;padding:6px 10px;background:var(--panel);color:var(--paper);border:2px solid var(--line);}
