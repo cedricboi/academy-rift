@@ -35,11 +35,11 @@ const stats = { retryShown: 0, retryNotes: 0, retryPickMatches: 0, whyOpen: 0, w
 const NAMES = ["Alpha Kid", "Bravo Kid", "Charlie Kid", "Delta Kid"];
 const students = [];
 for (let i = 0; i < 4; i++) {
-  const st = { i, s: io(URL, { transports: ["websocket"], forceNew: true }), room: null, pid: null, rewards: [], picks: new Map(), whyNext: "right", lastWhy: null };
+  const st = { i, s: io(URL, { transports: ["websocket"], forceNew: true }), room: null, pid: null, rewards: [], picks: new Map(), whyNext: i % 2 ? "wrong" : "right", lastWhy: null };
   st.s.on("tJoined", (d) => (st.pid = d.you));
-  st.s.on("room", (r) => (st.room = r));
+  st.s.on("room", (r) => { st.room = r; const sy = r.battle?.sync; if (sy) stats.maxSync = Math.max(stats.maxSync || 0, sy[0], sy[1]); });
   const answerFor = (q, wrongish) => { const src = BY_STEM.get(q.q); const right = src ? src.correct[0] : 0;
-    return wrongish && Math.random() < 0.45 ? (right + 1) % q.choices.length : right; };
+    return wrongish && Math.random() < (host?.round >= 2 ? 0.1 : 0.45) ? (right + 1) % q.choices.length : right; };
   st.s.on("yourQuestion", ({ question, lastPick }) => {
     if (question.retry) {
       stats.retryShown++;
@@ -109,6 +109,7 @@ check(all.every((r) => r.coinParts && r.coins === r.coinParts.battle + r.coinPar
 check(all.every((r) => [250, 200, 150].includes(r.coinParts.battle)), "winning, drawing and losing pay 250, 200 and 150");
 check(all.some((r) => r.coinParts.fixedCount > 0 && r.coinParts.fixed === r.coinParts.fixedCount * 40), `mistakes put right earn 40 coins each (${all.reduce((n, r) => n + r.coinParts.fixedCount, 0)} put right)`);
 
+console.log("  (highest Sync seen:", stats.maxSync, ")");
 check(stats.whyOpen > 0, `choosing the Ultimate asks why the answer was right (${stats.whyOpen} times)`);
 check(stats.whyRight > 0 && stats.ultAfterRight === stats.whyRight, `the right reason unleashes the Ultimate (${stats.ultAfterRight})`);
 if (stats.whyWrong) {
