@@ -4,13 +4,6 @@
 import { ITEMS, ITEM_BY_ID, SHOP_LIMIT } from "./data/characters.js";
 
 const ART = "assets/shop/";
-// where each item sits on the shelves, in the 480×270 pixels of the backdrop: [centre x, shelf y]
-const SLOTS = {
-  revive: [44, 143], tonic: [44, 177],
-  energy: [130, 112], bento: [130, 144], crystal: [130, 175],
-  shield: [402, 145], notes: [402, 175],
-  chilli: [453, 143], durian: [453, 182],
-};
 // Auntie's patter for each item (the card underneath gives the exact effect)
 const PATTER = {
   bento: "Kaya toast set, with half-boiled egg some more! Eat already, sure got strength.",
@@ -42,6 +35,7 @@ const SOLD = ITEMS.filter((i) => i.price > 0);
 export const itemIcon = (id) => `${ART}${id}.webp`;
 
 export function setupShop({ socket, SFX }) {
+  let menuOpen = false;
   let open = false, coins = 0, bag = {}, sel = null, busy = false, typeT = null, happyT = null, nextHtml = "";
 
   const root = document.createElement("div");
@@ -55,11 +49,13 @@ export function setupShop({ socket, SFX }) {
       <div class="mm-auntie" id="mmAuntie"><div class="mm-aunt-in">
         <img class="calm" src="${ART}auntie_calm.webp" alt="Auntie" draggable="false">
         <img class="happy" src="${ART}auntie_happy.webp" alt="" draggable="false"></div></div>
-      <div class="mm-items" id="mmItems">${SOLD.map((it) => {
-        const [x, y] = SLOTS[it.id] || [240, 200];
-        return `<button class="mm-item" data-item="${it.id}" style="--x:${x};--y:${y}" aria-label="${esc(it.name)}, ${it.price} coins">
-          <img src="${itemIcon(it.id)}" alt="" draggable="false"><span class="mm-tag"><i class="mm-coin"></i><b>${it.price}</b></span><span class="mm-has"></span></button>`;
-      }).join("")}</div>
+      <div class="mm-menu" id="mmMenu" aria-label="Auntie's menu">
+        <div class="mm-menu-h"><h2>AUNTIE'S MENU<small id="mmMenuNext">Tap an item to see what it does</small></h2>
+          <button class="mm-close" id="mmCloseMenu" type="button" aria-label="Close the menu">✕</button></div>
+        <div class="mm-grid">${SOLD.map((it) => `<button class="mm-tile" data-item="${it.id}" type="button" aria-label="${esc(it.name)}, ${it.price} coins">
+          <img src="${itemIcon(it.id)}" alt="" draggable="false"><span class="mm-tile-t"><b>${esc(it.name)}</b>
+          <span class="mm-tag"><i class="mm-coin"></i><b>${it.price}</b></span></span><span class="mm-has"></span></button>`).join("")}</div>
+      </div>
       <div class="mm-bubble" id="mmBubble"><p id="mmSay"></p></div>
       <div class="mm-bag" id="mmBag"></div>
       <div class="mm-card" id="mmCard"></div>
@@ -97,7 +93,7 @@ export function setupShop({ socket, SFX }) {
     return null;
   }
   function render() {
-    root.querySelectorAll(".mm-item").forEach((b) => {
+    root.querySelectorAll(".mm-tile").forEach((b) => {
       const it = ITEM_BY_ID[b.dataset.item], n = bag[it.id] || 0, w = why(it);
       b.classList.toggle("sel", sel === it.id);
       b.classList.toggle("poor", w === "coins");
@@ -116,7 +112,9 @@ export function setupShop({ socket, SFX }) {
     const it = sel && ITEM_BY_ID[sel];
     if (!it) {
       $("mmCard").className = "mm-card idle";
-      $("mmCard").innerHTML = `<p>Tap something on the shelves to have a look.<br><small>What you buy is packed for your next battle. Anything you don't use stays in your bag.</small></p>`;
+      $("mmCard").innerHTML = menuOpen
+        ? `<p>Tap an item on the menu to have a look.<br><small>What you buy is packed for your next battle. Anything you don't use stays in your bag.</small></p>`
+        : `<button class="mm-open-menu" id="mmOpenMenu" type="button"><img src="${itemIcon("bento")}" alt=""><span><b>SEE AUNTIE'S MENU</b><small>9 items for your next battle</small></span></button>`;
       return;
     }
     const n = bag[it.id] || 0, w = why(it);
@@ -129,12 +127,23 @@ export function setupShop({ socket, SFX }) {
         <span>BUY</span><b><i class="mm-coin"></i>${it.price}</b></button>${reason ? `<small>${reason}</small>` : ""}</div>`;
   }
 
+  // ---- the menu ----
+  function showMenu(on) {
+    if (menuOpen === on) return;
+    menuOpen = on; SFX.play("select");
+    root.classList.toggle("menu-open", on);
+    if (!on) sel = null;
+    render();
+    if (on) say(pick(["Here, Auntie's menu! Take your time, look properly.", "Everything on the menu, all fresh one. Choose, choose!", "This one Auntie's menu. Anything you like, just point."]));
+    else say(pick(["Want to see the menu again, just ask Auntie.", "Ok, ok. Menu here whenever you want."]));
+  }
+
   // ---- buying ----
   function choose(id) {
     if (!ITEM_BY_ID[id]) return;
     SFX.play("select");
     sel = id; render();
-    const b = root.querySelector(`.mm-item[data-item="${id}"]`);
+    const b = root.querySelector(`.mm-tile[data-item="${id}"]`);
     b.classList.remove("lift"); void b.offsetWidth; b.classList.add("lift");
     say(PATTER[id] || ITEM_BY_ID[id].shop);
   }
@@ -149,7 +158,7 @@ export function setupShop({ socket, SFX }) {
     busy = false;
     if (!open) return;
     if (!r?.ok) { say(NOPE[r?.reason] || "Aiyoh, cannot lah. Try again later."); SFX.play("fizzle"); renderCard(); return; }
-    const from = root.querySelector(`.mm-item[data-item="${r.itemId}"] img`);
+    const from = root.querySelector(`.mm-tile[data-item="${r.itemId}"] img`);
     coins = r.coins; bag = { ...r.bag }; render();
     SFX.play("buy");
     say(pick(THANKS), true);
@@ -178,6 +187,7 @@ export function setupShop({ socket, SFX }) {
   // ---- open / close ----
   function show({ coins: c = 0, bag: b = {}, earned = 0 } = {}) {
     coins = c; bag = { ...(b || {}) }; sel = null; busy = false;
+    if (!open) { menuOpen = false; root.classList.remove("menu-open"); }
     if (open) { render(); return; }
     open = true;
     root.classList.remove("hidden", "closing", "entered");
@@ -206,13 +216,15 @@ export function setupShop({ socket, SFX }) {
   }
 
   root.addEventListener("click", (e) => {
-    const item = e.target.closest(".mm-item");
+    const item = e.target.closest(".mm-tile");
     if (item) return choose(item.dataset.item);
+    if (e.target.closest("#mmOpenMenu")) return showMenu(true);
+    if (e.target.closest("#mmCloseMenu")) return showMenu(false);
     if (e.target.closest("#mmBuy")) return buy();
     if (e.target.closest("#mmLeave")) { SFX.play("select"); return hide(); }
-    if (e.target.closest(".mm-auntie")) { beHappy(1200); say(pick(["Hello, hello! Want what?", "Ya? Auntie here!", "Don't shy, take a look!", "Study first, then shopping. Good student!"])); }
+    if (e.target.closest(".mm-auntie")) { beHappy(1200); say(pick(["Hello, hello! Want what?", "Ya? Auntie here!", "Don't shy, take a look at the menu!", "Study first, then shopping. Good student!"])); }
   });
-  document.addEventListener("keydown", (e) => { if (open && e.key === "Escape") hide(); });
+  document.addEventListener("keydown", (e) => { if (open && e.key === "Escape") { if (menuOpen) showMenu(false); else hide(); } });
 
   return {
     open: show,
@@ -220,7 +232,7 @@ export function setupShop({ socket, SFX }) {
     isOpen: () => open,
     // live updates while the shop is open (coins from another tab, the round countdown)
     update(you, next) {
-      if (next !== nextHtml) { nextHtml = next || ""; $("mmNext").innerHTML = nextHtml; }
+      if (next !== nextHtml) { nextHtml = next || ""; $("mmNext").innerHTML = nextHtml; $("mmMenuNext").innerHTML = nextHtml || "Tap an item to see what it does"; }
       if (!open || !you || busy) return;
       const nb = JSON.stringify(you.bag || {});
       if (you.coins !== coins || nb !== JSON.stringify(bag)) { coins = you.coins || 0; bag = JSON.parse(nb); render(); }

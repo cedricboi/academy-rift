@@ -63,8 +63,8 @@ screen. When a watched battle ends, the view moves to another battle that is sti
 **Auntie's shop.** Every battle earns coins: 300 for a win, 200 for a draw, 120 for a loss, plus
 20 for each correct answer and 5 for each right answer while answering along. When a student
 taps **BACK TO TOURNAMENT** after a battle, Auntie's Magic Mama shop opens in first person
-(there is also a shop button on the tournament screen). Students tap an item on the shelves,
-read what it does, and buy it. What they buy is packed for their next battle on top of the
+(there is also a shop button on the tournament screen). Students open Auntie's menu, tap an
+item to read what it does, and buy it. What they buy is packed for their next battle on top of the
 three free items, and anything they don't use stays in their bag. A student can carry 2 of one
 item and 6 items in all, and cannot shop during a battle; if the next round starts while they
 are shopping, the shop closes and the battle opens.
