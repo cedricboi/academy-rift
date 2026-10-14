@@ -11,6 +11,7 @@
 
 import { randomBytes } from "crypto";
 import { defaultSettings, cleanSettingValue, SETTING_BY_KEY } from "./public/data/tournamentSettings.js";
+import { ITEM_BY_ID, SHOP_LIMIT } from "./public/data/characters.js";
 
 export const POINTS = { win: 3, draw: 1, loss: 0 };
 const NAME_MAX = 14;
@@ -252,7 +253,8 @@ export function setupTournaments(deps) {
       startsIn: startsIn(T), hold: T.hold,
       readyCount: online.filter((o) => o.ready).length, onlineCount: online.length,
       liveMatches: T.status === "round" && !inLiveBattle(T, s) ? liveMatches(T) : [],
-      you: { pid: s.pid, name: s.name, pairId: s.pairId, wants: s.wants, character: s.character, ready: !!s.ready },
+      you: { pid: s.pid, name: s.name, pairId: s.pairId, wants: s.wants, character: s.character, ready: !!s.ready,
+        coins: s.coins || 0, bag: s.bag || {}, inBattle: inLiveBattle(T, s) },
       partner: partner ? { pid: partner.pid, name: partner.name, character: partner.character, bot: !!partner.bot, connected: !!partner.connected } : null,
       classmates: s.pairId ? [] : humans(T)
         .filter((o) => o.pid !== s.pid && !o.pairId)
@@ -378,7 +380,7 @@ export function setupTournaments(deps) {
       s = {
         pid: "s_" + token(6), token: token(), name: uniqueName(T, name), bot: false,
         socketId: null, connected: false, pairId: null, wants: null, character: null,
-        correct: 0, answered: 0, joinedAt: Date.now(),
+        correct: 0, answered: 0, joinedAt: Date.now(), coins: 0, bag: {},
       };
       T.students.set(s.pid, s);
     }
@@ -453,6 +455,7 @@ export function setupTournaments(deps) {
         if (r.qid) { if (r.correct) s.missed.delete(r.qid); else s.missed.add(r.qid); }
       }
       if (rewards[pid]?.report) s.report = { round: T.round, prompts: rewards[pid].report.prompts, sent: false };
+      if (rewards[pid]) { s.coins = (s.coins || 0) + (rewards[pid].coins || 0); if (rewards[pid].bagLeft) s.bag = rewards[pid].bagLeft; }
     }
   }
   function learningReport(T) {
@@ -483,6 +486,7 @@ export function setupTournaments(deps) {
     const room = {
       code, status: "lobby", hostId: null, players, battle: null,
       topicId: T.settings.topicId, tournament: T.code, matchId: m.id,
+      bags: Object.fromEntries(players.filter((p) => !p.bot).map((p) => [p.id, { ...(T.students.get(p.id)?.bag || {}) }])),
       retrySeed: Object.fromEntries(players.filter((p) => !p.bot).map((p) => [p.id, [...(T.students.get(p.id)?.missed || [])].slice(-RETRY_CARRY)])),
       settings: {
         questionSeconds: T.settings.questionSeconds,
@@ -763,6 +767,22 @@ export function setupTournaments(deps) {
       if (!CHARACTERS.some((c) => c.id === charId)) return;
       s.character = charId;
       push(T);
+    });
+
+    // Auntie's shop: spend coins earned in battles on items for the next battle (not while in a battle)
+    socket.on("tBuy", ({ itemId } = {}) => {
+      const T = myT(), st = meS(T); if (!st) return;
+      const it = ITEM_BY_ID[itemId];
+      if (!it || !(it.price > 0)) return fail("Auntie doesn't sell that.");
+      if (inLiveBattle(T, st)) return fail("Finish your battle first, then come back to the shop.");
+      st.bag ||= {}; st.coins ||= 0;
+      const total = Object.values(st.bag).reduce((n, k) => n + k, 0);
+      if ((st.bag[itemId] || 0) >= SHOP_LIMIT.each) return socket.emit("tShop", { ok: false, reason: "max", itemId });
+      if (total >= SHOP_LIMIT.total) return socket.emit("tShop", { ok: false, reason: "full", itemId });
+      if (st.coins < it.price) return socket.emit("tShop", { ok: false, reason: "coins", itemId });
+      st.coins -= it.price; st.bag[itemId] = (st.bag[itemId] || 0) + 1;
+      socket.emit("tShop", { ok: true, itemId, coins: st.coins, bag: st.bag });
+      touch(T); push(T);
     });
 
     // a student's written answers from their Rift Report (the prompts were stored when the battle ended)

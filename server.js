@@ -514,8 +514,14 @@ function practiceGate(room, key, go) {
 // ---------- battle setup ----------
 function beginBattle(room) {
   const make = (p) => makeCombatant(CHAR_BY_ID[p.character] || rand(CHARACTERS), p, room.settings?.hints ?? HINTS_PER_BATTLE);
-  const t0 = room.players.filter((p) => p.team === 0).map(make);
-  const t1 = room.players.filter((p) => p.team === 1).map(make);
+  // what each student packed at Auntie's shop: items join the battle's own (Study Notes add a hint straight away)
+  const make0 = make;
+  const makeWithBag = (p) => { const c = make0(p); const bag = room.bags?.[p.id];
+    if (bag) for (const [id, n] of Object.entries(bag)) { if (!(n > 0) || !ITEM_BY_ID[id]) continue;
+      if (ITEM_BY_ID[id].passive) { if (id === "notes") c.hintsLeft += n; } else c.items[id] = (c.items[id] || 0) + n; }
+    return c; };
+  const t0 = room.players.filter((p) => p.team === 0).map(makeWithBag);
+  const t1 = room.players.filter((p) => p.team === 1).map(makeWithBag);
   if (room.practice) for (const c of t1) if (PRACTICE_HP[c.charId]) c.maxHp = c.hp = PRACTICE_HP[c.charId];
   const combatants = {};
   [...t0, ...t1].forEach((c) => (combatants[c.uid] = c));
@@ -986,7 +992,10 @@ function endBattle(room, forced = null) {
     const correct = b.correctCount[p.id] || 0;
     const review = b.review[p.id] || [];
     const along = review.filter((x) => x.how === "along");
-    rewards[p.id] = { won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20 + along.filter((x) => x.correct).length * 5, correct,
+    // shop items not used in this battle go back in the bag (the battle's own free items are used first)
+    const bag = room.bags?.[p.id], left = {};
+    if (bag) for (const [id, n] of Object.entries(bag)) { if (ITEM_BY_ID[id]?.passive) continue; const k = Math.min(n, b.combatants[p.id]?.items?.[id] || 0); if (k > 0) left[id] = k; }
+    rewards[p.id] = { bagLeft: bag ? left : null, won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20 + along.filter((x) => x.correct).length * 5, correct,
       along: { answered: along.length, right: along.filter((x) => x.correct).length }, review, report: p.bot ? null : buildReport(review) };
   });
   io.to(room.code).emit("battleEnd", { winnerTeam: winner, reason, rewards, tournament: room.tournament || null, practice: !!room.practice });

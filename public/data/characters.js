@@ -143,12 +143,31 @@ export const CHARACTERS = [
 
 export const CHAR_BY_ID = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
 
-// Battle items — each player starts with one of each.
+// Battle items. Each player starts every battle with one HP Boost, one SP Boost and one Revive. In a class tournament,
+// students also spend the coins they earn at Auntie's shop between rounds; what they buy is packed for their next
+// battle and anything unused stays in their bag. Items are used instead of a move, after a right answer.
+//   price: coins at the shop (0 = not sold) · passive: works by itself at the start of the battle
 export const ITEMS = [
-  { id: "bento",  name: "HP Boost",  desc: "Restore 300 HP to one ally" },
-  { id: "energy", name: "SP Boost",  desc: "Restore 150 SP to one ally" },
-  { id: "revive", name: "Revive",    desc: "Revive a KO’d teammate at 50% HP" },
+  { id: "bento",   name: "Kaya Toast Set",   desc: "Restore 300 HP to one ally", price: 120,
+    shop: "Toast with kaya and butter, and a soft-boiled egg. Restores 300 HP to you or your partner." },
+  { id: "energy",  name: "Malt Dino Elixir", desc: "Restore 150 SP to one ally", price: 100,
+    shop: "Iced chocolate malt with a mountain of powder on top. Restores 150 SP, so you can use more skills." },
+  { id: "revive",  name: "Phoenix Kueh",     desc: "Revive a KO'd teammate at 50% HP", price: 300,
+    shop: "A lucky red tortoise cake with a phoenix feather. Brings a knocked-out partner back at half HP." },
+  { id: "shield",  name: "Iron Tingkat",     desc: "Halve the next hit on one ally", price: 150,
+    shop: "A sturdy tiffin carrier that turns into a shield. The next hit on you or your partner does half damage." },
+  { id: "crystal", name: "Ice Gem Crystals", desc: "Fill the team's Sync gauge by 30", price: 250,
+    shop: "Biscuits with sugar gems that glow with Rift energy. Adds 30 to your team's Sync gauge." },
+  { id: "tonic",   name: "Teh Halia Tonic",  desc: "Clear debuffs and restore 100 HP", price: 140,
+    shop: "Hot ginger tea that clears your head. Removes all debuffs from one ally and restores 100 HP." },
+  { id: "chilli",  name: "Chilli Padi Charm", desc: "Your next attack does 25% more damage", price: 180,
+    shop: "Small but very fierce. Your next attack does 25% more damage." },
+  { id: "notes",   name: "Study Notes",      desc: "One extra hint this battle (works by itself)", price: 160, passive: true,
+    shop: "Neat notes from a top student. You get one extra hint in your next battle. It works by itself." },
+  { id: "durian",  name: "Durian Bomb",      desc: "About 150 damage to one enemy", price: 220,
+    shop: "The king of fruits, with a fuse. Throw it for about 150 damage to one enemy, whatever their element." },
 ];
+export const SHOP_LIMIT = { each: 2, total: 6 };   // most of one item, and most items, a student can carry at once
 
 export const ITEM_BY_ID = Object.fromEntries(ITEMS.map((i) => [i.id, i]));
 

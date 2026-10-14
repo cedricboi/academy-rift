@@ -189,11 +189,23 @@ export function damage(room, actor, target, basePower, element, correctMult, opt
 export function useItem(room, actor, itemId, targetId, cm) {
   const b = room.battle; const events = [];
   if (!actor.items[itemId] || actor.items[itemId] <= 0) return events;
-  const ally = b.combatants[targetId] && b.combatants[targetId].team === actor.team ? b.combatants[targetId] : actor;
-  if (itemId === "bento") { const a = BENTO_HEAL; ally.hp = Math.min(ally.maxHp, ally.hp + a); if (ally.hp > 0) ally.alive = true; events.push({ target: ally.uid, heal: a, kind: "heal" }); }
+  const t = b.combatants[targetId];
+  const ally = t && t.team === actor.team && t.alive ? t : actor;          // only Phoenix Kueh (revive) works on a knocked-out ally
+  if (itemId === "bento") { const a = BENTO_HEAL; ally.hp = Math.min(ally.maxHp, ally.hp + a); events.push({ target: ally.uid, heal: a, kind: "heal" }); }
   else if (itemId === "energy") { ally.sp = Math.min(ally.maxSp, ally.sp + 150); events.push({ target: ally.uid, kind: "sp", sp: 150 }); }
   else if (itemId === "shield") { ally.shield = true; events.push({ target: ally.uid, kind: "guard" }); }
-  else if (itemId === "crystal") { addSync(room, actor.team, 40); events.push({ target: actor.uid, kind: "sync" }); }
+  else if (itemId === "crystal") { addSync(room, actor.team, 30); events.push({ target: actor.uid, kind: "sync" }); }
+  else if (itemId === "tonic") {
+    ally.atkDownTurns = 0; ally.defDownTurns = 0; ally.accDownTurns = 0; ally.timerDownTurns = 0;
+    const a = 100; ally.hp = Math.min(ally.maxHp, ally.hp + a);
+    events.push({ target: ally.uid, kind: "cleanse" }, { target: ally.uid, heal: a, kind: "heal" });
+  }
+  else if (itemId === "chilli") { actor.atkUpTurns = Math.max(actor.atkUpTurns, 2); events.push({ target: actor.uid, kind: "buff", eff: "atk" }); }   // lasts into your next turn
+  else if (itemId === "durian") {
+    const foe = b.combatants[targetId] && b.combatants[targetId].team !== actor.team && b.combatants[targetId].alive ? b.combatants[targetId] : enemiesOf(b, actor.team)[0];
+    if (foe) events.push(damage(room, actor, foe, 150 / DMG_SCALE, null, 1, { item: true }));
+  }
+  else if (itemId === "notes") { actor.hintsLeft = (actor.hintsLeft || 0) + 1; events.push({ target: actor.uid, kind: "buff" }); }
   else if (itemId === "revive") { const dead = alliesOf(b, actor.team).find((c) => !c.alive); if (dead) { dead.alive = true; dead.hp = Math.round(dead.maxHp * 0.5); events.push({ target: dead.uid, kind: "revive", heal: dead.hp }); } }
   actor.items[itemId]--;
   return events;

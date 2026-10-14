@@ -2,6 +2,7 @@
 import { CHARACTERS, CHAR_BY_ID, ELEMENT_COLORS, ITEMS, ITEM_BY_ID } from "./data/characters.js";
 import { TOPICS, BLOOM_META } from "./data/topics.js";
 import { FOLDERS, DEFAULT_FOLDER, folderOf } from "./data/folders.js";
+import { setupShop, itemIcon } from "./shop.js";
 
 const socket = io();
 let myId = null;
@@ -124,6 +125,7 @@ const SCREENS = ["title","tutorial","home","room","tourney","battle","result"];
 function showScreen(id) {
   const was = SCREENS.find((s) => $(s).classList.contains("active"));
   SCREENS.forEach((s) => $(s).classList.toggle("active", s === id));
+  if (id !== "tourney" && shop?.isOpen()) shop.close("battle");   // a battle is starting
   if (id === was || WATCH) return;                // same screen re-render → don't touch music
   // music: battle screen uses battleBGM, all others use lobbyBGM. Only (re)start a
   // track if it's actually paused, so re-entering the same screen never restarts it.
@@ -398,6 +400,8 @@ const SFX = (() => {
     wrong:   () => { tone(240, 0.2, "sawtooth", 0.14, 150); },
     sync:    () => { tone(740, 0.12, "triangle", 0.16, 1480); setTimeout(() => tone(1480, 0.18, "triangle", 0.12), 100); },
     fizzle:  () => { tone(320, 0.22, "sine", 0.1, 120); },
+    buy:     () => { tone(1319, 0.08, "square", 0.1); setTimeout(() => tone(1760, 0.22, "square", 0.1), 80); },
+    bell:    () => { tone(1568, 0.9, "sine", 0.12); tone(2350, 0.6, "sine", 0.05); setTimeout(() => tone(1568, 0.7, "sine", 0.07), 160); },
   };
   // Recorded clips (Sonniss GDC 2026 Game Audio Bundle, royalty-free) in assets/sfx. They load on the
   // first tap; until a clip has loaded, the synthesized sound above plays instead, so nothing is ever silent.
@@ -440,6 +444,7 @@ const SFX = (() => {
     wrong:   () => clip("ui_wrong", 0.6),
     sync:    () => clip("ui_sync", 0.8) && clip("shimmerhit", 0.5),
     fizzle:  () => clip("ui_fizzle", 0.6),
+    buy:     () => clip("twinkle", 0.75, 1.15) && clip("ui_correct", 0.45, 1.25),
   };
   return {
     play: (k) => { if (!(rec[k] && rec[k]())) (lib[k] || (() => {}))(); },
@@ -449,6 +454,10 @@ const SFX = (() => {
   };
 })();
 document.addEventListener("pointerdown", () => SFX.unlock(), { capture: true });
+
+// Auntie's shop between tournament rounds (shop.js draws it; the server keeps the coins and the bag)
+var shop = setupShop({ socket, SFX });   // var: showScreen can run before this line
+let lastEarned = 0;
 
 // ============================================================
 //  BATTLE THEATRE — the Skill Lab cinematics, played for every strike, skill and ultimate
@@ -1113,7 +1122,9 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
     ...(timeLine ? [`<div class="reward-line"><span>⏱ ${timeLine}</span></div>`] : []),
     ...(answered ? [`<div class="reward-line"><span>✅ You answered</span><span>${gotRight} / ${answered} correct</span></div>`] : []),
     ...(r?.along?.answered ? [`<div class="reward-line"><span>👥 Answering along</span><span>${r.along.right} / ${r.along.answered} correct</span></div>`] : []),
+    ...(tournament && r?.coins ? [`<div class="reward-line coins"><span>🪙 Coins earned · spend them at Auntie's shop</span><span>+${r.coins}</span></div>`] : []),
   ];
+  lastEarned = tournament && r?.coins ? r.coins : 0;
 
   // Learning recap — show the questions THIS player got wrong, with the right answer + why.
   let recap = "";
@@ -1833,14 +1844,15 @@ function moveTargets(sel, me, b) {
     return [];
   }
   if (sel.kind === "item") {
-    if (sel.itemId === "crystal") return [];
+    if (sel.itemId === "crystal" || sel.itemId === "chilli") return [];      // the whole team / yourself
     if (sel.itemId === "revive") return b.combatants.filter((c) => c.team === me.team && !c.alive);
+    if (sel.itemId === "durian") return enemies;
     return alliesAlive;
   }
   return [];
 }
 function targetVerb(sel, me) {
-  if (sel.kind === "strike" || (sel.kind === "skill" && isOffSkill(me.skills[sel.index]))) return "TAP TO HIT";
+  if (sel.kind === "strike" || (sel.kind === "skill" && isOffSkill(me.skills[sel.index])) || sel.itemId === "durian") return "TAP TO HIT";
   if (sel.kind === "skill") { const k = me.skills[sel.index].kind; return k === "heal" ? "TAP TO HEAL" : k === "cleanse" ? "TAP TO CLEANSE" : "TAP TO SHIELD"; }
   if (sel.itemId === "revive") return "TAP TO REVIVE";
   return "TAP TO GIVE TO";
@@ -1900,11 +1912,11 @@ function buildMovePanel(me, b, halfPower = false) {
 
   const itemList = Object.entries(me.items || {}).filter(([, n]) => n > 0);
   const itemsLeft = itemList.reduce((a, [, n]) => a + n, 0);
-  const itemsPop = itemsOpen && itemList.length ? `<div class="ms-items">${itemList.map(([id, n]) => {
+  const itemsPop = itemsOpen && itemList.length ? `<div class="ms-items ${itemList.length > 4 ? "many" : ""}">${itemList.map(([id, n]) => {
     const it = ITEM_BY_ID[id] || { name: id };
     const needsDead = id === "revive" && !b.combatants.some((c) => c.team === me.team && !c.alive);
     return `<button class="ms-item ${selIs("item", id) ? "sel" : ""}" data-move="item" data-item="${id}" ${needsDead ? "disabled" : ""}>
-      <span class="ms-item-top"><span>${esc(it.name)}</span><small>×${n}</small></span>
+      <span class="ms-item-top"><span class="ms-item-row"><img class="ms-item-ico" src="${itemIcon(id)}" alt="">${esc(it.name)}</span><small>×${n}</small></span>
       <span class="ms-item-desc">${needsDead ? "Nobody on your team is knocked out" : esc(it.desc || "")}</span></button>`;
   }).join("")}</div>` : "";
 
@@ -2181,7 +2193,14 @@ $("tnLeave").addEventListener("click", () => {
   myId = socket.id;
   showScreen("home");
 });
-$("backToTourney").addEventListener("click", () => { renderTourney(); showScreen("tourney"); });
+$("backToTourney").addEventListener("click", () => {
+  renderTourney(); showScreen("tourney");
+  // after every battle, Auntie's shop opens on the way back (the next round can still start; the shop then closes)
+  if (tView && tView.status !== "finished" && !tView.you?.inBattle) {
+    shop.open({ coins: tView.you.coins, bag: tView.you.bag, earned: lastEarned });
+    lastEarned = 0;
+  }
+});
 
 // ---- battle clock (top of the arena) ----
 let matchDeadline = null, matchClockInt = null;
@@ -2223,7 +2242,8 @@ function renderTourney() {
   put("tnYou", `You are <b>${esc(v.you.name)}</b>${v.partner ? ` · partner <b>${esc(v.partner.name)}</b>` : ""}`);
   put("tnStatus", statusHtml(v));
   const finished = v.status === "finished";
-  put("tnLeft", finished ? standingsHtml(v) : partnerHtml(v) + fighterHtml(v));
+  put("tnLeft", finished ? standingsHtml(v) : shopDoorHtml(v) + partnerHtml(v) + fighterHtml(v));
+  shop.update(v.you, shopNextHtml(v));
   put("tnRight", finished ? historyHtml(v) : watchHtml(v) + standingsHtml(v) + historyHtml(v));
   tickCountdowns();
   updateWatchFromResult();
@@ -2231,9 +2251,10 @@ function renderTourney() {
 
 // One click handler for the whole tournament screen (its contents are redrawn often).
 $("tourney").addEventListener("click", (e) => {
-  const el = e.target.closest("[data-mate],[data-fighter],[data-watch],[data-ready],#tnLeavePair");
+  const el = e.target.closest("[data-mate],[data-fighter],[data-watch],[data-ready],[data-shop],#tnLeavePair");
   if (!el || !tView) return;
-  if (el.dataset.mate) {
+  if (el.dataset.shop) { SFX.play("select"); shop.open({ coins: tView.you.coins, bag: tView.you.bag }); }
+  else if (el.dataset.mate) {
     SFX.play("select");
     socket.emit("tChoosePartner", { pid: tView.you.wants === el.dataset.mate ? null : el.dataset.mate });
   } else if (el.dataset.fighter) {
@@ -2327,6 +2348,25 @@ function partnerHtml(v) {
       ? `You picked <b>${esc(waiting)}</b>. You become a pair when they pick you too. Tap their name again to cancel.`
       : "Tap a classmate's name. When they tap your name too, you are a pair."}</p>
     ${list ? `<div class="tn-mates">${list}</div>` : `<p class="tn-text">Nobody else is free right now. If you are still on your own when the round starts, you are paired at random.</p>`}</div>`;
+}
+
+// the shop door on the tournament screen: coins, what is in the bag, and a way in
+function shopDoorHtml(v) {
+  const bag = Object.entries(v.you.bag || {}).flatMap(([id, n]) => Array(n > 0 ? n : 0).fill(id));
+  return `<div class="tn-card"><button class="tn-shop" data-shop="1" type="button">
+    <img src="assets/shop/auntie_face.webp" alt="">
+    <span><span class="tns-t">🏪 AUNTIE'S SHOP</span>
+      <span class="tns-s"><span class="tns-c"><i class="mm-coin"></i>${v.you.coins || 0}</span> coins · buy items for your next battle</span>
+      ${bag.length ? `<span class="tns-bag">${bag.map((id) => `<img src="${itemIcon(id)}" alt="${esc(ITEM_BY_ID[id]?.name || id)}">`).join("")}</span>` : ""}</span>
+  </button></div>`;
+}
+// the round countdown, shown on the shop sign
+function shopNextHtml(v) {
+  if (v.status === "finished") return "";
+  const nextNo = v.status === "lobby" ? 1 : v.round + 1;
+  if (v.startsIn != null) return `Round ${nextNo} starts in <b class="tn-count"></b>`;
+  if (v.status === "round") return `Round ${v.round} is on`;
+  return `Next: round ${nextNo} of ${v.settings.rounds}`;
 }
 
 function miniFighter(charId) {

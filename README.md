@@ -60,6 +60,31 @@ pick a live battle on their screen and watch it. Watchers see the questions and 
 cannot answer or steal. On the projector, click any live battle card to watch it on the big
 screen. When a watched battle ends, the view moves to another battle that is still going.
 
+**Auntie's shop.** Every battle earns coins: 300 for a win, 200 for a draw, 120 for a loss, plus
+20 for each correct answer and 5 for each right answer while answering along. When a student
+taps **BACK TO TOURNAMENT** after a battle, Auntie's Magic Mama shop opens in first person
+(there is also a shop button on the tournament screen). Students tap an item on the shelves,
+read what it does, and buy it. What they buy is packed for their next battle on top of the
+three free items, and anything they don't use stays in their bag. A student can carry 2 of one
+item and 6 items in all, and cannot shop during a battle; if the next round starts while they
+are shopping, the shop closes and the battle opens.
+
+| Item | Coins | Effect |
+|---|---|---|
+| Kaya Toast Set | 120 | Restore 300 HP to one ally |
+| Malt Dino Elixir | 100 | Restore 150 SP to one ally |
+| Phoenix Kueh | 300 | Revive a knocked-out teammate at 50% HP |
+| Iron Tingkat | 150 | The next hit on one ally does half damage |
+| Ice Gem Crystals | 250 | +30 to the team's Sync gauge |
+| Teh Halia Tonic | 140 | Clear debuffs from one ally and restore 100 HP |
+| Chilli Padi Charm | 180 | Your next attack does 25% more damage |
+| Study Notes | 160 | One extra hint in the next battle (works by itself) |
+| Durian Bomb | 220 | About 150 damage to one enemy, whatever their element |
+
+Prices and effects are in `public/data/characters.js` (`ITEMS`, `SHOP_LIMIT`); the effects are
+in `useItem` in `combat.js`. Coins and bags live with the tournament, so they reset when it ends.
+`node test-shop.mjs` checks earning, buying, the limits and items carrying into battle.
+
 **The teacher can still step in** at any time: **Start now** skips a countdown, **Hold** pauses
 the automatic start (then **Resume**), **End round now** stops every running battle, and
 names on the teacher page can be paired, split or removed.
@@ -200,7 +225,9 @@ Academy Rift/
 │  ├─ teacher.html/.js/.css  Teacher's class-tournament page (projector), opened at /teacher
 │  ├─ hub.html/.js/.css   Question hub, opened at /hub
 │  ├─ style.css           Art-bible UI (crimson/black shards, HP/SP cards, sync gauge…)
-│  ├─ game.js             Client: socket sync, battle render, MCQ, command shards, FX, shop
+│  ├─ game.js             Client: socket sync, battle render, MCQ, command shards, FX
+│  ├─ shop.js/.css        Auntie's Magic Mama, the first-person shop between tournament rounds
+│  ├─ assets/shop/        Auntie, the shop backdrop and the 9 item icons (PixelLab pixel art)
 │  ├─ fonts/              Saira Semi Condensed (titles), Lexend (reading) and Cinzel (battle cinematics)
 │  ├─ theatre/            Battle cinematics: engine.js, manifest.json, sprite sheets, effects, sounds
 │  └─ data/               Shared roster, topics, tournament settings, spreadsheet reading, animTimes.js
@@ -209,7 +236,9 @@ Academy Rift/
 ├─ test-match.mjs         Headless 4-player end-to-end test (node test-match.mjs)
 ├─ test-tournament.mjs    Headless 30-student class tournament test
 ├─ test-practice.mjs      The practice fight, played through
-└─ test-hub.mjs           Question hub test (import, pictures, saving, use in battles)
+├─ test-hub.mjs           Question hub test (import, pictures, saving, use in battles)
+├─ test-learning.mjs      Answering along, mistakes coming back, the Rift Report and teacher report
+└─ test-shop.mjs          Auntie's shop: coins, buying, limits, items carried into battle
 ```
 
 ## Art pipeline (how the battle stage is composed)
@@ -296,7 +325,7 @@ bad matchup is a disadvantage, not a lost battle.
 
 Balance (October 2026): heavy skills are a strong hit rather than a near-knockout (skill power
 is compressed, so the biggest single hit is about a third of a fighter's HP), heals restore half
-their printed power and a fighter's heals share one cooldown, the HP Boost item restores 300 HP,
+their printed power and a fighter's heals share one cooldown, the Kaya Toast Set item restores 300 HP,
 and every fighter has a DEF stat, the share of each hit they shrug off (Taiga 20%, Emi and Mina
 10%, Saya and Renji 8%, Nao 5%). In the simulator the first knockout comes around turn 23 of 36 in
 an 8-minute battle (it was turn 15), and no fighter wins more than 54% or less than 47%.
