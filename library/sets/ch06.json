@@ -16,11 +16,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cells are the basic units of life. All living things are made up of one or more cells.",
    "hint": "",
    "image": null,
    "lo": "State that cells are the basic units of life and need a microscope to be seen",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Organs are made of tissues, which are made of cells, so organs are not the smallest unit. Think about what organs are built from at the smallest level.",
+    "2": "A tissue is a group of similar cells working together, so it is built from smaller units. Think about what tissues are made of.",
+    "3": "A system is made of several organs working together, so it is a large unit, not a building block. Think about the smallest unit of life."
+   },
+   "why": null
   },
   {
    "id": "c06q2",
@@ -34,11 +40,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Most cells are too small to be seen with the naked eye. A microscope magnifies them so that the cells and their parts can be seen.",
    "hint": "",
    "image": null,
    "lo": "State that cells are the basic units of life and need a microscope to be seen",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Cells are found in all living things, including plants and unicellular organisms, not only inside the body. Think about the size of a cell.",
+    "2": "Many cells, such as plant cells, do not move at all, yet they still need a microscope to be seen. Think about the size of a cell.",
+    "3": "Many cells are not transparent, such as green plant cells. Think about why a cell cannot be seen even when it is coloured."
+   },
+   "why": {
+    "right": "A microscope makes small objects look larger, so the details of tiny cells can be seen.",
+    "wrong": [
+     "A microscope makes cells move more slowly, so the details of fast cells can be seen.",
+     "A microscope adds colour to clear objects, so the details of transparent cells can be seen."
+    ]
+   }
   },
   {
    "id": "c06q3",
@@ -52,11 +70,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A light microscope passes visible light through the specimen and uses glass lenses to magnify the image.",
    "hint": "",
    "image": null,
    "lo": "Relate advances in microscope technology to knowledge about cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Sound waves are not used to form images in a light microscope. The name of the microscope gives a clue to what it uses.",
+    "1": "A light microscope may have a mirror to direct light onto the specimen, but a mirror alone does not magnify. Think about which part makes the image larger.",
+    "3": "Electrons and magnets are used in an electron microscope. A light microscope works in a different way, as its name suggests."
+   },
+   "why": null
   },
   {
    "id": "c06q4",
@@ -70,11 +94,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An electron microscope can magnify far more than a light microscope, so it shows much finer detail inside a cell.",
    "hint": "",
    "image": null,
    "lo": "Relate advances in microscope technology to knowledge about cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A telescope is used to look at distant objects, such as stars, not tiny objects close by. Think about instruments built to magnify cells.",
+    "1": "A hand lens magnifies only a few times, which is not enough to see inside a cell. Think about the instrument with the greatest magnification.",
+    "2": "A light microscope can show cells and some of their parts, but its magnification is limited. Think about a more powerful type of microscope."
+   },
+   "why": {
+    "right": "An electron microscope shows more detail because it can magnify far more than a light microscope.",
+    "wrong": [
+     "An electron microscope shows more detail because it uses brighter visible light than a light microscope.",
+     "An electron microscope shows more detail because it makes the cells themselves grow larger."
+    ]
+   }
   },
   {
    "id": "c06q5",
@@ -88,11 +124,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The structures were always in cells, but they could not be seen until microscopes improved. Better technology let scientists build new knowledge about cells.",
    "hint": "",
    "image": null,
    "lo": "Relate advances in microscope technology to knowledge about cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Knowledge about cells did change once the small structures were seen. Think about what made it possible to see them.",
+    "1": "The structures were there all along. They were not seen earlier because the microscopes of the time could not show them.",
+    "3": "Small structures in cells carry out important jobs. Think about what made it possible to see them for the first time."
+   },
+   "why": {
+    "right": "Scientists could describe the small structures only after microscopes could magnify them enough.",
+    "wrong": [
+     "Scientists could describe the small structures only after cells grew these structures over time.",
+     "Scientists could describe the small structures only after deciding that larger structures did not matter."
+    ]
+   }
   },
   {
    "id": "c06q6",
@@ -106,11 +154,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The cell membrane is a thin layer around the cell. It controls the movement of substances into and out of the cell.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of a typical cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Photosynthesis takes place in the chloroplasts, not the cell membrane. Think about the job of the thin layer around the cell.",
+    "2": "A regular shape is given by the cell wall in plant cells. The cell membrane is a thin layer with a different job.",
+    "3": "Storing liquids, food and waste is the job of the vacuole. The cell membrane is a thin outer layer with a different job."
+   },
+   "why": null
   },
   {
    "id": "c06q7",
@@ -124,11 +178,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The cell wall is a tough, rigid layer outside the cell membrane of a plant cell. It protects and supports the cell and gives it a regular shape.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of a typical cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Controlling all the activities of the cell is the job of the nucleus. The cell wall is a tough outer layer with a different job.",
+    "2": "Photosynthesis takes place in the chloroplasts. The cell wall is a tough outer layer with a different job.",
+    "3": "Storing liquids, food and waste is the job of the vacuole. The cell wall is a tough outer layer with a different job."
+   },
+   "why": null
   },
   {
    "id": "c06q8",
@@ -142,11 +202,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The nucleus controls all the activities of the cell. It also contains DNA, the genetic material.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of a typical cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Most chemical reactions take place in the cytoplasm. The nucleus contains DNA, so think about what that lets it do.",
+    "1": "Storing liquids, food and waste is the job of the vacuole. The nucleus contains DNA, so think about what that lets it do.",
+    "2": "Protecting and supporting the cell is the job of the cell wall. The nucleus contains DNA, so think about what that lets it do."
+   },
+   "why": null
   },
   {
    "id": "c06q9",
@@ -160,11 +226,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Chloroplasts contain chlorophyll, which absorbs light. Photosynthesis takes place in the chloroplasts.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of a typical cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Storing liquids, food and waste is the job of the vacuole. Chloroplasts contain the green pigment chlorophyll, so think about what that is used for.",
+    "1": "Controlling all the activities of the cell is the job of the nucleus. Chloroplasts contain the green pigment chlorophyll, so think about what that is used for.",
+    "3": "Protecting and supporting the cell is the job of the cell wall. Chloroplasts contain the green pigment chlorophyll, so think about what that is used for."
+   },
+   "why": null
   },
   {
    "id": "c06q10",
@@ -178,11 +250,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The vacuole is a space in the cell filled with fluid. It stores liquids, food and waste materials.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of a typical cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Most chemical reactions take place in the cytoplasm. The vacuole is a fluid-filled space, so think about what it might hold.",
+    "2": "Controlling all the activities of the cell is the job of the nucleus. The vacuole is a fluid-filled space, so think about what it might hold.",
+    "3": "Photosynthesis takes place in the chloroplasts. The vacuole is a fluid-filled space, so think about what it might hold."
+   },
+   "why": null
   },
   {
    "id": "c06q11",
@@ -196,11 +274,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The cytoplasm is the jelly-like substance that fills the cell. Most of the chemical reactions of the cell take place in it.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of a typical cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Storing liquids, food and waste is the job of the vacuole. Think about what happens in the jelly-like substance that fills the cell.",
+    "1": "Controlling all the activities of the cell is the job of the nucleus. Think about what happens in the jelly-like substance that fills the cell.",
+    "2": "Protecting and supporting the cell is the job of the cell wall. Think about what happens in the jelly-like substance that fills the cell."
+   },
+   "why": null
   },
   {
    "id": "c06q12",
@@ -214,11 +298,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The cytoplasm is the jelly-like substance that fills the cell. The other cell parts are found in it.",
    "hint": "",
    "image": null,
    "lo": "Identify a cell part from a description of its function",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The vacuole is a fluid-filled space held inside the cell. Think about the substance that surrounds the vacuole and the other parts.",
+    "2": "The cell membrane is a thin layer around the cell, not a substance that fills it. Think about what lies inside the membrane.",
+    "3": "The nucleus is one part inside the cell that controls its activities. Think about the substance that surrounds the nucleus."
+   },
+   "why": null
   },
   {
    "id": "c06q13",
@@ -232,11 +322,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The cell wall is a tough, rigid layer around a plant cell. It gives the cell a regular shape and supports it.",
    "hint": "",
    "image": null,
    "lo": "Identify a cell part from a description of its function",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Chloroplasts are small structures where photosynthesis takes place. They do not form a layer around the cell.",
+    "1": "The cytoplasm is jelly-like, so it cannot hold the cell in a fixed shape. Think about the tough outer layer of a plant cell.",
+    "2": "The cell membrane is thin and flexible, so it does not give a fixed shape. Think about the layer outside it in a plant cell."
+   },
+   "why": null
   },
   {
    "id": "c06q14",
@@ -250,11 +346,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The cell membrane is a thin layer found just inside the cell wall of a plant cell.",
    "hint": "",
    "image": null,
    "lo": "Identify a cell part from a description of its function",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The cytoplasm is a jelly-like substance, not a thin layer. It lies further inside the cell.",
+    "2": "The nucleus is a rounded structure inside the cell, not a layer. Think about what lies just inside the cell wall.",
+    "3": "The vacuole is a fluid-filled space in the cell, not a thin layer. Think about what lies just inside the cell wall."
+   },
+   "why": null
   },
   {
    "id": "c06q15",
@@ -268,11 +370,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Photosynthesis takes place in the chloroplasts, where the plant makes its own food. So the chloroplast is called the food factory of a plant cell.",
    "hint": "",
    "image": null,
    "lo": "Identify a cell part from a description of its function",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Many chemical reactions happen in the cytoplasm, but it does not make food using light. Think about where photosynthesis takes place.",
+    "1": "The vacuole stores food, but it does not make food. Think about where photosynthesis takes place.",
+    "3": "The nucleus controls the activities of the cell, but it does not make food itself. Think about where photosynthesis takes place."
+   },
+   "why": {
+    "right": "Chloroplasts are called food factories because photosynthesis, which makes food, takes place in them.",
+    "wrong": [
+     "Chloroplasts are called food factories because they store the food that the cell takes in.",
+     "Chloroplasts are called food factories because they break down food to release waste."
+    ]
+   }
   },
   {
    "id": "c06q16",
@@ -286,11 +400,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The nucleus controls all the activities of the cell. Without it, the cell cannot carry out its life processes and it dies.",
    "hint": "",
    "image": null,
    "lo": "Identify a cell part from a description of its function",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Many plant cells, such as root cells, live with no chloroplasts at all. Think about the part that controls the activities of the cell.",
+    "2": "Animal cells have no cell wall and still live. Think about the part that controls the activities of the cell.",
+    "3": "A vacuole stores substances, so losing it is not what kills the cell. Think about the part that controls the activities of the cell."
+   },
+   "why": {
+    "right": "A cell dies without its nucleus because the nucleus controls all the activities of the cell.",
+    "wrong": [
+     "A cell dies without its nucleus because the nucleus makes all the food the cell needs.",
+     "A cell dies without its nucleus because the nucleus holds the cell in its shape."
+    ]
+   }
   },
   {
    "id": "c06q17",
@@ -304,11 +430,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Photosynthesis takes place in the chloroplasts. If the chloroplasts are damaged, the cell can no longer carry out photosynthesis.",
    "hint": "",
    "image": null,
    "lo": "Identify a cell part from a description of its function",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Movement of substances into the cell is controlled by the cell membrane. Think about what chloroplasts do in a leaf cell.",
+    "1": "Support comes from the cell wall. Think about what chloroplasts do in a leaf cell.",
+    "3": "Storage of waste happens in the vacuole. Think about what chloroplasts do in a leaf cell."
+   },
+   "why": {
+    "right": "Photosynthesis stops because chloroplasts contain the chlorophyll that absorbs light energy.",
+    "wrong": [
+     "Photosynthesis stops because chloroplasts carry the water into the leaf cell.",
+     "Photosynthesis stops because chloroplasts hold the leaf cell in a fixed shape."
+    ]
+   }
   },
   {
    "id": "c06q18",
@@ -322,11 +460,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The nucleus contains DNA, the genetic material of the cell.",
    "hint": "",
    "image": null,
    "lo": "State that the nucleus contains DNA, the genetic material passed to offspring",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The vacuole stores liquids, food and waste, not genetic material. Think about the part that controls the cell.",
+    "2": "The cytoplasm is where most chemical reactions take place. The genetic material is kept inside a separate structure.",
+    "3": "The cell membrane controls what enters and leaves the cell. The genetic material is kept inside a separate structure."
+   },
+   "why": null
   },
   {
    "id": "c06q19",
@@ -340,11 +484,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "DNA is the genetic material in the nucleus. It is passed down from parents to their offspring.",
    "hint": "",
    "image": null,
    "lo": "State that the nucleus contains DNA, the genetic material passed to offspring",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Storing food and waste is the job of the vacuole. DNA carries information, so think about how features are passed on in families.",
+    "1": "Making food by photosynthesis happens in chloroplasts. DNA carries information, so think about how features are passed on in families.",
+    "2": "DNA is found in the cells of animals as well as plants. Think about how features are passed on in families."
+   },
+   "why": null
   },
   {
    "id": "c06q20",
@@ -357,11 +507,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A cell wall is found in plant cells only. Animal cells have a cell membrane but no cell wall.",
    "hint": "",
    "image": null,
    "lo": "Classify cell parts as found in plant cells only or in both",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Animal cells have no cell wall. Their outer layer is the cell membrane. Think about which cells have a rigid, regular shape.",
+    "2": "Animal cells have only a cell membrane on the outside. Think about which cells have a tough, rigid layer as well."
+   },
+   "why": null
   },
   {
    "id": "c06q21",
@@ -374,11 +529,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A typical plant cell and a typical animal cell both have a nucleus to control their activities.",
    "hint": "",
    "image": null,
    "lo": "Classify cell parts as found in plant cells only or in both",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Plant cells need a part to control their activities too. Think about whether a typical plant cell has a nucleus.",
+    "1": "Animal cells need a part to control their activities too. Think about whether a typical animal cell has a nucleus."
+   },
+   "why": null
   },
   {
    "id": "c06q22",
@@ -391,11 +551,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Chloroplasts are found in plant cells only. Animals do not carry out photosynthesis, so animal cells have no chloroplasts.",
    "hint": "",
    "image": null,
    "lo": "Classify cell parts as found in plant cells only or in both",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Animal cells do not carry out photosynthesis. Think about which living things make their own food.",
+    "2": "Animals get food by eating, not by photosynthesis. Think about which living things make their own food."
+   },
+   "why": {
+    "right": "Plant cells have chloroplasts because plants make their own food by photosynthesis, and animals do not.",
+    "wrong": [
+     "Plant cells have chloroplasts because plants need energy to live, and animals do not.",
+     "Plant cells have chloroplasts because plants have a cell wall to protect them, and animals do not."
+    ]
+   }
   },
   {
    "id": "c06q23",
@@ -408,11 +579,16 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Both plant and animal cells have a cell membrane that controls what enters and leaves the cell.",
    "hint": "",
    "image": null,
    "lo": "Classify cell parts as found in plant cells only or in both",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Animal cells also need to control what enters and leaves them. Think about whether animal cells have a cell membrane.",
+    "2": "Plant cells also need to control what enters and leaves them. In a plant cell, this layer lies just inside the cell wall."
+   },
+   "why": null
   },
   {
    "id": "c06q24",
@@ -425,11 +601,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Both plant and animal cells contain cytoplasm, where most chemical reactions take place.",
    "hint": "",
    "image": null,
    "lo": "Classify cell parts as found in plant cells only or in both",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Plant cells also carry out chemical reactions to stay alive. Think about whether a plant cell is filled with cytoplasm.",
+    "2": "Animal cells also carry out chemical reactions to stay alive. Think about whether an animal cell is filled with cytoplasm."
+   },
+   "why": null
   },
   {
    "id": "c06q25",
@@ -443,11 +624,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Both plant and animal cells have a cell membrane, so it is not a difference between them. The cell wall, chloroplasts and large central vacuole are found in plant cells only.",
    "hint": "",
    "image": null,
    "lo": "Classify cell parts as found in plant cells only or in both",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A cell wall is found in plant cells but not in animal cells, so it is a difference. Look for a part that both cells share.",
+    "1": "Chloroplasts are found in plant cells but not in animal cells, so they are a difference. Look for a part that both cells share.",
+    "2": "A large central vacuole is found in plant cells, while animal cells have small vacuoles. So it is a difference. Look for a part that both share."
+   },
+   "why": {
+    "right": "A cell membrane is not a difference because both plant and animal cells have one.",
+    "wrong": [
+     "A cell membrane is not a difference because neither plant nor animal cells have one.",
+     "A cell membrane is not a difference because it is part of the cell wall in both cells."
+    ]
+   }
   },
   {
    "id": "c06q26",
@@ -461,11 +654,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A typical plant cell has one large central vacuole, or sometimes two, filled with cell sap.",
    "hint": "",
    "image": null,
    "lo": "Compare the vacuoles and size of typical plant and animal cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Many small vacuoles are found in a typical animal cell. A plant cell vacuole takes up much of the cell.",
+    "1": "A plant cell vacuole is not small. It often takes up most of the space inside the cell.",
+    "2": "Plant cells do have vacuoles. Think about how much of the cell the vacuole fills."
+   },
+   "why": null
   },
   {
    "id": "c06q27",
@@ -479,11 +678,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A typical animal cell has many small vacuoles. A typical plant cell has one large central vacuole instead.",
    "hint": "",
    "image": null,
    "lo": "Compare the vacuoles and size of typical plant and animal cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A typical animal cell does have vacuoles. Think about their size and number compared with a plant cell.",
+    "2": "One or two large vacuoles are found in a typical plant cell. Animal cell vacuoles are different in size and number.",
+    "3": "A large central vacuole is a feature of plant cells. Animal cell vacuoles are different in size and number."
+   },
+   "why": null
   },
   {
    "id": "c06q28",
@@ -497,11 +702,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A typical cell model shows the parts that most cells of that type have. Real cells can differ from it.",
    "hint": "",
    "image": null,
    "lo": "Show that typical plant and animal cells are models of many cell forms",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A model shows parts that cells do have, not parts they lack. Think about how many real cells match the model.",
+    "1": "A model shows parts that cells do have, and real cells can have them. Think about how many real cells match the model.",
+    "3": "Some real cells lack parts shown in the model, such as a red blood cell with no nucleus. So the model is not true for every cell."
+   },
+   "why": {
+    "right": "A typical cell model shows the common features of many cells, but real cells can differ from it.",
+    "wrong": [
+     "A typical cell model shows the features found in every cell, and real cells never differ from it.",
+     "A typical cell model shows features found in no real cell, so it is only imaginary."
+    ]
+   }
   },
   {
    "id": "c06q29",
@@ -515,11 +732,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A red blood cell is a real animal cell that has no nucleus. This shows that real cells can differ from the typical cell model.",
    "hint": "",
    "image": null,
    "lo": "Show that typical plant and animal cells are models of many cell forms",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Most cells need a nucleus to control their activities. One cell without a nucleus does not show that no cell needs one.",
+    "1": "A red blood cell is an animal cell found in human blood. Think about how it compares with the typical model.",
+    "3": "The model is still useful because it shows what most animal cells have. Think about what one unusual cell shows about the model."
+   },
+   "why": {
+    "right": "A typical cell model shows the features most cells have, so some real cells will not match it.",
+    "wrong": [
+     "A typical cell model shows the features all cells have, so a cell without a nucleus must be dead.",
+     "A typical cell model shows the features of plant cells only, so animal cells will not match it."
+    ]
+   }
   },
   {
    "id": "c06q30",
@@ -533,11 +762,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Root hair cells are underground, where there is no light for photosynthesis, so they have no chloroplasts. They are still plant cells with a cell wall.",
    "hint": "",
    "image": null,
    "lo": "Show that typical plant and animal cells are models of many cell forms",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A root hair cell is one of many cells in a plant, not a whole organism on its own. Think about where it is found.",
+    "2": "Not every plant cell has chloroplasts. Look at the other parts of a root hair cell, such as its outer layer.",
+    "3": "A cell can be alive without chloroplasts, as animal cells show. Think about what kind of organism the root belongs to."
+   },
+   "why": {
+    "right": "A root hair cell is a plant cell because it has a cell wall, even though it has no chloroplasts.",
+    "wrong": [
+     "A root hair cell is a plant cell because all cells found in the soil are plant cells.",
+     "A root hair cell is a plant cell because only plant cells can live without chloroplasts."
+    ]
+   }
   },
   {
    "id": "c06q31",
@@ -551,11 +792,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Only plant cells have a cell wall, so the cell is from a plant. Some plant cells, such as root cells, have no chloroplasts.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Some plant cells, such as root cells, have no chloroplasts. Look for a part in this cell that animal cells never have.",
+    "2": "Both plant and animal cells have a nucleus, so it cannot show which one this is. Look for a part that animal cells never have.",
+    "3": "Both plant and animal cells have a nucleus, so it cannot show which one this is. Look for a part that only one kind of cell has."
+   },
+   "why": {
+    "right": "A cell wall is found only in plant cells, so it shows the cell comes from a plant.",
+    "wrong": [
+     "A nucleus is found only in plant cells, so it shows the cell comes from a plant.",
+     "Chloroplasts are found in every plant cell, so their absence shows the cell comes from an animal."
+    ]
+   }
   },
   {
    "id": "c06q32",
@@ -569,11 +822,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Every plant cell has a cell wall. This cell has no cell wall, so it is from an animal. Storing oil and having a nucleus do not decide this.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Both plant and animal cells have a nucleus, so it cannot show which one this is. Look at the part this cell is missing.",
+    "1": "Animal cells do have a nucleus, but so do plant cells. Look for a reason that fits only one kind of cell.",
+    "2": "Both plant and animal cells can store oil, so it cannot show which one this is. Look at the part this cell is missing."
+   },
+   "why": {
+    "right": "A cell with no cell wall cannot be a plant cell, because every plant cell has a cell wall.",
+    "wrong": [
+     "A cell that stores oil cannot be a plant cell, because plant cells store only starch.",
+     "A cell with a nucleus cannot be a plant cell, because plant cells have no nucleus."
+    ]
+   }
   },
   {
    "id": "c06q33",
@@ -587,11 +852,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Chloroplasts, a cell wall and a large vacuole are all found in plant cells only. Chloroplasts alone are enough to show the cell is from a plant.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The cell is from a plant, but a nucleus is not the reason. Both plant and animal cells have a nucleus.",
+    "2": "Animal cells have only small vacuoles. A large vacuole, a cell wall and chloroplasts all point to one kind of cell.",
+    "3": "Both plant and animal cells have a membrane, so it cannot show which one this is. Look for parts that only one kind of cell has."
+   },
+   "why": {
+    "right": "Chloroplasts are found only in plant cells, so they show the cell comes from a plant.",
+    "wrong": [
+     "Vacuoles are found only in plant cells, so they show the cell comes from a plant.",
+     "Cell membranes are found only in plant cells, so they show the cell comes from a plant."
+    ]
+   }
   },
   {
    "id": "c06q34",
@@ -605,11 +882,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Every plant cell has a cell wall. This cell has no cell wall, so it is from an animal. A red blood cell is an example.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Having no chloroplasts does not point to a plant. Look at which missing part every plant cell would need to have.",
+    "1": "Having no nucleus does not point to a plant. Look at which missing part every plant cell would need to have.",
+    "3": "Most animal cells do have a nucleus, so a missing nucleus does not show it is an animal cell. Look at which missing part every plant cell has."
+   },
+   "why": {
+    "right": "A cell with no cell wall must be an animal cell, because every plant cell has a cell wall.",
+    "wrong": [
+     "A cell with no nucleus must be an animal cell, because every plant cell has a nucleus.",
+     "A cell with no chloroplasts must be an animal cell, because every plant cell has chloroplasts."
+    ]
+   }
   },
   {
    "id": "c06q35",
@@ -623,11 +912,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Every plant cell has a cell wall, so a cell with no cell wall is from an animal. Many small vacuoles are also typical of animal cells.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Many small vacuoles are typical of animal cells. Plant cells usually have one or two large vacuoles.",
+    "1": "Plant cells have vacuoles too, so having vacuoles does not show it is an animal cell. Look at the part this cell is missing.",
+    "2": "Both plant and animal cells have vacuoles, so having vacuoles cannot decide this. Look at the part this cell is missing."
+   },
+   "why": {
+    "right": "Plant cells always have a cell wall, so a cell without one comes from an animal.",
+    "wrong": [
+     "Plant cells never have vacuoles, so a cell with vacuoles comes from an animal.",
+     "Plant cells always have chloroplasts, so a cell without them comes from an animal."
+    ]
+   }
   },
   {
    "id": "c06q36",
@@ -641,11 +942,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A cell wall is found in plant cells but not in animal cells. Cytoplasm, a cell membrane and a nucleus are found in both.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Cytoplasm is found in both plant and animal cells, so it cannot show which one this is. Look for a part only plant cells have.",
+    "2": "A cell membrane is found in both plant and animal cells, so it cannot show which one this is. Look for a part only plant cells have.",
+    "3": "A nucleus is found in both plant and animal cells, so it cannot show which one this is. Look for a part only plant cells have."
+   },
+   "why": {
+    "right": "A cell wall shows a plant cell because animal cells do not have one.",
+    "wrong": [
+     "A cell wall shows a plant cell because only plant cells need protection.",
+     "A cell wall shows a plant cell because it is where photosynthesis takes place."
+    ]
+   }
   },
   {
    "id": "c06q37",
@@ -659,11 +972,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Every plant cell has a cell wall. A cell without a cell wall can be inferred to be from an animal.",
    "hint": "",
    "image": null,
    "lo": "Infer whether a cell is from a plant or an animal from its structures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Most animal cells have a nucleus, and so do plant cells. A missing nucleus cannot show that a cell is from an animal.",
+    "2": "Every cell, plant or animal, has a cell membrane. Look for a part that animal cells lack but plant cells have.",
+    "3": "Every cell, plant or animal, contains cytoplasm. Look for a part that animal cells lack but plant cells have."
+   },
+   "why": {
+    "right": "A missing cell wall shows an animal cell because every plant cell has a cell wall.",
+    "wrong": [
+     "A missing nucleus shows an animal cell because every plant cell has a nucleus.",
+     "A missing cytoplasm shows an animal cell because every plant cell is filled with cytoplasm."
+    ]
+   }
   },
   {
    "id": "c06q38",
@@ -677,11 +1002,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A unicellular organism is made up of only one cell. That one cell carries out all the life processes.",
    "hint": "",
    "image": null,
    "lo": "Classify organisms as unicellular or multicellular",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An organism with many cells, even similar ones, is multicellular. Think about what the prefix uni means.",
+    "1": "Tissues and organs are made of many cells, so they are found in multicellular organisms. Think about what the prefix uni means.",
+    "2": "Many types of cells are found in multicellular organisms. Think about what the prefix uni means."
+   },
+   "why": null
   },
   {
    "id": "c06q39",
@@ -695,11 +1026,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A bacterium is made up of only one cell, so it is unicellular. A mushroom, a worm and a cat are made up of many cells.",
    "hint": "",
    "image": null,
    "lo": "Classify organisms as unicellular or multicellular",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A mushroom is made up of a great many cells, so it is multicellular. Look for an organism whose whole body is one cell.",
+    "2": "Even a small worm has many cells, so it is multicellular. Look for an organism whose whole body is one cell.",
+    "3": "A cat has a huge number of cells forming tissues and organs. Look for an organism whose whole body is one cell."
+   },
+   "why": {
+    "right": "A bacterium is unicellular because its whole body is made up of only one cell.",
+    "wrong": [
+     "A bacterium is unicellular because it is too small to be seen without a microscope.",
+     "A bacterium is unicellular because it lives in water and in soil."
+    ]
+   }
   },
   {
    "id": "c06q40",
@@ -713,11 +1056,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A mushroom is made up of many cells, so it is multicellular. Euglena, a bacterium and a diatom each have only one cell.",
    "hint": "",
    "image": null,
    "lo": "Classify organisms as unicellular or multicellular",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Euglena is made up of only one cell, so it is unicellular. Look for an organism made up of many cells.",
+    "1": "A bacterium is made up of only one cell, so it is unicellular. Look for an organism made up of many cells.",
+    "3": "A diatom is made up of only one cell, so it is unicellular. Look for an organism made up of many cells."
+   },
+   "why": {
+    "right": "A mushroom is multicellular because it is made up of many cells.",
+    "wrong": [
+     "A mushroom is multicellular because it is large enough to see without a microscope.",
+     "A mushroom is multicellular because it grows in damp places."
+    ]
+   }
   },
   {
    "id": "c06q41",
@@ -731,11 +1086,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The worm is made up of 300 cells, so it is multicellular. Being tiny does not matter, because it is the number of cells that counts.",
    "hint": "",
    "image": null,
    "lo": "Classify organisms as unicellular or multicellular",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Size does not decide whether an organism is unicellular. Count the cells in this worm.",
+    "2": "Mass does not decide whether an organism is unicellular. Count the cells in this worm.",
+    "3": "The worm is multicellular, but not because of its size. The question says it is tiny, so look for a better reason."
+   },
+   "why": {
+    "right": "An organism is multicellular when it is made up of more than one cell, whatever its size.",
+    "wrong": [
+     "An organism is multicellular when it is large enough to be seen without a microscope.",
+     "An organism is multicellular when it is heavy enough to weigh more than one gram."
+    ]
+   }
   },
   {
    "id": "c06q42",
@@ -749,11 +1116,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The diatom has only one cell, so it is unicellular. Its small size is not the reason.",
    "hint": "",
    "image": null,
    "lo": "Classify organisms as unicellular or multicellular",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The diatom is unicellular, but size is not the reason. Some multicellular organisms are tiny too. Look at what the question says about its cells.",
+    "2": "Having a nucleus does not make an organism multicellular. Look at what the question says about the number of cells.",
+    "3": "All living things are alive, including unicellular ones. Look at what the question says about the number of cells."
+   },
+   "why": {
+    "right": "An organism is unicellular when its whole body is made up of only one cell.",
+    "wrong": [
+     "An organism is unicellular when it is small enough to need a microscope to be seen.",
+     "An organism is unicellular when it has no nucleus in its body."
+    ]
+   }
   },
   {
    "id": "c06q43",
@@ -767,11 +1146,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An organism is unicellular if it has only one cell. Counting the cells, usually under a microscope, is the way to tell.",
    "hint": "",
    "image": null,
    "lo": "Classify organisms as unicellular or multicellular",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Some multicellular organisms are tiny, so size does not decide it. Think about what the word unicellular describes.",
+    "1": "Both unicellular and multicellular organisms can move. Think about what the word unicellular describes.",
+    "2": "Both unicellular and multicellular organisms live in water, such as bacteria and fish. Think about what the word unicellular describes."
+   },
+   "why": {
+    "right": "Unicellular means made of one cell, so counting the cells is the only reliable test.",
+    "wrong": [
+     "Unicellular means very small, so measuring the size is the only reliable test.",
+     "Unicellular means unable to move, so checking movement is the only reliable test."
+    ]
+   }
   },
   {
    "id": "c06q44",
@@ -785,11 +1176,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Cells form tissues, tissues form organs, organs form systems, and systems make up the organism.",
    "hint": "",
    "image": null,
    "lo": "Order the levels of organisation from cell to organism",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A system is made of organs, so organs must come before systems in the order. Check the order of the middle levels.",
+    "1": "Tissues are made of cells, so cells must come first. Check which level is the smallest.",
+    "3": "Organs are made of tissues, so tissues must come before organs. Check the order of the middle levels."
+   },
+   "why": null
   },
   {
    "id": "c06q45",
@@ -803,11 +1200,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Different tissues work together to form an organ, so organ comes directly after tissue.",
    "hint": "",
    "image": null,
    "lo": "Order the levels of organisation from cell to organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A system is made of organs, so there is one level between tissue and system. Think about what tissues work together to form.",
+    "1": "The organism is the highest level, with two levels between it and tissue. Think about what tissues work together to form.",
+    "2": "Cells come before tissues, since tissues are made of cells. The question asks for the level after tissue."
+   },
+   "why": null
   },
   {
    "id": "c06q46",
@@ -821,11 +1224,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Organs work together to form a system, so system comes directly after organ.",
    "hint": "",
    "image": null,
    "lo": "Order the levels of organisation from cell to organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Tissues come before organs, since organs are made of tissues. The question asks for the level after organ.",
+    "1": "The cell is the lowest level and comes before organ. The question asks for the level after organ.",
+    "3": "The organism is the highest level, but there is one level between it and organ. Think about what organs work together to form."
+   },
+   "why": null
   },
   {
    "id": "c06q47",
@@ -839,11 +1248,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A tissue is a group of similar cells that work together to perform the same function.",
    "hint": "",
    "image": null,
    "lo": "Order the levels of organisation from cell to organism",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An organ is made of different tissues working together. Think about the level formed directly by groups of similar cells.",
+    "2": "An organism is the whole living thing, made of many levels. Think about the level formed directly by groups of similar cells.",
+    "3": "A system is made of organs working together. Think about the level formed directly by groups of similar cells."
+   },
+   "why": null
   },
   {
    "id": "c06q48",
@@ -857,11 +1272,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A system is a group of organs that work together to perform a function, such as the digestive system.",
    "hint": "",
    "image": null,
    "lo": "Order the levels of organisation from cell to organism",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "An organism is made up of several systems working together. Think about the level formed directly by groups of organs.",
+    "2": "A cell is the smallest level, not a group of organs. Think about the level formed directly by groups of organs.",
+    "3": "A tissue is a group of similar cells, which is below the level of organs. Think about the level formed directly by groups of organs."
+   },
+   "why": null
   },
   {
    "id": "c06q49",
@@ -875,11 +1296,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An organ is made up of different tissues working together to perform a function, such as the heart or the stomach.",
    "hint": "",
    "image": null,
    "lo": "Order the levels of organisation from cell to organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A cell is the smallest level and cannot be made of tissues. Think about the level formed directly by different tissues.",
+    "1": "An organism is the whole living thing, several levels above tissue. Think about the level formed directly by different tissues.",
+    "2": "A system is made of organs, not directly of tissues. Think about the level formed directly by different tissues."
+   },
+   "why": null
   },
   {
    "id": "c06q50",
@@ -893,11 +1320,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The stomach is made up of different tissues, such as muscle tissue, working together to digest food. So it is an organ.",
    "hint": "",
    "image": null,
    "lo": "Classify an example as a cell, tissue, organ, system or organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A tissue is a group of similar cells. The stomach contains several different tissues working together.",
+    "1": "The stomach is one part of the digestive system, not the whole system. A system has several organs.",
+    "3": "The stomach is made of a very large number of cells, not just one. Think about the level formed by several tissues together."
+   },
+   "why": {
+    "right": "The stomach is an organ because it is made of different tissues working together to digest food.",
+    "wrong": [
+     "The stomach is an organ because it is made of one type of cell doing one job.",
+     "The stomach is an organ because it carries out every life process for the body by itself."
+    ]
+   }
   },
   {
    "id": "c06q51",
@@ -911,11 +1350,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Blood is made up of groups of cells working together to carry out functions such as transporting substances. So it is a tissue.",
    "hint": "",
    "image": null,
    "lo": "Classify an example as a cell, tissue, organ, system or organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A system is made up of several organs. Blood is not made of organs. It is made of cells that work together.",
+    "2": "Blood contains a very large number of cells, not just one. Think about the level formed by groups of cells working together.",
+    "3": "An organ, such as the heart, is made of different tissues. Blood is made of cells working together, which is a lower level."
+   },
+   "why": {
+    "right": "Blood is a tissue because it is a group of cells working together to perform a function.",
+    "wrong": [
+     "Blood is a tissue because it is a liquid that fills all the organs of the body.",
+     "Blood is a tissue because it is made of one single large cell that flows around the body."
+    ]
+   }
   },
   {
    "id": "c06q52",
@@ -929,11 +1380,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A single root hair cell is one cell, so it is at the cell level of organisation.",
    "hint": "",
    "image": null,
    "lo": "Classify an example as a cell, tissue, organ, system or organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A tissue is a group of many similar cells. The question describes just one root hair cell.",
+    "2": "An organ such as the root is made of several tissues. The question describes just one root hair cell.",
+    "3": "A system is made of several organs. The question describes just one root hair cell."
+   },
+   "why": null
   },
   {
    "id": "c06q53",
@@ -947,11 +1404,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The root and the stem are both organs. Organs working together to transport water form a system.",
    "hint": "",
    "image": null,
    "lo": "Classify an example as a cell, tissue, organ, system or organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A tissue is a group of similar cells. The root and the stem are each made of several tissues, so they are larger than a tissue.",
+    "2": "An organism is the whole plant, which also has leaves and flowers. Only the root and stem are named here.",
+    "3": "The root is one organ and the stem is another. Think about what organs working together form."
+   },
+   "why": {
+    "right": "The root and stem form a system because they are organs working together to do one job.",
+    "wrong": [
+     "The root and stem form a system because they are made of the same type of cell.",
+     "The root and stem form a system because together they make up the whole plant."
+    ]
+   }
   },
   {
    "id": "c06q54",
@@ -965,11 +1434,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The stem is made of different tissues, such as those that carry water and food, working together. So it is an organ.",
    "hint": "",
    "image": null,
    "lo": "Classify an example as a cell, tissue, organ, system or organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A tissue is a group of similar cells. The stem contains several different tissues working together.",
+    "2": "A stem is made of a very large number of cells, not one. Think about the level formed by several tissues.",
+    "3": "A system is made of several organs, such as the root and stem together. The stem on its own is only one part."
+   },
+   "why": {
+    "right": "The stem is an organ because it is made of different tissues working together.",
+    "wrong": [
+     "The stem is an organ because it is made of one tissue doing one job.",
+     "The stem is an organ because it can survive on its own as a whole living thing."
+    ]
+   }
   },
   {
    "id": "c06q55",
@@ -983,11 +1464,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A whole cat is a complete living thing made up of systems working together. So it is an organism, the highest level of organisation.",
    "hint": "",
    "image": null,
    "lo": "Classify an example as a cell, tissue, organ, system or organism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An organ is one part of a body, such as the heart. A whole cat has many organs.",
+    "1": "A tissue is a group of similar cells. A whole cat is made of many different tissues.",
+    "3": "A system is a group of organs doing one job, such as the digestive system. A whole cat has many systems."
+   },
+   "why": {
+    "right": "A whole cat is an organism because it is a complete living thing made of many systems.",
+    "wrong": [
+     "A whole cat is an organism because it is a single system that does one job.",
+     "A whole cat is an organism because it is a group of similar cells."
+    ]
+   }
   },
   {
    "id": "c06q56",
@@ -1001,11 +1494,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Division of labour is when different parts of an organism or a cell carry out different jobs and work together in a coordinated way.",
    "hint": "",
    "image": null,
    "lo": "Explain the division of labour in an organism and within a cell",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Photosynthesis is the process by which plants make food. It is one job, not the idea of parts sharing out jobs.",
+    "1": "Diffusion is the movement of particles from a region of higher concentration to a region of lower concentration. It is not about parts sharing out jobs.",
+    "2": "Pasteurisation is the heating of food such as milk to kill microorganisms. It is not about parts of an organism sharing out jobs."
+   },
+   "why": null
   },
   {
    "id": "c06q57",
@@ -1019,11 +1518,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "As water enters, the cell swells. The tough, rigid cell wall stops it swelling too much, which prevents the cell from bursting.",
    "hint": "",
    "image": null,
    "lo": "Explain the division of labour in an organism and within a cell",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Controlling what enters and leaves the cell is the job of the cell membrane. The cell wall is tough and rigid, so think about what it resists.",
+    "1": "Storing substances is the job of the vacuole. The cell wall is tough and rigid, so think about what it does as the cell fills with water.",
+    "3": "Making food is the job of chloroplasts, and root hair cells have none. Think about what a tough, rigid wall does as the cell fills with water."
+   },
+   "why": {
+    "right": "The rigid cell wall stops the cell swelling too much, so the cell cannot burst.",
+    "wrong": [
+     "The cell wall controls how much water enters, so the cell cannot burst.",
+     "The cell wall stores the extra water, so the cell cannot burst."
+    ]
+   }
   },
   {
    "id": "c06q58",
@@ -1037,11 +1548,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Each part of a cell has its own structure suited to its own job. The vacuole has no chlorophyll, so it cannot carry out photosynthesis like the chloroplast.",
    "hint": "",
    "image": null,
    "lo": "Explain the division of labour in an organism and within a cell",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Storing waste is the job of the vacuole, not the chloroplast. Think about whether each part can do the job of another.",
+    "2": "Plant cells do have vacuoles, often a large central one. Think about whether each part can do the job of another.",
+    "3": "Size is not the reason. A plant cell vacuole is often large. Think about whether each part is suited to the job of another."
+   },
+   "why": {
+    "right": "The vacuole cannot do the job of the chloroplast because it has no chlorophyll to absorb light.",
+    "wrong": [
+     "The vacuole cannot do the job of the chloroplast because it is full of waste and has no space.",
+     "The vacuole cannot do the job of the chloroplast because it is found only in animal cells."
+    ]
+   }
   }
  ]
 }

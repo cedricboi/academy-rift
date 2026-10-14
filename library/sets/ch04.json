@@ -16,11 +16,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Separating mixtures lets useful constituents be recovered and used again. This helps to reduce waste and to reuse and recycle resources.",
    "hint": "",
    "image": null,
    "lo": "State why separation techniques are needed for sustainable living",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Separating a mixture does not change the boiling point of water. Think about what can be done with the useful parts once they are separated.",
+    "1": "Separating mixtures lets useful parts be recovered, so it lowers waste rather than adding to it. Think about what happens to the recovered parts.",
+    "2": "Separation is a physical process, so no new elements are made. Think about what can be done with the useful parts once they are separated."
+   },
+   "why": {
+    "right": "Separating mixtures supports sustainable living because useful constituents can be recovered and used again instead of thrown away.",
+    "wrong": [
+     "Separating mixtures supports sustainable living because each separation turns waste into brand new elements.",
+     "Separating mixtures supports sustainable living because separated substances never need to be replaced or bought again."
+    ]
+   }
   },
   {
    "id": "c04q2",
@@ -34,11 +46,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Potable water is water that is safe to drink. Tap water in Singapore is treated so that it is potable.",
    "hint": "",
    "image": null,
    "lo": "State why separation techniques are needed for sustainable living",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Groundwater is water found under the ground. It must be treated before it is safe to drink. Think about the term for drinkable water.",
+    "2": "Used water comes from homes and industries, and it is not safe to drink until it is treated. Think about the term for drinkable water.",
+    "3": "Seawater contains too much salt to drink. Think about the term for water that is safe to drink."
+   },
+   "why": null
   },
   {
    "id": "c04q3",
@@ -52,11 +70,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The constituents of a mixture are not chemically combined, so each keeps its own physical properties. Differences in these properties let them be separated.",
    "hint": "",
    "image": null,
    "lo": "State the properties and factors used to choose a separation technique",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "If the constituents had the same boiling point, distillation could not separate them. Separation uses a difference between the constituents.",
+    "1": "A mixture does not form a new substance. Think about what each constituent still has after it is mixed in.",
+    "3": "Chemically combined constituents form a compound, which is hard to separate. Think about how constituents in a mixture are held together."
+   },
+   "why": {
+    "right": "Mixtures can be separated because each constituent keeps physical properties, such as boiling point, that differ from the others.",
+    "wrong": [
+     "Mixtures can be separated because their constituents react with each other to form a new substance.",
+     "Mixtures can be separated because all of their constituents have exactly the same physical properties."
+    ]
+   }
   },
   {
    "id": "c04q4",
@@ -70,11 +100,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Besides physical properties, cost affects the choice of separation technique. A technique that uses a lot of energy or expensive equipment may cost too much.",
    "hint": "",
    "image": null,
    "lo": "State the properties and factors used to choose a separation technique",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The name of a mixture does not change how it can be separated. Think about how much a technique needs in energy and equipment.",
+    "2": "The size of the laboratory does not decide which technique works. Think about how much a technique needs in energy and equipment.",
+    "3": "The colour of the apparatus does not affect how well it separates. Think about how much a technique needs in energy and equipment."
+   },
+   "why": {
+    "right": "Cost affects the choice of technique because some techniques need a lot of energy or expensive equipment.",
+    "wrong": [
+     "Cost affects the choice of technique because the most expensive technique always gives the purest product.",
+     "Cost affects the choice of technique because cheaper techniques always separate mixtures more quickly."
+    ]
+   }
   },
   {
    "id": "c04q5",
@@ -88,11 +130,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Reverse osmosis needs a lot of energy to push water through the membrane, so it is costly. Singapore also uses other sources to keep costs down.",
    "hint": "",
    "image": null,
    "lo": "State the properties and factors used to choose a separation technique",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Reverse osmosis does need electricity to push water through the membrane at high pressure. Think about what using a lot of electricity means.",
+    "1": "Reverse osmosis produces water that is safe to drink. Think about what it needs to run and what that means.",
+    "3": "Reverse osmosis does remove salt from seawater. Think about what it needs to run and what that means."
+   },
+   "why": {
+    "right": "Reverse osmosis is not the only method because pushing water through its membrane uses a lot of energy.",
+    "wrong": [
+     "Reverse osmosis is not the only method because its membrane lets salt particles pass through.",
+     "Reverse osmosis is not the only method because it adds harmful bacteria back into the water."
+    ]
+   }
   },
   {
    "id": "c04q6",
@@ -106,11 +160,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Magnetic attraction separates substances that are attracted to a magnet, such as iron, from those that are not.",
    "hint": "",
    "image": null,
    "lo": "Separate magnetic from non-magnetic substances using magnetic attraction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Solubility in water is used in filtration and evaporation, not magnetic attraction. Think about what a magnet does to some materials.",
+    "1": "Particle size is used in filtration. Think about what a magnet does to some materials.",
+    "2": "Boiling points are used in distillation. Think about what a magnet does to some materials."
+   },
+   "why": null
   },
   {
    "id": "c04q7",
@@ -124,11 +184,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Iron is attracted to the magnet, but sulfur is not. So the iron filings are removed and the sulfur is left behind.",
    "hint": "",
    "image": null,
    "lo": "Separate magnetic from non-magnetic substances using magnetic attraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Iron filings are magnetic, so the magnet pulls them out of the mixture. Think about which substance the magnet does not attract.",
+    "2": "Only one of the two substances is attracted to a magnet. Think about which one stays behind.",
+    "3": "Iron filings are attracted to the magnet, so they are removed, not left behind."
+   },
+   "why": {
+    "right": "Sulfur is left behind because it is not attracted to a magnet, while iron is.",
+    "wrong": [
+     "Sulfur is left behind because it is heavier than iron, so the magnet cannot lift it.",
+     "Sulfur is left behind because a magnet attracts only substances that are soluble in water."
+    ]
+   }
   },
   {
    "id": "c04q8",
@@ -141,11 +213,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Iron is a magnetic material, so it is attracted to the magnet. Aluminium and copper are metals, but they are not magnetic.",
    "hint": "",
    "image": null,
    "lo": "Separate magnetic from non-magnetic substances using magnetic attraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Aluminium is a metal, but it is not attracted to a magnet. Not every metal is magnetic.",
+    "2": "Copper is a metal, but it is not attracted to a magnet. Not every metal is magnetic."
+   },
+   "why": {
+    "right": "Iron is removed because it is a magnetic material and is attracted to the magnet.",
+    "wrong": [
+     "Iron is removed because every metal, including aluminium and copper, is attracted to a magnet.",
+     "Iron is removed because it is the heaviest metal in the scrap pile."
+    ]
+   }
   },
   {
    "id": "c04q9",
@@ -159,11 +242,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Steel contains iron, so steel bolts are attracted to a magnet. Plastic, rubber and glass are not magnetic.",
    "hint": "",
    "image": null,
    "lo": "Separate magnetic from non-magnetic substances using magnetic attraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Plastic is not attracted to a magnet. Think about which object contains iron.",
+    "2": "Rubber is not attracted to a magnet. Think about which object contains iron.",
+    "3": "Glass is not attracted to a magnet, even with a shiny coating. Think about which object contains iron."
+   },
+   "why": {
+    "right": "Steel bolts are picked up because steel contains iron, which is attracted to a magnet.",
+    "wrong": [
+     "Steel bolts are picked up because they are the smallest and lightest objects in the scrapyard.",
+     "Steel bolts are picked up because every hard solid object is attracted to a magnet."
+    ]
+   }
   },
   {
    "id": "c04q10",
@@ -177,11 +272,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Steel pins contain iron and are attracted to a magnet, but sand is not. So a magnet can pull the pins out of the sand.",
    "hint": "",
    "image": null,
    "lo": "Separate magnetic from non-magnetic substances using magnetic attraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Ink and water are not magnetic, so a magnet cannot separate them. Look for a mixture with one magnetic constituent.",
+    "2": "Copper and aluminium are metals, but neither is magnetic. Look for a mixture with one magnetic constituent.",
+    "3": "Salt and sand are not magnetic, so a magnet cannot separate them. Look for a mixture with one magnetic constituent."
+   },
+   "why": {
+    "right": "Steel pins and sand can be separated by a magnet because only the steel is attracted to it.",
+    "wrong": [
+     "Steel pins and sand can be separated by a magnet because both of them are attracted to it.",
+     "Steel pins and sand can be separated by a magnet because sand dissolves when the magnet is near."
+    ]
+   }
   },
   {
    "id": "c04q11",
@@ -195,11 +302,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Filtration separates substances by particle size. Small particles pass through the pores of the filter paper, but large particles are trapped.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Filtration is used on insoluble solids, but the filter paper itself sorts particles using its tiny holes. Think about what the holes allow through.",
+    "1": "Magnetic properties are used in magnetic attraction, not filtration. Think about the tiny holes in filter paper.",
+    "3": "Boiling points are used in distillation, not filtration. Think about the tiny holes in filter paper."
+   },
+   "why": {
+    "right": "Filtration separates by particle size because the pores in filter paper let small particles through but trap large ones.",
+    "wrong": [
+     "Filtration separates by particle size because the filter paper heats the mixture and boils off small particles.",
+     "Filtration separates by particle size because large particles dissolve in the filter paper and disappear."
+    ]
+   }
   },
   {
    "id": "c04q12",
@@ -213,11 +332,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The residue is the solid left on the filter paper after filtration. The liquid that passes through is the filtrate.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The filtrate is the liquid that passes through the filter paper. Think about the name for what stays on the paper.",
+    "1": "The distillate is the liquid collected in distillation. Think about the name for what stays on the filter paper.",
+    "2": "The solvent is the liquid in which a solute dissolves. Think about the name for the solid that stays on the filter paper."
+   },
+   "why": null
   },
   {
    "id": "c04q13",
@@ -231,11 +356,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The filtrate is the liquid that passes through the filter paper. The solid that stays on the paper is the residue.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A solute is a substance that dissolves. Think about the name for the liquid that comes through the filter paper.",
+    "2": "The residue is the solid that stays on the filter paper. Think about the name for what passes through.",
+    "3": "The distillate is the liquid collected in distillation. Think about the name for the liquid collected in filtration."
+   },
+   "why": null
   },
   {
    "id": "c04q14",
@@ -249,11 +380,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Chalk is insoluble in water, so its particles are too large to pass through the filter paper. Chalk is the residue and water is the filtrate.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The water passes through the filter paper, so it is not part of what stays behind. Think about which substance is trapped.",
+    "1": "The filter paper is part of the apparatus, not part of the mixture. Think about which substance from the mixture is trapped on it.",
+    "3": "Water passes through the filter paper, so it is the filtrate. Think about which substance is trapped on the paper."
+   },
+   "why": {
+    "right": "Chalk is the residue because it is insoluble and its particles are too large to pass through the filter paper.",
+    "wrong": [
+     "Chalk is the residue because it dissolves in water and the solution stays on the filter paper.",
+     "Chalk is the residue because it is the liquid part of the mixture that passes through."
+    ]
+   }
   },
   {
    "id": "c04q15",
@@ -267,11 +410,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The liquid tea passes through the strainer, so it is the filtrate. The tea leaves are too large to pass through, so they are the residue.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Tea leaves are too large to pass through the strainer, so they are the residue. Think about what passes through.",
+    "2": "Only part of the mixture passes through the strainer. Think about which part flows into the cup.",
+    "3": "The strainer works like filter paper. It is part of the apparatus, not the filtrate. Think about what passes through it."
+   },
+   "why": {
+    "right": "The liquid tea is the filtrate because it is the part that passes through the holes of the strainer.",
+    "wrong": [
+     "The liquid tea is the filtrate because it is the part that stays behind in the strainer.",
+     "The liquid tea is the filtrate because the strainer changes the leaves into a liquid."
+    ]
+   }
   },
   {
    "id": "c04q16",
@@ -285,11 +440,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Sand particles are bigger than the pores of the filter paper, so they cannot pass through. Water particles are small enough to pass through.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Sand is not magnetic, and filter paper does not use magnetism. Think about the size of sand particles compared with the holes in the paper.",
+    "1": "Sand is insoluble in water. A soluble substance would pass through the paper. Think about particle size compared with the holes in the paper.",
+    "2": "Particles smaller than the pores would pass through the filter paper with the water. Think about why sand stays on top."
+   },
+   "why": {
+    "right": "Sand stays on the filter paper because its particles are too large to fit through the pores.",
+    "wrong": [
+     "Sand stays on the filter paper because its particles are attracted to the fibres of the paper.",
+     "Sand stays on the filter paper because it dissolves in the water and then sticks to the paper."
+    ]
+   }
   },
   {
    "id": "c04q17",
@@ -303,11 +470,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sand is insoluble and stays on the filter paper as the residue. Water passes through as the filtrate. So the mixture was sand and water.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Salt dissolves in water and would pass through with it. No salt would be left as a residue. Think about which solid was trapped.",
+    "1": "Sugar dissolves in water and would pass through with it. Think about which solid was trapped on the paper.",
+    "3": "Iron and sand are both solids, so no liquid filtrate would come from them. Think about where the water came from."
+   },
+   "why": {
+    "right": "The mixture was sand and water because sand is insoluble and stays behind while water passes through.",
+    "wrong": [
+     "The mixture was sand and water because filtration turns part of the water into sand.",
+     "The mixture was sand and water because dissolved substances always stay on the filter paper."
+    ]
+   }
   },
   {
    "id": "c04q18",
@@ -321,11 +500,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Salt dissolves in water, and its dissolved particles are small enough to pass through the filter paper. So filtration cannot trap the salt.",
    "hint": "",
    "image": null,
    "lo": "Describe filtration and identify the residue and filtrate",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Salt is not magnetic, and magnetism has nothing to do with filtration. Think about what happens to salt when it dissolves.",
+    "2": "If salt particles were bigger than the pores, filtration would trap them. Think about the size of salt particles once they dissolve.",
+    "3": "Boiling point matters in distillation, not filtration. Think about what happens to salt when it dissolves."
+   },
+   "why": {
+    "right": "Dissolved salt cannot be filtered because its particles are small enough to pass through the filter paper pores.",
+    "wrong": [
+     "Dissolved salt cannot be filtered because its particles are too large to reach the filter paper.",
+     "Dissolved salt cannot be filtered because salt melts as soon as it touches the filter paper."
+    ]
+   }
   },
   {
    "id": "c04q19",
@@ -339,11 +530,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Evaporation removes the solvent as vapour and leaves the dissolved solid behind. It is used to obtain a dissolved solid from a solution.",
    "hint": "",
    "image": null,
    "lo": "Describe evaporation to obtain a dissolved solid from a solution",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An insoluble solid is separated from a liquid by filtration. Evaporation is used when the solid has dissolved.",
+    "1": "Iron is removed from a mixture with a magnet. Think about what is left when the solvent of a solution is removed.",
+    "2": "In evaporation the solvent escapes as vapour and is not collected. Think about what is left behind in the dish."
+   },
+   "why": {
+    "right": "Evaporation obtains a dissolved solid because the solvent turns into vapour and leaves the solid behind.",
+    "wrong": [
+     "Evaporation obtains a dissolved solid because the solid turns into vapour and is collected separately.",
+     "Evaporation obtains a dissolved solid because heating makes the solid particles too big to dissolve."
+    ]
+   }
   },
   {
    "id": "c04q20",
@@ -357,11 +560,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The solvent changes to a gas at a much lower temperature than the dissolved solid. So heating removes the solvent and leaves the solid behind.",
    "hint": "",
    "image": null,
    "lo": "Describe evaporation to obtain a dissolved solid from a solution",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Particle size is used in filtration, not evaporation. Think about what heating does to the solvent.",
+    "2": "No filter paper is used in evaporation, so nothing stays on it. Think about what heating does to the solvent.",
+    "3": "Magnetism is used in magnetic attraction, not evaporation. Think about what heating does to the solvent."
+   },
+   "why": {
+    "right": "The solvent is removed in evaporation because it turns into a gas at a lower temperature than the solute.",
+    "wrong": [
+     "The solvent is removed in evaporation because heating makes its particles too large to stay in the dish.",
+     "The solvent is removed in evaporation because the solute turns into a gas first and pushes it out."
+    ]
+   }
   },
   {
    "id": "c04q21",
@@ -375,11 +590,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Water evaporates when the salt solution is heated, but salt does not. So solid salt is left behind in the dish.",
    "hint": "",
    "image": null,
    "lo": "Describe evaporation to obtain a dissolved solid from a solution",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Only the water evaporates. The dissolved salt stays behind. Think about what remains in the dish.",
+    "2": "All the water has evaporated, so there is no solution left. Think about what remains when the solvent is gone.",
+    "3": "The water has evaporated, so it has left the dish. Think about what stays behind."
+   },
+   "why": {
+    "right": "Salt is left behind because water turns into vapour at a much lower temperature than salt does.",
+    "wrong": [
+     "Salt is left behind because the water reacts with the salt and turns into solid salt.",
+     "Salt is left behind because salt particles are too big to dissolve in hot water."
+    ]
+   }
   },
   {
    "id": "c04q22",
@@ -393,11 +620,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Distillation separates substances with different boiling points. The substance with the lower boiling point boils first, and its vapour is cooled and collected.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Magnetic properties are used in magnetic attraction. Think about what distillation does to the mixture when it is heated.",
+    "1": "Colours are separated by chromatography. Think about what distillation does to the mixture when it is heated.",
+    "2": "Particle size is used in filtration. Think about what distillation does to the mixture when it is heated."
+   },
+   "why": {
+    "right": "Distillation works because the substance with the lower boiling point turns into vapour first and is collected.",
+    "wrong": [
+     "Distillation works because the substance with the larger particles turns into vapour first and is collected.",
+     "Distillation works because every substance in the mixture boils at exactly the same temperature."
+    ]
+   }
   },
   {
    "id": "c04q23",
@@ -411,11 +650,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In distillation, the liquid is boiled to form vapour. The vapour is then cooled in the condenser and condenses back into a liquid.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Melting and freezing change solids and liquids, not liquids and vapour. Think about how vapour is made and then turned back into liquid.",
+    "2": "Dissolving and filtering are used in other techniques. Think about how vapour is made and then turned back into liquid.",
+    "3": "Boiling is part of distillation, but the vapour is not frozen. Think about how vapour is turned back into a liquid."
+   },
+   "why": {
+    "right": "Distillation uses boiling and condensation because the liquid is turned into vapour and then cooled back into liquid.",
+    "wrong": [
+     "Distillation uses boiling and condensation because the solid is melted first and then frozen again.",
+     "Distillation uses boiling and condensation because the vapour is trapped on filter paper as it cools."
+    ]
+   }
   },
   {
    "id": "c04q24",
@@ -429,11 +680,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The distillate is the pure liquid collected after the vapour condenses in distillation.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The residue is the solid left on filter paper in filtration. Think about the name for the liquid collected in distillation.",
+    "1": "The filtrate is the liquid that passes through filter paper. Think about the name for the liquid collected in distillation.",
+    "3": "A solute is a substance that dissolves. Think about the name for the liquid collected in distillation."
+   },
+   "why": null
   },
   {
    "id": "c04q25",
@@ -447,11 +704,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The condenser is cooled by cold running water. It cools the hot vapour so that it condenses into a liquid, which is collected as the distillate.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The mixture is heated by the burner under the flask. Think about what happens to the vapour as it passes through the condenser.",
+    "1": "The flask is held steady by a clamp. Think about what happens to the vapour as it passes through the condenser.",
+    "3": "The boiling point is read with the thermometer. Think about what happens to the vapour as it passes through the condenser."
+   },
+   "why": {
+    "right": "The condenser turns vapour into liquid because cold water around it takes heat away from the vapour.",
+    "wrong": [
+     "The condenser turns vapour into liquid because it heats the vapour until it melts.",
+     "The condenser turns vapour into liquid because it has pores that trap the vapour particles."
+    ]
+   }
   },
   {
    "id": "c04q26",
@@ -465,11 +734,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Boiling chips help bubbles form evenly as the liquid boils. This makes boiling smoother and stops the liquid from boiling up suddenly and violently.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The vapour is cooled by the condenser. Think about what happens to the boiling liquid in the flask.",
+    "2": "Boiling chips do not absorb salt. Think about how the liquid boils in the flask with and without them.",
+    "3": "Boiling chips do not change the boiling point of the liquid. Think about how the liquid boils with and without them."
+   },
+   "why": {
+    "right": "Boiling chips smooth the boiling because small bubbles form evenly on their rough surfaces.",
+    "wrong": [
+     "Boiling chips smooth the boiling because they lower the boiling point of the liquid.",
+     "Boiling chips smooth the boiling because they absorb the dissolved salt from the liquid."
+    ]
+   }
   },
   {
    "id": "c04q27",
@@ -483,11 +764,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Water boils off, condenses and is collected as the distillate. Salt has a much higher boiling point, so it stays in the distillation flask.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Pure water is collected in the receiver as the distillate, not left in the flask. Think about what cannot boil off.",
+    "1": "Only the water boils off. Think about the substance with the much higher boiling point.",
+    "2": "Steam leaves the flask and goes into the condenser. Think about the substance that does not boil off."
+   },
+   "why": {
+    "right": "Salt stays in the distillation flask because its boiling point is far higher than that of water.",
+    "wrong": [
+     "Salt stays in the distillation flask because its particles are too big to pass through the condenser.",
+     "Salt stays in the distillation flask because it is attracted to the glass of the flask."
+    ]
+   }
   },
   {
    "id": "c04q28",
@@ -501,11 +794,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The substance with the lowest boiling point reaches its boiling point first as the mixture is heated. So it turns into vapour first.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Particle size matters in filtration, not in boiling. Think about which substance reaches its boiling point first as the temperature rises.",
+    "2": "Magnetism has nothing to do with boiling. Think about which substance reaches its boiling point first as the temperature rises.",
+    "3": "A substance with a high boiling point needs a higher temperature before it boils. Think about which boils first as the temperature rises."
+   },
+   "why": {
+    "right": "The substance with the lowest boiling point boils first because it needs the lowest temperature to boil.",
+    "wrong": [
+     "The substance with the lowest boiling point boils first because it has the largest particles.",
+     "The substance with the lowest boiling point boils first because it is the heaviest substance."
+    ]
+   }
   },
   {
    "id": "c04q29",
@@ -519,11 +824,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Without cold water, the condenser cannot cool the vapour well. Much of the vapour escapes without condensing, so less distillate is collected.",
    "hint": "",
    "image": null,
    "lo": "Describe distillation and the role of each part of the set-up",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Cold water is needed to cool the vapour into liquid. Think about what happens to the vapour when the condenser is no longer cooled.",
+    "1": "The flask is still heated by the burner. Think about what happens to the vapour when the condenser is no longer cooled.",
+    "2": "The water supply cools the condenser, not the flask, so the salt stays where it is. Think about what happens to the vapour."
+   },
+   "why": {
+    "right": "Less distillate is collected because a warm condenser cannot cool all of the vapour into liquid.",
+    "wrong": [
+     "Less distillate is collected because the cold water was what made the mixture boil.",
+     "Less distillate is collected because the vapour freezes inside a condenser with no water."
+    ]
+   }
   },
   {
    "id": "c04q30",
@@ -537,11 +854,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In paper chromatography, substances dissolve in the solvent to different extents. More soluble substances travel further up the paper, so they separate.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Boiling points are used in distillation. Think about what the solvent does as it moves up the paper.",
+    "1": "Magnetic properties are used in magnetic attraction. Think about what the solvent does as it moves up the paper.",
+    "3": "Particle size is used in filtration. Think about what the solvent does as it moves up the paper."
+   },
+   "why": {
+    "right": "Chromatography separates substances because more soluble substances are carried further up the paper by the solvent.",
+    "wrong": [
+     "Chromatography separates substances because substances with lower boiling points evaporate further up the paper.",
+     "Chromatography separates substances because larger particles are trapped by the pores at the start line."
+    ]
+   }
   },
   {
    "id": "c04q31",
@@ -555,11 +884,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A chromatogram is the paper with separated spots produced by paper chromatography.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The filtrate is the liquid from filtration. Think about the name for the paper produced in chromatography.",
+    "2": "The distillate is the liquid collected in distillation. Think about the name for the paper produced in chromatography.",
+    "3": "The residue is the solid left on filter paper. Think about the name for the paper produced in chromatography."
+   },
+   "why": null
   },
   {
    "id": "c04q32",
@@ -573,11 +908,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The most soluble substance dissolves the most in the solvent. So it is carried furthest up the paper.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A less soluble substance is carried only a short way up the paper. Think about which substance the solvent carries the furthest.",
+    "2": "An insoluble substance does not move at all and stays on the start line. Think about which substance the solvent carries the furthest.",
+    "3": "Chromatography separates by solubility in the solvent, not by mass. Think about which substance the solvent carries the furthest."
+   },
+   "why": {
+    "right": "The spot that travels furthest is the most soluble because it dissolves the most in the moving solvent.",
+    "wrong": [
+     "The spot that travels furthest is the most soluble because it has the highest boiling point.",
+     "The spot that travels furthest is the most soluble because it is the lightest coloured substance."
+    ]
+   }
   },
   {
    "id": "c04q33",
@@ -591,11 +938,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An insoluble substance does not dissolve in the solvent. So the solvent cannot carry it, and it stays on the start line.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A very soluble substance is carried far up the paper. Think about why a substance would not move at all.",
+    "2": "The solvent moves up the paper and does not form a spot. Think about why a substance would not move at all.",
+    "3": "Magnetism has nothing to do with chromatography. Think about why a substance would not move at all."
+   },
+   "why": {
+    "right": "A spot stays on the start line because the substance does not dissolve in the solvent.",
+    "wrong": [
+     "A spot stays on the start line because the substance dissolves fully and stays where it was put.",
+     "A spot stays on the start line because the substance has a very low boiling point."
+    ]
+   }
   },
   {
    "id": "c04q34",
@@ -609,11 +968,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Each spot on a chromatogram is a different substance. Three separate spots mean the ink contains three coloured substances.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A single substance gives only one spot. Count the number of separate spots.",
+    "2": "Each separate spot is a different substance. Count the spots again.",
+    "3": "Each spot shows one substance, so the count matches the number of spots. Count the spots again."
+   },
+   "why": {
+    "right": "The number of spots shows the number of coloured substances because each substance travels its own distance.",
+    "wrong": [
+     "The number of spots shows the number of coloured substances because each substance splits into two spots.",
+     "The number of spots shows the number of coloured substances because each spot is a different solvent."
+    ]
+   }
   },
   {
    "id": "c04q35",
@@ -626,11 +997,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The least soluble substance is carried the shortest distance by the solvent. So the spot at 2 cm belongs to the least soluble substance.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The spot at 7 cm travelled furthest, so it is the most soluble. Think about how far a less soluble substance is carried.",
+    "1": "The spot at 5 cm is in the middle. Think about how far the least soluble substance is carried."
+   },
+   "why": {
+    "right": "The least soluble substance travels the shortest distance because it dissolves less in the moving solvent.",
+    "wrong": [
+     "The least soluble substance travels the shortest distance because it has the lowest boiling point.",
+     "The least soluble substance travels the shortest distance because it is the darkest colour on the paper."
+    ]
+   }
   },
   {
    "id": "c04q36",
@@ -644,11 +1026,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Ink Q has a spot at 4 cm, the same height as dye P. So Q contains P, along with another substance at 6 cm.",
    "hint": "",
    "image": null,
    "lo": "Interpret a paper chromatogram",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Ink Q gives two spots, so it contains two substances. A pure substance gives only one spot.",
+    "1": "Dye P gives only one spot, so it cannot contain all of Q. Compare which spots appear in each chromatogram.",
+    "2": "P gives one spot and Q gives two, so they are not the same. Compare which spots appear in each chromatogram."
+   },
+   "why": {
+    "right": "Ink Q contains dye P because one spot of Q travelled the same distance as the spot of P.",
+    "wrong": [
+     "Ink Q contains dye P because Q has more spots, so it must contain every other dye.",
+     "Ink Q contains dye P because both spots of Q travelled further than the spot of P."
+    ]
+   }
   },
   {
    "id": "c04q37",
@@ -662,11 +1056,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Mud is insoluble in water, so it can be trapped by filter paper. Filtration obtains water from muddy water as the filtrate.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Chromatography separates dissolved coloured substances. Mud is insoluble. Think about a method that traps insoluble solids.",
+    "2": "Mud and water are not magnetic. Think about a method that traps insoluble solids.",
+    "3": "Evaporation removes the water as vapour, so the water would be lost. Think about a method that keeps the water and traps the mud."
+   },
+   "why": {
+    "right": "Filtration obtains water from muddy water because the mud particles are too large to pass through the filter paper.",
+    "wrong": [
+     "Filtration obtains water from muddy water because the mud dissolves and is trapped by the filter paper.",
+     "Filtration obtains water from muddy water because the filter paper boils away the mud."
+    ]
+   }
   },
   {
    "id": "c04q38",
@@ -680,11 +1086,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Distillation boils the water off and condenses it as pure water. The sugar does not boil off, so it stays in the flask.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Sugar and water are not magnetic. Think about a method that collects the water after it boils.",
+    "1": "Evaporation lets the water escape as vapour, so the water is lost. Think about a method that collects the water.",
+    "3": "Dissolved sugar passes through filter paper with the water. Think about a method that collects the water after it boils."
+   },
+   "why": {
+    "right": "Distillation obtains pure water from sugar solution because the water boils off and is condensed and collected.",
+    "wrong": [
+     "Distillation obtains pure water from sugar solution because the sugar boils off first and leaves the water.",
+     "Distillation obtains pure water from sugar solution because the condenser filters out the dissolved sugar."
+    ]
+   }
   },
   {
    "id": "c04q39",
@@ -698,11 +1116,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Iron filings are attracted to a magnet, but sand is not. So a magnet can pull the iron filings out of the sand.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Distillation is used for liquids with different boiling points. Iron and sand are dry solids. Think about a property only iron has.",
+    "2": "Iron filings and sand are both insoluble solids, so filtration cannot separate them. Think about a property only iron has.",
+    "3": "Evaporation removes a liquid, and there is no liquid here. Think about a property only iron has."
+   },
+   "why": {
+    "right": "A magnet separates iron filings from sand because only the iron is attracted to the magnet.",
+    "wrong": [
+     "A magnet separates iron filings from sand because the sand is attracted while the iron is not.",
+     "A magnet separates iron filings from sand because the magnet dissolves the sand."
+    ]
+   }
   },
   {
    "id": "c04q40",
@@ -716,11 +1146,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Evaporation removes the water as vapour and leaves the dissolved salt behind as a solid.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Dissolved salt passes through filter paper with the water. Think about how to remove the water and keep the salt.",
+    "1": "Salt is not magnetic. Think about how to remove the water and keep the salt.",
+    "2": "Chromatography separates coloured substances in small amounts. Think about how to remove the water and keep the salt."
+   },
+   "why": {
+    "right": "Evaporation obtains solid salt because heating turns the water into vapour and leaves the salt behind.",
+    "wrong": [
+     "Evaporation obtains solid salt because heating makes the salt particles too big to stay dissolved.",
+     "Evaporation obtains solid salt because heating turns the salt into vapour, which is then collected."
+    ]
+   }
   },
   {
    "id": "c04q41",
@@ -734,11 +1176,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The dyes in food colouring dissolve in the solvent to different extents. Chromatography separates them into separate spots on the paper.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The dyes are dissolved, so they pass through filter paper together. Think about a method that separates dissolved coloured substances.",
+    "2": "Evaporation would leave all the dyes behind together. Think about a method that separates dissolved coloured substances.",
+    "3": "Dyes are not magnetic. Think about a method that separates dissolved coloured substances."
+   },
+   "why": {
+    "right": "Chromatography separates the dyes because each dye dissolves in the solvent to a different extent.",
+    "wrong": [
+     "Chromatography separates the dyes because each dye has a different particle size trapped by the paper.",
+     "Chromatography separates the dyes because each dye boils off the paper at a different temperature."
+    ]
+   }
   },
   {
    "id": "c04q42",
@@ -752,11 +1206,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Evaporation removes the water as vapour and leaves the dissolved sugar behind as a solid.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Dissolved sugar passes through filter paper with the water. Think about how to remove the water and keep the sugar.",
+    "1": "Chromatography separates coloured substances in small amounts. Think about how to remove the water and keep the sugar.",
+    "2": "Sugar is not magnetic. Think about how to remove the water and keep the sugar."
+   },
+   "why": {
+    "right": "Evaporation obtains solid sugar because the water turns into vapour and leaves the sugar behind.",
+    "wrong": [
+     "Evaporation obtains solid sugar because the sugar turns into vapour and is collected as a solid.",
+     "Evaporation obtains solid sugar because heating makes the sugar insoluble so it is trapped on filter paper."
+    ]
+   }
   },
   {
    "id": "c04q43",
@@ -770,11 +1236,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Distillation collects the water as pure distillate after it boils and condenses. The salt does not boil off, so it is left behind in the flask.",
    "hint": "",
    "image": null,
    "lo": "Choose a suitable separation technique for a given mixture",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Salt and water are not magnetic. Think about a method that collects the water and leaves the salt behind.",
+    "1": "Dissolved salt passes through filter paper, so filtration would not leave salt behind. Think about a method that boils the water off.",
+    "3": "Chromatography separates coloured substances on paper. Think about a method that collects the water and leaves the salt behind."
+   },
+   "why": {
+    "right": "Distillation gives both products because the water boils off and is condensed, while the salt stays behind.",
+    "wrong": [
+     "Distillation gives both products because the salt boils off first and is condensed, while water stays.",
+     "Distillation gives both products because the condenser filters the salt out of the water."
+    ]
+   }
   },
   {
    "id": "c04q44",
@@ -788,11 +1266,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Iron filings are attracted to a magnet, so they can be removed first while the mixture is dry. Salt and sawdust are then separated by other steps.",
    "hint": "",
    "image": null,
    "lo": "Order techniques to separate a mixture of three constituents",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The mixture is dry, so there is no liquid to evaporate. Think about which constituent can be removed easily from the dry mixture.",
+    "2": "Distillation is used for liquids, and this mixture is dry solids. Think about which constituent can be removed easily from the dry mixture.",
+    "3": "Filtering a dry mixture does nothing, since all of it stays on the paper. Think about which constituent can be removed easily from the dry mixture."
+   },
+   "why": {
+    "right": "Using a magnet comes first because the iron filings can be pulled out easily while the mixture is dry.",
+    "wrong": [
+     "Using a magnet comes first because a magnet attracts the salt and the sawdust as well as the iron.",
+     "Using a magnet comes first because the magnet dissolves the salt so it can be filtered."
+    ]
+   }
   },
   {
    "id": "c04q45",
@@ -806,11 +1296,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Salt dissolves in water but sawdust does not. Filtration traps the sawdust on the filter paper, and the salt solution passes through.",
    "hint": "",
    "image": null,
    "lo": "Order techniques to separate a mixture of three constituents",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The iron has already been removed, and sawdust is not magnetic. Think about a method that traps insoluble solids.",
+    "2": "Evaporation would leave the sawdust and the salt behind together. Think about a method that traps insoluble solids.",
+    "3": "Distillation collects the water and leaves the sawdust and salt behind together. Think about a method that traps insoluble solids."
+   },
+   "why": {
+    "right": "Sawdust is removed by filtration because it is insoluble and its pieces are too large to pass through the filter paper.",
+    "wrong": [
+     "Sawdust is removed by filtration because it dissolves in water and the solution stays on the paper.",
+     "Sawdust is removed by filtration because it has a lower boiling point than the water."
+    ]
+   }
   },
   {
    "id": "c04q46",
@@ -824,11 +1326,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Evaporation removes the water as vapour and leaves the salt behind as a solid.",
    "hint": "",
    "image": null,
    "lo": "Order techniques to separate a mixture of three constituents",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Chromatography separates coloured substances on paper. Think about how to remove the water and keep the salt.",
+    "1": "Salt is not magnetic. Think about how to remove the water and keep the salt.",
+    "3": "Dissolved salt passes through filter paper with the water. Think about how to remove the water and keep the salt."
+   },
+   "why": {
+    "right": "Solid salt is obtained by evaporation because heating turns the water into vapour and leaves the salt behind.",
+    "wrong": [
+     "Solid salt is obtained by evaporation because heating turns the salt into vapour and leaves the water.",
+     "Solid salt is obtained by evaporation because heating makes the salt too large to pass through filter paper."
+    ]
+   }
   },
   {
    "id": "c04q47",
@@ -842,11 +1356,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Filtration first removes the insoluble mud. Distillation then boils off the water and condenses it as pure water, leaving the salt behind.",
    "hint": "",
    "image": null,
    "lo": "Order techniques to separate a mixture of three constituents",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Evaporation lets the water escape as vapour, so no pure water would be collected. Think about a method that collects the water after it boils.",
+    "1": "Evaporating first would lose the water as vapour. Think about a method that collects the water after it boils.",
+    "2": "Chromatography separates coloured substances on paper and does not collect water. Think about a method that collects the water after it boils."
+   },
+   "why": {
+    "right": "Filtration then distillation works because filtration removes the mud and distillation collects pure water from the salt solution.",
+    "wrong": [
+     "Filtration then distillation works because filtration removes the salt and distillation removes the mud.",
+     "Filtration then distillation works because distillation must always come after any other technique."
+    ]
+   }
   },
   {
    "id": "c04q48",
@@ -860,11 +1386,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Adding water dissolves the salt but not the sand. Filtering removes the sand, and evaporating the filtrate leaves dry salt.",
    "hint": "",
    "image": null,
    "lo": "Order techniques to separate a mixture of three constituents",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Evaporating before filtering would leave the sand and salt mixed together again. Think about when the sand must be removed.",
+    "2": "Filtering a dry mixture does nothing, since both solids stay on the paper. Think about what must be done first so the salt can pass through.",
+    "3": "Evaporating a dry mixture does nothing, since there is no liquid. Think about what must be done first so the salt can pass through."
+   },
+   "why": {
+    "right": "Dry salt is obtained this way because salt dissolves and passes through the filter paper while sand stays behind.",
+    "wrong": [
+     "Dry salt is obtained this way because sand dissolves and passes through the filter paper while salt stays behind.",
+     "Dry salt is obtained this way because evaporation removes the sand as vapour before filtering."
+    ]
+   }
   },
   {
    "id": "c04q49",
@@ -878,11 +1416,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Drying ikan bilis removes water from the fish by evaporation. Without water, bacteria cannot grow well, so the fish keeps longer.",
    "hint": "",
    "image": null,
    "lo": "Match everyday and industrial applications to separation techniques",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Chromatography separates coloured substances on paper. Think about what happens to the water in the fish as it dries.",
+    "1": "Nothing is passed through a filter when fish is dried. Think about what happens to the water in the fish as it dries.",
+    "3": "In distillation the vapour is collected, but drying fish does not collect the water. Think about what happens to the water in the fish."
+   },
+   "why": {
+    "right": "Drying ikan bilis is evaporation because water leaves the fish as vapour and is not collected.",
+    "wrong": [
+     "Drying ikan bilis is evaporation because the fish turns into vapour and only the water is left.",
+     "Drying ikan bilis is evaporation because the salt on the fish is collected as a pure liquid."
+    ]
+   }
   },
   {
    "id": "c04q50",
@@ -896,11 +1446,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Chromatography separates the colourings in food into separate spots. Each spot can be compared with known harmful colourings.",
    "hint": "",
    "image": null,
    "lo": "Match everyday and industrial applications to separation techniques",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Evaporation would leave all the colourings mixed together. Think about a method that separates coloured substances.",
+    "1": "Food colourings are not magnetic. Think about a method that separates coloured substances.",
+    "2": "Dissolved colourings pass through filter paper together. Think about a method that separates coloured substances."
+   },
+   "why": {
+    "right": "Chromatography can find harmful colourings because each colouring gives a spot that can be matched with a known one.",
+    "wrong": [
+     "Chromatography can find harmful colourings because harmful substances always stay on the start line.",
+     "Chromatography can find harmful colourings because harmful colourings always boil off the paper first."
+    ]
+   }
   },
   {
    "id": "c04q51",
@@ -914,11 +1476,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Hairs and mucus in the nose let air through but trap dust particles. This works like filter paper, so it is filtration.",
    "hint": "",
    "image": null,
    "lo": "Match everyday and industrial applications to separation techniques",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Nothing is heated or turned into vapour in the nose. Think about what happens to the dust as air passes through.",
+    "2": "Dust is not removed by magnetism. Think about what happens to the dust as air passes through.",
+    "3": "Nothing is boiled or condensed in the nose. Think about what happens to the dust as air passes through."
+   },
+   "why": {
+    "right": "The nose acts as a filter because air passes through while larger dust particles are trapped.",
+    "wrong": [
+     "The nose acts as a filter because the dust dissolves in mucus and turns into vapour.",
+     "The nose acts as a filter because the hairs attract dust particles like a magnet."
+    ]
+   }
   },
   {
    "id": "c04q52",
@@ -932,11 +1506,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The petals are boiled and the vapour is collected and cooled into a liquid. Boiling and condensing the vapour is distillation.",
    "hint": "",
    "image": null,
    "lo": "Match everyday and industrial applications to separation techniques",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Chromatography separates coloured substances on paper. Think about what is done to the vapour after it is collected.",
+    "2": "No filter is used to collect the vapour. Think about what is done to the vapour after it is collected.",
+    "3": "In evaporation the vapour escapes and is not collected. Here the vapour is collected. Think about which technique does this."
+   },
+   "why": {
+    "right": "Making perfume this way is distillation because the vapour is collected and condensed into a liquid.",
+    "wrong": [
+     "Making perfume this way is distillation because the petals are trapped on filter paper.",
+     "Making perfume this way is distillation because the vapour is allowed to escape into the air."
+    ]
+   }
   },
   {
    "id": "c04q53",
@@ -950,11 +1536,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "As groundwater flows through layers of sand and rocks, solid particles are trapped. This works like filter paper, so it is filtration.",
    "hint": "",
    "image": null,
    "lo": "Match everyday and industrial applications to separation techniques",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The water is not heated into vapour. Think about what the sand and rocks do to the solid particles in the water.",
+    "2": "Chromatography separates coloured substances on paper. Think about what the sand and rocks do to the solid particles in the water.",
+    "3": "Nothing is boiled or condensed. Think about what the sand and rocks do to the solid particles in the water."
+   },
+   "why": {
+    "right": "Sand and rocks filter groundwater because water passes through the gaps while larger solid particles are trapped.",
+    "wrong": [
+     "Sand and rocks filter groundwater because the solid particles dissolve into the sand and rocks as they pass.",
+     "Sand and rocks filter groundwater because they heat the water and make the solids evaporate."
+    ]
+   }
   },
   {
    "id": "c04q54",
@@ -968,11 +1566,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Singapore's Four National Taps are local catchment water, imported water, NEWater and desalinated water.",
    "hint": "",
    "image": null,
    "lo": "Name the Four National Taps and how tap water is treated",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Mineral water is bottled water from springs. It is not one of the Four National Taps. Think about the four sources that supply Singapore's water.",
+    "2": "Distilled water is made in laboratories and is not one of the Four National Taps. Think about the four sources that supply Singapore's water.",
+    "3": "Bottled water is a product people buy, not a national water source. Think about the four sources that supply Singapore's water."
+   },
+   "why": null
   },
   {
    "id": "c04q55",
@@ -986,11 +1590,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Rainwater from the local catchment is collected through drains, canals and rivers, and stored in reservoirs.",
    "hint": "",
    "image": null,
    "lo": "Name the Four National Taps and how tap water is treated",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Desalination plants treat seawater, not rainwater. Think about where large amounts of collected rainwater are kept.",
+    "1": "NEWater plants treat used water. Think about where large amounts of collected rainwater are kept.",
+    "3": "Sewers carry used water away from homes. Think about where large amounts of collected rainwater are kept."
+   },
+   "why": null
   },
   {
    "id": "c04q56",
@@ -1004,11 +1614,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "At the waterworks, water is chemically treated, filtered and then disinfected. Disinfection kills harmful bacteria so the water is safe to drink.",
    "hint": "",
    "image": null,
    "lo": "Name the Four National Taps and how tap water is treated",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Water is not magnetised at the waterworks. Think about the step that makes the filtered water safe from germs.",
+    "1": "Distilling large amounts of water uses too much energy. Think about the step that makes the filtered water safe from germs.",
+    "2": "Evaporating the water would lose it. Think about the step that makes the filtered water safe from germs."
+   },
+   "why": null
   },
   {
    "id": "c04q57",
@@ -1022,11 +1638,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "NEWater is made from used water that has been treated. It is purified further using microfiltration, reverse osmosis and ultraviolet disinfection.",
    "hint": "",
    "image": null,
    "lo": "Describe the steps used to produce NEWater",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Water made from seawater is desalinated water, a different National Tap. Think about water that has already been used.",
+    "2": "Imported water comes from Malaysia and is a different National Tap. Think about water that has already been used.",
+    "3": "Rainwater is collected as local catchment water, a different National Tap. Think about water that has already been used."
+   },
+   "why": null
   },
   {
    "id": "c04q58",
@@ -1040,11 +1662,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Microfiltration is the first step in a NEWater plant. It removes small solid particles and bacteria from the treated used water.",
    "hint": "",
    "image": null,
    "lo": "Describe the steps used to produce NEWater",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Distillation is not one of the NEWater steps. Think about the step that first filters out small particles.",
+    "2": "Ultraviolet disinfection is the final step, which kills any remaining germs. Think about the step that first filters out small particles.",
+    "3": "Reverse osmosis is the middle step. Think about the step that first filters out small particles."
+   },
+   "why": null
   },
   {
    "id": "c04q59",
@@ -1058,11 +1686,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Ultraviolet disinfection is the last step in a NEWater plant. It destroys any bacteria and viruses that are still left in the water.",
    "hint": "",
    "image": null,
    "lo": "Describe the steps used to produce NEWater",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Evaporation is not one of the NEWater steps. Think about the step that destroys any remaining germs.",
+    "1": "Microfiltration is the first step, which removes small particles. Think about the step that destroys any remaining germs.",
+    "3": "Reverse osmosis is the middle step. Think about the step that destroys any remaining germs."
+   },
+   "why": null
   },
   {
    "id": "c04q60",
@@ -1076,11 +1710,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "After microfiltration, the water goes through reverse osmosis. A membrane lets water particles through and holds back dissolved substances and remaining germs.",
    "hint": "",
    "image": null,
    "lo": "Describe the steps used to produce NEWater",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Evaporation is not one of the NEWater steps. Think about the step that pushes water through a membrane.",
+    "1": "Ultraviolet disinfection is the final step, not the second. Think about the step that pushes water through a membrane.",
+    "2": "Distillation is not one of the NEWater steps. Think about the step that pushes water through a membrane."
+   },
+   "why": null
   },
   {
    "id": "c04q61",
@@ -1094,11 +1734,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Ultraviolet disinfection uses ultraviolet light to destroy any bacteria and viruses still left in the water.",
    "hint": "",
    "image": null,
    "lo": "Describe the steps used to produce NEWater",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Distillation uses boiling, not light. Think about which step uses a type of light that cannot be seen.",
+    "1": "Microfiltration uses a fine filter, not light. Think about which step uses a type of light that cannot be seen.",
+    "2": "Reverse osmosis uses a membrane, not light. Think about which step uses a type of light that cannot be seen."
+   },
+   "why": null
   },
   {
    "id": "c04q62",
@@ -1112,11 +1758,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Desalination is the process of removing salt from seawater to obtain drinking water.",
    "hint": "",
    "image": null,
    "lo": "Describe desalination by distillation and reverse osmosis",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Reclamation is used for making new land or reusing water, not for treating seawater. Think about the word that means removing salt.",
+    "2": "Filtration cannot remove dissolved salt from seawater. Think about the term for removing salt from seawater.",
+    "3": "Chromatography separates coloured substances on paper. Think about the term for removing salt from seawater."
+   },
+   "why": null
   },
   {
    "id": "c04q63",
@@ -1130,11 +1782,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Distillation needs seawater to be heated until it boils. This uses a lot of energy, which is costly for Singapore.",
    "hint": "",
    "image": null,
    "lo": "Describe desalination by distillation and reverse osmosis",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Distillation does remove salt, which stays behind when the water boils off. Think about what boiling large amounts of seawater needs.",
+    "2": "Distillation collects the water as distillate. Think about what boiling large amounts of seawater needs.",
+    "3": "Distillation produces pure water, because the salt stays behind. Think about what boiling large amounts of seawater needs."
+   },
+   "why": {
+    "right": "Distillation is not used for desalination because boiling large amounts of seawater needs a lot of energy.",
+    "wrong": [
+     "Distillation is not used for desalination because the salt boils off with the water and is collected.",
+     "Distillation is not used for desalination because the condenser lets salt pass into the distillate."
+    ]
+   }
   },
   {
    "id": "c04q64",
@@ -1148,11 +1812,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The membrane in reverse osmosis lets water particles through. Salt, other dissolved substances and germs are held back.",
    "hint": "",
    "image": null,
    "lo": "Describe desalination by distillation and reverse osmosis",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Bacteria are much larger than water particles and are held back by the membrane. Think about which particles are small enough to pass.",
+    "1": "Salt particles are held back by the membrane, which is how the salt is removed. Think about what passes through.",
+    "3": "If salt passed through, the water would still be salty. Think about which particles are small enough to pass."
+   },
+   "why": {
+    "right": "The reverse osmosis membrane passes only water because its pores let water through but hold back salt particles.",
+    "wrong": [
+     "The reverse osmosis membrane passes only water because it boils the water and leaves the salt behind.",
+     "The reverse osmosis membrane passes only water because the salt particles are attracted to a magnet in it."
+    ]
+   }
   },
   {
    "id": "c04q65",
@@ -1166,11 +1842,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Reusing water means using the same water again for another job. Watering plants with water used to wash vegetables uses that water a second time.",
    "hint": "",
    "image": null,
    "lo": "Describe ways to conserve water and why water is precious",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Washing clothes on full load reduces water use, but it does not use the same water again. Look for water used a second time.",
+    "1": "Turning off the tap reduces water use, but it does not use the same water again. Look for water used a second time.",
+    "2": "Using the half-flush reduces water use, but it does not use the same water again. Look for water used a second time."
+   },
+   "why": {
+    "right": "Watering plants with washing water is reuse because the same water is used again for a second job.",
+    "wrong": [
+     "Watering plants with washing water is reuse because it uses less water than the first job did.",
+     "Watering plants with washing water is reuse because the water is cleaned at a NEWater plant first."
+    ]
+   }
   },
   {
    "id": "c04q66",
@@ -1184,11 +1872,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A pail holds a fixed amount of water, so less water is used. A running hose lets water flow out all the time, even when it is not needed.",
    "hint": "",
    "image": null,
    "lo": "Describe ways to conserve water and why water is precious",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Washing a few clothes at a time means more loads, which uses more water overall. Look for a way to use a fixed amount of water.",
+    "1": "A running hose lets water flow out even when it is not being used. Look for a way to use a fixed amount of water.",
+    "3": "Leaving the shower on while soaping lets water run down the drain unused. Look for a way to use a fixed amount of water."
+   },
+   "why": {
+    "right": "Using a pail to wash a car reduces wastage because only a fixed amount of water is used.",
+    "wrong": [
+     "Using a pail to wash a car reduces wastage because the water in a pail evaporates more slowly.",
+     "Using a pail to wash a car reduces wastage because pail water is cleaner than tap water."
+    ]
+   }
   },
   {
    "id": "c04q67",
@@ -1202,11 +1902,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Singapore has little land to collect and store rainwater, and it has no large natural water sources. Water is scarce, so it must be conserved.",
    "hint": "",
    "image": null,
    "lo": "Describe ways to conserve water and why water is precious",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Tap water in Singapore is treated and is safe to drink. Think about how much water Singapore can collect and store.",
+    "2": "Reservoirs do not store too much water, and the supply is limited. Think about how much water Singapore can collect and store.",
+    "3": "Water supply is not unlimited. Think about how much water Singapore can collect and store with its small land area."
+   },
+   "why": {
+    "right": "Singapore must conserve water because it has limited land to collect and store rainwater.",
+    "wrong": [
+     "Singapore must conserve water because treating tap water makes it unsafe to drink.",
+     "Singapore must conserve water because its reservoirs are too full to hold any more rain."
+    ]
+   }
   }
  ]
 }

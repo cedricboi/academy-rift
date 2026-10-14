@@ -281,7 +281,7 @@ function publicBattle(b) {
     stealActor: b.stealActor || null,
     currentName: b.combatants[b.current]?.name,
     currentTeam: b.combatants[b.current]?.team,
-    phase: b.phase,
+    phase: b.phase, whyUid: b.why?.sid || null,
     msLeft: b.endsAt ? Math.max(0, b.endsAt - Date.now()) : null,   // battle time limit
     question: b.phase ? b.publicQuestion : null,
     combatants: b.order.map((uid) => {
@@ -446,6 +446,7 @@ io.on("connection", (socket) => {
   socket.on("useHint", () => handleHint(myRoom(), pidOf(socket)));
   socket.on("shadowAnswer", ({ choiceIndex } = {}) => handleShadow(myRoom(), pidOf(socket), choiceIndex));
   socket.on("action", (action) => handleAction(myRoom(), pidOf(socket), action));
+  socket.on("whyAnswer", ({ index } = {}) => finishWhy(myRoom(), pidOf(socket), Number.isInteger(index) ? index : -1));
 
   socket.on("rematch", () => {
     const room = myRoom(); if (!room || room.status !== "finished" || room.hostId !== socket.id) return;
@@ -550,6 +551,7 @@ function beginBattle(room) {
     for (const [pid, qids] of Object.entries(room.retrySeed)) {
       if (!combatants[pid]) continue;
       room.battle.retry[pid] = qids.map((id) => byQid.get(id)).filter(Boolean).slice(0, RETRY_MAX).map((q, k) => ({ q, due: 1 + k * 2 }));
+      (room.battle.carried ||= {})[pid] = new Set(qids);    // wrong in an earlier battle: right this time counts as put right
     }
   }
   const limitMin = room.settings?.timeLimitMin || 0;
@@ -640,9 +642,21 @@ function startQuestion(room) {
     openShadow(room);
     return;
   }
-  io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion });
+  // a question coming back: remind this player what they picked last time, and what was wrong with it
+  io.to(c.uid).emit("yourQuestion", { question: b.publicQuestion, lastPick: b.qRetry ? lastPickFor(room, c.uid, q) : null });
   if (!p) b.timers.q = later(() => resolveAnswer(room, -1), seconds * 1000);
   openShadow(room);
+}
+
+// What a player picked the last time they got this question wrong (this battle, or a battle earlier in the
+// tournament), with the misconception note for that option.
+function lastPickFor(room, uid, q) {
+  const k = q.qid || q.q;
+  const prev = [...(room.battle.review?.[uid] || [])].reverse().find((r) => (r.qid || r.q) === k && !r.correct);
+  const chosen = prev ? prev.chosen : room.retryPicks?.[uid]?.[q.qid];
+  if (!Number.isInteger(chosen)) return null;
+  if (chosen < 0) return { chosen: -1 };
+  return { chosen, text: q.choices[chosen] || "", note: q.notes?.[chosen] || "" };
 }
 
 // ---------- answering along ----------
@@ -735,10 +749,11 @@ function teamStreak(room, team, correct, hinted) {
 // how: "turn" (their own question), "along" (answering along with someone else's), "steal"
 function recordReview(b, uid, q, chosen, correct, how = "turn") {
   if (!b.review) b.review = {};
+  if (correct && q.why) (b.lastWhyQ ||= {})[uid] = q;
   (b.review[uid] ||= []).push({
     q: q.q, choices: q.choices, answer: q.answer, answers: rightAnswers(q), chosen, image: q.image || null,
     hinted: how === "turn" && !!b.combatants[uid]?._hinted && b.current === uid,
-    correct, explain: q.explain, topic: q.topic, bloom: q.bloom,
+    correct, explain: q.explain, topic: q.topic, bloom: q.bloom, note: !correct && chosen >= 0 ? q.notes?.[chosen] || "" : "",
     qid: q.qid || null, lo: q.lo || q.topic || "", ao: q.ao || "", chapter: q.chapter || 0, how,
   });
 }
@@ -886,18 +901,60 @@ function handleAction(room, sid, action, auto = false) {
   const isStealAction = b.phase === "steal-action" && b.stealActor === sid;
   if (!isStealAction && (b.current !== sid || b.phase !== "action")) return;
   clearTimeout(b.timers.a);
-  b.phase = "resolving";
   const actor = b.combatants[sid];
   if (!actor) return;
   // Wrong-answer enforcement: only defend is permitted (unless this is a steal-action)
   if (!isStealAction && !actor._correct && action?.type !== "defend") {
     action = { type: "defend" };
   }
+  // The Ultimate needs the reason too: a student who picks it is first asked why their answer was right
+  if (action?.type === "ultimate" && !auto && !actor.bot && !room.practice && b.sync[actor.team] >= 100) {
+    const wq = whySource(b, actor);
+    if (wq) return askWhy(room, sid, action, isStealAction, wq);
+  }
+  doAction(room, sid, action, isStealAction);
+}
+
+// ---------- the Ultimate's "why" check ----------
+// Two-tier question: after a right answer, the student who wants their Ultimate picks the reason the answer is right
+// from three. The right reason unleashes the Ultimate. A wrong one turns it into a Strike, and the gauge stays full
+// for next time, so understanding (not only recognising) is what unlocks the strongest move.
+const WHY_SECONDS = 15;
+function whySource(b, actor) {
+  if (b.q?.why) return b.q;
+  return b.lastWhyQ?.[actor.uid] || null;     // the question was recall only: use the last one they got right that has a reason
+}
+function askWhy(room, sid, action, steal, q) {
+  const b = room.battle;
+  const options = shuffle([{ t: q.why.right, ok: true }, ...q.why.wrong.map((t) => ({ t, ok: false }))]);
+  b.phase = "why";
+  b.why = { sid, action, steal, options, startedAt: Date.now() };
+  const answer = rightAnswers(q).map((i) => q.choices[i]).filter(Boolean).join(" / ");
+  io.to(sid).emit("whyOpen", { q: q.q, answer, reasons: options.map((o) => o.t), seconds: WHY_SECONDS, startedAt: b.why.startedAt });
+  broadcast(room);
+  b.timers.a = later(() => finishWhy(room, sid, -1), WHY_SECONDS * 1000 + 600);
+}
+function finishWhy(room, sid, index) {
+  const b = room?.battle;
+  if (!b || b.phase !== "why" || b.why?.sid !== sid) return;
+  clearTimeout(b.timers.a);
+  const { action, steal, options } = b.why; delete b.why;
+  const ok = !!options[index]?.ok;
+  const st = ((b.whyStats ||= {})[sid] ||= { asked: 0, right: 0 }); st.asked++; if (ok) st.right++;
+  io.to(sid).emit("whyResult", { ok, chosen: index, right: options.find((o) => o.ok)?.t || "" });
+  const actor = b.combatants[sid];
+  const foe = enemiesOf(b, actor.team)[0];
+  doAction(room, sid, ok ? action : { type: "strike", targetId: foe?.uid }, steal, ok ? "right" : "wrong");
+}
+
+function doAction(room, sid, action, isStealAction, why = null) {
+  const b = room.battle, actor = b.combatants[sid];
+  b.phase = "resolving";
   const events = resolveAction(room, actor, action || { type: "defend" });
   actor._halfPower = false;   // clear steal penalty after action resolves
   if (isStealAction) delete b.stealActor;
   io.to(room.code).emit("actionResult", {
-    actor: actor.uid, action: action?.type || "defend", name: actionLabel(actor, action || { type: "defend" }), events,
+    actor: actor.uid, action: action?.type || "defend", name: actionLabel(actor, action || { type: "defend" }), events, why,
   });
   broadcast(room);
   b.timers.next = later(() => advance(room), afterMoveMs(actor, action));
@@ -960,6 +1017,12 @@ function botAction(room) {
 const needsOptions = (stem) => /which of|the following|which statement|which option|\bthese\b|\bbelow\b|\babove\b|\btrue\b|\bfalse\b|\bbest\b/i.test(stem) || /\bNOT\b/.test(stem);
 function promptFor(r) {
   const stem = String(r.q || "").trim(), answer = (r.answers || [r.answer]).map((i) => r.choices?.[i]).filter(Boolean).join(" / ");
+  // they picked a wrong answer: explaining why it is wrong makes them face the misconception itself
+  const pick = Number.isInteger(r.lastPick) && r.lastPick >= 0 ? r.choices?.[r.lastPick] : null;
+  if (pick && stem) {
+    return { kind: "pick", text: `Question: ${stem}\nYou chose “${pick}”. Explain in a full sentence why that answer is wrong.`,
+      model: `${r.lastNote ? r.lastNote + " " : ""}The right answer is “${answer}”.${r.explain ? " " + r.explain : ""}`, lo: r.lo, qid: r.qid };
+  }
   if (stem && !needsOptions(stem) && !r.image) {
     return { kind: "direct", text: /[?]$/.test(stem) ? `Answer in a full sentence, using the proper term: ${stem}` : `Finish this sentence in your own words: ${stem.replace(/[.…\s]+$/, "")} …`, model: answer, lo: r.lo, qid: r.qid };
   }
@@ -969,12 +1032,27 @@ function promptFor(r) {
 }
 function buildReport(review) {
   const byQ = new Map();
-  for (const r of review) { const k = r.qid || r.q; const e = byQ.get(k) || { ...r, tries: 0, wrong: 0, fixed: false }; e.tries++; if (r.correct) { if (e.wrong) e.fixed = true; } else e.wrong++; byQ.set(k, e); }
+  for (const r of review) { const k = r.qid || r.q; const e = byQ.get(k) || { ...r, tries: 0, wrong: 0, fixed: false }; e.tries++;
+    if (r.correct) { if (e.wrong) e.fixed = true; } else { e.wrong++; if (r.chosen >= 0) { e.lastPick = r.chosen; e.lastNote = r.note || ""; } }
+    byQ.set(k, e); }
   const missed = [...byQ.values()].filter((e) => e.wrong > 0).sort((a, b) => (a.fixed - b.fixed) || (b.wrong - a.wrong));
   let pick = missed.slice(0, 3);
   if (!pick.length) pick = shuffle([...new Map(review.map((r) => [r.lo, r])).values()]).slice(0, 2);   // nothing missed: explain two of today's objectives
   const prompts = pick.map((r, i) => ({ id: "p" + i, ...promptFor(r) }));
   return { missed: missed.map((e) => ({ q: e.q, lo: e.lo, wrong: e.wrong, fixed: e.fixed, right: (e.answers || [e.answer]).map((i) => e.choices?.[i]).filter(Boolean).join(" / ") })), prompts };
+}
+
+// Coins reward learning, not just winning: every question got wrong and then put right (later in the battle, or
+// wrong in an earlier battle and right now) is worth FIX_COINS.
+const FIX_COINS = 40;
+function fixedCount(review, carried) {
+  const st = new Map(); let n = 0;
+  for (const x of review) {
+    const k = x.qid || x.q, e = st.get(k) || { wrong: !!(x.qid && carried?.has(x.qid)), fixed: false };
+    if (!x.correct) e.wrong = true; else if (e.wrong && !e.fixed) { e.fixed = true; n++; }
+    st.set(k, e);
+  }
+  return n;
 }
 
 function endBattle(room, forced = null) {
@@ -995,7 +1073,10 @@ function endBattle(room, forced = null) {
     // shop items not used in this battle go back in the bag (the battle's own free items are used first)
     const bag = room.bags?.[p.id], left = {};
     if (bag) for (const [id, n] of Object.entries(bag)) { if (ITEM_BY_ID[id]?.passive) continue; const k = Math.min(n, b.combatants[p.id]?.items?.[id] || 0); if (k > 0) left[id] = k; }
-    rewards[p.id] = { bagLeft: bag ? left : null, won, coins: (won ? 300 : winner === -1 ? 200 : 120) + correct * 20 + along.filter((x) => x.correct).length * 5, correct,
+    const alongRight = along.filter((x) => x.correct).length, fixed = fixedCount(review, b.carried?.[p.id]);
+    const coinParts = { battle: won ? 250 : winner === -1 ? 200 : 150, answers: correct * 20 + alongRight * 5, fixed: fixed * FIX_COINS, fixedCount: fixed };
+    rewards[p.id] = { bagLeft: bag ? left : null, won, coins: coinParts.battle + coinParts.answers + coinParts.fixed, coinParts, correct,
+      why: b.whyStats?.[p.id] || null,
       along: { answered: along.length, right: along.filter((x) => x.correct).length }, review, report: p.bot ? null : buildReport(review) };
   });
   io.to(room.code).emit("battleEnd", { winnerTeam: winner, reason, rewards, tournament: room.tournament || null, practice: !!room.practice });

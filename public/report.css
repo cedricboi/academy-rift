@@ -66,3 +66,4 @@ body.report{user-select:text;overflow:auto;background:var(--ink);}
   body.report.print-all .r-table th{position:static;background:#fff;color:#000;} body.report.print-all{color:#000;} }
 
 #sheetBox,.r-sec,#offer{scroll-margin-top:80px;}
+.r-note{display:block;margin-top:3px;font-style:italic;opacity:.85;}

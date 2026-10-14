@@ -210,6 +210,43 @@ export function setupTournaments(deps) {
   });
   const inLiveBattle = (T, s) => !!s.pairId && T.matches.some((m) => m.status === "live" && (m.a === s.pairId || m.b === s.pairId));
 
+  // ---------- live weak spots: the class's weakest learning objectives so far (finished and running battles) ----------
+  // No names in it, so it can go on the projector. Recomputed at most every few seconds.
+  function weakSpots(T) {
+    if (T._weak && Date.now() - T._weak.at < 4000) return T._weak.v;
+    const qs = new Map();
+    const add = (k, r) => {
+      const e = qs.get(k) || { q: r.q, lo: r.lo || r.topic || "", right: (r.answers || [r.answer]).map((i) => r.choices?.[i]).filter(Boolean).join(" / "), asked: 0, wrong: 0, picks: {}, notes: {} };
+      e.asked++; if (!r.correct) { e.wrong++; const pk = r.choices?.[r.chosen] ?? "no answer"; e.picks[pk] = (e.picks[pk] || 0) + 1; if (r.note) e.notes[pk] = r.note; }
+      qs.set(k, e);
+    };
+    for (const [k, e] of T.learn?.questions || []) {
+      const x = qs.get(k) || { q: e.q, lo: e.lo, right: e.right, asked: 0, wrong: 0, picks: {}, notes: {} };
+      x.asked += e.asked; x.wrong += e.wrong;
+      for (const [pk, n] of Object.entries(e.wrongPicks || {})) x.picks[pk] = (x.picks[pk] || 0) + n;
+      Object.assign(x.notes, e.pickNotes || {}); qs.set(k, x);
+    }
+    for (const m of T.matches) if (m.status === "live") {
+      const rv = rooms.get(m.roomCode)?.battle?.review || {};
+      for (const [pid, list] of Object.entries(rv)) { const st = T.students.get(pid); if (!st || st.bot) continue; for (const r of list) add(r.qid || r.q, r); }
+    }
+    const los = new Map();
+    for (const e of qs.values()) {
+      const o = los.get(e.lo) || { lo: e.lo, asked: 0, wrong: 0, worst: null };
+      o.asked += e.asked; o.wrong += e.wrong;
+      if (e.wrong && (!o.worst || e.wrong > o.worst.wrong)) o.worst = e;
+      los.set(e.lo, o);
+    }
+    const v = [...los.values()].filter((o) => o.asked >= 4 && o.wrong > 0)
+      .map((o) => ({ lo: o.lo, asked: o.asked, pct: Math.round(100 * (o.asked - o.wrong) / o.asked), ...(o.worst ? (() => {
+        const top = Object.entries(o.worst.picks).sort((a, b) => b[1] - a[1])[0];
+        return { q: o.worst.q, right: o.worst.right, pick: top?.[0] || "", pickCount: top?.[1] || 0, note: o.worst.notes[top?.[0]] || "" };
+      })() : {}) }))
+      .sort((a, b) => a.pct - b.pct || b.asked - a.asked).slice(0, 4);
+    T._weak = { at: Date.now(), v };
+    return v;
+  }
+
   function hostView(T) {
     return {
       code: T.code, status: T.status, round: T.round, settings: T.settings,
@@ -224,6 +261,7 @@ export function setupTournaments(deps) {
       sets: bank ? bank.playableSets() : [],      // the teacher's own question sets, for the topic setting
       topicName: deps.topicLabel ? deps.topicLabel(T.settings.topicId) : null,
       topicParts: deps.topicPartsInfo ? deps.topicPartsInfo(T.settings.topicId) : [],
+      weak: T.status === "lobby" ? [] : weakSpots(T),
       serverNow: Date.now(),
     };
   }
@@ -450,9 +488,11 @@ export function setupTournaments(deps) {
         const e = L.questions.get(k) || { q: r.q, right: (r.answers || [r.answer]).map((i) => r.choices?.[i]).filter(Boolean).join(" / "), choices: r.choices,
           lo: r.lo || r.topic || "", ao: r.ao || "", chapter: r.chapter || 0, topic: r.topic || "", asked: 0, wrong: 0, students: new Set(), wrongPicks: {} };
         e.asked++;
-        if (!r.correct) { e.wrong++; e.students.add(pid); const pick = r.choices?.[r.chosen] ?? "no answer"; e.wrongPicks[pick] = (e.wrongPicks[pick] || 0) + 1; }
+        if (!r.correct) { e.wrong++; e.students.add(pid); const pick = r.choices?.[r.chosen] ?? "no answer"; e.wrongPicks[pick] = (e.wrongPicks[pick] || 0) + 1;
+          if (r.note) (e.pickNotes ||= {})[pick] = r.note; }
         L.questions.set(k, e);
-        if (r.qid) { if (r.correct) s.missed.delete(r.qid); else s.missed.add(r.qid); }
+        if (r.qid) { s.missedPick ||= {};
+          if (r.correct) { s.missed.delete(r.qid); delete s.missedPick[r.qid]; } else { s.missed.add(r.qid); s.missedPick[r.qid] = r.chosen; } }
       }
       if (rewards[pid]?.report) s.report = { round: T.round, prompts: rewards[pid].report.prompts, sent: false };
       if (rewards[pid]) { s.coins = (s.coins || 0) + (rewards[pid].coins || 0); if (rewards[pid].bagLeft) s.bag = rewards[pid].bagLeft; }
@@ -463,7 +503,8 @@ export function setupTournaments(deps) {
     const qs = [...L.questions.values()];
     const wrong = qs.filter((e) => e.wrong > 0).sort((a, b) => (b.wrong - a.wrong) || (b.wrong / b.asked - a.wrong / a.asked))
       .map((e) => ({ q: e.q, right: e.right, lo: e.lo, ao: e.ao, chapter: e.chapter, topic: e.topic, asked: e.asked, wrong: e.wrong, students: e.students.size,
-        commonWrong: Object.entries(e.wrongPicks).sort((a, b) => b[1] - a[1])[0]?.[0] || "" }));
+        commonWrong: Object.entries(e.wrongPicks).sort((a, b) => b[1] - a[1])[0]?.[0] || "",
+        commonNote: e.pickNotes?.[Object.entries(e.wrongPicks).sort((a, b) => b[1] - a[1])[0]?.[0]] || "" }));
     const los = new Map();
     for (const e of qs) { const o = los.get(e.lo) || { lo: e.lo, chapter: e.chapter, topic: e.topic, asked: 0, wrong: 0 }; o.asked += e.asked; o.wrong += e.wrong; los.set(e.lo, o); }
     const objectives = [...los.values()].map((o) => ({ ...o, pct: o.asked ? Math.round(100 * (o.asked - o.wrong) / o.asked) : 0 })).sort((a, b) => a.pct - b.pct || b.asked - a.asked);
@@ -488,6 +529,7 @@ export function setupTournaments(deps) {
       topicId: T.settings.topicId, tournament: T.code, matchId: m.id,
       bags: Object.fromEntries(players.filter((p) => !p.bot).map((p) => [p.id, { ...(T.students.get(p.id)?.bag || {}) }])),
       retrySeed: Object.fromEntries(players.filter((p) => !p.bot).map((p) => [p.id, [...(T.students.get(p.id)?.missed || [])].slice(-RETRY_CARRY)])),
+      retryPicks: Object.fromEntries(players.filter((p) => !p.bot).map((p) => [p.id, { ...(T.students.get(p.id)?.missedPick || {}) }])),
       settings: {
         questionSeconds: T.settings.questionSeconds,
         stealSeconds: T.settings.stealSeconds,

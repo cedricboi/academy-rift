@@ -16,11 +16,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Melamine is light, strong and can be moulded into many shapes. These properties make it a good material for containers.",
    "hint": "",
    "image": null,
    "lo": "State why knowing the chemical composition of everyday items matters (useful or harmful, recycling)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A container that conducts heat well would get hot to hold. Melamine is chosen for properties that help it hold food and keep its shape.",
+    "1": "A fragile material breaks easily, which is a poor property for a container. Think about the properties a container needs to last and keep its shape.",
+    "2": "Melamine is used to make the container, not to be eaten. Melamine in food is harmful. Think about the properties a container needs."
+   },
+   "why": {
+    "right": "Melamine suits containers because its properties match what a container must do, such as holding food without breaking.",
+    "wrong": [
+     "Melamine suits containers because heat passes through it quickly, which keeps the food inside warm for longer.",
+     "Melamine suits containers because it is a natural substance that is safe to eat in any amount."
+    ]
+   }
   },
   {
    "id": "c03q2",
@@ -34,11 +46,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The babies became ill after drinking milk powder with melamine in it. This shows that melamine is harmful when it is added to food.",
    "hint": "",
    "image": null,
    "lo": "State why knowing the chemical composition of everyday items matters (useful or harmful, recycling)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The babies became ill, so the melamine did not help them. Think about what an illness after eating a substance shows about that substance.",
+    "2": "Melamine was added to make the milk powder seem richer in protein, but it is not a real source of protein. The babies became ill after drinking it.",
+    "3": "Melamine is made of more than one element chemically combined. Also, the question is about what the babies' illness shows about melamine in food."
+   },
+   "why": {
+    "right": "Melamine is harmful in food because babies who drank milk powder containing it became ill.",
+    "wrong": [
+     "Melamine is harmful in food because every substance made in a factory is poisonous to people.",
+     "Melamine is harmful in food because any substance made of more than one element is poisonous."
+    ]
+   }
   },
   {
    "id": "c03q3",
@@ -52,11 +76,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Different materials must be recycled in different ways. Knowing what waste is made of lets it be sorted and recycled correctly.",
    "hint": "",
    "image": null,
    "lo": "State why knowing the chemical composition of everyday items matters (useful or harmful, recycling)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Knowing what waste is made of does not change its mass. Think about what happens to waste after it is collected and sorted.",
+    "2": "Burning waste quickly is not the reason for finding out what it is made of. Some materials give off harmful gases when burnt. Think about reusing materials.",
+    "3": "Knowing what waste is made of does not change its colour. Think about how different materials are sorted so they can be used again."
+   },
+   "why": {
+    "right": "Knowing what waste is made of matters because each material must be sorted and recycled by a suitable method.",
+    "wrong": [
+     "Knowing what waste is made of matters because all waste materials can be melted together into one new material.",
+     "Knowing what waste is made of matters because every kind of waste can be burnt safely once it is identified."
+    ]
+   }
   },
   {
    "id": "c03q4",
@@ -70,11 +106,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Elements are the basic building blocks of matter. All other substances are made from elements.",
    "hint": "",
    "image": null,
    "lo": "State that elements are the basic building blocks of matter and cannot be broken down",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A mixture of compounds contains many substances, so it is not basic. Elements are the simplest substances, and compounds are made from them.",
+    "1": "Two or more substances chemically combined describes a compound, not an element. Think about the simplest substances that everything else is made from.",
+    "3": "This describes how compounds are formed. Elements are the simplest substances, and other substances are built up from them."
+   },
+   "why": null
   },
   {
    "id": "c03q5",
@@ -88,11 +130,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An element cannot be broken down into simpler substances. This is why elements are the basic building blocks of matter.",
    "hint": "",
    "image": null,
    "lo": "State that elements are the basic building blocks of matter and cannot be broken down",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Easy separation is a property of mixtures. An element is a single pure substance, so there is nothing in it to separate out.",
+    "2": "Formed by a chemical reaction describes a compound. Think about what happens when someone tries to break an element down into anything simpler.",
+    "3": "Containing two or more substances describes a compound or a mixture. An element is only one substance. Think about whether it can be made any simpler."
+   },
+   "why": {
+    "right": "An element cannot be broken down because it is made up of only one type of atom.",
+    "wrong": [
+     "An element cannot be broken down because its particles are packed too tightly to be pulled apart.",
+     "An element cannot be broken down because it is always a hard solid at room temperature."
+    ]
+   }
   },
   {
    "id": "c03q6",
@@ -106,11 +160,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The Periodic Table of Elements lists all the known elements. Elements with similar properties are placed in the same group.",
    "hint": "",
    "image": null,
    "lo": "State that elements are the basic building blocks of matter and cannot be broken down",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Mixtures are not elements, so a list of mixtures would not group elements. Think about the chart that shows every known element with its symbol.",
+    "2": "Compounds are made of elements, but a table of compounds does not arrange the elements themselves. Think about the chart where every element has a box and symbol.",
+    "3": "A density table lists how dense materials are. It does not group elements by their properties. Think about the chart that lists every known element."
+   },
+   "why": null
   },
   {
    "id": "c03q7",
@@ -123,11 +183,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Copper is on the left of the zigzag line in the Periodic Table, where the metals are. It is shiny and conducts heat and electricity well.",
    "hint": "",
    "image": null,
    "lo": "Classify elements as metals or non-metals using the Periodic Table",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Copper has one symbol, Cu, in the Periodic Table, so it is an element. A compound has two or more elements chemically combined.",
+    "1": "Copper is shiny and is used in electrical wires because it conducts electricity well. Compare these properties and its place in the Periodic Table with the zigzag line."
+   },
+   "why": {
+    "right": "Copper is a metal because it lies to the left of the zigzag line in the Periodic Table.",
+    "wrong": [
+     "Copper is a metal because it is a solid, and every solid element is a metal.",
+     "Copper is a metal because it has a symbol made of two letters in the Periodic Table."
+    ]
+   }
   },
   {
    "id": "c03q8",
@@ -140,11 +211,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Sulfur is on the right of the zigzag line in the Periodic Table, where the non-metals are. It is a dull yellow solid that does not conduct electricity.",
    "hint": "",
    "image": null,
    "lo": "Classify elements as metals or non-metals using the Periodic Table",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Being a solid does not make an element a metal. Sulfur is dull and brittle and does not conduct electricity. Check where it sits in the Periodic Table.",
+    "2": "Sulfur has one symbol, S, in the Periodic Table, so it is an element. A compound has two or more elements chemically combined."
+   },
+   "why": {
+    "right": "Sulfur is a non-metal because it lies to the right of the zigzag line in the Periodic Table.",
+    "wrong": [
+     "Sulfur is a non-metal because it is yellow, and every coloured element is a non-metal.",
+     "Sulfur is a non-metal because it has a symbol made of only one letter."
+    ]
+   }
   },
   {
    "id": "c03q9",
@@ -157,11 +239,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Nitrogen is on the right of the zigzag line in the Periodic Table, where the non-metals are. It is a gas at room temperature and does not conduct electricity.",
    "hint": "",
    "image": null,
    "lo": "Classify elements as metals or non-metals using the Periodic Table",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Metals are usually shiny solids that conduct electricity. Nitrogen is a colourless gas that does not conduct electricity. Check where it sits in the Periodic Table.",
+    "2": "Nitrogen has one symbol, N, in the Periodic Table, so it is an element. A compound has two or more elements chemically combined."
+   },
+   "why": {
+    "right": "Nitrogen is a non-metal because it lies to the right of the zigzag line in the Periodic Table.",
+    "wrong": [
+     "Nitrogen is a non-metal because it is a gas, and only gases can be non-metals.",
+     "Nitrogen is a non-metal because it has a symbol made of only one letter."
+    ]
+   }
   },
   {
    "id": "c03q10",
@@ -175,11 +268,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Oxygen is on the right of the zigzag line in the Periodic Table, so it is a non-metal. Aluminium, iron and sodium are all metals.",
    "hint": "",
    "image": null,
    "lo": "Classify elements as metals or non-metals using the Periodic Table",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Aluminium is shiny and conducts electricity well, so it is used in drink cans and cables. Look for the element that lies to the right of the zigzag line.",
+    "1": "Iron is a strong, shiny solid that conducts electricity. These are properties of metals. Look for the element that lies to the right of the zigzag line.",
+    "2": "Sodium is soft, but it is shiny when freshly cut and conducts electricity. Look for the element that lies to the right of the zigzag line."
+   },
+   "why": {
+    "right": "Oxygen is a non-metal because it lies to the right of the zigzag line in the Periodic Table.",
+    "wrong": [
+     "Oxygen is a non-metal because it is needed for burning, and metals can never burn.",
+     "Oxygen is a non-metal because it is invisible, and only invisible elements are non-metals."
+    ]
+   }
   },
   {
    "id": "c03q11",
@@ -193,11 +298,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Zinc is on the left of the zigzag line in the Periodic Table, so it is a metal. Chlorine, neon and carbon are non-metals.",
    "hint": "",
    "image": null,
    "lo": "Classify elements as metals or non-metals using the Periodic Table",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Chlorine is a yellowish-green gas that does not conduct electricity, so it is a non-metal. Look for the element that lies to the left of the zigzag line.",
+    "1": "Neon is a colourless gas at room temperature, which is a property of a non-metal. Look for the element that lies to the left of the zigzag line.",
+    "2": "Carbon is a solid, but being a solid does not make an element a metal. Carbon lies to the right of the zigzag line in the Periodic Table."
+   },
+   "why": {
+    "right": "Zinc is a metal because it lies to the left of the zigzag line in the Periodic Table.",
+    "wrong": [
+     "Zinc is a metal because it is a solid, and every solid element is a metal.",
+     "Zinc is a metal because it has a symbol made of two letters in the Periodic Table."
+    ]
+   }
   },
   {
    "id": "c03q12",
@@ -211,11 +328,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A compound is made of two or more elements that are chemically combined. The elements are joined in a chemical reaction and are hard to separate.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Elements that are not chemically combined form a mixture. Think about how the elements in a compound are joined in a chemical reaction.",
+    "1": "Physically mixed elements form a mixture, and they can be separated easily. Think about how the elements in a compound are joined.",
+    "3": "Compounds can be solid, liquid or gas. Water is a liquid and salt is a solid. Think about how the elements in a compound are joined."
+   },
+   "why": null
   },
   {
    "id": "c03q13",
@@ -229,11 +352,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Water is a compound of hydrogen and oxygen chemically combined. Each water molecule has two hydrogen atoms and one oxygen atom.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Carbon and oxygen make up carbon dioxide, not water. Water contains no carbon. Think about the two gases that react together to form water.",
+    "2": "Hydrogen and nitrogen make up ammonia. Water contains no nitrogen. Think about the two gases that react together to form water.",
+    "3": "Sodium is a metal, and pure water contains no sodium. Think about the two gases that react together to form water."
+   },
+   "why": null
   },
   {
    "id": "c03q14",
@@ -247,11 +376,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The name sodium chloride shows the elements it contains. Sodium chloride is made of sodium and chlorine chemically combined.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Sodium chloride contains no hydrogen. The name of a compound shows the elements in it. Look at both parts of the name.",
+    "1": "The ending chloride stands for chlorine, not oxygen. Look at both parts of the name sodium chloride.",
+    "3": "Carbon and oxygen together would give the ending carbonate. Look at the ending of the name sodium chloride."
+   },
+   "why": {
+    "right": "Sodium chloride contains sodium and chlorine because the ending chloride in a name stands for chlorine.",
+    "wrong": [
+     "Sodium chloride contains sodium and chlorine because all salts are made of these two elements.",
+     "Sodium chloride contains sodium and chlorine because the two elements are mixed but not combined."
+    ]
+   }
   },
   {
    "id": "c03q15",
@@ -265,11 +406,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The name carbon dioxide shows that it contains carbon and oxygen. Each molecule has one carbon atom and two oxygen atoms.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Carbon only would be the element carbon, not a compound. The word dioxide in the name stands for another element. Think about what oxide means.",
+    "1": "Carbon dioxide contains no nitrogen. The word carbon is in the name. Think about which element the word dioxide stands for.",
+    "2": "Carbon and hydrogen form compounds found in fuels. The word dioxide in the name does not stand for hydrogen. Think about what oxide means."
+   },
+   "why": {
+    "right": "Carbon dioxide contains carbon and oxygen because the word oxide in a name stands for oxygen.",
+    "wrong": [
+     "Carbon dioxide contains carbon and oxygen because it is a mixture of carbon powder and air.",
+     "Carbon dioxide contains carbon and oxygen because every gas in the air contains some oxygen atoms."
+    ]
+   }
   },
   {
    "id": "c03q16",
@@ -283,11 +436,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Ammonia is a compound of nitrogen and hydrogen chemically combined. Each ammonia molecule has one nitrogen atom and three hydrogen atoms.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Ammonia contains no carbon. It is made of two gases chemically combined. One of them makes up most of the air.",
+    "2": "Nitrogen and oxygen are the two main gases in air, and air is a mixture. Ammonia contains no oxygen. Think about the other element it contains.",
+    "3": "Hydrogen and oxygen make up water. Ammonia contains no oxygen. Think about which gas, found mostly in air, is in ammonia."
+   },
+   "why": null
   },
   {
    "id": "c03q17",
@@ -301,11 +460,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The name calcium carbonate shows calcium, and the ending carbonate stands for carbon and oxygen. So calcium carbonate contains three elements.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The ending carbonate stands for more than carbon. Compare it with carbon dioxide and think about which other element it includes.",
+    "2": "The first word, calcium, is an element too. Calcium carbonate is named after all of the elements it contains.",
+    "3": "The ending carbonate stands for carbon, not chlorine. Chlorine would give the ending chloride. Look again at the ending of the name."
+   },
+   "why": {
+    "right": "Calcium carbonate contains three elements because the ending carbonate stands for both carbon and oxygen.",
+    "wrong": [
+     "Calcium carbonate contains three elements because every compound is made of exactly three elements.",
+     "Calcium carbonate contains three elements because it is a mixture of chalk, carbon and air."
+    ]
+   }
   },
   {
    "id": "c03q18",
@@ -319,11 +490,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water is made of hydrogen and oxygen only. The other compounds contain carbon, nitrogen, sodium or chlorine.",
    "hint": "",
    "image": null,
    "lo": "Identify the elements that make up a compound",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Carbon dioxide contains oxygen, but it also contains carbon and no hydrogen. Look for the compound made only of hydrogen and oxygen.",
+    "1": "Ammonia contains hydrogen, but it also contains nitrogen and no oxygen. Look for the compound made only of hydrogen and oxygen.",
+    "3": "Sodium chloride contains sodium and chlorine, with no hydrogen or oxygen. Look for the compound made only of hydrogen and oxygen."
+   },
+   "why": null
   },
   {
    "id": "c03q19",
@@ -337,11 +514,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "When elements combine to form a compound, a new substance is made. The compound has its own properties, which are different from those of its elements.",
    "hint": "",
    "image": null,
    "lo": "Compare the properties of a compound with its constituent elements",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Keeping the properties of the constituents describes a mixture. In a compound, the elements have reacted to form a new substance.",
+    "2": "Elements that separate easily are found in a mixture. The elements in a compound are chemically combined and need a chemical reaction to separate.",
+    "3": "Constituents in any proportion describes a mixture. In a compound, the elements are combined in a set ratio."
+   },
+   "why": {
+    "right": "A compound has new properties because its elements have reacted to form a completely new substance.",
+    "wrong": [
+     "A compound has new properties because its elements are only mixed and lose their colour.",
+     "A compound has new properties because heating the elements always makes them change state."
+    ]
+   }
   },
   {
    "id": "c03q20",
@@ -355,11 +544,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The elements in a compound are always combined in a fixed proportion by mass. For example, water always has the same ratio of hydrogen to oxygen.",
    "hint": "",
    "image": null,
    "lo": "Compare the properties of a compound with its constituent elements",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Any proportion describes a mixture, such as a sugar solution that can be made weak or strong. A compound always has the same make-up.",
+    "1": "Equal volumes is not a rule for compounds, and many compounds contain more of one element than another. Think about the mass of each element.",
+    "2": "A compound does not change its make-up over time. Water made today has the same make-up as water made long ago."
+   },
+   "why": {
+    "right": "The proportion in a compound is fixed because the elements always combine in the same ratio when it forms.",
+    "wrong": [
+     "The proportion in a compound is fixed because a compound always contains equal masses of each element.",
+     "The proportion in a compound is fixed because the elements are measured out by hand before mixing."
+    ]
+   }
   },
   {
    "id": "c03q21",
@@ -372,11 +573,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water is a liquid at room temperature, even though hydrogen and oxygen are gases. A compound has different properties from its elements.",
    "hint": "",
    "image": null,
    "lo": "Compare the properties of a compound with its constituent elements",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Water is a solid only below 0 °C, which is ice. Room temperature is about 25 °C. Think about the water that comes out of a tap.",
+    "1": "Hydrogen and oxygen are gases, but a compound does not keep the properties of its elements. Think about how water looks in a glass at room temperature."
+   },
+   "why": {
+    "right": "Water is a liquid because a compound has its own properties, which differ from those of its elements.",
+    "wrong": [
+     "Water is a liquid because two gases always form a liquid when they are mixed.",
+     "Water is a liquid because hydrogen and oxygen turn into liquids whenever they cool to room temperature."
+    ]
+   }
   },
   {
    "id": "c03q22",
@@ -389,11 +601,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Carbon dioxide is a gas, even though carbon is a solid. A compound has different properties from its elements.",
    "hint": "",
    "image": null,
    "lo": "Compare the properties of a compound with its constituent elements",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Carbon is a solid, but a compound does not keep the properties of its elements. Think about the gas that people breathe out.",
+    "2": "Carbon dioxide is not a liquid at room temperature. Think about the gas that people breathe out and that makes the bubbles in soft drinks."
+   },
+   "why": {
+    "right": "Carbon dioxide is a gas because a compound has its own properties, which differ from those of its elements.",
+    "wrong": [
+     "Carbon dioxide is a gas because the carbon in it is burnt away, leaving only oxygen gas.",
+     "Carbon dioxide is a gas because a solid always turns into a gas when it is heated in air."
+    ]
+   }
   },
   {
    "id": "c03q23",
@@ -407,11 +630,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Water is a compound, so hydrogen and oxygen are chemically combined in it. Breaking water down needs a chemical reaction that uses a lot of energy, such as passing electricity through it.",
    "hint": "",
    "image": null,
    "lo": "Compare the properties of a compound with its constituent elements",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "If water were a mixture, its constituents could be separated easily. Water is a compound, so its elements are chemically combined.",
+    "1": "Water does have constituent elements, which are hydrogen and oxygen. Think about how strongly they are held together in the compound.",
+    "2": "Water is not an element, because it can be broken down into hydrogen and oxygen. Think about what that breaking down needs."
+   },
+   "why": {
+    "right": "Water is hard to break down because its hydrogen and oxygen are chemically combined, not just mixed.",
+    "wrong": [
+     "Water is hard to break down because hydrogen and oxygen cannot be separated by any method.",
+     "Water is hard to break down because it is a mixture of two gases that dissolve in each other."
+    ]
+   }
   },
   {
    "id": "c03q24",
@@ -425,11 +660,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Chlorine is a poisonous gas, but sodium chloride is safe to eat in small amounts. This shows that a compound has different properties from its elements.",
    "hint": "",
    "image": null,
    "lo": "Compare the properties of a compound with its constituent elements",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The question compares how safe chlorine and sodium chloride are. It is not about separating them. Think about whether the compound behaves like its elements.",
+    "2": "In a mixture, chlorine would keep its harmful property. Sodium chloride is safe to eat, so the chlorine in it is chemically combined.",
+    "3": "If the compound had the same properties as chlorine, it would be harmful to eat. Compare how chlorine and sodium chloride affect the body."
+   },
+   "why": {
+    "right": "Sodium chloride is safe because a compound has new properties that differ from those of its elements.",
+    "wrong": [
+     "Sodium chloride is safe because the harmful chlorine has been removed from it during cooking.",
+     "Sodium chloride is safe because sodium cancels out the harm of chlorine in a mixture."
+    ]
+   }
   },
   {
    "id": "c03q25",
@@ -443,11 +690,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A mixture is made of two or more substances that are not chemically combined. Each substance keeps its own properties.",
    "hint": "",
    "image": null,
    "lo": "Describe a mixture and state that it keeps the properties of its constituents",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A fixed proportion describes a compound. The substances in a mixture can be present in any amounts.",
+    "1": "Mixtures can contain elements, compounds or both. Salt solution is a mixture of two compounds. Think about how the substances in a mixture are held together.",
+    "3": "Chemically combined describes a compound. Think about whether the substances in a mixture react with each other."
+   },
+   "why": null
   },
   {
    "id": "c03q26",
@@ -461,11 +714,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The substances in a mixture are not chemically combined. So each substance keeps its own properties, and no new substance is formed.",
    "hint": "",
    "image": null,
    "lo": "Describe a mixture and state that it keeps the properties of its constituents",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "New properties appear when a new substance is formed in a chemical reaction. That happens when a compound forms, not when substances are mixed.",
+    "2": "A fixed proportion describes a compound. A mixture such as sugar solution can have any amount of sugar.",
+    "3": "Constituents that are hard to separate describe a compound. The parts of a mixture can be separated by physical methods such as filtering."
+   },
+   "why": {
+    "right": "A mixture keeps the properties of its constituents because they are not chemically combined.",
+    "wrong": [
+     "A mixture keeps the properties of its constituents because they are in a fixed proportion.",
+     "A mixture keeps the properties of its constituents because they react to form a new substance."
+    ]
+   }
   },
   {
    "id": "c03q27",
@@ -479,11 +744,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Salt solution is a mixture of salt and water. The salt keeps its salty taste because it is not chemically combined with the water.",
    "hint": "",
    "image": null,
    "lo": "Describe a mixture and state that it keeps the properties of its constituents",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "If the mixture had new properties, the salty taste would be lost. The salty taste comes from the salt itself.",
+    "2": "Salt solution can be made with any amount of salt, so its proportion is not fixed. Think about where the salty taste comes from.",
+    "3": "Dissolving salt is a physical change, not a chemical reaction. No new substance is formed. Think about where the salty taste comes from."
+   },
+   "why": {
+    "right": "Salt solution tastes salty because the dissolved salt is not chemically combined with the water.",
+    "wrong": [
+     "Salt solution tastes salty because salt and water react to form a new salty substance.",
+     "Salt solution tastes salty because water itself has a salty taste once it is heated."
+    ]
+   }
   },
   {
    "id": "c03q28",
@@ -497,11 +774,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Nitrogen makes up about 78% of air. Oxygen makes up about 21%, and the rest includes argon, carbon dioxide and water vapour.",
    "hint": "",
    "image": null,
    "lo": "Describe air as a mixture whose constituents vary in amount",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Oxygen makes up only about 21% of air, even though it is the gas needed for breathing. Think about the gas found in the largest amount.",
+    "1": "Water vapour is present in small, changing amounts. Think about the gas found in the largest amount in air.",
+    "2": "Carbon dioxide makes up only about 0.04% of air. Think about the gas found in the largest amount."
+   },
+   "why": null
   },
   {
    "id": "c03q29",
@@ -514,11 +797,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The amount of carbon dioxide changes from place to place and over time. It is higher near traffic and factories, where fuels are burnt.",
    "hint": "",
    "image": null,
    "lo": "Describe air as a mixture whose constituents vary in amount",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Nitrogen stays at about 78% of air almost everywhere. Think about which gas is added to the air by traffic and factories.",
+    "2": "Oxygen stays at about 21% of air almost everywhere. Think about which gas is added to the air by traffic and factories."
+   },
+   "why": {
+    "right": "Carbon dioxide varies the most because burning fuels add it and plants remove it, by different amounts in different places.",
+    "wrong": [
+     "Carbon dioxide varies the most because it is the gas found in the largest amount in air.",
+     "Carbon dioxide varies the most because it is a pure element that reacts with every other gas."
+    ]
+   }
   },
   {
    "id": "c03q30",
@@ -531,11 +825,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Iron and carbon are elements. Steel is a mixture of iron, carbon and other elements, so it is made up of elements only.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as made of elements only, compounds only, or both",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Iron and carbon each have one symbol in the Periodic Table. Check whether each constituent of steel is an element or a compound.",
+    "1": "Look at each constituent named. Iron and carbon each appear as one symbol in the Periodic Table. Decide whether any constituent is a compound."
+   },
+   "why": {
+    "right": "Steel is made of elements only because iron, carbon and its other constituents are all single elements.",
+    "wrong": [
+     "Steel is made of elements only because any mixture containing a metal is made of elements only.",
+     "Steel is made of elements only because its constituents have reacted to form one new element."
+    ]
+   }
   },
   {
    "id": "c03q31",
@@ -548,11 +853,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Sodium chloride and water are both compounds. So salt solution is a mixture made up of compounds only.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as made of elements only, compounds only, or both",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Sodium and chlorine are elements, but in salt they are chemically combined. Decide whether each constituent of salt solution is an element or a compound.",
+    "2": "Sodium chloride and water each contain more than one element chemically combined. Decide whether that makes each of them an element or a compound."
+   },
+   "why": {
+    "right": "Salt solution is made of compounds only because sodium chloride and water each contain chemically combined elements.",
+    "wrong": [
+     "Salt solution is made of compounds only because dissolving salt in water forms a new compound.",
+     "Salt solution is made of compounds only because every liquid mixture is made of compounds only."
+    ]
+   }
   },
   {
    "id": "c03q32",
@@ -565,11 +881,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sodium chloride and water are compounds, and iodine is an element. So seawater is made up of both elements and compounds.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as made of elements only, compounds only, or both",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Sodium chloride and water each contain more than one element chemically combined, so they are not elements. Check every constituent before deciding.",
+    "1": "Iodine has one symbol, I, in the Periodic Table, so it is not a compound. Check every constituent before deciding."
+   },
+   "why": {
+    "right": "Seawater contains elements and compounds because water is a compound and iodine is an element.",
+    "wrong": [
+     "Seawater contains elements and compounds because salt breaks up into sodium and chlorine elements in water.",
+     "Seawater contains elements and compounds because every mixture found in nature contains both elements and compounds."
+    ]
+   }
   },
   {
    "id": "c03q33",
@@ -582,11 +909,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Tin, copper and silver are all elements. So pewter is a mixture made up of elements only.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as made of elements only, compounds only, or both",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Tin, copper and silver each have one symbol in the Periodic Table. Check whether any constituent of pewter is a compound.",
+    "2": "Tin, copper and silver are each a single substance with one symbol in the Periodic Table. Decide whether they are elements or compounds."
+   },
+   "why": {
+    "right": "Pewter is made of elements only because tin, copper and silver are each single elements.",
+    "wrong": [
+     "Pewter is made of elements only because the metals react to form one new element.",
+     "Pewter is made of elements only because any hard solid mixture contains no compounds."
+    ]
+   }
   },
   {
    "id": "c03q34",
@@ -599,11 +937,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Calcium carbonate, silicon dioxide and water each contain elements chemically combined. So concrete is made up of compounds only.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as made of elements only, compounds only, or both",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Each constituent named has more than one element in it. For example, water contains hydrogen and oxygen. Decide whether that makes them elements or compounds.",
+    "2": "Silicon dioxide contains silicon and oxygen chemically combined, so it is not an element. Check each constituent of concrete in the same way."
+   },
+   "why": {
+    "right": "Concrete is made of compounds only because each of its constituents contains chemically combined elements.",
+    "wrong": [
+     "Concrete is made of compounds only because every hard building material is a compound.",
+     "Concrete is made of compounds only because water turns every substance it touches into a compound."
+    ]
+   }
   },
   {
    "id": "c03q35",
@@ -617,11 +966,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Nitrogen and oxygen are both elements. Sugar, salt, sand and water are compounds, so the other mixtures contain compounds.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as made of elements only, compounds only, or both",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Sugar and water each contain more than one element chemically combined. Look for a mixture in which every constituent is an element.",
+    "1": "Salt and water are both compounds. Look for a mixture in which every constituent is an element.",
+    "2": "Sand is mostly silicon dioxide and water contains hydrogen and oxygen, so both are compounds. Look for a mixture in which every constituent is an element."
+   },
+   "why": {
+    "right": "A nitrogen and oxygen mixture contains elements only because each of the two gases is an element.",
+    "wrong": [
+     "A nitrogen and oxygen mixture contains elements only because every gas is an element.",
+     "A nitrogen and oxygen mixture contains elements only because the two gases react to form a new element."
+    ]
+   }
   },
   {
    "id": "c03q36",
@@ -635,11 +996,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The solute is the substance that dissolves. The solvent is the substance it dissolves in, and together they form a solution.",
    "hint": "",
    "image": null,
    "lo": "Identify the solute, solvent and solution",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The solvent is the substance that does the dissolving, such as water. Think about the name for the substance that disappears into it.",
+    "1": "A suspension contains insoluble substances that do not dissolve. Think about the name for the substance that does dissolve.",
+    "2": "A mixture is the general name for substances mixed together. Think about the name for the substance that dissolves in a solution."
+   },
+   "why": null
   },
   {
    "id": "c03q37",
@@ -653,11 +1020,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The solvent is the substance in which the solute dissolves. Water is the most common solvent.",
    "hint": "",
    "image": null,
    "lo": "Identify the solute, solvent and solution",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A suspension contains solids that do not dissolve. Think about the substance that does the dissolving, such as water.",
+    "2": "The solute is the substance that dissolves. Think about the name for the substance that it dissolves in.",
+    "3": "A compound is two or more elements chemically combined. Think about the name for the substance that a solute dissolves in."
+   },
+   "why": null
   },
   {
    "id": "c03q38",
@@ -670,11 +1043,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The solute is the substance that dissolves. Sugar dissolves in water, so sugar is the solute.",
    "hint": "",
    "image": null,
    "lo": "Identify the solute, solvent and solution",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Sugar solution is the mixture formed at the end, which is the solution. Think about which substance dissolves.",
+    "1": "Water is the substance that the sugar dissolves in, so it is the solvent. Think about which substance dissolves."
+   },
+   "why": {
+    "right": "Sugar is the solute because it is the substance that dissolves in the water.",
+    "wrong": [
+     "Sugar is the solute because it is the substance present in the larger amount.",
+     "Sugar is the solute because it is the liquid that the other substance dissolves in."
+    ]
+   }
   },
   {
    "id": "c03q39",
@@ -687,11 +1071,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The solvent is the substance in which the solute dissolves. Salt dissolves in water, so water is the solvent.",
    "hint": "",
    "image": null,
    "lo": "Identify the solute, solvent and solution",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Salt is the substance that dissolves, so it is the solute. Think about the substance it dissolves in.",
+    "2": "Salt solution is the mixture formed at the end. Think about the substance the salt dissolves in."
+   },
+   "why": {
+    "right": "Water is the solvent because it is the substance in which the salt dissolves.",
+    "wrong": [
+     "Water is the solvent because it is the substance that dissolves into the salt.",
+     "Water is the solvent because it is the substance present in the smaller amount."
+    ]
+   }
   },
   {
    "id": "c03q40",
@@ -704,11 +1099,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Iodine is the substance that dissolves, so it is the solute. Alcohol is the solvent, and the mixture is iodine solution.",
    "hint": "",
    "image": null,
    "lo": "Identify the solute, solvent and solution",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Alcohol is the liquid that the iodine dissolves in, so it is the solvent. Think about which substance dissolves.",
+    "2": "Iodine solution is the mixture formed at the end. Think about which substance dissolves to make it."
+   },
+   "why": {
+    "right": "Iodine is the solute because it is the substance that dissolves in the alcohol.",
+    "wrong": [
+     "Iodine is the solute because it is the substance that the alcohol dissolves into.",
+     "Iodine is the solute because it is the substance present in the larger amount."
+    ]
+   }
   },
   {
    "id": "c03q41",
@@ -722,11 +1128,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A concentrated solution has more solute dissolved in a given volume of solvent. Cup A has more sugar in the same volume of water, so it is more concentrated.",
    "hint": "",
    "image": null,
    "lo": "Identify the solute, solvent and solution",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The sugar has dissolved, so Cup A is a solution, not a suspension. Think about how much solute is in the same volume of water.",
+    "1": "Cup A contains sugar and water, so it is a mixture, not a pure substance. Think about how much solute is in the same volume of water.",
+    "2": "A dilute solution has less solute in a given volume of solvent. Compare the amount of sugar in Cup A with the other cup."
+   },
+   "why": {
+    "right": "A solution is more concentrated when it has more solute dissolved in the same volume of solvent.",
+    "wrong": [
+     "A solution is more concentrated when it has more solvent for the same amount of solute.",
+     "A solution is more concentrated when its solute has dissolved more quickly than in another solution."
+    ]
+   }
   },
   {
    "id": "c03q42",
@@ -740,11 +1158,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The rate of dissolving is how quickly a solute dissolves in a solvent. It is different from solubility, which is how well a solute dissolves.",
    "hint": "",
    "image": null,
    "lo": "Predict how a factor changes the rate of dissolving",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "How well a solute dissolves describes solubility. The word rate is about time, so think about speed.",
+    "1": "The colour of a solution does not describe dissolving. The word rate is about time, so think about speed.",
+    "3": "The amount of solvent used is not a rate. The word rate is about time, so think about speed."
+   },
+   "why": null
   },
   {
    "id": "c03q43",
@@ -757,11 +1181,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Fine sugar has the smallest pieces, so more of its surface is in contact with the water. This makes it dissolve fastest.",
    "hint": "",
    "image": null,
    "lo": "Predict how a factor changes the rate of dissolving",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Rock sugar is in large lumps, so less of its surface touches the water. Think about which form has the smallest pieces.",
+    "2": "Sugar cubes are large blocks, so the water reaches only their outer surface at first. Think about which form has the smallest pieces."
+   },
+   "why": {
+    "right": "Fine sugar dissolves fastest because its small pieces have a larger total surface area in contact with water.",
+    "wrong": [
+     "Fine sugar dissolves fastest because its small pieces have a higher solubility than large lumps.",
+     "Fine sugar dissolves fastest because its small pieces are lighter and so they float on the water."
+    ]
+   }
   },
   {
    "id": "c03q44",
@@ -775,11 +1210,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Sugar dissolves faster at higher temperatures. Hot water at 80 °C is the hottest, so sugar dissolves fastest in it.",
    "hint": "",
    "image": null,
    "lo": "Predict how a factor changes the rate of dissolving",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water at 20 °C is not the warmest choice. Think about how raising the temperature of water changes the rate of dissolving.",
+    "1": "Cold water slows dissolving down. Think about how raising the temperature of water changes the rate of dissolving.",
+    "2": "Water at 30 °C is warm, but it is not the warmest choice. Think about how raising the temperature changes the rate of dissolving."
+   },
+   "why": {
+    "right": "Sugar dissolves faster in hot water because the particles move faster and mix more quickly.",
+    "wrong": [
+     "Sugar dissolves faster in hot water because heat makes the sugar pieces melt into liquid sugar.",
+     "Sugar dissolves faster in hot water because heating makes the water particles bigger, leaving more space."
+    ]
+   }
   },
   {
    "id": "c03q45",
@@ -792,11 +1239,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Stirring brings fresh solvent into contact with the coffee powder. So stirring faster increases the rate of dissolving.",
    "hint": "",
    "image": null,
    "lo": "Predict how a factor changes the rate of dissolving",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Stirring helps the solute and solvent mix, so it does not slow dissolving. Think about what moving the liquid around does to the powder.",
+    "2": "Stirring does change how quickly a solute dissolves. Think about what moving the liquid around does to the powder."
+   },
+   "why": {
+    "right": "Faster stirring speeds up dissolving because it keeps bringing fresh solvent into contact with the solute.",
+    "wrong": [
+     "Faster stirring speeds up dissolving because it makes more solute able to dissolve in the solvent.",
+     "Faster stirring speeds up dissolving because it heats the water up to its boiling point."
+    ]
+   }
   },
   {
    "id": "c03q46",
@@ -810,11 +1268,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Crushing the cube breaks it into small pieces with a larger total surface area. More of the sugar touches the water, so it dissolves faster.",
    "hint": "",
    "image": null,
    "lo": "Predict how a factor changes the rate of dissolving",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Stirring more slowly mixes the sugar and water less, so dissolving slows down. Think about how to get more sugar touching the water.",
+    "1": "A bigger cube has less surface area for its size, so it dissolves more slowly. Think about how to get more sugar touching the water.",
+    "3": "Colder water slows dissolving down. Think about how to get more of the sugar touching the water."
+   },
+   "why": {
+    "right": "Crushing a sugar cube speeds up dissolving because the small pieces have a larger total surface area.",
+    "wrong": [
+     "Crushing a sugar cube speeds up dissolving because it changes the sugar into a new substance.",
+     "Crushing a sugar cube speeds up dissolving because it raises the solubility of the sugar."
+    ]
+   }
   },
   {
    "id": "c03q47",
@@ -828,11 +1298,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Solubility is how well a solute dissolves in a fixed volume of a particular solvent. It is not about how fast the solute dissolves.",
    "hint": "",
    "image": null,
    "lo": "Distinguish rate of dissolving from solubility and state factors affecting solubility",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Rate of dissolving is about how quickly a solute dissolves. This question is about how well it dissolves in a fixed volume.",
+    "2": "Density is the mass per unit volume of a material and does not describe dissolving. Think about the term for how well a solute dissolves.",
+    "3": "Concentration describes how much solute is already in a solution. Think about the term for how well a solute can dissolve in a solvent."
+   },
+   "why": null
   },
   {
    "id": "c03q48",
@@ -846,11 +1322,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Solubility depends on the type of solute, the type of solvent and the temperature. Stirring and particle size only change how fast the solute dissolves.",
    "hint": "",
    "image": null,
    "lo": "Distinguish rate of dissolving from solubility and state factors affecting solubility",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The shape of the beaker does not change how much solute dissolves. Think about factors that change how much solute can dissolve.",
+    "1": "Stirring changes how fast a solute dissolves, not how much can dissolve. Think about factors that change how much solute can dissolve.",
+    "2": "Particle size changes how fast a solute dissolves, not how much can dissolve. Think about factors that change how much solute can dissolve."
+   },
+   "why": {
+    "right": "The type of solvent affects solubility because a solute can dissolve well in one solvent but not in another.",
+    "wrong": [
+     "The type of solvent affects solubility because some solvents make the solute dissolve faster when stirred.",
+     "The type of solvent affects solubility because a solvent changes the size of the solute particles."
+    ]
+   }
   },
   {
    "id": "c03q49",
@@ -864,11 +1352,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Salt is the same solute in both cases, but water and oil are different solvents. So the solubility of salt depends on the type of solvent.",
    "hint": "",
    "image": null,
    "lo": "Distinguish rate of dissolving from solubility and state factors affecting solubility",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "No stirring is compared in this test. Think about what is different between the two cases.",
+    "2": "The same salt is used in both cases, so the particle size is not what changes. Think about what is different between the two cases.",
+    "3": "The solute is salt in both cases, so it does not change. Think about what is different between the two cases."
+   },
+   "why": {
+    "right": "Salt dissolves in water but not in oil because the same solute can dissolve in one solvent but not another.",
+    "wrong": [
+     "Salt dissolves in water but not in oil because oil is stirred more slowly than water.",
+     "Salt dissolves in water but not in oil because oil makes the salt particles too large."
+    ]
+   }
   },
   {
    "id": "c03q50",
@@ -882,11 +1382,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water is the solvent in both cases, but sugar and flour are different solutes. So solubility depends on the type of solute.",
    "hint": "",
    "image": null,
    "lo": "Distinguish rate of dissolving from solubility and state factors affecting solubility",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water is the solvent in both cases, so the solvent does not change. Think about what is different between the two cases.",
+    "1": "The room temperature is not what is being changed here. Think about what is different between the two cases.",
+    "3": "Stirring changes how fast a solute dissolves, not how much dissolves. Think about what is different between the two cases."
+   },
+   "why": {
+    "right": "More sugar than flour dissolves in water because different solutes have different solubilities in the same solvent.",
+    "wrong": [
+     "More sugar than flour dissolves in water because sugar is stirred faster than flour.",
+     "More sugar than flour dissolves in water because sugar reacts with water to form a new compound."
+    ]
+   }
   },
   {
    "id": "c03q51",
@@ -900,11 +1412,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A substance that does not dissolve in a solvent is insoluble. Sand is insoluble in water.",
    "hint": "",
    "image": null,
    "lo": "Distinguish rate of dissolving from solubility and state factors affecting solubility",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Soluble means a substance can dissolve. This substance does not dissolve. Think about the term for a substance that cannot dissolve.",
+    "1": "Concentrated describes a solution with a lot of solute dissolved in it. Here nothing has dissolved. Think about the term for a substance that does not dissolve.",
+    "2": "Dilute describes a solution with little solute dissolved in it. Here nothing has dissolved. Think about the term for a substance that does not dissolve."
+   },
+   "why": null
   },
   {
    "id": "c03q52",
@@ -918,11 +1436,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A suspension contains insoluble solid particles spread through a liquid. The particles do not dissolve and settle over time.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "One element alone is not a mixture, and a suspension is a mixture. Think about substances that do not dissolve.",
+    "2": "A solute that dissolves completely forms a solution. Think about what happens to substances that do not dissolve.",
+    "3": "Elements chemically combined form a compound, and a suspension is a mixture. Think about substances that do not dissolve."
+   },
+   "why": null
   },
   {
    "id": "c03q53",
@@ -935,11 +1459,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In a solution the solute has dissolved completely. The liquid is clear, light passes through it, and nothing settles at the bottom.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This liquid is described by how light passes through it and whether anything settles. These are tests used to sort mixtures, not elements.",
+    "2": "A suspension is cloudy, blocks some light and has solids settling at the bottom. Compare this with the liquid described."
+   },
+   "why": {
+    "right": "A solution lets light through because its solute particles are dissolved and too small to block light.",
+    "wrong": [
+     "A solution lets light through because its solid particles are large and sink to the bottom quickly.",
+     "A solution lets light through because it contains only the pure solvent and no other substance."
+    ]
+   }
   },
   {
    "id": "c03q54",
@@ -952,11 +1487,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A suspension is cloudy because it contains insoluble particles. Over time the particles settle as solid deposits at the bottom.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A solution is clear and nothing settles out of it. Think about mixtures with particles that do not dissolve.",
+    "2": "A compound is a single substance with elements chemically combined. Solids settling out shows that more than one substance is present."
+   },
+   "why": {
+    "right": "A suspension is cloudy because its insoluble particles are large enough to block light and settle.",
+    "wrong": [
+     "A suspension is cloudy because its particles have dissolved completely in the solvent.",
+     "A suspension is cloudy because its elements are chemically combined into a new substance."
+    ]
+   }
   },
   {
    "id": "c03q55",
@@ -969,11 +1515,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Soda water is carbon dioxide dissolved in water. It is clear, and no solid settles at the bottom, so it is a solution.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Soda water contains carbon dioxide and water mixed, not chemically combined into one substance. Think about whether it is clear or cloudy.",
+    "1": "A suspension is cloudy and has solids that settle. Soda water is clear. Think about what happens to the carbon dioxide in it."
+   },
+   "why": {
+    "right": "Soda water is a solution because the carbon dioxide is dissolved completely and nothing settles out.",
+    "wrong": [
+     "Soda water is a solution because the gas bubbles are solid particles that sink to the bottom.",
+     "Soda water is a solution because it is cloudy and blocks light from passing through."
+    ]
+   }
   },
   {
    "id": "c03q56",
@@ -986,11 +1543,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Calamine lotion is cloudy, and its solid particles settle at the bottom. The bottle must be shaken before use, so it is a suspension.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Calamine lotion is a mixture of several substances, not one compound. Think about why the bottle must be shaken before use.",
+    "1": "A solution is clear and nothing settles. Calamine lotion is cloudy. Think about why the bottle must be shaken before use."
+   },
+   "why": {
+    "right": "Calamine lotion is a suspension because its insoluble particles settle at the bottom when left to stand.",
+    "wrong": [
+     "Calamine lotion is a suspension because its particles are dissolved completely in the liquid.",
+     "Calamine lotion is a suspension because it is pink, and every coloured liquid is a suspension."
+    ]
+   }
   },
   {
    "id": "c03q57",
@@ -1003,11 +1571,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Muddy water is cloudy, and the soil particles settle at the bottom when it is left to stand. So muddy water is a suspension.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Muddy water is soil mixed with water, not a single compound. Think about what happens to the soil when it is left to stand.",
+    "2": "A solution is clear and nothing settles. Think about what happens to the soil in muddy water when it is left to stand."
+   },
+   "why": {
+    "right": "Muddy water is a suspension because the soil particles do not dissolve and settle when left to stand.",
+    "wrong": [
+     "Muddy water is a suspension because the soil dissolves completely and turns the water brown.",
+     "Muddy water is a suspension because soil and water react to form a brown compound."
+    ]
+   }
   },
   {
    "id": "c03q58",
@@ -1021,11 +1600,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A suspension contains insoluble particles. These particles settle as solid deposits at the bottom when the mixture is left to stand.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particles that cannot be seen are a sign of a solution. Think about what happens to insoluble particles over time.",
+    "1": "Light passing through fully is a sign of a solution. A suspension is cloudy. Think about what happens to insoluble particles over time.",
+    "2": "A clear liquid is a sign of a solution. A suspension is cloudy. Think about what happens to insoluble particles over time."
+   },
+   "why": {
+    "right": "Deposits form in a suspension because its insoluble particles are large enough to sink when left to stand.",
+    "wrong": [
+     "Deposits form in a suspension because its dissolved particles react with the solvent to form a solid.",
+     "Deposits form in a suspension because the solvent evaporates quickly and leaves the solute behind."
+    ]
+   }
   },
   {
    "id": "c03q59",
@@ -1039,11 +1630,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Filtration separates insoluble solids from a liquid. The filter paper traps the solid particles and lets the liquid pass through.",
    "hint": "",
    "image": null,
    "lo": "Classify mixtures as solutions or suspensions from observations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Heating removes the liquid by evaporation and leaves everything else behind. Think about a method that traps only the solid particles.",
+    "2": "Stirring mixes the suspension again and spreads the particles through the liquid. Think about a method that traps the solid particles.",
+    "3": "Insoluble substances do not dissolve, so dissolving cannot remove them. Think about a method that traps the solid particles."
+   },
+   "why": {
+    "right": "Filtration removes insoluble solids because the solid particles are too large to pass through the filter paper.",
+    "wrong": [
+     "Filtration removes insoluble solids because the filter paper dissolves the solid particles as they pass.",
+     "Filtration removes insoluble solids because the filter paper heats the mixture and evaporates the solids."
+    ]
+   }
   },
   {
    "id": "c03q60",
@@ -1056,11 +1659,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A mixture is formed when substances are mixed without a chemical reaction. This is a physical change, so no new substance is made.",
    "hint": "",
    "image": null,
    "lo": "Distinguish elements, compounds and mixtures by their characteristics",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A compound is formed in a chemical reaction, where a new substance is made. Think about what forms when substances are only mixed.",
+    "1": "Elements are the basic building blocks and are not made by mixing. Think about what forms when substances are only mixed."
+   },
+   "why": {
+    "right": "A mixture forms in a physical change because the substances are mixed without forming a new substance.",
+    "wrong": [
+     "A mixture forms in a physical change because the substances react to form a new substance.",
+     "A mixture forms in a physical change because its constituents join in a fixed proportion."
+    ]
+   }
   },
   {
    "id": "c03q61",
@@ -1073,11 +1687,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A compound is formed when two or more elements react and chemically combine. The new substance has different properties from its elements.",
    "hint": "",
    "image": null,
    "lo": "Distinguish elements, compounds and mixtures by their characteristics",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A mixture is formed by physical mixing, with no chemical reaction. Think about what forms when elements chemically combine.",
+    "2": "An element is the simplest substance. Think about what forms when two or more elements react together."
+   },
+   "why": {
+    "right": "A compound forms in a chemical reaction because its elements chemically combine to make a new substance.",
+    "wrong": [
+     "A compound forms in a chemical reaction because its elements are mixed but keep their own properties.",
+     "A compound forms in a chemical reaction because heating always joins substances in any proportion."
+    ]
+   }
   },
   {
    "id": "c03q62",
@@ -1090,11 +1715,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A compound has its elements in a fixed proportion, and they are chemically combined. This makes them hard to separate.",
    "hint": "",
    "image": null,
    "lo": "Distinguish elements, compounds and mixtures by their characteristics",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An element is only one substance, so it has no constituents to separate. Think about which type of matter has elements joined in a fixed ratio.",
+    "2": "A mixture can have its constituents in any proportion, and they are easy to separate. Think about which type of matter is the opposite."
+   },
+   "why": {
+    "right": "A compound is hard to separate because its elements are chemically combined in a fixed proportion.",
+    "wrong": [
+     "A compound is hard to separate because its elements are physically mixed in any proportion.",
+     "A compound is hard to separate because it is only one element that cannot be broken down."
+    ]
+   }
   },
   {
    "id": "c03q63",
@@ -1107,11 +1743,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In a mixture, the constituents are not chemically combined. So they keep their own properties and can be separated easily by physical methods.",
    "hint": "",
    "image": null,
    "lo": "Distinguish elements, compounds and mixtures by their characteristics",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An element is a single substance, so it has no constituents to separate. Think about matter whose parts are not chemically combined.",
+    "2": "A compound has new properties, and its elements are hard to separate. Think about matter whose parts are not chemically combined."
+   },
+   "why": {
+    "right": "A mixture is easy to separate because its constituents are only mixed and not chemically combined.",
+    "wrong": [
+     "A mixture is easy to separate because its constituents are joined in a fixed proportion.",
+     "A mixture is easy to separate because it is made of only one type of atom."
+    ]
+   }
   },
   {
    "id": "c03q64",
@@ -1124,11 +1771,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An element cannot be broken down into simpler substances. This is what makes elements the basic building blocks of matter.",
    "hint": "",
    "image": null,
    "lo": "Distinguish elements, compounds and mixtures by their characteristics",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A compound can be broken down into its elements by a chemical reaction. Think about the simplest type of matter.",
+    "1": "A mixture can be separated into its constituents. Think about the simplest type of matter."
+   },
+   "why": {
+    "right": "A substance that cannot be broken down is an element because it contains only one type of atom.",
+    "wrong": [
+     "A substance that cannot be broken down is an element because its constituents are chemically combined.",
+     "A substance that cannot be broken down is an element because elements are always hard solids that cannot be cut."
+    ]
+   }
   },
   {
    "id": "c03q65",
@@ -1141,11 +1799,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Aluminium has one symbol, Al, in the Periodic Table. It is an element and cannot be broken down into simpler substances.",
    "hint": "",
    "image": null,
    "lo": "Classify substances as elements, compounds or mixtures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A compound has two or more elements chemically combined. Aluminium is a single substance listed in the Periodic Table.",
+    "2": "A mixture contains two or more substances not chemically combined. Aluminium is a single substance listed in the Periodic Table."
+   },
+   "why": {
+    "right": "Aluminium is an element because it is made of only one type of atom.",
+    "wrong": [
+     "Aluminium is an element because it is a metal used to make drink cans.",
+     "Aluminium is an element because it is a mixture of metals melted together."
+    ]
+   }
   },
   {
    "id": "c03q66",
@@ -1158,11 +1827,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Carbon dioxide is made of carbon and oxygen chemically combined in a fixed proportion. So it is a compound.",
    "hint": "",
    "image": null,
    "lo": "Classify substances as elements, compounds or mixtures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Carbon dioxide contains two elements, carbon and oxygen, so it is not a single element. Think about how the two are joined.",
+    "2": "The carbon and oxygen in carbon dioxide cannot be separated by physical methods, and their proportion never changes. Think about what that shows."
+   },
+   "why": {
+    "right": "Carbon dioxide is a compound because carbon and oxygen are chemically combined in a fixed proportion.",
+    "wrong": [
+     "Carbon dioxide is a compound because carbon and oxygen are mixed in any proportion.",
+     "Carbon dioxide is a compound because it is a gas, and every gas is a compound."
+    ]
+   }
   },
   {
    "id": "c03q67",
@@ -1175,11 +1855,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Air contains nitrogen, oxygen, carbon dioxide and other gases that are not chemically combined. Their amounts can vary, so air is a mixture.",
    "hint": "",
    "image": null,
    "lo": "Classify substances as elements, compounds or mixtures",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The gases in air are not chemically combined, and their amounts vary. A compound has a fixed proportion. Think about what that means for air.",
+    "2": "Air contains several different gases, so it is not one element. Think about how those gases are held together."
+   },
+   "why": {
+    "right": "Air is a mixture because its gases are not chemically combined and their amounts can vary.",
+    "wrong": [
+     "Air is a mixture because its gases are chemically combined in a fixed proportion.",
+     "Air is a mixture because it is made up of only one type of gas, nitrogen."
+    ]
+   }
   },
   {
    "id": "c03q68",
@@ -1192,11 +1883,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sodium hydrogencarbonate is made of sodium, hydrogen, carbon and oxygen chemically combined. So baking soda is a compound.",
    "hint": "",
    "image": null,
    "lo": "Classify substances as elements, compounds or mixtures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The name sodium hydrogencarbonate contains several elements, so it is not a single element. Think about how they are joined.",
+    "1": "Baking soda is one substance with a fixed make-up, so it is not a mixture. Look at the elements named in sodium hydrogencarbonate."
+   },
+   "why": {
+    "right": "Baking soda is a compound because sodium, hydrogen, carbon and oxygen are chemically combined in it.",
+    "wrong": [
+     "Baking soda is a compound because it is a white powder, and every powder is a compound.",
+     "Baking soda is a compound because its elements are mixed in any proportion."
+    ]
+   }
   },
   {
    "id": "c03q69",
@@ -1209,11 +1911,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Milk contains water, fat, protein, sugar and other substances that are not chemically combined. So milk is a mixture.",
    "hint": "",
    "image": null,
    "lo": "Classify substances as elements, compounds or mixtures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Milk contains many different substances, so it is not one element. Think about whether those substances are chemically combined.",
+    "1": "Milk is made of many substances, such as water and fat, that are not chemically combined. A compound is a single substance with a fixed make-up."
+   },
+   "why": {
+    "right": "Milk is a mixture because it contains several substances, such as water and fat, not chemically combined.",
+    "wrong": [
+     "Milk is a mixture because its substances are chemically combined in a fixed proportion.",
+     "Milk is a mixture because it comes from an animal, and only man-made substances are compounds."
+    ]
+   }
   },
   {
    "id": "c03q70",
@@ -1227,11 +1940,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Water is made of hydrogen and oxygen chemically combined, so it is a compound. Oxygen is an element, and steel and air are mixtures.",
    "hint": "",
    "image": null,
    "lo": "Classify substances as elements, compounds or mixtures",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Oxygen has one symbol, O, in the Periodic Table, so it is an element. Look for a substance with elements chemically combined.",
+    "1": "Steel is a mixture of iron, carbon and other elements. Look for a substance with elements chemically combined.",
+    "2": "Air is a mixture of gases that are not chemically combined. Look for a substance with elements chemically combined."
+   },
+   "why": {
+    "right": "Water is a compound because hydrogen and oxygen are chemically combined in it in a fixed proportion.",
+    "wrong": [
+     "Water is a compound because it is a liquid, and every liquid is a compound.",
+     "Water is a compound because hydrogen and oxygen are mixed in it in any proportion."
+    ]
+   }
   }
  ]
 }

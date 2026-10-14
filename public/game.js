@@ -952,7 +952,8 @@ socket.on("actionResult", (msg) => {
   if (playTheatre(msg)) return;
   stageEffects(msg);
 });
-function stageEffects({ actor, action, name, events }) {
+function stageEffects({ actor, action, name, events, why }) {
+  if (why === "wrong") { const a = room?.battle?.combatants?.find((c) => c.uid === actor); if (a && actor !== myId) toast(`${upper(a.name)} gave the wrong reason. The Ultimate became a Strike.`); }
   const actC  = room?.battle?.combatants?.find((c) => c.uid === actor);
   const col   = fxColor(actC?.element);
   const type  = action;   // server sends the action TYPE as a string ("strike"/"spell"/"ultimate"/…)
@@ -1122,7 +1123,9 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
     ...(timeLine ? [`<div class="reward-line"><span>⏱ ${timeLine}</span></div>`] : []),
     ...(answered ? [`<div class="reward-line"><span>✅ You answered</span><span>${gotRight} / ${answered} correct</span></div>`] : []),
     ...(r?.along?.answered ? [`<div class="reward-line"><span>👥 Answering along</span><span>${r.along.right} / ${r.along.answered} correct</span></div>`] : []),
-    ...(tournament && r?.coins ? [`<div class="reward-line coins"><span>🪙 Coins earned · spend them at Auntie's shop</span><span>+${r.coins}</span></div>`] : []),
+    ...(tournament && r?.coins ? [`<div class="reward-line coins"><span>🪙 Coins earned · spend them at Auntie's shop</span><span>+${r.coins}</span></div>`,
+      ...(r.coinParts ? [`<div class="reward-line coin-parts"><span>Battle ${r.coinParts.battle} · answers ${r.coinParts.answers}${r.coinParts.fixedCount ? ` · <b>${r.coinParts.fixedCount} mistake${r.coinParts.fixedCount > 1 ? "s" : ""} put right +${r.coinParts.fixed}</b>` : " · put a mistake right for +40 each"}</span></div>`] : [])] : []),
+    ...(r?.why?.asked ? [`<div class="reward-line"><span>⚡ Ultimate reasons</span><span>${r.why.right} / ${r.why.asked} right</span></div>`] : []),
   ];
   lastEarned = tournament && r?.coins ? r.coins : 0;
 
@@ -1625,18 +1628,21 @@ function revealText(q) {
 // The question card (your turn) or the steal panel, built once per question.
 function fillQuestionCard(mode, q, cur, onPick) {
   const mcq = $("mcq");
-  const key = `${mode}|${qKey(q)}`;
+  const key = `${mode}|${q.whyKey || qKey(q)}`;
   mcq.classList.remove("hidden");
   mcq.classList.toggle("ask", mode === "ask");
   mcq.classList.toggle("steal", mode === "steal");
   if (mcq.dataset.key === key) return;
   mcq.dataset.key = key;
   $("mcqPlayerThumb").innerHTML = cur?.charId ? thumb(cur.charId) : "";
-  $("mcqPlayerName").textContent = mode === "steal" ? "⚡ STEAL CHANCE" : "YOUR TURN";
+  $("mcqPlayerName").textContent = mode === "steal" ? "⚡ STEAL CHANCE" : mode === "why" ? "⚡ ULTIMATE: WHY?" : "YOUR TURN";
   const stealName = room?.practice && cur ? NAME[cur.charId] : stealMeta?.originalName;
   $("mcqSub").textContent = mode === "steal"
     ? `Answer right to steal ${stealName || "their"}'s turn. Your attacks do half damage.`
+    : mode === "why" ? "Pick the reason your answer is right. The right reason unleashes your Ultimate."
     : q.retry ? "Back again: you got this one wrong earlier. Get it right this time." : "";
+  mcq.classList.toggle("why", mode === "why");
+  applyRetryNote(mode === "ask" ? q : null);
   $("mcqTopic").textContent = q.topic || "";
   setBloomChip(mode === "steal" ? null : q.bloom);
   $("mcqQ").textContent = q.q;
@@ -1673,10 +1679,50 @@ function fillQuestionCard(mode, q, cur, onPick) {
   hintArmed = false;
   if (mode === "ask") applyHint(); else { $("mcqHintBox").classList.add("hidden"); }
 }
+// The Ultimate's "why" check: the reasons arrive only to the player who picked the Ultimate
+let whyCard = null, whyHoldUntil = 0;
+socket.on("whyOpen", ({ q, answer, reasons, seconds, startedAt }) => {
+  SFX.play("sync");
+  whyCard = { q: `Your answer “${answer}” was right. WHY is it right?\n${q}`, choices: reasons, topic: "ULTIMATE", seconds, startedAt, whyKey: startedAt };
+  if (room?.battle) renderBattle();
+});
+function lockWhy(i) {
+  $("mcqChoices").querySelectorAll(".choice").forEach((b, k) => { b.disabled = true; b.classList.toggle("picked", k === i); });
+}
+socket.on("whyResult", ({ ok, chosen, right }) => {
+  const fb = $("mcqFeedback");
+  const btns = $("mcqChoices").querySelectorAll(".choice");
+  btns.forEach((b, k) => { b.disabled = true; if (k === chosen) b.classList.add(ok ? "correct" : "wrong"); if (!ok && b.querySelector(".choice-txt")?.textContent === right) b.classList.add("correct"); });
+  fb.className = "mcq-feedback " + (ok ? "good" : "bad");
+  fb.textContent = ok ? "Right reason! Your Ultimate is unleashed." : chosen < 0 ? `Time's up. The reason: ${right} Your gauge stays full for next time.` : `Not quite. The reason: ${right} Your gauge stays full, so it is a Strike this time.`;
+  SFX.play(ok ? "correct" : "wrong");
+  whyCard = null;
+  whyHoldUntil = Date.now() + (ok ? 900 : 2800);       // keep the reason on screen for a moment
+  setTimeout(() => { if (room?.battle?.phase !== "why") hideQuestionCard(); }, ok ? 950 : 2850);
+});
+
+// A question coming back: what the player picked last time, and what was wrong with that answer
+let lastPick = null;
+socket.on("yourQuestion", ({ question, lastPick: lp }) => {
+  lastPick = lp ? { ...lp, startedAt: question?.startedAt } : null;
+  const mcq = $("mcq");
+  if (!mcq.classList.contains("hidden") && mcq.classList.contains("ask")) applyRetryNote(room?.battle?.question);
+});
+function applyRetryNote(q) {
+  const box = $("mcqNote");
+  const lp = q && q.retry && lastPick && lastPick.startedAt === q.startedAt ? lastPick : null;
+  if (!lp) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+  box.innerHTML = lp.chosen < 0
+    ? `<b>↺ BACK AGAIN</b> Last time the time ran out on this one. Read it carefully.`
+    : `<b>↺ BACK AGAIN</b> Last time you picked <em>${"ABCD"[lp.chosen]}. ${esc(lp.text)}</em>${lp.note ? `<span>${esc(lp.note)}</span>` : `<span>That was not right. Think again before you answer.</span>`}`;
+  box.classList.remove("hidden");
+}
+
 function hideQuestionCard() {
   const mcq = $("mcq");
+  if (mcq.classList.contains("why") && Date.now() < whyHoldUntil) return;   // the reason is still being shown
   if (!mcq.classList.contains("hidden")) stopTimer();
-  mcq.classList.add("hidden"); mcq.classList.remove("ask", "steal"); mcq.dataset.key = "";
+  mcq.classList.add("hidden"); mcq.classList.remove("ask", "steal", "why"); mcq.dataset.key = "";
 }
 
 function renderDock(b, cur, myTurn, stealActorC) {
@@ -1723,6 +1769,17 @@ function renderDock(b, cur, myTurn, stealActorC) {
         : { label: `STEAL CHANCE: ${who(original)} GOT IT WRONG`, cls: "steal", q, deadline };
     }
     flag(original, "✗ WRONG", "bad");
+
+  } else if (b.phase === "why") {
+    const whyC = b.combatants.find((c) => c.uid === b.whyUid);
+    if (b.whyUid === myId && whyCard && !spectating) {
+      mode = "asking";
+      fillQuestionCard("why", whyCard, whyC, (i) => { socket.emit("whyAnswer", { index: i }); lockWhy(i); });
+    } else {
+      hideQuestionCard();
+      flag(whyC, `⚡ ${who(whyC)} IS EXPLAINING WHY`, "good");
+      strip = { label: `ULTIMATE CHECK: ${who(whyC)} MUST GIVE THE REASON`, cls: "good", q, answer: revealText(q) };
+    }
 
   } else if (b.phase === "steal-action") {
     hideQuestionCard();

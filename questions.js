@@ -582,3 +582,11 @@ QUESTIONS.forEach((q, i) => {
   q.topicId = TOPIC_ID_BY_LABEL[q.topic] || "mixed";
   q.hint = HINTS[i] || "";
 });
+
+// Misconception notes for each wrong option (shown when a question comes back) and the "why" reasons that unlock
+// the Ultimate, kept in questions.notes.json beside this file.
+import { readFileSync } from "fs";
+try {
+  const extra = JSON.parse(readFileSync(new URL("./questions.notes.json", import.meta.url), "utf8"));
+  QUESTIONS.forEach((q, i) => { const x = extra[i]; if (!x) return; q.notes = x.notes || {}; q.why = x.why || null; if (!q.explain) q.explain = x.explain || ""; });
+} catch (e) { console.warn("[questions] no notes:", e.message); }

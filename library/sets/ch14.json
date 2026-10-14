@@ -16,11 +16,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Most food is made of large molecules that cannot pass into the blood. Digestion breaks them into small, soluble molecules so the nutrients can be absorbed into the blood.",
    "hint": "",
    "image": null,
    "lo": "Explain the importance of the digestive system (food must become small soluble molecules)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Enzymes are made by the body's cells, not from digested food. Think about what has to happen to nutrients before the body can use them.",
+    "1": "Faeces is mostly the undigested part of food. Digestion is about the part of food the body can take in and use.",
+    "2": "The stomach holds food only for a short time. Digestion is about getting nutrients into a form the body can take in."
+   },
+   "why": {
+    "right": "Food must be digested because large food molecules are too big to pass through the gut wall into the blood.",
+    "wrong": [
+     "Food must be digested because large food molecules are too heavy to be pushed along the gut.",
+     "Food must be digested because large food molecules would be absorbed too quickly into the blood."
+    ]
+   }
   },
   {
    "id": "c14q2",
@@ -34,11 +46,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Digestion breaks large, insoluble food molecules into small, soluble molecules. Only small, soluble molecules can pass through the wall of the small intestine into the blood.",
    "hint": "",
    "image": null,
    "lo": "Explain the importance of the digestive system (food must become small soluble molecules)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Large, insoluble molecules are what food starts as, before digestion. Think about what form the molecules need to pass into the blood.",
+    "2": "Small size is right, but insoluble molecules cannot dissolve in blood or pass through the gut wall. Think about whether they must dissolve.",
+    "3": "Large molecules cannot pass through the gut wall even if they dissolve. Think about what size the molecules need to be."
+   },
+   "why": {
+    "right": "Digested food molecules must be small and soluble so they can pass through the gut wall into the blood.",
+    "wrong": [
+     "Digested food molecules must be small and soluble so they can be stored in the stomach for later.",
+     "Digested food molecules must be small and soluble so they can be passed out quickly as faeces."
+    ]
+   }
   },
   {
    "id": "c14q3",
@@ -52,11 +76,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An amoeba is a single cell. It takes in nutrients directly from the water around it through its cell surface, so it does not need a digestive system.",
    "hint": "",
    "image": null,
    "lo": "Explain the importance of the digestive system (food must become small soluble molecules)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Lipases are enzymes that digest fats. They do not make nutrients. Think about how a single cell can take in substances from the water around it.",
+    "1": "Chewing needs teeth and a mouth, which an amoeba does not have. Think about how a single cell can take in substances from the water around it.",
+    "3": "An amoeba has no digestive system, so it has no stomach. Think about how a single cell can take in substances from the water around it."
+   },
+   "why": {
+    "right": "An amoeba can take in nutrients directly because it is a single cell surrounded by water.",
+    "wrong": [
+     "An amoeba can take in nutrients directly because it makes all its nutrients from water.",
+     "An amoeba can take in nutrients directly because it has a small stomach inside its cell."
+    ]
+   }
   },
   {
    "id": "c14q4",
@@ -70,11 +106,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Rice is rich in starch. Starch is a carbohydrate, so rice is rich in carbohydrates.",
    "hint": "",
    "image": null,
    "lo": "Identify foods rich in carbohydrates, proteins and fats",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Proteins are found mainly in meat, fish, eggs and tofu. Rice is a starchy food, so think about which nutrient group starch belongs to.",
+    "2": "Fats are found mainly in butter, oil and nuts. Rice is a starchy food, so think about which nutrient group starch belongs to.",
+    "3": "Rice has only a little fibre, especially white rice. Rice is a starchy food, so think about which nutrient group starch belongs to."
+   },
+   "why": null
   },
   {
    "id": "c14q5",
@@ -88,11 +130,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Butter is made from the fat in cream, so it is rich in fats.",
    "hint": "",
    "image": null,
    "lo": "Identify foods rich in carbohydrates, proteins and fats",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Carbohydrates are found mainly in rice, bread and potatoes. Butter is made from cream and feels greasy, so think about which nutrient that suggests.",
+    "2": "Fibre comes from plant foods such as vegetables and fruit. Butter comes from milk, so it has no fibre.",
+    "3": "Butter has only a little protein. It is made from cream and feels greasy, so think about which nutrient that suggests."
+   },
+   "why": null
   },
   {
    "id": "c14q6",
@@ -106,11 +154,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Avocado, peanuts and full cream milk all contain a lot of fat. So the meal is richest in fats.",
    "hint": "",
    "image": null,
    "lo": "Identify foods rich in carbohydrates, proteins and fats",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Carbohydrate-rich foods are things like rice, bread and noodles. Avocado, peanuts and full cream milk all contain a lot of an oily nutrient.",
+    "1": "Peanuts and milk do contain some protein, but all three foods share a larger amount of another nutrient. Think about what makes milk full cream.",
+    "2": "Avocado and peanuts have some fibre, but milk has none. Look for the nutrient that all three foods contain a lot of."
+   },
+   "why": null
   },
   {
    "id": "c14q7",
@@ -124,11 +178,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Tofu is made from soya beans and is rich in proteins. Potatoes and biscuits are rich in carbohydrates, and cooking oil is fat.",
    "hint": "",
    "image": null,
    "lo": "Identify foods rich in carbohydrates, proteins and fats",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Potatoes are rich in starch, which is a carbohydrate. Think about foods that come from beans, meat, fish or eggs.",
+    "1": "Biscuits are made mostly of flour and sugar, which are carbohydrates. Think about foods that come from beans, meat, fish or eggs.",
+    "3": "Cooking oil is almost pure fat. Think about foods that come from beans, meat, fish or eggs."
+   },
+   "why": null
   },
   {
    "id": "c14q8",
@@ -142,11 +202,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Physical digestion breaks food into smaller pieces by crushing, grinding and mixing. It increases the surface area for enzymes but does not change the food molecules.",
    "hint": "",
    "image": null,
    "lo": "Classify a process as physical or chemical digestion",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Killing microorganisms is done by the acid in the stomach. It does not break food into smaller pieces.",
+    "2": "The action of enzymes is chemical digestion. Physical digestion breaks food into smaller pieces without changing the molecules.",
+    "3": "Absorption happens after digestion, when nutrients pass into the blood. Physical digestion breaks food into smaller pieces without changing the molecules."
+   },
+   "why": null
   },
   {
    "id": "c14q9",
@@ -160,11 +226,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Chemical digestion uses enzymes to break large food molecules into small, soluble molecules.",
    "hint": "",
    "image": null,
    "lo": "Classify a process as physical or chemical digestion",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Chewing with the teeth is physical digestion. Chemical digestion changes the food molecules themselves.",
+    "2": "Mucus softens and lubricates food. It does not break food molecules down. Chemical digestion changes the food molecules themselves.",
+    "3": "Churning in the stomach is physical digestion. Chemical digestion changes the food molecules themselves."
+   },
+   "why": null
   },
   {
    "id": "c14q10",
@@ -177,11 +249,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Crushing bread with the teeth breaks it into smaller pieces without changing its molecules. This is physical digestion.",
    "hint": "",
    "image": null,
    "lo": "Classify a process as physical or chemical digestion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Chemical digestion needs enzymes to break molecules apart. Teeth only break the bread into smaller pieces.",
+    "2": "Absorption is when digested nutrients pass into the blood. Crushing bread happens in the mouth, long before that."
+   },
+   "why": {
+    "right": "Crushing by teeth is physical digestion because it breaks food into smaller pieces without changing its molecules.",
+    "wrong": [
+     "Crushing by teeth is physical digestion because the teeth release enzymes that break down the molecules.",
+     "Crushing by teeth is physical digestion because the crushed food passes straight into the blood."
+    ]
+   }
   },
   {
    "id": "c14q11",
@@ -194,11 +277,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Proteases are enzymes. They break protein molecules into amino acids, so this is chemical digestion.",
    "hint": "",
    "image": null,
    "lo": "Classify a process as physical or chemical digestion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Physical digestion only breaks food into smaller pieces. Proteases are enzymes that change the protein molecules themselves.",
+    "1": "Absorption is when small nutrients pass into the blood. Proteases are enzymes that break down protein molecules first."
+   },
+   "why": {
+    "right": "Protein breakdown by proteases is chemical digestion because enzymes change the protein into smaller molecules.",
+    "wrong": [
+     "Protein breakdown by proteases is chemical digestion because proteases grind the fish into small pieces.",
+     "Protein breakdown by proteases is chemical digestion because proteases carry the fish into the blood."
+    ]
+   }
   },
   {
    "id": "c14q12",
@@ -211,11 +305,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Churning by the stomach muscles breaks the meal into smaller pieces and mixes it. The food molecules are not changed, so this is physical digestion.",
    "hint": "",
    "image": null,
    "lo": "Classify a process as physical or chemical digestion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Absorption is when nutrients pass into the blood. Churning only breaks food into smaller pieces.",
+    "1": "Chemical digestion needs enzymes to change food molecules. Churning by muscles only breaks food into smaller pieces."
+   },
+   "why": {
+    "right": "Churning in the stomach is physical digestion because muscles break food into pieces without changing its molecules.",
+    "wrong": [
+     "Churning in the stomach is physical digestion because the muscles release enzymes that break down molecules.",
+     "Churning in the stomach is physical digestion because the acid turns the food into new substances."
+    ]
+   }
   },
   {
    "id": "c14q13",
@@ -229,11 +334,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In the small intestine, enzymes complete the chemical digestion of carbohydrates, proteins and fats. The mouth and stomach carry out both physical and chemical digestion.",
    "hint": "",
    "image": null,
    "lo": "Classify a process as physical or chemical digestion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The rectum only stores faeces. No digestion of any kind happens there.",
+    "1": "The stomach carries out both. Its muscles churn food, which is physical digestion, and its gastric juice contains enzymes.",
+    "2": "The mouth carries out both. Teeth crush food, which is physical digestion, and saliva contains enzymes."
+   },
+   "why": {
+    "right": "The small intestine digests food only chemically because its enzymes act on food that has already been broken up.",
+    "wrong": [
+     "The small intestine digests food only chemically because its folds grind the food into tiny pieces.",
+     "The small intestine digests food only chemically because its acid kills the microorganisms in the food."
+    ]
+   }
   },
   {
    "id": "c14q14",
@@ -247,11 +364,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Digestive enzymes speed up the breakdown of large food molecules into small, soluble molecules.",
    "hint": "",
    "image": null,
    "lo": "State the role of enzymes and that they are specific",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Absorption is done by the wall of the small intestine, not by enzymes. Think about what enzymes do to large food molecules.",
+    "2": "Food is pushed along the gullet by its muscles, not by enzymes. Think about what enzymes do to large food molecules.",
+    "3": "Enzymes make reactions faster, not slower. Think about how quickly food would break down without them."
+   },
+   "why": null
   },
   {
    "id": "c14q15",
@@ -265,11 +388,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An enzyme is specific. It acts on only one type of substance. For example, proteases act on proteins but not on starch or fats.",
    "hint": "",
    "image": null,
    "lo": "State the role of enzymes and that they are specific",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Being specific is not about where an enzyme works. Enzymes act in the mouth, stomach and small intestine. Think about which substances each enzyme acts on.",
+    "2": "If an enzyme acted on every type of food, it would not be specific. Think about why the body needs several different enzymes.",
+    "3": "Digestive enzymes break food molecules into smaller ones, not larger ones. Being specific is about which substances an enzyme acts on."
+   },
+   "why": null
   },
   {
    "id": "c14q16",
@@ -283,11 +412,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Lipases are specific to fats. The mixture contains only starch and protein, so the lipases cannot break down either of them.",
    "hint": "",
    "image": null,
    "lo": "State the role of enzymes and that they are specific",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Proteins are broken down by proteases, not lipases. Each enzyme acts on only one type of substance.",
+    "1": "Starch is broken down by carbohydrases, not lipases. Each enzyme acts on only one type of substance.",
+    "2": "Lipases cannot act on every food. Each enzyme acts on only one type of substance, so check what lipases act on."
+   },
+   "why": {
+    "right": "Lipases leave starch and protein unchanged because each enzyme acts on only one type of substance.",
+    "wrong": [
+     "Lipases leave starch and protein unchanged because lipases only work inside the mouth.",
+     "Lipases leave starch and protein unchanged because lipases are used up before they can act."
+    ]
+   }
   },
   {
    "id": "c14q17",
@@ -301,11 +442,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Carbohydrases break down carbohydrates such as starch into simple sugars.",
    "hint": "",
    "image": null,
    "lo": "Match each enzyme class to its food and end product",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Fatty acids and glycerol come from fats, broken down by lipases. Think about the small units that carbohydrates are made of.",
+    "1": "Digestion makes molecules smaller and does not turn one nutrient into another. Think about the small units that carbohydrates are made of.",
+    "3": "Amino acids come from proteins, broken down by proteases. Think about the small units that carbohydrates are made of."
+   },
+   "why": null
   },
   {
    "id": "c14q18",
@@ -319,11 +466,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Proteases break down proteins into amino acids.",
    "hint": "",
    "image": null,
    "lo": "Match each enzyme class to its food and end product",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Starch is a carbohydrate, not a product of protein digestion. Think about the small units that proteins are made of.",
+    "2": "Simple sugars come from carbohydrates, broken down by carbohydrases. Think about the small units that proteins are made of.",
+    "3": "Fatty acids and glycerol come from fats, broken down by lipases. Think about the small units that proteins are made of."
+   },
+   "why": null
   },
   {
    "id": "c14q19",
@@ -337,11 +490,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Lipases break down fats into fatty acids and glycerol.",
    "hint": "",
    "image": null,
    "lo": "Match each enzyme class to its food and end product",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Amino acids come from proteins, broken down by proteases. Think about the small units that fats are made of.",
+    "2": "Digestion makes molecules smaller and does not turn fats into proteins. Think about the small units that fats are made of.",
+    "3": "Simple sugars come from carbohydrates, broken down by carbohydrases. Think about the small units that fats are made of."
+   },
+   "why": null
   },
   {
    "id": "c14q20",
@@ -354,11 +513,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Amino acids are the end products of protein digestion. Proteins are broken down by proteases.",
    "hint": "",
    "image": null,
    "lo": "Match each enzyme class to its food and end product",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Lipases break down fats into fatty acids and glycerol. Think about which nutrient is made of amino acids.",
+    "2": "Carbohydrases break down carbohydrates into simple sugars. Think about which nutrient is made of amino acids."
+   },
+   "why": {
+    "right": "Amino acids show protease action because proteases are the enzymes that break proteins into amino acids.",
+    "wrong": [
+     "Amino acids show protease action because proteases break fats into amino acids and glycerol.",
+     "Amino acids show protease action because proteases join simple sugars together into amino acids."
+    ]
+   }
   },
   {
    "id": "c14q21",
@@ -372,11 +542,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Fatty acids and glycerol are the end products of fat digestion by lipases. So the food was fats.",
    "hint": "",
    "image": null,
    "lo": "Match each enzyme class to its food and end product",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Carbohydrates are digested into simple sugars. Think about which nutrient is broken into fatty acids and glycerol.",
+    "1": "Proteins are digested into amino acids. Think about which nutrient is broken into fatty acids and glycerol.",
+    "2": "Fibre is not digested in the human gut, so it produces no end products. Think about which nutrient lipases act on."
+   },
+   "why": {
+    "right": "Fatty acids and glycerol come from fats because lipases break each fat molecule into these smaller units.",
+    "wrong": [
+     "Fatty acids and glycerol come from fats because fats are digested into amino acids first.",
+     "Fatty acids and glycerol come from fats because proteases break each fat molecule into these smaller units."
+    ]
+   }
   },
   {
    "id": "c14q22",
@@ -389,11 +571,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Starch is a carbohydrate. Carbohydrases break starch down into simple sugars.",
    "hint": "",
    "image": null,
    "lo": "Match each enzyme class to its food and end product",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Lipases act only on fats. Starch is a different nutrient, so think about which enzymes act on it.",
+    "1": "Proteases act only on proteins. Starch is a different nutrient, so think about which enzymes act on it."
+   },
+   "why": {
+    "right": "Starch needs carbohydrases because starch is a carbohydrate and each enzyme acts on one type of substance.",
+    "wrong": [
+     "Starch needs carbohydrases because carbohydrases can digest every type of food in bread.",
+     "Starch needs carbohydrases because starch is a protein that only carbohydrases can break down."
+    ]
+   }
   },
   {
    "id": "c14q23",
@@ -407,11 +600,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "After swallowing, food passes from the mouth into the gullet. The gullet carries it down to the stomach.",
    "hint": "",
    "image": null,
    "lo": "Place the organs of the digestive system in order",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The stomach comes after the gullet. Food that has just been swallowed has not reached it yet.",
+    "1": "The small intestine comes after the stomach. Food that has just been swallowed is still near the mouth.",
+    "2": "The rectum is near the end of the digestive system. Food that has just been swallowed is still near the mouth."
+   },
+   "why": {
+    "right": "Swallowed food is in the gullet because the gullet is the tube joining the mouth to the stomach.",
+    "wrong": [
+     "Swallowed food is in the gullet because the gullet is where food is stored for several hours.",
+     "Swallowed food is in the gullet because the gullet is where most digested food is absorbed."
+    ]
+   }
   },
   {
    "id": "c14q24",
@@ -425,11 +630,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Food passes from the stomach directly into the small intestine.",
    "hint": "",
    "image": null,
    "lo": "Place the organs of the digestive system in order",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The gullet comes before the stomach, carrying food from the mouth. Think about where food goes after it leaves the stomach.",
+    "2": "The rectum is near the end of the system, after the large intestine. Think about where food goes after it leaves the stomach.",
+    "3": "The large intestine comes later, after the small intestine. Think about the order of the organs after the stomach."
+   },
+   "why": null
   },
   {
    "id": "c14q25",
@@ -443,11 +654,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "After the large intestine, undigested food passes into the rectum, where faeces is stored. It then leaves the body through the anus.",
    "hint": "",
    "image": null,
    "lo": "Place the organs of the digestive system in order",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The anus is the opening at the very end. Faeces is stored in another part before it leaves through the anus.",
+    "2": "The small intestine comes before the large intestine. Food does not move backwards.",
+    "3": "The stomach comes much earlier. Food does not move backwards along the digestive system."
+   },
+   "why": null
   },
   {
    "id": "c14q26",
@@ -461,11 +678,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Food passes from the stomach into the small intestine. So just before the small intestine, the food was in the stomach.",
    "hint": "",
    "image": null,
    "lo": "Place the organs of the digestive system in order",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The large intestine comes after the small intestine, not before it. Think about the organ just before the small intestine.",
+    "1": "The gullet carries food towards the small intestine, but there is one more organ in between. Think about the organ just before the small intestine.",
+    "2": "The mouth is at the start. The food passes through two more organs before it reaches the small intestine."
+   },
+   "why": null
   },
   {
    "id": "c14q27",
@@ -479,11 +702,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Saliva contains mucus, which softens and lubricates food so it is easier to swallow. Saliva also contains carbohydrases that start starch digestion.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Harmful microorganisms in food are mainly killed by the acid in the stomach. Think about how saliva helps food go down.",
+    "2": "Water is absorbed mainly in the large intestine, not by saliva. Think about how saliva helps food go down.",
+    "3": "Saliva has no proteases, so it does not digest proteins. Think about how saliva helps food go down."
+   },
+   "why": null
   },
   {
    "id": "c14q28",
@@ -497,11 +726,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The muscles in the wall of the gullet contract in waves. This pushes food down towards the stomach.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Gastric juice is released by the stomach, not the gullet. Think about how food travels down the gullet.",
+    "1": "Churning happens in the stomach. Think about how food travels down the gullet.",
+    "3": "Digested food is absorbed in the small intestine. Think about how food travels down the gullet."
+   },
+   "why": null
   },
   {
    "id": "c14q29",
@@ -515,11 +750,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The hydrochloric acid in gastric juice kills most harmful microorganisms in food. This helps to protect the body from disease.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Fats are digested by lipases, mainly in the small intestine. Acid does not digest fats.",
+    "1": "Mineral salts are absorbed in the intestines, not by the acid. Think about what a strong acid does to living things in food.",
+    "2": "Lubricating food is done by mucus in saliva. Think about what a strong acid does to living things in food."
+   },
+   "why": null
   },
   {
    "id": "c14q30",
@@ -533,11 +774,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The stomach wall makes mucus, which forms a layer over its lining. This stops the hydrochloric acid and enzymes from damaging the stomach.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Harmful microorganisms are killed by the hydrochloric acid, not the mucus. Think about what the stomach lining needs protection from.",
+    "2": "Proteins are digested by proteases in gastric juice, not by mucus. Think about what the stomach lining needs protection from.",
+    "3": "Digested food is absorbed in the small intestine, not by stomach mucus. Think about what the stomach lining needs protection from."
+   },
+   "why": {
+    "right": "Stomach mucus protects the stomach because it forms a layer that keeps acid away from the lining.",
+    "wrong": [
+     "Stomach mucus protects the stomach because it turns the acid into water before it is used.",
+     "Stomach mucus protects the stomach because it absorbs the acid and carries it into the blood."
+    ]
+   }
   },
   {
    "id": "c14q31",
@@ -551,11 +804,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The large intestine absorbs the remaining water and mineral salts from undigested food. This leaves semi-solid faeces.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The gullet only carries food to the stomach. Little is absorbed there. Think about the organ that food passes through after the small intestine.",
+    "1": "The stomach absorbs very little. Think about the organ that food passes through after the small intestine.",
+    "3": "The rectum stores faeces. Most of the remaining water has been removed before faeces reaches it."
+   },
+   "why": null
   },
   {
    "id": "c14q32",
@@ -569,11 +828,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Faeces is stored in the rectum. It leaves the body through the anus.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The stomach holds food early in digestion. Faeces forms much later, near the end of the system.",
+    "2": "The large intestine absorbs water to form faeces. Faeces is then stored in the next part before it leaves.",
+    "3": "The anus is the opening that faeces passes out through. It is not where faeces is stored."
+   },
+   "why": null
   },
   {
    "id": "c14q33",
@@ -587,11 +852,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Internal folds give the small intestine a larger surface area. More digested food can then be absorbed into the blood.",
    "hint": "",
    "image": null,
    "lo": "State the function of each part of the digestive system",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Hydrochloric acid is made in the stomach, not the small intestine. Think about what a larger surface area helps the small intestine do.",
+    "1": "Churning is done by the stomach. Folds give a larger surface area, so think about what the small intestine does with digested food.",
+    "3": "Faeces is stored in the rectum. Think about what a larger surface area helps the small intestine do."
+   },
+   "why": {
+    "right": "Folds help the small intestine because a larger surface area lets more digested food pass into the blood.",
+    "wrong": [
+     "Folds help the small intestine because they trap food and keep it there for several days.",
+     "Folds help the small intestine because they squeeze food hard enough to grind it into pieces."
+    ]
+   }
   },
   {
    "id": "c14q34",
@@ -605,11 +882,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Starch digestion begins in the mouth. Saliva contains carbohydrases that start breaking starch into simple sugars.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Starch digestion is completed in the small intestine, but it starts earlier. Think about where food first meets an enzyme.",
+    "2": "Starch digestion does continue in the gullet, using enzymes released earlier. Think about where those enzymes are released.",
+    "3": "The stomach has no carbohydrases. Think about where food first meets an enzyme that acts on starch."
+   },
+   "why": {
+    "right": "Starch digestion begins in the mouth because saliva contains carbohydrases that act on starch.",
+    "wrong": [
+     "Starch digestion begins in the mouth because teeth break starch into simple sugars.",
+     "Starch digestion begins in the mouth because saliva contains proteases that act on starch."
+    ]
+   }
   },
   {
    "id": "c14q35",
@@ -623,11 +912,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Protein digestion begins in the stomach. Gastric juice contains proteases that start breaking proteins down.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Saliva contains carbohydrases but no proteases. Think about where food first meets an enzyme that acts on protein.",
+    "2": "Protein digestion is completed in the small intestine, but it starts earlier. Think about where food first meets an enzyme that acts on protein.",
+    "3": "The gullet makes no digestive enzymes. Think about where food first meets an enzyme that acts on protein."
+   },
+   "why": {
+    "right": "Protein digestion begins in the stomach because gastric juice contains proteases that act on proteins.",
+    "wrong": [
+     "Protein digestion begins in the stomach because the hydrochloric acid digests proteins on its own.",
+     "Protein digestion begins in the stomach because gastric juice contains lipases that act on proteins."
+    ]
+   }
   },
   {
    "id": "c14q36",
@@ -641,11 +942,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Fat digestion begins in the small intestine. This is where lipases are first released onto the food.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The stomach's gastric juice acts mainly on proteins. Think about where food first meets lipases.",
+    "1": "The large intestine absorbs water. Digestion is complete before food reaches it.",
+    "2": "Saliva contains carbohydrases, not lipases. Think about where food first meets lipases."
+   },
+   "why": {
+    "right": "Fat digestion begins in the small intestine because that is where lipases first act on the food.",
+    "wrong": [
+     "Fat digestion begins in the small intestine because fats cannot pass through the stomach.",
+     "Fat digestion begins in the small intestine because the acid there breaks fats into fatty acids."
+    ]
+   }
   },
   {
    "id": "c14q37",
@@ -659,11 +972,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The small intestine contains carbohydrases, proteases and lipases. Digestion of all three nutrients is completed there.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The stomach digests mainly proteins. It does not complete the digestion of carbohydrates and fats.",
+    "1": "The mouth only starts the digestion of starch. Think about where enzymes for all three nutrients act.",
+    "3": "The large intestine absorbs water and mineral salts. Digestion is complete before food reaches it."
+   },
+   "why": {
+    "right": "All three nutrients are fully digested in the small intestine because it has enzymes for each of them.",
+    "wrong": [
+     "All three nutrients are fully digested in the small intestine because its acid breaks down every nutrient.",
+     "All three nutrients are fully digested in the small intestine because one enzyme there acts on all foods."
+    ]
+   }
   },
   {
    "id": "c14q38",
@@ -677,11 +1002,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Fat digestion begins in the small intestine, where lipases act on fats. The fat in the egg passes through the mouth, gullet and stomach before lipases act on it.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Saliva has carbohydrases, not lipases, so fat is not digested in the mouth. Think about where food first meets lipases.",
+    "1": "The stomach mainly digests proteins. Think about where food first meets lipases.",
+    "2": "The gullet makes no digestive enzymes. Think about where food first meets lipases."
+   },
+   "why": {
+    "right": "Fat in an egg starts to be digested in the small intestine because lipases are first found there.",
+    "wrong": [
+     "Fat in an egg starts to be digested in the small intestine because teeth cannot crush fat into pieces.",
+     "Fat in an egg starts to be digested in the small intestine because stomach acid turns the fat into protein."
+    ]
+   }
   },
   {
    "id": "c14q39",
@@ -695,11 +1032,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Saliva is mixed with food in the mouth. Its carbohydrases travel down with the food and keep digesting starch in the gullet.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The gullet makes no digestive enzymes. Think about where the enzymes in the swallowed food came from.",
+    "2": "The gullet does not churn food. It pushes food along. Churning is also physical, so it would not digest starch molecules.",
+    "3": "Gastric juice stays in the stomach and does not flow up into the gullet. Think about where the enzymes in the swallowed food came from."
+   },
+   "why": {
+    "right": "Starch is still digested in the gullet because enzymes from saliva travel down with the food.",
+    "wrong": [
+     "Starch is still digested in the gullet because the gullet wall releases its own carbohydrases.",
+     "Starch is still digested in the gullet because gastric juice flows upward from the stomach."
+    ]
+   }
   },
   {
    "id": "c14q40",
@@ -713,11 +1062,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Humans have no enzymes that digest fibre. Fibre passes through the system undigested and forms part of the faeces.",
    "hint": "",
    "image": null,
    "lo": "Identify where carbohydrates, proteins and fats are digested",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Humans do not have enzymes that break down fibre. Think about what happens to food that cannot be digested.",
+    "2": "Fibre is not absorbed anywhere in the digestive system. Think about what happens to food that cannot be digested.",
+    "3": "Lipases act only on fats, and fibre is not a fat. Think about what happens to food that cannot be digested."
+   },
+   "why": {
+    "right": "Fibre ends up in faeces because the human body has no enzymes that can digest it.",
+    "wrong": [
+     "Fibre ends up in faeces because it is digested into simple sugars that the body cannot use.",
+     "Fibre ends up in faeces because it is absorbed into the blood and then removed."
+    ]
+   }
   },
   {
    "id": "c14q41",
@@ -731,11 +1092,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Each organ does a different part of digestion, with different enzymes and conditions. No single organ can complete digestion, so several organs work together.",
    "hint": "",
    "image": null,
    "lo": "Explain why the organs must work together to digest food",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Each organ has different enzymes and digests only some nutrients. Think about whether one organ alone could finish the job.",
+    "2": "Digestion also happens in the stomach and small intestine. Think about whether one organ alone could finish the job.",
+    "3": "The stomach mainly digests proteins and cannot digest all food alone. Think about whether one organ could finish the job."
+   },
+   "why": {
+    "right": "Digestion needs several organs because each organ carries out only part of the process with its own enzymes.",
+    "wrong": [
+     "Digestion needs several organs because each organ digests every nutrient a little at a time.",
+     "Digestion needs several organs because food must be stored in each organ for a whole day."
+    ]
+   }
   },
   {
    "id": "c14q42",
@@ -749,11 +1122,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cells use simple sugars such as glucose in respiration. Respiration releases the energy that cells need.",
    "hint": "",
    "image": null,
    "lo": "State that end products are used for respiration, growth and tissue repair",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Repairing damaged tissues uses amino acids from proteins. Think about what cells release from simple sugars to stay active.",
+    "2": "Faeces is made of undigested food, not of absorbed sugars. Think about what cells release from simple sugars to stay active.",
+    "3": "In this chapter, fats in the body are made from fatty acids and glycerol. Think about what cells release from simple sugars to stay active."
+   },
+   "why": null
   },
   {
    "id": "c14q43",
@@ -767,11 +1146,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Amino acids are used to make new proteins. These proteins are needed for cell growth and to repair damaged tissues.",
    "hint": "",
    "image": null,
    "lo": "State that end products are used for respiration, growth and tissue repair",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Faeces is made of undigested food, not of absorbed amino acids. Think about what the body builds from amino acids.",
+    "1": "Fats in the body are made from fatty acids and glycerol. Think about what the body builds from amino acids.",
+    "2": "Microorganisms in food are killed mainly by stomach acid. Think about what the body builds from amino acids."
+   },
+   "why": null
   },
   {
    "id": "c14q44",
@@ -785,11 +1170,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Fatty acids and glycerol are joined together again in the body to make fats, which are stored.",
    "hint": "",
    "image": null,
    "lo": "State that end products are used for respiration, growth and tissue repair",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Repairing damaged tissues uses amino acids. Think about what fatty acids and glycerol can be joined back into.",
+    "1": "Microorganisms are killed mainly by stomach acid. Think about what fatty acids and glycerol can be joined back into.",
+    "3": "Simple sugars come from digested carbohydrates. Think about what fatty acids and glycerol can be joined back into."
+   },
+   "why": null
   },
   {
    "id": "c14q45",
@@ -803,11 +1194,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Proteins are digested into amino acids. The body uses amino acids for cell growth and to repair damaged tissues such as injured muscle.",
    "hint": "",
    "image": null,
    "lo": "State that end products are used for respiration, growth and tissue repair",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Fibre is not digested and is not used for building tissue. Think about which nutrient gives the body amino acids.",
+    "1": "Carbohydrates mainly supply energy. Think about which nutrient gives the body the building blocks for repair.",
+    "3": "Fats mainly store energy. Think about which nutrient gives the body the building blocks for repair."
+   },
+   "why": {
+    "right": "Proteins help repair muscle because they are digested into amino acids that build new cells.",
+    "wrong": [
+     "Proteins help repair muscle because they are digested into simple sugars that build new cells.",
+     "Proteins help repair muscle because they pass into the muscle without being digested first."
+    ]
+   }
   },
   {
    "id": "c14q46",
@@ -821,11 +1224,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cells use simple sugars in respiration to release energy. Simple sugars are the quickest source of energy for the runner's cells.",
    "hint": "",
    "image": null,
    "lo": "State that end products are used for respiration, growth and tissue repair",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Amino acids are used mainly for growth and repair. Think about which end product cells use first for respiration.",
+    "2": "Glycerol is used with fatty acids to make fats for storage. Think about which end product cells use first for respiration.",
+    "3": "Fatty acids are used mainly to make fats for storage. Think about which end product cells use first for respiration."
+   },
+   "why": {
+    "right": "A runner's cells use simple sugars for quick energy because sugars release energy readily in respiration.",
+    "wrong": [
+     "A runner's cells use simple sugars for quick energy because sugars are used to build new muscle.",
+     "A runner's cells use simple sugars for quick energy because sugars give energy without respiration."
+    ]
+   }
   },
   {
    "id": "c14q47",
@@ -839,11 +1254,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Diabetes is a disease in which the blood sugar level is too high because the body cannot control it properly.",
    "hint": "",
    "image": null,
    "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "If the blood sugar level were always normal, there would be no disease. Diabetes is a problem with controlling blood sugar.",
+    "1": "Blood always contains some sugar while a person is alive. Think about whether the level in diabetes is above or below normal.",
+    "2": "A blood sugar level that is too low is a different problem. Think about whether the level in diabetes is above or below normal."
+   },
+   "why": null
   },
   {
    "id": "c14q48",
@@ -857,11 +1278,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Insulin is a hormone that keeps the blood sugar level balanced. It lowers the blood sugar level when it rises too high.",
    "hint": "",
    "image": null,
    "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Insulin is not a digestive enzyme, and simple sugars are already digested. Think about what insulin does to the amount of sugar in the blood.",
+    "2": "Fats are broken down by lipases, not insulin. Think about what insulin does to the amount of sugar in the blood.",
+    "3": "Insulin does not kill bacteria. Think about what insulin does to the amount of sugar in the blood."
+   },
+   "why": null
   },
   {
    "id": "c14q49",
@@ -875,11 +1302,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In diabetes the kidneys remove extra sugar from the blood in urine, which takes a lot of water with it. This causes frequent urination.",
    "hint": "",
    "image": null,
    "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "In diabetes, wounds heal slowly, not quickly. Think about how the body tries to get rid of extra sugar in the blood.",
+    "2": "Diabetes often causes weight loss, not sudden weight gain. Think about how the body tries to get rid of extra sugar in the blood.",
+    "3": "People with diabetes often feel more hungry, not less. Think about how the body tries to get rid of extra sugar in the blood."
+   },
+   "why": {
+    "right": "Diabetes causes frequent urination because the kidneys remove the extra blood sugar with a lot of water.",
+    "wrong": [
+     "Diabetes causes frequent urination because the extra blood sugar makes a person drink less water.",
+     "Diabetes causes frequent urination because insulin turns the extra blood sugar into urine."
+    ]
+   }
   },
   {
    "id": "c14q50",
@@ -893,11 +1332,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Regular exercise helps the body use up sugar and keeps body mass healthy. This lowers the risk of diabetes.",
    "hint": "",
    "image": null,
    "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Fried food is high in fat and can lead to weight gain, which raises the risk of diabetes. Think about habits that keep body mass healthy.",
+    "2": "Health screenings help find diabetes early. Skipping them does not lower the risk. Think about habits that keep body mass healthy.",
+    "3": "Sugary drinks raise the blood sugar level and can lead to weight gain. Think about habits that keep body mass healthy."
+   },
+   "why": {
+    "right": "Regular exercise lowers the risk of diabetes because it helps the body use up sugar and stay at a healthy mass.",
+    "wrong": [
+     "Regular exercise lowers the risk of diabetes because it makes the body produce no sugar at all.",
+     "Regular exercise lowers the risk of diabetes because it removes all the sugar from the blood through sweat."
+    ]
+   }
   },
   {
    "id": "c14q51",
@@ -911,11 +1362,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Prediabetes is a blood sugar level that is higher than normal but not high enough to be diabetes. It can only be found by checking the blood sugar level.",
    "hint": "",
    "image": null,
    "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Counting heartbeats does not show the amount of sugar in the blood. Prediabetes is about the blood sugar level.",
+    "1": "Prediabetes has no symptoms, so waiting for weight loss would not detect it. Think about measuring what is actually raised.",
+    "2": "Blurred vision is a symptom, and prediabetes has no symptoms. Think about measuring what is actually raised."
+   },
+   "why": {
+    "right": "Prediabetes is found by a blood test because its only sign is a blood sugar level above normal.",
+    "wrong": [
+     "Prediabetes is found by a blood test because the blood turns a different colour when sugar is high.",
+     "Prediabetes is found by a blood test because it always causes blurred vision before anything else."
+    ]
+   }
   },
   {
    "id": "c14q52",
@@ -929,11 +1392,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In constipation, faeces stays in the large intestine for too long. Too much water is absorbed from it, so it becomes hard and dry.",
    "hint": "",
    "image": null,
    "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "If too little water were absorbed, the faeces would be watery, as in diarrhoea. Think about what makes faeces dry.",
+    "1": "Faeces that moves too quickly has less time for water to be absorbed, so it is watery. Think about what makes faeces dry.",
+    "3": "Acid is made in the stomach and does not dry out faeces. Think about what the large intestine takes out of faeces."
+   },
+   "why": {
+    "right": "Faeces in constipation is hard because it stays too long in the large intestine and loses too much water.",
+    "wrong": [
+     "Faeces in constipation is hard because the stomach adds extra acid that sets it solid in the intestine.",
+     "Faeces in constipation is hard because the large intestine adds extra fibre to it as it passes."
+    ]
+   }
   },
   {
    "id": "c14q53",
@@ -947,11 +1422,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Gastritis is the inflammation of the stomach lining. It can be caused by too much acid, skipping meals or certain bacteria.",
    "hint": "",
    "image": null,
    "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The large intestine is linked to problems such as constipation. Gastritis comes from the word gastric, as in gastric juice. Think about where that is made.",
+    "2": "The rectum stores faeces. Gastritis comes from the word gastric, as in gastric juice. Think about where that is made.",
+    "3": "The gullet carries food down to the next organ. Gastritis comes from the word gastric, as in gastric juice. Think about where that is made."
+   },
+   "why": null
   },
   {
    "id": "c14q54",
@@ -965,11 +1446,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Fibre adds bulk to faeces and helps it hold water. This keeps faeces soft and helps it move along the large intestine.",
    "hint": "",
    "image": null,
    "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Skipping meals does not help faeces move. It raises the risk of gastritis. Think about what keeps faeces soft and bulky.",
+    "1": "Oily food is low in fibre and does not help faeces move. Think about what keeps faeces soft and bulky.",
+    "3": "Drinking less water makes faeces harder and drier. Think about what keeps faeces soft and bulky."
+   },
+   "why": {
+    "right": "A high-fibre diet prevents constipation because fibre adds bulk and keeps faeces soft so it moves easily.",
+    "wrong": [
+     "A high-fibre diet prevents constipation because fibre is digested into water in the large intestine.",
+     "A high-fibre diet prevents constipation because fibre makes the large intestine absorb more water."
+    ]
+   }
   },
   {
    "id": "c14q55",
@@ -983,11 +1476,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Skipping meals leaves the stomach empty while it still makes acid. The acid can irritate the stomach lining and lead to gastritis.",
    "hint": "",
    "image": null,
    "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Drinking more water does not harm the stomach lining. Think about what happens when the stomach makes acid but has no food in it.",
+    "1": "High-fibre food helps prevent constipation and does not harm the stomach lining. Think about what happens when the stomach is empty.",
+    "2": "Regular exercise is a healthy habit and does not harm the stomach lining. Think about what happens when the stomach is empty."
+   },
+   "why": {
+    "right": "Skipping meals raises the risk of gastritis because stomach acid can attack the lining when there is no food.",
+    "wrong": [
+     "Skipping meals raises the risk of gastritis because the stomach lining dries out when there is no food.",
+     "Skipping meals raises the risk of gastritis because the empty stomach absorbs its own acid into the blood."
+    ]
+   }
   },
   {
    "id": "c14q56",
@@ -1001,11 +1506,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Hard, dry faeces is the main sign of constipation. Drinking too little water makes this more likely.",
    "hint": "",
    "image": null,
    "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Diabetes is about a high blood sugar level, not about faeces. Think about which issue causes hard, dry faeces.",
+    "2": "Food poisoning usually causes diarrhoea and vomiting, not hard, dry faeces. Think about which issue causes hard, dry faeces.",
+    "3": "Gastritis is inflammation of the stomach lining and causes stomach pain. Think about which issue causes hard, dry faeces."
+   },
+   "why": {
+    "right": "Hard, dry faeces points to constipation because the large intestine has removed too much water from the faeces.",
+    "wrong": [
+     "Hard, dry faeces points to constipation because the blood sugar level in the body is too high.",
+     "Hard, dry faeces points to constipation because the stomach lining has been inflamed by acid."
+    ]
+   }
   },
   {
    "id": "c14q57",
@@ -1019,11 +1536,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Spoilt food can contain harmful bacteria or their poisons. Eating it causes food poisoning, with diarrhoea and vomiting.",
    "hint": "",
    "image": null,
    "lo": "Identify causes and prevention of constipation, gastritis and food poisoning",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Diabetes is about a high blood sugar level and does not come from one meal. Think about what spoilt food can contain.",
+    "2": "Constipation causes hard, dry faeces, not diarrhoea. Think about what spoilt food can contain.",
+    "3": "Gastritis is inflammation of the stomach lining, often from acid. Think about what spoilt food can contain."
+   },
+   "why": {
+    "right": "Spoilt food causes food poisoning because it can contain harmful bacteria or poisons made by them.",
+    "wrong": [
+     "Spoilt food causes food poisoning because it has lost all of its nutrients and fibre.",
+     "Spoilt food causes food poisoning because it raises the blood sugar level very quickly."
+    ]
+   }
   },
   {
    "id": "c14q58",
@@ -1037,11 +1566,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Raw food in a refrigerator should be kept below 5 °C. At this temperature harmful bacteria grow very slowly, so the food stays safe for longer.",
    "hint": "",
    "image": null,
    "lo": "Apply food safety tips for handling and choosing food",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "25 °C is about room temperature, and bacteria grow quickly at this temperature. A refrigerator needs to be much colder.",
+    "1": "At 10 °C bacteria can still grow quite quickly. A refrigerator needs to be colder than this to keep raw food safe.",
+    "3": "18 °C is a warm temperature where bacteria grow quickly. The freezer value of minus 18 °C is a different thing."
+   },
+   "why": {
+    "right": "Raw food in a refrigerator is kept below 5 °C because bacteria grow very slowly at such low temperatures.",
+    "wrong": [
+     "Raw food in a refrigerator is kept below 5 °C because all bacteria are killed at such low temperatures.",
+     "Raw food in a refrigerator is kept below 5 °C because the food freezes solid at such low temperatures."
+    ]
+   }
   },
   {
    "id": "c14q59",
@@ -1055,11 +1596,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Frozen food should be stored below −18 °C. At this temperature bacteria cannot grow, so the food stays safe for a long time.",
    "hint": "",
    "image": null,
    "lo": "Apply food safety tips for handling and choosing food",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "4 °C is a refrigerator temperature. Frozen food needs to be stored much colder than this.",
+    "1": "Minus 5 °C is not cold enough for safe long-term storage of frozen food. It needs to be much colder than this.",
+    "2": "0 °C is only the freezing point of water. Frozen food needs to be stored much colder than this."
+   },
+   "why": {
+    "right": "Frozen food is stored below −18 °C because bacteria cannot grow at such low temperatures.",
+    "wrong": [
+     "Frozen food is stored below −18 °C because all bacteria are killed at such low temperatures.",
+     "Frozen food is stored below −18 °C because water in food only freezes at this temperature."
+    ]
+   }
   },
   {
    "id": "c14q60",
@@ -1073,11 +1626,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Cooked food should be placed above raw food. Juices from raw food can drip down and carry harmful bacteria onto any food below it.",
    "hint": "",
    "image": null,
    "lo": "Apply food safety tips for handling and choosing food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Leaving cooked food uncovered next to raw food lets bacteria spread between them. Think about where juices from raw food can drip.",
+    "2": "Juices from raw food can drip onto anything below it. Think about where the cooked food would be safe from drips.",
+    "3": "Touching lets bacteria pass directly from raw food to cooked food. Think about where cooked food is safe from raw food."
+   },
+   "why": {
+    "right": "Cooked food goes above raw food because juices from raw food can drip bacteria onto food below.",
+    "wrong": [
+     "Cooked food goes above raw food because warm air rises and keeps the cooked food hot.",
+     "Cooked food goes above raw food because cooked food is heavier and could crush the raw food."
+    ]
+   }
   },
   {
    "id": "c14q61",
@@ -1091,11 +1656,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Frozen food should be stored below −18 °C. At −5 °C the fish is not cold enough to stop bacteria growing, so it should not be bought.",
    "hint": "",
    "image": null,
    "lo": "Apply food safety tips for handling and choosing food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Frozen food cannot be too cold for safety. Compare −5 °C with the temperature frozen food should be stored below.",
+    "1": "Frozen food can still spoil if it is not kept cold enough. Compare −5 °C with the temperature frozen food should be stored below.",
+    "3": "Being below 0 °C is not enough. Compare −5 °C with the temperature frozen food should be stored below."
+   },
+   "why": {
+    "right": "Fish at −5 °C is unsafe to buy because frozen food must be kept below −18 °C to stop bacteria growing.",
+    "wrong": [
+     "Fish at −5 °C is unsafe to buy because any temperature below 0 °C destroys the nutrients in fish.",
+     "Fish at −5 °C is unsafe to buy because frozen food must be kept above 0 °C to stay fresh."
+    ]
+   }
   },
   {
    "id": "c14q62",
@@ -1109,11 +1686,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A badly dented can may have a damaged seal. Air and bacteria can get in, so the food inside may be unsafe to eat.",
    "hint": "",
    "image": null,
    "lo": "Apply food safety tips for handling and choosing food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A tightly sealed can keeps air and bacteria out, so the food is safe. Look for a can whose seal may be damaged.",
+    "1": "A can within its expiry date is safe if it is undamaged. Look for a can whose seal may be damaged.",
+    "2": "Storing cans in a cool place is correct. Look for a can whose seal may be damaged."
+   },
+   "why": {
+    "right": "A badly dented can is unsafe because its seal may be broken, letting bacteria into the food.",
+    "wrong": [
+     "A badly dented can is unsafe because the metal at the dent dissolves into the food at once.",
+     "A badly dented can is unsafe because the dent makes the food go past its expiry date."
+    ]
+   }
   },
   {
    "id": "c14q63",
@@ -1127,11 +1716,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Most bacteria in the digestive system are beneficial. They help digest some food and produce certain vitamins. Only a few types are harmful.",
    "hint": "",
    "image": null,
    "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Many bacteria live in the gut all the time, not only in food. Think about what most of these gut bacteria do for us.",
+    "2": "Some gut bacteria are harmful, but they are only a few types. Think about what most gut bacteria do for us.",
+    "3": "Most gut bacteria are not deadly. Many of them help with digestion. Think about what most gut bacteria do for us."
+   },
+   "why": null
   },
   {
    "id": "c14q64",
@@ -1145,11 +1740,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Yoghurt is made by adding bacteria to milk. The bacteria change the milk, making it thicker and sour.",
    "hint": "",
    "image": null,
    "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Plain rice is cooked in water and is not made using bacteria. Think about a food made by changing milk.",
+    "2": "A fresh apple grows on a tree and is not made using bacteria. Think about a food made by changing milk.",
+    "3": "A boiled egg is only cooked in hot water. Think about a food made by changing milk."
+   },
+   "why": null
   },
   {
    "id": "c14q65",
@@ -1162,11 +1763,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Gut bacteria help us digest some carbohydrates that our own enzymes cannot break down. This helps the body, so the effect is beneficial.",
    "hint": "",
    "image": null,
    "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Helping digestion does affect the body. Think about whether this effect helps or harms us.",
+    "1": "A harmful effect damages the body, as in a stomach ulcer. Think about whether helping digestion helps or harms us."
+   },
+   "why": {
+    "right": "Gut bacteria that aid digestion are beneficial because they help break down food our enzymes cannot.",
+    "wrong": [
+     "Gut bacteria that aid digestion are beneficial because they kill all the other bacteria in the gut.",
+     "Gut bacteria that aid digestion are beneficial because they stop the stomach from making any acid."
+    ]
+   }
   },
   {
    "id": "c14q66",
@@ -1180,11 +1792,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Some bacteria can infect the stomach lining and cause a stomach ulcer. This is a harmful effect. The other options are beneficial effects of gut bacteria.",
    "hint": "",
    "image": null,
    "lo": "Classify effects of bacteria in the digestive system as beneficial or harmful",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Helping to absorb mineral salts is good for the body. Look for an effect that damages the body.",
+    "1": "Helping to digest some food is good for the body. Look for an effect that damages the body.",
+    "2": "Producing certain vitamins is good for the body. Look for an effect that damages the body."
+   },
+   "why": null
   },
   {
    "id": "c14q67",
@@ -1198,11 +1816,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The carbohydrase digested the starch but not the protein. This shows that enzymes are specific. Each enzyme acts on only one type of substance.",
    "hint": "",
    "image": null,
    "lo": "Interpret an investigation of the effect of enzymes on food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The result shows which substance was digested, not whether the enzyme was used up. Think about why the protein was left unchanged.",
+    "2": "The protein was not digested, so the enzyme cannot digest all food. Think about why the protein was left unchanged.",
+    "3": "Carbohydrases are also made in the small intestine, and this test was done in tubes. Think about why the protein was left unchanged."
+   },
+   "why": {
+    "right": "This result shows enzymes are specific because the carbohydrase acted on starch but not on protein.",
+    "wrong": [
+     "This result shows enzymes are specific because the carbohydrase was used up by the starch.",
+     "This result shows enzymes are specific because the carbohydrase only works inside the mouth."
+    ]
+   }
   },
   {
    "id": "c14q68",
@@ -1216,11 +1846,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The water tube has no protease. It shows what happens without the enzyme, so it is the control for comparison.",
    "hint": "",
    "image": null,
    "lo": "Interpret an investigation of the effect of enzymes on food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The variable measured is the result recorded, such as how much egg white is digested. The water tube is set up for comparison.",
+    "2": "A conclusion is a statement made after the results are seen. The water tube is a test tube set up for comparison.",
+    "3": "A hypothesis is a prediction made before the experiment. The water tube is a test tube set up for comparison."
+   },
+   "why": {
+    "right": "The water tube is the control because it shows what happens to egg white without any protease.",
+    "wrong": [
+     "The water tube is the control because water digests egg white faster than protease does.",
+     "The water tube is the control because water is the enzyme being tested in the experiment."
+    ]
+   }
   },
   {
    "id": "c14q69",
@@ -1234,11 +1876,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The student is testing how temperature affects protease action. So temperature is the variable that is changed on purpose.",
    "hint": "",
    "image": null,
    "lo": "Interpret an investigation of the effect of enzymes on food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The mass of egg white should be kept the same in every test so the test is fair. Look at what the student is testing the effect of.",
+    "1": "The volume of protease should be kept the same in every test so the test is fair. Look at what the student is testing the effect of.",
+    "2": "The time taken to digest protein is what is measured as the result. Look at what the student is testing the effect of."
+   },
+   "why": {
+    "right": "Temperature is the variable changed because the student wants to find out how it affects protease action.",
+    "wrong": [
+     "Temperature is the variable changed because it is the result that the student measures at the end.",
+     "Temperature is the variable changed because it must be kept the same for a fair test."
+    ]
+   }
   },
   {
    "id": "c14q70",
@@ -1251,11 +1905,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Oil is a type of fat. Lipases break down fats, so a detergent that removes oil stains contains lipases.",
    "hint": "",
    "image": null,
    "lo": "Interpret an investigation of the effect of enzymes on food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Proteases break down proteins, such as egg or blood stains. Think about what type of nutrient oil is.",
+    "2": "Carbohydrases break down carbohydrates such as starch. Think about what type of nutrient oil is."
+   },
+   "why": {
+    "right": "Detergents for oil stains contain lipases because oil is a fat and lipases act only on fats.",
+    "wrong": [
+     "Detergents for oil stains contain lipases because lipases can break down every type of stain.",
+     "Detergents for oil stains contain lipases because oil is a protein that lipases break down."
+    ]
+   }
   }
  ]
 }

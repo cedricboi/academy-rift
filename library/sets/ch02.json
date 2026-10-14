@@ -16,11 +16,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Classifying puts things with similar properties into groups. This helps us recognise patterns and study a large number of things more easily.",
    "hint": "",
    "image": null,
    "lo": "Classify everyday objects and recognise there are many ways to classify the same group",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Classifying only sorts things into groups. It does not change any of their physical properties.",
+    "2": "Mass is measured with a balance, not by classifying. Think about what grouping similar things helps with.",
+    "3": "Classifying sorts things by their similarities and differences. It does not make the objects the same."
+   },
+   "why": {
+    "right": "Classifying helps study things because items in one group share properties, so patterns are easier to see.",
+    "wrong": [
+     "Classifying helps study things because items in one group become identical to one another.",
+     "Classifying helps study things because each item can only ever belong to one group."
+    ]
+   }
   },
   {
    "id": "c02q2",
@@ -34,11 +46,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The same spoons can be grouped by material or by size. Different criteria give different groups, so objects can be classified in many ways.",
    "hint": "",
    "image": null,
    "lo": "Classify everyday objects and recognise there are many ways to classify the same group",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The spoons can also be grouped by size, so material is not the only criterion.",
+    "1": "Grouping spoons by material or by size is classifying them. So spoons can be classified.",
+    "2": "Two different ways are given in the question, material and size. Count the ways shown."
+   },
+   "why": {
+    "right": "Grouping the spoons shows many ways to classify because any property, such as material or size, can be a criterion.",
+    "wrong": [
+     "Grouping the spoons shows many ways to classify because spoons change their material when grouped differently.",
+     "Grouping the spoons shows many ways to classify because every spoon is made of more than one material."
+    ]
+   }
   },
   {
    "id": "c02q3",
@@ -52,11 +76,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Copper conducts electricity. Iron is also a metal that conducts electricity, so the iron nail belongs in the same group.",
    "hint": "",
    "image": null,
    "lo": "Classify everyday objects and recognise there are many ways to classify the same group",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Glass does not conduct electricity. The group is for materials that let an electric current flow through them.",
+    "2": "Plastic is an electrical insulator. The group is for items that conduct electricity, like copper.",
+    "3": "Rubber is an electrical insulator. The group is for items that conduct electricity, like copper."
+   },
+   "why": {
+    "right": "The iron nail goes with the copper wire because both are metals that conduct electricity.",
+    "wrong": [
+     "The iron nail goes with the copper wire because both are long and thin in shape.",
+     "The iron nail goes with the copper wire because both are attracted to a magnet."
+    ]
+   }
   },
   {
    "id": "c02q4",
@@ -70,11 +106,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Many items are made of more than one material, such as a pen made of plastic and metal. This makes it hard to put them into a single group.",
    "hint": "",
    "image": null,
    "lo": "Classify everyday objects and recognise there are many ways to classify the same group",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Materials look different, such as shiny metal and clear glass. The difficulty comes from how items are made.",
+    "1": "If most items had only one material, classifying by material would be easy. Look at what everyday items are made of.",
+    "3": "Every material has physical properties, such as hardness and melting point. The difficulty lies elsewhere."
+   },
+   "why": {
+    "right": "Classifying items by material is hard because one item can be made of several materials.",
+    "wrong": [
+     "Classifying items by material is hard because materials change into one another over time.",
+     "Classifying items by material is hard because materials cannot be seen with the eye."
+    ]
+   }
   },
   {
    "id": "c02q5",
@@ -88,11 +136,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The five main classes of materials are ceramic, metal, glass, fibres and plastic.",
    "hint": "",
    "image": null,
    "lo": "Match properties to the five classes of materials (ceramic, metal, glass, fibres, plastic)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Water and air are substances, not classes of materials used to make objects.",
+    "2": "This list includes particular materials such as wood and paper instead of the wider classes of materials.",
+    "3": "Stone, sand and clay are raw materials. Clay is used to make one class, but these are not the five classes."
+   },
+   "why": null
   },
   {
    "id": "c02q6",
@@ -106,11 +160,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Ceramics are made by heating clay. They are hard but fragile, so they break easily when dropped.",
    "hint": "",
    "image": null,
    "lo": "Match properties to the five classes of materials (ceramic, metal, glass, fibres, plastic)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Metals are not made from clay, and most are not fragile. Metals can be bent without breaking.",
+    "1": "Glass is hard and fragile, but it is made from sand, not clay.",
+    "3": "Plastics are not made from clay and are usually not fragile. Look at what the material is made from."
+   },
+   "why": {
+    "right": "The material is a ceramic because ceramics are made from clay and are hard but fragile.",
+    "wrong": [
+     "The material is a ceramic because ceramics are made from sand and can be bent without breaking.",
+     "The material is a ceramic because ceramics are soft and have a low melting point."
+    ]
+   }
   },
   {
    "id": "c02q7",
@@ -124,11 +190,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Metals are shiny and are good conductors of electricity.",
    "hint": "",
    "image": null,
    "lo": "Match properties to the five classes of materials (ceramic, metal, glass, fibres, plastic)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Ceramics do not conduct electricity. They are often used as electrical insulators.",
+    "1": "Fibres such as cotton do not conduct electricity well. Look for the class that is shiny and conducts.",
+    "2": "Glass can be shiny, but it does not conduct electricity."
+   },
+   "why": {
+    "right": "The material is a metal because metals are shiny and let electricity flow through them easily.",
+    "wrong": [
+     "The material is a metal because all shiny materials are good conductors of electricity.",
+     "The material is a metal because metals are made from clay that has been heated."
+    ]
+   }
   },
   {
    "id": "c02q8",
@@ -142,11 +220,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Plastics have low melting points, so they soften and melt at fairly low temperatures.",
    "hint": "",
    "image": null,
    "lo": "Match properties to the five classes of materials (ceramic, metal, glass, fibres, plastic)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Being made from clay is a property of ceramics, not plastics.",
+    "2": "Fragile describes ceramics and glass, which break easily. Most plastics do not shatter when dropped.",
+    "3": "Being shiny is a key property of metals. Look for a property linked to how plastics behave when heated."
+   },
+   "why": null
   },
   {
    "id": "c02q9",
@@ -160,11 +244,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Fibres can be spun into threads and woven into cloth. They also absorb dyes, so they can be coloured.",
    "hint": "",
    "image": null,
    "lo": "Match properties to the five classes of materials (ceramic, metal, glass, fibres, plastic)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Plastic objects are usually moulded into shapes. Spinning into threads and absorbing dyes describe another class.",
+    "2": "Metals are shiny and conduct electricity. They do not absorb dyes.",
+    "3": "Glass is hard and fragile. It does not absorb dyes."
+   },
+   "why": {
+    "right": "The material is a fibre because fibres can be spun into threads and soak up dyes.",
+    "wrong": [
+     "The material is a fibre because fibres are shiny and conduct electricity well.",
+     "The material is a fibre because fibres are hard and break easily when dropped."
+    ]
+   }
   },
   {
    "id": "c02q10",
@@ -178,11 +274,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Metals can be bent or hammered into shape without breaking.",
    "hint": "",
    "image": null,
    "lo": "Match properties to the five classes of materials (ceramic, metal, glass, fibres, plastic)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Metals are good conductors of heat, not poor ones.",
+    "1": "Being made from clay is a property of ceramics.",
+    "3": "Most metals have high melting points. A low melting point is a property of plastics."
+   },
+   "why": null
   },
   {
    "id": "c02q11",
@@ -196,11 +298,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Melting point is a physical property. It can be measured without changing the substance into a new substance.",
    "hint": "",
    "image": null,
    "lo": "Describe physical properties, electrical conductivity and thermal conductivity",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Rusting changes iron into a new substance. That makes it a chemical property, not a physical one.",
+    "2": "Reacting with acid forms new substances. That makes it a chemical property, not a physical one.",
+    "3": "Burning forms new substances. That makes it a chemical property, not a physical one."
+   },
+   "why": {
+    "right": "Melting point is a physical property because measuring it does not turn the substance into a new substance.",
+    "wrong": [
+     "Melting point is a physical property because it can only be measured for solid metals.",
+     "Melting point is a physical property because melting forms a new substance with new properties."
+    ]
+   }
   },
   {
    "id": "c02q12",
@@ -214,11 +328,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Electrical conductivity is a measure of how easily an electric current flows through a material.",
    "hint": "",
    "image": null,
    "lo": "Describe physical properties, electrical conductivity and thermal conductivity",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "How easily heat flows is thermal conductivity. The word electrical points to a different kind of flow.",
+    "1": "Scratching one material with another tests hardness, not conductivity.",
+    "2": "Bending without breaking describes flexibility, not conductivity."
+   },
+   "why": null
   },
   {
    "id": "c02q13",
@@ -232,11 +352,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Thermal conductivity is a measure of how easily heat flows through a material.",
    "hint": "",
    "image": null,
    "lo": "Describe physical properties, electrical conductivity and thermal conductivity",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Electric current flowing is electrical conductivity. The word thermal points to a different kind of flow.",
+    "2": "Supporting a load describes strength, not conductivity.",
+    "3": "Changing state happens at the melting point or boiling point. It is not a measure of conductivity."
+   },
+   "why": null
   },
   {
    "id": "c02q14",
@@ -250,11 +376,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The melting point is the temperature at which a solid changes to a liquid.",
    "hint": "",
    "image": null,
    "lo": "Use melting point and boiling point to predict the state of a substance",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Density is mass per unit volume. It is not a temperature.",
+    "1": "The boiling point is when a liquid changes to a gas. This question is about a solid changing to a liquid.",
+    "3": "Freezing is a liquid changing to a solid, and a time is not a temperature."
+   },
+   "why": null
   },
   {
    "id": "c02q15",
@@ -268,11 +400,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The boiling point is the temperature at which a liquid changes to a gas.",
    "hint": "",
    "image": null,
    "lo": "Use melting point and boiling point to predict the state of a substance",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Room temperature is the temperature of the surroundings, about 25 °C. It is not linked to a change of state.",
+    "2": "The melting point is when a solid changes to a liquid. This question is about a liquid changing to a gas.",
+    "3": "Thermal conductivity is how easily heat flows. It is not a temperature."
+   },
+   "why": null
   },
   {
    "id": "c02q16",
@@ -285,11 +423,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "100 °C is above the melting point of 80 °C, so X has melted. It is below the boiling point of 220 °C, so X has not boiled. X is a liquid.",
    "hint": "",
    "image": null,
    "lo": "Use melting point and boiling point to predict the state of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "To be a gas, X must be above its boiling point of 220 °C. 100 °C is well below that.",
+    "1": "To be a solid, X must be below its melting point of 80 °C. 100 °C is above that."
+   },
+   "why": {
+    "right": "Substance X is a liquid at 100 °C because this is between its melting point and its boiling point.",
+    "wrong": [
+     "Substance X is a liquid at 100 °C because water boils at 100 °C.",
+     "Substance X is a liquid at 100 °C because this is above its boiling point."
+    ]
+   }
   },
   {
    "id": "c02q17",
@@ -302,11 +451,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "90 °C is above the boiling point of 60 °C, so Y has boiled and is a gas.",
    "hint": "",
    "image": null,
    "lo": "Use melting point and boiling point to predict the state of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Y is a liquid only between −20 °C and 60 °C. Compare 90 °C with its boiling point.",
+    "2": "Y is a solid only below −20 °C. 90 °C is far above that."
+   },
+   "why": {
+    "right": "Substance Y is a gas at 90 °C because this temperature is above its boiling point.",
+    "wrong": [
+     "Substance Y is a gas at 90 °C because this temperature is between its melting and boiling points.",
+     "Substance Y is a gas at 90 °C because any substance above 0 °C is a gas."
+    ]
+   }
   },
   {
    "id": "c02q18",
@@ -320,11 +480,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A substance is a gas when it is above its boiling point. So its boiling point must be below 25 °C, and −30 °C is the only option that fits.",
    "hint": "",
    "image": null,
    "lo": "Use melting point and boiling point to predict the state of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "With a boiling point of 100 °C, the substance would not be a gas at 25 °C. The boiling point must be lower.",
+    "1": "With a boiling point of 250 °C, the substance would not be a gas at 25 °C. Compare each value with 25 °C.",
+    "2": "30 °C is above 25 °C, so the substance would not yet have boiled at 25 °C."
+   },
+   "why": {
+    "right": "A substance that is a gas at 25 °C has a boiling point below 25 °C, since it has already boiled.",
+    "wrong": [
+     "A substance that is a gas at 25 °C has a boiling point below 25 °C, since gases are always lighter than air.",
+     "A substance that is a gas at 25 °C has a boiling point below 25 °C, since its melting point is above 25 °C."
+    ]
+   }
   },
   {
    "id": "c02q19",
@@ -338,11 +510,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Flexibility is the ability of a material to bend without breaking and return to its original shape.",
    "hint": "",
    "image": null,
    "lo": "Identify strength, hardness and flexibility from a described situation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Density is mass per unit volume. It does not describe bending.",
+    "2": "Strength is the ability to support a heavy load. This definition is about bending and returning to shape.",
+    "3": "Hardness is resistance to scratches and wear. This definition is about bending."
+   },
+   "why": null
   },
   {
    "id": "c02q20",
@@ -356,11 +534,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Strength is the ability of a material to support a heavy load without changing shape permanently.",
    "hint": "",
    "image": null,
    "lo": "Identify strength, hardness and flexibility from a described situation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Density is mass per unit volume. It does not describe supporting a load.",
+    "1": "Flexibility is about bending without breaking. This definition is about holding up a load.",
+    "2": "Hardness is resistance to scratches and wear. This definition is about holding up a load."
+   },
+   "why": null
   },
   {
    "id": "c02q21",
@@ -374,11 +558,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Hardness is the resistance of a material to wear and tear and to scratches.",
    "hint": "",
    "image": null,
    "lo": "Identify strength, hardness and flexibility from a described situation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Flexibility is about bending without breaking. This definition is about resisting scratches.",
+    "2": "Strength is about supporting a heavy load. This definition is about resisting scratches.",
+    "3": "Thermal conductivity is about how easily heat flows. This definition is about resisting scratches."
+   },
+   "why": null
   },
   {
    "id": "c02q22",
@@ -392,11 +582,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A harder material can scratch a softer one. Glass scratches plastic, so glass is harder than plastic.",
    "hint": "",
    "image": null,
    "lo": "Identify strength, hardness and flexibility from a described situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A softer material cannot scratch a harder one. Think about which material is damaged and which is not.",
+    "1": "Density is mass per unit volume. A scratch test does not compare density.",
+    "3": "Flexibility is about bending. A scratch test does not compare how well materials bend."
+   },
+   "why": {
+    "right": "Glass is harder than plastic because a harder material can scratch a softer one but not the reverse.",
+    "wrong": [
+     "Glass is harder than plastic because a denser material always scratches a less dense one.",
+     "Glass is harder than plastic because the softer material is always the one that scratches."
+    ]
+   }
   },
   {
    "id": "c02q23",
@@ -410,11 +612,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The hose can bend into coils without breaking and go back to its shape. This is flexibility.",
    "hint": "",
    "image": null,
    "lo": "Identify strength, hardness and flexibility from a described situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Hardness is resistance to scratches. Coiling the hose is about bending.",
+    "2": "Strength is about supporting a heavy load. Coiling the hose is about bending without breaking.",
+    "3": "Thermal conductivity is about how heat flows. Coiling the hose is about bending."
+   },
+   "why": {
+    "right": "A garden hose shows flexibility because it bends into coils without breaking and returns to its shape.",
+    "wrong": [
+     "A garden hose shows flexibility because it can hold up a heavy load without changing shape.",
+     "A garden hose shows flexibility because water can flow through it easily."
+    ]
+   }
   },
   {
    "id": "c02q24",
@@ -428,11 +642,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A frying pan handle must not get too hot to hold. Plastic is a poor conductor of heat, so the handle stays cool enough to hold.",
    "hint": "",
    "image": null,
    "lo": "Evaluate the choice of material for a use from its physical properties",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Copper is a very good conductor of heat. A copper handle would quickly become too hot to hold.",
+    "1": "Aluminium is a good conductor of heat. An aluminium handle would quickly become too hot to hold.",
+    "2": "Steel is a metal that conducts heat. A steel handle would become too hot to hold."
+   },
+   "why": {
+    "right": "Plastic suits a pan handle because it is a poor conductor of heat, so the handle stays cool.",
+    "wrong": [
+     "Plastic suits a pan handle because it is a good conductor of heat, so the pan heats faster.",
+     "Plastic suits a pan handle because it has a higher melting point than any metal."
+    ]
+   }
   },
   {
    "id": "c02q25",
@@ -446,11 +672,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The inside of a wire must conduct electricity well. Copper is a metal and a very good conductor of electricity.",
    "hint": "",
    "image": null,
    "lo": "Evaluate the choice of material for a use from its physical properties",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Rubber is an electrical insulator. It can cover a wire, but it cannot carry the current inside it.",
+    "1": "Glass does not conduct electricity. The inside of a wire must let current flow.",
+    "3": "Plastic is an electrical insulator used for the outer covering of wires, not the inside."
+   },
+   "why": {
+    "right": "Copper is used inside wires because it is a good conductor of electricity.",
+    "wrong": [
+     "Copper is used inside wires because it is a poor conductor of heat.",
+     "Copper is used inside wires because it stops electric current from leaking out."
+    ]
+   }
   },
   {
    "id": "c02q26",
@@ -464,11 +702,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A cooking pot is heated strongly and must pass heat to the food. A high melting point stops it melting, and high thermal conductivity lets heat flow through quickly.",
    "hint": "",
    "image": null,
    "lo": "Evaluate the choice of material for a use from its physical properties",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A raincoat needs to be waterproof and flexible. A high melting point and high thermal conductivity are not needed.",
+    "2": "A pan handle must stay cool, so it needs low thermal conductivity. Material P conducts heat well.",
+    "3": "An oven glove must protect the hand from heat, so it needs low thermal conductivity. Material P conducts heat well."
+   },
+   "why": {
+    "right": "Material P suits a cooking pot because it will not melt when heated and it passes heat to the food.",
+    "wrong": [
+     "Material P suits a cooking pot because it stops heat from reaching the food inside.",
+     "Material P suits a cooking pot because it melts easily into the shape of the pot."
+    ]
+   }
   },
   {
    "id": "c02q27",
@@ -482,11 +732,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A T-shirt is made of fibres that are flexible, can be dyed and help keep the body warm. Material Q has all these properties.",
    "hint": "",
    "image": null,
    "lo": "Evaluate the choice of material for a use from its physical properties",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A frying pan must conduct heat well. Material Q is a poor conductor of heat.",
+    "2": "A window must be transparent and rigid. Material Q is flexible and absorbs dyes.",
+    "3": "An electrical wire needs a material that conducts electricity. Absorbing dyes and being flexible are not what a wire needs."
+   },
+   "why": {
+    "right": "Material Q suits a T-shirt because cloth must bend, take up colour and not conduct heat away quickly.",
+    "wrong": [
+     "Material Q suits a T-shirt because cloth must be hard and resist scratches.",
+     "Material Q suits a T-shirt because cloth must conduct heat away from the body quickly."
+    ]
+   }
   },
   {
    "id": "c02q28",
@@ -500,11 +762,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Mass is the amount of matter in an object. Its SI unit is the kilogram.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The distance between two points describes length. Mass is a different quantity.",
+    "1": "The amount of space an object occupies describes volume. Mass is a different quantity.",
+    "2": "Mass per unit volume is density. It uses mass, but it is a different quantity."
+   },
+   "why": null
   },
   {
    "id": "c02q29",
@@ -518,11 +786,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Volume is the amount of space an object occupies.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The amount of matter in an object describes mass. Volume is a different quantity.",
+    "1": "Mass per unit volume is density. It uses volume, but it is a different quantity.",
+    "3": "The distance between two points describes length. Volume is a different quantity."
+   },
+   "why": null
   },
   {
    "id": "c02q30",
@@ -536,11 +810,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The SI unit of volume is the cubic metre (m³), not the cubic centimetre. The other three pairs are correct SI units.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "This pair is correct, since the kilogram is the SI unit of mass. The question asks for the pair that is not correct.",
+    "1": "This pair is correct, since density uses mass in kg and volume in m³. The question asks for the pair that is not correct.",
+    "2": "This pair is correct, since the metre is the SI unit of length. The question asks for the pair that is not correct."
+   },
+   "why": null
   },
   {
    "id": "c02q31",
@@ -554,11 +834,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "One litre is 1000 cm³. So 2 ℓ is 2 × 1000 cm³, which is 2000 cm³.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This uses 100 cm³ in each litre. Check how many cm³ are in 1 ℓ.",
+    "2": "This uses 10 cm³ in each litre. Check how many cm³ are in 1 ℓ.",
+    "3": "The number has not been converted. A litre is much larger than a cubic centimetre."
+   },
+   "why": {
+    "right": "2 ℓ equals 2000 cm³ because there are 1000 cm³ in every litre.",
+    "wrong": [
+     "2 ℓ equals 2000 cm³ because there are 100 cm³ in every litre.",
+     "2 ℓ equals 2000 cm³ because a litre is smaller than a cubic centimetre."
+    ]
+   }
   },
   {
    "id": "c02q32",
@@ -572,11 +864,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "One litre is 1000 cm³. So 1500 cm³ is 1500 ÷ 1000, which is 1.5 ℓ.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "This divides by 100. Check how many cm³ are in 1 ℓ.",
+    "2": "This divides by 10 000. Check how many cm³ are in 1 ℓ.",
+    "3": "This divides by 10. Check how many cm³ are in 1 ℓ."
+   },
+   "why": {
+    "right": "1500 cm³ equals 1.5 ℓ because a volume in cm³ is divided by 1000 to give litres.",
+    "wrong": [
+     "1500 cm³ equals 1.5 ℓ because a volume in cm³ is multiplied by 1000 to give litres.",
+     "1500 cm³ equals 1.5 ℓ because a volume in cm³ is divided by 100 to give litres."
+    ]
+   }
   },
   {
    "id": "c02q33",
@@ -590,11 +894,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "There are 10 mm in 1 cm. So 3.5 cm is 3.5 × 10, which is 35 mm.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This divides by 10 instead of multiplying. A millimetre is smaller than a centimetre, so there are more of them.",
+    "2": "This multiplies by 100. Check how many mm are in 1 cm.",
+    "3": "This multiplies by 1000. Check how many mm are in 1 cm."
+   },
+   "why": {
+    "right": "3.5 cm equals 35 mm because each centimetre is made up of 10 millimetres.",
+    "wrong": [
+     "3.5 cm equals 35 mm because each centimetre is made up of 100 millimetres.",
+     "3.5 cm equals 35 mm because a millimetre is a larger unit than a centimetre."
+    ]
+   }
   },
   {
    "id": "c02q34",
@@ -608,11 +924,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An elephant has a mass of several thousand kilograms. The tonne (1000 kg) gives a small, easy number, such as 5 t.",
    "hint": "",
    "image": null,
    "lo": "State the meaning and units of mass, volume and length and convert between units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The cubic metre is a unit of volume, not mass.",
+    "2": "The gram is a unit of mass, but an elephant's mass in grams would be millions. A larger unit is more practical.",
+    "3": "The milligram is far too small for an elephant. Its mass would be a huge number in this unit."
+   },
+   "why": {
+    "right": "The tonne suits an elephant's mass because a large unit gives a small, easy number for a heavy animal.",
+    "wrong": [
+     "The tonne suits an elephant's mass because the tonne is the SI unit of mass.",
+     "The tonne suits an elephant's mass because the tonne measures how much space the elephant takes up."
+    ]
+   }
   },
   {
    "id": "c02q35",
@@ -626,11 +954,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A measuring tape is flexible, so it can bend around a curved surface to measure its length.",
    "hint": "",
    "image": null,
    "lo": "Choose the appropriate instrument to measure length, mass and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A measuring cylinder measures the volume of liquids, not length.",
+    "1": "A metre rule is rigid and cannot bend around a curved surface.",
+    "2": "Digital calipers measure small lengths such as diameters. They cannot follow a long curved surface."
+   },
+   "why": {
+    "right": "A measuring tape suits a curved surface because it is flexible and can follow the curve.",
+    "wrong": [
+     "A measuring tape suits a curved surface because it reads to a hundredth of a millimetre.",
+     "A measuring tape suits a curved surface because it is rigid and stays perfectly straight."
+    ]
+   }
   },
   {
    "id": "c02q36",
@@ -644,11 +984,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Digital calipers grip the coin between their jaws and measure small lengths very precisely, to 0.01 mm.",
    "hint": "",
    "image": null,
    "lo": "Choose the appropriate instrument to measure length, mass and volume",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A measuring tape is for long or curved lengths. It is not precise enough for a small coin.",
+    "1": "A metre rule reads only to 1 mm, which is not precise enough for a small coin. It also cannot grip the coin.",
+    "3": "An electronic balance measures mass, not length."
+   },
+   "why": {
+    "right": "Digital calipers suit a coin's diameter because their jaws grip it and measure small lengths precisely.",
+    "wrong": [
+     "Digital calipers suit a coin's diameter because they also measure the mass of the coin.",
+     "Digital calipers suit a coin's diameter because they bend around the curved edge of the coin."
+    ]
+   }
   },
   {
    "id": "c02q37",
@@ -662,11 +1014,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An electronic balance measures mass. The stone is placed on it and the mass is read from the display.",
    "hint": "",
    "image": null,
    "lo": "Choose the appropriate instrument to measure length, mass and volume",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A measuring cylinder measures volume, not mass.",
+    "1": "A metre rule measures length, not mass.",
+    "3": "Digital calipers measure small lengths, not mass."
+   },
+   "why": {
+    "right": "An electronic balance suits a stone because it measures mass directly and shows the reading on a display.",
+    "wrong": [
+     "An electronic balance suits a stone because it measures the volume of water the stone pushes aside.",
+     "An electronic balance suits a stone because it measures the length of the stone very precisely."
+    ]
+   }
   },
   {
    "id": "c02q38",
@@ -680,11 +1044,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A measuring cylinder is marked in cm³ and is used to measure the volume of a liquid such as water.",
    "hint": "",
    "image": null,
    "lo": "Choose the appropriate instrument to measure length, mass and volume",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A measuring tape measures length, not the volume of a liquid.",
+    "2": "Digital calipers measure small lengths, not the volume of a liquid.",
+    "3": "An electronic balance measures mass. The question asks for a volume of water."
+   },
+   "why": {
+    "right": "A measuring cylinder suits 40 cm³ of water because its scale is marked in units of volume.",
+    "wrong": [
+     "A measuring cylinder suits 40 cm³ of water because it measures the mass of the water.",
+     "A measuring cylinder suits 40 cm³ of water because it can bend to fit any container."
+    ]
+   }
   },
   {
    "id": "c02q39",
@@ -698,11 +1074,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The tail slides out from the end of the digital calipers. It is pushed to the bottom of the test tube to measure its depth.",
    "hint": "",
    "image": null,
    "lo": "Choose the appropriate instrument to measure length, mass and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The digital display only shows the reading. It does not touch the test tube.",
+    "2": "The outside jaws grip an object to measure its outer width, such as an external diameter.",
+    "3": "The inside jaws measure an internal diameter by pressing outwards against the walls."
+   },
+   "why": null
   },
   {
    "id": "c02q40",
@@ -716,11 +1098,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The inside jaws fit inside the pipe and are opened until they press against the inner walls. This measures the internal diameter.",
    "hint": "",
    "image": null,
    "lo": "Choose the appropriate instrument to measure length, mass and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The outside jaws grip the outside of an object. They measure the external diameter.",
+    "1": "The digital display only shows the reading. It does not touch the pipe.",
+    "2": "The tail measures depth, such as how deep a hole is."
+   },
+   "why": null
   },
   {
    "id": "c02q41",
@@ -734,11 +1122,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A classroom door is a little taller than an adult, who is about 1.7 m tall. So 2 m is the best estimate.",
    "hint": "",
    "image": null,
    "lo": "Estimate length, mass and volume of everyday objects",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "20 m is about the height of a six-storey building. That is far too tall for a door.",
+    "2": "20 cm is about the length of a hand span. A door must be taller than a person.",
+    "3": "2 km is a distance that takes about 25 minutes to walk. That is far too large for a door."
+   },
+   "why": {
+    "right": "A classroom door is about 2 m tall because it must be a little taller than an adult.",
+    "wrong": [
+     "A classroom door is about 2 m tall because it must be as tall as the school building.",
+     "A classroom door is about 2 m tall because it must be about as long as a ruler."
+    ]
+   }
   },
   {
    "id": "c02q42",
@@ -752,11 +1152,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A grape is small and light. A few grams is a sensible mass, so 5 g is the best estimate.",
    "hint": "",
    "image": null,
    "lo": "Estimate length, mass and volume of everyday objects",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "5 mg is a tiny mass, less than a grain of rice. A grape is much heavier than that.",
+    "2": "5 kg is about the mass of a large bag of rice. A grape is far lighter.",
+    "3": "500 g is about the mass of a small bottle of water. A grape is far lighter."
+   },
+   "why": {
+    "right": "A grape has a mass of about 5 g because it is small and many fit in one hand.",
+    "wrong": [
+     "A grape has a mass of about 5 g because it is as heavy as a full bottle of water.",
+     "A grape has a mass of about 5 g because the gram is the SI unit of mass."
+    ]
+   }
   },
   {
    "id": "c02q43",
@@ -770,11 +1182,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A can of soft drink usually holds 330 ml, which is 330 cm³. This is the best estimate.",
    "hint": "",
    "image": null,
    "lo": "Estimate length, mass and volume of everyday objects",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "3300 cm³ is 3.3 ℓ, more than a large bottle of drink. A can is much smaller.",
+    "1": "3 cm³ is less than a teaspoon of liquid. A can holds much more.",
+    "2": "33 cm³ is only a mouthful or two. A can holds much more than that."
+   },
+   "why": {
+    "right": "A drink can holds about 330 cm³ because 1 ml equals 1 cm³ and a can holds about 330 ml.",
+    "wrong": [
+     "A drink can holds about 330 cm³ because 1 ℓ equals 330 cm³ and a can holds 1 ℓ.",
+     "A drink can holds about 330 cm³ because 1 ml equals 10 cm³ and a can holds 33 ml."
+    ]
+   }
   },
   {
    "id": "c02q44",
@@ -788,11 +1212,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A new pencil is a little shorter than a 30 cm ruler, about 18 cm long.",
    "hint": "",
    "image": null,
    "lo": "Estimate length, mass and volume of everyday objects",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "18 m is longer than a classroom. Check the unit.",
+    "1": "1.8 cm is about the width of a fingertip. A new pencil is much longer than that.",
+    "3": "18 mm is the same as 1.8 cm. Compare the size of this unit with a pencil."
+   },
+   "why": {
+    "right": "A new pencil is about 18 cm long because it is a little shorter than a 30 cm ruler.",
+    "wrong": [
+     "A new pencil is about 18 cm long because it is a little longer than a metre rule.",
+     "A new pencil is about 18 cm long because it is about as long as a fingernail."
+    ]
+   }
   },
   {
    "id": "c02q45",
@@ -806,11 +1242,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A fully submerged object pushes aside water to make space for itself. The volume of water displaced equals the volume of the object.",
    "hint": "",
    "image": null,
    "lo": "Find the volume of irregular objects by displacement and regular objects by formula",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Length is one dimension only. The displaced water fills a three-dimensional space.",
+    "2": "Displaced water depends on the space an object takes up, not on how much matter it has. A small heavy object displaces little water.",
+    "3": "Density is mass per unit volume. The displaced water matches the space the object takes up."
+   },
+   "why": {
+    "right": "A submerged object displaces its own volume of water because it takes up space the water used to fill.",
+    "wrong": [
+     "A submerged object displaces its own volume of water because heavier objects always push out more water.",
+     "A submerged object displaces its own volume of water because the water soaks into the object."
+    ]
+   }
   },
   {
    "id": "c02q46",
@@ -824,11 +1272,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The rise in the water level equals the volume of the stone. 58 cm³ minus 50 cm³ gives 8 cm³.",
    "hint": "",
    "image": null,
    "lo": "Find the volume of irregular objects by displacement and regular objects by formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This adds the two readings. The stone's volume is the change in the water level.",
+    "1": "58 cm³ is the volume of the water and stone together. The water's volume must be taken away.",
+    "2": "50 cm³ is the volume of the water alone, before the stone was added."
+   },
+   "why": {
+    "right": "The stone's volume is 8 cm³ because the water level rises by the volume of the stone.",
+    "wrong": [
+     "The stone's volume is 8 cm³ because the stone absorbs 8 cm³ of the water.",
+     "The stone's volume is 8 cm³ because the water level rises by the mass of the stone."
+    ]
+   }
   },
   {
    "id": "c02q47",
@@ -842,11 +1302,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The stone pushes the water level up by its own volume. 40 cm³ plus 12 cm³ gives 52 cm³.",
    "hint": "",
    "image": null,
    "lo": "Find the volume of irregular objects by displacement and regular objects by formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The water level does change when the stone is added. The stone takes up space in the water.",
+    "2": "This subtracts the stone's volume. Adding the stone makes the water level rise, not fall.",
+    "3": "12 cm³ is the stone's volume alone. The reading shows the water and the stone together."
+   },
+   "why": {
+    "right": "The new reading is 52 cm³ because the water level rises by the 12 cm³ volume of the stone.",
+    "wrong": [
+     "The new reading is 52 cm³ because the stone soaks up water and swells by 12 cm³.",
+     "The new reading is 52 cm³ because the water level rises by the mass of the stone in grams."
+    ]
+   }
   },
   {
    "id": "c02q48",
@@ -860,11 +1332,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A cork floats, so it cannot be fully submerged on its own. A sinker pulls it under so the volume of water it displaces can be measured.",
    "hint": "",
    "image": null,
    "lo": "Find the volume of irregular objects by displacement and regular objects by formula",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "If the cork were a regular shape, its volume could be found with a formula. The sinker solves a different problem.",
+    "1": "A heavy object would sink without help. Think about what a cork does when placed in water.",
+    "3": "Cork does not dissolve in water. Think about where the cork stays when placed in water."
+   },
+   "why": {
+    "right": "A cork needs a sinker because the cork floats and must be fully under water to displace its volume.",
+    "wrong": [
+     "A cork needs a sinker because the cork dissolves unless it is held under water.",
+     "A cork needs a sinker because the cork is too small to change the water level."
+    ]
+   }
   },
   {
    "id": "c02q49",
@@ -878,11 +1362,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The volume of a cuboid is length × breadth × height. 2 cm × 3 cm × 4 cm = 24 cm³.",
    "hint": "",
    "image": null,
    "lo": "Find the volume of irregular objects by displacement and regular objects by formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "cm² is a unit of area. Multiplying three lengths in cm gives a cubic unit.",
+    "2": "12 comes from multiplying only two of the sides. All three sides must be multiplied together.",
+    "3": "9 is the sum of the sides, not the product. Volume needs the sides multiplied together."
+   },
+   "why": {
+    "right": "The cuboid's volume is 24 cm³ because volume is length times breadth times height, in cubic units.",
+    "wrong": [
+     "The cuboid's volume is 24 cm³ because volume is found by adding the three sides together.",
+     "The cuboid's volume is 24 cm³ because volume is length times breadth, in square units."
+    ]
+   }
   },
   {
    "id": "c02q50",
@@ -896,11 +1392,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The base area is 5 cm × 4 cm = 20 cm². The height is the volume divided by the base area, so 60 ÷ 20 = 3 cm.",
    "hint": "",
    "image": null,
    "lo": "Find the volume of irregular objects by displacement and regular objects by formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This multiplies 60 by 5. The height is found by dividing the volume by the base area.",
+    "2": "20 cm² is the base area, not the height. One more step is needed.",
+    "3": "This divides 60 by only one side of the base. The whole base area must be used."
+   },
+   "why": {
+    "right": "The box's height is 3 cm because the volume divided by the base area gives the height.",
+    "wrong": [
+     "The box's height is 3 cm because the volume multiplied by the base area gives the height.",
+     "The box's height is 3 cm because the volume minus the two base sides gives the height."
+    ]
+   }
   },
   {
    "id": "c02q51",
@@ -914,11 +1422,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Density is the mass per unit volume of a substance.",
    "hint": "",
    "image": null,
    "lo": "Describe density and how mass and volume affect density",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The amount of matter in an object is its mass. Density links mass with another quantity.",
+    "1": "Density is not found by multiplying. It is found by dividing one quantity by another.",
+    "2": "This is the wrong way round. Check which quantity is divided by which."
+   },
+   "why": null
   },
   {
    "id": "c02q52",
@@ -932,11 +1446,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Density is mass divided by volume. With the same volume, twice the mass gives twice the density, so A has twice the density of B.",
    "hint": "",
    "image": null,
    "lo": "Describe density and how mass and volume affect density",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "B has the smaller mass in the same volume. That makes B the less dense block.",
+    "1": "A has more mass in the same volume. More mass in the same space means a higher density.",
+    "3": "The blocks have equal volume but different masses. Different masses in the same volume give different densities."
+   },
+   "why": {
+    "right": "Block A is twice as dense because it has twice the mass packed into the same volume.",
+    "wrong": [
+     "Block A is twice as dense because it must also have twice the volume of block B.",
+     "Block A is twice as dense because heavier blocks always take up less space."
+    ]
+   }
   },
   {
    "id": "c02q53",
@@ -950,11 +1476,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Density depends on the material, not on the size of the piece. Each half has half the mass and half the volume, so the density stays the same.",
    "hint": "",
    "image": null,
    "lo": "Describe density and how mass and volume affect density",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Cutting halves both the mass and the volume. Work out what that does to mass divided by volume.",
+    "2": "Each half still has mass and volume, so its density cannot be zero.",
+    "3": "The mass is halved, but so is the volume. Work out what that does to mass divided by volume."
+   },
+   "why": {
+    "right": "Each half of the iron block has the same density because its mass and volume are both halved.",
+    "wrong": [
+     "Each half of the iron block has the same density because cutting does not change its mass.",
+     "Each half of the iron block has the same density because density depends only on volume."
+    ]
+   }
   },
   {
    "id": "c02q54",
@@ -968,11 +1506,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Density is mass divided by volume.",
    "hint": "",
    "image": null,
    "lo": "Calculate density using density = mass/volume with the correct unit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Density is how much mass is in each unit of volume. Multiplying does not give that.",
+    "1": "Mass and volume are different quantities, so they cannot be added.",
+    "3": "This is upside down. Check which quantity goes on top in mass per unit volume."
+   },
+   "why": null
   },
   {
    "id": "c02q55",
@@ -986,11 +1530,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of density is kg/m³, since the SI unit of mass is kg and the SI unit of volume is m³.",
    "hint": "",
    "image": null,
    "lo": "Calculate density using density = mass/volume with the correct unit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "kg is the unit of mass only. Density needs a unit of mass per unit of volume.",
+    "2": "m³ is the unit of volume only. Density needs a unit of mass per unit of volume.",
+    "3": "g/cm³ is a common unit of density, but it is not built from SI units."
+   },
+   "why": null
   },
   {
    "id": "c02q56",
@@ -1004,11 +1554,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Density is mass ÷ volume, so 40 g ÷ 10 cm³ = 4 g/cm³.",
    "hint": "",
    "image": null,
    "lo": "Calculate density using density = mass/volume with the correct unit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This divides volume by mass. Density is mass divided by volume.",
+    "1": "This subtracts the volume from the mass. Density is found by dividing.",
+    "2": "This multiplies mass by volume. Density is found by dividing."
+   },
+   "why": {
+    "right": "The object's density is 4 g/cm³ because its 40 g mass is divided by its 10 cm³ volume.",
+    "wrong": [
+     "The object's density is 4 g/cm³ because its 10 cm³ volume is divided by its 40 g mass.",
+     "The object's density is 4 g/cm³ because its 40 g mass is multiplied by its 10 cm³ volume."
+    ]
+   }
   },
   {
    "id": "c02q57",
@@ -1022,11 +1584,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Density is mass ÷ volume, so 60 g ÷ 20 cm³ = 3 g/cm³.",
    "hint": "",
    "image": null,
    "lo": "Calculate density using density = mass/volume with the correct unit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This multiplies mass by volume. Density is found by dividing.",
+    "1": "This subtracts the volume from the mass. Density is found by dividing.",
+    "3": "This divides volume by mass. Density is mass divided by volume."
+   },
+   "why": {
+    "right": "The liquid's density is 3 g/cm³ because its 60 g mass is divided by its 20 cm³ volume.",
+    "wrong": [
+     "The liquid's density is 3 g/cm³ because its 20 cm³ volume is divided by its 60 g mass.",
+     "The liquid's density is 3 g/cm³ because its 20 cm³ volume is taken away from its 60 g mass."
+    ]
+   }
   },
   {
    "id": "c02q58",
@@ -1040,11 +1614,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Mass is density × volume, so 2 g/cm³ × 15 cm³ = 30 g.",
    "hint": "",
    "image": null,
    "lo": "Calculate density using density = mass/volume with the correct unit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "This adds the density and the volume. Mass is found by multiplying.",
+    "2": "This subtracts the density from the volume. Mass is found by multiplying.",
+    "3": "This divides the volume by the density. Rearrange density = mass ÷ volume to find mass."
+   },
+   "why": {
+    "right": "The stone's mass is 30 g because mass equals density multiplied by volume.",
+    "wrong": [
+     "The stone's mass is 30 g because mass equals volume divided by density.",
+     "The stone's mass is 30 g because mass equals density added to volume."
+    ]
+   }
   },
   {
    "id": "c02q59",
@@ -1058,11 +1644,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Volume is mass ÷ density, so 50 g ÷ 5 g/cm³ = 10 cm³.",
    "hint": "",
    "image": null,
    "lo": "Calculate density using density = mass/volume with the correct unit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This subtracts the density from the mass. Volume is found by dividing.",
+    "2": "This multiplies the mass by the density. Rearrange density = mass ÷ volume to find volume.",
+    "3": "This adds the mass and the density. Volume is found by dividing."
+   },
+   "why": {
+    "right": "The metal's volume is 10 cm³ because volume equals mass divided by density.",
+    "wrong": [
+     "The metal's volume is 10 cm³ because volume equals mass multiplied by density.",
+     "The metal's volume is 10 cm³ because volume equals density divided by mass."
+    ]
+   }
   },
   {
    "id": "c02q60",
@@ -1076,11 +1674,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An object floats on a liquid if it is less dense than the liquid.",
    "hint": "",
    "image": null,
    "lo": "Predict whether an object sinks or floats by comparing densities",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Being heavier does not decide floating. A heavy ship floats while a light coin sinks.",
+    "1": "An object that is denser than a liquid sinks in it. Think about which way round floating needs.",
+    "2": "The size of the container does not decide whether an object floats. Compare densities instead."
+   },
+   "why": null
   },
   {
    "id": "c02q61",
@@ -1093,11 +1697,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Pine wood (0.510 g/cm³) is less dense than water (1.00 g/cm³), so it floats.",
    "hint": "",
    "image": null,
    "lo": "Predict whether an object sinks or floats by comparing densities",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Objects sink only when they are denser than the liquid. Compare 0.510 g/cm³ with 1.00 g/cm³.",
+    "1": "Wood does not dissolve in water. Compare the two densities to decide what happens."
+   },
+   "why": {
+    "right": "Pine wood floats in water because its density is lower than the density of water.",
+    "wrong": [
+     "Pine wood floats in water because wood is light and all light objects float.",
+     "Pine wood floats in water because its density is higher than the density of water."
+    ]
+   }
   },
   {
    "id": "c02q62",
@@ -1110,11 +1725,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The block's density is 30 g ÷ 20 cm³ = 1.5 g/cm³. This is greater than the density of water, 1.00 g/cm³, so the block sinks.",
    "hint": "",
    "image": null,
    "lo": "Predict whether an object sinks or floats by comparing densities",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Dissolving is not decided by density. Work out the block's density and compare it with water.",
+    "2": "Work out the block's density by dividing mass by volume. Then compare it with 1.00 g/cm³ for water."
+   },
+   "why": {
+    "right": "The block sinks in water because its density of 1.5 g/cm³ is greater than that of water.",
+    "wrong": [
+     "The block sinks in water because its mass of 30 g is too heavy to float.",
+     "The block sinks in water because its volume of 20 cm³ is too small to float."
+    ]
+   }
   },
   {
    "id": "c02q63",
@@ -1128,11 +1754,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An object floats in water if its density is less than 1.00 g/cm³. Only 0.8 g/cm³ is less than this.",
    "hint": "",
    "image": null,
    "lo": "Predict whether an object sinks or floats by comparing densities",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "2.7 g/cm³ is greater than 1.00 g/cm³. An object this dense sinks in water.",
+    "2": "7.87 g/cm³ is much greater than 1.00 g/cm³. An object this dense sinks in water.",
+    "3": "1.2 g/cm³ is greater than 1.00 g/cm³, even if only a little. An object this dense sinks in water."
+   },
+   "why": {
+    "right": "The floating object could be 0.8 g/cm³ because only objects less dense than water float on it.",
+    "wrong": [
+     "The floating object could be 0.8 g/cm³ because objects denser than water float on it.",
+     "The floating object could be 0.8 g/cm³ because density does not affect whether objects float."
+    ]
+   }
   },
   {
    "id": "c02q64",
@@ -1146,11 +1784,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The hull is hollow and holds a lot of air. The steel and air together have a lower overall density than seawater, so the ship floats.",
    "hint": "",
    "image": null,
    "lo": "Predict whether an object sinks or floats by comparing densities",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A large mass alone would not make the ship float. Heavy objects float only if their overall density is low enough.",
+    "1": "Steel is denser than seawater, so a solid steel block sinks. Think about what else is inside the ship.",
+    "2": "Steel is denser than seawater. A solid piece of steel sinks, so the steel alone does not explain floating."
+   },
+   "why": {
+    "right": "A steel ship floats because the steel and the air in its hull together are less dense than seawater.",
+    "wrong": [
+     "A steel ship floats because steel becomes less dense when it is placed in seawater.",
+     "A steel ship floats because salt in the seawater sticks to the steel and holds it up."
+    ]
+   }
   },
   {
    "id": "c02q65",
@@ -1164,11 +1814,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An object floats on a liquid if it is less dense than the liquid. Ice floats on water, so ice is less dense than water.",
    "hint": "",
    "image": null,
    "lo": "Predict whether an object sinks or floats by comparing densities",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "With equal densities, ice would stay at any depth instead of floating on top.",
+    "2": "A denser object sinks in a liquid. Ice stays on top of the water.",
+    "3": "Floating depends on density, not on mass. A large ship has a huge mass but still floats."
+   },
+   "why": {
+    "right": "Floating ice shows it is less dense than water because objects less dense than a liquid float on it.",
+    "wrong": [
+     "Floating ice shows it is less dense than water because ice has a smaller mass than water.",
+     "Floating ice shows it is less dense than water because cold things always rise to the top."
+    ]
+   }
   },
   {
    "id": "c02q66",
@@ -1182,11 +1844,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Reusing an item means using it again instead of throwing it away. This prevents waste and saves the raw materials needed to make new items.",
    "hint": "",
    "image": null,
    "lo": "Explain how informed choices of materials and the 3Rs reduce environmental impact",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Reusing keeps items out of the bin. It lowers the amount of waste sent to landfill.",
+    "2": "Reusing does not change how fast plastics break down. It is about using items again.",
+    "3": "Reusing means fewer new items need to be made. That uses fewer natural resources, not more."
+   },
+   "why": {
+    "right": "Reusing items cuts waste because each item is used again, so fewer new items need to be made.",
+    "wrong": [
+     "Reusing items cuts waste because used items break down faster each time they are used.",
+     "Reusing items cuts waste because used items are melted down to make new products."
+    ]
+   }
   },
   {
    "id": "c02q67",
@@ -1200,11 +1874,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Bringing a container from home means no disposable container is needed. This reduces the amount of packaging used and thrown away.",
    "hint": "",
    "image": null,
    "lo": "Explain how informed choices of materials and the 3Rs reduce environmental impact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Disposing means throwing items away. Bringing a container avoids throwing anything away.",
+    "1": "Recycling means processing used materials into new products. No material is being processed here.",
+    "2": "Incinerating means burning waste. Nothing is being burnt here."
+   },
+   "why": {
+    "right": "Bringing a container from home is reducing because it means fewer disposable containers are used.",
+    "wrong": [
+     "Bringing a container from home is reducing because the container is melted down and made into a new one.",
+     "Bringing a container from home is reducing because the used container is burnt after the meal."
+    ]
+   }
   },
   {
    "id": "c02q68",
@@ -1218,11 +1904,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Using an old mug for a new purpose, such as a plant pot, is reusing it. The mug is used again without being processed.",
    "hint": "",
    "image": null,
    "lo": "Explain how informed choices of materials and the 3Rs reduce environmental impact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Reducing means using fewer items in the first place. Here an old item is given a new use.",
+    "1": "Incinerating means burning waste. The mug is not burnt.",
+    "3": "Recycling means breaking down used materials to make new products. The mug is kept whole."
+   },
+   "why": {
+    "right": "Growing a plant in an old mug is reusing because the mug is used again without being processed.",
+    "wrong": [
+     "Growing a plant in an old mug is reusing because the mug is broken down to make a new product.",
+     "Growing a plant in an old mug is reusing because the mug is burnt to produce energy."
+    ]
+   }
   },
   {
    "id": "c02q69",
@@ -1236,11 +1934,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A cloth bag can be reused many times, so fewer bags are made and thrown away. A plastic bag is often used only once.",
    "hint": "",
    "image": null,
    "lo": "Explain how informed choices of materials and the 3Rs reduce environmental impact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Single-use items are thrown away after one use. That creates more waste, which is not sustainable.",
+    "1": "Cloth bags are usually heavier than plastic bags. Weight is not what makes a choice sustainable.",
+    "2": "Microplastics come from plastics breaking into tiny pieces. That is a harmful effect, not a benefit."
+   },
+   "why": {
+    "right": "A cloth bag is more sustainable because reusing it many times means fewer bags are made and thrown away.",
+    "wrong": [
+     "A cloth bag is more sustainable because cloth breaks down into microplastics that help the soil.",
+     "A cloth bag is more sustainable because it is thrown away after a single use."
+    ]
+   }
   },
   {
    "id": "c02q70",
@@ -1254,11 +1964,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Food left in a container can spread to other items in the recycling bin. This contaminates them, so they may not be recycled.",
    "hint": "",
    "image": null,
    "lo": "Explain how informed choices of materials and the 3Rs reduce environmental impact",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Light items can still be recycled. The problem with these containers is what is left inside them.",
+    "2": "Small items can still be recycled. The problem with these containers is what is left inside them.",
+    "3": "Metal containers can be recycled. The problem here is that the containers are unclean."
+   },
+   "why": {
+    "right": "Dirty food containers are kept out of recycling because leftover food spoils the other items in the bin.",
+    "wrong": [
+     "Dirty food containers are kept out of recycling because food makes the containers too heavy to lift.",
+     "Dirty food containers are kept out of recycling because only new, unused items can be recycled."
+    ]
+   }
   }
  ]
 }

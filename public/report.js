@@ -59,7 +59,7 @@ function render() {
     <table class="r-table"><thead><tr><th>#</th><th>Question</th><th class="r-num">Wrong</th><th class="r-num">Students</th></tr></thead><tbody>
       ${rep.wrong.map((w, i) => `<tr><td>${i + 1}</td><td>${esc(w.q)}
           <div class="r-right">✓ ${esc(w.right)}</div>
-          ${w.commonWrong ? `<div class="r-wrongpick">Most common wrong answer: ${esc(w.commonWrong)}</div>` : ""}
+          ${w.commonWrong ? `<div class="r-wrongpick">Most common wrong answer: ${esc(w.commonWrong)}${w.commonNote ? `<span class="r-note">The misconception: ${esc(w.commonNote)}</span>` : ""}</div>` : ""}
           <div class="r-lo">${w.chapter ? `Ch ${w.chapter} · ` : ""}${esc(w.lo)}</div></td>
         <td class="r-num">${w.wrong} of ${w.asked}</td><td class="r-num">${w.students}</td></tr>`).join("")}
     </tbody></table>

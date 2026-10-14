@@ -16,11 +16,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Temperature is a measure of how hot or cold an object is. It is not the same as the total heat energy the object holds.",
    "hint": "",
    "image": null,
    "lo": "State that temperature measures how hot an object is and that its SI unit is the kelvin (K)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The space an object takes up is its volume. Temperature is a different quantity. Think about what a thermometer tells us about an object.",
+    "1": "Total heat energy also depends on mass. A bathtub of warm water holds more heat energy than a cup of hot tea. Think about what a thermometer shows.",
+    "2": "How heavy an object is relates to its mass or weight. Temperature is a different quantity. Think about what a thermometer tells us about an object."
+   },
+   "why": null
   },
   {
    "id": "c10q2",
@@ -34,11 +40,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of temperature is the kelvin (K). The degree Celsius is used in daily life, but it is not the SI unit.",
    "hint": "",
    "image": null,
    "lo": "State that temperature measures how hot an object is and that its SI unit is the kelvin (K)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The degree Celsius is used every day, but it is not the SI unit of temperature. Recall the SI unit, which is written without a degree sign.",
+    "2": "The joule is the SI unit of energy, not temperature. Recall the SI unit of temperature, which is written without a degree sign.",
+    "3": "The degree Fahrenheit is used in some countries, but it is not an SI unit. Recall the SI unit, which is written without a degree sign."
+   },
+   "why": null
   },
   {
    "id": "c10q3",
@@ -52,11 +64,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heat energy always flows from a region of higher temperature to a region of lower temperature, so it moves from a hotter object to a colder object.",
    "hint": "",
    "image": null,
    "lo": "Predict the direction of heat transfer and the temperature changes of objects in contact",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Size does not decide the direction of heat flow. A small hot coin can warm a large cold hand. Think about the temperatures of the two objects.",
+    "1": "Cold is not something that flows. Think about which object has the higher temperature and which way heat moves.",
+    "3": "Mass does not decide the direction of heat flow. Think about the temperatures of the two objects."
+   },
+   "why": null
   },
   {
    "id": "c10q4",
@@ -69,11 +87,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Heat flows from a higher temperature to a lower temperature. The water outside is at 60 °C, so heat flows from it into the 25 °C water in the beaker.",
    "hint": "",
    "image": null,
    "lo": "Predict the direction of heat transfer and the temperature changes of objects in contact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Heat flows in one direction only, until both are at the same temperature. Compare the two temperatures and think about which way heat moves.",
+    "2": "Heat does not flow from a colder region to a hotter one on its own. Compare the two temperatures and think about which way heat moves."
+   },
+   "why": {
+    "right": "Heat flows into the beaker because the surrounding water is at a higher temperature than the water inside.",
+    "wrong": [
+     "Heat flows into the beaker because there is more water outside the beaker than inside it.",
+     "Heat flows into the beaker because cold from the beaker flows out into the surrounding water."
+    ]
+   }
   },
   {
    "id": "c10q5",
@@ -86,11 +115,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The water at 30 °C is hotter than the ice. Heat flows from the water to the ice, so the water loses heat energy and its temperature decreases.",
    "hint": "",
    "image": null,
    "lo": "Predict the direction of heat transfer and the temperature changes of objects in contact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Ice is colder than the water, so it cannot give heat to the water. Think about which way heat flows between them.",
+    "2": "The ice and water are at different temperatures, so heat flows between them. Think about which one loses heat energy."
+   },
+   "why": {
+    "right": "Water with ice added cools because the water loses heat energy to the colder ice.",
+    "wrong": [
+     "Water with ice added cools because the ice gives out cold that flows into the water.",
+     "Water with ice added cools because the ice increases the mass of the water."
+    ]
+   }
   },
   {
    "id": "c10q6",
@@ -104,11 +144,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Heat flows only while there is a temperature difference. When both objects reach the same temperature, there is no net heat flow between them.",
    "hint": "",
    "image": null,
    "lo": "Predict the direction of heat transfer and the temperature changes of objects in contact",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Mass does not control heat flow. Heat flows because of a temperature difference. Think about when that difference disappears.",
+    "1": "Volume does not control heat flow. Heat flows because of a temperature difference. Think about when that difference disappears.",
+    "2": "Objects do not need to reach 0 °C for heat flow to stop. Heat flows because of a temperature difference. Think about when that difference disappears."
+   },
+   "why": {
+    "right": "Heat transfer stops at equal temperatures because heat flows only when there is a temperature difference.",
+    "wrong": [
+     "Heat transfer stops at equal temperatures because both objects have run out of heat energy.",
+     "Heat transfer stops at equal temperatures because the objects then also have equal masses."
+    ]
+   }
   },
   {
    "id": "c10q7",
@@ -122,11 +174,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heat flows from a higher temperature to a lower temperature. Since heat flows from P into Q, P must be at a higher temperature than Q.",
    "hint": "",
    "image": null,
    "lo": "Predict the direction of heat transfer and the temperature changes of objects in contact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "If P and Q were at the same temperature, no heat would flow between them. Think about what the direction of heat flow tells us.",
+    "1": "Heat does not flow from a colder object into a hotter one. Think about what the direction of heat flow tells us about P and Q.",
+    "3": "Mass does not decide the direction of heat flow. Temperature does. Think about what the direction of heat flow tells us."
+   },
+   "why": {
+    "right": "Heat flowing from P to Q shows P is hotter, since heat flows from higher to lower temperature.",
+    "wrong": [
+     "Heat flowing from P to Q shows P is heavier, since heat flows from larger to smaller masses.",
+     "Heat flowing from P to Q shows Q is hotter, since heat flows from lower to higher temperature."
+    ]
+   }
   },
   {
    "id": "c10q8",
@@ -140,11 +204,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Solids, liquids and gases all expand when heated. Gases expand the most and solids the least.",
    "hint": "",
    "image": null,
    "lo": "Infer that solids, liquids and gases expand when heated and contract when cooled",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Substances contract when cooled, not when heated. Think about what happens to particles as they gain heat energy.",
+    "2": "Gases expand when heated too, and by more than solids and liquids. Think about all three states of matter.",
+    "3": "Solids and liquids also expand when heated, though by less than gases. Think about all three states of matter."
+   },
+   "why": null
   },
   {
    "id": "c10q9",
@@ -157,11 +227,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The refrigerator is colder than the room. The air inside the balloon loses heat and contracts, so the balloon's volume decreases.",
    "hint": "",
    "image": null,
    "lo": "Infer that solids, liquids and gases expand when heated and contract when cooled",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Moving to a colder place makes the air lose heat, not gain it. Think about what air does when it cools.",
+    "2": "The air in the balloon changes temperature in the refrigerator. Think about what happens to a gas when it cools."
+   },
+   "why": {
+    "right": "A balloon shrinks in a refrigerator because the air inside contracts when it loses heat.",
+    "wrong": [
+     "A balloon shrinks in a refrigerator because the air particles inside become smaller when cold.",
+     "A balloon shrinks in a refrigerator because the air inside loses mass when it is cooled."
+    ]
+   }
   },
   {
    "id": "c10q10",
@@ -174,11 +255,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The liquid in a thermometer contracts when it loses heat. When it falls back into the bulb, the temperature around it has decreased.",
    "hint": "",
    "image": null,
    "lo": "Infer that solids, liquids and gases expand when heated and contract when cooled",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The liquid only moves when its temperature changes. Think about whether the liquid expanded or contracted.",
+    "2": "When the temperature increases, the liquid expands and rises up the tube. Here it falls. Think about what that tells us."
+   },
+   "why": {
+    "right": "Liquid falling back into a thermometer bulb shows cooling because liquids contract when they lose heat.",
+    "wrong": [
+     "Liquid falling back into a thermometer bulb shows cooling because liquids expand when they lose heat.",
+     "Liquid falling back into a thermometer bulb shows cooling because liquids lose mass when they lose heat."
+    ]
+   }
   },
   {
    "id": "c10q11",
@@ -192,11 +284,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Water expands when it gains heat. As the oceans warm, the water takes up more space, so the sea level rises.",
    "hint": "",
    "image": null,
    "lo": "Infer that solids, liquids and gases expand when heated and contract when cooled",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The mass stays the same, but the volume can still change. Think about what happens to the volume of water when it is heated.",
+    "1": "Some water does evaporate, but warming has a larger effect on the volume of the oceans. Think about what heating does to a liquid's volume.",
+    "2": "Water contracts when it cools, not when it is heated. Think about what heating does to a liquid's volume."
+   },
+   "why": {
+    "right": "Warming oceans raise sea levels because water expands when it gains heat.",
+    "wrong": [
+     "Warming oceans raise sea levels because heated water gains extra mass.",
+     "Warming oceans raise sea levels because heated water particles grow larger."
+    ]
+   }
   },
   {
    "id": "c10q12",
@@ -210,11 +314,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A metal rod contracts when it loses heat energy. Since the rod has become shorter, it has cooled.",
    "hint": "",
    "image": null,
    "lo": "Infer that solids, liquids and gases expand when heated and contract when cooled",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Gaining mass would not make the rod shorter, and the rod's mass does not change here. Think about what makes a solid contract.",
+    "1": "The rod's mass does not change when it becomes shorter. Think about what makes a solid contract.",
+    "3": "A solid expands when it gains heat energy, which would make the rod longer. Think about what makes a solid contract."
+   },
+   "why": {
+    "right": "A metal rod gets shorter after losing heat because its particles vibrate less and move closer together.",
+    "wrong": [
+     "A metal rod gets shorter after losing heat because its particles shrink in size.",
+     "A metal rod gets shorter after losing heat because some of its particles escape into the air."
+    ]
+   }
   },
   {
    "id": "c10q13",
@@ -228,11 +344,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "When the liquid in a thermometer is heated, it expands and takes up more space. The only way it can go is up the narrow tube.",
    "hint": "",
    "image": null,
    "lo": "Infer that solids, liquids and gases expand when heated and contract when cooled",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The liquid stays inside the sealed tube, so it does not evaporate away. Think about what happens to a liquid's volume when it is heated.",
+    "2": "Heating does not add matter, so the mass stays the same. Think about what happens to the liquid's volume when it is heated.",
+    "3": "Liquids contract when cooled, which makes the level fall. Think about what heating does to a liquid's volume."
+   },
+   "why": {
+    "right": "Thermometer liquid rises when heated because its particles move further apart, so it takes up more space.",
+    "wrong": [
+     "Thermometer liquid rises when heated because its particles grow larger as they gain heat.",
+     "Thermometer liquid rises when heated because heat energy adds extra mass to the liquid."
+    ]
+   }
   },
   {
    "id": "c10q14",
@@ -245,11 +373,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Heating does not create or destroy matter. The air particles gain energy and spread out, but if no air leaves, the mass of the air stays the same.",
    "hint": "",
    "image": null,
    "lo": "Infer that thermal expansion changes the volume and therefore the density of a substance",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Heating adds energy, not matter. No new air particles are made. Think about whether the amount of air changes.",
+    "2": "Heating does not destroy any air particles. Think about whether the amount of air changes when it is heated."
+   },
+   "why": {
+    "right": "Heated air keeps the same mass because heating adds energy, not more particles.",
+    "wrong": [
+     "Heated air keeps the same mass because air particles do not move when heated.",
+     "Heated air keeps the same mass because air has no mass at all."
+    ]
+   }
   },
   {
    "id": "c10q15",
@@ -262,11 +401,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heated air expands, so its volume increases while its mass stays the same. Density is mass divided by volume, so the density decreases.",
    "hint": "",
    "image": null,
    "lo": "Infer that thermal expansion changes the volume and therefore the density of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Heating makes air expand, so the same mass takes up more space. Think about what that does to mass divided by volume.",
+    "1": "The air's volume changes when it is heated. Think about what a larger volume with the same mass does to density."
+   },
+   "why": {
+    "right": "Heated air becomes less dense because the same mass spreads out into a larger volume.",
+    "wrong": [
+     "Heated air becomes less dense because heating removes mass from each air particle.",
+     "Heated air becomes less dense because its particles become smaller and lighter."
+    ]
+   }
   },
   {
    "id": "c10q16",
@@ -280,11 +430,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A cooled metal block contracts, so its volume decreases. Its mass stays the same, so its density, which is mass divided by volume, increases.",
    "hint": "",
    "image": null,
    "lo": "Infer that thermal expansion changes the volume and therefore the density of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The volume part matches cooling, but check the density part. Density is mass divided by volume, and the mass does not change.",
+    "1": "Solids contract when cooled, so the volume does not increase. Think about what cooling does to the block first, then work out the density.",
+    "2": "This pair of changes describes heating, not cooling. Think about what cooling does to the volume, then work out the density."
+   },
+   "why": {
+    "right": "A cooled metal block becomes denser because the same mass is packed into a smaller volume.",
+    "wrong": [
+     "A cooled metal block becomes denser because cooling adds extra mass to the block.",
+     "A cooled metal block becomes denser because its particles become heavier when cold."
+    ]
+   }
   },
   {
    "id": "c10q17",
@@ -298,11 +460,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Heating makes the liquid expand. The same mass takes up a larger volume, so the density decreases.",
    "hint": "",
    "image": null,
    "lo": "Infer that thermal expansion changes the volume and therefore the density of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Stirring does not change the liquid's mass or volume, so its density stays the same. Think about what makes a liquid take up more space.",
+    "1": "Cooling makes a liquid contract, so the same mass takes up less space and its density increases. Think about what makes a liquid take up more space.",
+    "2": "Pouring liquid away lowers its mass, but the stem says the mass stays the same. The density of the liquid left behind also does not change."
+   },
+   "why": {
+    "right": "The liquid's density fell because heating made the same mass expand into a larger volume.",
+    "wrong": [
+     "The liquid's density fell because cooling made the same mass expand into a larger volume.",
+     "The liquid's density fell because heating removed some mass from each particle."
+    ]
+   }
   },
   {
    "id": "c10q18",
@@ -316,11 +490,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A hot air balloon rises because the hot air inside is less dense than the cooler air outside. Letting the air inside cool makes it denser, so the balloon comes down.",
    "hint": "",
    "image": null,
    "lo": "Infer that thermal expansion changes the volume and therefore the density of a substance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Heating the air more makes it even less dense, so the balloon rises higher. Think about how to make the air inside denser.",
+    "1": "A bigger flame heats the air more, which makes the balloon rise. Think about how to make the air inside denser.",
+    "3": "Adding hot air makes the balloon rise, not sink. Think about how to make the air inside denser."
+   },
+   "why": {
+    "right": "A hot air balloon sinks when its air cools because cooler air is denser than hot air.",
+    "wrong": [
+     "A hot air balloon sinks when its air cools because cooler air is less dense than hot air.",
+     "A hot air balloon sinks when its air cools because the air particles become larger and heavier."
+    ]
+   }
   },
   {
    "id": "c10q19",
@@ -334,11 +520,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Steel rails expand in hot weather. The gaps give the rails space to expand, so the track does not bend out of shape.",
    "hint": "",
    "image": null,
    "lo": "Describe effects and applications of expansion and contraction in everyday life",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Rails contract in cold weather, not hot weather. Think about what the rails do when the weather is hot.",
+    "2": "The gaps are between rail sections and are not for drainage. Think about what happens to the length of steel rails on a hot day.",
+    "3": "Small gaps make almost no difference to the mass. Think about what happens to the length of steel rails on a hot day."
+   },
+   "why": {
+    "right": "Gaps are left in railway tracks because steel rails expand in hot weather and need room.",
+    "wrong": [
+     "Gaps are left in railway tracks because steel rails contract in hot weather and need room.",
+     "Gaps are left in railway tracks because steel rails gain mass in hot weather."
+    ]
+   }
   },
   {
    "id": "c10q20",
@@ -352,11 +550,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In hot weather the steel expands. With no gaps to expand into, the track pushes against itself and bends out of shape, which is called buckling.",
    "hint": "",
    "image": null,
    "lo": "Describe effects and applications of expansion and contraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Heating does not remove matter, so the track does not lose mass. Think about what expansion does to a track with no gaps.",
+    "2": "Steel melts only at very high temperatures, far above any weather. Think about what expansion does to a track with no gaps.",
+    "3": "Steel expands in hot weather, so it does not become shorter. Think about where the extra length goes when there are no gaps."
+   },
+   "why": {
+    "right": "A continuous track may buckle in hot weather because the expanding steel has no room to lengthen.",
+    "wrong": [
+     "A continuous track may buckle in hot weather because the steel contracts and pulls itself apart.",
+     "A continuous track may buckle in hot weather because the heat makes the steel lose mass."
+    ]
+   }
   },
   {
    "id": "c10q21",
@@ -370,11 +580,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A bridge expands in hot weather and contracts in cold weather. Rollers let one end move freely, so the bridge changes length without cracking.",
    "hint": "",
    "image": null,
    "lo": "Describe effects and applications of expansion and contraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Rollers do not help a bridge conduct heat. Think about what the bridge does as the weather gets hotter and colder.",
+    "2": "Rollers add parts. They do not make the bridge lighter. Think about what the bridge does as the weather gets hotter and colder.",
+    "3": "Nothing can stop a bridge from expanding when it heats up. Think about what the rollers allow the bridge to do."
+   },
+   "why": {
+    "right": "Rollers under a bridge let it move freely as it expands and contracts with temperature changes.",
+    "wrong": [
+     "Rollers under a bridge stop it from expanding when the temperature rises.",
+     "Rollers under a bridge carry heat away so that the bridge never changes length."
+    ]
+   }
   },
   {
    "id": "c10q22",
@@ -388,11 +610,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Steam makes the metal pipes hot, so they expand. The flexible bends give the pipes room to change length without breaking.",
    "hint": "",
    "image": null,
    "lo": "Describe effects and applications of expansion and contraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The bends are there because of the pipe metal, not the steam. Think about what happens to metal pipes when they get hot.",
+    "1": "Steam makes the pipes hot whatever their shape. Think about what happens to metal pipes when they get hot.",
+    "2": "Metal pipes expand when heated, not contract. Think about what the bends allow the pipes to do."
+   },
+   "why": {
+    "right": "Steam pipes have flexible bends because hot metal expands and the bends take up the change in length.",
+    "wrong": [
+     "Steam pipes have flexible bends because hot metal contracts and the bends take up the change in length.",
+     "Steam pipes have flexible bends because the bends stop the metal from getting hot."
+    ]
+   }
   },
   {
    "id": "c10q23",
@@ -406,11 +640,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Metal expands more than glass for the same rise in temperature. In hot water the lid expands more than the jar, so it becomes looser.",
    "hint": "",
    "image": null,
    "lo": "Describe effects and applications of expansion and contraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Metal expands when heated, not contracts. Think about how much the metal and the glass each expand.",
+    "1": "Hot water does not change the lid's mass. Think about how much the metal and the glass each expand.",
+    "3": "If the glass expanded more, the lid would grip even tighter. Think about which material expands more when heated."
+   },
+   "why": {
+    "right": "Hot water loosens a metal lid because metal expands more than glass for the same temperature rise.",
+    "wrong": [
+     "Hot water loosens a metal lid because glass expands more than metal for the same temperature rise.",
+     "Hot water loosens a metal lid because heating makes the metal lid lose mass."
+    ]
+   }
   },
   {
    "id": "c10q24",
@@ -424,11 +670,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A bimetallic strip is made of two different metals joined together. They expand at different rates when heated, so the strip bends.",
    "hint": "",
    "image": null,
    "lo": "Predict how a bimetallic strip bends and explain its use in an iron and a food thermometer",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "All metals expand when heated. Think about what makes the strip bend when it is heated.",
+    "2": "Metals expand when heated, not contract. Think about what makes the strip bend when it is heated.",
+    "3": "If both metals expanded at the same rate, the strip would stay straight. Think about what makes it bend."
+   },
+   "why": null
   },
   {
    "id": "c10q25",
@@ -441,11 +693,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Brass expands more than steel, so the brass side becomes longer. The strip curves with the longer brass on the outside and the steel on the inside of the curve.",
    "hint": "",
    "image": null,
    "lo": "Predict how a bimetallic strip bends and explain its use in an iron and a food thermometer",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The two metals expand by different amounts, so the strip cannot stay straight. Think about which side becomes longer.",
+    "2": "The side that expands more becomes longer and goes on the outside of the curve. Think about which metal ends up on the inside."
+   },
+   "why": {
+    "right": "A heated brass-steel strip curves with the longer brass on the outside because brass expands more.",
+    "wrong": [
+     "A heated brass-steel strip curves with the longer steel on the outside because steel expands more.",
+     "A heated brass-steel strip curves with the brass on the inside because brass expands more."
+    ]
+   }
   },
   {
    "id": "c10q26",
@@ -458,11 +721,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Brass contracts more than steel, so the brass side becomes shorter. The strip curves with the shorter brass on the inside of the curve.",
    "hint": "",
    "image": null,
    "lo": "Predict how a bimetallic strip bends and explain its use in an iron and a food thermometer",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The side that contracts more becomes shorter and goes on the inside of the curve. Think about which metal contracts more.",
+    "1": "The two metals contract by different amounts, so the strip cannot stay straight. Think about which side becomes shorter."
+   },
+   "why": {
+    "right": "A cooled brass-steel strip curves with the shorter brass on the inside because brass contracts more.",
+    "wrong": [
+     "A cooled brass-steel strip curves with the shorter steel on the inside because steel contracts more.",
+     "A cooled brass-steel strip curves with the brass on the outside because brass contracts more."
+    ]
+   }
   },
   {
    "id": "c10q27",
@@ -476,11 +750,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The bimetallic strip is part of the circuit. When it bends away from the contact, the circuit is broken, so the current stops and the iron switches off.",
    "hint": "",
    "image": null,
    "lo": "Predict how a bimetallic strip bends and explain its use in an iron and a food thermometer",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A strip bending away from the contact breaks the connection rather than making one. Think about what happens to the current.",
+    "1": "The strip bends because the iron is already hot. Think about what happens to the circuit when the strip leaves the contact.",
+    "2": "The knob is turned by the user to set the temperature. It does not turn by itself. Think about what happens when the strip leaves the contact."
+   },
+   "why": {
+    "right": "The iron switches off because the bending strip leaves the contact and breaks the circuit.",
+    "wrong": [
+     "The iron switches off because the bending strip touches the contact and completes the circuit.",
+     "The iron switches off because the bending strip conducts heat away from the plate."
+    ]
+   }
   },
   {
    "id": "c10q28",
@@ -493,11 +779,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "When the coil is heated, one metal expands more than the other, so the coil changes shape. In this thermometer, unwinding means the temperature has increased.",
    "hint": "",
    "image": null,
    "lo": "Predict how a bimetallic strip bends and explain its use in an iron and a food thermometer",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The coil only moves when its temperature changes. Think about why the two metals would change shape.",
+    "2": "In this design, cooling would make the coil wind up more tightly. Think about what makes the metals expand."
+   },
+   "why": {
+    "right": "The bimetallic coil unwinds because heating makes one metal expand more than the other.",
+    "wrong": [
+     "The bimetallic coil unwinds because cooling makes both metals expand by the same amount.",
+     "The bimetallic coil unwinds because heating makes both metals lose mass."
+    ]
+   }
   },
   {
    "id": "c10q29",
@@ -511,11 +808,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In conduction, heat is passed from particle to particle as they vibrate. The particles stay in place, so the medium itself does not move.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by conduction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Heat transfer by the physical movement of a medium is convection. Think about how heat travels along a solid spoon.",
+    "2": "Conduction needs particles to pass on heat, so it cannot happen in a vacuum. Think about how heat travels along a solid spoon.",
+    "3": "Heat transfer without a medium is radiation. Conduction needs particles. Think about how heat travels along a solid spoon."
+   },
+   "why": null
   },
   {
    "id": "c10q30",
@@ -529,11 +832,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In solids the particles are packed closely together. Vibrating particles pass heat energy quickly to their close neighbours, so solids conduct heat better.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by conduction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particles that are further apart pass on vibrations less easily. Think about how close the particles are in a solid.",
+    "1": "Mass does not decide how well a substance conducts heat. Think about how close the particles are in a solid.",
+    "2": "Particles do not change size in different states. Think about how close the particles are in a solid."
+   },
+   "why": {
+    "right": "Solids conduct heat well because closely packed particles pass vibrations quickly to their neighbours.",
+    "wrong": [
+     "Solids conduct heat well because their particles are larger than particles in liquids and gases.",
+     "Solids conduct heat well because their particles move freely from place to place."
+    ]
+   }
   },
   {
    "id": "c10q31",
@@ -547,11 +862,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Metals such as aluminium are good conductors of heat. Air, plastic and wood are poor conductors.",
    "hint": "",
    "image": null,
    "lo": "Infer from experiments that different materials conduct heat at different rates",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Air is a poor conductor because its particles are far apart. Think about which materials are used to make cooking pots.",
+    "2": "Plastic is a poor conductor, which is why it is used for pot handles. Think about which materials are used to make cooking pots.",
+    "3": "Wood is a poor conductor, which is why it is used for pan handles. Think about which materials are used to make cooking pots."
+   },
+   "why": null
   },
   {
    "id": "c10q32",
@@ -565,11 +886,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Glass is a poor conductor of heat. Copper, iron and steel are metals, which are good conductors.",
    "hint": "",
    "image": null,
    "lo": "Infer from experiments that different materials conduct heat at different rates",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Copper is a metal and a very good conductor of heat. Look for a material that is not a metal.",
+    "1": "Iron is a metal and a good conductor of heat. Look for a material that is not a metal.",
+    "3": "Steel is a metal and a good conductor of heat. Look for a material that is not a metal."
+   },
+   "why": null
   },
   {
    "id": "c10q33",
@@ -583,11 +910,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Both drinks are at the same temperature. Metal is a better conductor than paper, so the can draws heat from the hand faster and feels colder.",
    "hint": "",
    "image": null,
    "lo": "Infer from experiments that different materials conduct heat at different rates",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Cold is not something that flows. Heat flows from the warm hand into the can. Think about how fast each material carries heat away.",
+    "2": "Paper, which the carton is made of, is a poor conductor of heat. Think about which material carries heat away from the hand faster.",
+    "3": "Both came from the same fridge, so they are at the same temperature. Think about how fast each material carries heat away from the hand."
+   },
+   "why": {
+    "right": "A cold metal can feels colder because metal conducts heat away from the hand faster than paper does.",
+    "wrong": [
+     "A cold metal can feels colder because metal gives out cold into the hand faster than paper does.",
+     "A cold metal can feels colder because metal stays at a lower temperature than paper in the same fridge."
+    ]
+   }
   },
   {
    "id": "c10q34",
@@ -601,11 +940,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Copper is the best conductor of heat among the four rods. Heat travels along it fastest, so the wax on the copper rod melts first.",
    "hint": "",
    "image": null,
    "lo": "Infer from experiments that different materials conduct heat at different rates",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Plastic is a poor conductor, so heat travels along it slowly. Think about which rod is the best conductor.",
+    "1": "Wood is a poor conductor, so heat travels along it slowly. Think about which rod is the best conductor.",
+    "3": "Iron is a metal and conducts heat, but it is not the best of the four. Think about which metal conducts heat best."
+   },
+   "why": {
+    "right": "The wax on the copper rod melts first because copper conducts heat faster than the other rods.",
+    "wrong": [
+     "The wax on the copper rod melts first because copper conducts heat more slowly than the other rods.",
+     "The wax on the copper rod melts first because a copper rod produces its own heat."
+    ]
+   }
   },
   {
    "id": "c10q35",
@@ -619,11 +970,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Both rods are identical in shape and heated in the same way. Heat reached the wax on X sooner, so X conducts heat better than Y.",
    "hint": "",
    "image": null,
    "lo": "Infer from experiments that different materials conduct heat at different rates",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Both rods are heated in the same way. The difference is how quickly heat travels along each rod. Think about what melting sooner shows.",
+    "1": "If they conducted equally well, both waxes would melt at the same time. Think about what melting sooner shows.",
+    "2": "The wax on Y melted later, so heat travelled along Y more slowly. Think about what that says about Y as a conductor."
+   },
+   "why": {
+    "right": "The wax on rod X melts first because heat travels along X faster than along Y.",
+    "wrong": [
+     "The wax on rod X melts first because heat travels along Y faster than along X.",
+     "The wax on rod X melts first because a poorer conductor passes heat to its far end sooner."
+    ]
+   }
   },
   {
    "id": "c10q36",
@@ -637,11 +1000,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In convection, the heated part of a liquid or gas moves and carries heat energy with it. The medium itself moves.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by convection",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Particles in solids cannot move from place to place, so convection cannot happen in solids. Think about how warm air rises from a heater.",
+    "2": "Heat transfer without movement of the medium is conduction. Think about how warm air rises from a heater.",
+    "3": "Heat transfer without a medium is radiation. Think about how warm air rises from a heater."
+   },
+   "why": null
   },
   {
    "id": "c10q37",
@@ -655,11 +1024,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Convection needs a medium whose particles can move from place to place. Particles in liquids and gases can flow, but particles in solids cannot.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by convection",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A vacuum has no particles to move, so convection cannot happen there. Think about which states of matter can flow.",
+    "2": "Particles in solids only vibrate in place, so they cannot carry heat by moving. Think about which states of matter can flow.",
+    "3": "Solids cannot flow, so convection does not happen in them. Think about which states of matter can flow."
+   },
+   "why": {
+    "right": "Convection happens in liquids and gases because their particles can move from place to place.",
+    "wrong": [
+     "Convection happens in liquids and gases because their particles are packed more closely than in solids.",
+     "Convection happens in liquids and gases because they are always hotter than solids."
+    ]
+   }
   },
   {
    "id": "c10q38",
@@ -673,11 +1054,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Water heated at the bottom expands, becomes less dense and rises. The cooler, denser water at the top sinks to take its place, forming a convection current.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by convection",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The cooler water at the top is not being heated directly, so it does not boil first. Think about how density changes with temperature.",
+    "1": "The warm water rising from below pushes the cooler water out of the way. Think about whether cooler water is more or less dense.",
+    "2": "Warm water rises because it is less dense. Think about whether cooler water is more or less dense than warm water."
+   },
+   "why": {
+    "right": "Cooler water sinks because it is denser than the warmer water rising from below.",
+    "wrong": [
+     "Cooler water sinks because it is less dense than the warmer water rising from below.",
+     "Cooler water sinks because water gains mass when it is cooled."
+    ]
+   }
   },
   {
    "id": "c10q39",
@@ -691,11 +1084,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Radiation is the transfer of energy by infrared waves. It does not need a medium, so it can travel through a vacuum.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by radiation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Heat transfer by the physical movement of a medium is convection. Think about how heat from the sun crosses empty space.",
+    "2": "Radiation can pass through air and even empty space, not only solids. Think about how heat from the sun reaches Earth.",
+    "3": "Radiation can pass through air and even empty space, not only liquids. Think about how heat from the sun reaches Earth."
+   },
+   "why": null
   },
   {
    "id": "c10q40",
@@ -709,11 +1108,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Conduction and convection both need particles of a medium. A vacuum has no particles, so only radiation, which needs no medium, can cross it.",
    "hint": "",
    "image": null,
    "lo": "Explain heat transfer by radiation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A vacuum has no particles, so it cannot conduct heat at all. Think about what conduction and convection both need.",
+    "1": "Radiation does not need any particles. Think about what conduction and convection need that a vacuum lacks.",
+    "3": "The direction of convection is not the reason. Think about what conduction and convection both need that a vacuum lacks."
+   },
+   "why": {
+    "right": "Only radiation crosses a vacuum because conduction and convection need particles and a vacuum has none.",
+    "wrong": [
+     "Only radiation crosses a vacuum because radiation needs particles and a vacuum is full of them.",
+     "Only radiation crosses a vacuum because conduction and convection only work in a downward direction."
+    ]
+   }
   },
   {
    "id": "c10q41",
@@ -726,11 +1137,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heat passes from the hot soup along the solid metal handle as particles vibrate and pass on energy. The metal does not move, so this is conduction.",
    "hint": "",
    "image": null,
    "lo": "Identify the method of heat transfer in a given situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Radiation is heat given off as infrared waves. Here the heat travels through the solid metal itself. Think about how heat moves through a solid.",
+    "1": "Convection needs a liquid or gas that moves. The metal handle is a solid and does not flow. Think about how heat moves through a solid."
+   },
+   "why": {
+    "right": "A ladle handle heats up because heat passes along the solid metal from particle to particle.",
+    "wrong": [
+     "A ladle handle heats up because hot metal flows up the handle and carries heat.",
+     "A ladle handle heats up because heat crosses the handle only as infrared waves."
+    ]
+   }
   },
   {
    "id": "c10q42",
@@ -743,11 +1165,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The candle heats the air, which expands, becomes less dense and rises up the chimney. The moving air carries the heat, so this is convection.",
    "hint": "",
    "image": null,
    "lo": "Identify the method of heat transfer in a given situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Radiation does not need anything to move. Here the heated air itself rises. Think about which method involves a moving medium.",
+    "2": "In conduction the medium does not move, and air is a poor conductor. Here the heated air itself rises. Think about which method involves a moving medium."
+   },
+   "why": {
+    "right": "Heated air rises up a chimney because it becomes less dense and carries heat as it moves.",
+    "wrong": [
+     "Heated air rises up a chimney because it becomes denser and carries heat as it moves.",
+     "Heated air rises up a chimney because heat passes between air particles that stay in place."
+    ]
+   }
   },
   {
    "id": "c10q43",
@@ -760,11 +1193,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Space is almost a vacuum, with no particles to carry heat. Radiation needs no medium, so it is the way heat from the sun reaches Earth.",
    "hint": "",
    "image": null,
    "lo": "Identify the method of heat transfer in a given situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Conduction needs particles to pass on heat, and space has almost none. Think about which method needs no medium.",
+    "2": "Convection needs a moving liquid or gas, and space has almost none. Think about which method needs no medium."
+   },
+   "why": {
+    "right": "The sun's heat reaches Earth by radiation because radiation can travel through the near vacuum of space.",
+    "wrong": [
+     "The sun's heat reaches Earth by radiation because space is full of air that carries heat to Earth.",
+     "The sun's heat reaches Earth by radiation because radiation needs particles to pass on heat."
+    ]
+   }
   },
   {
    "id": "c10q44",
@@ -777,11 +1221,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The water at the bottom is heated, expands and becomes less dense, so it rises. The moving water carries the heat, so this is convection.",
    "hint": "",
    "image": null,
    "lo": "Identify the method of heat transfer in a given situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Radiation does not involve the water moving. Here the heated water itself rises. Think about which method involves a moving medium.",
+    "1": "In conduction the particles stay in place and pass on heat. Here the heated water itself rises. Think about which method involves a moving medium."
+   },
+   "why": {
+    "right": "Heated kettle water rises because warmer water is less dense and carries heat with it as it moves.",
+    "wrong": [
+     "Heated kettle water rises because warmer water is denser and carries heat with it as it moves.",
+     "Heated kettle water rises because heat passes through water particles that stay in place."
+    ]
+   }
   },
   {
    "id": "c10q45",
@@ -795,11 +1250,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Heat travels from the hot tea along the solid spoon from particle to particle. The spoon does not move, so this is conduction.",
    "hint": "",
    "image": null,
    "lo": "Identify the method of heat transfer in a given situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water circulating in a kettle is a moving liquid carrying heat, which is convection. Look for heat passing through a solid.",
+    "1": "The sun's warmth crosses space with no medium, which is radiation. Look for heat passing through a solid.",
+    "2": "Warm air rising carries heat by moving, which is convection. Look for heat passing through a solid."
+   },
+   "why": {
+    "right": "A spoon handle in hot tea warms up because heat passes along the solid spoon without the spoon moving.",
+    "wrong": [
+     "A spoon handle in hot tea warms up because hot tea flows up inside the spoon and carries heat.",
+     "A spoon handle in hot tea warms up because heat crosses from the tea only as infrared waves."
+    ]
+   }
   },
   {
    "id": "c10q46",
@@ -813,11 +1280,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Dull, black surfaces are the best absorbers of radiation. Shiny and white surfaces reflect much of the radiation instead.",
    "hint": "",
    "image": null,
    "lo": "Predict how colour, texture, surface temperature and surface area affect the rate of radiation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Shiny silver surfaces reflect most radiation, so they are poor absorbers. Think about both colour and texture.",
+    "2": "White surfaces reflect much of the radiation. Think about which colour absorbs the most.",
+    "3": "Shiny and white surfaces both reflect radiation, so this is a poor absorber. Think about both colour and texture."
+   },
+   "why": null
   },
   {
    "id": "c10q47",
@@ -831,11 +1304,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Shiny, silvery surfaces are the poorest emitters of radiation. Dull, black surfaces are the best emitters.",
    "hint": "",
    "image": null,
    "lo": "Predict how colour, texture, surface temperature and surface area affect the rate of radiation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Dull surfaces are better emitters than shiny ones. Think about which texture and colour emit the least.",
+    "2": "Dull black surfaces are the best emitters, not the poorest. Think about which texture and colour emit the least.",
+    "3": "Black surfaces are good emitters. Think about which texture and colour emit the least."
+   },
+   "why": null
   },
   {
    "id": "c10q48",
@@ -848,11 +1327,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Black surfaces are better emitters of radiation than white surfaces. The black can gives out heat faster, so it cools faster.",
    "hint": "",
    "image": null,
    "lo": "Predict how colour, texture, surface temperature and surface area affect the rate of radiation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "White surfaces are poor emitters of radiation, so the white can loses heat more slowly. Think about which colour emits radiation best.",
+    "2": "The cans differ only in colour, and colour affects how well a surface emits radiation. Think about which colour emits best."
+   },
+   "why": {
+    "right": "A black can of hot water cools faster because black surfaces are better emitters of radiation than white ones.",
+    "wrong": [
+     "A black can of hot water cools faster because black surfaces are better absorbers of cold than white ones.",
+     "A black can of hot water cools faster because black surfaces are poorer emitters of radiation than white ones."
+    ]
+   }
   },
   {
    "id": "c10q49",
@@ -865,11 +1355,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A hotter object radiates heat faster than a cooler one. The blocks are identical, so the block at 200 °C radiates heat faster.",
    "hint": "",
    "image": null,
    "lo": "Predict how colour, texture, surface temperature and surface area affect the rate of radiation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The blocks are identical except for temperature, and temperature affects how fast heat is radiated. Think about which block is hotter.",
+    "2": "A cooler object radiates heat more slowly. Think about how temperature affects the rate of radiation."
+   },
+   "why": {
+    "right": "The block at 200 °C radiates faster because a hotter surface emits radiation at a higher rate.",
+    "wrong": [
+     "The block at 200 °C radiates faster because a hotter block has a larger mass.",
+     "The block at 200 °C radiates faster because only objects above 150 °C give out radiation."
+    ]
+   }
   },
   {
    "id": "c10q50",
@@ -882,11 +1383,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Black surfaces are good absorbers of radiation. Can P warms faster in the sun, so it absorbs radiation better and must be the black can.",
    "hint": "",
    "image": null,
    "lo": "Predict how colour, texture, surface temperature and surface area affect the rate of radiation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The cans warm at different rates, so they cannot have the same surface colour. Think about which colour absorbs radiation best.",
+    "1": "Can Q warms more slowly, so it absorbs radiation less well. Think about which colour absorbs radiation best."
+   },
+   "why": {
+    "right": "The can that warms faster in sunlight is black because black surfaces are good absorbers of radiation.",
+    "wrong": [
+     "The can that warms faster in sunlight is black because black surfaces are good reflectors of radiation.",
+     "The can that warms faster in sunlight is black because black surfaces produce their own heat."
+    ]
+   }
   },
   {
    "id": "c10q51",
@@ -900,11 +1412,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Wood is a poor conductor of heat. Little heat passes from the hot pan into a wooden handle, so it stays cool enough to hold.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of conduction and convection in cooling, heating and insulation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Expansion does not keep a handle cool. Think about how well heat passes through wood from the hot pan.",
+    "1": "Emitting radiation is not the main reason. Think about how well heat passes through wood from the hot pan.",
+    "2": "If wood were a good conductor, the handle would get hot quickly. Think about how well heat passes through wood."
+   },
+   "why": {
+    "right": "Wooden pan handles stay cool because wood is a poor conductor of heat.",
+    "wrong": [
+     "Wooden pan handles stay cool because wood is a good conductor of heat.",
+     "Wooden pan handles stay cool because wood gives out cold to the hand."
+    ]
+   }
   },
   {
    "id": "c10q52",
@@ -918,11 +1442,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Wool traps a layer of air between its fibres. Air is a poor conductor of heat, so less heat is lost from the body.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of conduction and convection in cooling, heating and insulation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A good conductor would carry heat away from the body quickly. Think about what is held between the woollen fibres.",
+    "1": "Wool does not produce heat. The heat comes from the body. Think about what is held between the woollen fibres.",
+    "2": "Wool is not shiny, so it is not a good reflector of radiation. Think about what is held between the woollen fibres."
+   },
+   "why": {
+    "right": "Woollen clothes keep the body warm because the air trapped between the fibres is a poor conductor.",
+    "wrong": [
+     "Woollen clothes keep the body warm because wool fibres produce their own heat energy.",
+     "Woollen clothes keep the body warm because wool fibres conduct heat into the body quickly."
+    ]
+   }
   },
   {
    "id": "c10q53",
@@ -936,11 +1472,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Double-glazed windows have a layer of air trapped between two panes. Trapped air is a poor conductor, so it reduces heat lost by conduction.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of conduction and convection in cooling, heating and insulation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Clear glass lets most radiation through, so the panes do not reflect all of it. Think about what lies between the two panes.",
+    "2": "If air moved freely, convection would carry heat across. The air is sealed in. Think about how well still air conducts heat.",
+    "3": "Glass is a poor conductor, and good conductors would increase heat loss. Think about what lies between the two panes."
+   },
+   "why": {
+    "right": "Double glazing reduces heat loss because the sealed air between the panes is a poor conductor.",
+    "wrong": [
+     "Double glazing reduces heat loss because the two glass panes reflect all the radiation.",
+     "Double glazing reduces heat loss because air flows freely between the panes and carries heat out."
+    ]
+   }
   },
   {
    "id": "c10q54",
@@ -954,11 +1502,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cool air from the air conditioner is denser, so it sinks. Warmer air rises to take its place, setting up convection currents that cool the whole room.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of conduction and convection in cooling, heating and insulation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Cool air released on the floor stays low and does not mix well. Think about which way cool, dense air moves.",
+    "2": "Under a table, the cool air would stay near the floor. Think about which way cool, dense air moves.",
+    "3": "Cool air released near the bottom stays there. Think about which way cool, dense air moves and where it should start."
+   },
+   "why": {
+    "right": "Air conditioners are placed high because cool, dense air sinks and sets up convection currents in the room.",
+    "wrong": [
+     "Air conditioners are placed high because cool air rises and spreads out along the ceiling.",
+     "Air conditioners are placed high because cool air is a good conductor and spreads heat through the room."
+    ]
+   }
   },
   {
    "id": "c10q55",
@@ -972,11 +1532,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Air warmed by the heater becomes less dense and rises. Cooler air sinks to take its place, setting up convection currents that warm the whole room.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of conduction and convection in cooling, heating and insulation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Warm air released near the top stays there. Think about which way warm, less dense air moves and where it should start.",
+    "1": "Warm air released under the ceiling stays at the top of the room. Think about which way warm, less dense air moves.",
+    "2": "On a cupboard the heater is high up, so the warm air stays near the ceiling. Think about which way warm, less dense air moves."
+   },
+   "why": {
+    "right": "Heaters are placed low because warm, less dense air rises and sets up convection currents in the room.",
+    "wrong": [
+     "Heaters are placed low because warm air sinks and spreads out along the floor.",
+     "Heaters are placed low because warm air is a good conductor and spreads heat through the room."
+    ]
+   }
   },
   {
    "id": "c10q56",
@@ -990,11 +1562,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In the day, land heats up faster than the sea. Warm air above the land rises, and cooler air from above the sea moves in to take its place as a sea breeze.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of conduction and convection in cooling, heating and insulation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "In the day the land heats up faster than the sea, not the other way round. Think about where the air is warmer.",
+    "1": "In the day, the air above the sea is cooler than the air above the land. Think about where the warm air is rising.",
+    "3": "Cool air is denser, so it sinks rather than rises. Think about where the warm air is rising."
+   },
+   "why": {
+    "right": "A daytime sea breeze blows onto land because warm air rises over the land and cooler sea air replaces it.",
+    "wrong": [
+     "A daytime sea breeze blows onto land because the sea heats up faster and warm sea air spreads inland.",
+     "A daytime sea breeze blows onto land because cool air over the land rises and sea air flows in."
+    ]
+   }
   },
   {
    "id": "c10q57",
@@ -1008,11 +1592,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "White and silver surfaces are good reflectors and poor absorbers of radiation. Painting the tanks reflects the sun's radiation, so the petrol stays cool.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of radiation (emitters and absorbers, solar collectors)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Emitting heat is not the reason, and white and silver are poor emitters anyway. Think about how these surfaces deal with sunlight falling on them.",
+    "2": "Paint colour does not make a tank conduct heat away. Think about how white and silver surfaces deal with sunlight falling on them.",
+    "3": "Absorbing radiation would heat the petrol, which is dangerous. Think about how white and silver surfaces deal with sunlight."
+   },
+   "why": {
+    "right": "Petrol tanks are painted white or silver because these surfaces reflect most of the sun's radiation.",
+    "wrong": [
+     "Petrol tanks are painted white or silver because these surfaces absorb most of the sun's radiation.",
+     "Petrol tanks are painted white or silver because these surfaces conduct heat away from the petrol."
+    ]
+   }
   },
   {
    "id": "c10q58",
@@ -1026,11 +1622,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Dull black surfaces are good emitters of radiation. The black fins give out heat quickly to the surroundings, which helps the refrigerator lose heat.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of radiation (emitters and absorbers, solar collectors)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Dull black surfaces are poor reflectors of radiation. Think about what the fins need to do with heat from inside the refrigerator.",
+    "2": "Cooling fins are made of metal so that heat passes through them well. Think about what the dull black surface does with that heat.",
+    "3": "A poor emitter would hold heat in, which is the opposite of what fins need. Think about how dull black surfaces deal with heat."
+   },
+   "why": {
+    "right": "Refrigerator cooling fins are dull black because dull black surfaces give out radiation quickly.",
+    "wrong": [
+     "Refrigerator cooling fins are dull black because dull black surfaces reflect radiation back inside.",
+     "Refrigerator cooling fins are dull black because dull black surfaces stop heat from being conducted."
+    ]
+   }
   },
   {
    "id": "c10q59",
@@ -1044,11 +1652,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Black surfaces are good absorbers of radiation. The black plates absorb more of the sun's radiation, which heats the water in the pipes.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of radiation (emitters and absorbers, solar collectors)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The plates should pass heat to the water, not reduce it. Think about how a black surface deals with sunlight.",
+    "1": "Emitting less is not the main reason. The plates need to take in energy from the sun. Think about how a black surface deals with sunlight.",
+    "3": "Black surfaces are poor reflectors, and reflecting sunlight would waste energy. Think about how a black surface deals with sunlight."
+   },
+   "why": {
+    "right": "Solar collector plates are black because black surfaces absorb the most radiation from the sun.",
+    "wrong": [
+     "Solar collector plates are black because black surfaces reflect the most radiation from the sun.",
+     "Solar collector plates are black because black surfaces stop heat from reaching the water pipes."
+    ]
+   }
   },
   {
    "id": "c10q60",
@@ -1062,11 +1682,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Shiny surfaces are poor emitters of radiation. The blanket gives out very little of the body's heat as radiation, so the person stays warm.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of radiation (emitters and absorbers, solar collectors)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A good emitter would give out the body's heat and make the person colder. Think about how well a shiny surface emits radiation.",
+    "1": "A good conductor would carry heat away from the body. Think about how well a shiny surface emits radiation.",
+    "2": "Shiny surfaces are poor absorbers, and absorbing radiation is not how the blanket keeps heat in. Think about how well a shiny surface emits radiation."
+   },
+   "why": {
+    "right": "A shiny emergency blanket keeps a person warm because shiny surfaces emit little radiation.",
+    "wrong": [
+     "A shiny emergency blanket keeps a person warm because shiny surfaces emit a lot of radiation.",
+     "A shiny emergency blanket keeps a person warm because shiny surfaces conduct heat into the body."
+    ]
+   }
   },
   {
    "id": "c10q61",
@@ -1080,11 +1712,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Light-coloured surfaces are poor absorbers of radiation. Light-coloured clothes absorb less of the sun's radiation, so the wearer stays cooler.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of radiation (emitters and absorbers, solar collectors)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Colour mainly affects radiation, not conduction. Think about how light colours deal with sunlight falling on them.",
+    "2": "Absorbing more radiation would make the wearer hotter. Think about how light colours deal with sunlight compared with dark colours.",
+    "3": "Light colours are poorer emitters than dark colours. Think about how light colours deal with sunlight falling on them."
+   },
+   "why": {
+    "right": "Light-coloured clothes keep people cool because light colours absorb less of the sun's radiation.",
+    "wrong": [
+     "Light-coloured clothes keep people cool because light colours absorb more of the sun's radiation.",
+     "Light-coloured clothes keep people cool because light colours conduct heat away from the body."
+    ]
+   }
   },
   {
    "id": "c10q62",
@@ -1098,11 +1742,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Shiny surfaces are poor emitters of radiation. A polished teapot gives out heat slowly, so the tea stays warm longer.",
    "hint": "",
    "image": null,
    "lo": "Explain applications of radiation (emitters and absorbers, solar collectors)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A good emitter would lose heat quickly and the tea would cool faster. Think about how well a shiny surface emits radiation.",
+    "2": "A good conductor would let heat escape faster. Think about how well a shiny surface emits radiation.",
+    "3": "Shiny surfaces are poor absorbers, and absorbing is not how the tea stays warm. Think about how well a shiny surface emits radiation."
+   },
+   "why": {
+    "right": "Polished teapots keep tea warm because shiny surfaces emit radiation slowly.",
+    "wrong": [
+     "Polished teapots keep tea warm because shiny surfaces emit radiation quickly.",
+     "Polished teapots keep tea warm because shiny surfaces conduct heat into the tea."
+    ]
+   }
   },
   {
    "id": "c10q63",
@@ -1116,11 +1772,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Conduction needs particles. The vacuum between the walls has no particles, so it prevents heat transfer by conduction across the gap.",
    "hint": "",
    "image": null,
    "lo": "Explain how a vacuum flask and an igloo reduce heat transfer",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The insulated cap reduces heat loss through the top, mainly by convection. Think about which part has no particles at all.",
+    "1": "The silvered walls reduce heat loss by radiation. Think about which part has no particles at all.",
+    "3": "The insulated support reduces conduction but cannot stop it completely. Think about which part has no particles at all."
+   },
+   "why": {
+    "right": "The vacuum in a flask stops conduction because conduction needs particles and a vacuum has none.",
+    "wrong": [
+     "The vacuum in a flask stops conduction because a vacuum reflects heat back into the drink.",
+     "The vacuum in a flask stops conduction because a vacuum is a good conductor that removes heat."
+    ]
+   }
   },
   {
    "id": "c10q64",
@@ -1133,11 +1801,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Shiny, silvered surfaces are poor emitters and good reflectors of radiation. They reflect radiation back into the flask and reduce heat loss by radiation.",
    "hint": "",
    "image": null,
    "lo": "Explain how a vacuum flask and an igloo reduce heat transfer",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Conduction across the walls is reduced by the vacuum, not the silvering. Think about what shiny surfaces do well.",
+    "2": "Convection out of the flask is reduced by the cap. Think about what shiny surfaces do well."
+   },
+   "why": {
+    "right": "Silvered flask walls reduce heat loss because shiny surfaces reflect radiation back towards the drink.",
+    "wrong": [
+     "Silvered flask walls reduce heat loss because shiny surfaces stop air flowing out of the flask.",
+     "Silvered flask walls reduce heat loss because shiny surfaces are good conductors of heat."
+    ]
+   }
   },
   {
    "id": "c10q65",
@@ -1150,11 +1829,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Warm air escaping from the flask carries heat away by convection. A tight cap stops the warm air from leaving, so it reduces heat loss by convection.",
    "hint": "",
    "image": null,
    "lo": "Explain how a vacuum flask and an igloo reduce heat transfer",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The key point is that warm air is stopped from escaping. Think about which method involves a moving gas carrying heat.",
+    "1": "Radiation does not need air to move. Think about which method involves warm air moving out of the flask."
+   },
+   "why": {
+    "right": "A tight flask cap reduces heat loss because it stops warm air carrying heat out of the flask.",
+    "wrong": [
+     "A tight flask cap reduces heat loss because it lets warm air flow out more easily.",
+     "A tight flask cap reduces heat loss because it adds more air to the flask."
+    ]
+   }
   },
   {
    "id": "c10q66",
@@ -1167,11 +1857,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Gaps in the walls let warm air escape and cold air come in. Filling the gaps stops this movement of air, so it reduces heat loss by convection.",
    "hint": "",
    "image": null,
    "lo": "Explain how a vacuum flask and an igloo reduce heat transfer",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Snow is a poor conductor, but the gaps matter because air flows through them. Think about which method involves moving air.",
+    "2": "Radiation does not need air to move through gaps. Think about which method involves warm air flowing out of the igloo."
+   },
+   "why": {
+    "right": "Filling the gaps in an igloo reduces heat loss because warm air can no longer flow out.",
+    "wrong": [
+     "Filling the gaps in an igloo reduces heat loss because snow reflects all radiation back inside.",
+     "Filling the gaps in an igloo reduces heat loss because snow is a good conductor of heat."
+    ]
+   }
   },
   {
    "id": "c10q67",
@@ -1184,11 +1885,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The fur traps air, which is a poor conductor of heat. This layer stops body heat from being conducted into the cold ice floor.",
    "hint": "",
    "image": null,
    "lo": "Explain how a vacuum flask and an igloo reduce heat transfer",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The fur works by trapping air, not by being shiny. Think about how well trapped air passes heat from the body to the floor.",
+    "2": "The air trapped in the fur cannot move around, so convection is not the main point. Think about how well trapped air passes on heat."
+   },
+   "why": {
+    "right": "Fur on an igloo floor reduces heat loss because the trapped air is a poor conductor of heat.",
+    "wrong": [
+     "Fur on an igloo floor reduces heat loss because the trapped air is a good conductor of heat.",
+     "Fur on an igloo floor reduces heat loss because the fur produces heat to warm the floor."
+    ]
+   }
   },
   {
    "id": "c10q68",
@@ -1202,11 +1914,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Carbon dioxide is a greenhouse gas. It traps heat in the atmosphere and adds to the greenhouse effect.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of the greenhouse effect, global warming and their effects",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Hydrogen is not a greenhouse gas. Think about the gas released when fossil fuels are burnt.",
+    "1": "Nitrogen makes up most of the air but is not a greenhouse gas. Think about the gas released when fossil fuels are burnt.",
+    "2": "Oxygen is needed for breathing and burning but is not a greenhouse gas. Think about the gas released when fossil fuels are burnt."
+   },
+   "why": null
   },
   {
    "id": "c10q69",
@@ -1220,11 +1938,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Burning fossil fuels releases carbon dioxide, a greenhouse gas. More greenhouse gas traps more heat, which increases the greenhouse effect.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of the greenhouse effect, global warming and their effects",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Trees take in carbon dioxide, so planting them reduces the greenhouse effect. Think about an activity that releases greenhouse gases.",
+    "1": "Solar collectors use the sun's energy without burning fuel. Think about an activity that releases greenhouse gases.",
+    "2": "White roofs reflect the sun's radiation and help keep buildings cool. Think about an activity that releases greenhouse gases."
+   },
+   "why": {
+    "right": "Burning fossil fuels increases the greenhouse effect because it adds carbon dioxide that traps heat.",
+    "wrong": [
+     "Burning fossil fuels increases the greenhouse effect because it removes carbon dioxide from the air.",
+     "Burning fossil fuels increases the greenhouse effect because its smoke stops sunlight reaching the ground."
+    ]
+   }
   },
   {
    "id": "c10q70",
@@ -1238,11 +1968,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Global warming raises temperatures, so ice caps and glaciers melt and sea water expands. Both cause sea levels to rise.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of the greenhouse effect, global warming and their effects",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Warmer temperatures melt ice, so polar ice caps become thinner. Think about where the meltwater goes.",
+    "2": "Higher temperatures make glaciers melt and shrink. Think about where the meltwater goes.",
+    "3": "Melting ice adds water to the sea, and warmer water expands. Think about what this does to the sea level."
+   },
+   "why": {
+    "right": "Global warming raises sea levels because melting ice adds water and warmer sea water expands.",
+    "wrong": [
+     "Global warming raises sea levels because heat adds extra mass to the sea water.",
+     "Global warming raises sea levels because polar ice caps grow thicker and push the water up."
+    ]
+   }
   }
  ]
 }

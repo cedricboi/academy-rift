@@ -16,11 +16,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The human transport system has a pump (the heart), a liquid (the blood) and tubes (the blood vessels) that carry blood around the body.",
    "hint": "",
    "image": null,
    "lo": "State the three main parts of the human transport system and the function of the heart",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Xylem and phloem are transport tissues found in plants, not in humans. The human system is made of a pump, a liquid and tubes.",
+    "2": "The stomach is part of the digestive system. It digests food but does not carry substances around the body.",
+    "3": "The lungs are part of the respiratory system, where gases are exchanged. They are not the tubes that carry blood around the body."
+   },
+   "why": null
   },
   {
    "id": "c15q2",
@@ -34,11 +40,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The heart is a muscular pump. It pumps blood through the blood vessels to all parts of the body.",
    "hint": "",
    "image": null,
    "lo": "State the three main parts of the human transport system and the function of the heart",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Exchange of substances with cells happens across the thin walls of the capillaries, not in the heart.",
+    "1": "Oxygen is carried by red blood cells in the blood. The heart is an organ and does not carry oxygen itself.",
+    "2": "Food is digested in the digestive system. The heart does not make or digest food."
+   },
+   "why": null
   },
   {
    "id": "c15q3",
@@ -52,11 +64,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Blood vessels are tubes that carry blood around the body, like pipes. Blood is the liquid and the heart is the pump.",
    "hint": "",
    "image": null,
    "lo": "State the three main parts of the human transport system and the function of the heart",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Blood is what flows through the system. In the model it matches the liquid, not the pipes.",
+    "2": "The lungs are part of the respiratory system. They are not one of the three parts in the pipes, liquid and pump model.",
+    "3": "The heart pushes blood along. In the model it matches the pump, not the pipes."
+   },
+   "why": {
+    "right": "Blood vessels match pipes because they are tubes that carry blood to and from all parts of the body.",
+    "wrong": [
+     "Blood vessels match pipes because they push the blood around the body with strong regular beats.",
+     "Blood vessels match pipes because they store all of the blood that the body needs in one place."
+    ]
+   }
   },
   {
    "id": "c15q4",
@@ -70,11 +94,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Red blood cells carry oxygen from the lungs to all parts of the body.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the components of blood",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "White blood cells protect the body against infection. They do not carry oxygen.",
+    "1": "Platelets help blood to clot when a blood vessel is cut. They do not carry oxygen.",
+    "3": "Plasma carries dissolved food, wastes and carbon dioxide. Oxygen is carried by a type of blood cell."
+   },
+   "why": null
   },
   {
    "id": "c15q5",
@@ -88,11 +118,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Plasma is the liquid part of blood. Digested food and waste products are dissolved in it and carried around the body.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the components of blood",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "White blood cells protect the body against infection. Dissolved substances are carried in the liquid part of blood.",
+    "2": "Red blood cells carry oxygen. Dissolved food and wastes are carried in the liquid part of blood.",
+    "3": "Platelets help blood to clot. Substances that are dissolved travel in the liquid part of blood, not in cell fragments."
+   },
+   "why": {
+    "right": "Digested food travels in plasma because plasma is mostly water, so the food can dissolve in it.",
+    "wrong": [
+     "Digested food travels in plasma because plasma is made of cells that store the food inside them.",
+     "Digested food travels in plasma because plasma flows only between the digestive system and the heart."
+    ]
+   }
   },
   {
    "id": "c15q6",
@@ -106,11 +148,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Platelets are cell fragments in the blood. They help blood to clot at a wound, which stops bleeding.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the components of blood",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Plasma is the liquid part of blood that carries dissolved substances. It is not the part that starts a clot.",
+    "2": "Red blood cells carry oxygen around the body. They are not the part of blood that helps a clot to form.",
+    "3": "White blood cells protect the body by fighting germs. They are not the part of blood that helps a clot to form."
+   },
+   "why": null
   },
   {
    "id": "c15q7",
@@ -124,11 +172,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "White blood cells protect the body against infection by fighting germs that enter the body.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the components of blood",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Plasma is the liquid part of blood that carries dissolved food and wastes. It is not the part that fights germs.",
+    "1": "Platelets help to form a clot that seals a wound. They do not fight the germs that cause infection.",
+    "3": "Red blood cells carry oxygen. They are not the cells that fight germs."
+   },
+   "why": null
   },
   {
    "id": "c15q8",
@@ -142,11 +196,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Platelets help blood to form a clot at the cut. The clot seals the wound and the bleeding stops.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the components of blood",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Red blood cells carry oxygen. Bleeding stops when a clot forms, and a different part of blood helps the clot to form.",
+    "1": "White blood cells fight germs that may enter the cut. They do not form the clot that stops the bleeding.",
+    "2": "Plasma is the liquid that carries dissolved substances. Bleeding stops when a clot forms, which needs another part of blood."
+   },
+   "why": {
+    "right": "The bleeding stops because platelets help the blood to form a clot that seals the cut.",
+    "wrong": [
+     "The bleeding stops because white blood cells fill the cut and kill the germs there.",
+     "The bleeding stops because the heart stops pumping blood to the cut finger for a while."
+    ]
+   }
   },
   {
    "id": "c15q9",
@@ -160,11 +226,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Mineral salts dissolve in the plasma, the liquid part of blood, and are carried around the body.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the components of blood",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Red blood cells carry oxygen. Dissolved substances such as mineral salts travel in the liquid part of blood.",
+    "1": "Platelets help blood to clot. Substances absorbed from the intestine are dissolved and carried in the liquid part of blood.",
+    "3": "White blood cells fight infection. Substances absorbed from the intestine are dissolved and carried in the liquid part of blood."
+   },
+   "why": {
+    "right": "Mineral salts travel in plasma because they dissolve in the water that makes up most of plasma.",
+    "wrong": [
+     "Mineral salts travel in plasma because plasma is made of cells that store mineral salts.",
+     "Mineral salts travel in plasma because plasma flows only between the intestines and the heart."
+    ]
+   }
   },
   {
    "id": "c15q10",
@@ -178,11 +256,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Arteries carry blood away from the heart to the organs and tissues of the body.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Veins carry blood in the other direction, back to the heart. Think about which vessel blood enters first when the heart pumps.",
+    "1": "Xylem is a transport tissue in plants. It is not a blood vessel.",
+    "2": "Capillaries are tiny vessels where substances are exchanged with cells. Blood leaving the heart reaches them only after passing through larger vessels."
+   },
+   "why": null
   },
   {
    "id": "c15q11",
@@ -196,11 +280,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Veins carry blood from the organs and tissues back towards the heart.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Arteries carry blood in the other direction, away from the heart.",
+    "2": "Phloem is a tissue in plants that carries food. It is not a blood vessel.",
+    "3": "Capillaries are tiny vessels where substances are exchanged with cells. Blood collects from them into larger vessels before returning to the heart."
+   },
+   "why": null
   },
   {
    "id": "c15q12",
@@ -214,11 +304,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Capillaries have walls only one cell thick, so substances can pass between the blood and the body cells easily.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Veins have walls too thick for substances to pass through easily. Exchange happens in the smallest vessels, which have very thin walls.",
+    "2": "Phloem is a plant tissue that carries food. It is not a blood vessel.",
+    "3": "Arteries have thick, muscular walls. Exchange happens in the smallest vessels, which have very thin walls."
+   },
+   "why": {
+    "right": "Exchange happens in capillaries because their walls are only one cell thick, so substances pass through easily.",
+    "wrong": [
+     "Exchange happens in capillaries because their walls are thick and muscular, so they squeeze substances out.",
+     "Exchange happens in capillaries because their blood flows very fast, so substances are pushed out."
+    ]
+   }
   },
   {
    "id": "c15q13",
@@ -232,11 +334,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Capillary walls are only one cell thick. Substances such as oxygen and digested food can pass through them quickly by diffusion.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Thick walls would slow down the movement of substances. For exchange, substances must cross the wall quickly.",
+    "1": "Capillaries are full of blood. The substances carried in this blood are what is exchanged with the cells.",
+    "3": "Only the heart acts as a pump. Capillaries are tubes, and exchange depends on how easily substances cross the wall."
+   },
+   "why": {
+    "right": "Thin capillary walls help exchange because substances have only a short distance to diffuse through.",
+    "wrong": [
+     "Thin capillary walls help exchange because they make the blood flow faster than in arteries.",
+     "Thin capillary walls help exchange because they let blood cells leave and enter the body cells."
+    ]
+   }
   },
   {
    "id": "c15q14",
@@ -249,11 +363,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Arteries carry blood away from the heart, so the vessel taking blood from the heart to the legs is an artery.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Capillaries are tiny vessels inside tissues where exchange happens. They do not carry blood the long distance away from the heart.",
+    "2": "Veins carry blood back towards the heart. This vessel carries blood in the opposite direction."
+   },
+   "why": {
+    "right": "The vessel is an artery because arteries carry blood away from the heart to the organs.",
+    "wrong": [
+     "The vessel is an artery because arteries carry blood only to the lower half of the body.",
+     "The vessel is an artery because arteries carry blood that has no oxygen left in it."
+    ]
+   }
   },
   {
    "id": "c15q15",
@@ -266,11 +391,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Veins carry blood back towards the heart, so the vessel taking blood from the arm to the heart is a vein.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Arteries carry blood away from the heart. This vessel carries blood in the opposite direction.",
+    "2": "Capillaries are tiny vessels inside tissues where exchange happens. Blood from them collects into larger vessels to return to the heart."
+   },
+   "why": {
+    "right": "The vessel is a vein because veins carry blood from the organs back towards the heart.",
+    "wrong": [
+     "The vessel is a vein because veins carry blood only in the arms and the upper body.",
+     "The vessel is a vein because veins carry blood that is rich in oxygen to the heart."
+    ]
+   }
   },
   {
    "id": "c15q16",
@@ -283,11 +419,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Capillaries have walls only one cell thick. Oxygen diffuses through these walls from the blood into the muscle cells.",
    "hint": "",
    "image": null,
    "lo": "Describe the functions of arteries, veins and capillaries",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Arteries have thick walls, so oxygen cannot pass through them easily. Exchange with cells happens in the smallest vessels.",
+    "2": "Veins have walls too thick for easy exchange, and their blood has already given up much of its oxygen."
+   },
+   "why": {
+    "right": "Oxygen reaches muscle cells through capillaries because capillary walls are only one cell thick.",
+    "wrong": [
+     "Oxygen reaches muscle cells through capillaries because capillaries pump the oxygen into the cells.",
+     "Oxygen reaches muscle cells through capillaries because capillaries have the thickest walls of all vessels."
+    ]
+   }
   },
   {
    "id": "c15q17",
@@ -301,11 +448,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Blood leaves the heart in arteries, passes through capillaries in the tissues, then returns to the heart in veins.",
    "hint": "",
    "image": null,
    "lo": "Trace the pathway of blood through the vessels and the content of the blood",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Veins return blood to the heart, so they come last. Blood must exchange substances with cells before it returns.",
+    "1": "Capillaries are inside the tissues. Blood leaving the heart reaches the tissues only after travelling in a larger vessel.",
+    "2": "Veins bring blood back to the heart. They are not the first vessels blood enters when it leaves the heart."
+   },
+   "why": {
+    "right": "Blood flows in this order because arteries branch into capillaries, which then join up to form veins.",
+    "wrong": [
+     "Blood flows in this order because the capillaries pump the blood from the arteries into the veins.",
+     "Blood flows in this order because the veins must collect oxygen before the blood reaches the capillaries."
+    ]
+   }
   },
   {
    "id": "c15q18",
@@ -319,11 +478,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Body cells take oxygen from the blood and add carbon dioxide to it. Blood in the body's veins is poor in oxygen and rich in carbon dioxide.",
    "hint": "",
    "image": null,
    "lo": "Trace the pathway of blood through the vessels and the content of the blood",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "This describes blood that has just come from the lungs. Think about what the body cells have done to the blood before it enters the veins.",
+    "2": "Cells take oxygen from the blood, but they also give something to it. Think about the waste gas made in respiration.",
+    "3": "Body cells use up oxygen as the blood passes them. Blood in the veins has already given oxygen away."
+   },
+   "why": {
+    "right": "Blood in body veins is low in oxygen because the cells used its oxygen and added carbon dioxide.",
+    "wrong": [
+     "Blood in body veins is low in oxygen because the thick vein walls let oxygen leak out.",
+     "Blood in body veins is low in oxygen because the heart removes oxygen before pumping it out."
+    ]
+   }
   },
   {
    "id": "c15q19",
@@ -337,11 +508,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Capillaries join together to form veins, which carry the blood back towards the heart.",
    "hint": "",
    "image": null,
    "lo": "Trace the pathway of blood through the vessels and the content of the blood",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Xylem is a transport tissue in plants. It is not part of the human transport system.",
+    "1": "Blood must return to the heart before it can be pumped to another part of the body such as a leg.",
+    "3": "Arteries carry blood away from the heart towards the capillaries. Blood leaving the capillaries goes the other way."
+   },
+   "why": {
+    "right": "Blood leaving capillaries enters veins because capillaries join together to form veins that lead to the heart.",
+    "wrong": [
+     "Blood leaving capillaries enters veins because veins carry blood away from the heart to the next organ.",
+     "Blood leaving capillaries enters veins because veins are the only vessels with walls thin enough to take it."
+    ]
+   }
   },
   {
    "id": "c15q20",
@@ -355,11 +538,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Blood from the legs is low in oxygen. The heart pumps it to the lungs to take in oxygen and get rid of carbon dioxide.",
    "hint": "",
    "image": null,
    "lo": "Trace the pathway of blood through the vessels and the content of the blood",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The small intestine receives blood that has been pumped round the body. Blood returning from the legs first needs more oxygen.",
+    "1": "This blood has just come from the legs and is low in oxygen. It must gain oxygen before going back out to the body.",
+    "2": "The brain needs blood rich in oxygen. Blood returning from the legs is low in oxygen and must take in more first."
+   },
+   "why": {
+    "right": "Blood from the legs goes to the lungs next because it is low in oxygen and must take in more.",
+    "wrong": [
+     "Blood from the legs goes to the lungs next because the lungs are the closest organ to the legs.",
+     "Blood from the legs goes to the lungs next because the lungs digest the food that it carries."
+    ]
+   }
   },
   {
    "id": "c15q21",
@@ -373,11 +568,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Arteries branch into tiny capillaries near the cells. Capillary walls are thin enough for substances to be exchanged with the cells.",
    "hint": "",
    "image": null,
    "lo": "Trace the pathway of blood through the vessels and the content of the blood",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Veins carry blood back to the heart after it has passed the cells. They form when the smallest vessels join up.",
+    "2": "Phloem is a plant tissue that carries food. It is not a blood vessel.",
+    "3": "The new vessels are much smaller, with walls thin enough for exchange. They have a different name from the vessels they branch from."
+   },
+   "why": {
+    "right": "Arteries branch into capillaries because cells need tiny thin-walled vessels close to them for exchange.",
+    "wrong": [
+     "Arteries branch into capillaries because cells need thick-walled vessels close to them to push blood in.",
+     "Arteries branch into capillaries because blood must be cleaned of all germs before it reaches the veins."
+    ]
+   }
   },
   {
    "id": "c15q22",
@@ -391,11 +598,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a large organism, diffusion alone is too slow to reach cells deep inside. A transport system moves substances quickly to all cells.",
    "hint": "",
    "image": null,
    "lo": "Explain the need for a transport system in multicellular organisms",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Cells in an organism differ in size and type. A transport system carries substances and does not change the size of cells.",
+    "1": "Diffusion still happens between the blood and the cells. A transport system works together with diffusion rather than stopping it.",
+    "2": "All cells still need food. A transport system delivers food, so it does not remove the need for it."
+   },
+   "why": {
+    "right": "Large organisms need a transport system because diffusion alone is too slow to supply cells deep inside.",
+    "wrong": [
+     "Large organisms need a transport system because their cells cannot take in any substances by diffusion.",
+     "Large organisms need a transport system because their inner cells make all the food the outer cells need."
+    ]
+   }
   },
   {
    "id": "c15q23",
@@ -409,11 +628,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Without a transport system, food and oxygen would diffuse too slowly to reach the inner cells. These cells would not get enough and would die.",
    "hint": "",
    "image": null,
    "lo": "Explain the need for a transport system in multicellular organisms",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Inner cells are far from the surface. Substances would take too long to reach them by diffusion alone.",
+    "1": "Growth needs a good supply of food and oxygen. Inner cells far from the surface would get very little of either.",
+    "3": "Animal cells cannot make their own oxygen. They depend on oxygen brought to them from outside."
+   },
+   "why": {
+    "right": "The inner cells would die because food and oxygen would diffuse too slowly to reach them.",
+    "wrong": [
+     "The inner cells would die because the outer cells would take away all of their water.",
+     "The inner cells would die because carbon dioxide would diffuse into them from the air too quickly."
+    ]
+   }
   },
   {
    "id": "c15q24",
@@ -427,11 +658,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Xylem carries water and mineral salts from the roots up to the stems and leaves.",
    "hint": "",
    "image": null,
    "lo": "State that the xylem transports water and mineral salts and the phloem transports food",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Blood is the transport liquid in animals. Plants do not have blood.",
+    "2": "Sugar is food made in the leaves. It is carried by the other transport tissue in plants.",
+    "3": "Gases enter and leave a plant mainly through tiny openings in the leaves, not through a transport tissue."
+   },
+   "why": null
   },
   {
    "id": "c15q25",
@@ -445,11 +682,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Phloem carries food, such as sugar, made in the leaves to other parts of the plant.",
    "hint": "",
    "image": null,
    "lo": "State that the xylem transports water and mineral salts and the phloem transports food",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Oxygen moves into and out of the leaf through tiny openings by diffusion. Phloem does not carry it.",
+    "2": "Soil particles stay in the soil. Plants take in only water and dissolved substances from the soil.",
+    "3": "Water and mineral salts travel up from the roots in the other transport tissue of the plant."
+   },
+   "why": null
   },
   {
    "id": "c15q26",
@@ -463,11 +706,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Xylem carries water and mineral salts in one direction only, upwards from the roots to the leaves.",
    "hint": "",
    "image": null,
    "lo": "State that the xylem transports water and mineral salts and the phloem transports food",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Two-way transport happens in the other plant transport tissue, which moves food. Water travels only one way from where it is absorbed.",
+    "1": "Water is absorbed at the roots, which are at the bottom of the plant. It has to travel away from the roots to reach the leaves.",
+    "3": "Water travels from the roots to the leaves. The roots and the leaves are at different heights, not side by side."
+   },
+   "why": {
+    "right": "Xylem carries water upwards only because water enters at the roots and is lost from the leaves.",
+    "wrong": [
+     "Xylem carries water upwards only because water always flows towards the warmest part of the plant.",
+     "Xylem carries water upwards only because the leaves make the water that the roots need."
+    ]
+   }
   },
   {
    "id": "c15q27",
@@ -480,11 +735,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Phloem carries food, such as sugar, from the leaves to other parts of the plant, including the roots.",
    "hint": "",
    "image": null,
    "lo": "State that the xylem transports water and mineral salts and the phloem transports food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Stomata are tiny openings in the leaf for gases. They do not carry substances through the plant.",
+    "2": "Xylem carries water and mineral salts upwards from the roots. Sugar travels in the other transport tissue."
+   },
+   "why": {
+    "right": "The sugar was carried by phloem because phloem carries food from the leaves to other parts of the plant.",
+    "wrong": [
+     "The sugar was carried by phloem because phloem carries only substances that the roots absorbed from the soil.",
+     "The sugar was carried by phloem because phloem is the tissue that makes sugar inside the leaves."
+    ]
+   }
   },
   {
    "id": "c15q28",
@@ -497,11 +763,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Xylem carries water and dissolved mineral salts from the roots up to all parts of the plant, including flower buds.",
    "hint": "",
    "image": null,
    "lo": "State that the xylem transports water and mineral salts and the phloem transports food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Phloem carries food made in the leaves. Substances taken in from the soil travel in the other transport tissue.",
+    "1": "Stomata are tiny openings in the leaf for gases. They do not carry substances through the plant."
+   },
+   "why": {
+    "right": "The mineral salts were carried by xylem because xylem carries water and dissolved salts up from the roots.",
+    "wrong": [
+     "The mineral salts were carried by xylem because xylem carries food made in the leaves to the flowers.",
+     "The mineral salts were carried by xylem because xylem takes in mineral salts from the air through the leaves."
+    ]
+   }
   },
   {
    "id": "c15q29",
@@ -515,11 +792,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Phloem carries sugar from the leaves down to the roots. Removing a ring of phloem stops sugar from reaching the roots.",
    "hint": "",
    "image": null,
    "lo": "State that the xylem transports water and mineral salts and the phloem transports food",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water travels up from the roots in the xylem, which is left in place. Think about what moves down from the leaves.",
+    "1": "Mineral salts travel up from the roots in the xylem, which is left in place. Think about what moves down from the leaves.",
+    "2": "Roots take in oxygen directly from the air spaces in the soil. Oxygen does not travel to them through the trunk."
+   },
+   "why": {
+    "right": "Sugar stops reaching the roots because sugar made in the leaves travels down to the roots in the phloem.",
+    "wrong": [
+     "Sugar stops reaching the roots because sugar is made in the bark, and the bark has been removed.",
+     "Sugar stops reaching the roots because sugar travels up from the soil to the roots in the phloem."
+    ]
+   }
   },
   {
    "id": "c15q30",
@@ -533,11 +822,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The red dye travels with the water up the xylem, so the xylem turns red first.",
    "hint": "",
    "image": null,
    "lo": "Infer from an investigation that the xylem transports water and mineral salts",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Stomata are tiny openings on the leaves, not inside the stalk. The dye travels up inside the stalk with the water.",
+    "2": "Celery has no bark. The dye moves with the water inside the stalk, in the tissue that carries water.",
+    "3": "Phloem carries food made in the leaves. The dye is in the water, so look for the tissue that carries water."
+   },
+   "why": {
+    "right": "The xylem turns red because the dye moves up the stalk with the water that the xylem carries.",
+    "wrong": [
+     "The xylem turns red because the dye moves down the stalk with the food that the xylem carries.",
+     "The xylem turns red because the dye is made into food inside the xylem cells of the stalk."
+    ]
+   }
   },
   {
    "id": "c15q31",
@@ -551,11 +852,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The dye moves up from the water to the leaves. This shows that the xylem transports water upwards.",
    "hint": "",
    "image": null,
    "lo": "Infer from an investigation that the xylem transports water and mineral salts",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Carbon dioxide enters a leaf through tiny openings. The dye experiment shows what moves up the stalk.",
+    "2": "Food is made in the leaves by photosynthesis. The xylem is a transport tissue, so it carries substances rather than making them.",
+    "3": "The dye started in the water at the bottom and moved up. Sugar is carried by the other transport tissue."
+   },
+   "why": {
+    "right": "The dye reaches the leaves because it is dissolved in the water that the xylem carries up the stalk.",
+    "wrong": [
+     "The dye reaches the leaves because it is dissolved in the sugar that the xylem carries up the stalk.",
+     "The dye reaches the leaves because the leaves absorb it from the air around the top of the stalk."
+    ]
+   }
   },
   {
    "id": "c15q32",
@@ -569,11 +882,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The roots absorb the dyed water and the xylem carries it up the plant, so the xylem becomes stained.",
    "hint": "",
    "image": null,
    "lo": "Infer from an investigation that the xylem transports water and mineral salts",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Stomata are tiny openings in the leaves for gases. Water from the soil travels inside the roots and stem.",
+    "1": "Bark is the outer layer of a trunk. Water from the soil travels up in a tissue inside the stem.",
+    "2": "Phloem carries food made in the leaves. The dye is in the water, so look for the tissue that carries water."
+   },
+   "why": {
+    "right": "The xylem is stained because the roots absorb the dyed water and the xylem carries it upwards.",
+    "wrong": [
+     "The xylem is stained because the leaves absorb the dye and the xylem carries it downwards.",
+     "The xylem is stained because the dye mixes with the sugar that the xylem carries to the roots."
+    ]
+   }
   },
   {
    "id": "c15q33",
@@ -587,11 +912,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Blocked xylem cannot carry water to the leaves. The leaves lose water that is not replaced, so they wilt.",
    "hint": "",
    "image": null,
    "lo": "Infer from an investigation that the xylem transports water and mineral salts",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Growth needs water. If the xylem is blocked, the leaves receive less water, not more.",
+    "1": "Leaves keep losing water through their stomata. If no water arrives to replace it, the leaves change.",
+    "2": "Photosynthesis needs water. With the xylem blocked, less water reaches the leaves, so less sugar can be made."
+   },
+   "why": {
+    "right": "The leaves wilt because the water they lose is not replaced when water cannot travel up the xylem.",
+    "wrong": [
+     "The leaves wilt because sugar cannot travel up the xylem from the roots to feed them.",
+     "The leaves wilt because carbon dioxide cannot travel up the xylem from the soil to the leaves."
+    ]
+   }
   },
   {
    "id": "c15q34",
@@ -605,11 +942,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Diffusion is the net movement of particles from a region of higher concentration to a region of lower concentration.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion and predict the direction of diffusion from concentrations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Diffusion is not about water and soil. It describes particles moving between regions with different concentrations.",
+    "2": "This is the reverse of diffusion. Particles spread out from where they are crowded.",
+    "3": "When the concentration is equal everywhere, there is no net movement. Diffusion needs a difference in concentration."
+   },
+   "why": null
   },
   {
    "id": "c15q35",
@@ -622,11 +965,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Oxygen diffuses from where it is more concentrated to where it is less concentrated, so it moves from X to Y.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion and predict the direction of diffusion from concentrations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Oxygen particles move all the time. When one region has more oxygen, there is a net movement until the concentrations are equal.",
+    "1": "This direction is from lower to higher concentration. Diffusion goes from where there are more particles to where there are fewer."
+   },
+   "why": {
+    "right": "Oxygen moves from X to Y because diffusion goes from a higher to a lower concentration.",
+    "wrong": [
+     "Oxygen moves from X to Y because diffusion carries on until all the oxygen is in Y.",
+     "Oxygen moves from X to Y because oxygen particles in Y move faster than those in X."
+    ]
+   }
   },
   {
    "id": "c15q36",
@@ -639,11 +993,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Carbon dioxide diffuses from higher to lower concentration, so it moves from the cell into the blood.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion and predict the direction of diffusion from concentrations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "This direction is from lower to higher concentration. Diffusion goes from where there are more particles to where there are fewer.",
+    "2": "Particles are always moving. When the concentrations differ, there is a net movement until they become equal."
+   },
+   "why": {
+    "right": "Carbon dioxide moves into the blood because it diffuses from a higher to a lower concentration.",
+    "wrong": [
+     "Carbon dioxide moves into the blood because the heart pumps it out of the body cell.",
+     "Carbon dioxide moves into the blood because the cell turns it into oxygen for the blood."
+    ]
+   }
   },
   {
    "id": "c15q37",
@@ -656,11 +1021,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Oxygen diffuses from higher to lower concentration. Since it moved from P to Q, region P had more oxygen.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion and predict the direction of diffusion from concentrations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "With equal concentrations there would be no net movement. The oxygen moved, so the concentrations were different.",
+    "1": "Diffusion goes from more particles to fewer particles. Think about which region the oxygen left."
+   },
+   "why": {
+    "right": "Region P had more oxygen because diffusion moves particles from a higher to a lower concentration.",
+    "wrong": [
+     "Region P had more oxygen because oxygen particles in P move while particles in Q stay still.",
+     "Region P had more oxygen because diffusion carries on until all the oxygen has left region P."
+    ]
+   }
   },
   {
    "id": "c15q38",
@@ -673,11 +1049,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Diffusion moves the medicine from higher to lower concentration. The medicine enters the skin, so it is more concentrated in the patch.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion and predict the direction of diffusion from concentrations",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "With equal concentrations there would be no net movement. The patch works only if the medicine keeps moving into the skin.",
+    "2": "If the skin had more medicine, the medicine would diffuse out of the skin into the patch. Think about which way it needs to go."
+   },
+   "why": {
+    "right": "The patch has more medicine because diffusion moves it from a higher to a lower concentration.",
+    "wrong": [
+     "The patch has more medicine because diffusion carries on until all the medicine leaves the patch.",
+     "The patch has more medicine because the skin pumps the medicine in from the patch."
+    ]
+   }
   },
   {
    "id": "c15q39",
@@ -691,11 +1078,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Digested food is more concentrated in the blood than in the cells, so it diffuses through the thin capillary walls into the cells.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves substances between capillaries and body cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Osmosis is the movement of water molecules only. Digested food is not water.",
+    "2": "Churning is the mixing of food by the stomach. It does not happen between capillaries and cells.",
+    "3": "The heart pushes blood along the vessels. Substances cross the capillary wall on their own, from higher to lower concentration."
+   },
+   "why": {
+    "right": "Digested food enters body cells because it is more concentrated in the blood than in the cells.",
+    "wrong": [
+     "Digested food enters body cells because the heart pushes it through the walls of the capillaries.",
+     "Digested food enters body cells because water carries it into the cells by osmosis."
+    ]
+   }
   },
   {
    "id": "c15q40",
@@ -709,11 +1108,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Oxygen is more concentrated in the blood than in the muscle cells. It diffuses from the capillary into the cells.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves substances between capillaries and body cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Veins carry blood back to the heart. They do not push oxygen into cells.",
+    "1": "Cells do not pump oxygen in. Oxygen enters cells on its own, depending on where it is more concentrated.",
+    "2": "If oxygen were more concentrated in the cells, it would diffuse out of them. Muscle cells use up oxygen in respiration."
+   },
+   "why": {
+    "right": "Oxygen enters muscle cells because the cells use it in respiration, so its concentration there stays low.",
+    "wrong": [
+     "Oxygen enters muscle cells because the cells store it in large amounts, so its concentration there stays high.",
+     "Oxygen enters muscle cells because the heart pumps it straight through the capillary walls into them."
+    ]
+   }
   },
   {
    "id": "c15q41",
@@ -727,11 +1138,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Waste substances are made in the body cells, so they are more concentrated there. They diffuse from the cells into the capillaries.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves substances between capillaries and body cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "If wastes were more concentrated in the blood, they would diffuse out of the blood. Think about where the wastes are made.",
+    "2": "Exchange with body cells does not happen in the arteries. Think about where the wastes are made.",
+    "3": "The heart is not next to every body cell. Think about where the wastes are made and which way they diffuse."
+   },
+   "why": {
+    "right": "Wastes enter the capillaries because they are made in the body cells, so they are more concentrated there.",
+    "wrong": [
+     "Wastes enter the capillaries because the blood pulls them out of the cells until none are left.",
+     "Wastes enter the capillaries because the heart pumps them out of the cells into the blood."
+    ]
+   }
   },
   {
    "id": "c15q42",
@@ -744,11 +1167,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Oxygen diffuses out of the blood into the muscle cells as the blood flows along, so its oxygen concentration decreases.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves substances between capillaries and body cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Muscle cells use oxygen. Oxygen moves from the blood into the cells, not from the cells into the blood.",
+    "1": "Oxygen passes through the thin capillary walls. Some of it leaves the blood as the blood flows past the muscle cells."
+   },
+   "why": {
+    "right": "Oxygen in the capillary blood falls because oxygen diffuses from the blood into the muscle cells.",
+    "wrong": [
+     "Oxygen in the capillary blood falls because the blood itself turns the oxygen into carbon dioxide.",
+     "Oxygen in the capillary blood falls because the capillary walls absorb the oxygen and store it."
+    ]
+   }
   },
   {
    "id": "c15q43",
@@ -762,11 +1196,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Stomata are tiny openings, mainly on the underside of the leaf. Gases such as carbon dioxide and oxygen diffuse through them.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves gases and mineral salts into and out of plant cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Root cells are found in the roots, not the leaf. They take in water and mineral salts from the soil.",
+    "1": "Xylem is a transport tissue that carries water and mineral salts. It is not an opening to the air.",
+    "2": "Phloem is a transport tissue that carries food. It is not an opening to the air."
+   },
+   "why": null
   },
   {
    "id": "c15q44",
@@ -780,11 +1220,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Photosynthesis uses carbon dioxide. Carbon dioxide diffuses into the leaf through the stomata.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves gases and mineral salts into and out of plant cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Oxygen is produced by photosynthesis, so it moves out of the leaf. Think about which gas the leaf uses up.",
+    "2": "Nitrogen is in the air but is not used in photosynthesis. Think about which gas the leaf uses up.",
+    "3": "Water vapour diffuses out of the leaf, not in. The water used in photosynthesis comes from the roots."
+   },
+   "why": {
+    "right": "Carbon dioxide enters the leaf because photosynthesis uses it up, so less is inside than outside.",
+    "wrong": [
+     "Carbon dioxide enters the leaf because respiration uses it up, so less is inside than outside.",
+     "Carbon dioxide enters the leaf because the xylem pulls it in from the air through the roots."
+    ]
+   }
   },
   {
    "id": "c15q45",
@@ -798,11 +1250,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Photosynthesis produces oxygen inside the leaf, so oxygen is more concentrated inside. It diffuses out through the stomata.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves gases and mineral salts into and out of plant cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Xylem carries water and mineral salts. It does not pump gases out of the leaf.",
+    "2": "Phloem carries food made in the leaf. Gases leave the leaf by diffusion through tiny openings.",
+    "3": "If oxygen were more concentrated outside, it would diffuse into the leaf. Think about where photosynthesis makes oxygen."
+   },
+   "why": {
+    "right": "Oxygen leaves the leaf because photosynthesis makes it inside the leaf, so more is inside than outside.",
+    "wrong": [
+     "Oxygen leaves the leaf because respiration makes it inside the leaf, so more is inside than outside.",
+     "Oxygen leaves the leaf because leaf cells never use oxygen at any time of the day or night."
+    ]
+   }
   },
   {
    "id": "c15q46",
@@ -816,11 +1280,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Mineral salts must be dissolved in water before they can diffuse into root cells.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves gases and mineral salts into and out of plant cells",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Solid particles cannot pass into the cells. Mineral salts have to be in a form that can spread through water.",
+    "2": "Sugar is made by photosynthesis in the leaves. Mineral salts are taken in as they are, not changed into sugar.",
+    "3": "Heating is not needed. Mineral salts diffuse into roots at the normal temperature of the soil."
+   },
+   "why": {
+    "right": "Mineral salts must be dissolved because only dissolved particles can spread through water into the root cells.",
+    "wrong": [
+     "Mineral salts must be dissolved because only dissolved particles can be turned into sugar by the root cells.",
+     "Mineral salts must be dissolved because only dissolved particles can be pumped upwards by the phloem."
+    ]
+   }
   },
   {
    "id": "c15q47",
@@ -834,11 +1310,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The xylem carries mineral salts away from the root cells. This keeps their concentration in the root cells low, so more salts keep diffusing in.",
    "hint": "",
    "image": null,
    "lo": "Explain how diffusion moves gases and mineral salts into and out of plant cells",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Phloem carries food made in the leaves. It does not bring mineral salts into the roots.",
+    "1": "Leaves cannot make mineral salts. Plants take mineral salts in from the soil.",
+    "2": "If the soil had no salts, there would be none to take in. Think about what happens to the salts after they enter the root."
+   },
+   "why": {
+    "right": "Root cells keep taking in salts because the salts are carried away, keeping their concentration low in the root.",
+    "wrong": [
+     "Root cells keep taking in salts because salts always diffuse from a lower to a higher concentration.",
+     "Root cells keep taking in salts because the leaves pull the salts down to the roots through the phloem."
+    ]
+   }
   },
   {
    "id": "c15q48",
@@ -852,11 +1340,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water moves from the soil into root cells by osmosis, across the partially permeable cell membrane.",
    "hint": "",
    "image": null,
    "lo": "State that osmosis allows water to be absorbed at the roots",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Stomata are openings in the leaves. Water from the soil enters through the roots.",
+    "1": "Phloem carries food made in the leaves. It does not take water in from the soil.",
+    "3": "Diffusion of mineral salts moves salts, not water. Water moves into the root by a different process across the membrane."
+   },
+   "why": null
   },
   {
    "id": "c15q49",
@@ -870,11 +1364,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Osmosis is the movement of water molecules through a partially permeable membrane.",
    "hint": "",
    "image": null,
    "lo": "State that osmosis allows water to be absorbed at the roots",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Phloem is a plant tissue that carries food. Osmosis happens across a thin layer around cells, not in a transport tissue.",
+    "1": "The cell wall lets most substances through freely. Osmosis needs a layer that lets some molecules through and not others.",
+    "3": "Osmosis is about water molecules moving. Solid salt particles cannot move through a membrane."
+   },
+   "why": null
   },
   {
    "id": "c15q50",
@@ -888,11 +1388,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Seawater is very salty. Water moves out of the body cells into the saltier liquid around them by osmosis.",
    "hint": "",
    "image": null,
    "lo": "State that osmosis allows water to be absorbed at the roots",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Capillaries do not burst from drinking seawater. Water moves out of cells across their membranes.",
+    "2": "Diffusion of oxygen moves oxygen, not water. Think about how water molecules move across a membrane.",
+    "3": "The heart pumps blood along the vessels. It does not move water out of cells."
+   },
+   "why": {
+    "right": "Water leaves the cells because it moves through the cell membrane towards the saltier liquid outside.",
+    "wrong": [
+     "Water leaves the cells because it moves through the cell membrane towards the less salty liquid outside.",
+     "Water leaves the cells because salt particles push the water out through the cell wall."
+    ]
+   }
   },
   {
    "id": "c15q51",
@@ -906,11 +1418,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Drug abuse is the use of drugs in a way that harms a person's health.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Improving fitness is a benefit. Drug abuse is defined by the damage it causes.",
+    "2": "Treating an illness is a proper use of medicine. Drug abuse is not a proper use.",
+    "3": "Following a prescription is the correct way to use medicine. Drug abuse is using drugs in ways that are not proper."
+   },
+   "why": null
   },
   {
    "id": "c15q52",
@@ -924,11 +1442,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Drug abuse can narrow blood vessels and raise blood pressure, which affects the circulatory system.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A stomach ulcer is a problem in the digestive system. The circulatory system is the heart, blood and blood vessels.",
+    "1": "Memory loss is a problem in the nervous system. The circulatory system is the heart, blood and blood vessels.",
+    "2": "Lung cancer is a problem in the respiratory system. The circulatory system is the heart, blood and blood vessels."
+   },
+   "why": null
   },
   {
    "id": "c15q53",
@@ -942,11 +1466,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Narrowed arteries leave less space for blood to flow. Less blood reaches the limbs.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Narrow arteries make it harder for blood to flow, so the blood pressure goes up, not down.",
+    "2": "Narrowing affects the blood vessels. Think about how much blood can pass through a narrow tube.",
+    "3": "A narrower tube lets less liquid through, not more. Think about how much blood can pass a narrowed artery."
+   },
+   "why": {
+    "right": "Less blood reaches the limbs because narrow arteries leave less space for the blood to flow through.",
+    "wrong": [
+     "Less blood reaches the limbs because narrow arteries let the blood leak out through their walls.",
+     "Less blood reaches the limbs because narrow arteries carry the blood back towards the heart instead."
+    ]
+   }
   },
   {
    "id": "c15q54",
@@ -960,11 +1496,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Lung cancer affects the lungs, which are part of the respiratory system.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The circulatory system is the heart, blood and blood vessels. Think about which system the lungs belong to.",
+    "1": "The digestive system breaks down and absorbs food. The lungs are not part of it.",
+    "2": "The nervous system is the brain, spinal cord and nerves. The lungs are not part of it."
+   },
+   "why": {
+    "right": "Lung cancer affects the respiratory system because the lungs are the organs that take in air.",
+    "wrong": [
+     "Lung cancer affects the respiratory system because the lungs pump blood around the body.",
+     "Lung cancer affects the respiratory system because the lungs send nerve messages to the body."
+    ]
+   }
   },
   {
    "id": "c15q55",
@@ -978,11 +1526,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The heart is part of the circulatory system. An irregular heartbeat is a problem of the circulatory system.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The nervous system is the brain, spinal cord and nerves. Think about which system the heart belongs to.",
+    "1": "The respiratory system takes in air through the lungs. The heart is not part of it.",
+    "3": "The digestive system breaks down and absorbs food. The heart is not part of it."
+   },
+   "why": {
+    "right": "An irregular heartbeat affects the circulatory system because the heart pumps blood around the body.",
+    "wrong": [
+     "An irregular heartbeat affects the circulatory system because the heart takes in air for breathing.",
+     "An irregular heartbeat affects the circulatory system because the heart controls thinking and memory."
+    ]
+   }
   },
   {
    "id": "c15q56",
@@ -996,11 +1556,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Reactions and memory are controlled by the brain and nerves, which make up the nervous system.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The respiratory system takes in air through the lungs. It does not control reactions or memory.",
+    "2": "The circulatory system moves blood around the body. It does not control reactions or memory.",
+    "3": "The digestive system breaks down and absorbs food. It does not control reactions or memory."
+   },
+   "why": {
+    "right": "Slow reactions and memory loss affect the nervous system because the brain controls thinking and responses.",
+    "wrong": [
+     "Slow reactions and memory loss affect the nervous system because the heart controls thinking and responses.",
+     "Slow reactions and memory loss affect the nervous system because the lungs control thinking and responses."
+    ]
+   }
   },
   {
    "id": "c15q57",
@@ -1014,11 +1586,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Second-hand smoke is breathed in by people nearby. It contains harmful substances that also harm their health.",
    "hint": "",
    "image": null,
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Cigarette smoke contains harmful substances. It damages the heart and blood vessels rather than improving them.",
+    "1": "Smoke spreads into the air around the smoker. Other people breathe it in too.",
+    "2": "People nearby breathe in the same smoke. The harmful substances in it affect them as well."
+   },
+   "why": {
+    "right": "Second-hand smoke harms others because they breathe in the same harmful substances as the smoker.",
+    "wrong": [
+     "Second-hand smoke harms others because the smoke changes into germs that spread between people.",
+     "Second-hand smoke harms others because it removes all of the oxygen from the air in the room."
+    ]
+   }
   },
   {
    "id": "c15q58",
@@ -1032,11 +1616,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The donor is the person who gives the organ.",
    "hint": "",
    "image": null,
    "lo": "Identify ethical issues in organ transplants",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The recipient is the person who receives the organ, not the one who gives it.",
+    "2": "A patient is someone receiving medical care. In a transplant this usually describes the person who receives the organ.",
+    "3": "The doctor carries out or manages the transplant. The doctor does not give the organ."
+   },
+   "why": null
   },
   {
    "id": "c15q59",
@@ -1050,11 +1640,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The recipient is the person who receives the organ.",
    "hint": "",
    "image": null,
    "lo": "Identify ethical issues in organ transplants",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A nurse cares for patients. The nurse does not receive the organ.",
+    "2": "The surgeon carries out the operation. The surgeon does not receive the organ.",
+    "3": "The donor is the person who gives the organ, not the one who receives it."
+   },
+   "why": null
   },
   {
    "id": "c15q60",
@@ -1067,11 +1663,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Respect for persons means people make their own decisions freely. Asking whether the donor chose willingly is about respect for persons.",
    "hint": "",
    "image": null,
    "lo": "Identify ethical issues in organ transplants",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Justice is about fairness, such as how organs are shared out. This question is about the donor's own choice.",
+    "1": "Minimal harm and maximised benefits is about weighing risks against benefits. This question is about the donor's own choice."
+   },
+   "why": {
+    "right": "This question concerns respect for persons because it asks whether the donor chose freely without pressure.",
+    "wrong": [
+     "This question concerns respect for persons because it asks whether organs are shared out fairly.",
+     "This question concerns respect for persons because it asks whether the operation will cause harm."
+    ]
+   }
   },
   {
    "id": "c15q61",
@@ -1084,11 +1691,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Justice is about fairness. Asking whether organs are allocated fairly is about justice.",
    "hint": "",
    "image": null,
    "lo": "Identify ethical issues in organ transplants",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Minimal harm and maximised benefits is about weighing risks against benefits. This question is about fairness.",
+    "1": "Respect for persons is about people making their own free choices. This question is about how organs are shared out."
+   },
+   "why": {
+    "right": "This question concerns justice because it asks whether organs are shared out fairly among patients.",
+    "wrong": [
+     "This question concerns justice because it asks whether the donor chose freely without pressure.",
+     "This question concerns justice because it asks whether the operation will help more than it harms."
+    ]
+   }
   },
   {
    "id": "c15q62",
@@ -1101,11 +1719,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Minimal harm and maximised benefits is about weighing risks against benefits. Asking whether the transplant improves quality of life is about its benefits.",
    "hint": "",
    "image": null,
    "lo": "Identify ethical issues in organ transplants",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Justice is about fairness, such as how organs are shared out. This question is about the good the transplant will do.",
+    "2": "Respect for persons is about people making their own free choices. This question is about the good the transplant will do."
+   },
+   "why": {
+    "right": "This question concerns minimal harm and maximised benefits because it asks how much good the transplant does.",
+    "wrong": [
+     "This question concerns minimal harm and maximised benefits because it asks whether organs are shared fairly.",
+     "This question concerns minimal harm and maximised benefits because it asks whether the donor chose freely."
+    ]
+   }
   },
   {
    "id": "c15q63",
@@ -1119,11 +1748,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In an opt-out scheme, everyone is counted as a donor unless they choose not to be. This increases the number of organs available for transplants.",
    "hint": "",
    "image": null,
    "lo": "Identify ethical issues in organ transplants",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Long waiting lists are a problem that these schemes try to solve. More donors means patients wait less.",
+    "1": "Selling organs is not allowed. An opt-out scheme is about the number of donors, not the price of organs.",
+    "2": "Countries want more organs for patients who need them. A scheme that reduced the supply would make the shortage worse."
+   },
+   "why": {
+    "right": "An opt-out scheme raises the supply because people are counted as donors unless they choose to say no.",
+    "wrong": [
+     "An opt-out scheme raises the supply because people must pay a fee to be removed from the donor list.",
+     "An opt-out scheme raises the supply because living people must give an organ whenever they are asked."
+    ]
+   }
   }
  ]
 }

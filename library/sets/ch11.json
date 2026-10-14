@@ -16,11 +16,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A chemical change forms one or more new substances. The new substances have different properties from the starting substances.",
    "hint": "",
    "image": null,
    "lo": "Identify a change that forms new substances as a chemical change",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "This describes a physical change. In a chemical change the atoms are rearranged, so the products are different substances from the starting ones.",
+    "1": "Being easy to reverse is a sign of a physical change. Chemical changes are usually hard to reverse because the substances themselves have changed.",
+    "2": "A change of state, such as melting, only changes how the particles are arranged. Think about what happens to the substances themselves in a chemical change."
+   },
+   "why": null
   },
   {
    "id": "c11q2",
@@ -34,11 +40,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A chemical change forms new substances, so it is usually not easily reversed. For example, the ash and smoke from burnt paper cannot be turned back into paper.",
    "hint": "",
    "image": null,
    "lo": "Identify a change that forms new substances as a chemical change",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A change in shape, like bending a wire, forms no new substance. That is a physical change. Think about what a chemical change produces and whether it can be undone.",
+    "2": "If no new substance forms, the change is physical. A chemical change is defined by the formation of new substances, which also affects how easily it can be undone.",
+    "3": "Evaporation can undo a physical change such as dissolving. Think about whether new substances made in a reaction can be turned back so simply."
+   },
+   "why": {
+    "right": "Chemical changes are hard to reverse because new substances with different properties have been formed.",
+    "wrong": [
+     "Chemical changes are hard to reverse because the particles have stopped moving completely.",
+     "Chemical changes are hard to reverse because the substances have lost some of their atoms."
+    ]
+   }
   },
   {
    "id": "c11q3",
@@ -51,11 +69,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Freezing changes water from a liquid to a solid. Ice is still water, so no new substance forms and the change is physical.",
    "hint": "",
    "image": null,
    "lo": "Identify a change that forms new substances as a chemical change",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Freezing is not a mix of both types. It only changes the state of water, so check whether any new substance has been formed at all.",
+    "2": "Ice looks different from liquid water, but it is still the same substance. A change in appearance or state alone does not mean a new substance has formed."
+   },
+   "why": {
+    "right": "Freezing is a physical change because ice and liquid water are the same substance in different states.",
+    "wrong": [
+     "Freezing is a physical change because the water particles shrink and become smaller as they cool.",
+     "Freezing is a physical change because water loses its oxygen atoms as it cools down."
+    ]
+   }
   },
   {
    "id": "c11q4",
@@ -68,11 +97,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "When salt dissolves, it spreads out in the water but no new substance forms. The salt can be got back by evaporating the water, so this is a physical change.",
    "hint": "",
    "image": null,
    "lo": "Identify a change that forms new substances as a chemical change",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Salt seems to disappear, but it is still there in the water. It can be recovered by evaporating the water, so ask whether a new substance was really formed.",
+    "1": "Dissolving does not form any new substance, so it does not count as both types. Think about whether the salt can be recovered unchanged."
+   },
+   "why": {
+    "right": "Dissolving salt is a physical change because the salt can be recovered unchanged by evaporating the water.",
+    "wrong": [
+     "Dissolving salt is a physical change because the salt particles are destroyed in the water.",
+     "Dissolving salt is a physical change because the salt melts into a liquid in the water."
+    ]
+   }
   },
   {
    "id": "c11q5",
@@ -85,11 +125,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Rusting forms rust, a new substance made when iron reacts with oxygen and water. Rust cannot easily be turned back into iron, so this is a chemical change.",
    "hint": "",
    "image": null,
    "lo": "Identify a change that forms new substances as a chemical change",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Rusting is not a mix of both types. Rust is a brown, flaky substance with different properties from iron, so focus on what has been formed.",
+    "1": "Rust is not iron in a different state or shape. Iron has reacted with oxygen and water, so think about whether a new substance has appeared."
+   },
+   "why": {
+    "right": "Rusting is a chemical change because iron reacts with oxygen and water to form a new substance.",
+    "wrong": [
+     "Rusting is a chemical change because the iron slowly melts and changes its state.",
+     "Rusting is a chemical change because a layer of dirt sticks to the surface of the iron."
+    ]
+   }
   },
   {
    "id": "c11q6",
@@ -102,11 +153,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Steam from the hot soup cools on the lid and condenses into liquid water. It is still water, so condensation is a physical change.",
    "hint": "",
    "image": null,
    "lo": "Identify a change that forms new substances as a chemical change",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The droplets form by condensation alone and nothing reacts. Decide whether a new substance was formed before choosing a mixed answer.",
+    "2": "The droplets are water, the same substance as the steam that rose from the soup. A change of state does not form a new substance."
+   },
+   "why": {
+    "right": "Condensation is a physical change because water vapour turns into liquid water without forming a new substance.",
+    "wrong": [
+     "Condensation is a physical change because the water droplets seep out through the metal of the lid.",
+     "Condensation is a physical change because steam is made of air that turns into water when cooled."
+    ]
+   }
   },
   {
    "id": "c11q7",
@@ -120,11 +182,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a word equation, the reactants are written on the left-hand side of the arrow and the products on the right-hand side.",
    "hint": "",
    "image": null,
    "lo": "Use word equations to represent chemical reactions",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The right-hand side shows what is made at the end of the reaction. Think about which side shows the starting substances.",
+    "1": "No substances are written below the arrow in a word equation. The substances go on either side of it, in the order the reaction happens.",
+    "2": "Above the arrow is where a condition such as heat may be written, not a substance that reacts. Read the equation from start to finish."
+   },
+   "why": null
   },
   {
    "id": "c11q8",
@@ -138,11 +206,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Products are the substances formed, written on the right of the arrow. Here they are carbon dioxide and water.",
    "hint": "",
    "image": null,
    "lo": "Use word equations to represent chemical reactions",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Methane is a starting substance because it is on the left of the arrow. Only one of these two substances is formed in the reaction.",
+    "2": "Oxygen is on the left of the arrow, so it is used up, not made. Look at which side shows the substances formed.",
+    "3": "Methane and oxygen are on the left of the arrow. They are the substances that react, not the ones that are formed."
+   },
+   "why": {
+    "right": "Carbon dioxide and water are products because they are written on the right of the arrow.",
+    "wrong": [
+     "Carbon dioxide and water are products because they are written first in the word equation.",
+     "Carbon dioxide and water are products because they are both gases at room temperature."
+    ]
+   }
   },
   {
    "id": "c11q9",
@@ -156,11 +236,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Hydrogen and oxygen are the reactants, so they go on the left of the arrow. Water is formed, so it goes on the right.",
    "hint": "",
    "image": null,
    "lo": "Use word equations to represent chemical reactions",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water is what is formed, so it should not be on the left as a reactant. Check which substances react together.",
+    "2": "This shows water breaking down. The question describes two substances joining to make water, so the order is reversed.",
+    "3": "Hydrogen is a reactant, not a product. Both substances that react together belong on the same side of the arrow."
+   },
+   "why": {
+    "right": "Hydrogen and oxygen go on the left because they are the reactants that join to form water.",
+    "wrong": [
+     "Hydrogen and oxygen go on the left because the lighter substances are always written first.",
+     "Hydrogen and oxygen go on the left because gases are always written before liquids."
+    ]
+   }
   },
   {
    "id": "c11q10",
@@ -174,11 +266,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Calcium carbonate is the reactant that breaks down, so it is on the left. It forms calcium oxide and carbon dioxide, which are on the right.",
    "hint": "",
    "image": null,
    "lo": "Use word equations to represent chemical reactions",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This shows two substances joining to make calcium carbonate. In this reaction, calcium carbonate is the substance being heated, so think about which side it starts on.",
+    "1": "Breaking down on heating needs only heat, not oxygen. Also, carbon dioxide is missing from the products, so some atoms are unaccounted for.",
+    "2": "Calcium oxide is formed in this reaction, not heated at the start. Check which substance is heated and breaks down."
+   },
+   "why": {
+    "right": "Calcium carbonate is on the left because it is the single reactant that breaks down when heated.",
+    "wrong": [
+     "Calcium carbonate is on the left because it reacts with oxygen in the air when heated.",
+     "Calcium carbonate is on the left because the substance with the longest name is written first."
+    ]
+   }
   },
   {
    "id": "c11q11",
@@ -192,11 +296,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Charcoal is mostly carbon. Carbon reacts with oxygen to form carbon dioxide, so carbon is the missing reactant.",
    "hint": "",
    "image": null,
    "lo": "Use word equations to represent chemical reactions",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Hydrogen contains no carbon, so it cannot form carbon dioxide with oxygen. Think about what charcoal is mainly made of.",
+    "1": "Carbon dioxide is the product of this reaction. It cannot also be the substance that reacts to make itself.",
+    "3": "Water contains no carbon, so it cannot produce carbon dioxide. Think about where the carbon in the product must come from."
+   },
+   "why": {
+    "right": "Carbon is the missing reactant because the carbon atoms in carbon dioxide must come from the charcoal.",
+    "wrong": [
+     "Carbon is the missing reactant because oxygen changes into carbon when it is heated.",
+     "Carbon is the missing reactant because carbon dioxide forms whenever any substance burns."
+    ]
+   }
   },
   {
    "id": "c11q12",
@@ -210,11 +326,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In a chemical reaction, atoms are not created, destroyed or changed into other atoms. They are rearranged and joined in new ways to form new substances.",
    "hint": "",
    "image": null,
    "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Atoms are not destroyed in a reaction. Every atom in the reactants is still there in the products, just joined differently.",
+    "2": "No new atoms appear in a reaction. The atoms in the products were all present in the reactants.",
+    "3": "One type of atom cannot change into another in a chemical reaction. A carbon atom stays a carbon atom, so think about how the atoms are linked instead."
+   },
+   "why": null
   },
   {
    "id": "c11q13",
@@ -228,11 +350,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Atoms are only rearranged in a reaction. None are created or destroyed, so the number of each type of atom stays the same.",
    "hint": "",
    "image": null,
    "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Atoms are not lost or destroyed in a reaction. If a gas escapes, its atoms still exist, just outside the container.",
+    "1": "Atoms cannot be created in a reaction. The products are made only from the atoms that were in the reactants.",
+    "3": "Atoms do not disappear when substances react. They are joined together in new ways to make the products."
+   },
+   "why": {
+    "right": "The number of each type of atom stays the same because atoms are only rearranged during a reaction.",
+    "wrong": [
+     "The number of each type of atom stays the same because the reaction stops before atoms can change.",
+     "The number of each type of atom stays the same because new atoms replace the ones used up."
+    ]
+   }
   },
   {
    "id": "c11q14",
@@ -246,11 +380,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Atoms are not created or destroyed in a reaction. The 4 hydrogen atoms in the reactants must all appear in the products.",
    "hint": "",
    "image": null,
    "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Doubling the number would mean new hydrogen atoms were created. Atoms are only rearranged in a reaction.",
+    "1": "The hydrogen atoms do not vanish. They end up in the products, joined to different atoms.",
+    "2": "Halving the number would mean hydrogen atoms were destroyed. Atoms are only rearranged, so count what was there at the start."
+   },
+   "why": {
+    "right": "Hydrogen atoms are the same in number on both sides because atoms are only rearranged in a reaction.",
+    "wrong": [
+     "Hydrogen atoms are the same in number on both sides because hydrogen is a gas that never reacts.",
+     "Hydrogen atoms are the same in number on both sides because reactions always form as many substances as react."
+    ]
+   }
   },
   {
    "id": "c11q15",
@@ -264,11 +410,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "There are 1 + 4 + 4 = 9 atoms in the reactants. Atoms are rearranged, not created or destroyed, so the products also have 9 atoms.",
    "hint": "",
    "image": null,
    "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This leaves out one type of atom. All the carbon, hydrogen and oxygen atoms end up in the products, so add them all.",
+    "2": "This counts only the hydrogen and oxygen atoms. The carbon atom is still there in the products, so it must be counted too.",
+    "3": "Only one type of atom has been counted. The products contain every atom from the reactants, so add up all three types."
+   },
+   "why": {
+    "right": "The products contain 9 atoms because all the atoms in the reactants are kept and only rearranged.",
+    "wrong": [
+     "The products contain 9 atoms because new atoms form to replace those that escape as gas.",
+     "The products contain 9 atoms because the reactant atoms change into other types of atoms."
+    ]
+   }
   },
   {
    "id": "c11q16",
@@ -282,11 +440,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Atoms are not created or destroyed in a reaction. If the products contain 6 oxygen atoms, the reactants must also have contained 6 oxygen atoms.",
    "hint": "",
    "image": null,
    "lo": "Recognise that atoms are rearranged, not created or destroyed, in a reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Doubling would mean half the oxygen atoms were destroyed during the reaction. Atoms are only rearranged, so the count on both sides matches.",
+    "2": "Halving would mean extra oxygen atoms were created. The products can only contain atoms that were already in the reactants.",
+    "3": "The oxygen atoms in the products had to come from somewhere. Atoms cannot appear from nothing in a reaction."
+   },
+   "why": {
+    "right": "The reactants had 6 oxygen atoms because atoms are rearranged in a reaction, not created or destroyed.",
+    "wrong": [
+     "The reactants had 6 oxygen atoms because oxygen is the only element that is never used up.",
+     "The reactants had 6 oxygen atoms because every reaction takes in the same amount of oxygen."
+    ]
+   }
   },
   {
    "id": "c11q17",
@@ -300,11 +470,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In a reaction, atoms are rearranged but none are lost or formed. The same atoms are present before and after, so the total mass stays the same.",
    "hint": "",
    "image": null,
    "lo": "Recognise that mass is conserved during a chemical reaction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "No new atoms appear in a reaction. If atoms were formed, the mass would increase, so think about why it stays the same.",
+    "2": "Atoms of one element do not change into another in a chemical reaction. They keep their identity and are only joined differently.",
+    "3": "Atoms are not destroyed in a reaction. If they were, the mass would drop. Gases that escape still contain the atoms."
+   },
+   "why": {
+    "right": "Mass is conserved because the same atoms, with the same masses, are present before and after the reaction.",
+    "wrong": [
+     "Mass is conserved because the products always take up the same volume as the reactants.",
+     "Mass is conserved because the gases given off during a reaction have no mass at all."
+    ]
+   }
   },
   {
    "id": "c11q18",
@@ -318,11 +500,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Mass is conserved in a reaction. The mass of carbon dioxide formed equals the total mass of the reactants, 12 g + 32 g = 44 g.",
    "hint": "",
    "image": null,
    "lo": "Recognise that mass is conserved during a chemical reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "12 g is only the mass of carbon. The oxygen atoms also end up in the carbon dioxide, so their mass must be included.",
+    "1": "20 g is the difference between the two masses. The masses of the reactants combine in the product, so they should not be subtracted.",
+    "3": "32 g is only the mass of oxygen. The carbon atoms also end up in the carbon dioxide, so their mass counts too."
+   },
+   "why": {
+    "right": "The carbon dioxide has a mass of 44 g because all the carbon and oxygen atoms end up in it.",
+    "wrong": [
+     "The carbon dioxide has a mass of 44 g because burning adds extra mass from the heat given out.",
+     "The carbon dioxide has a mass of 44 g because gases always have more mass than solids."
+    ]
+   }
   },
   {
    "id": "c11q19",
@@ -336,11 +530,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Mass is conserved, so the masses of P and Q add up to 10 g. The mass of Q is 10 g - 6 g = 4 g.",
    "hint": "",
    "image": null,
    "lo": "Recognise that mass is conserved during a chemical reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "6 g is the mass of P, not Q. Together the two products must have the same mass as the solid that broke down.",
+    "1": "16 g adds the masses, which would mean mass was created. The two products share the original 10 g between them.",
+    "2": "10 g is the mass of the solid before it broke down. That mass is now shared between P and Q."
+   },
+   "why": {
+    "right": "Q has a mass of 4 g because P and Q together must equal the 10 g of solid.",
+    "wrong": [
+     "Q has a mass of 4 g because some of the mass is destroyed when the solid is heated.",
+     "Q has a mass of 4 g because heating always removes 6 g of mass from a solid."
+    ]
+   }
   },
   {
    "id": "c11q20",
@@ -354,11 +560,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Mass is conserved in a chemical reaction. When 50 g of reactants react completely, the total mass of the products is also 50 g.",
    "hint": "",
    "image": null,
    "lo": "Recognise that mass is conserved during a chemical reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Atoms are not created in a reaction, so the products cannot gain mass. Think about what happens to the atoms in the reactants.",
+    "2": "Atoms are not destroyed in a reaction. Even if a gas forms, it still has mass and counts as part of the products.",
+    "3": "The reactants do not vanish. Their atoms are rearranged into the products, which still have mass."
+   },
+   "why": {
+    "right": "The products have a mass of 50 g because no atoms are gained or lost during the reaction.",
+    "wrong": [
+     "The products have a mass of 50 g because each product has the same mass as each reactant.",
+     "The products have a mass of 50 g because the reaction does not change any of the substances."
+    ]
+   }
   },
   {
    "id": "c11q21",
@@ -372,11 +590,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Mass is conserved, so the mass of X plus the mass of Y equals 30 g. The mass of Y is 30 g - 18 g = 12 g.",
    "hint": "",
    "image": null,
    "lo": "Recognise that mass is conserved during a chemical reaction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "30 g is the total mass of the products. That total includes the mass of X, so it is not the mass of Y alone.",
+    "2": "Adding 18 g and 30 g counts the mass of X twice. The products already include the atoms from X.",
+    "3": "18 g is the mass of X. The two reactants together must have the same mass as the products."
+   },
+   "why": {
+    "right": "Y has a mass of 12 g because the masses of X and Y together equal the mass of the products.",
+    "wrong": [
+     "Y has a mass of 12 g because the reactants always have less mass than the products.",
+     "Y has a mass of 12 g because the second reactant is always lighter than the first one."
+    ]
+   }
   },
   {
    "id": "c11q22",
@@ -390,11 +620,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Thermal decomposition is the breakdown of a substance into two or more simpler substances by heating. The word thermal refers to heat.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Oxidation is when a substance gains oxygen. The description is about one substance breaking down when heated, not joining with oxygen.",
+    "2": "Combustion is burning in oxygen, giving out heat and light. Here the substance breaks apart on heating without needing oxygen.",
+    "3": "Neutralisation is the reaction between an acid and an alkali. The description involves only one substance being heated."
+   },
+   "why": null
   },
   {
    "id": "c11q23",
@@ -408,11 +644,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Oxidation is a reaction in which a substance gains oxygen. Rusting and respiration are examples.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Thermal decomposition is a substance breaking down on heating. It does not involve gaining oxygen.",
+    "1": "Electroplating uses an electric current to coat an object with a metal. It is not defined by gaining oxygen.",
+    "2": "Neutralisation is a reaction between an acid and an alkali that forms a salt and water. Think of the reaction named after the substance being gained."
+   },
+   "why": null
   },
   {
    "id": "c11q24",
@@ -426,11 +668,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Combustion is the burning of a substance in oxygen. It gives out heat and light.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Photosynthesis takes in light energy to make glucose. The reaction described gives out heat and light instead.",
+    "1": "Thermal decomposition takes in heat to break a substance down. It does not give out heat and light.",
+    "3": "Neutralisation is a reaction between an acid and an alkali. The clue here is a substance reacting with oxygen and giving out heat and light."
+   },
+   "why": null
   },
   {
    "id": "c11q25",
@@ -444,11 +692,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Charcoal burns by reacting with oxygen in the air, giving out heat and light. Burning in oxygen is combustion.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Charcoal does not just break down on heating. It reacts with oxygen in the air, so think about which reaction involves burning.",
+    "2": "Neutralisation needs an acid and an alkali. Burning charcoal involves a fuel and oxygen.",
+    "3": "Photosynthesis happens in plants and takes in light energy. Burning charcoal gives out heat and light."
+   },
+   "why": {
+    "right": "Burning charcoal is combustion because the carbon reacts with oxygen and gives out heat and light.",
+    "wrong": [
+     "Burning charcoal is combustion because the charcoal breaks down into simpler substances when heated.",
+     "Burning charcoal is combustion because the charcoal takes in heat and light from the fire."
+    ]
+   }
   },
   {
    "id": "c11q26",
@@ -462,11 +722,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Hydrochloric acid is an acid and sodium hydroxide is an alkali. An acid reacting with an alkali to form a salt and water is neutralisation.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Nothing is being heated and broken down here. Two solutions are mixed, so think about what kinds of substance they are.",
+    "1": "No burning takes place and no oxygen is needed. Look at whether each substance is an acid or an alkali.",
+    "2": "Neither substance gains oxygen in this reaction. Identify which of the two is an acid and which is an alkali."
+   },
+   "why": {
+    "right": "Mixing hydrochloric acid with sodium hydroxide is neutralisation because an acid reacts with an alkali to form salt and water.",
+    "wrong": [
+     "Mixing hydrochloric acid with sodium hydroxide is neutralisation because the acid breaks down into simpler substances.",
+     "Mixing hydrochloric acid with sodium hydroxide is neutralisation because both solutions react with oxygen in the air."
+    ]
+   }
   },
   {
    "id": "c11q27",
@@ -480,11 +752,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Glucose gains oxygen and forms carbon dioxide and water. A reaction in which a substance gains oxygen is oxidation. This happens in respiration.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Thermal decomposition breaks one substance into simpler ones on heating. Here glucose reacts with a second substance, oxygen.",
+    "2": "Neutralisation needs an acid and an alkali. Look at which substance glucose is reacting with.",
+    "3": "Photosynthesis is the reverse reaction. It makes glucose and oxygen from carbon dioxide and water, but here glucose is used up, not made."
+   },
+   "why": {
+    "right": "This reaction of glucose is oxidation because glucose gains oxygen to form carbon dioxide and water.",
+    "wrong": [
+     "This reaction of glucose is oxidation because glucose breaks down on heating without any oxygen.",
+     "This reaction of glucose is oxidation because glucose is made from carbon dioxide and water."
+    ]
+   }
   },
   {
    "id": "c11q28",
@@ -498,11 +782,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Iron rusts only when both oxygen and water are present. Iron kept in dry air, or in water with no dissolved air, does not rust.",
    "hint": "",
    "image": null,
    "lo": "Classify reactions as combustion, thermal decomposition, oxidation or neutralisation",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Iron in boiled water with no air does not rust. Water alone is not enough, so think about what else from the air is needed.",
+    "1": "Carbon dioxide is not needed for rusting. Think about which gas in the air iron gains when it forms rust.",
+    "3": "Iron in dry air does not rust. Oxygen alone is not enough, so think about what else must be present."
+   },
+   "why": null
   },
   {
    "id": "c11q29",
@@ -516,11 +806,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Acids turn blue litmus paper red. They also taste sour.",
    "hint": "",
    "image": null,
    "lo": "State the properties of acids and alkalis",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A bitter taste is a property of alkalis. Acids have a different taste and a different effect on litmus.",
+    "2": "Turning red litmus blue is a property of alkalis. Acids change the colour of litmus the other way.",
+    "3": "A soapy feel is a property of alkalis. Think about how an acid changes the colour of litmus paper."
+   },
+   "why": null
   },
   {
    "id": "c11q30",
@@ -534,11 +830,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Acids taste sour. Lemon juice and vinegar taste sour because they contain acids.",
    "hint": "",
    "image": null,
    "lo": "State the properties of acids and alkalis",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Soapy describes how alkalis feel, not how acids taste. Think about how lemon juice or vinegar tastes.",
+    "1": "A bitter taste is a property of alkalis. Acids such as lemon juice taste different.",
+    "3": "Salty is the taste of salts such as sodium chloride. Think about the taste of lemon juice or vinegar."
+   },
+   "why": null
   },
   {
    "id": "c11q31",
@@ -552,11 +854,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Alkalis feel soapy. They also taste bitter and turn red litmus blue.",
    "hint": "",
    "image": null,
    "lo": "State the properties of acids and alkalis",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A sour taste is a property of acids. Alkalis have a bitter taste.",
+    "2": "Reacting with metals to give hydrogen is a property of acids. Think about how an alkali feels on the skin.",
+    "3": "Turning blue litmus red is a property of acids. Alkalis have the opposite effect on litmus."
+   },
+   "why": null
   },
   {
    "id": "c11q32",
@@ -570,11 +878,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Citric acid, found in citrus fruits such as lemons, is an acid.",
    "hint": "",
    "image": null,
    "lo": "State the properties of acids and alkalis",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Baking soda is weakly alkaline. It is used to neutralise acids, so it is not an acid itself.",
+    "1": "Ammonia solution is an alkali. It turns red litmus blue.",
+    "2": "Sodium hydroxide is an alkali. It reacts with acids in neutralisation."
+   },
+   "why": null
   },
   {
    "id": "c11q33",
@@ -588,11 +902,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Calcium hydroxide is an alkali. It is used to neutralise acidic soil.",
    "hint": "",
    "image": null,
    "lo": "State the properties of acids and alkalis",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Ascorbic acid is vitamin C. As its name shows, it is an acid, not an alkali.",
+    "1": "Acetic acid is the acid in vinegar. It turns blue litmus red, which is what an acid does.",
+    "3": "Sulfuric acid is a strong acid. Alkalis are the substances that neutralise acids like this one."
+   },
+   "why": null
   },
   {
    "id": "c11q34",
@@ -606,11 +926,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A bitter taste and a soapy feel are properties of alkalis.",
    "hint": "",
    "image": null,
    "lo": "State the properties of acids and alkalis",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Pure water is neutral and does not taste bitter or feel soapy. These two properties are signs of a particular type of solution.",
+    "1": "A salt is formed when an acid and an alkali neutralise each other. A bitter taste and soapy feel point to something else.",
+    "2": "Acids taste sour and do not feel soapy. A bitter taste and soapy feel belong to the type of substance that neutralises acids."
+   },
+   "why": {
+    "right": "The liquid is most likely an alkali because alkalis taste bitter and feel soapy.",
+    "wrong": [
+     "The liquid is most likely an alkali because alkalis taste sour and turn blue litmus red.",
+     "The liquid is most likely an alkali because alkalis contain soap dissolved in water."
+    ]
+   }
   },
   {
    "id": "c11q35",
@@ -624,11 +956,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An acid reacts with an alkali to form a salt and water. This reaction is neutralisation.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Oxygen is not produced in neutralisation. Think about the common liquid that forms along with the salt.",
+    "2": "Carbon dioxide is given off when an acid reacts with a carbonate, not with an alkali.",
+    "3": "Hydrogen gas is given off when an acid reacts with a metal. An acid reacting with an alkali forms a different product."
+   },
+   "why": null
   },
   {
    "id": "c11q36",
@@ -642,11 +980,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An acid reacts with a reactive metal to form a salt and hydrogen gas. The hydrogen can be seen as bubbles.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A salt and water form when an acid reacts with an alkali. A metal reacting with an acid gives off a gas instead of water.",
+    "2": "Oxygen is not given off when acids react with metals. The gas produced burns with a pop.",
+    "3": "Carbon dioxide forms when an acid reacts with a carbonate. A metal contains no carbon, so a different gas is given off."
+   },
+   "why": null
   },
   {
    "id": "c11q37",
@@ -660,11 +1004,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An acid reacts with a carbonate to form a salt, carbon dioxide and water.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Carbon dioxide is given off, but this leaves out one product. An acid and a carbonate form three products in total.",
+    "2": "A salt and water alone form when an acid reacts with an alkali. A carbonate also gives off a gas that turns limewater chalky.",
+    "3": "Hydrogen is given off when an acid reacts with a metal. A carbonate gives off a different gas, which turns limewater chalky."
+   },
+   "why": null
   },
   {
    "id": "c11q38",
@@ -678,11 +1028,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Magnesium is a metal. An acid and a metal form a salt and hydrogen, so hydrochloric acid and magnesium form magnesium chloride and hydrogen.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Carbon dioxide forms only when an acid reacts with a carbonate. Magnesium is a metal and contains no carbon.",
+    "2": "A salt and water form when an acid reacts with an alkali. Magnesium is a metal, so the products are different.",
+    "3": "Hydrochloric acid forms chloride salts, not hydroxides. Check the name of the salt as well as the gas."
+   },
+   "why": {
+    "right": "Magnesium chloride and hydrogen form because an acid reacting with a metal gives a salt and hydrogen.",
+    "wrong": [
+     "Magnesium chloride and hydrogen form because the magnesium breaks down to release hydrogen gas.",
+     "Magnesium chloride and hydrogen form because the acid reacts with oxygen dissolved in the water."
+    ]
+   }
   },
   {
    "id": "c11q39",
@@ -696,11 +1058,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Sodium hydroxide is an alkali. An acid and an alkali form a salt and water, so the products are sodium chloride and water.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Hydrogen is given off when an acid reacts with a metal. Sodium hydroxide is an alkali, so check what forms with the salt.",
+    "1": "Carbon dioxide is given off when an acid reacts with a carbonate. Sodium hydroxide contains no carbon.",
+    "2": "Sodium hydroxide is a reactant, so it is not the salt formed. Hydrochloric acid forms salts called chlorides."
+   },
+   "why": {
+    "right": "Sodium chloride and water form because an acid reacting with an alkali gives a salt and water.",
+    "wrong": [
+     "Sodium chloride and water form because the sodium hydroxide breaks down when it is heated.",
+     "Sodium chloride and water form because the acid reacts with hydrogen gas from the air."
+    ]
+   }
   },
   {
    "id": "c11q40",
@@ -714,11 +1088,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Hydrogen is tested with a lighted splint. The splint goes out with a pop sound because the hydrogen burns very quickly.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Nitrogen can put out a flame, but it does so quietly. The pop is a sign of a gas that burns very quickly.",
+    "1": "Carbon dioxide puts out a lighted splint quietly, with no pop. It is tested with limewater.",
+    "3": "Oxygen relights a glowing splint. It does not burn with a pop."
+   },
+   "why": null
   },
   {
    "id": "c11q41",
@@ -732,11 +1112,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Carbon dioxide turns limewater chalky. This is the test for carbon dioxide.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Hydrogen is tested with a lighted splint, which goes out with a pop. It has no effect on limewater.",
+    "1": "Nitrogen does not react with limewater. Think about the gas given off when an acid reacts with a carbonate.",
+    "3": "Oxygen is tested with a glowing splint, which relights. It does not turn limewater chalky."
+   },
+   "why": null
   },
   {
    "id": "c11q42",
@@ -750,11 +1136,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A gas that turns limewater chalky is carbon dioxide. An acid gives off carbon dioxide when it reacts with a carbonate.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Acids do not give off a gas when mixed with water. The chalky limewater shows which gas formed, and so which substance reacted.",
+    "1": "An acid and an alkali form a salt and water with no gas given off. The chalky limewater shows that a gas was produced.",
+    "2": "An acid and a metal give off hydrogen, which does not affect limewater. Think about which gas turns limewater chalky."
+   },
+   "why": {
+    "right": "The acid reacted with a carbonate because carbonates give off carbon dioxide when they react with acids.",
+    "wrong": [
+     "The acid reacted with a carbonate because carbonates give off hydrogen, which turns limewater chalky.",
+     "The acid reacted with a carbonate because carbonates are the only substances that react with acids."
+    ]
+   }
   },
   {
    "id": "c11q43",
@@ -768,11 +1166,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Copper is an unreactive metal. It does not react with dilute hydrochloric acid, while zinc, iron and magnesium do.",
    "hint": "",
    "image": null,
    "lo": "Investigate the reactions of acids with alkalis, metals and carbonates and test the gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Zinc reacts with hydrochloric acid, giving off bubbles of hydrogen. Look for a metal that is less reactive.",
+    "2": "Iron reacts with hydrochloric acid and gives off hydrogen. Look for a metal that is less reactive.",
+    "3": "Magnesium reacts quickly with hydrochloric acid, fizzing as hydrogen is given off. Look for a metal that is much less reactive."
+   },
+   "why": {
+    "right": "Copper does not react with hydrochloric acid because it is a very unreactive metal.",
+    "wrong": [
+     "Copper does not react with hydrochloric acid because it is an alkali that neutralises the acid.",
+     "Copper does not react with hydrochloric acid because it is too heavy to dissolve in the acid."
+    ]
+   }
   },
   {
    "id": "c11q44",
@@ -786,11 +1196,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Pure water is neutral. A neutral solution has a pH of 7.",
    "hint": "",
    "image": null,
    "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "pH 1 is strongly acidic. Pure water is neither acidic nor alkaline.",
+    "2": "pH 14 is strongly alkaline. Pure water is neither acidic nor alkaline.",
+    "3": "pH 0 is very strongly acidic. Pure water is neither acidic nor alkaline."
+   },
+   "why": null
   },
   {
    "id": "c11q45",
@@ -803,11 +1219,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A pH below 7 means a solution is acidic. pH 3 is below 7, so the solution is acidic.",
    "hint": "",
    "image": null,
    "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Only pH 7 is neutral. A pH of 3 is some distance from 7, so check which side of 7 it is on.",
+    "1": "Alkaline solutions have a pH above 7. Check which side of 7 a pH of 3 is on."
+   },
+   "why": {
+    "right": "A solution with pH 3 is acidic because its pH is below 7.",
+    "wrong": [
+     "A solution with pH 3 is acidic because its pH is above 7.",
+     "A solution with pH 3 is acidic because its pH is close to 0, which is neutral."
+    ]
+   }
   },
   {
    "id": "c11q46",
@@ -820,11 +1247,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A pH above 7 means a solution is alkaline. pH 11 is above 7, so the solution is alkaline.",
    "hint": "",
    "image": null,
    "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Only pH 7 is neutral. A pH of 11 is well away from 7, so check which side of 7 it is on.",
+    "2": "Acidic solutions have a pH below 7. Check which side of 7 a pH of 11 is on."
+   },
+   "why": {
+    "right": "A solution with pH 11 is alkaline because its pH is above 7.",
+    "wrong": [
+     "A solution with pH 11 is alkaline because its pH is below 7.",
+     "A solution with pH 11 is alkaline because its pH is close to 14, which is neutral."
+    ]
+   }
   },
   {
    "id": "c11q47",
@@ -838,11 +1276,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The lower the pH, the more acidic the solution. pH 1 is the lowest value here, so it is the most acidic.",
    "hint": "",
    "image": null,
    "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "pH 5 is acidic, but only weakly. A lower pH means a more acidic solution.",
+    "2": "pH 13 is strongly alkaline, not acidic. Acidic solutions have a pH below 7.",
+    "3": "pH 7 is neutral. Acidic solutions have a pH below 7."
+   },
+   "why": {
+    "right": "pH 1 is the most acidic because the lower the pH, the more acidic the solution.",
+    "wrong": [
+     "pH 1 is the most acidic because it is the value closest to the neutral point.",
+     "pH 1 is the most acidic because the solution contains only one type of acid."
+    ]
+   }
   },
   {
    "id": "c11q48",
@@ -856,11 +1306,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An acid has a pH below 7. As alkali is added, the acid is neutralised and the pH rises until it reaches 7 when neutralisation is complete.",
    "hint": "",
    "image": null,
    "lo": "Use the pH scale to describe how acidic or alkaline a solution is",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "pH 14 is strongly alkaline. When neutralisation is complete, the solution is neither acidic nor alkaline.",
+    "1": "Adding an alkali makes an acid less acidic, so the pH does not fall. pH 0 is very strongly acidic.",
+    "2": "The pH starts below 7 because the solution is an acid. Think about whether adding an alkali makes the number go up or down."
+   },
+   "why": {
+    "right": "The pH rises to 7 because the alkali reacts with the acid until the solution is neutral.",
+    "wrong": [
+     "The pH rises to 7 because the alkali adds more acid until the solution is neutral.",
+     "The pH rises to 7 because any water added to a solution brings it to pH 7."
+    ]
+   }
   },
   {
    "id": "c11q49",
@@ -873,11 +1335,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Acids turn blue litmus paper red. So a solution that turns blue litmus red is acidic.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Alkaline solutions turn red litmus blue, not blue litmus red. Think about which type of solution makes litmus go red.",
+    "2": "A neutral solution does not change the colour of litmus paper. Here the paper did change colour."
+   },
+   "why": null
   },
   {
    "id": "c11q50",
@@ -890,11 +1357,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Alkalis turn red litmus paper blue. So a solution that turns red litmus blue is alkaline.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A neutral solution does not change the colour of litmus paper. Here the paper did change colour.",
+    "1": "Acidic solutions turn blue litmus red. Here the change went the other way."
+   },
+   "why": null
   },
   {
    "id": "c11q51",
@@ -907,11 +1379,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A neutral solution does not change the colour of red or blue litmus paper. Acids turn blue litmus red and alkalis turn red litmus blue.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "An alkaline solution would turn the red litmus paper blue. Neither paper changed here.",
+    "2": "An acidic solution would turn the blue litmus paper red. Neither paper changed here."
+   },
+   "why": {
+    "right": "Litmus stays the same in a neutral solution because the solution is neither acidic nor alkaline.",
+    "wrong": [
+     "Litmus stays the same in a neutral solution because the solution destroys the dye in litmus.",
+     "Litmus stays the same in a neutral solution because the solution is both acidic and alkaline."
+    ]
+   }
   },
   {
    "id": "c11q52",
@@ -925,11 +1408,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Universal Indicator turns green in a neutral solution, which has a pH of 7.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Red shows a strongly acidic solution, with a low pH. pH 7 is neutral.",
+    "1": "Yellow shows a weakly acidic solution, with a pH a little below 7. pH 7 is exactly neutral.",
+    "2": "Purple shows a strongly alkaline solution, with a high pH. pH 7 is neutral."
+   },
+   "why": null
   },
   {
    "id": "c11q53",
@@ -943,11 +1432,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Universal Indicator turns red in a strongly acidic solution. Of these values, only pH 1 is strongly acidic.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "pH 14 is strongly alkaline, which turns Universal Indicator purple. Red shows the opposite end of the scale.",
+    "1": "pH 10 is alkaline, which turns Universal Indicator blue. Red shows a solution that is acidic.",
+    "2": "pH 7 is neutral, which turns Universal Indicator green. Red shows a solution that is strongly acidic."
+   },
+   "why": {
+    "right": "Universal Indicator turning red shows pH 1 because red means a strongly acidic solution.",
+    "wrong": [
+     "Universal Indicator turning red shows pH 1 because red means a strongly alkaline solution.",
+     "Universal Indicator turning red shows pH 1 because red means the solution is neutral."
+    ]
+   }
   },
   {
    "id": "c11q54",
@@ -961,11 +1462,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Universal Indicator is a mixture of several indicators. Each one changes colour at a different pH, so together they give a range of colours across the pH scale.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Universal Indicator does not work by containing an acid. Its range of colours comes from what it is made up of.",
+    "2": "Red cabbage gives a separate natural indicator. Think about how one indicator could show many different colours at different pH values.",
+    "3": "A single dye usually changes colour only once, so it shows only two colours. Think about what could give many colour changes."
+   },
+   "why": {
+    "right": "Universal Indicator shows many colours because each indicator in it changes colour at a different pH.",
+    "wrong": [
+     "Universal Indicator shows many colours because its single dye fades more as the pH rises.",
+     "Universal Indicator shows many colours because it contains an acid that reacts with alkalis."
+    ]
+   }
   },
   {
    "id": "c11q55",
@@ -978,11 +1491,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Red cabbage indicator turns red in acidic solutions. It turns green or yellow in alkaline solutions.",
    "hint": "",
    "image": null,
    "lo": "Investigate the effect of acidic, alkaline and neutral solutions on indicators",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Red cabbage indicator stays purple in a neutral solution. A red colour shows that the solution has caused a change.",
+    "1": "Red cabbage indicator turns green or yellow in alkaline solutions. A red colour shows the opposite type of solution."
+   },
+   "why": null
   },
   {
    "id": "c11q56",
@@ -996,11 +1514,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Antacids contain weak alkalis or carbonates. They neutralise excess hydrochloric acid in the stomach, which relieves the discomfort.",
    "hint": "",
    "image": null,
    "lo": "Explain uses of neutralisation in daily life",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Stomach discomfort is often caused by too much acid. Adding more acid would make it worse, so think about what reduces acid.",
+    "2": "Antacids are not used to kill bacteria. They act on the stomach acid that causes the discomfort.",
+    "3": "A strongly acidic substance would add to the problem. Antacids are chosen because they react with acid."
+   },
+   "why": {
+    "right": "Antacids relieve discomfort because they contain a weak alkali that reacts with acid to form salt and water.",
+    "wrong": [
+     "Antacids relieve discomfort because they contain an acid that cancels out the pain in the stomach.",
+     "Antacids relieve discomfort because they dilute the stomach acid by adding more water to it."
+    ]
+   }
   },
   {
    "id": "c11q57",
@@ -1014,11 +1544,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Bacteria in the mouth produce acids that attack tooth enamel. Weakly alkaline toothpaste neutralises these acids.",
    "hint": "",
    "image": null,
    "lo": "Explain uses of neutralisation in daily life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An acidic mouth is what leads to tooth decay. A weakly alkaline toothpaste has the opposite effect.",
+    "1": "Toothpaste is not meant to react with the teeth themselves. It acts on the acid in the mouth.",
+    "3": "An alkaline substance does not add acid. Think about what happens when an alkali meets an acid."
+   },
+   "why": {
+    "right": "Alkaline toothpaste prevents decay because it neutralises the acid made by bacteria, which attacks tooth enamel.",
+    "wrong": [
+     "Alkaline toothpaste prevents decay because it adds acid that dissolves the food stuck on teeth.",
+     "Alkaline toothpaste prevents decay because it neutralises the alkalis made by bacteria in the mouth."
+    ]
+   }
   },
   {
    "id": "c11q58",
@@ -1032,11 +1574,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Heat from the oven makes the ingredients react to form new substances. The cake cannot be turned back into batter, so heating has caused a chemical change.",
    "hint": "",
    "image": null,
    "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Some reactions need oxygen, but the main cause here is the oven. Think about what an oven gives to the cake mixture.",
+    "2": "An oven heats the food. It does not pass an electric current through the cake mixture.",
+    "3": "The oven light is not what bakes the cake. Think about what the oven provides to make the ingredients react."
+   },
+   "why": {
+    "right": "Baking a cake is caused by heating because heat from the oven makes the ingredients react.",
+    "wrong": [
+     "Baking a cake is caused by heating because the light in the oven makes the ingredients react.",
+     "Baking a cake is caused by heating because the cake mixture only melts and changes state."
+    ]
+   }
   },
   {
    "id": "c11q59",
@@ -1050,11 +1604,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Plants make glucose by photosynthesis. Photosynthesis needs light energy, so light causes this chemical change.",
    "hint": "",
    "image": null,
    "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Plants do not use an electric current to make food. Think about what the leaves take in from the Sun.",
+    "2": "Photosynthesis is not driven by heat. The energy leaves need comes from sunlight in a different form.",
+    "3": "Photosynthesis gives out oxygen rather than using it up. Think about the energy that leaves take in from the Sun."
+   },
+   "why": {
+    "right": "Photosynthesis is caused by light because leaves need light energy to make glucose from carbon dioxide and water.",
+    "wrong": [
+     "Photosynthesis is caused by light because light is a substance that joins with water to form glucose.",
+     "Photosynthesis is caused by light because light heats the leaves until the glucose melts out of them."
+    ]
+   }
   },
   {
    "id": "c11q60",
@@ -1068,11 +1634,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Copper reacts slowly with oxygen and other substances in the air to form a green coating. This is a slow chemical change caused by contact with air.",
    "hint": "",
    "image": null,
    "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "No electric current passes through a coin left in the air. Think about what surrounds the coin all the time.",
+    "1": "The coin turns green slowly at ordinary temperatures without being heated. Think about what the coin is in contact with all the time.",
+    "2": "Coins kept in the dark also turn green. Think about what the coin is in contact with all the time."
+   },
+   "why": {
+    "right": "The copper coin turns green because copper slowly reacts with oxygen in the air to form a new substance.",
+    "wrong": [
+     "The copper coin turns green because sunlight slowly changes the colour of the copper atoms.",
+     "The copper coin turns green because the copper slowly melts and changes into another state."
+    ]
+   }
   },
   {
    "id": "c11q61",
@@ -1086,11 +1664,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Coating a metal object with another metal using an electric current is called electroplating. The electric current causes the chemical change.",
    "hint": "",
    "image": null,
    "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Reacting with oxygen forms a dull layer such as tarnish, not a layer of gold. A coating of gold is added in a different way.",
+    "2": "Light does not put a layer of gold onto a medal. Think about the process used to coat one metal with another.",
+    "3": "Heating a medal does not coat it with gold. Think about the process used to coat one metal with another."
+   },
+   "why": null
   },
   {
    "id": "c11q62",
@@ -1104,11 +1688,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "This word equation shows photosynthesis. Plants need light energy to turn carbon dioxide and water into glucose and oxygen.",
    "hint": "",
    "image": null,
    "lo": "Identify what causes a chemical change: mixing, heating, light, oxygen or electric current",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "No alkali is needed in this reaction. It happens in green leaves, so think about what leaves take in from the Sun.",
+    "1": "Plants do not use an electric current. This reaction takes place in leaves during the day.",
+    "3": "This reaction stops in the dark. It needs a form of energy that leaves take in during the day."
+   },
+   "why": null
   },
   {
    "id": "c11q63",
@@ -1122,11 +1712,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Respiration releases energy from food in our cells. We need this energy to stay alive, so it benefits us.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Rusting weakens the steel in a bridge's cables, which is harmful and costly. Look for a reaction that our bodies rely on.",
+    "2": "Decay of stored food spoils it, so it is harmful to us. Look for a reaction that happens inside living cells.",
+    "3": "Forest fires destroy habitats and pollute the air. Look for a reaction that supplies energy to living things."
+   },
+   "why": {
+    "right": "Respiration benefits us because it releases energy from food that our cells need to stay alive.",
+    "wrong": [
+     "Respiration benefits us because it removes all the oxygen from the cells in our body.",
+     "Respiration benefits us because it makes food from carbon dioxide and water in our cells."
+    ]
+   }
   },
   {
    "id": "c11q64",
@@ -1140,11 +1742,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Paint covers the iron and keeps water and oxygen away from it. Iron cannot rust without both of these.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Adding oxygen would make rusting faster, not slower. Rusting needs oxygen, so think about how paint affects contact with it.",
+    "1": "Iron is a metal, not an acid, so it cannot be neutralised. Paint works by covering the surface.",
+    "2": "Paint does not change how hard the iron is. Think about what rusting needs and how a coat of paint affects that."
+   },
+   "why": {
+    "right": "Paint prevents rusting because it stops water and oxygen from reaching the surface of the iron.",
+    "wrong": [
+     "Paint prevents rusting because it reacts with the iron and turns it into a different metal.",
+     "Paint prevents rusting because it gives out oxygen that makes the iron stronger."
+    ]
+   }
   },
   {
    "id": "c11q65",
@@ -1158,11 +1772,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Galvanising is coating iron with a layer of zinc. The zinc keeps air and water away and protects the iron from rusting.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Oil also protects iron, but that is greasing, not galvanising. Galvanising uses a layer of another metal.",
+    "2": "Chromium is used in chrome plating, which is done by electroplating. Galvanising uses a different metal.",
+    "3": "Painting is a separate way of preventing rust. Galvanising uses a layer of another metal."
+   },
+   "why": null
   },
   {
    "id": "c11q66",
@@ -1176,11 +1796,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Vacuum packing removes most of the air from the package. With less oxygen, the microorganisms that cause decay cannot grow well, so food decays more slowly.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Vacuum packing does not heat the food. It changes what is inside the package around the food.",
+    "1": "Vacuum packing does not change how acidic the food is. Think about what is removed from the package.",
+    "2": "A vacuum is a space with very little air. Adding oxygen would speed up decay, not slow it down."
+   },
+   "why": {
+    "right": "Vacuum packing slows decay because most microorganisms that cause decay need oxygen to grow.",
+    "wrong": [
+     "Vacuum packing slows decay because the low pressure squeezes all the water out of the food.",
+     "Vacuum packing slows decay because the plastic gives out a chemical that kills microorganisms."
+    ]
+   }
   },
   {
    "id": "c11q67",
@@ -1194,11 +1826,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Decay is the breakdown of dead plants and animals by microorganisms. It releases nutrients back into the soil for plants to use.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Electroplating coats an object with a metal using an electric current. It does not return nutrients to the soil.",
+    "1": "Rusting is iron reacting with oxygen and water. It does not return nutrients to living things.",
+    "3": "Neutralisation is a reaction between an acid and an alkali. Think about what happens to dead plants and animals."
+   },
+   "why": {
+    "right": "Decay returns nutrients because microorganisms break down dead matter into simple substances that go back to the soil.",
+    "wrong": [
+     "Decay returns nutrients because dead matter changes into oxygen that plants then take in.",
+     "Decay returns nutrients because dead matter melts into the soil without any chemical change."
+    ]
+   }
   },
   {
    "id": "c11q68",
@@ -1212,11 +1856,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Carbon monoxide combines with haemoglobin in red blood cells. This reduces the amount of oxygen the blood can carry around the body.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Carbon dioxide is a normal waste gas from respiration. The harmful gas here is made when fuels burn without enough oxygen.",
+    "2": "Oxides of nitrogen mainly irritate the lungs and cause acid rain. They do not stop red blood cells from carrying oxygen.",
+    "3": "Sulfur dioxide mainly irritates the lungs and causes acid rain. Think about the gas made when fuels burn in too little oxygen."
+   },
+   "why": {
+    "right": "Carbon monoxide is harmful because it combines with haemoglobin, so less oxygen is carried in the blood.",
+    "wrong": [
+     "Carbon monoxide is harmful because it dissolves in rainwater and makes the blood acidic.",
+     "Carbon monoxide is harmful because it destroys red blood cells as soon as it is breathed in."
+    ]
+   }
   },
   {
    "id": "c11q69",
@@ -1230,11 +1886,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sulfur dioxide dissolves in rainwater to form an acidic solution. Rain made acidic in this way is called acid rain.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Carbon monoxide comes from burning fuels in too little oxygen. It is not formed when sulfur dioxide dissolves in water.",
+    "1": "Dissolving sulfur dioxide adds a substance to the water, so the water is no longer pure. Think about the pH of the solution formed.",
+    "3": "Limewater is a solution of calcium hydroxide used to test for carbon dioxide. It is not formed from sulfur dioxide."
+   },
+   "why": {
+    "right": "Sulfur dioxide causes acid rain because it forms an acid when it dissolves in rainwater.",
+    "wrong": [
+     "Sulfur dioxide causes acid rain because it forms an alkali when it dissolves in rainwater.",
+     "Sulfur dioxide causes acid rain because it removes all the oxygen from the rainwater."
+    ]
+   }
   },
   {
    "id": "c11q70",
@@ -1248,11 +1916,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Carbon dioxide dissolves in water to form a weak acid. More dissolved carbon dioxide makes seawater more acidic, so its pH decreases.",
    "hint": "",
    "image": null,
    "lo": "Show awareness of how chemical reactions benefit us and harm health and the environment",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "When a solution becomes more acidic, its pH falls, not rises. Think about what dissolved carbon dioxide forms in water.",
+    "2": "Dissolved carbon dioxide does not make seawater exactly neutral. Think about what type of solution carbon dioxide forms in water.",
+    "3": "Carbon dioxide does not form an alkali in water. Think about how it changes the pH of the solution."
+   },
+   "why": {
+    "right": "Seawater becomes more acidic because carbon dioxide dissolves in water to form a weak acid.",
+    "wrong": [
+     "Seawater becomes more acidic because carbon dioxide takes the salt out of the water.",
+     "Seawater becomes more acidic because carbon dioxide warms the water and raises its pH."
+    ]
+   }
   }
  ]
 }

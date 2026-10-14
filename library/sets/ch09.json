@@ -16,11 +16,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Earth's surface is made of large plates. When plates slide against each other, the sudden movement shakes the ground and causes an earthquake.",
    "hint": "",
    "image": null,
    "lo": "Describe the destructive power of forces in nature",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Cooling magma forms rock slowly and does not shake the ground. Think about what large pieces of Earth's surface do when they move suddenly.",
+    "1": "Rain loosening soil can cause landslides, not earthquakes. An earthquake starts much deeper, from movement of large pieces of Earth's surface.",
+    "3": "Strong winds over the sea cause waves and storms. They cannot shake the solid ground. Think about movement within Earth's surface itself."
+   },
+   "why": {
+    "right": "The ground shakes in an earthquake because large plates of Earth's surface suddenly move against each other.",
+    "wrong": [
+     "The ground shakes in an earthquake because cooling magma shrinks and pulls the surface down quickly.",
+     "The ground shakes in an earthquake because heavy rain soaks the soil and makes it vibrate."
+    ]
+   }
   },
   {
    "id": "c09q2",
@@ -34,11 +46,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Waterlogged soil on a slope can no longer hold together. Gravity pulls the loose soil down the hillside as a landslide.",
    "hint": "",
    "image": null,
    "lo": "Describe the destructive power of forces in nature",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Volcanic eruptions come from magma rising from deep inside Earth. Wet soil on a hillside does not cause this. Think about what gravity does to loose soil on a slope.",
+    "2": "A tsunami is a huge sea wave, usually caused by an undersea earthquake. Think about what happens to loose soil on a slope instead.",
+    "3": "Earthquakes come from movement of plates deep below the surface. Loose soil on a hillside cannot cause one. Think about what gravity does to that soil."
+   },
+   "why": {
+    "right": "Loose soil slides downhill because gravity pulls it and the wet soil can no longer hold together.",
+    "wrong": [
+     "Loose soil slides downhill because floodwater removes the gravitational force acting on the soil.",
+     "Loose soil slides downhill because the wet soil sets off an earthquake underneath the hillside."
+    ]
+   }
   },
   {
    "id": "c09q3",
@@ -51,11 +75,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Gravitational force acts between objects even when they do not touch, so it is a non-contact force. Elastic force and friction need the objects to be touching.",
    "hint": "",
    "image": null,
    "lo": "Classify a force as a contact or non-contact force",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Elastic force acts only when a stretched or squashed object is touching what it pushes or pulls. Look for a force that acts across a gap.",
+    "2": "Friction acts only where two surfaces touch and rub. Look for a force that can act on an object without touching it."
+   },
+   "why": {
+    "right": "Gravitational force is non-contact because it acts between objects even when they are not touching.",
+    "wrong": [
+     "Gravitational force is non-contact because it only acts on objects that are already moving.",
+     "Gravitational force is non-contact because it only acts in space, far away from Earth."
+    ]
+   }
   },
   {
    "id": "c09q4",
@@ -69,11 +104,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Friction acts between two surfaces in contact and opposes sliding. The rubber soles and the rock rub against each other, so friction stops the shoes from slipping.",
    "hint": "",
    "image": null,
    "lo": "Classify a force as a contact or non-contact force",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Gravitational force pulls the climber down towards Earth. It does not help the shoes grip. Think about the force between two surfaces that touch.",
+    "1": "Elastic force comes from something stretched or squashed trying to return to shape. Gripping is about two touching surfaces that resist sliding.",
+    "2": "Rock and rubber are not magnetic, so there is no magnetic force here. Think about the force between two touching surfaces."
+   },
+   "why": {
+    "right": "The climbing shoes grip because friction between the touching surfaces opposes sliding.",
+    "wrong": [
+     "The climbing shoes grip because the rubber soles are magnetically attracted to the rock.",
+     "The climbing shoes grip because gravitational force pulls the shoes sideways into the rock."
+    ]
+   }
   },
   {
    "id": "c09q5",
@@ -87,11 +134,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A stretched rope pulls back as it tries to return to its original length. This pull is elastic force, and it slows the falling climber.",
    "hint": "",
    "image": null,
    "lo": "Classify a force as a contact or non-contact force",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Friction acts where surfaces rub against each other. The clue is that the rope stretches and pulls back. Think about which force comes from stretching.",
+    "1": "A rope is not a magnet, so there is no magnetic force. The clue is that the rope stretches. Think about which force a stretched object exerts.",
+    "3": "Gravitational force pulls the climber down, so it speeds the fall up. The force that slows the climber comes from the stretched rope."
+   },
+   "why": {
+    "right": "The rope slows the climber because a stretched rope pulls back as it returns to its length.",
+    "wrong": [
+     "The rope slows the climber because stretching the rope removes the climber's weight.",
+     "The rope slows the climber because the rope fibres attract the climber magnetically."
+    ]
+   }
   },
   {
    "id": "c09q6",
@@ -105,11 +164,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Gravitational force is the pull of Earth on every object with mass. It pulls raindrops down towards the ground without touching them.",
    "hint": "",
    "image": null,
    "lo": "Classify a force as a contact or non-contact force",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Friction acts between touching surfaces and opposes motion. Air resistance slows raindrops but does not make them fall. Think about the pull of Earth.",
+    "1": "Water is not attracted by magnets. Think about the force that pulls every object with mass towards Earth.",
+    "2": "Elastic force comes from objects that are stretched or squashed. Raindrops are not stretched. Think about what pulls every object towards Earth."
+   },
+   "why": {
+    "right": "Raindrops fall because Earth pulls every object with mass towards it.",
+    "wrong": [
+     "Raindrops fall because the air above pushes down on them.",
+     "Raindrops fall because clouds squeeze them out with an elastic force."
+    ]
+   }
   },
   {
    "id": "c09q7",
@@ -123,11 +194,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A magnet attracts iron without touching it. This pull is magnetic force, which is a non-contact force.",
    "hint": "",
    "image": null,
    "lo": "Classify a force as a contact or non-contact force",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Elastic force needs a stretched or squashed object that touches what it acts on. Here nothing touches. Think about what a magnet exerts on iron.",
+    "2": "The gravitational force between a magnet and a nail is far too weak to move the nail. Think about the force that magnets exert on iron.",
+    "3": "Friction only acts where surfaces touch. The magnet and the nail do not touch. Think about what a magnet exerts on iron."
+   },
+   "why": {
+    "right": "The iron nail moves because a magnet attracts iron across a gap without touching it.",
+    "wrong": [
+     "The iron nail moves because the magnet and the nail rub together and create friction.",
+     "The iron nail moves because the magnet's gravitational pull is stronger than Earth's."
+    ]
+   }
   },
   {
    "id": "c09q8",
@@ -140,11 +223,16 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Like poles, such as two north poles, push each other away. Unlike poles attract each other.",
    "hint": "",
    "image": null,
    "lo": "Predict whether magnetic poles attract or repel",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Attraction happens between unlike poles, a north and a south. Like poles are the same kind. Recall the rule for poles of the same kind.",
+    "2": "Magnetic poles always exert a force on each other when they are close. Recall what poles of the same kind do to each other."
+   },
+   "why": null
   },
   {
    "id": "c09q9",
@@ -157,11 +245,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A north pole and a south pole are unlike poles. Unlike poles attract each other.",
    "hint": "",
    "image": null,
    "lo": "Predict whether magnetic poles attract or repel",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Magnetic poles always exert a force on each other when they are close. Think about whether these two poles are like or unlike.",
+    "2": "Repulsion happens between like poles. A north pole and a south pole are not the same kind. Recall what unlike poles do."
+   },
+   "why": {
+    "right": "North and south poles attract because unlike magnetic poles attract each other.",
+    "wrong": [
+     "North and south poles attract because a north pole attracts any pole near it.",
+     "North and south poles attract because all magnetic poles attract each other."
+    ]
+   }
   },
   {
    "id": "c09q10",
@@ -174,11 +273,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Two south poles are like poles. Like poles repel each other.",
    "hint": "",
    "image": null,
    "lo": "Predict whether magnetic poles attract or repel",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Attraction happens between unlike poles. Two south poles are the same kind. Recall what poles of the same kind do.",
+    "1": "Magnetic poles always exert a force on each other when they are close. Think about whether two south poles are like or unlike."
+   },
+   "why": {
+    "right": "Two south poles repel because like magnetic poles repel each other.",
+    "wrong": [
+     "Two south poles repel because a south pole repels any pole near it.",
+     "Two south poles repel because all magnetic poles repel each other."
+    ]
+   }
   },
   {
    "id": "c09q11",
@@ -192,11 +302,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Magnets on the train and the track have like poles facing each other. Like poles repel, so the train is pushed up and floats above the track.",
    "hint": "",
    "image": null,
    "lo": "Predict whether magnetic poles attract or repel",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Attraction between unlike poles pulls objects together. To lift the train away from the track, the magnets must push apart. Think about which poles do that.",
+    "1": "Friction acts between surfaces that touch. A floating train does not touch the track. Think about the magnetic force that pushes the train up.",
+    "2": "Gravitational force pulls the train down towards the track. Something must push upwards against it. Think about what magnets with facing poles can do."
+   },
+   "why": {
+    "right": "A Maglev train floats because like magnetic poles on the train and track repel each other.",
+    "wrong": [
+     "A Maglev train floats because unlike magnetic poles on the train and track repel each other.",
+     "A Maglev train floats because its magnets switch off the gravitational force on the train."
+    ]
+   }
   },
   {
    "id": "c09q12",
@@ -210,11 +332,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of force is the newton (N).",
    "hint": "",
    "image": null,
    "lo": "Measure force in newtons using a spring balance",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The joule is the unit of work and energy, not force. Recall the unit shown on the scale of a spring balance.",
+    "2": "The pascal is the unit of pressure, which is force per unit area. Recall the unit shown on the scale of a spring balance.",
+    "3": "The kilogram is the unit of mass, the amount of matter. Force is a push or a pull. Recall the unit shown on a spring balance."
+   },
+   "why": null
   },
   {
    "id": "c09q13",
@@ -228,11 +356,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A spring balance measures force. The spring stretches more when a larger force pulls on it, and the scale reads the force in newtons.",
    "hint": "",
    "image": null,
    "lo": "Measure force in newtons using a spring balance",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An electronic balance is used to measure mass in grams or kilograms. Think of an instrument whose scale reads in newtons.",
+    "1": "A barometer measures atmospheric pressure, not force. Think of an instrument whose scale reads in newtons.",
+    "3": "A beam balance compares masses. It measures mass, not force. Think of an instrument whose scale reads in newtons."
+   },
+   "why": null
   },
   {
    "id": "c09q14",
@@ -245,11 +379,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A rough surface produces more friction against the block. A larger pulling force is needed to overcome this friction, so the spring balance shows a higher reading.",
    "hint": "",
    "image": null,
    "lo": "Measure force in newtons using a spring balance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The two surfaces do not grip the block equally. Think about which surface produces more friction against the block.",
+    "2": "A smooth surface produces less friction, so less force is needed to pull the block. Think about which surface grips the block more."
+   },
+   "why": {
+    "right": "A block needs more force on a rougher surface because a rougher surface produces more friction.",
+    "wrong": [
+     "A block needs more force on a rougher surface because a rougher surface makes the block heavier.",
+     "A block needs more force on a rougher surface because a rougher surface removes all friction."
+    ]
+   }
   },
   {
    "id": "c09q15",
@@ -263,11 +408,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Weight is the gravitational force acting on an object. It is measured in newtons.",
    "hint": "",
    "image": null,
    "lo": "Compare weight and mass",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Pressure is force per unit area, not a force on its own. Weight is a force. Think about what pulls an object towards Earth.",
+    "1": "Energy stored in an object is potential energy, measured in joules. Weight is a force. Think about what pulls an object towards Earth.",
+    "2": "The amount of matter in an object is its mass, measured in kilograms. Weight is a different quantity. Think about what pulls an object towards Earth."
+   },
+   "why": null
   },
   {
    "id": "c09q16",
@@ -281,11 +432,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Mass is the amount of matter in an object. It is measured in kilograms and does not change with location.",
    "hint": "",
    "image": null,
    "lo": "Compare weight and mass",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The gravitational force on an object is its weight, not its mass. Think about what mass measures, which stays the same anywhere.",
+    "2": "Pressure is force per unit area. Mass is not a force. Think about how much of something an object contains.",
+    "3": "Stored energy is potential energy, measured in joules. Mass is measured in kilograms. Think about how much of something an object contains."
+   },
+   "why": null
   },
   {
    "id": "c09q17",
@@ -299,11 +456,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Mass is the amount of matter in an object. Moving the object to another place does not add or remove matter, so its mass stays the same everywhere.",
    "hint": "",
    "image": null,
    "lo": "Compare weight and mass",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A spring balance measures force, such as weight. Mass is measured with a beam balance or an electronic balance.",
+    "1": "Newtons are the unit of force, such as weight. Mass is measured in kilograms.",
+    "3": "Weight is smaller on the moon because gravity there is weaker. Mass is the amount of matter, which does not depend on gravity."
+   },
+   "why": {
+    "right": "Mass does not change with location because the amount of matter in an object does not change.",
+    "wrong": [
+     "Mass does not change with location because gravity is equally strong everywhere.",
+     "Mass does not change with location because a spring balance gives the same reading everywhere."
+    ]
+   }
   },
   {
    "id": "c09q18",
@@ -317,11 +486,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Mass is the amount of matter in the bag. Taking it to the moon does not change the amount of rice, so its mass is still 10 kg.",
    "hint": "",
    "image": null,
    "lo": "Compare weight and mass",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "100 kg mixes up mass with the bag's weight on Earth, which is about 100 N. Think about whether the amount of rice changes on the moon.",
+    "1": "This number mixes the moon's gravity into the mass. Only weight depends on gravity. Think about whether the amount of rice changes on the moon.",
+    "2": "Weaker gravity on the moon does not remove any matter. The rice still has mass. Think about whether the amount of rice changes."
+   },
+   "why": {
+    "right": "The rice keeps its mass on the moon because the amount of matter in it does not change.",
+    "wrong": [
+     "The rice keeps its mass on the moon because the moon's gravity is as strong as Earth's.",
+     "The rice keeps its mass on the moon because mass and weight stay the same everywhere."
+    ]
+   }
   },
   {
    "id": "c09q19",
@@ -335,11 +516,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Weight is the gravitational force on an object. The moon's gravitational pull is weaker than Earth's, so the bag weighs less on the moon.",
    "hint": "",
    "image": null,
    "lo": "Compare weight and mass",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Mass stays the same on the moon, but weight is a gravitational force. Think about whether the moon pulls as strongly as Earth.",
+    "2": "The moon is much smaller than Earth and pulls objects less strongly. Think about how this changes the gravitational force on the bag.",
+    "3": "The moon still has gravity, which is why astronauts land back on its surface after jumping. Think about how strong that pull is compared with Earth's."
+   },
+   "why": {
+    "right": "Objects weigh less on the moon because the moon's gravitational pull is weaker than Earth's.",
+    "wrong": [
+     "Objects weigh less on the moon because they lose some of their mass in space.",
+     "Objects weigh less on the moon because there is no air there to push down on them."
+    ]
+   }
   },
   {
    "id": "c09q20",
@@ -353,11 +546,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Kilograms are the unit of mass. In everyday speech people call this weight, but in science the 5 kg is the mass of the contents. Weight is measured in newtons.",
    "hint": "",
    "image": null,
    "lo": "Compare weight and mass",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "In everyday speech people call this weight, but in science weight is a force measured in newtons. Look at the unit kg and recall what it measures.",
+    "2": "Force is measured in newtons, not kilograms. Look at the unit kg and recall which quantity it measures.",
+    "3": "Pressure is measured in pascals, not kilograms. Look at the unit kg and recall which quantity it measures."
+   },
+   "why": {
+    "right": "The 5 kg on the label is a mass because kilograms are the unit of mass.",
+    "wrong": [
+     "The 5 kg on the label is a weight because kilograms are the unit of weight.",
+     "The 5 kg on the label is a force because kilograms are the unit of force."
+    ]
+   }
   },
   {
    "id": "c09q21",
@@ -371,11 +576,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The golf ball is at rest before it is hit. The force from the club makes the stationary ball start moving.",
    "hint": "",
    "image": null,
    "lo": "Identify the change a force causes when objects interact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A turning effect happens when a force acts about a pivot, such as opening a door. Think about what the ball was doing before and after the hit.",
+    "2": "The ball may squash slightly for an instant, but that is not the main change. Think about what the ball was doing before and after the hit.",
+    "3": "The ball was not moving before the hit, so there was nothing to stop. Think about how its motion changes after the hit."
+   },
+   "why": {
+    "right": "The golf ball was at rest before the hit, so the club's force made a stationary object move.",
+    "wrong": [
+     "The golf ball was squashed for good by the hit, so the club's force mainly changed its shape.",
+     "The golf ball spun about a fixed pivot, so the club's force mainly produced a turning effect."
+    ]
+   }
   },
   {
    "id": "c09q22",
@@ -389,11 +606,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The ball is moving towards the goalkeeper. The force from the goalkeeper's hands brings the moving ball to rest.",
    "hint": "",
    "image": null,
    "lo": "Identify the change a force causes when objects interact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A turning effect needs a force acting about a pivot, such as a spanner on a nut. Think about how the ball's motion changes when it is caught.",
+    "1": "The ball's size does not change when it is caught. Think about how the ball's motion changes before and after the catch.",
+    "3": "The ball was already moving before the catch. Think about how its motion changes when the hands hold it."
+   },
+   "why": {
+    "right": "The ball was moving before the catch and at rest after it, so the force stopped a moving object.",
+    "wrong": [
+     "The ball was at rest before the catch and moving after it, so the force moved a stationary object.",
+     "The ball spun about a fixed pivot in the hands, so the force mainly produced a turning effect."
+    ]
+   }
   },
   {
    "id": "c09q23",
@@ -407,11 +636,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The shuttlecock is flying towards the player. The force from the racket sends it back the other way, so its direction of motion changes.",
    "hint": "",
    "image": null,
    "lo": "Identify the change a force causes when objects interact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The shuttlecock keeps the same size after it is hit. Think about which way it was moving before and after the hit.",
+    "1": "A turning effect is produced by a force about a pivot. It is not something an object has. Think about which way the shuttlecock moves before and after.",
+    "2": "Mass is the amount of matter, which does not change when an object is hit. Think about which way the shuttlecock moves before and after."
+   },
+   "why": {
+    "right": "The shuttlecock flies back over the net after the hit, so the force changed its direction of motion.",
+    "wrong": [
+     "The shuttlecock loses some of its matter when it is hit, so the force changed its mass.",
+     "The shuttlecock is squashed to a smaller size for good, so the force changed its size."
+    ]
+   }
   },
   {
    "id": "c09q24",
@@ -425,11 +666,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Squeezing pushes on the sponge from both sides. The sponge is squashed into a new shape, so the force changes its shape.",
    "hint": "",
    "image": null,
    "lo": "Identify the change a force causes when objects interact",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The sponge stays in the hand and does not move off in a new direction. Think about what happens to the sponge itself as it is pressed.",
+    "2": "A turning effect needs a force about a pivot, like a spanner turning a nut. Think about what happens to the sponge itself as it is pressed.",
+    "3": "Squeezing does not add or remove matter, so the mass stays the same. Think about what happens to the sponge itself as it is pressed."
+   },
+   "why": {
+    "right": "The sponge is squashed into a new form when pressed, so the force changed its shape.",
+    "wrong": [
+     "The sponge loses some of its matter when pressed, so the force changed its mass.",
+     "The sponge moves off in a new direction when pressed, so the force changed its direction."
+    ]
+   }
   },
   {
    "id": "c09q25",
@@ -443,11 +696,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "When objects interact and exert forces on each other, energy is transferred from one object to the other. For example, a foot kicking a ball transfers energy to the ball.",
    "hint": "",
    "image": null,
    "lo": "Identify the change a force causes when objects interact",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Forces do not add or remove matter from objects, so their masses stay the same. Think about what passes between the objects when they push or pull.",
+    "2": "Energy cannot be destroyed. It can only be transferred or converted. Think about where the energy goes when objects interact.",
+    "3": "When forces make objects move or change shape, energy is involved. Think about what passes from one object to the other during the interaction."
+   },
+   "why": {
+    "right": "A kicked ball speeds up because the foot's force transfers energy from the foot to the ball.",
+    "wrong": [
+     "A kicked ball speeds up because the foot's force adds extra mass to the ball.",
+     "A kicked ball speeds up because the foot's force creates new energy inside the ball."
+    ]
+   }
   },
   {
    "id": "c09q26",
@@ -461,11 +726,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The fixed point about which an object turns is called the pivot. A door turns about its hinges, which act as the pivot.",
    "hint": "",
    "image": null,
    "lo": "Describe the turning effect of a force about a pivot",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A surface is the outside of an object, not a fixed point that it turns about. Think of the hinge of a door.",
+    "1": "The nucleus is the centre of a cell or an atom. It is not a turning point. Think of the hinge of a door.",
+    "3": "The load is the object being moved, not the point it turns about. Think of the fixed point a seesaw rests on."
+   },
+   "why": null
   },
   {
    "id": "c09q27",
@@ -479,11 +750,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A spanner turns a nut about its centre, which acts as the pivot. The force on the handle produces a turning effect.",
    "hint": "",
    "image": null,
    "lo": "Describe the turning effect of a force about a pivot",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Squeezing a sponge changes its shape. Nothing turns about a fixed point. Look for an action where something rotates about a pivot.",
+    "1": "Catching a ball stops a moving object. Nothing turns about a fixed point. Look for an action where something rotates about a pivot.",
+    "2": "Pumping air into a balloon changes its size and shape. Nothing turns about a fixed point. Look for an action where something rotates about a pivot."
+   },
+   "why": {
+    "right": "A spanner uses a turning effect because the force on its handle turns the nut about a pivot.",
+    "wrong": [
+     "A spanner uses a turning effect because the force on its handle squeezes the nut into a new shape.",
+     "A spanner uses a turning effect because the force on its handle moves the nut in a straight line."
+    ]
+   }
   },
   {
    "id": "c09q28",
@@ -497,11 +780,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Pressure is the force acting per unit area. It is found by dividing the force by the area it acts on.",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Multiplying would make pressure rise as the area increases. A larger area actually spreads the force out. Think about force per unit area.",
+    "2": "Force and area are different quantities, so they cannot be added. Pressure is the force acting on each unit of area.",
+    "3": "This formula is upside down. A larger force should give a larger pressure. Think about which quantity goes on top."
+   },
+   "why": null
   },
   {
    "id": "c09q29",
@@ -515,11 +804,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The SI unit of pressure is the pascal (Pa). One pascal is one newton acting on one square metre.",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The kilogram is the unit of mass. Pressure is force per unit area, so it has its own unit, equal to one newton per square metre.",
+    "1": "The joule is the unit of work and energy. Pressure is force per unit area, so it has its own unit, equal to one newton per square metre.",
+    "3": "The newton is the unit of force alone. Pressure is force divided by area, so it has its own unit, equal to one newton per square metre."
+   },
+   "why": null
   },
   {
    "id": "c09q30",
@@ -533,11 +828,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Pressure = force ÷ area, so the pressure is 20 N ÷ 4 m² = 5 Pa.",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "24 comes from adding the force and the area. Pressure is found by dividing the force by the area.",
+    "2": "80 comes from multiplying the force by the area. Pressure is found by dividing the force by the area.",
+    "3": "0.2 comes from dividing the area by the force. Check which quantity goes on top in the pressure formula."
+   },
+   "why": {
+    "right": "The pressure is 5 Pa because the 20 N force is divided by the 4 m² area.",
+    "wrong": [
+     "The pressure is 5 Pa because the 4 m² area is divided by the 20 N force.",
+     "The pressure is 5 Pa because the 20 N force is multiplied by the 4 m² area."
+    ]
+   }
   },
   {
    "id": "c09q31",
@@ -551,11 +858,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The weight of the box is the force. Pressure = force ÷ area, so the pressure is 50 N ÷ 2 m² = 25 Pa.",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "52 comes from adding the weight and the area. Pressure is found by dividing the force by the area.",
+    "1": "100 comes from multiplying the weight by the area. Pressure is found by dividing the force by the area.",
+    "2": "48 comes from subtracting the area from the weight. Pressure is found by dividing the force by the area."
+   },
+   "why": {
+    "right": "The pressure is 25 Pa because the 50 N weight is divided by the 2 m² area.",
+    "wrong": [
+     "The pressure is 25 Pa because the 2 m² area is divided by the 50 N weight.",
+     "The pressure is 25 Pa because the 50 N weight is multiplied by the 2 m² area."
+    ]
+   }
   },
   {
    "id": "c09q32",
@@ -569,11 +888,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Rearranging pressure = force ÷ area gives force = pressure × area, so the force is 50 Pa × 2 m² = 100 N.",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "52 comes from adding the pressure and the area. Rearrange pressure = force ÷ area to find the force.",
+    "2": "48 comes from subtracting the area from the pressure. Rearrange pressure = force ÷ area to find the force.",
+    "3": "25 comes from dividing the pressure by the area. To find the force, rearrange pressure = force ÷ area. Think about what undoes a division."
+   },
+   "why": {
+    "right": "The force is 100 N because the 50 Pa pressure is multiplied by the 2 m² area.",
+    "wrong": [
+     "The force is 100 N because the 50 Pa pressure is divided by the 2 m² area.",
+     "The force is 100 N because the 2 m² area is divided by the 50 Pa pressure."
+    ]
+   }
   },
   {
    "id": "c09q33",
@@ -587,11 +918,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Rearranging pressure = force ÷ area gives area = force ÷ pressure, so the area is 60 N ÷ 20 Pa = 3 m².",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "80 comes from adding the force and the pressure. Rearrange pressure = force ÷ area to find the area.",
+    "1": "40 comes from subtracting the pressure from the force. Rearrange pressure = force ÷ area to find the area.",
+    "3": "1200 comes from multiplying the force by the pressure. Rearrange pressure = force ÷ area to find the area. Think about which quantity divides which."
+   },
+   "why": {
+    "right": "The area is 3 m² because the 60 N force is divided by the 20 Pa pressure.",
+    "wrong": [
+     "The area is 3 m² because the 20 Pa pressure is divided by the 60 N force.",
+     "The area is 3 m² because the 60 N force is multiplied by the 20 Pa pressure."
+    ]
+   }
   },
   {
    "id": "c09q34",
@@ -605,11 +948,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Rearranging pressure = force ÷ area gives force = pressure × area, so the force is 10 Pa × 8 m² = 80 N.",
    "hint": "",
    "image": null,
    "lo": "Calculate pressure, force or area using pressure = force/area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "0.8 comes from dividing the area by the pressure. To find the force, rearrange pressure = force ÷ area.",
+    "2": "1.25 comes from dividing the pressure by the area. To find the force, rearrange pressure = force ÷ area. Think about what undoes a division.",
+    "3": "18 comes from adding the pressure and the area. To find the force, rearrange pressure = force ÷ area."
+   },
+   "why": {
+    "right": "The force is 80 N because the 10 Pa pressure is multiplied by the 8 m² area.",
+    "wrong": [
+     "The force is 80 N because the 10 Pa pressure is divided by the 8 m² area.",
+     "The force is 80 N because the 8 m² area is divided by the 10 Pa pressure."
+    ]
+   }
   },
   {
    "id": "c09q35",
@@ -623,11 +978,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Pressure = force ÷ area. With the same force, dividing by a smaller area gives a larger answer, so the pressure is higher.",
    "hint": "",
    "image": null,
    "lo": "Explain daily life phenomena using pressure and contact area",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Pressure depends on both force and area. Changing the area changes the pressure even if the force stays the same. Look at pressure = force ÷ area.",
+    "2": "Any force acting on an area produces some pressure. Think about how the size of the area changes the pressure, using pressure = force ÷ area.",
+    "3": "Dividing the same force by a smaller number gives a bigger answer, not a smaller one. Look again at pressure = force ÷ area."
+   },
+   "why": {
+    "right": "A smaller contact area raises pressure because the same force is concentrated on less area.",
+    "wrong": [
+     "A smaller contact area raises pressure because a smaller area makes the force itself larger.",
+     "A smaller contact area raises pressure because pressure is force multiplied by area."
+    ]
+   }
   },
   {
    "id": "c09q36",
@@ -641,11 +1008,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A sharp blade has a very small area of contact. The same force on a smaller area gives a higher pressure, so the blade cuts into the tomato easily.",
    "hint": "",
    "image": null,
    "lo": "Explain daily life phenomena using pressure and contact area",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The small area of the blade is correct, but check what it does to pressure. Recall pressure = force ÷ area and divide the same force by a smaller number.",
+    "1": "A sharp blade has a smaller contact area than a blunt one, not a larger one. Compare the edges of the two knives.",
+    "2": "The same push can be used on both knives. The difference is in the blade's edge. Also, a larger force gives a higher pressure, not a lower one."
+   },
+   "why": {
+    "right": "A sharp knife cuts easily because its thin edge concentrates the force on a small area.",
+    "wrong": [
+     "A sharp knife cuts easily because its thin edge spreads the force over a large area.",
+     "A sharp knife cuts easily because a sharp edge turns the user's push into a larger force."
+    ]
+   }
   },
   {
    "id": "c09q37",
@@ -658,11 +1037,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The woman's weight is the same in any shoes. A narrow high heel has a very small area of contact, so it exerts the highest pressure on the screen.",
    "hint": "",
    "image": null,
    "lo": "Explain daily life phenomena using pressure and contact area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Sneakers spread the woman's weight over a large sole, so the pressure is low. Think about which footwear touches the screen with the smallest area.",
+    "2": "Flat sandals spread the woman's weight over a large sole, so the pressure is low. Think about which footwear touches the screen with the smallest area."
+   },
+   "why": {
+    "right": "Narrow heels crack screens because the same weight on a smaller area gives a higher pressure.",
+    "wrong": [
+     "Narrow heels crack screens because high heels make the wearer's weight larger.",
+     "Narrow heels crack screens because a small contact area spreads the weight out more."
+    ]
+   }
   },
   {
    "id": "c09q38",
@@ -676,11 +1066,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Two straps touch the shoulders over a larger area than one strap. The same weight on a larger area gives a lower pressure, so the backpack feels more comfortable.",
    "hint": "",
    "image": null,
    "lo": "Explain daily life phenomena using pressure and contact area",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Two straps do give a larger area, but check what that does to pressure. Recall pressure = force ÷ area and divide by a bigger number.",
+    "2": "Two straps touch more of the shoulders than one strap, so the area is larger, not smaller. Compare the contact area in each case.",
+    "3": "The backpack weighs the same with one strap or two, so the force does not change. Think about what does change when the weight rests on two straps."
+   },
+   "why": {
+    "right": "Two straps feel comfortable because the same weight is spread over a larger area, lowering the pressure.",
+    "wrong": [
+     "Two straps feel comfortable because the same weight is spread over a smaller area, lowering the pressure.",
+     "Two straps feel comfortable because using two straps makes the weight of the backpack smaller."
+    ]
+   }
   },
   {
    "id": "c09q39",
@@ -694,11 +1096,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A sharp needle tip has a tiny area. A small force on this tiny area produces a high pressure, so the needle goes through the skin easily.",
    "hint": "",
    "image": null,
    "lo": "Explain daily life phenomena using pressure and contact area",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The needle is still pushed into the skin, so a force is applied. Think about what a very small tip does to the pressure from that force.",
+    "1": "A sharp tip has a very small area. Recall pressure = force ÷ area and think about what dividing by a tiny area does.",
+    "2": "A sharp tip has a very small area, not a large one. Also, area is not something a needle exerts. Think about what the tip does to pressure."
+   },
+   "why": {
+    "right": "A sharp needle enters skin easily because its tiny tip concentrates the force on a small area.",
+    "wrong": [
+     "A sharp needle enters skin easily because its tiny tip spreads the force over a large area.",
+     "A sharp needle enters skin easily because a sharp tip needs no force to push it in."
+    ]
+   }
   },
   {
    "id": "c09q40",
@@ -711,11 +1125,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water pressure increases with depth because there is more water above pressing down. The deeper the swimmer goes, the greater the pressure on her.",
    "hint": "",
    "image": null,
    "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Going deeper means more water is above the swimmer, not less. Think about the weight of the water above her.",
+    "1": "Liquid pressure depends on depth. Think about how much water is above the swimmer as she goes deeper."
+   },
+   "why": {
+    "right": "Water pressure rises with depth because there is a greater weight of water above pressing down.",
+    "wrong": [
+     "Water pressure rises with depth because the seabed pushes the water upwards.",
+     "Water pressure rises with depth because air pressure on the surface gets stronger deep down."
+    ]
+   }
   },
   {
    "id": "c09q41",
@@ -729,11 +1154,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Water pressure increases with depth. The water at the base of the dam is deepest, so it pushes hardest on the wall, and the wall must be thicker there.",
    "hint": "",
    "image": null,
    "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Water is not lighter at the base. Think about how much water is above the base compared with the top, and what that does to pressure.",
+    "2": "Air pressure acts on the surface of the water and does not explain the shape of the wall. Think about how water pressure changes with depth.",
+    "3": "The base has more water above it than the top. Think about what more water above does to the pressure there."
+   },
+   "why": {
+    "right": "Dam walls are thicker at the base because water pressure increases with depth.",
+    "wrong": [
+     "Dam walls are thicker at the base because water pressure decreases with depth.",
+     "Dam walls are thicker at the base because air pressure is strongest at the bottom of a lake."
+    ]
+   }
   },
   {
    "id": "c09q42",
@@ -747,11 +1184,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Water pressure increases with depth. Below a certain depth the pressure on the hull becomes too great, so each submarine can only dive to a safe limit.",
    "hint": "",
    "image": null,
    "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A submarine is underwater, so the pressure that matters comes from the water above it, not the air. Think about how water pressure changes with depth.",
+    "2": "Going deeper puts more water above the submarine, not less. Think about what this extra water does to the pressure.",
+    "3": "Water exerts pressure at every depth. Think about how the amount of water above the submarine changes as it dives."
+   },
+   "why": {
+    "right": "Submarines have depth limits because water pressure on the hull increases with depth.",
+    "wrong": [
+     "Submarines have depth limits because water pressure on the hull decreases with depth.",
+     "Submarines have depth limits because atmospheric pressure on the hull increases with depth."
+    ]
+   }
   },
   {
    "id": "c09q43",
@@ -764,11 +1213,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Atmospheric pressure is caused by the weight of the air above. At the top of a mountain there is less air above, so atmospheric pressure is lower.",
    "hint": "",
    "image": null,
    "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Atmospheric pressure depends on how much air is above. Think about whether there is more or less air above a mountain top than at sea level.",
+    "1": "A mountain top has less air above it than sea level, not more. Think about what less air above does to the pressure."
+   },
+   "why": {
+    "right": "Air pressure is lower on a mountain top because there is less air above pressing down.",
+    "wrong": [
+     "Air pressure is lower on a mountain top because gravity does not act on air at high places.",
+     "Air pressure is lower on a mountain top because the rocks there absorb the air."
+    ]
+   }
   },
   {
    "id": "c09q44",
@@ -782,11 +1242,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Sucking removes air from the straw and lowers the pressure inside it. The higher atmospheric pressure outside pushes down on the drink and forces it up the straw.",
    "hint": "",
    "image": null,
    "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water pressure in the straw does not push the drink upwards. Think about what happens to the air inside the straw when it is sucked, and the air outside.",
+    "1": "A mouth cannot pull a liquid. Sucking only lowers the air pressure inside the straw. Think about what pushes on the drink's surface in the cup.",
+    "2": "Gravitational force pulls the drink down, not up. Think about what pushes on the drink's surface in the cup."
+   },
+   "why": {
+    "right": "A drink rises up a straw because the air outside pushes harder than the lowered air pressure inside.",
+    "wrong": [
+     "A drink rises up a straw because the mouth pulls the liquid upwards like a rope.",
+     "A drink rises up a straw because sucking makes the drink lighter than the air."
+    ]
+   }
   },
   {
    "id": "c09q45",
@@ -800,11 +1272,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Pressing the cup pushes air out, so the air pressure inside is low. The higher atmospheric pressure outside pushes the cup against the tile and holds it there.",
    "hint": "",
    "image": null,
    "lo": "Explain phenomena due to liquid pressure and atmospheric pressure",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Tiles are not magnetic, and a rubber suction cup is not a magnet. Think about the air inside and outside the cup after it is pressed.",
+    "1": "A suction cup has no glue. Think about what happens to the air inside the cup when it is pressed against the tile.",
+    "2": "Pressing the cup pushes air out, so there is less air inside, not more. Think about where the higher pressure is."
+   },
+   "why": {
+    "right": "A suction cup stays on because the air outside presses harder than the low pressure inside.",
+    "wrong": [
+     "A suction cup stays on because the air trapped inside presses it harder onto the tile.",
+     "A suction cup stays on because the rubber cup pulls the tile towards it."
+    ]
+   }
   },
   {
    "id": "c09q46",
@@ -818,11 +1302,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Work is done when a force moves an object in the direction of the force. Both a force and a movement along the force are needed.",
    "hint": "",
    "image": null,
    "lo": "Decide whether work is done on an object",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Work needs a force. Without any force, no work is done on the object. Think about how the movement must relate to the force.",
+    "1": "When an object moves against a force, that force is not the one doing the work on it. Think about which direction the movement must be.",
+    "3": "A force at right angles to the movement does no work, like an upward force on a box carried forwards. Think about which direction the movement must be."
+   },
+   "why": null
   },
   {
    "id": "c09q47",
@@ -836,11 +1326,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Work is done only when a force moves an object in the direction of the force. The box does not move, so no work is done on it.",
    "hint": "",
    "image": null,
    "lo": "Decide whether work is done on an object",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A force alone is not enough for work to be done. The object must also move in the direction of the force. Check whether the box moves.",
+    "2": "Feeling tired shows the boy's muscles used energy, but work on the box needs the box to move. Check whether the box moves.",
+    "3": "The boy does push the box, so a force is applied. Check whether the box moves."
+   },
+   "why": {
+    "right": "Pushing a box that stays still does no work because work needs the object to move along the force.",
+    "wrong": [
+     "Pushing a box that stays still does no work because work needs the object to be light.",
+     "Pushing a box that stays still does no work because work needs a non-contact force."
+    ]
+   }
   },
   {
    "id": "c09q48",
@@ -854,11 +1356,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The girl pushes the bag upwards and the bag moves upwards onto the table. The bag moves in the direction of the force, so work is done.",
    "hint": "",
    "image": null,
    "lo": "Decide whether work is done on an object",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The girl's lifting force acts upwards. Compare this with the direction the bag moves as it goes from the floor to the table.",
+    "2": "The bag goes from the floor to the table, so it does move. Think about how its movement relates to the lifting force.",
+    "3": "The girl lifts the bag, so she does apply a force. Think about how the bag's movement relates to that force."
+   },
+   "why": {
+    "right": "Lifting a bag onto a table does work because the bag moves in the direction of the upward force.",
+    "wrong": [
+     "Lifting a bag onto a table does work because any force that is applied always does work.",
+     "Lifting a bag onto a table does work because the bag moves against the upward force."
+    ]
+   }
   },
   {
    "id": "c09q49",
@@ -872,11 +1386,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Holding the box still needs an upward force, but the box does not move. With no movement in the direction of the force, no work is done on the box.",
    "hint": "",
    "image": null,
    "lo": "Decide whether work is done on an object",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The boy must push up on the box to stop it falling, so a force is applied. Check whether the box moves.",
+    "2": "Being above the floor gives the box stored energy, but work is only done while it moves. Check whether the box moves now.",
+    "3": "A force alone does not do work. The object must also move in the direction of the force. Check whether the box moves."
+   },
+   "why": {
+    "right": "Holding a box still does no work on it because the box does not move along the force.",
+    "wrong": [
+     "Holding a box still does no work on it because no upward force acts on the box.",
+     "Holding a box still does no work on it because work is only done on objects on the floor."
+    ]
+   }
   },
   {
    "id": "c09q50",
@@ -890,11 +1416,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The boy's force on the box acts upwards, but the box moves forwards, at right angles to the force. The box does not move in the direction of the upward force, so that force does no work.",
    "hint": "",
    "image": null,
    "lo": "Decide whether work is done on an object",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A force alone does not do work. The box must move in the direction of that force. Compare the direction of the upward force with the box's movement.",
+    "1": "The boy holds the box up, so an upward force is applied. Compare the direction of that force with the direction the box moves.",
+    "3": "The box does move forwards, but the question asks about the upward force. Compare the direction of that force with the direction of movement."
+   },
+   "why": {
+    "right": "The upward force on a carried box does no work because the box moves at right angles to it.",
+    "wrong": [
+     "The upward force on a carried box does no work because the box is too heavy to do work on.",
+     "The upward force on a carried box does no work because a carried box has no weight."
+    ]
+   }
   },
   {
    "id": "c09q51",
@@ -908,11 +1446,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The SI unit of work is the joule (J). Work and energy share the same unit.",
    "hint": "",
    "image": null,
    "lo": "State the joule as the SI unit of work and energy",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The pascal is the unit of pressure. Work is linked to energy, so it shares the unit of energy.",
+    "1": "The newton is the unit of force. Work needs both a force and a movement, so it has a different unit, the same as energy.",
+    "2": "The kilogram is the unit of mass. Work is linked to energy, so it shares the unit of energy."
+   },
+   "why": null
   },
   {
    "id": "c09q52",
@@ -926,11 +1470,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Energy is measured in joules, not newtons. The newton is the unit of force. The other three pairs are correct.",
    "hint": "",
    "image": null,
    "lo": "State the joule as the SI unit of work and energy",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Work is measured in joules, so this pair is correct. The question asks for the pair that is not correct. Look for a unit that belongs to a different quantity.",
+    "2": "Force is measured in newtons, so this pair is correct. The question asks for the pair that is not correct. Look for a unit that belongs to a different quantity.",
+    "3": "Pressure is measured in pascals, so this pair is correct. The question asks for the pair that is not correct. Look for a unit that belongs to a different quantity."
+   },
+   "why": null
   },
   {
    "id": "c09q53",
@@ -944,11 +1494,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The fan takes in electrical energy from the socket. Its motor turns the blades, so electrical energy is converted to kinetic energy.",
    "hint": "",
    "image": null,
    "lo": "Infer the energy conversion in a situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Chemical potential energy is stored in food, fuels and batteries. A fan does not store energy. Think about what the spinning blades have.",
+    "2": "This is the conversion the wrong way round, as in a generator. A fan uses electricity. Think about what the electricity becomes.",
+    "3": "A fan does not use light to work. It is plugged in. Think about the energy it takes in and what the blades have when they spin."
+   },
+   "why": {
+    "right": "A fan's blades spin because its motor converts electrical energy into kinetic energy.",
+    "wrong": [
+     "A fan's blades spin because its motor converts kinetic energy into electrical energy.",
+     "A fan's blades spin because its motor stores electrical energy as chemical potential energy."
+    ]
+   }
   },
   {
    "id": "c09q54",
@@ -962,11 +1524,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A solar panel takes in light energy from the sun and converts it into electrical energy, which then powers the street light.",
    "hint": "",
    "image": null,
    "lo": "Infer the energy conversion in a situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A solar panel has no moving parts, so it does not use kinetic energy. Think about what the panel takes in from the sun.",
+    "1": "Electrical energy is converted to light energy in the street light's lamp, not in the panel. Think about what the panel takes in and gives out.",
+    "3": "A solar panel works from sunlight, not from heat. Think about what kind of energy from the sun the panel takes in."
+   },
+   "why": {
+    "right": "A solar panel produces electricity because it converts light energy from the sun into electrical energy.",
+    "wrong": [
+     "A solar panel produces electricity because it converts kinetic energy of the wind into electrical energy.",
+     "A solar panel produces electricity because it converts electrical energy from the sun into light energy."
+    ]
+   }
   },
   {
    "id": "c09q55",
@@ -980,11 +1554,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "At the top, the car has a lot of gravitational potential energy. As it rolls down, it loses height and gains speed, so gravitational potential energy is converted to kinetic energy.",
    "hint": "",
    "image": null,
    "lo": "Infer the energy conversion in a situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This is the conversion the wrong way round, which happens when the car goes up a slope. Think about what the car loses and gains as it rolls down.",
+    "1": "The car rolls down without burning fuel, so chemical potential energy is not the source. Think about the energy the car has because it is high up.",
+    "2": "Some heat is produced by friction, but that is not the main conversion. Think about the energy the car has at the top because of its height."
+   },
+   "why": {
+    "right": "A rollercoaster car speeds up going down because gravitational potential energy is converted to kinetic energy.",
+    "wrong": [
+     "A rollercoaster car speeds up going down because kinetic energy is converted to gravitational potential energy.",
+     "A rollercoaster car speeds up going down because chemical potential energy in the track becomes kinetic energy."
+    ]
+   }
   },
   {
    "id": "c09q56",
@@ -998,11 +1584,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The boy's muscles use chemical potential energy from food. Lifting the box higher gives it gravitational potential energy, so chemical potential energy is converted to gravitational potential energy.",
    "hint": "",
    "image": null,
    "lo": "Infer the energy conversion in a situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The boy's energy comes from food, not heat. Think about the energy stored in food and what the box gains when it is raised.",
+    "2": "This is the conversion the wrong way round. The box gains height. Think about where the boy's energy comes from and what the box gains.",
+    "3": "No electricity is made when a box is lifted. Think about the energy stored in food and what the box gains when it is raised."
+   },
+   "why": {
+    "right": "Lifting a box uses energy stored from food, which becomes gravitational potential energy as the box rises.",
+    "wrong": [
+     "Lifting a box uses the box's gravitational potential energy, which becomes chemical potential energy in the boy.",
+     "Lifting a box uses heat energy from the air, which becomes kinetic energy stored in the box."
+    ]
+   }
   },
   {
    "id": "c09q57",
@@ -1016,11 +1614,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The lamp is plugged into a wall socket, which supplies electrical energy. The lamp converts this electrical energy into light energy.",
    "hint": "",
    "image": null,
    "lo": "Infer the energy conversion in a situation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The lamp does not fall or change height to work. Think about what the wall socket supplies.",
+    "1": "The lamp does not need to move to work. Think about what the wall socket supplies.",
+    "2": "Sound energy is not used to make light here. Think about what the wall socket supplies."
+   },
+   "why": {
+    "right": "A plugged-in lamp gives out light because it converts electrical energy from the socket into light energy.",
+    "wrong": [
+     "A plugged-in lamp gives out light because it converts sound energy in the room into light energy.",
+     "A plugged-in lamp gives out light because it converts kinetic energy of the switch into light energy."
+    ]
+   }
   },
   {
    "id": "c09q58",
@@ -1034,11 +1644,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Energy cannot be created or destroyed. It can only be converted from one form to another or transferred from one object to another.",
    "hint": "",
    "image": null,
    "lo": "State that energy is conserved when transferred or converted",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Machines only convert energy from one form to another. They cannot make energy from nothing. Recall the principle of conservation of energy.",
+    "1": "When energy is used, it changes into other forms such as heat. It does not disappear. Recall the principle of conservation of energy.",
+    "3": "Energy may change into forms that are not useful, such as heat, but none of it disappears. Recall the principle of conservation of energy."
+   },
+   "why": null
   },
   {
    "id": "c09q59",
@@ -1052,11 +1668,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Energy cannot be created or destroyed. As the car rolls down, its potential energy changes to kinetic energy, but the total stays at 100 J.",
    "hint": "",
    "image": null,
    "lo": "State that energy is conserved when transferred or converted",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The car's potential energy falls at the bottom, but it has gained kinetic energy. Energy is converted, not lost. Think about the total.",
+    "2": "Energy cannot be created, so the car cannot gain extra energy by rolling down. Think about what happens to the total when energy is converted.",
+    "3": "Energy is not lost when it changes form. Potential energy becomes kinetic energy. Think about what happens to the total."
+   },
+   "why": {
+    "right": "The car's total energy stays the same because energy is only converted from one form to another.",
+    "wrong": [
+     "The car's total energy stays the same because no energy changes form as the car rolls down.",
+     "The car's total energy stays the same because kinetic energy is not counted as energy."
+    ]
+   }
   },
   {
    "id": "c09q60",
@@ -1070,11 +1698,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Total energy is the sum of all the energy the ball has, so its total energy is 40 J + 60 J = 100 J.",
    "hint": "",
    "image": null,
    "lo": "State that energy is conserved when transferred or converted",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "60 J is only the kinetic energy. The ball also has potential energy. Think about how to combine both to get the total.",
+    "2": "40 J is only the potential energy. The ball also has kinetic energy. Think about how to combine both to get the total.",
+    "3": "20 J is the difference between the two amounts. The total combines all the energy the ball has."
+   },
+   "why": {
+    "right": "The ball's total energy is 100 J because its potential energy and kinetic energy are added together.",
+    "wrong": [
+     "The ball's total energy is 100 J because its potential energy and kinetic energy are multiplied together.",
+     "The ball's total energy is 100 J because every moving ball always has 100 J of energy."
+    ]
+   }
   },
   {
    "id": "c09q61",
@@ -1088,11 +1728,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The sun supplies energy to Earth as light and heat. This energy grows plants, drives winds and rain, and was stored long ago in fossil fuels.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Earth's core gives geothermal energy, but this is only a small share of the energy on Earth. Think about what gives light and heat to the whole planet every day.",
+    "1": "The ocean stores and moves energy, but it gets that energy from somewhere else. Think about what heats the oceans every day.",
+    "2": "The moon's pull causes tides, but this is a small share of Earth's energy. Think about what gives Earth light and heat every day."
+   },
+   "why": {
+    "right": "Sunlight is Earth's main energy source because it powers plant growth, winds, rain and the formation of fossil fuels.",
+    "wrong": [
+     "Sunlight is Earth's main energy source because it is the only form of energy that can be stored.",
+     "Sunlight is Earth's main energy source because the sun's heat flows out from Earth's core."
+    ]
+   }
   },
   {
    "id": "c09q62",
@@ -1106,11 +1758,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Burning fossil fuels such as coal, oil and natural gas releases carbon dioxide, which is a greenhouse gas. This adds to global warming.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Birds hitting turbine blades is a problem of wind energy, not fossil fuels. Think about what is released into the air when fuel is burnt.",
+    "1": "Noise from rotating blades is a problem of wind turbines. Think about what is released into the air when fuel is burnt.",
+    "3": "Flooding land behind a dam is a problem of hydroelectric energy. Think about what is released into the air when fuel is burnt."
+   },
+   "why": {
+    "right": "Burning fossil fuels harms the environment because it releases carbon dioxide, which traps heat in the atmosphere.",
+    "wrong": [
+     "Burning fossil fuels harms the environment because it uses up all the oxygen dissolved in the oceans.",
+     "Burning fossil fuels harms the environment because its smoke blocks all sunlight from reaching Earth."
+    ]
+   }
   },
   {
    "id": "c09q63",
@@ -1124,11 +1788,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Solar panels convert light energy directly into electrical energy. They have no moving parts, so no turbine is needed.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Hydroelectric power stations use flowing water to spin turbines. Think about a source that makes electricity with no moving parts.",
+    "2": "Power stations that burn fossil fuels heat water into steam, which spins turbines. Think about a source that makes electricity with no moving parts.",
+    "3": "Geothermal power stations use steam from hot rocks to spin turbines. Think about a source that makes electricity with no moving parts."
+   },
+   "why": {
+    "right": "Solar panels need no turbines because they convert light energy directly into electrical energy.",
+    "wrong": [
+     "Solar panels need no turbines because they burn sunlight as a fuel to make steam.",
+     "Solar panels need no turbines because they collect electrical energy already present in the air."
+    ]
+   }
   },
   {
    "id": "c09q64",
@@ -1142,11 +1818,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Hydroelectric power stations need a dam across a river. The water held back by the dam floods a large area of land, so animals living there must move away.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Nuclear power stations take up little land and do not flood it. Their main risk is radioactive waste. Think about a source that holds back a river.",
+    "2": "Geothermal energy uses heat from inside Earth and does not flood land. Think about a source that holds back a river.",
+    "3": "Solar farms cover land with panels but do not flood it. Think about a source that holds back a river."
+   },
+   "why": {
+    "right": "Hydroelectric power floods land because a dam holds back a river and forms a large lake behind it.",
+    "wrong": [
+     "Hydroelectric power floods land because its turbines pump sea water onto the land around them.",
+     "Hydroelectric power floods land because it melts ice using heat from deep inside Earth."
+    ]
+   }
   },
   {
    "id": "c09q65",
@@ -1160,11 +1848,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Wind turbines have large rotating blades. Birds can fly into the moving blades, and the spinning blades make noise.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Solar panels have no moving parts, so they make little noise and do not strike birds. Think about a source with large rotating blades.",
+    "2": "The main risk of nuclear energy is radioactive waste, not birds or noise. Think about a source with large rotating blades.",
+    "3": "Geothermal energy uses heat from underground and does not strike birds. Think about a source with large rotating blades out in the open."
+   },
+   "why": {
+    "right": "Wind farms can harm birds and make noise because their large blades rotate in the open air.",
+    "wrong": [
+     "Wind farms can harm birds and make noise because they give out harmful radiation.",
+     "Wind farms can harm birds and make noise because they release greenhouse gases."
+    ]
+   }
   },
   {
    "id": "c09q66",
@@ -1178,11 +1878,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Geothermal energy uses heat from hot rocks deep inside Earth. This heat turns water into steam, which spins turbines to make electricity.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Solar energy comes from the sun, not from inside Earth. Look for the source that uses Earth's own heat.",
+    "1": "Biofuels come from plants and animal waste that are burnt. Look for the source that uses Earth's own heat.",
+    "3": "Nuclear energy comes from splitting atoms such as uranium in a power station. Look for the source that uses Earth's own heat."
+   },
+   "why": null
   },
   {
    "id": "c09q67",
@@ -1196,11 +1902,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Biofuels are fuels made from plants or animal waste. Ethanol made from sugarcane is a biofuel.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Nuclear energy comes from splitting atoms such as uranium, not from plants. Think about fuels made from living things.",
+    "2": "Geothermal energy uses heat from inside Earth, not plants. Think about fuels made from living things.",
+    "3": "Fossil fuels formed from the remains of living things over millions of years. Sugarcane is grown and used within a short time. Think about fuels made from plants grown today."
+   },
+   "why": null
   },
   {
    "id": "c09q68",
@@ -1214,11 +1926,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Nuclear energy is released when heavy atoms such as uranium split. The heat released turns water into steam to make electricity.",
    "hint": "",
    "image": null,
    "lo": "Identify sources of energy and their impact on the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Geothermal energy uses natural heat from rocks deep inside Earth, not from splitting atoms in a power station. Think about energy stored inside atoms.",
+    "1": "Solar energy comes from sunlight, not from splitting atoms in a power station. Think about energy stored inside atoms.",
+    "2": "Biofuels release energy when plant material is burnt, not when atoms split. Think about energy stored inside atoms."
+   },
+   "why": null
   }
  ]
 }

@@ -245,8 +245,33 @@ function renderRound() {
     <div class="t-round-head"><span class="t-round-big">ROUND ${state.round}</span>
       <span class="t-round-sub">${done} of ${ms.length} battle${ms.length === 1 ? "" : "s"} finished${done < ms.length ? " · tap a battle to watch it" : ""}</span></div>
     <div class="t-matches">${ms.map(matchCard).join("")}${byeCards(state.round)}</div>
+    ${weakHtml()}
     ${lateJoinersNote()}`;
 }
+
+// ----- live weak spots: the class's weakest learning objectives (no names, safe on the projector) -----
+let weakOpen = true;
+try { weakOpen = localStorage.getItem("riftWeakOpen") !== "0"; } catch {}
+function weakHtml() {
+  const w = state.weak || [];
+  const head = `<div class="t-weak-head"><span>🎯 CLASS WEAK SPOTS <small>live · no names</small></span>
+    <button class="t-weak-toggle" type="button" data-weak="toggle">${weakOpen ? "HIDE" : "SHOW"}</button></div>`;
+  if (!weakOpen) return `<section class="t-weak closed">${head}</section>`;
+  if (!w.length) return `<section class="t-weak">${head}<p class="t-hint">The weakest learning objectives show here once the class has answered a few questions.</p></section>`;
+  return `<section class="t-weak">${head}<div class="t-weak-list">${w.map((o) => `
+    <div class="t-weak-item">
+      <div class="t-weak-top"><span class="t-weak-pct ${o.pct < 50 ? "low" : o.pct < 70 ? "mid" : ""}">${o.pct}%</span>
+        <span class="t-weak-lo">${esc(o.lo)}</span><span class="t-weak-n">${o.asked} answers</span></div>
+      ${o.q ? `<div class="t-weak-q">Most missed: ${esc(o.q)}</div>
+      <div class="t-weak-pick">${o.pickCount} chose <b>${esc(o.pick)}</b> · right answer <b class="ok">${esc(o.right)}</b></div>
+      ${o.note ? `<div class="t-weak-note">The misconception: ${esc(o.note)}</div>` : ""}` : ""}
+    </div>`).join("")}</div></section>`;
+}
+document.addEventListener("click", (e) => {
+  if (!e.target.closest('[data-weak="toggle"]')) return;
+  weakOpen = !weakOpen; try { localStorage.setItem("riftWeakOpen", weakOpen ? "1" : "0"); } catch {}
+  render();
+});
 
 function lateJoinersNote() {
   const singles = state.students.filter((s) => !s.pairId);
@@ -262,6 +287,7 @@ function renderBetween() {
       <span class="t-round-sub">Next: Round ${state.round + 1} of ${state.settings.rounds}</span></div>
     ${autoBanner()}
     <div class="t-matches">${ms.map(matchCard).join("")}${byeCards(state.round)}</div>
+    ${weakHtml()}
     ${lateJoinersNote()}`;
   if (state.students.some((s) => !s.pairId)) wirePairing();
 }
@@ -279,7 +305,7 @@ function renderFinal() {
       <h2 class="t-final-head">🏆 CHAMPIONS 🏆</h2>
       <div class="t-podium">${place(top[1], "second")}${place(top[0], "first")}${place(top[2], "third")}</div>
       <p class="t-hint center">${state.round} round${state.round === 1 ? "" : "s"} played. Points: 3 for a win, 1 for a draw. Level points are split by correct answers, then HP left.</p>
-    </div>`;
+    </div>${weakHtml()}`;
 }
 
 // ----- leaderboard (always on the side) -----

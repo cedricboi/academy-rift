@@ -1,0 +1,758 @@
+[
+ {
+  "notes": {
+   "0": "The stage and the slide hold the specimen in position. They do not make the specimen look any bigger. Think about which parts contain lenses.",
+   "2": "The arm and the base support the microscope and are used to carry it. They contain no lenses, so they cannot magnify the specimen.",
+   "3": "The light and the mirror make the specimen bright enough to see. Making the view brighter is not the same as making the specimen look bigger."
+  },
+  "why": {
+   "right": "A microscope magnifies a specimen because light passes through two lenses that each make the image bigger.",
+   "wrong": [
+    "A microscope magnifies a specimen because the stage pushes the specimen much closer to the eye.",
+    "A microscope magnifies a specimen because a brighter light makes the specimen grow larger."
+   ]
+  },
+  "explain": "The eyepiece is the lens you look through. The objective lens is the lens near the specimen. Together they make things look bigger."
+ },
+ {
+  "notes": {
+   "0": "Making the image bigger is done by the lenses. The base is the flat bottom part and contains no lens.",
+   "1": "Holding the slide is the job of the stage clips on the stage. The base is lower down, at the bottom of the microscope.",
+   "3": "Light is directed by the mirror or lamp near the stage. The base is the heavy flat part the microscope stands on."
+  },
+  "why": null,
+  "explain": "The base is the flat bottom part. It stops the microscope from falling over when you put it on a table."
+ },
+ {
+  "notes": {
+   "0": "The light knob changes how bright the view is. Brightness does not make a blurry image sharp. Focusing needs a knob that moves the stage or lens.",
+   "2": "The stage clip only holds the slide still. It is not turned and does not change the focus.",
+   "3": "The mirror directs light onto the specimen. It changes brightness, not sharpness. Look for a knob that moves the stage by tiny amounts."
+  },
+  "why": {
+   "right": "The fine adjustment knob is used last because it moves the stage by very small amounts to sharpen the image.",
+   "wrong": [
+    "The fine adjustment knob is used last because it makes the light brighter until the image becomes sharp.",
+    "The fine adjustment knob is used last because it moves the stage by large amounts to find the specimen."
+   ]
+  },
+  "explain": "The fine adjustment knob moves slowly and carefully. You use it to make the image clear and sharp after you see it first."
+ },
+ {
+  "notes": {
+   "0": "All magnifications use the same knobs and steps. The reason is about how much of the slide can be seen at once.",
+   "2": "The magnification used does not change how safe the microscope is for the eyes. Think about how big an area of the slide is visible.",
+   "3": "Low magnification does not make colours brighter. Think about how much of the slide is visible and how that helps to locate the specimen."
+  },
+  "why": {
+   "right": "Low magnification is used first because it shows a larger area, so the specimen is easier to find.",
+   "wrong": [
+    "Low magnification is used first because it shows more detail, so the cells are easier to study.",
+    "Low magnification is used first because it makes the specimen larger, so it fills the whole view."
+   ]
+  },
+  "explain": "Low magnification shows a bigger area of the slide. This makes it easier to find the specimen and move it to the middle of the view before using a higher magnification."
+ },
+ {
+  "notes": {
+   "0": "The light is there so the specimen can be seen. Heating would damage a specimen, especially living cells.",
+   "1": "Making the specimen look bigger is the job of the lenses. The light does not change the size of the image.",
+   "3": "Colouring a specimen is done with a stain such as iodine or methylene blue, added when the slide is made. The light itself adds no colour."
+  },
+  "why": {
+   "right": "A microscope needs a light source because light must pass through the thin specimen to reach the eye.",
+   "wrong": [
+    "A microscope needs a light source because light makes the specimen bigger before it reaches the lenses.",
+    "A microscope needs a light source because light warms the specimen so the cells move into view."
+   ]
+  },
+  "explain": "The light passes through the specimen. Without light, you cannot see anything under the microscope."
+ },
+ {
+  "notes": {
+   "0": "Taking a microscope apart can damage the lenses and other parts. It is carried whole, held at its strongest points.",
+   "1": "The eyepiece can slide out of the tube, so the microscope could fall. Think about which parts are strong enough to take its weight.",
+   "3": "Wrapping it does not stop it from slipping or falling. What matters is how it is held while it is carried."
+  },
+  "why": {
+   "right": "A microscope is carried by the arm and base because these strong parts can hold its full weight safely.",
+   "wrong": [
+    "A microscope is carried by the eyepiece because the eyepiece is the strongest part of the microscope.",
+    "A microscope is carried in pieces because the parts are lighter and safer when carried apart."
+   ]
+  },
+  "explain": "Always hold the arm and support the base with your hand. This keeps it safe and stops it from getting damaged."
+ },
+ {
+  "notes": {
+   "0": "How the microscope looks does not matter. Think about what dirt on the glass parts does to the image.",
+   "2": "Dust on a microscope does not affect the building. Think about what dust on the lenses does to the view.",
+   "3": "Cleaning helps, but no instrument works forever. The main reason is linked to what is seen through the lenses."
+  },
+  "why": {
+   "right": "Microscope lenses are kept clean because dirt blocks light and makes the image blurry.",
+   "wrong": [
+    "Microscope lenses are kept clean because dirt makes the specimen look bigger than it is.",
+    "Microscope lenses are kept clean because dirt changes the colour of the cells on the slide."
+   ]
+  },
+  "explain": "If dust and dirt are on the lenses, they block light and make the image blurry. Clean lenses give a clear image."
+ },
+ {
+  "notes": {
+   "0": "Nothing on the stage makes the slide bigger. Only the lenses make the image look bigger.",
+   "2": "Light is directed by the mirror or lamp. The stage clip is a small metal holder on the stage.",
+   "3": "Lenses are cleaned with lens paper. The stage clip sits on the stage, so think about what it touches."
+  },
+  "why": null,
+  "explain": "The stage clip is a metal holder. It keeps your slide from moving around when you are looking at it."
+ },
+ {
+  "notes": {
+   "0": "The stage is fixed and needs nothing to hold it. The coverslip goes on the slide, directly over the specimen.",
+   "2": "A coverslip is flat glass, not a lens. It does not make the specimen look bigger.",
+   "3": "A coverslip is a thin piece of glass and has no connection to the light. Think about where it is placed on the slide."
+  },
+  "why": {
+   "right": "A coverslip is placed over the specimen because it keeps the specimen flat and protects it from dust.",
+   "wrong": [
+    "A coverslip is placed over the specimen because it acts as a lens and makes the specimen bigger.",
+    "A coverslip is placed over the specimen because it holds the slide firmly in place on the stage."
+   ]
+  },
+  "explain": "A coverslip is a thin piece of glass. You put it on top of the specimen to protect it and flatten it for better viewing."
+ },
+ {
+  "notes": {
+   "0": "Stains are not used to kill specimens. Many cell parts are almost colourless, so think about how a stain changes what can be seen.",
+   "1": "A stain does not change the size of the cells. It changes how clearly parts of the cell show up.",
+   "3": "A stain does not keep the specimen fresh. Think about why colourless cell parts are hard to see."
+  },
+  "why": {
+   "right": "Stains are added to cells because many cell parts are colourless and hard to see without colour.",
+   "wrong": [
+    "Stains are added to cells because the dye makes the cells swell to a larger size.",
+    "Stains are added to cells because the dye stops the cells from drying out on the slide."
+   ]
+  },
+  "explain": "Stains add colour to the structures inside cells. Coloured structures are much easier to see than clear, colourless ones."
+ },
+ {
+  "notes": {
+   "0": "A battery is also called a cell, but in biology the word means something different. Think about what living things are made of.",
+   "2": "Many cells do form tissues, but this does not define a cell. Not every living thing has tissues. Think about what every living thing has.",
+   "3": "A cell is living, not a piece of rock. Think about what all living things are made of."
+  },
+  "why": null,
+  "explain": "A cell is the basic building block of all living things. All organisms are made of one or more cells."
+ },
+ {
+  "notes": {
+   "0": "The cell membrane controls what enters and leaves the cell. It does not control everything the cell does.",
+   "2": "The cytoplasm is where many reactions happen, but it does not direct them. Think about the part that holds the cell's instructions.",
+   "3": "The vacuole stores water and dissolved substances. Storage does not control the cell's activities."
+  },
+  "why": {
+   "right": "The nucleus controls the cell because it holds the instructions that direct the cell's activities and growth.",
+   "wrong": [
+    "The nucleus controls the cell because it lets substances in and out across the cell edge.",
+    "The nucleus controls the cell because it stores the water and food the cell uses."
+   ]
+  },
+  "explain": "The nucleus controls the activities of the cell. It holds the instructions that decide what the cell does and how it grows."
+ },
+ {
+  "notes": {
+   "0": "The cell wall is a separate rigid layer found in plant cells. The cytoplasm is found inside the cell.",
+   "2": "The green parts of a plant cell are the chloroplasts. The cytoplasm itself is not coloured.",
+   "3": "The outer layer of an animal cell is the cell membrane. The cytoplasm is found inside that layer."
+  },
+  "why": null,
+  "explain": "Cytoplasm is a watery gel that fills the cell. Chemical reactions happen here to keep the cell alive."
+ },
+ {
+  "notes": {
+   "0": "The membrane does not make the cell bigger. Think about the membrane's position at the edge of the cell.",
+   "2": "The membrane does not produce energy. Its position around the cell gives a clue to its job.",
+   "3": "Storage is the job of the vacuole. The membrane is the thin layer around the outside of the cell."
+  },
+  "why": null,
+  "explain": "The cell membrane is a protective layer. It decides what substances can enter and leave the cell."
+ },
+ {
+  "notes": {
+   "0": "Animal cells also have a cell membrane, and it is thin and flexible. It cannot hold a plant cell stiff.",
+   "1": "Both plant and animal cells have a nucleus. It controls the cell but does not make it stiff.",
+   "3": "Chloroplasts are found only in plant cells, but their job is to make food. They do not help the plant stand up straight."
+  },
+  "why": {
+   "right": "Plant cells keep a fixed shape because a tough, rigid cell wall surrounds the cell membrane.",
+   "wrong": [
+    "Plant cells keep a fixed shape because the nucleus pushes outwards on every side of the cell.",
+    "Plant cells keep a fixed shape because chloroplasts form a hard layer just under the membrane."
+   ]
+  },
+  "explain": "The cell wall is a tough, rigid layer outside the cell membrane. It gives plant cells their fixed shape and makes them stiff."
+ },
+ {
+  "notes": {
+   "0": "Water is mainly stored in the vacuole. Chloroplasts are green and contain chlorophyll, which absorbs light.",
+   "1": "Controlling the cell is the job of the nucleus. Chloroplasts are green structures that absorb light.",
+   "3": "Chloroplasts do not break down waste. Think about what plants do with light energy."
+  },
+  "why": {
+   "right": "Chloroplasts make food because they contain chlorophyll, which absorbs light energy for photosynthesis.",
+   "wrong": [
+    "Chloroplasts make food because they take in ready-made food from the soil through the roots.",
+    "Chloroplasts make food because they turn waste from the cell into sugar for the plant."
+   ]
+  },
+  "explain": "Chloroplasts contain chlorophyll, which absorbs light. The plant uses this light energy to make food (glucose) by photosynthesis."
+ },
+ {
+  "notes": {
+   "0": "Vacuoles do not move cells. A vacuole is a space inside the cell filled with liquid.",
+   "2": "The vacuole does not surround or protect the nucleus. It is a separate space filled with liquid.",
+   "3": "Vacuoles do not produce energy. They are spaces filled with cell sap or other liquid."
+  },
+  "why": null,
+  "explain": "Vacuoles are storage bags inside cells. Plant cells have one big vacuole. Animal cells have small ones or none."
+ },
+ {
+  "notes": {
+   "0": "Size is not the reason. Many animals are larger than many plants. Think about how plants and animals get their food.",
+   "2": "Animal cells do not have a cell wall. Think about what chloroplasts do and whether animals need that.",
+   "3": "Chloroplasts are not too big for animal cells. Think about how animals get their food compared with plants."
+  },
+  "why": {
+   "right": "Plant cells have chloroplasts because plants make their own food by photosynthesis using light energy.",
+   "wrong": [
+    "Plant cells have chloroplasts because plants are larger and need bigger cell parts than animals.",
+    "Plant cells have chloroplasts because the cell wall must be filled with green material to stay stiff."
+   ]
+  },
+  "explain": "Plants make their own food through photosynthesis. Animals eat other things for food, so they don't need chloroplasts."
+ },
+ {
+  "notes": {
+   "0": "Growth is controlled by the nucleus. Without it, the cell cannot grow.",
+   "1": "Making food is controlled by the nucleus too. Removing the nucleus would not increase food making.",
+   "3": "Losing the nucleus does not turn a cell into an animal cell. Animal cells also need a nucleus. Think about what the nucleus does."
+  },
+  "why": {
+   "right": "A cell without a nucleus dies because nothing is left to control its activities and growth.",
+   "wrong": [
+    "A cell without a nucleus dies because all its cytoplasm leaks out through the gap.",
+    "A cell without a nucleus dies because the cell wall collapses with nothing to hold it up."
+   ]
+  },
+  "explain": "The nucleus controls everything the cell does. Without it, the cell cannot survive or function."
+ },
+ {
+  "notes": {
+   "0": "Only plant cells have a cell wall. Animal cells have only a cell membrane on the outside.",
+   "1": "Only plant cells have chloroplasts, because only plants make their own food.",
+   "3": "Plant and animal cells share some parts but not all. Plant cells have extra parts that animal cells lack."
+  },
+  "why": null,
+  "explain": "Both plant and animal cells have these basic parts. But plant cells also have a cell wall and chloroplasts."
+ },
+ {
+  "notes": {
+   "0": "Animal cells are not always bigger, and size is not the main difference. Think about which parts each type of cell has.",
+   "2": "Most plant and animal cells have one nucleus each. Think about parts that only one type of cell has.",
+   "3": "There are clear differences in the parts that the two types of cell contain."
+  },
+  "why": null,
+  "explain": "Plant cells have a rigid cell wall and chloroplasts for making food. Animal cells have neither of these."
+ },
+ {
+  "notes": {
+   "0": "Plant cells are not frozen. Their shape comes from a layer that animal cells do not have.",
+   "2": "Animal cells can hold a shape, but it is flexible. Think about the extra outer layer that plant cells have.",
+   "3": "The age of a cell does not decide its shape. Think about the extra outer layer in plant cells."
+  },
+  "why": {
+   "right": "Plant cells have a fixed shape because a rigid cell wall surrounds each cell.",
+   "wrong": [
+    "Plant cells have a fixed shape because a thick cell membrane hardens around each cell.",
+    "Plant cells have a fixed shape because a large nucleus fills up most of each cell."
+   ]
+  },
+  "explain": "The cell wall is tough and rigid. It prevents the plant cell from changing shape. Animal cells have only a flexible membrane."
+ },
+ {
+  "notes": {
+   "0": "Red blood cells come from animals, including humans. Look for the parts that only plant cells have.",
+   "1": "Nerve cells carry signals in animals. They have no cell wall or chloroplasts.",
+   "3": "Muscle cells are found in animals and have no cell wall. Look for parts found only in plant cells."
+  },
+  "why": {
+   "right": "A leaf cell is identified as a plant cell because it has a cell wall and chloroplasts, which animal cells lack.",
+   "wrong": [
+    "A leaf cell is identified as a plant cell because it has a nucleus, which animal cells lack.",
+    "A leaf cell is identified as a plant cell because it has a cell membrane, which animal cells lack."
+   ]
+  },
+  "explain": "Plant cells have a cell wall on the outside and chloroplasts inside. This combination is unique to plants."
+ },
+ {
+  "notes": {
+   "0": "Trees and flowers are plants, so they are made of plant cells.",
+   "2": "Animal cells are not found only in water. Many animals live on land and are made of animal cells too.",
+   "3": "Rocks are not living, so they are not made of cells."
+  },
+  "why": null,
+  "explain": "Animal cells are found in all animals, including humans. They make up our skin, blood, muscles and organs."
+ },
+ {
+  "notes": {
+   "0": "Not every plant cell has chloroplasts. Think about plant parts that grow where there is no light.",
+   "1": "Leaves have the most chloroplasts, but green stems have them too. The question is about parts that receive no light.",
+   "3": "Chloroplasts are found in plant cells, not animal cells. The question is whether every plant cell has them."
+  },
+  "why": {
+   "right": "Root cells have no chloroplasts because roots grow underground, where no light reaches them for photosynthesis.",
+   "wrong": [
+    "Root cells have no chloroplasts because roots take in ready-made food from the soil instead.",
+    "Root cells have no chloroplasts because their cell walls are too thick for chloroplasts to fit inside."
+   ]
+  },
+  "explain": "Chloroplasts need light to work. Root cells underground have no light, so they don't have chloroplasts."
+ },
+ {
+  "notes": {
+   "0": "Red is not the colour of chloroplasts. Think about the colour of most leaves.",
+   "2": "Yellow is not the usual colour. Healthy leaves get their colour from the pigment in chloroplasts.",
+   "3": "Chloroplasts are not clear. They contain a coloured pigment that gives leaves their colour."
+  },
+  "why": {
+   "right": "Chloroplasts look green because they contain chlorophyll, a green pigment that absorbs light.",
+   "wrong": [
+    "Chloroplasts look green because they are filled with green cell sap from the vacuole.",
+    "Chloroplasts look green because the cell wall around them is coloured green."
+   ]
+  },
+  "explain": "Chlorophyll is a green pigment inside chloroplasts. This is what makes leaves green and captures sunlight."
+ },
+ {
+  "notes": {
+   "0": "Plant cells need a nucleus to control their activities. Think of one special animal cell that loses its nucleus.",
+   "1": "Most animal cells need a nucleus to survive. The answer is one special type of cell.",
+   "3": "Most cells die without a nucleus. Only certain special cells can manage without one."
+  },
+  "why": {
+   "right": "Mature red blood cells survive without a nucleus because their job of carrying oxygen does not need one.",
+   "wrong": [
+    "Mature red blood cells survive without a nucleus because their cell wall controls the cell instead.",
+    "Mature red blood cells survive without a nucleus because they make their own food using chloroplasts."
+   ]
+  },
+  "explain": "Mature red blood cells push out their nucleus before entering the bloodstream. They can still deliver oxygen without it."
+ },
+ {
+  "notes": {
+   "0": "Animal cells have no rigid outer layer to hold a square shape. Think about what their outer layer is like.",
+   "1": "A box-like shape comes from a cell wall, which animal cells do not have.",
+   "3": "A few cells, such as nerve cells, have long branches, but most animal cells are not star-shaped."
+  },
+  "why": {
+   "right": "Most animal cells are round or irregular because they have only a flexible cell membrane and no cell wall.",
+   "wrong": [
+    "Most animal cells are round or irregular because their cell wall is soft and bends easily.",
+    "Most animal cells are round or irregular because their large vacuole pushes evenly in all directions."
+   ]
+  },
+  "explain": "Animal cells do not have a rigid cell wall, so they can be round or irregular in shape. Plant cells have a cell wall that gives them a fixed shape."
+ },
+ {
+  "notes": {
+   "0": "Animal cells have neither a cell wall nor chloroplasts.",
+   "2": "Bacteria have a cell wall but no chloroplasts. The cell in the question has both parts.",
+   "3": "Fungal cells have a cell wall but no chloroplasts, because fungi cannot make their own food."
+  },
+  "why": {
+   "right": "A cell with both a cell wall and chloroplasts is a plant cell because only plant cells have both parts.",
+   "wrong": [
+    "A cell with both a cell wall and chloroplasts is a plant cell because only plant cells have a cell wall.",
+    "A cell with both a cell wall and chloroplasts is a plant cell because only plant cells have a nucleus."
+   ]
+  },
+  "explain": "Only plant cells have both a cell wall and chloroplasts. This combination is a clear sign of a plant cell."
+ },
+ {
+  "notes": {
+   "0": "Plant cells usually have one large central vacuole. Animal cells are different here.",
+   "2": "Animal cells do not have more or bigger vacuoles than plant cells. Compare them with the large central vacuole of a plant cell.",
+   "3": "Vacuoles are found in many plant cells, not only in roots. The question compares animal cells with plant cells."
+  },
+  "why": null,
+  "explain": "Plant cells have one big central vacuole. Animal cells have tiny ones or no vacuoles at all."
+ },
+ {
+  "notes": {
+   "0": "Size is not what 'unicellular' describes. Think about what 'uni' means in a word like 'unicycle'.",
+   "2": "An organism with many organs is made of many cells. 'Uni' means one.",
+   "3": "Unicellular organisms are alive. The word describes how many cells the organism has."
+  },
+  "why": null,
+  "explain": "Unicellular means 'one cell.' Examples are bacteria and amoeba. They are alive but have only one cell."
+ },
+ {
+  "notes": {
+   "1": "Multicellular organisms are alive. The word describes how many cells make up the organism.",
+   "2": "Size is not what the word describes. 'Multi' means many.",
+   "3": "Age is not what the word describes. Think about what 'multi' means."
+  },
+  "why": null,
+  "explain": "Multicellular organisms have many cells that work together. Humans, plants, and animals are all multicellular."
+ },
+ {
+  "notes": {
+   "0": "A human is made of trillions of cells. Look for an organism made of a single cell.",
+   "1": "A dog is made of many cells working together. Look for an organism whose whole body is one cell.",
+   "3": "A tree is made of many cells forming tissues and organs. Look for an organism made of one cell."
+  },
+  "why": {
+   "right": "A bacterium is unicellular because its whole body is one cell that carries out every life process.",
+   "wrong": [
+    "A bacterium is unicellular because it is too small to be seen without a microscope.",
+    "A bacterium is unicellular because it has no nucleus and so cannot divide into more cells."
+   ]
+  },
+  "explain": "Bacteria are made of just one cell. Humans, dogs, and trees are made of millions of cells."
+ },
+ {
+  "notes": {
+   "0": "Most unicellular organisms are far smaller than the eye can see. Think about how small one cell is.",
+   "2": "Whether something can be seen does not depend on the day. It depends on the size of the organism.",
+   "3": "Size is what decides whether something can be seen with the naked eye. Think about how small a single cell is."
+  },
+  "why": {
+   "right": "Most unicellular organisms need a microscope to be seen because a single cell is too small for the eye.",
+   "wrong": [
+    "Most unicellular organisms need a microscope to be seen because they move too quickly for the eye.",
+    "Most unicellular organisms need a microscope to be seen because they live only inside other organisms."
+   ]
+  },
+  "explain": "Most unicellular organisms are microscopic (very tiny). You need a microscope to see them."
+ },
+ {
+  "notes": {
+   "0": "In everyday English a tissue is a piece of paper, but in biology the word has a different meaning linked to cells.",
+   "2": "A tissue is not one cell. It is made of many cells.",
+   "3": "No part of a microscope is called a tissue. In biology the word is about how cells are grouped."
+  },
+  "why": null,
+  "explain": "A tissue is made of many similar cells. For example, muscle tissue is made of many muscle cells working together."
+ },
+ {
+  "notes": {
+   "0": "In everyday English an organ is a musical instrument, but in biology the word means a body structure such as the heart.",
+   "2": "An organ is much larger than one cell. It is built from more than one kind of tissue.",
+   "3": "No microscope is called an organ. In biology, the heart and the stomach are examples of organs."
+  },
+  "why": null,
+  "explain": "An organ is made of several types of tissue. Your heart is an organ made of muscle, nerve, and blood vessel tissue."
+ },
+ {
+  "notes": {
+   "0": "In a multicellular organism, cells are specialised. A muscle cell cannot carry oxygen like a red blood cell does.",
+   "2": "No single cell controls the whole body. Each cell has its own nucleus.",
+   "3": "Cells in the body depend on each other. Think about how nerve, muscle and blood cells each help the body."
+  },
+  "why": {
+   "right": "A multicellular organism works because its cells are specialised for different jobs and work together.",
+   "wrong": [
+    "A multicellular organism works because every cell carries out every job by itself.",
+    "A multicellular organism works because one large cell controls all the other cells."
+   ]
+  },
+  "explain": "Your body has trillions of cells. Different cells specialise in different jobs and work together to keep you alive."
+ },
+ {
+  "notes": {
+   "0": "Cells in a healthy body do not fight each other. 'Labour' here means work.",
+   "2": "Cells are not separated. Division of labour describes how the work is shared out.",
+   "3": "Cells of all sizes do work. The term describes how different jobs are shared between cells."
+  },
+  "why": null,
+  "explain": "In your body, muscle cells contract, nerve cells send signals, and blood cells carry oxygen. Each type has its own job."
+ },
+ {
+  "notes": {
+   "0": "Appearance is not a scientific reason. Think about what many cells can do that one cell cannot.",
+   "2": "Strength and speed are not the main point. Think about how many cells can share out different jobs.",
+   "3": "There is a good reason. Think about how different cells in the body do different jobs."
+  },
+  "why": {
+   "right": "Multicellular organisms have many cells because different cells can specialise in different jobs.",
+   "wrong": [
+    "Multicellular organisms have many cells because small cells are always stronger than large cells.",
+    "Multicellular organisms have many cells because one giant cell would be too heavy to move."
+   ]
+  },
+  "explain": "Many cells allow each type of cell to be specialised for one job. A single giant cell could not carry out all these jobs as well."
+ },
+ {
+  "notes": {
+   "0": "An organ is made of tissues, so tissues must come before organs.",
+   "2": "A tissue is made of cells, so cells must come before tissues.",
+   "3": "This order runs from largest to smallest. The question asks for smallest to largest."
+  },
+  "why": {
+   "right": "Living things are organised from small to large because cells form tissues, tissues form organs and organs form the organism.",
+   "wrong": [
+    "Living things are organised from small to large because cells form organs, organs form tissues and tissues form the organism.",
+    "Living things are organised from small to large because tissues form cells, cells form organs and organs form the organism."
+   ]
+  },
+  "explain": "Cells group together to form tissues. Different tissues form organs. Organs work together to make up the whole organism."
+ },
+ {
+  "notes": {
+   "0": "Cells do not have feelings such as boredom. Think about what the body needs new cells for.",
+   "2": "Laziness is not a scientific reason. Think about what new cells are used for in the body.",
+   "3": "Cells do divide. A cut that heals shows that new cells are being made."
+  },
+  "why": {
+   "right": "Cells divide because new cells are needed for growth, for repairing damage and for reproduction.",
+   "wrong": [
+    "Cells divide because a cell that grows too old splits apart before it dies.",
+    "Cells divide because the nucleus breaks into pieces when the cell becomes too full."
+   ]
+  },
+  "explain": "Cell division allows organisms to grow, repair injuries, and reproduce. One cell becomes two identical cells."
+ },
+ {
+  "notes": {
+   "0": "The cell does not disappear. Think about what happens to the nucleus first and what the cell becomes.",
+   "2": "A cell growing bigger is not cell division. Division ends with more cells than at the start.",
+   "3": "Cell division is important. Think about how a cut heals or how a person grows."
+  },
+  "why": {
+   "right": "Cell division gives two cells because the nucleus divides first and then the cytoplasm splits in two.",
+   "wrong": [
+    "Cell division gives two cells because the cell membrane splits while the nucleus stays whole.",
+    "Cell division gives two cells because two old cells join and then split apart again."
+   ]
+  },
+  "explain": "The nucleus divides first. Then the cytoplasm splits. You end up with two cells where you started with one."
+ },
+ {
+  "notes": {
+   "0": "One cell dividing does not leave just one cell. Think about what happens when something splits in half.",
+   "1": "One division does not give three cells. A cell splits once, into equal parts.",
+   "3": "Cell division is not random. One division gives a fixed number of cells."
+  },
+  "why": null,
+  "explain": "When a cell divides, it creates two daughter cells. Each one is identical to the original cell."
+ },
+ {
+  "notes": {
+   "0": "The nucleus does not simply disappear. Each new cell needs the information it holds.",
+   "2": "Shrinking would not help. Each new cell needs its own set of the information in the nucleus.",
+   "3": "Moving position does not help the new cells. Think about what each new cell needs from the nucleus."
+  },
+  "why": {
+   "right": "The nucleus copies its DNA before division so that each new cell gets a full set of instructions.",
+   "wrong": [
+    "The nucleus copies its DNA before division so that the new cells can grow twice as large.",
+    "The nucleus copies its DNA before division so that the cytoplasm can be split in half."
+   ]
+  },
+  "explain": "Before dividing, the nucleus makes a complete copy of all its DNA. This way, each new cell has the same instructions."
+ },
+ {
+  "notes": {
+   "0": "Cells are not lazy. Think about what happens to the number of cells when cells divide.",
+   "2": "Cell division does not stop growth. Think about what dividing does to the number of cells.",
+   "3": "Growth depends on cell division. A baby grows into an adult because of it."
+  },
+  "why": {
+   "right": "Organisms grow because cell division increases the number of cells in the body.",
+   "wrong": [
+    "Organisms grow because each cell keeps getting bigger without ever dividing.",
+    "Organisms grow because cell division joins small cells together into large cells."
+   ]
+  },
+  "explain": "You grew from a baby to your current size because your cells kept dividing. More cells make a bigger body."
+ },
+ {
+  "notes": {
+   "0": "Most body cells cannot keep dividing without end. They stop after a certain number of divisions.",
+   "2": "Animal cells can also divide many times. The answer applies to most cells, not only one type.",
+   "3": "Colour has nothing to do with cell division. Think about whether most cells can keep dividing without stopping."
+  },
+  "why": null,
+  "explain": "Most body cells can divide only a limited number of times. After that, they stop dividing and are eventually replaced by other cells."
+ },
+ {
+  "notes": {
+   "0": "Broken bones are repaired by cell division, but they are not the only damage repaired this way. Check the other options as well.",
+   "1": "Cuts in the skin are repaired by cell division, but other damage is repaired in the same way.",
+   "2": "Burned skin is repaired by cell division, but so are other kinds of damage."
+  },
+  "why": {
+   "right": "Cell division repairs many kinds of damage because it makes new cells to replace damaged ones.",
+   "wrong": [
+    "Cell division repairs only skin cuts because skin is the only tissue whose cells can divide.",
+    "Cell division repairs only broken bones because bone cells are the only cells with a nucleus."
+   ]
+  },
+  "explain": "Cell division helps your body repair many types of damage by creating new healthy cells to replace damaged ones."
+ },
+ {
+  "notes": {
+   "0": "This does not describe how it happens. In asexual reproduction only one parent is involved and no mating takes place.",
+   "2": "Cells fighting is not reproduction. Reproduction makes new organisms.",
+   "3": "Eating other cells is feeding, not reproduction. Think about how one cell can become two."
+  },
+  "why": null,
+  "explain": "When bacteria or amoebas divide, each parent cell becomes two identical offspring. No mating is needed."
+ },
+ {
+  "notes": {
+   "0": "Cells do not make noise. Think about what too many extra cells do to the organs around them.",
+   "2": "Cancer cells divide too fast, not too slowly. Think about what a growing lump of cells does to nearby organs.",
+   "3": "Cancer is dangerous. Think about what happens when cells keep dividing when they should not."
+  },
+  "why": {
+   "right": "Cancer is dangerous because cells that divide out of control form tumours that damage nearby tissues.",
+   "wrong": [
+    "Cancer is dangerous because cells that divide out of control use up all the oxygen in the air.",
+    "Cancer is dangerous because cells that divide out of control stop all other cells from dividing."
+   ]
+  },
+  "explain": "Cancer happens when cells divide when they should not. This creates tumours that damage healthy tissue."
+ },
+ {
+  "notes": {
+   "0": "Junk food lacks many nutrients that cells need. Think about what cells need to work and divide properly.",
+   "2": "Sitting in the dark does not help cells. Think about food, exercise and sleep.",
+   "3": "Some choices do affect cells. Smoking and too much sun can damage them."
+  },
+  "why": {
+   "right": "A healthy lifestyle helps cells because they get the nutrients they need and less damage from smoke and sunlight.",
+   "wrong": [
+    "A healthy lifestyle helps cells because exercise makes every cell in the body divide much faster.",
+    "A healthy lifestyle helps cells because smoke and strong sunlight give them more energy to divide."
+   ]
+  },
+  "explain": "A healthy lifestyle gives your cells what they need to function properly and divide correctly when needed."
+ },
+ {
+  "notes": {
+   "0": "The microscope's value was not about making glass look nice. Think about what people could see with it for the first time.",
+   "2": "Microscopes did not replace magnifying glasses. They allowed much smaller things to be seen.",
+   "3": "The microscope was very important. Before it, nobody knew that cells existed."
+  },
+  "why": {
+   "right": "The microscope was important because cells are too small to be seen with the eye alone.",
+   "wrong": [
+    "The microscope was important because it made cells grow large enough to be seen.",
+    "The microscope was important because it was the first tool ever to use glass lenses."
+   ]
+  },
+  "explain": "Before microscopes, people didn't know cells existed. Microscopes opened up an entire hidden world."
+ },
+ {
+  "notes": {
+   "0": "Both microscopes are used for science, not for making things look pretty. Think about how much each one can magnify.",
+   "2": "Electron microscopes do not use sunlight. They use beams of electrons.",
+   "3": "All machines can break down. Think about how much each microscope can magnify."
+  },
+  "why": {
+   "right": "An electron microscope shows more detail because it magnifies far more than a light microscope.",
+   "wrong": [
+    "An electron microscope shows more detail because it uses brighter sunlight than a light microscope.",
+    "An electron microscope shows more detail because it makes the specimen grow bigger before viewing."
+   ]
+  },
+  "explain": "Electron microscopes can magnify up to about 500 000 times. Light microscopes magnify only up to about 1500 times, so electron microscopes show much more detail."
+ },
+ {
+  "notes": {
+   "0": "Microscopes showed that cells are real. They became visible for the first time.",
+   "2": "Cells are not made of rock. Cells are the living units of organisms.",
+   "3": "Something new was discovered. Think about what scientists saw in every living sample they looked at."
+  },
+  "why": null,
+  "explain": "Scientists found that all living things are made of cells. This idea is called the cell theory."
+ },
+ {
+  "notes": {
+   "0": "Scientists do not ignore cells. Many diseases are caused by changes in cells.",
+   "2": "Cells cannot be turned into robots. Scientists study cells using microscopes and by growing them.",
+   "3": "Scientists do study cells to learn about diseases. Think about the tools they use."
+  },
+  "why": {
+   "right": "Studying cells helps scientists understand diseases because many diseases cause changes inside cells.",
+   "wrong": [
+    "Studying cells helps scientists understand diseases because diseased cells are the only cells that can be seen.",
+    "Studying cells helps scientists understand diseases because diseased cells always look the same as healthy cells."
+   ]
+  },
+  "explain": "Studying cells helps doctors understand how diseases work and develop medicines and treatments."
+ },
+ {
+  "notes": {
+   "0": "A vaccine is not food. It works with the body's immune system to prevent disease.",
+   "2": "A vaccine has nothing to do with microscopes. It protects the body against disease.",
+   "3": "A vaccine is not a cell. It is a substance given to prepare the body against a disease."
+  },
+  "why": null,
+  "explain": "A vaccine helps the body's immune cells learn to recognise and fight a disease before the person catches it. This protects the person from the disease."
+ },
+ {
+  "notes": {
+   "0": "Microscopes have changed a lot. Early ones had simple lenses. Think about what modern ones can show.",
+   "2": "Speed is not how microscopes are compared. Think about how small the things are that they can show.",
+   "3": "Modern microscopes are not worse. Think about the electron microscope compared with early lenses."
+  },
+  "why": null,
+  "explain": "From simple lenses to electron microscopes, technology keeps improving. We keep discovering more about cells."
+ },
+ {
+  "notes": {
+   "0": "A biopsy is a medical test, not something done for fun. Think about what doctors look for in cells.",
+   "2": "A biopsy takes cells out of the body. Think about what doctors check for.",
+   "3": "A biopsy has a clear purpose. Doctors study the cells to find out whether there is a disease."
+  },
+  "why": {
+   "right": "Doctors examine biopsies because changes seen in cells under a microscope show whether a disease is present.",
+   "wrong": [
+    "Doctors examine biopsies because removing a few cells is enough to cure the disease.",
+    "Doctors examine biopsies because diseased cells grow large enough to be seen without a microscope."
+   ]
+  },
+  "explain": "By examining cells from a biopsy, doctors can diagnose diseases and figure out the best treatment."
+ },
+ {
+  "notes": {
+   "0": "Cloning is not about dirt. It is about making an organism with the same genetic information as another.",
+   "2": "Cloning does not break things. It makes a copy of an organism.",
+   "3": "Seeds usually come from two parents, so the offspring differ from each parent. Cloning uses the genetic information of only one organism."
+  },
+  "why": null,
+  "explain": "Scientists can take one cell and use its DNA to create an organism that is genetically identical to the original."
+ },
+ {
+  "notes": {
+   "0": "Stem cells are found in animals, including humans, as well as in plants. Think about what is special about these cells.",
+   "2": "Stem cell research is biology, not making clothes. It studies a special kind of cell.",
+   "3": "Stem cell research is about living cells, not robots. Think about cells that are not yet specialised."
+  },
+  "why": null,
+  "explain": "Stem cells can grow into many different types of cells. Scientists hope to use them to treat injuries and diseases."
+ },
+ {
+  "notes": {
+   "0": "Cell technology is widely used in medicine. Think about where scientists test new medicines first.",
+   "2": "Cells are not ignored in medicine. Many medicines are tested on cells grown in labs.",
+   "3": "Animal and human cells are studied too, not only plant cells."
+  },
+  "why": null,
+  "explain": "Cell cultures in labs let scientists test thousands of drug compounds quickly before trying them on patients."
+ }
+]

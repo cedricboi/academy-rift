@@ -16,11 +16,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Fertilisation is the fusion of the nucleus of a sperm with the nucleus of an egg. It forms a fertilised egg.",
    "hint": "",
    "image": null,
    "lo": "Recognise that the union of the nuclei of an egg and a sperm (inputs) forms a fertilised egg that develops into a new individual (output)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Ovulation is the release of an egg from an ovary. It happens before the egg can meet a sperm.",
+    "1": "Ejaculation is the release of semen from the penis. It delivers sperm but does not join the sperm and egg nuclei.",
+    "2": "Menstruation is the breakdown and discharge of the uterine lining. It does not involve a sperm at all."
+   },
+   "why": null
   },
   {
    "id": "c16q2",
@@ -34,11 +40,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A fertilised egg divides many times to form an embryo, which grows into a new individual.",
    "hint": "",
    "image": null,
    "lo": "Recognise that the union of the nuclei of an egg and a sperm (inputs) forms a fertilised egg that develops into a new individual (output)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Sperm cells are made in the testes of a male. A fertilised egg does not turn back into a sex cell.",
+    "2": "Semen is the fluid of sperm and nutrient fluid made by the male. It does not come from a fertilised egg.",
+    "3": "The ovary is the organ that produces eggs. A fertilised egg develops into a new individual, not into an organ of the mother."
+   },
+   "why": {
+    "right": "A fertilised egg becomes an embryo because it divides many times to form a ball of cells.",
+    "wrong": [
+     "A fertilised egg becomes an embryo because it joins with more sperm to grow larger.",
+     "A fertilised egg becomes an embryo because it takes in cells from the wall of the ovary."
+    ]
+   }
   },
   {
    "id": "c16q3",
@@ -52,11 +70,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The inputs are what go into the process. An egg and a sperm go in, and their nuclei fuse to form a fertilised egg.",
    "hint": "",
    "image": null,
    "lo": "Recognise that the union of the nuclei of an egg and a sperm (inputs) forms a fertilised egg that develops into a new individual (output)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "An embryo and a foetus are stages that develop after fertilisation. They come out of the process, not into it.",
+    "2": "A fertilised egg is formed when the nuclei fuse. It is produced by the process, so it is not an input.",
+    "3": "A new individual is the final result of the process. That makes it the output, not the input."
+   },
+   "why": {
+    "right": "The egg and sperm are the inputs because they go into the process before their nuclei fuse.",
+    "wrong": [
+     "The egg and sperm are the inputs because they are produced at the very end of the process.",
+     "The egg and sperm are the inputs because they grow into a foetus without their nuclei fusing."
+    ]
+   }
   },
   {
    "id": "c16q4",
@@ -70,11 +100,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heredity is the passing of genetic material from parents to offspring, from one generation to the next.",
    "hint": "",
    "image": null,
    "lo": "Recognise that sexual reproduction passes genetic material from one generation to the next (heredity)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Ovulation is the release of an egg from an ovary. It is one event in a woman's cycle, not the passing on of genetic material.",
+    "1": "Fertilisation is the fusion of a sperm nucleus and an egg nucleus. It is one event, not the passing of traits across generations.",
+    "3": "Puberty is the stage when the body becomes able to reproduce. It is not the passing on of genetic material."
+   },
+   "why": null
   },
   {
    "id": "c16q5",
@@ -88,11 +124,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Sickle cell anaemia is caused by genetic material. It can be passed from parents to a child through the egg and sperm.",
    "hint": "",
    "image": null,
    "lo": "Recognise that sexual reproduction passes genetic material from one generation to the next (heredity)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Influenza is caused by a virus that spreads from person to person through the air. It is not carried in genetic material.",
+    "2": "Tuberculosis is caused by bacteria that spread through the air. It is not carried in genetic material.",
+    "3": "Typhoid is caused by bacteria in dirty food or water. It is not carried in genetic material."
+   },
+   "why": {
+    "right": "Sickle cell anaemia is inherited because it is caused by genetic material passed on in the egg or sperm.",
+    "wrong": [
+     "Sickle cell anaemia is inherited because it is caused by germs passed on in the mother's milk.",
+     "Sickle cell anaemia is inherited because it is caused by bacteria passed on in the air at home."
+    ]
+   }
   },
   {
    "id": "c16q6",
@@ -106,11 +154,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The egg comes from the mother. The genetic material in the nucleus of the egg is passed to the child at fertilisation.",
    "hint": "",
    "image": null,
    "lo": "Explain similarities and differences between offspring, parents and siblings using the unique combination of genetic material from egg and sperm",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The uterine lining nourishes the developing embryo. It does not pass genetic material to the child.",
+    "1": "Nutrient fluid is made by the male sex glands to nourish sperm. It does not carry the mother's genetic material.",
+    "2": "The sperm comes from the father. Its nucleus carries the father's genetic material, not the mother's."
+   },
+   "why": {
+    "right": "The child gets the mother's genetic material because the egg nucleus, made by the mother, fuses with the sperm nucleus.",
+    "wrong": [
+     "The child gets the mother's genetic material because the uterine lining passes it to the embryo during pregnancy.",
+     "The child gets the mother's genetic material because the sperm collects it from the mother's body before fertilisation."
+    ]
+   }
   },
   {
    "id": "c16q7",
@@ -124,11 +184,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The girl has a trait from her father and a trait from her mother. This shows she inherited genetic material from both parents.",
    "hint": "",
    "image": null,
    "lo": "Explain similarities and differences between offspring, parents and siblings using the unique combination of genetic material from egg and sperm",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Being identical would mean every trait is the same. She has a mix of traits, so she is not identical to either parent.",
+    "2": "Her eye colour comes from her mother. Look at where each of her traits came from.",
+    "3": "Her nose comes from her father. Look at where each of her traits came from."
+   },
+   "why": {
+    "right": "She has traits of both parents because she received genetic material from both the egg and the sperm.",
+    "wrong": [
+     "She has traits of both parents because she copies the features of the parent she sees most.",
+     "She has traits of both parents because the uterus shapes her features to match her family."
+    ]
+   }
   },
   {
    "id": "c16q8",
@@ -142,11 +214,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Each egg and each sperm carries a different mix of genetic material. Each sister formed from a different egg and sperm, so each has a unique mix.",
    "hint": "",
    "image": null,
    "lo": "Explain similarities and differences between offspring, parents and siblings using the unique combination of genetic material from egg and sperm",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Both sisters received genetic material from the father through a sperm. The difference is in which mix each one received.",
+    "1": "Genetic material is passed to every child, sons and daughters alike. Both sisters inherited it from their parents.",
+    "3": "Both sisters received genetic material from the mother through an egg. The difference is in which mix each one received."
+   },
+   "why": {
+    "right": "Sisters look different because each formed from a different egg and sperm with a different mix of genetic material.",
+    "wrong": [
+     "Sisters look different because the older one takes more genetic material from the parents than the younger one.",
+     "Sisters look different because their genetic material keeps changing as each child grows up after birth."
+    ]
+   }
   },
   {
    "id": "c16q9",
@@ -160,11 +244,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Puberty begins when the body starts to produce sex hormones. These hormones cause the physical changes of puberty.",
    "hint": "",
    "image": null,
    "lo": "State the physical changes in males and females during puberty caused by hormones",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Vaccines are given to protect against diseases. The body does not make them, and they do not start puberty.",
+    "1": "Antibiotics are medicines that kill bacteria. They do not start the body changes of puberty.",
+    "3": "Nutrient fluids are made by the sex glands to nourish sperm. They are not chemical messengers that start body changes."
+   },
+   "why": null
   },
   {
    "id": "c16q10",
@@ -177,11 +267,16 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A deeper voice is a change that male sex hormones cause in males during puberty.",
    "hint": "",
    "image": null,
    "lo": "State the physical changes in males and females during puberty caused by hormones",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Female sex hormones do not make the voice deepen. This change is caused by the hormones of the other sex.",
+    "2": "Some changes happen in both sexes, but a deeper voice is caused by the hormones of only one sex."
+   },
+   "why": null
   },
   {
    "id": "c16q11",
@@ -194,11 +289,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Broader, rounder hips are a change caused by female sex hormones in females during puberty.",
    "hint": "",
    "image": null,
    "lo": "State the physical changes in males and females during puberty caused by hormones",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Some changes happen in both sexes, but broader hips are caused by the hormones of only one sex.",
+    "2": "Male sex hormones make the shoulders broader, not the hips. Broader hips are caused by the hormones of the other sex."
+   },
+   "why": null
   },
   {
    "id": "c16q12",
@@ -211,11 +311,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Pubic hair grows in both males and females during puberty.",
    "hint": "",
    "image": null,
    "lo": "State the physical changes in males and females during puberty caused by hormones",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Pubic hair does not grow in females only. Think about the changes that take place in the other sex as well.",
+    "2": "Pubic hair does not grow in males only. Think about the changes that take place in the other sex as well."
+   },
+   "why": null
   },
   {
    "id": "c16q13",
@@ -229,11 +334,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The testes produce sperm. They also produce male sex hormones.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The sperm duct carries sperm from where they are made to the urethra. It does not make them.",
+    "1": "The urethra carries semen or urine out of the body. It does not make sperm.",
+    "2": "The sex glands produce nutrient fluid that nourishes sperm. They do not make the sperm."
+   },
+   "why": null
   },
   {
    "id": "c16q14",
@@ -247,11 +358,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The sperm duct is a tube that carries sperm from the testes to the urethra.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Nutrient fluid is made by the sex glands. The sperm duct is a tube that moves sperm.",
+    "1": "The penis deposits semen into the vagina. The sperm duct is a tube inside the body.",
+    "2": "Sperm are produced in the testes. The sperm duct carries them but does not make them."
+   },
+   "why": null
   },
   {
    "id": "c16q15",
@@ -265,11 +382,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The sex glands produce nutrient fluid that nourishes the sperm.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Carrying sperm to the urethra is the job of the sperm duct. The sex glands add a fluid to the sperm.",
+    "2": "Sperm are produced in the testes. The sex glands add a fluid to the sperm.",
+    "3": "Urine is made by the kidneys and leaves through the urethra. The sex glands are part of the reproductive system."
+   },
+   "why": null
   },
   {
    "id": "c16q16",
@@ -283,11 +406,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Semen is made of sperm from the testes mixed with nutrient fluid from the sex glands.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Urine and semen both leave through the urethra, but never at the same time. Urine is not part of semen.",
+    "1": "Semen carries the male sex cells. A fluid with no sex cells in it would not be semen.",
+    "3": "Eggs are produced by females in the ovaries. Semen is made only by the male reproductive system."
+   },
+   "why": null
   },
   {
    "id": "c16q17",
@@ -301,11 +430,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The urethra is the tube through the penis. It carries semen during ejaculation and urine at other times.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The sperm duct carries sperm only. It joins the tube that also carries urine.",
+    "1": "The testis produces sperm and male sex hormones. It does not carry urine.",
+    "3": "The sex glands produce nutrient fluid. They do not carry urine."
+   },
+   "why": {
+    "right": "The urethra carries both because the tube from the bladder and the sperm ducts both join it.",
+    "wrong": [
+     "The urethra carries both because semen and urine are mixed together in the bladder first.",
+     "The urethra carries both because the testes make urine as well as sperm."
+    ]
+   }
   },
   {
    "id": "c16q18",
@@ -319,11 +460,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The penis deposits semen into the vagina during sexual intercourse.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The sex glands make nutrient fluid inside the body. They do not deposit semen.",
+    "2": "The sperm duct carries sperm inside the body to the urethra. It does not deposit semen into the vagina.",
+    "3": "The testis produces sperm inside the body. It does not deposit semen."
+   },
+   "why": null
   },
   {
    "id": "c16q19",
@@ -337,11 +484,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The testes produce sperm and male sex hormones. These hormones cause the male changes during puberty.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the male reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Nutrient fluid is made by the sex glands. The testes make something that causes the changes of puberty.",
+    "2": "Eggs are produced by the ovaries in females. The testes are male organs.",
+    "3": "Urine is made by the kidneys. The testes are part of the reproductive system."
+   },
+   "why": null
   },
   {
    "id": "c16q20",
@@ -355,11 +508,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The ovaries produce eggs. They also produce female sex hormones.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the female reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The cervix is the opening of the uterus. It does not make eggs.",
+    "1": "The oviduct carries the egg after it is released. It does not make the egg.",
+    "2": "The uterus is where the embryo develops. It does not make eggs."
+   },
+   "why": null
   },
   {
    "id": "c16q21",
@@ -373,11 +532,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Fertilisation usually takes place in the oviduct, where the released egg meets the sperm.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the female reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The uterus is where the embryo implants and develops. The egg and sperm usually meet before the egg gets there.",
+    "1": "The ovary releases the egg, but sperm do not reach the ovary. The egg meets the sperm after it leaves the ovary.",
+    "3": "Sperm are deposited in the vagina but must swim much further to meet the egg."
+   },
+   "why": {
+    "right": "Fertilisation happens in the oviduct because the released egg travels along it and sperm swim up to meet it.",
+    "wrong": [
+     "Fertilisation happens in the oviduct because the oviduct produces eggs and stores sperm until they meet.",
+     "Fertilisation happens in the oviduct because the embryo must implant in the oviduct wall straight after."
+    ]
+   }
   },
   {
    "id": "c16q22",
@@ -391,11 +562,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The embryo implants in the wall of the uterus and develops into a foetus there.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the female reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The vagina is the birth canal. The baby passes through it at birth, but it does not develop there.",
+    "1": "The oviduct is where fertilisation usually happens. The embryo moves on from there to develop.",
+    "2": "The ovary produces eggs. The embryo does not develop in the ovary."
+   },
+   "why": {
+    "right": "The embryo develops in the uterus because the thick uterine lining supports it and supplies food and oxygen.",
+    "wrong": [
+     "The embryo develops in the uterus because the uterus produces the eggs that become the foetus.",
+     "The embryo develops in the uterus because the uterus is the narrow tube where sperm meet the egg."
+    ]
+   }
   },
   {
    "id": "c16q23",
@@ -409,11 +592,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The cervix is the narrow opening of the uterus. It leads into the vagina.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the female reproductive system",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The tube from the ovary is the oviduct. The cervix is at the other end of the uterus.",
+    "2": "The organ that produces eggs is the ovary. The cervix does not make eggs.",
+    "3": "The lining of the uterus is the layer inside it that thickens each month. The cervix is a different part."
+   },
+   "why": null
   },
   {
    "id": "c16q24",
@@ -427,11 +616,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The vagina is called the birth canal because the baby passes through it during birth.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the female reproductive system",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The oviduct carries the egg from the ovary to the uterus. The baby does not pass through it.",
+    "2": "The cervix is the opening of the uterus. The baby passes through it, but it is not the canal itself.",
+    "3": "The uterus is where the baby develops. The birth canal is the passage the baby travels along to leave the body."
+   },
+   "why": null
   },
   {
    "id": "c16q25",
@@ -445,11 +640,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In females the urethra carries urine only. It belongs to the excretory system, not the reproductive system.",
    "hint": "",
    "image": null,
    "lo": "State the functions of the parts of the female reproductive system",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The vagina receives sperm and is the birth canal. It is part of the female reproductive system.",
+    "2": "The cervix is the opening of the uterus. It is part of the female reproductive system.",
+    "3": "The oviduct carries the egg and is where fertilisation happens. It is part of the female reproductive system."
+   },
+   "why": null
   },
   {
    "id": "c16q26",
@@ -463,11 +664,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sperm are made in the testis, travel along the sperm duct and leave the body through the urethra.",
    "hint": "",
    "image": null,
    "lo": "Trace the path of sperm and egg in fertilisation and the development that follows",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The urethra is where sperm leave the body, so it comes last. Think about where sperm are made.",
+    "1": "The sperm duct connects the testis to the urethra. Sperm must pass along it before they reach the urethra.",
+    "3": "Sperm are made before they travel. The organ that makes them must come first."
+   },
+   "why": {
+    "right": "Sperm follow this path because they are made in the testis and carried by the sperm duct to the urethra.",
+    "wrong": [
+     "Sperm follow this path because they are made in the sex glands and then stored in the testis.",
+     "Sperm follow this path because urine pushes them out of the testis and into the urethra."
+    ]
+   }
   },
   {
    "id": "c16q27",
@@ -481,11 +694,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Sperm are deposited in the vagina, pass through the cervix into the uterus, then swim into the oviduct to meet the egg.",
    "hint": "",
    "image": null,
    "lo": "Trace the path of sperm and egg in fertilisation and the development that follows",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The cervix opens into the uterus. Sperm must pass through the uterus before they reach the oviduct.",
+    "1": "Sperm are deposited in the vagina, so the vagina comes first. Think about where the penis places the semen.",
+    "2": "The cervix is between the vagina and the uterus. Sperm pass through it before they enter the uterus."
+   },
+   "why": {
+    "right": "Sperm follow this path because they swim from the vagina through the cervix and uterus to reach the egg.",
+    "wrong": [
+     "Sperm follow this path because the uterus pumps them into the oviduct to make new eggs.",
+     "Sperm follow this path because the egg is made in the uterus and then moves to the oviduct."
+    ]
+   }
   },
   {
    "id": "c16q28",
@@ -499,11 +724,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The fertilised egg divides to form an embryo. The embryo grows into a foetus, which develops into a baby.",
    "hint": "",
    "image": null,
    "lo": "Trace the path of sperm and egg in fertilisation and the development that follows",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "This order runs backwards. Development starts from the cell formed when the nuclei fuse.",
+    "2": "The embryo is the early stage that forms first. A foetus is a later stage with recognisable body parts.",
+    "3": "An embryo forms when the fertilised egg divides. It cannot come before the fertilised egg."
+   },
+   "why": {
+    "right": "Development follows this order because the fertilised egg divides to form an embryo that grows into a foetus.",
+    "wrong": [
+     "Development follows this order because the embryo is fertilised a second time to become a foetus.",
+     "Development follows this order because the fertilised egg must leave the uterus to become an embryo."
+    ]
+   }
   },
   {
    "id": "c16q29",
@@ -517,11 +754,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The embryo implants in the thick wall of the uterus, which supplies it with food and oxygen.",
    "hint": "",
    "image": null,
    "lo": "Trace the path of sperm and egg in fertilisation and the development that follows",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Fertilisation happens in the oviduct, but the embryo moves on. It implants where the lining has thickened for it.",
+    "2": "The ovary produces eggs. The embryo does not return to the ovary.",
+    "3": "The cervix is the narrow opening of the uterus. The embryo implants in a thicker, softer part."
+   },
+   "why": {
+    "right": "The embryo implants in the uterus wall because its thick lining can supply the embryo with food and oxygen.",
+    "wrong": [
+     "The embryo implants in the uterus wall because this is where the sperm first meets the egg.",
+     "The embryo implants in the uterus wall because the uterus produces new eggs to feed the embryo."
+    ]
+   }
   },
   {
    "id": "c16q30",
@@ -535,11 +784,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Only one sperm nucleus fuses with the egg nucleus. The other sperm do not fuse and soon die.",
    "hint": "",
    "image": null,
    "lo": "Trace the path of sperm and egg in fertilisation and the development that follows",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Only one sperm nucleus can fuse with the egg nucleus. After that, no other sperm can join.",
+    "1": "An embryo forms from a fertilised egg. A sperm on its own cannot develop into an embryo.",
+    "2": "Sperm cannot swim back to where they were made. They stay in the female body."
+   },
+   "why": null
   },
   {
    "id": "c16q31",
@@ -553,11 +808,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Without healthy sperm, no sperm nucleus can fuse with the egg nucleus. Fertilisation cannot occur.",
    "hint": "",
    "image": null,
    "lo": "Predict how a disrupted part of a reproductive system affects fertilisation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Ovulation is controlled by the woman's own body. The man's sperm do not affect the release of her eggs.",
+    "1": "The uterine lining thickens during the woman's monthly cycle. This does not depend on the man's sperm.",
+    "3": "Urine leaves through the urethra. The testes do not make urine, so this is not affected."
+   },
+   "why": {
+    "right": "Fertilisation cannot occur because there is no healthy sperm nucleus to fuse with the egg nucleus.",
+    "wrong": [
+     "Fertilisation cannot occur because the woman needs sperm before her ovaries can release an egg.",
+     "Fertilisation cannot occur because the testes also make the eggs that the sperm fuse with."
+    ]
+   }
   },
   {
    "id": "c16q32",
@@ -571,11 +838,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The oviduct is where sperm meet the egg. If it is blocked, sperm cannot reach the egg, so fertilisation cannot occur.",
    "hint": "",
    "image": null,
    "lo": "Predict how a disrupted part of a reproductive system affects fertilisation",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Eggs are produced in the ovaries, which still work. The problem is in the tube the egg travels along.",
+    "2": "The uterine lining is not in the oviducts. The blockage is in the tube where the egg and sperm meet.",
+    "3": "Sperm are still deposited in the vagina. The problem is further along the path the sperm travel."
+   },
+   "why": {
+    "right": "Blocked oviducts stop fertilisation because sperm cannot travel along them to meet the egg.",
+    "wrong": [
+     "Blocked oviducts stop fertilisation because the oviducts are where the eggs are made.",
+     "Blocked oviducts stop fertilisation because the uterine lining grows inside the oviducts."
+    ]
+   }
   },
   {
    "id": "c16q33",
@@ -589,11 +868,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Ovulation is the release of an egg from an ovary. In a 28-day cycle it happens around day 14.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Fertilisation is the fusion of a sperm nucleus and an egg nucleus. It can only happen after the egg is released.",
+    "2": "Menstruation is the breakdown and discharge of the uterine lining. It does not involve releasing an egg.",
+    "3": "Implantation is when an embryo sinks into the uterine wall. It happens after fertilisation, not when an egg leaves the ovary."
+   },
+   "why": null
   },
   {
    "id": "c16q34",
@@ -607,11 +892,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Menstruation is the breakdown and discharge of the uterine lining. In a 28-day cycle it happens on days 1 to 5.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The release of an egg from an ovary is ovulation, a different event in the cycle.",
+    "1": "Thickening of the lining is the repair that follows. Menstruation is when the lining is lost.",
+    "3": "The fusion of a sperm and an egg is fertilisation. Menstruation happens when no fertilisation has taken place."
+   },
+   "why": null
   },
   {
    "id": "c16q35",
@@ -625,11 +916,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The uterine lining thickens to prepare for an embryo to implant. A thick lining can supply the embryo with food and oxygen.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Sperm are nourished by the nutrient fluid from the male sex glands. The lining prepares for something that forms after fertilisation.",
+    "2": "The uterine lining does not kill sperm. It thickens to support something that forms after fertilisation.",
+    "3": "Eggs are produced in the ovaries. The uterine lining does not make eggs."
+   },
+   "why": {
+    "right": "The uterine lining thickens because an embryo needs a thick lining to implant in and be supplied with food.",
+    "wrong": [
+     "The uterine lining thickens because an egg needs a thick lining to be produced in each month.",
+     "The uterine lining thickens because sperm need a thick lining to swim through to reach the egg."
+    ]
+   }
   },
   {
    "id": "c16q36",
@@ -643,11 +946,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Days 1 to 5 of a 28-day cycle are menstruation, when the uterine lining breaks down and is discharged.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The fertile period is around the middle of the cycle, about days 10 to 17. Days 1 to 5 are at the start.",
+    "1": "Repair of the lining comes after it has broken down, around days 6 to 9. Days 1 to 5 come before that.",
+    "2": "Ovulation happens around day 14, in the middle of the cycle. Days 1 to 5 are at the start."
+   },
+   "why": null
   },
   {
    "id": "c16q37",
@@ -661,11 +970,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Days 6 to 9 are the repair phase. The uterine lining starts to thicken again after menstruation.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The lining breaks down at the start of the cycle, on days 1 to 5. By days 6 to 9 that phase has ended.",
+    "1": "Menstruation takes place on days 1 to 5. By days 6 to 9 that phase has ended.",
+    "2": "Ovulation happens around day 14. Days 6 to 9 come before it."
+   },
+   "why": null
   },
   {
    "id": "c16q38",
@@ -679,11 +994,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In a 28-day cycle, ovulation happens around day 14, in the middle of the cycle.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Day 28 is the last day of the cycle, just before the next menstruation. Ovulation happens much earlier.",
+    "2": "Day 1 is the first day of menstruation. Ovulation happens later in the cycle.",
+    "3": "Day 5 is the end of menstruation. Ovulation happens later in the cycle."
+   },
+   "why": null
   },
   {
    "id": "c16q39",
@@ -696,11 +1017,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The fertile period in a 28-day cycle is about days 10 to 17. Day 12 falls within it.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The repair phase is days 6 to 9. Day 12 comes after it.",
+    "1": "Menstruation is days 1 to 5. Day 12 is well after it."
+   },
+   "why": {
+    "right": "Day 12 is in the fertile period because it falls between about day 10 and day 17.",
+    "wrong": [
+     "Day 12 is in the fertile period because ovulation happens on day 12 in every cycle.",
+     "Day 12 is in the fertile period because the uterine lining breaks down on that day."
+    ]
+   }
   },
   {
    "id": "c16q40",
@@ -714,11 +1046,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "1 June is day 1 of the cycle. Ovulation happens around day 14, which is 14 June.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "5 June is day 5, the end of menstruation. Ovulation happens in the middle of the cycle.",
+    "2": "1 June is day 1, the start of menstruation. Ovulation happens later in the cycle.",
+    "3": "28 June is day 28, the end of the cycle. Ovulation happens in the middle of the cycle."
+   },
+   "why": {
+    "right": "Ovulation is expected on 14 June because 1 June is day 1 and ovulation is around day 14.",
+    "wrong": [
+     "Ovulation is expected on 14 June because ovulation happens 14 days after menstruation ends.",
+     "Ovulation is expected on 14 June because ovulation happens halfway through each calendar month."
+    ]
+   }
   },
   {
    "id": "c16q41",
@@ -732,11 +1076,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Sperm can survive in the female body for three to five days. Sperm deposited a few days before ovulation can still fertilise the egg.",
    "hint": "",
    "image": null,
    "lo": "Describe the phases of the 28-day menstrual cycle and identify the phase on a given day",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An egg survives for only about a day after it is released, not a month.",
+    "1": "Sperm are produced in the testes of a male. The ovary produces eggs.",
+    "2": "The lining breaks down during menstruation, at the start of the cycle. This does not explain the timing of the fertile period."
+   },
+   "why": {
+    "right": "The fertile period starts early because sperm can live for several days while waiting for an egg to be released.",
+    "wrong": [
+     "The fertile period starts early because the egg is released several days before ovulation takes place.",
+     "The fertile period starts early because sperm take several days to swim from the vagina to the ovary."
+    ]
+   }
   },
   {
    "id": "c16q42",
@@ -750,11 +1106,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A diaphragm is a dome-shaped cover placed over the cervix. It stops sperm from entering the uterus.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "An intra-uterine device is placed inside the uterus, not over the cervix.",
+    "2": "Spermicide is a chemical that kills sperm. It is not a plastic cover.",
+    "3": "A condom is worn over the penis. It is not placed over the cervix."
+   },
+   "why": null
   },
   {
    "id": "c16q43",
@@ -768,11 +1130,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Tubal ligation is the cutting and tying of the oviducts. Eggs can no longer meet sperm.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A vasectomy cuts and ties the sperm ducts in a male. The oviducts are in a female.",
+    "1": "A diaphragm is a dome-shaped cover over the cervix. It does not involve cutting any tubes.",
+    "3": "An intra-uterine device is placed inside the uterus. It does not involve cutting any tubes."
+   },
+   "why": null
   },
   {
    "id": "c16q44",
@@ -786,11 +1154,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A vasectomy is the cutting and tying of the sperm ducts. Sperm can no longer reach the urethra.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Tubal ligation cuts and ties the oviducts in a female. The sperm ducts are in a male.",
+    "2": "A condom is a cover worn over the penis. It does not involve cutting any tubes.",
+    "3": "Spermicide is a chemical that kills sperm. It does not involve cutting any tubes."
+   },
+   "why": null
   },
   {
    "id": "c16q45",
@@ -804,11 +1178,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The rhythm method avoids sexual intercourse during the fertile period, when an egg may be present to be fertilised.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Birth control pills contain hormones that disrupt the release of eggs. They do not depend on timing.",
+    "2": "A condom stops sperm from entering the vagina. It does not depend on timing.",
+    "3": "Spermicide is a chemical that kills sperm. It does not depend on timing."
+   },
+   "why": {
+    "right": "The rhythm method works because sperm are kept away during the days when an egg may be fertilised.",
+    "wrong": [
+     "The rhythm method works because no eggs are released at all during the fertile period.",
+     "The rhythm method works because sperm cannot survive in the body during the fertile period."
+    ]
+   }
   },
   {
    "id": "c16q46",
@@ -822,11 +1208,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Birth control pills contain hormones that disrupt the release of eggs. With no egg released, fertilisation cannot occur.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Cutting the oviducts is tubal ligation, a surgery. Pills are taken by mouth and act through hormones.",
+    "2": "A cover over the cervix is a diaphragm. Pills are taken by mouth and act through hormones.",
+    "3": "Killing sperm is what spermicide does. Pills act on the woman's own body through hormones."
+   },
+   "why": {
+    "right": "Birth control pills work because their hormones stop the ovaries from releasing eggs.",
+    "wrong": [
+     "Birth control pills work because their chemicals kill the sperm inside the uterus.",
+     "Birth control pills work because their hormones stop the testes from making sperm."
+    ]
+   }
   },
   {
    "id": "c16q47",
@@ -840,11 +1238,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An intra-uterine device in the uterus makes it hard for an embryo to implant in the uterine wall.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Sperm are produced in the testes of the male. A device in the woman's uterus does not affect their production.",
+    "1": "Menstruation still happens with an intra-uterine device in place. Think about what happens in the uterus after fertilisation.",
+    "2": "Eggs are released from the ovaries. A device inside the uterus does not stop the ovaries from working."
+   },
+   "why": {
+    "right": "An intra-uterine device stops pregnancy because it makes it hard for an embryo to implant in the uterus wall.",
+    "wrong": [
+     "An intra-uterine device stops pregnancy because it releases hormones that stop sperm from being made.",
+     "An intra-uterine device stops pregnancy because it removes the uterine lining every day."
+    ]
+   }
   },
   {
    "id": "c16q48",
@@ -858,11 +1268,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Tubal ligation is a permanent method. It suits a couple who have decided to have no more children.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Spermicide is a temporary method that must be used each time. The couple want a method that lasts for good.",
+    "1": "A condom is a temporary method that must be used each time. The couple want a method that lasts for good.",
+    "3": "The rhythm method is temporary and not very reliable. The couple want a method that lasts for good."
+   },
+   "why": {
+    "right": "Tubal ligation suits them because it is a permanent method that stops eggs from meeting sperm.",
+    "wrong": [
+     "Tubal ligation suits them because it is a temporary method that can be stopped at any time.",
+     "Tubal ligation suits them because it stops the man's testes from making any more sperm."
+    ]
+   }
   },
   {
    "id": "c16q49",
@@ -876,11 +1298,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A vasectomy cuts and ties the sperm ducts. Semen is still released, but it contains no sperm.",
    "hint": "",
    "image": null,
    "lo": "Identify how temporary and permanent birth control methods prevent conception",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Semen can still leave the body through the urethra. Only the sperm ducts are cut.",
+    "1": "Cutting the sperm ducts stops sperm from reaching the urethra. The amount of sperm does not go up.",
+    "3": "Nutrient fluid comes from the sex glands, which are not cut. The cut tubes carry something else."
+   },
+   "why": {
+    "right": "The semen has no sperm because the cut sperm ducts stop sperm from reaching the urethra.",
+    "wrong": [
+     "The semen has no sperm because the testes are removed during a vasectomy.",
+     "The semen has no sperm because the sex glands stop making fluid after a vasectomy."
+    ]
+   }
   },
   {
    "id": "c16q50",
@@ -894,11 +1328,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Smoking during pregnancy reduces the oxygen reaching the foetus. The baby may grow less and have a low birth weight.",
    "hint": "",
    "image": null,
    "lo": "State the negative effects of substance abuse on the foetus",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Smoking harms the baby's development. It does not improve the growth of the lungs.",
+    "1": "Smoking slows the growth of the foetus. The baby is more likely to be smaller, not bigger.",
+    "2": "Smoking harms the developing baby. It does not make the baby's defences against disease stronger."
+   },
+   "why": {
+    "right": "Smoking leads to low birth weight because less oxygen reaches the foetus, so it grows less.",
+    "wrong": [
+     "Smoking leads to low birth weight because the smoke fills the uterus and squeezes the foetus.",
+     "Smoking leads to low birth weight because the foetus breathes in the smoke through its own lungs."
+    ]
+   }
   },
   {
    "id": "c16q51",
@@ -912,11 +1358,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A premature baby is born too early. Its organs, such as the lungs, may not be fully developed, so it may need help to survive.",
    "hint": "",
    "image": null,
    "lo": "State the negative effects of substance abuse on the foetus",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A premature baby's defences against disease are weaker than normal, not too strong.",
+    "2": "A premature baby is still growing. It needs care because its body is not yet fully ready.",
+    "3": "Being born early does not give a baby too many red blood cells. The concern is that the body is not fully ready."
+   },
+   "why": {
+    "right": "A premature baby needs intensive care because it was born before its organs finished developing in the uterus.",
+    "wrong": [
+     "A premature baby needs intensive care because it was born after its organs had stopped growing.",
+     "A premature baby needs intensive care because it was born with too much oxygen in its blood."
+    ]
+   }
   },
   {
    "id": "c16q52",
@@ -930,11 +1388,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Alcohol passes from the mother's blood to the foetus and can harm the developing brain. The child may later find it hard to pay attention.",
    "hint": "",
    "image": null,
    "lo": "State the negative effects of substance abuse on the foetus",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Alcohol harms the developing baby. It does not make the lungs stronger.",
+    "2": "Alcohol can slow the growth of the baby. It does not make a child grow taller.",
+    "3": "Alcohol harms the developing baby. It does not protect the child against infections."
+   },
+   "why": {
+    "right": "The child may have attention problems because alcohol reached the foetus and harmed its developing brain.",
+    "wrong": [
+     "The child may have attention problems because alcohol made the foetus grow too quickly in the uterus.",
+     "The child may have attention problems because alcohol stayed in the child's stomach after birth."
+    ]
+   }
   },
   {
    "id": "c16q53",
@@ -948,11 +1418,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An abortion is the deliberate ending of a pregnancy by removing the embryo or foetus from the uterus.",
    "hint": "",
    "image": null,
    "lo": "State the consequences of abortion and pre-marital sex",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Birth control methods prevent a pregnancy from starting. An abortion happens after a pregnancy has begun.",
+    "1": "Permanent birth control methods prevent any future pregnancy. An abortion happens after a pregnancy has begun.",
+    "3": "The release of an egg is ovulation. An abortion happens after a pregnancy has begun."
+   },
+   "why": null
   },
   {
    "id": "c16q54",
@@ -966,11 +1442,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An abortion can damage the uterus or cause an infection. This may make it difficult for the woman to have children later.",
    "hint": "",
    "image": null,
    "lo": "State the consequences of abortion and pre-marital sex",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An abortion does not make the ovaries release more eggs.",
+    "1": "An abortion does not protect against sexually transmitted infections.",
+    "2": "An abortion can damage the uterus. It does not make the uterus stronger."
+   },
+   "why": {
+    "right": "Infertility may follow an abortion because the procedure can damage the uterus or cause an infection.",
+    "wrong": [
+     "Infertility may follow an abortion because the procedure always removes both of the ovaries.",
+     "Infertility may follow an abortion because the procedure stops the body from making sex hormones."
+    ]
+   }
   },
   {
    "id": "c16q55",
@@ -984,11 +1472,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Pre-marital sex can lead to an unwanted pregnancy. It can also spread sexually transmitted infections.",
    "hint": "",
    "image": null,
    "lo": "State the consequences of abortion and pre-marital sex",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Pre-marital sex increases the risk of infections that can cause infertility. It does not lower this risk.",
+    "2": "Sexual intercourse is the main way STIs spread. It does not protect against them.",
+    "3": "Sexual intercourse does not strengthen the immune system. It carries risks such as infections."
+   },
+   "why": null
   },
   {
    "id": "c16q56",
@@ -1002,11 +1496,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Abstinence means not having sexual intercourse. It is the only method that fully prevents both pregnancy and STIs.",
    "hint": "",
    "image": null,
    "lo": "State the consequences of abortion and pre-marital sex",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The rhythm method is not reliable and gives no protection against STIs.",
+    "2": "Birth control pills reduce the chance of pregnancy but give no protection against STIs.",
+    "3": "Spermicide kills sperm but gives no protection against STIs and is not fully reliable."
+   },
+   "why": {
+    "right": "Abstinence works best because without sexual intercourse, sperm and STI germs cannot pass between partners.",
+    "wrong": [
+     "Abstinence works best because it kills any sperm and germs that are already in the body.",
+     "Abstinence works best because it stops the ovaries from releasing any eggs."
+    ]
+   }
   },
   {
    "id": "c16q57",
@@ -1020,11 +1526,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "STIs are sexually transmitted infections. They are mainly passed from one person to another through sexual intercourse.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "STI germs are passed in body fluids. They are not spread by shaking hands.",
+    "2": "STI germs are passed in body fluids. They are not spread by sharing objects such as textbooks.",
+    "3": "Coughing and sneezing spread infections such as influenza. STIs are passed on in a different way."
+   },
+   "why": {
+    "right": "STIs spread through sexual intercourse because their germs pass between people in body fluids during sexual contact.",
+    "wrong": [
+     "STIs spread through sexual intercourse because their germs float in the air around the reproductive organs.",
+     "STIs spread through sexual intercourse because their germs are made by the body during sexual contact."
+    ]
+   }
   },
   {
    "id": "c16q58",
@@ -1038,11 +1556,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "HIV is carried in blood and some other body fluids. Sharing a needle used by an infected person can pass the virus on.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "HIV is not spread through hugging. The virus is passed on in blood and some other body fluids.",
+    "2": "HIV is not spread through shaking hands. The virus is passed on in blood and some other body fluids.",
+    "3": "HIV is not spread by sitting near someone. The virus is passed on in blood and some other body fluids."
+   },
+   "why": {
+    "right": "Sharing a needle spreads HIV because the needle can carry infected blood into another person's body.",
+    "wrong": [
+     "Sharing a needle spreads HIV because the needle itself produces the virus each time it is used.",
+     "Sharing a needle spreads HIV because the virus travels through the air around the used needle."
+    ]
+   }
   },
   {
    "id": "c16q59",
@@ -1056,11 +1586,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Untreated syphilis can damage the brain and nerves over many years, leading to paralysis.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A burning sensation when urinating is an early sign of gonorrhoea. It is not a long-term effect of syphilis.",
+    "1": "Flu-like symptoms appear early in some infections. A long-term effect develops much later and is more serious.",
+    "2": "A discharge of pus is an early sign of gonorrhoea. It is not a long-term effect of syphilis."
+   },
+   "why": null
   },
   {
    "id": "c16q60",
@@ -1074,11 +1610,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Untreated gonorrhoea can damage the reproductive organs and lead to infertility.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "AIDS is caused by HIV, a virus. Gonorrhoea is caused by bacteria and does not lead to AIDS.",
+    "1": "Blindness from gonorrhoea is mainly a risk for babies born to infected mothers. The long-term effect on the infected adult is on the reproductive organs.",
+    "3": "Paralysis is a long-term effect of untreated syphilis. Gonorrhoea affects a different part of the body."
+   },
+   "why": null
   },
   {
    "id": "c16q61",
@@ -1092,11 +1634,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "HIV is the virus that causes AIDS. If left untreated, HIV infection develops into AIDS.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Syphilis is a separate infection caused by bacteria. HIV does not turn into it.",
+    "2": "Influenza is caused by a different virus that spreads through the air. HIV does not turn into it.",
+    "3": "Gonorrhoea is a separate infection caused by bacteria. HIV does not turn into it."
+   },
+   "why": null
   },
   {
    "id": "c16q62",
@@ -1109,11 +1657,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A burning sensation when urinating and a discharge of pus are common signs of gonorrhoea.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Syphilis usually begins with a painless sore. A burning sensation and pus are signs of a different STI.",
+    "1": "HIV infection often causes flu-like symptoms at first. A burning sensation and pus are signs of a different STI."
+   },
+   "why": null
   },
   {
    "id": "c16q63",
@@ -1127,11 +1680,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A condom forms a barrier, so sperm and body fluids do not pass between partners. This reduces the spread of STIs.",
    "hint": "",
    "image": null,
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A diaphragm covers the cervix but does not stop contact with body fluids. It does not protect against STIs.",
+    "1": "An intra-uterine device works inside the uterus. It does not stop contact with body fluids, so it does not protect against STIs.",
+    "2": "Birth control pills act on the release of eggs. They do not stop contact with body fluids, so they do not protect against STIs."
+   },
+   "why": {
+    "right": "A condom reduces the spread of STIs because it is a barrier that stops body fluids passing between partners.",
+    "wrong": [
+     "A condom reduces the spread of STIs because it contains antibiotics that kill all the germs.",
+     "A condom reduces the spread of STIs because it stops the ovaries from releasing eggs."
+    ]
+   }
   },
   {
    "id": "c16q64",
@@ -1145,11 +1710,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Antibiotics are medicines that kill bacteria or stop them from growing. They do not work on viruses.",
    "hint": "",
    "image": null,
    "lo": "State that bacterial STIs can be cured by antibiotics but viral STIs cannot",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Killing sperm is what spermicide does. Antibiotics are medicines used against one type of germ.",
+    "2": "Preventing ovulation is what birth control pills do. Antibiotics are medicines used against one type of germ.",
+    "3": "Antibiotics do not work against viruses. They act on a different type of germ."
+   },
+   "why": null
   },
   {
    "id": "c16q65",
@@ -1162,11 +1733,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Gonorrhoea is caused by bacteria, so it can be treated with antibiotics.",
    "hint": "",
    "image": null,
    "lo": "State that bacterial STIs can be cured by antibiotics but viral STIs cannot",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Influenza is caused by a virus. Antibiotics do not work on viruses.",
+    "2": "HIV is a virus. Antibiotics do not work on viruses."
+   },
+   "why": {
+    "right": "Gonorrhoea can be treated with antibiotics because it is caused by bacteria, which antibiotics can kill.",
+    "wrong": [
+     "Gonorrhoea can be treated with antibiotics because it is caused by a virus, which antibiotics can kill.",
+     "Gonorrhoea can be treated with antibiotics because antibiotics can cure every type of infection."
+    ]
+   }
   },
   {
    "id": "c16q66",
@@ -1179,11 +1761,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "HIV is a virus. Antibiotics kill bacteria and do not work on viruses, so they cannot cure HIV.",
    "hint": "",
    "image": null,
    "lo": "State that bacterial STIs can be cured by antibiotics but viral STIs cannot",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Gonorrhoea is caused by bacteria, so antibiotics can cure it. Think about which STI is caused by a virus.",
+    "1": "Syphilis is caused by bacteria, so antibiotics can cure it. Think about which STI is caused by a virus."
+   },
+   "why": {
+    "right": "HIV cannot be cured with antibiotics because it is a virus, and antibiotics work only on bacteria.",
+    "wrong": [
+     "HIV cannot be cured with antibiotics because it is a bacterium that has grown too large to kill.",
+     "HIV cannot be cured with antibiotics because it hides in the reproductive organs where medicine cannot reach."
+    ]
+   }
   },
   {
    "id": "c16q67",
@@ -1197,11 +1790,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "HIV is a virus. Antibiotics act only on bacteria, so they will not cure HIV.",
    "hint": "",
    "image": null,
    "lo": "State that bacterial STIs can be cured by antibiotics but viral STIs cannot",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Antibiotics do not work on viruses. Being a virus is a reason for antibiotics to fail, not to succeed.",
+    "2": "HIV is not a bacterium. Check what type of germ HIV is.",
+    "3": "HIV is not a bacterium. Check what type of germ HIV is and whether antibiotics act on that type."
+   },
+   "why": {
+    "right": "Antibiotics will not cure HIV because they act on bacteria, and HIV is a virus.",
+    "wrong": [
+     "Antibiotics will not cure HIV because they act on viruses, and HIV is a bacterium.",
+     "Antibiotics will not cure HIV because they act only on infections of the lungs."
+    ]
+   }
   },
   {
    "id": "c16q68",
@@ -1215,11 +1820,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Advances in medicine, such as vaccines and antibiotics, help people survive diseases and live longer. This makes the world population grow.",
    "hint": "",
    "image": null,
    "lo": "Suggest reasons for the growing world population",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Poorer sanitation spreads disease and causes more deaths. That would slow population growth, not speed it up.",
+    "1": "Less food would lead to hunger and more deaths. That would slow population growth, not speed it up.",
+    "2": "More disease outbreaks cause more deaths. That would slow population growth, not speed it up."
+   },
+   "why": {
+    "right": "Advances in medicine increase the population because fewer people die from disease and people live longer.",
+    "wrong": [
+     "Advances in medicine increase the population because medicines make each woman release more eggs.",
+     "Advances in medicine increase the population because medicines make people need less food to survive."
+    ]
+   }
   },
   {
    "id": "c16q69",
@@ -1233,11 +1850,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Ships carrying food and medicines to more places is an example of improved transportation.",
    "hint": "",
    "image": null,
    "lo": "Suggest reasons for the growing world population",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Increased food production means growing more food. The ships moved food but did not grow it.",
+    "1": "Medical advancements are new discoveries in medicine. The ships moved medicines but did not discover them.",
+    "3": "Improved sanitation is about clean water and the safe removal of waste. The ships moved goods."
+   },
+   "why": {
+    "right": "This is improved transportation because ships moved food and medicines to people who could not get them before.",
+    "wrong": [
+     "This is improved transportation because ships discovered new medicines on their long journeys.",
+     "This is improved transportation because ships cleaned the water supply in the places they reached."
+    ]
+   }
   },
   {
    "id": "c16q70",
@@ -1251,11 +1880,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Flush toilets remove human waste safely. This is improved sanitation, which reduces the spread of diseases such as cholera and typhoid.",
    "hint": "",
    "image": null,
    "lo": "Suggest reasons for the growing world population",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Medical advancements are new medicines and treatments. Flush toilets prevent disease in a different way.",
+    "1": "Increased food production means growing more food. Flush toilets are not about food supply.",
+    "2": "Improved transportation is about moving people and goods. Flush toilets are not about transport."
+   },
+   "why": {
+    "right": "This is improved sanitation because flush toilets remove human waste that spreads diseases such as cholera.",
+    "wrong": [
+     "This is improved sanitation because flush toilets contain medicines that cure diseases such as cholera.",
+     "This is improved sanitation because flush toilets carry food and clean water to more homes."
+    ]
+   }
   },
   {
    "id": "c16q71",
@@ -1269,11 +1910,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Vaccines are a medical advancement. They protect people against diseases such as smallpox, so fewer people die.",
    "hint": "",
    "image": null,
    "lo": "Suggest reasons for the growing world population",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Improved transportation is about moving people and goods. Vaccines are not about transport.",
+    "2": "Improved sanitation is about clean water and the safe removal of waste. Vaccines protect people in a different way.",
+    "3": "Increased food production means growing more food. Vaccines are not about food supply."
+   },
+   "why": {
+    "right": "This is a medical advancement because vaccines are a medical discovery that protects people from disease.",
+    "wrong": [
+     "This is a medical advancement because vaccines remove the waste that spreads smallpox.",
+     "This is a medical advancement because vaccines carry food to places where smallpox is found."
+    ]
+   }
   }
  ]
 }

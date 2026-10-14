@@ -16,11 +16,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An atom is the simplest unit of an element. An element is made up of only one type of atom.",
    "hint": "",
    "image": null,
    "lo": "Describe an atom as the simplest unit of an element",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A mixture contains two or more substances that are not chemically combined. It is not a single unit at all.",
+    "1": "A compound contains two or more elements chemically combined. It is made of smaller units, so it cannot be the simplest.",
+    "2": "A molecule is made of two or more atoms chemically combined. Think about the smaller unit that molecules are built from."
+   },
+   "why": null
   },
   {
    "id": "c08q2",
@@ -34,11 +40,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An element is made up of only one type of atom. A sample of carbon contains only carbon atoms.",
    "hint": "",
    "image": null,
    "lo": "Describe an atom as the simplest unit of an element",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Carbon dioxide is a compound of carbon and oxygen. A sample of an element contains no other elements.",
+    "1": "Hydrogen is a different element. A sample of an element contains only one type of atom.",
+    "3": "Atoms of many different elements would make a mixture or a compound. An element contains only one type of atom."
+   },
+   "why": {
+    "right": "A sample of carbon contains only carbon atoms because an element is made up of one type of atom.",
+    "wrong": [
+     "A sample of carbon contains only carbon atoms because carbon atoms push all other atoms away.",
+     "A sample of carbon contains only carbon atoms because carbon atoms are the only atoms found in solids."
+    ]
+   }
   },
   {
    "id": "c08q3",
@@ -52,11 +70,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An atom is extremely tiny, far smaller than anything the naked eye can see. About a million carbon atoms in a row span only the width of a strand of hair.",
    "hint": "",
    "image": null,
    "lo": "Compare the size of an atom with the sizes of everyday objects",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Charge has nothing to do with whether something can be seen. Think about how big an atom is.",
+    "2": "Even atoms in a solid, which only vibrate, cannot be seen. Their speed is not the reason.",
+    "3": "Atoms do have mass. Think about how big an atom is compared with things we can see."
+   },
+   "why": {
+    "right": "An atom cannot be seen with the naked eye because it is far too tiny for eyes to see.",
+    "wrong": [
+     "An atom cannot be seen with the naked eye because it moves far too quickly for eyes to follow.",
+     "An atom cannot be seen with the naked eye because it is always hidden inside a larger molecule."
+    ]
+   }
   },
   {
    "id": "c08q4",
@@ -70,11 +100,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Atoms are extremely tiny. About 1 million carbon atoms placed in a row would span only the width of a strand of human hair.",
    "hint": "",
    "image": null,
    "lo": "Compare the size of an atom with the sizes of everyday objects",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A fingernail is far wider than a million atoms. A million atoms in a row is still a very short distance.",
+    "2": "A football stadium is enormous compared with a million atoms. A million atoms in a row is still a very short distance.",
+    "3": "A grain of rice is much wider than a million atoms. Think of something even thinner that is still just visible."
+   },
+   "why": null
   },
   {
    "id": "c08q5",
@@ -88,11 +124,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An atom is the smallest of the three and cannot be seen. A strand of hair is very thin, and a grain of rice is wider than a hair.",
    "hint": "",
    "image": null,
    "lo": "Compare the size of an atom with the sizes of everyday objects",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "An atom is far smaller than a strand of hair. A strand of hair is about a million atoms wide.",
+    "2": "A strand of hair is thinner than a grain of rice. Compare the widths of the two everyday objects.",
+    "3": "A list in order of increasing size starts with the smallest. A grain of rice is not smaller than an atom."
+   },
+   "why": {
+    "right": "The order atom, hair strand, rice grain is increasing size because a hair is a million atoms wide and thinner than rice.",
+    "wrong": [
+     "The order atom, hair strand, rice grain is increasing size because an atom is about as wide as a hair.",
+     "The order atom, hair strand, rice grain is increasing size because a rice grain contains fewer atoms than a hair."
+    ]
+   }
   },
   {
    "id": "c08q6",
@@ -105,11 +153,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The electron has a negative charge of −1. The proton has a positive charge and the neutron has no charge.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A proton has a positive charge. The question asks for the negative particle.",
+    "2": "A neutron has no charge at all. The question asks for the negative particle."
+   },
+   "why": null
   },
   {
    "id": "c08q7",
@@ -122,11 +175,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The neutron has no charge, so it is neutral. The proton is positive and the electron is negative.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An electron has a negative charge. Think about which particle's name suggests it is neutral.",
+    "1": "A proton has a positive charge. Think about which particle's name suggests it is neutral."
+   },
+   "why": null
   },
   {
    "id": "c08q8",
@@ -140,11 +198,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The nucleus is at the centre of the atom and contains protons and neutrons. Electrons move around outside the nucleus.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Protons are in the nucleus, but electrons move around outside it.",
+    "1": "Electrons are not in the nucleus. They move around outside it.",
+    "2": "Neutrons are in the nucleus, but electrons move around outside it."
+   },
+   "why": null
   },
   {
    "id": "c08q9",
@@ -158,11 +222,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Electrons move around the nucleus, outside it. The nucleus contains only protons and neutrons.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The nucleus contains protons and neutrons only. Electrons are found elsewhere in the atom.",
+    "2": "Neutrons are in the nucleus, and electrons are not joined to them. Electrons are found elsewhere in the atom.",
+    "3": "Electrons are separate particles and are not inside protons. Think about where electrons are found compared with the nucleus."
+   },
+   "why": null
   },
   {
    "id": "c08q10",
@@ -176,11 +246,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An electron has a relative charge of −1. A proton has a relative charge of +1, and a neutron has 0.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "None of the three sub-atomic particles has a charge of +2. The electron is a negative particle.",
+    "1": "A charge of +1 belongs to the proton. The electron has the opposite type of charge.",
+    "3": "A charge of 0 belongs to the neutron. The electron is a charged particle."
+   },
+   "why": null
   },
   {
    "id": "c08q11",
@@ -194,11 +270,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A proton has a relative mass of 1. A neutron also has a relative mass of 1, and an electron has a relative mass of almost zero.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A value of −1 is the relative charge of an electron, not a mass. Mass cannot be negative.",
+    "1": "A proton has mass. It is one of the two heavy particles in the nucleus.",
+    "2": "Almost zero is the relative mass of the electron. The proton is much heavier."
+   },
+   "why": null
   },
   {
    "id": "c08q12",
@@ -212,11 +294,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A particle in the nucleus with a charge of +1 is a proton. The neutron is also in the nucleus but has no charge.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A molecule is a group of atoms, not a particle inside an atom. The particle described is inside the nucleus.",
+    "2": "A neutron is in the nucleus but has no charge. This particle has a charge of +1.",
+    "3": "An electron moves around outside the nucleus and has a charge of −1. This particle is in the nucleus with a positive charge."
+   },
+   "why": {
+    "right": "A positive particle in the nucleus is a proton, because protons have a relative charge of +1.",
+    "wrong": [
+     "A positive particle in the nucleus is a proton, because protons are the lightest particles in the atom.",
+     "A positive particle in the nucleus is a proton, because protons move around the outside of the nucleus."
+    ]
+   }
   },
   {
    "id": "c08q13",
@@ -229,11 +323,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A neutron has a relative mass of 1 and no charge. A proton also has a relative mass of 1 but has a charge of +1.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An electron has a charge of −1 and almost zero mass. This particle has no charge and a relative mass of 1.",
+    "2": "A proton has a relative mass of 1 but carries a charge of +1. This particle has no charge."
+   },
+   "why": {
+    "right": "A particle with a relative mass of 1 and no charge is a neutron, because neutrons are neutral.",
+    "wrong": [
+     "A particle with a relative mass of 1 and no charge is a neutron, because neutrons move around the nucleus.",
+     "A particle with a relative mass of 1 and no charge is a neutron, because neutrons are lighter than electrons."
+    ]
+   }
   },
   {
    "id": "c08q14",
@@ -246,11 +351,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A particle that moves around the nucleus with a charge of −1 is an electron. Protons and neutrons are both inside the nucleus.",
    "hint": "",
    "image": null,
    "lo": "Identify a sub-atomic particle from its charge, mass and position",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A proton has a charge of +1 and is inside the nucleus. This particle is negative and outside the nucleus.",
+    "2": "A neutron has no charge and is inside the nucleus. This particle is negative and outside the nucleus."
+   },
+   "why": {
+    "right": "A negative particle moving around the nucleus is an electron, because electrons have a relative charge of −1.",
+    "wrong": [
+     "A negative particle moving around the nucleus is an electron, because electrons are the heaviest particles in an atom.",
+     "A negative particle moving around the nucleus is an electron, because electrons are made of protons and neutrons."
+    ]
+   }
   },
   {
    "id": "c08q15",
@@ -264,11 +380,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Each proton has a charge of +1 and each electron has a charge of −1. Equal numbers of protons and electrons cancel out, so the atom has no overall charge.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Neutrons have no charge, so they cannot cancel the charge of protons. Think about which particle has the opposite charge to a proton.",
+    "1": "Neutrons have no charge, so their number does not affect the overall charge. Think about which particles carry charge.",
+    "3": "Atoms and molecules are not sub-atomic particles. Neutrality depends on the charged particles inside an atom."
+   },
+   "why": {
+    "right": "An atom is neutral because the positive charges of its protons cancel the negative charges of its electrons.",
+    "wrong": [
+     "An atom is neutral because its neutrons soak up the charges of its protons and electrons.",
+     "An atom is neutral because its electrons are inside the nucleus with the protons."
+    ]
+   }
   },
   {
    "id": "c08q16",
@@ -282,11 +410,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Neutrons have no charge. Adding or removing neutrons does not change the overall charge of the lithium atom.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Neutrons do have mass, with a relative mass of 1. Their effect on charge depends on something else.",
+    "1": "Neutrons do not move around the nucleus. They are inside it, and their position is not the reason.",
+    "2": "Neutrons are inside the nucleus, not outside it. Think about whether neutrons carry any charge."
+   },
+   "why": {
+    "right": "Neutrons do not change an atom's charge because each neutron has a relative charge of zero.",
+    "wrong": [
+     "Neutrons do not change an atom's charge because each neutron has a relative mass of zero.",
+     "Neutrons do not change an atom's charge because each neutron cancels out one electron."
+    ]
+   }
   },
   {
    "id": "c08q17",
@@ -300,11 +440,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An atom is electrically neutral, so it has the same number of electrons as protons. An oxygen atom with 8 protons has 8 electrons.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Halving the number of protons does not give the number of electrons. A neutral atom needs its positive and negative charges to balance.",
+    "1": "Doubling the number of protons does not give the number of electrons. A neutral atom needs its positive and negative charges to balance.",
+    "2": "An atom with protons must also have electrons to balance their charge. Otherwise the atom would be positive."
+   },
+   "why": {
+    "right": "An oxygen atom with 8 protons has 8 electrons because a neutral atom has equal numbers of protons and electrons.",
+    "wrong": [
+     "An oxygen atom with 8 protons has 8 electrons because electrons always equal the number of neutrons.",
+     "An oxygen atom with 8 protons has 8 electrons because every atom has exactly 8 electrons."
+    ]
+   }
   },
   {
    "id": "c08q18",
@@ -318,11 +470,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A neutral atom has equal numbers of protons and electrons. A sodium atom with 11 protons has 11 electrons. The 12 neutrons have no charge and do not count.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "12 is the number of neutrons. Neutrons have no charge, so they do not decide the number of electrons.",
+    "2": "23 is the protons and neutrons added together. Only the charged particles need to balance in a neutral atom.",
+    "3": "1 is the difference between neutrons and protons. A neutral atom needs its positive and negative charges to balance."
+   },
+   "why": {
+    "right": "A sodium atom with 11 protons has 11 electrons because the protons and electrons must balance in charge.",
+    "wrong": [
+     "A sodium atom with 11 protons has 11 electrons because electrons always number one less than neutrons.",
+     "A sodium atom with 11 protons has 11 electrons because every metal atom has 11 electrons."
+    ]
+   }
   },
   {
    "id": "c08q19",
@@ -336,11 +500,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A neutral atom has equal numbers of protons and electrons. A carbon atom with 6 protons has 6 electrons. The neutrons have no charge and do not count.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "14 is the protons and neutrons added together. Only the charged particles need to balance in a neutral atom.",
+    "1": "2 is the difference between neutrons and protons. A neutral atom needs its positive and negative charges to balance.",
+    "3": "8 is the number of neutrons. Neutrons have no charge, so they do not decide the number of electrons."
+   },
+   "why": {
+    "right": "A carbon atom with 6 protons has 6 electrons because the protons and electrons must balance in charge.",
+    "wrong": [
+     "A carbon atom with 6 protons has 6 electrons because each electron is paired with one neutron.",
+     "A carbon atom with 6 protons has 6 electrons because electrons are found inside the nucleus with protons."
+    ]
+   }
   },
   {
    "id": "c08q20",
@@ -354,11 +530,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A neutral atom has equal numbers of protons and electrons. An atom with 13 electrons has 13 protons.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Doubling the number of electrons does not give the number of protons. A neutral atom needs its positive and negative charges to balance.",
+    "2": "An atom with electrons must also have protons to balance their charge. Otherwise the atom would be negative.",
+    "3": "One more proton than electrons would give the atom an overall positive charge. Think about which numbers must match."
+   },
+   "why": {
+    "right": "An atom with 13 electrons has 13 protons because the protons and electrons must balance in charge.",
+    "wrong": [
+     "An atom with 13 electrons has 13 protons because protons and electrons have the same mass.",
+     "An atom with 13 electrons has 13 protons because each electron sits inside one proton."
+    ]
+   }
   },
   {
    "id": "c08q21",
@@ -372,11 +560,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The 2 protons give +2 and the 2 electrons give −2. These cancel out, so the overall charge of the helium atom is 0.",
    "hint": "",
    "image": null,
    "lo": "Use the electrical neutrality of an atom to find numbers of protons and electrons",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Only the electrons were counted. The protons also carry charge, which must be included.",
+    "2": "Protons and electrons have opposite charges, so their charges cancel rather than add up. Counting them all as positive is the mistake.",
+    "3": "Only the protons were counted. The electrons also carry charge, which must be included."
+   },
+   "why": {
+    "right": "A helium atom with 2 protons and 2 electrons is neutral because +2 and −2 cancel out.",
+    "wrong": [
+     "A helium atom with 2 protons and 2 electrons is neutral because helium is a gas and gases have no charge.",
+     "A helium atom with 2 protons and 2 electrons is neutral because protons and electrons both have no charge."
+    ]
+   }
   },
   {
    "id": "c08q22",
@@ -390,11 +590,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "All carbon atoms have 6 protons, but they can have 6, 7 or 8 neutrons. So the number of neutrons can differ from the number of protons.",
    "hint": "",
    "image": null,
    "lo": "State that the number of neutrons in an atom need not equal the number of protons",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "These atoms have different numbers of neutrons but are all carbon. The number of neutrons does not decide the element.",
+    "1": "Carbon atoms with 7 or 8 neutrons do not have equal numbers of protons and neutrons. Look again at the numbers given.",
+    "3": "Carbon atoms have 6 electrons, but some have 7 or 8 neutrons. Look again at the numbers given."
+   },
+   "why": {
+    "right": "Carbon atoms can have 6, 7 or 8 neutrons because only the number of protons, which stays at 6, decides the element.",
+    "wrong": [
+     "Carbon atoms can have 6, 7 or 8 neutrons because the number of protons also changes to match.",
+     "Carbon atoms can have 6, 7 or 8 neutrons because neutrons carry a charge that balances extra electrons."
+    ]
+   }
   },
   {
    "id": "c08q23",
@@ -408,11 +620,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Protons and neutrons are in the nucleus, and each has a relative mass of 1. Electrons have almost no mass, so nearly all of an atom's mass is in its nucleus.",
    "hint": "",
    "image": null,
    "lo": "Recognise that the mass of an atom is mainly the mass of its nucleus",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Empty space has no mass. Think about where the heavy particles in an atom are found.",
+    "1": "Electrons have a relative mass of almost zero. Think about where the heavy particles in an atom are found.",
+    "2": "The pathways of electrons are not objects with mass. Think about where the heavy particles in an atom are found."
+   },
+   "why": {
+    "right": "An atom's mass is mainly in its nucleus because protons and neutrons are far heavier than electrons.",
+    "wrong": [
+     "An atom's mass is mainly in its nucleus because the nucleus is the largest part of the atom.",
+     "An atom's mass is mainly in its nucleus because the nucleus contains all of the atom's electrons."
+    ]
+   }
   },
   {
    "id": "c08q24",
@@ -426,11 +650,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An electron has a relative mass of almost zero, while protons and neutrons each have a relative mass of 1. Electrons add very little to the mass of an atom.",
    "hint": "",
    "image": null,
    "lo": "Recognise that the mass of an atom is mainly the mass of its nucleus",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Being outside the nucleus does not decide how heavy a particle is. Compare the relative masses of the three particles.",
+    "2": "Charge and mass are different properties. Compare the relative masses of the three particles.",
+    "3": "Speed does not change how much mass a particle has. Compare the relative masses of the three particles."
+   },
+   "why": {
+    "right": "Electron mass in an atom is negligible because each electron is far lighter than a proton or neutron.",
+    "wrong": [
+     "Electron mass in an atom is negligible because the negative charge of each electron cancels out its mass.",
+     "Electron mass in an atom is negligible because particles that move very fast have no mass."
+    ]
+   }
   },
   {
    "id": "c08q25",
@@ -444,11 +680,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Protons and neutrons each have a relative mass of 1. Electrons have almost no mass, so the 6 protons and 6 neutrons give most of the mass.",
    "hint": "",
    "image": null,
    "lo": "Recognise that the mass of an atom is mainly the mass of its nucleus",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Electrons have a relative mass of almost zero. Only one of these two particles adds much mass.",
+    "2": "Electrons have a relative mass of almost zero, so they add very little mass. Think about the particles in the nucleus.",
+    "3": "Electrons have a relative mass of almost zero. Only one of these two particles adds much mass."
+   },
+   "why": {
+    "right": "Protons and neutrons give most of an atom's mass because each has a relative mass of 1.",
+    "wrong": [
+     "Protons and neutrons give most of an atom's mass because they carry all of the atom's charge.",
+     "Protons and neutrons give most of an atom's mass because they move faster than electrons."
+    ]
+   }
   },
   {
    "id": "c08q26",
@@ -462,11 +710,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The number above an element's symbol is the number of protons in one of its atoms. Each element has its own number of protons.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Many elements do not form molecules at all. The number above the symbol is about a particle inside each atom.",
+    "1": "The number of neutrons can differ between atoms of the same element. The number above the symbol is the same for every atom of that element.",
+    "3": "The number of molecules depends on how much of the element there is. The number above the symbol is about a particle inside each atom."
+   },
+   "why": null
   },
   {
    "id": "c08q27",
@@ -480,11 +734,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Elements in the periodic table are arranged in order of increasing number of protons. Each element has one more proton than the element before it.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Atom size does not rise steadily across the periodic table. The order follows a number that identifies each element.",
+    "2": "Atoms of the same element can have different numbers of neutrons. The order follows a number that is the same for every atom of an element.",
+    "3": "Many elements do not form molecules. The order follows a number found inside every atom of an element."
+   },
+   "why": {
+    "right": "The periodic table follows proton number because each element has its own fixed number of protons.",
+    "wrong": [
+     "The periodic table follows proton number because protons are the only particles that have mass.",
+     "The periodic table follows proton number because all atoms of an element have the same number of neutrons."
+    ]
+   }
   },
   {
    "id": "c08q28",
@@ -498,11 +764,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Every element has its own number of protons in its atoms. Atoms of different elements have different numbers of protons.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Electrons in all atoms move around the nucleus. Their speed does not decide which element an atom belongs to.",
+    "1": "Atoms of the same element can have different numbers of neutrons. So neutrons cannot be what sets elements apart.",
+    "2": "Single atoms have no colour. The colour of a substance does not decide which element its atoms are."
+   },
+   "why": {
+    "right": "Atoms of different elements differ because each element has its own fixed number of protons.",
+    "wrong": [
+     "Atoms of different elements differ because each element has its own fixed number of neutrons.",
+     "Atoms of different elements differ because each element's electrons move at their own speed."
+    ]
+   }
   },
   {
    "id": "c08q29",
@@ -516,11 +794,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "X and Y both have 6 protons, so they are atoms of the same element, carbon. They differ only in their number of neutrons, which does not change the element.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Neutrons have no charge, so a different number of neutrons does not change the charge. Both atoms are neutral.",
+    "1": "X and Y are single atoms, not groups of atoms combined. A molecule needs two or more atoms joined together.",
+    "3": "The number of neutrons does not decide the element. Compare the number of protons in X and Y."
+   },
+   "why": {
+    "right": "Atoms with 6 protons each are the same element, because the number of protons decides the element.",
+    "wrong": [
+     "Atoms with 6 protons each are the same element, because the number of neutrons decides the element.",
+     "Atoms with 6 protons each are the same element, because atoms of one element always have equal mass."
+    ]
+   }
   },
   {
    "id": "c08q30",
@@ -534,11 +824,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "P has 7 protons and Q has 8 protons. Atoms with different numbers of protons belong to different elements, which here are nitrogen and oxygen.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Atoms of the same element always have the same number of protons. P and Q have different numbers.",
+    "1": "P and Q are single atoms, not molecules. Their numbers of protons are also different.",
+    "2": "The question gives only the numbers of protons, which say nothing certain about mass. Think about what the number of protons tells us."
+   },
+   "why": {
+    "right": "Atoms with 7 and 8 protons are different elements, because each element has its own number of protons.",
+    "wrong": [
+     "Atoms with 7 and 8 protons are different elements, because each element has its own number of neutrons.",
+     "Atoms with 7 and 8 protons are different elements, because any two separate atoms are always different elements."
+    ]
+   }
   },
   {
    "id": "c08q31",
@@ -552,11 +854,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The number of protons identifies the element. An atom with 3 protons is lithium. Hydrogen has 1 proton, helium has 2 and carbon has 6.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Hydrogen atoms have only 1 proton. Use the number of protons, not the neutrons, to identify the element.",
+    "2": "Carbon atoms have 6 protons, which is double this atom's number. Use the number of protons to identify the element.",
+    "3": "Helium atoms have 2 protons. Use the number of protons to identify the element."
+   },
+   "why": {
+    "right": "An atom with 3 protons is lithium because the element is found from the number of protons.",
+    "wrong": [
+     "An atom with 3 protons is lithium because the element is found from the number of neutrons.",
+     "An atom with 3 protons is lithium because the element is found by adding protons and neutrons."
+    ]
+   }
   },
   {
    "id": "c08q32",
@@ -570,11 +884,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An atom with 7 protons is nitrogen. The number of neutrons does not decide the element.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Lithium atoms have 3 protons. Use the number of protons to identify the element.",
+    "2": "Oxygen atoms have 8 protons. The 8 here is the number of neutrons, which does not decide the element.",
+    "3": "Carbon atoms have 6 protons. Use the number of protons to identify the element."
+   },
+   "why": {
+    "right": "An atom with 7 protons and 8 neutrons is nitrogen because the element is found from the number of protons.",
+    "wrong": [
+     "An atom with 7 protons and 8 neutrons is nitrogen because the element is found from the number of neutrons.",
+     "An atom with 7 protons and 8 neutrons is nitrogen because the element is found by adding protons and neutrons."
+    ]
+   }
   },
   {
    "id": "c08q33",
@@ -588,11 +914,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A neutral atom has equal numbers of protons and electrons. An atom with 2 electrons has 2 protons, so it is helium.",
    "hint": "",
    "image": null,
    "lo": "Use the number of protons to identify an element",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Lithium atoms have 3 protons and so 3 electrons. This atom has 2 electrons.",
+    "2": "Carbon atoms have 6 protons and so 6 electrons. This atom has 2 electrons.",
+    "3": "Hydrogen atoms have 1 proton and so 1 electron. This atom has 2 electrons."
+   },
+   "why": {
+    "right": "A neutral atom with 2 electrons is helium because it must also have 2 protons, which identify helium.",
+    "wrong": [
+     "A neutral atom with 2 electrons is helium because the element is found from the number of neutrons.",
+     "A neutral atom with 2 electrons is helium because only atoms of gases have so few electrons."
+    ]
+   }
   },
   {
    "id": "c08q34",
@@ -606,11 +944,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A molecule is made up of two or more atoms chemically combined. The atoms can be of the same element or of different elements.",
    "hint": "",
    "image": null,
    "lo": "State that a molecule is two or more atoms chemically combined",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A single atom on its own is not a molecule. A molecule needs atoms joined together.",
+    "1": "Substances mixed together form a mixture. In a molecule the parts are chemically joined.",
+    "2": "Protons and neutrons make up the nucleus of an atom. A molecule is built from whole atoms."
+   },
+   "why": null
   },
   {
    "id": "c08q35",
@@ -624,11 +968,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "H₂ shows two hydrogen atoms chemically combined, so it is a molecule. H, He and C each represent a single atom.",
    "hint": "",
    "image": null,
    "lo": "State that a molecule is two or more atoms chemically combined",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "H stands for a single hydrogen atom. A molecule needs two or more atoms joined together.",
+    "2": "He is the symbol for helium, written with two letters. It stands for a single helium atom, not two atoms.",
+    "3": "C stands for a single carbon atom. A molecule needs two or more atoms joined together."
+   },
+   "why": {
+    "right": "H₂ represents a molecule because the small 2 shows two hydrogen atoms chemically combined.",
+    "wrong": [
+     "H₂ represents a molecule because hydrogen is a gas and all gases are made of molecules.",
+     "H₂ represents a molecule because the small 2 shows that hydrogen has two protons."
+    ]
+   }
   },
   {
    "id": "c08q36",
@@ -642,11 +998,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A chemical formula uses symbols to show which types of atoms are in a molecule. The small numbers show how many atoms of each type there are.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A formula does not show how big atoms are. It uses symbols and small numbers.",
+    "1": "Atoms have no colour, and a formula does not show colour. It uses symbols and small numbers.",
+    "3": "The number of protons is found from the periodic table, not the formula. The small numbers in a formula count something else."
+   },
+   "why": null
   },
   {
    "id": "c08q37",
@@ -660,11 +1022,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In H₂O, the small 2 after H shows two hydrogen atoms. The O has no number, so there is one oxygen atom.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "3 is the total number of atoms in H₂O. The question asks only about hydrogen atoms.",
+    "1": "The small number after a symbol counts the atoms of that element. Look at the number written after H.",
+    "3": "The H in H₂O is the symbol for hydrogen, so there are hydrogen atoms. Look at the number written after H."
+   },
+   "why": {
+    "right": "H₂O has two hydrogen atoms because the small 2 counts the atoms of the element just before it.",
+    "wrong": [
+     "H₂O has two hydrogen atoms because the small 2 counts the atoms of the element just after it.",
+     "H₂O has two hydrogen atoms because the small 2 counts all the atoms in the molecule."
+    ]
+   }
   },
   {
    "id": "c08q38",
@@ -678,11 +1052,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In NH₃, the small 3 after H shows three hydrogen atoms. The N has no number, so there is one nitrogen atom.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "There is no 2 in NH₃. Look at the small number written after H.",
+    "2": "1 is the number of nitrogen atoms, since N has no number after it. Look at the number written after H.",
+    "3": "4 is the total number of atoms in NH₃. The question asks only about hydrogen atoms."
+   },
+   "why": {
+    "right": "NH₃ has three hydrogen atoms because the small 3 counts the atoms of the element just before it.",
+    "wrong": [
+     "NH₃ has three hydrogen atoms because the small 3 counts the atoms of the element at the start.",
+     "NH₃ has three hydrogen atoms because the small 3 counts all the atoms in the molecule."
+    ]
+   }
   },
   {
    "id": "c08q39",
@@ -696,11 +1082,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In NO₂, the small 2 after O shows two oxygen atoms. The N has no number, so there is one nitrogen atom.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "1 is the number of nitrogen atoms. Look at the small number written after O.",
+    "2": "The O in NO₂ is the symbol for oxygen, so there are oxygen atoms. Look at the number written after O.",
+    "3": "3 is the total number of atoms in NO₂. The question asks only about oxygen atoms."
+   },
+   "why": {
+    "right": "NO₂ has two oxygen atoms because the small 2 counts the atoms of the element just before it.",
+    "wrong": [
+     "NO₂ has two oxygen atoms because the small 2 counts the atoms of the element at the start.",
+     "NO₂ has two oxygen atoms because the small 2 counts all the atoms in the molecule."
+    ]
+   }
   },
   {
    "id": "c08q40",
@@ -714,11 +1112,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "CO₂ has 1 carbon atom and 2 oxygen atoms. The total number of atoms is 1 + 2 = 3.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "1 is only the carbon atom. The oxygen atoms must be added too.",
+    "1": "2 is only the oxygen atoms. The carbon atom must be added too.",
+    "2": "The small 2 applies only to oxygen, not to carbon. Count each type of atom, then add."
+   },
+   "why": {
+    "right": "CO₂ has three atoms because C counts as one atom and the small 2 adds two oxygen atoms.",
+    "wrong": [
+     "CO₂ has three atoms because C counts as one atom and the small 2 adds two carbon atoms.",
+     "CO₂ has three atoms because every molecule of a gas contains exactly three atoms."
+    ]
+   }
   },
   {
    "id": "c08q41",
@@ -732,11 +1142,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "CH₄ has 1 carbon atom and 4 hydrogen atoms. The total number of atoms is 1 + 4 = 5.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "1 is only the carbon atom. The hydrogen atoms must be added too.",
+    "2": "4 is only the hydrogen atoms. The carbon atom must be added too.",
+    "3": "2 is the number of different types of atom. The question asks for the total number of atoms."
+   },
+   "why": {
+    "right": "CH₄ has five atoms because C counts as one atom and the small 4 adds four hydrogen atoms.",
+    "wrong": [
+     "CH₄ has five atoms because C counts as one atom and the small 4 adds four carbon atoms.",
+     "CH₄ has five atoms because every molecule containing carbon has exactly five atoms."
+    ]
+   }
   },
   {
    "id": "c08q42",
@@ -750,11 +1172,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "N is the symbol for nitrogen and H is the symbol for hydrogen. NH₃ contains nitrogen atoms and hydrogen atoms.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "NH₃ contains a second symbol, H, after the N. Each different symbol stands for a different type of atom.",
+    "2": "The symbol for sodium is Na, not N. Check what N stands for.",
+    "3": "The symbol for helium is He, not H. Check what H stands for."
+   },
+   "why": null
   },
   {
    "id": "c08q43",
@@ -768,11 +1196,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "H is the symbol for hydrogen and Cl is the symbol for chlorine. HCl contains hydrogen atoms and chlorine atoms.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "HCl contains another symbol, H, before Cl. Each different symbol stands for a different type of atom.",
+    "1": "The symbol for helium is He, not H. Check what H stands for.",
+    "2": "A symbol starts with a capital letter, and a small letter after it belongs to the same symbol. Check what Cl stands for."
+   },
+   "why": null
   },
   {
    "id": "c08q44",
@@ -786,11 +1220,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In C₆H₁₂O₆, the small 6 after C shows six carbon atoms.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The C in C₆H₁₂O₆ has a small number after it. Look at the number written straight after C.",
+    "1": "12 is the number of hydrogen atoms. Look at the number written straight after C.",
+    "3": "24 is the total number of atoms in the molecule. The question asks only about carbon atoms."
+   },
+   "why": {
+    "right": "C₆H₁₂O₆ has six carbon atoms because the small 6 counts the atoms of the element just before it.",
+    "wrong": [
+     "C₆H₁₂O₆ has six carbon atoms because the small 6 counts the atoms of the element just after it.",
+     "C₆H₁₂O₆ has six carbon atoms because the first number in a formula counts all of its atoms."
+    ]
+   }
   },
   {
    "id": "c08q45",
@@ -804,11 +1250,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "C₆H₁₂O₆ has 6 carbon atoms, 12 hydrogen atoms and 6 oxygen atoms. The total is 6 + 12 + 6 = 24 atoms.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "18 leaves out the atoms of one element. Add the carbon, hydrogen and oxygen atoms together.",
+    "2": "3 is the number of types of atom, not the number of atoms. The small numbers count the atoms of each type.",
+    "3": "6 is only the carbon atoms, or only the oxygen atoms. All the atoms must be added together."
+   },
+   "why": {
+    "right": "C₆H₁₂O₆ has 24 atoms because the small numbers 6, 12 and 6 are added together.",
+    "wrong": [
+     "C₆H₁₂O₆ has 24 atoms because every sugar molecule contains exactly 24 atoms.",
+     "C₆H₁₂O₆ has 24 atoms because each of the three types of atom is counted eight times."
+    ]
+   }
   },
   {
    "id": "c08q46",
@@ -822,11 +1280,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "One nitrogen atom is written as N with no number. Three hydrogen atoms are written as H with a small 3. This gives NH₃.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "N₃H shows 3 nitrogen atoms and 1 hydrogen atom, the wrong way round. A small number counts the symbol just before it.",
+    "1": "N₃H₃ shows 3 nitrogen atoms. There is only 1 nitrogen atom, and the number 1 is not written.",
+    "2": "NH shows only 1 hydrogen atom. The small number for hydrogen is missing."
+   },
+   "why": {
+    "right": "NH₃ is the formula because a small number after a symbol counts the atoms of that element.",
+    "wrong": [
+     "NH₃ is the formula because a small number at the end counts the atoms of every element.",
+     "NH₃ is the formula because the element with the most atoms is always written first."
+    ]
+   }
   },
   {
    "id": "c08q47",
@@ -840,11 +1310,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "One carbon atom is written as C with no number. Two oxygen atoms are written as O with a small 2. This gives CO₂.",
    "hint": "",
    "image": null,
    "lo": "State the numbers and types of atoms from a chemical formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "C₂O shows 2 carbon atoms and 1 oxygen atom, the wrong way round. A small number counts the symbol just before it.",
+    "2": "C₂O₂ shows 2 carbon atoms. There is only 1 carbon atom, and the number 1 is not written.",
+    "3": "CO shows only 1 oxygen atom. The small number for oxygen is missing."
+   },
+   "why": {
+    "right": "CO₂ is the formula because a small number after a symbol counts the atoms of that element.",
+    "wrong": [
+     "CO₂ is the formula because a small number at the end counts the atoms of every element.",
+     "CO₂ is the formula because the element with fewer atoms always gets the small number."
+    ]
+   }
   },
   {
    "id": "c08q48",
@@ -858,11 +1340,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An element is made up of only one type of atom. A molecule of an element contains two or more atoms of the same type.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Two or more types of atom chemically combined make a compound. An element has fewer types than this.",
+    "1": "A molecule has two or more atoms, so it cannot be only one atom. Think about how many types of atom an element has.",
+    "3": "Atoms in a molecule are always chemically combined. Think about how many types of atom an element has."
+   },
+   "why": null
   },
   {
    "id": "c08q49",
@@ -876,11 +1364,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A compound is made of two or more elements chemically combined. A molecule of a compound contains two or more types of atoms.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Atoms in a molecule are always chemically combined. Think about how many types of atom a compound has.",
+    "2": "A molecule has two or more atoms, so it cannot be only one atom. Think about how many types of atom a compound has.",
+    "3": "Only one type of atom describes a molecule of an element. A compound is made of more than one element."
+   },
+   "why": null
   },
   {
    "id": "c08q50",
@@ -893,11 +1387,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "O₂ contains only oxygen atoms, which is one type of atom. So O₂ represents an element.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A mixture contains substances that are not chemically combined. The atoms in O₂ are chemically combined in one molecule.",
+    "2": "A compound needs two or more types of atom. Count how many different symbols are in O₂."
+   },
+   "why": {
+    "right": "O₂ is an element because its molecule contains only one type of atom.",
+    "wrong": [
+     "O₂ is an element because its molecule contains only one atom.",
+     "O₂ is an element because its molecule contains two atoms of different types."
+    ]
+   }
   },
   {
    "id": "c08q51",
@@ -910,11 +1415,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "CO contains carbon atoms and oxygen atoms chemically combined. It has two types of atom, so it is a compound.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The carbon and oxygen in CO are chemically combined in one molecule. A mixture has parts that are not combined.",
+    "1": "The capital O in CO starts a second symbol, for oxygen. Count the types of atom in the formula."
+   },
+   "why": {
+    "right": "CO is a compound because its molecule contains two different types of atom chemically combined.",
+    "wrong": [
+     "CO is a compound because its molecule contains only one type of atom.",
+     "CO is a compound because its carbon and oxygen are mixed but not chemically combined."
+    ]
+   }
   },
   {
    "id": "c08q52",
@@ -927,11 +1443,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "S₈ contains only sulfur atoms, which is one type of atom. Even with 8 atoms combined, it is still an element.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The sulfur atoms in S₈ are chemically combined in one molecule. A mixture has parts that are not combined.",
+    "1": "Having many atoms does not make a compound. A compound needs two or more types of atom."
+   },
+   "why": {
+    "right": "S₈ is an element because all 8 atoms in its molecule are the same type of atom.",
+    "wrong": [
+     "S₈ is an element because a molecule with more than 2 atoms is always an element.",
+     "S₈ is an element because the 8 shows that each sulfur atom has 8 protons."
+    ]
+   }
   },
   {
    "id": "c08q53",
@@ -945,11 +1472,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "NH₃ contains nitrogen and hydrogen atoms chemically combined. It has two types of atom, so it is a compound. Cl₂, I₂ and N₂ each contain one type of atom.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Cl₂ contains only chlorine atoms. A compound needs two or more types of atom.",
+    "1": "I₂ contains only iodine atoms. A compound needs two or more types of atom.",
+    "2": "N₂ contains only nitrogen atoms. A compound needs two or more types of atom."
+   },
+   "why": {
+    "right": "NH₃ is a compound because its molecule contains two different types of atom chemically combined.",
+    "wrong": [
+     "NH₃ is a compound because its molecule contains more than two atoms.",
+     "NH₃ is a compound because its formula contains a small number."
+    ]
+   }
   },
   {
    "id": "c08q54",
@@ -963,11 +1502,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "I₂ contains only iodine atoms, which is one type of atom, so it is an element. H₂O, HCl and CO₂ each contain two types of atom.",
    "hint": "",
    "image": null,
    "lo": "Classify a molecule as an element or a compound from its formula",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "H₂O contains hydrogen and oxygen atoms. Two types of atom chemically combined make a compound.",
+    "2": "HCl contains hydrogen and chlorine atoms. Two types of atom chemically combined make a compound.",
+    "3": "CO₂ contains carbon and oxygen atoms. Two types of atom chemically combined make a compound."
+   },
+   "why": {
+    "right": "I₂ is an element because its molecule contains only one type of atom.",
+    "wrong": [
+     "I₂ is an element because its molecule contains exactly two atoms.",
+     "I₂ is an element because its molecule has the shortest formula."
+    ]
+   }
   },
   {
    "id": "c08q55",
@@ -981,11 +1532,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Molecules are made up of two or more atoms chemically combined. Atoms are the smaller units that build up molecules.",
    "hint": "",
    "image": null,
    "lo": "Compare atoms and molecules",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An atom is a single unit, while a molecule is a group of atoms joined together. They are not the same.",
+    "1": "A molecule is built from atoms, so it is not smaller than the atoms it contains.",
+    "2": "Atoms are made of protons, neutrons and electrons, not molecules. Think about which is the smaller unit."
+   },
+   "why": {
+    "right": "Molecules are made up of atoms because a molecule is two or more atoms chemically combined.",
+    "wrong": [
+     "Molecules are made up of atoms because an atom is two or more molecules chemically combined.",
+     "Molecules are made up of atoms because atoms and molecules are two names for the same thing."
+    ]
+   }
   },
   {
    "id": "c08q56",
@@ -999,11 +1562,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A hydrogen atom is a single atom. A hydrogen molecule, H₂, has two hydrogen atoms chemically combined. Both contain only hydrogen.",
    "hint": "",
    "image": null,
    "lo": "Compare atoms and molecules",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A hydrogen molecule is made of hydrogen atoms, which each have an electron. Joining the atoms does not remove their electrons.",
+    "2": "A hydrogen molecule contains only hydrogen atoms, so it is still the same element.",
+    "3": "A hydrogen molecule contains only one type of atom. Think about how many atoms it has."
+   },
+   "why": {
+    "right": "A hydrogen molecule differs from a hydrogen atom because it is two hydrogen atoms chemically combined.",
+    "wrong": [
+     "A hydrogen molecule differs from a hydrogen atom because it contains a different element.",
+     "A hydrogen molecule differs from a hydrogen atom because its atoms have lost their electrons."
+    ]
+   }
   },
   {
    "id": "c08q57",
@@ -1017,11 +1592,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In the planetary model, the nucleus is tiny and the electrons move around it at a large distance. Most of the atom is empty space.",
    "hint": "",
    "image": null,
    "lo": "Describe how atomic models are simplified and revised with new evidence",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Protons are packed into the tiny nucleus at the centre. Think about what fills most of the atom around the nucleus.",
+    "1": "Neutrons are packed into the tiny nucleus at the centre. Think about what fills most of the atom around the nucleus.",
+    "3": "Electrons are very small and take up very little room. Think about what lies between the electrons and the nucleus."
+   },
+   "why": {
+    "right": "An atom is mostly empty space because its tiny nucleus is far from the electrons moving around it.",
+    "wrong": [
+     "An atom is mostly empty space because its electrons are spread out to fill the whole atom.",
+     "An atom is mostly empty space because its protons and neutrons are spread through the atom."
+    ]
+   }
   },
   {
    "id": "c08q58",
@@ -1035,11 +1622,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Older models of the atom were replaced because they could not explain many properties of atoms. Scientists revised the models when new evidence was found.",
    "hint": "",
    "image": null,
    "lo": "Describe how atomic models are simplified and revised with new evidence",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Science does not change models because people dislike them. Models change when they do not match the evidence.",
+    "1": "How hard a model is to draw does not decide whether it is kept. Models change when they do not match the evidence.",
+    "2": "Age alone does not make a model wrong. Some old ideas are still used today because they match the evidence."
+   },
+   "why": {
+    "right": "Models of the atom are replaced when new evidence shows they cannot explain what atoms do.",
+    "wrong": [
+     "Models of the atom are replaced every few years so that textbooks stay up to date.",
+     "Models of the atom are replaced when most people vote that they prefer a different model."
+    ]
+   }
   },
   {
    "id": "c08q59",
@@ -1053,11 +1652,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Real atoms have no colour. The colours in the model are only used to tell different types of atoms apart, so this is a limitation of the model.",
    "hint": "",
    "image": null,
    "lo": "Describe how atomic models are simplified and revised with new evidence",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Atoms do combine to form molecules, and the circle model can show this. A limitation is something the model shows wrongly.",
+    "2": "Atoms are not larger than the molecules they make up. A limitation is something about the drawing that is not true of real atoms.",
+    "3": "Atoms in a model can be labelled with their symbols. A limitation is something about the drawing that is not true of real atoms."
+   },
+   "why": {
+    "right": "Coloured circles are a limitation of atom models because real atoms are far too small to have colour.",
+    "wrong": [
+     "Coloured circles are a limitation of atom models because real atoms are square, not round.",
+     "Coloured circles are a limitation of atom models because real atoms are all the same colour."
+    ]
+   }
   },
   {
    "id": "c08q60",
@@ -1071,11 +1682,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "X-ray imaging uses technology based on atoms to make pictures of the bones inside the body. It helps doctors find broken bones.",
    "hint": "",
    "image": null,
    "lo": "Identify applications of atomic technologies and the issues and risks they raise",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Burning fuel is a chemical reaction used for heating, not a medical use. Look for a use in medicine.",
+    "2": "Chalk on a climber's hands is not medical and does not use atomic technology. Look for a use in medicine.",
+    "3": "A beam balance is a measuring tool, not a medical use of atomic technology. Look for a use in medicine."
+   },
+   "why": null
   },
   {
    "id": "c08q61",
@@ -1089,11 +1706,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Nuclear power plants use energy released from the nuclei of atoms such as uranium. This energy heats water to make steam, which turns turbines to generate electricity.",
    "hint": "",
    "image": null,
    "lo": "Identify applications of atomic technologies and the issues and risks they raise",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Sunlight is used by solar panels, not nuclear power plants. The word nuclear refers to the centre of an atom.",
+    "2": "Moving water is used in hydroelectric power plants. The word nuclear refers to the centre of an atom.",
+    "3": "Burning oil is used in some power stations, but not in nuclear ones. The word nuclear refers to the centre of an atom."
+   },
+   "why": null
   },
   {
    "id": "c08q62",
@@ -1107,11 +1730,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Accidents at nuclear power plants can release harmful radioactive substances. These can pollute the environment and cause loss of life.",
    "hint": "",
    "image": null,
    "lo": "Identify applications of atomic technologies and the issues and risks they raise",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Nuclear power plants produce a large amount of heat. Think about what could go wrong if something fails.",
+    "2": "Nuclear power plants do not use oil. Think about what could go wrong if something fails.",
+    "3": "Nuclear power plants do not need sunlight. Think about what could go wrong if something fails."
+   },
+   "why": {
+    "right": "Nuclear power plants carry a risk because an accident can release harmful radioactive substances into the environment.",
+    "wrong": [
+     "Nuclear power plants carry a risk because they burn large amounts of oil that may run out.",
+     "Nuclear power plants carry a risk because they stop working whenever there is no sunlight."
+    ]
+   }
   },
   {
    "id": "c08q63",
@@ -1124,11 +1759,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An ethical issue asks whether something is right or wrong. Asking whether atomic bombs should ever be used in war is a question of right and wrong.",
    "hint": "",
    "image": null,
    "lo": "Identify applications of atomic technologies and the issues and risks they raise",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An environmental issue is about effects on nature and living things. This question asks whether an action is right or wrong.",
+    "1": "An economic issue is about money and cost. This question asks whether an action is right or wrong."
+   },
+   "why": {
+    "right": "Asking whether atomic bombs should be used is an ethical issue because it is about right and wrong.",
+    "wrong": [
+     "Asking whether atomic bombs should be used is an ethical issue because it is about the cost of bombs.",
+     "Asking whether atomic bombs should be used is an ethical issue because it is about damage to soil."
+    ]
+   }
   },
   {
    "id": "c08q64",
@@ -1142,11 +1788,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An economic issue is about money and cost. The cost of building a nuclear power plant is an economic issue.",
    "hint": "",
    "image": null,
    "lo": "Identify applications of atomic technologies and the issues and risks they raise",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An environmental issue is about effects on nature and living things. This question is about cost.",
+    "1": "A social issue is about effects on people and communities. This question is about cost.",
+    "2": "An ethical issue asks whether something is right or wrong. This question is about cost."
+   },
+   "why": {
+    "right": "The cost of building a nuclear plant is an economic issue because it is about money.",
+    "wrong": [
+     "The cost of building a nuclear plant is an economic issue because it is about right and wrong.",
+     "The cost of building a nuclear plant is an economic issue because it is about harm to nature."
+    ]
+   }
   },
   {
    "id": "c08q65",
@@ -1160,11 +1818,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Nuclear power plants use energy from atoms such as uranium instead of oil. A country without oil can still generate electricity this way.",
    "hint": "",
    "image": null,
    "lo": "Identify applications of atomic technologies and the issues and risks they raise",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Nuclear power plants do produce waste, and some of it is radioactive. Think about what a country without oil needs.",
+    "1": "Nuclear power plants do carry a risk of accidents. Think about what a country without oil needs.",
+    "3": "Nuclear power plants use steam to turn turbines. Think about what a country without oil needs."
+   },
+   "why": {
+    "right": "A country without oil might use nuclear energy because nuclear plants use uranium instead of oil as fuel.",
+    "wrong": [
+     "A country without oil might use nuclear energy because nuclear plants produce no waste of any kind.",
+     "A country without oil might use nuclear energy because nuclear plants can never have accidents."
+    ]
+   }
   }
  ]
 }

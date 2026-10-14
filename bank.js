@@ -51,8 +51,15 @@ function cleanText(v, max) {
 function cleanQuestion(q) {
   const raw = Array.isArray(q?.choices) ? q.choices.slice(0, MAX_CHOICES).map((c) => cleanText(c, 200)) : [];
   const want = new Set((Array.isArray(q?.correct) ? q.correct : []).map(Number).filter((i) => Number.isInteger(i)));
-  const choices = [], correct = [];
-  raw.forEach((c, i) => { if (c) { if (want.has(i)) correct.push(choices.length); choices.push(c); } });
+  const choices = [], correct = [], newIndex = {};
+  raw.forEach((c, i) => { if (c) { newIndex[i] = choices.length; if (want.has(i)) correct.push(choices.length); choices.push(c); } });
+  // misconception notes for wrong options (keyed by option index) and the "why" reasons for the Ultimate
+  const notes = {};
+  if (q?.notes && typeof q.notes === "object") for (const [k, v] of Object.entries(q.notes)) {
+    const j = newIndex[Number(k)]; if (Number.isInteger(j) && !correct.includes(j) && cleanText(v, 300)) notes[j] = cleanText(v, 300);
+  }
+  const w = q?.why, wrong = Array.isArray(w?.wrong) ? w.wrong.map((t) => cleanText(t, 200)).filter(Boolean).slice(0, 3) : [];
+  const why = w && cleanText(w.right, 200) && wrong.length >= 1 ? { right: cleanText(w.right, 200), wrong } : null;
   return {
     id: isId(q?.id) ? q.id : newId(),
     q: cleanText(q?.q, 600),
@@ -60,6 +67,7 @@ function cleanQuestion(q) {
     explain: cleanText(q?.explain, 600),
     hint: cleanText(q?.hint, 300),
     image: isImage(q?.image) ? q.image : null,
+    notes, why,
   };
 }
 
@@ -380,7 +388,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
         q: q.q, choices: q.choices, answer: q.correct[0], answers: q.correct.slice(),
         qid: `${s.id}:${q.id}`, lo: q.lo || s.title, ao: q.ao || "", chapter: s.chapter || 0,
         topic: s.title, topicId: "set:" + s.id, bloom: null, explain: q.explain || "", hint: q.hint || "",
-        image: q.image ? `/qimg/${q.image}` : null,
+        image: q.image ? `/qimg/${q.image}` : null, notes: q.notes || {}, why: q.why || null,
       }));
     },
   };

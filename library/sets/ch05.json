@@ -16,11 +16,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Light travels in straight lines through one material. This is why light is drawn as straight rays with arrows.",
    "hint": "",
    "image": null,
    "lo": "State that light travels in straight lines, shown as rays with arrows",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Light does not curve as it travels through one material. It only changes direction when it hits a surface or enters a different material.",
+    "1": "Light spreads out from a source in all directions, but each ray does not go round in a circle. Think about the shape of a ray in a ray diagram.",
+    "3": "A zigzag path would mean light keeps changing direction on its own. In one material nothing makes light change direction, so think about the shape of its path."
+   },
+   "why": {
+    "right": "Shadows have sharp edges because light cannot bend around an object in its path.",
+    "wrong": [
+     "Shadows have sharp edges because objects absorb light and give out darkness.",
+     "Shadows have sharp edges because light slows down when it passes an object."
+    ]
+   }
   },
   {
    "id": "c05q2",
@@ -34,11 +46,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The arrow on a ray shows the direction in which light travels, from the source towards where the light goes.",
    "hint": "",
    "image": null,
    "lo": "State that light travels in straight lines, shown as rays with arrows",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A ray diagram does not show how fast light moves. The arrowhead points one way along the ray, so think about what that tells you about the light.",
+    "2": "Colour is not shown by the arrowhead on a ray. The arrow points one way along the line, so think about what that tells you about the light.",
+    "3": "Brightness is not shown by an arrowhead. The arrow points one way along the ray, so think about what that tells you about the path of the light."
+   },
+   "why": null
   },
   {
    "id": "c05q3",
@@ -52,11 +70,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Light travels in straight lines. When one card is moved, its hole is no longer in line with the others, so the light from the flame is blocked.",
    "hint": "",
    "image": null,
    "lo": "State that light travels in straight lines, shown as rays with arrows",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The flame still gives out light when a card is moved. What has changed is the path to the eye, so think about how the holes need to be lined up.",
+    "1": "If light travelled in curves, it could pass through holes that are out of line. The flame is hidden, so think about what that shows about the path of light.",
+    "2": "If light bent around cards, the flame would still be seen after a card is moved. The flame is hidden, so light cannot get around the card."
+   },
+   "why": {
+    "right": "The flame is hidden because light cannot follow a curved path through holes that are out of line.",
+    "wrong": [
+     "The flame is hidden because light curves away from any card that has been moved.",
+     "The flame is hidden because light becomes too weak after passing through a moved card."
+    ]
+   }
   },
   {
    "id": "c05q4",
@@ -70,11 +100,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A luminous object gives out its own light, for example the sun, a candle flame or a switched-on lamp.",
    "hint": "",
    "image": null,
    "lo": "Classify objects as luminous or non-luminous",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Luminous objects can be seen in daylight too, such as the sun. Being luminous is about where the light of the object comes from, not when it is seen.",
+    "2": "An object that only reflects light from other things is non-luminous, like the moon. Think about whether the light starts in the object itself.",
+    "3": "An object that absorbs all light gives out no light, so it looks black. Think about objects that are a source of light."
+   },
+   "why": null
   },
   {
    "id": "c05q5",
@@ -88,11 +124,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A firefly produces its own light, so it is luminous. The mirror, the moon and the flower are seen only because they reflect light.",
    "hint": "",
    "image": null,
    "lo": "Classify objects as luminous or non-luminous",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A mirror looks bright only because it reflects light from other sources. In the dark it gives out no light of its own.",
+    "2": "The moon shines only because it reflects sunlight. It does not produce any light of its own.",
+    "3": "A white flower reflects most of the light falling on it, which makes it look bright. It does not produce light itself."
+   },
+   "why": {
+    "right": "A firefly is luminous because it produces light inside its own body.",
+    "wrong": [
+     "A firefly is luminous because it reflects moonlight more strongly than other objects.",
+     "A firefly is luminous because it stores sunlight in the day and releases it at night."
+    ]
+   }
   },
   {
    "id": "c05q6",
@@ -106,11 +154,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The moon gives out no light of its own. It is seen because it reflects light from the sun.",
    "hint": "",
    "image": null,
    "lo": "Classify objects as luminous or non-luminous",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A lit candle flame produces its own light, so it is a light source. Look for the object that only reflects light from somewhere else.",
+    "1": "A switched-on lamp produces its own light, so it is a light source. Look for the object that only reflects light from another source.",
+    "2": "The sun produces its own light, so it is a light source. Look for the object that shines only because light from elsewhere falls on it."
+   },
+   "why": {
+    "right": "The moon is non-luminous because it shines only by reflecting light from the sun.",
+    "wrong": [
+     "The moon is non-luminous because it gives out only a weak light of its own.",
+     "The moon is non-luminous because it can be seen only at night."
+    ]
+   }
   },
   {
    "id": "c05q7",
@@ -124,11 +184,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A lit mobile phone screen produces its own light, so it is luminous. A book, a white ball and a plane mirror only reflect light.",
    "hint": "",
    "image": null,
    "lo": "Classify objects as luminous or non-luminous",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A book is seen only because light from a lamp or the sun reflects off its pages. It gives out no light of its own.",
+    "1": "A white ball looks bright because it reflects most of the light that falls on it. It does not produce light itself.",
+    "3": "A plane mirror reflects light very well, so it can look bright. It still gives out no light of its own."
+   },
+   "why": {
+    "right": "A lit phone screen gives out light because electrical energy is converted into light energy in the screen.",
+    "wrong": [
+     "A lit phone screen gives out light because it reflects the light in the room back out.",
+     "A lit phone screen gives out light because its glass stores daylight and releases it slowly."
+    ]
+   }
   },
   {
    "id": "c05q8",
@@ -142,11 +214,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A plane mirror gives out no light of its own. It is seen only because light from other sources reflects off it.",
    "hint": "",
    "image": null,
    "lo": "Classify objects as luminous or non-luminous",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A candle flame produces its own light, so it is seen by the light it gives out. Look for an object that has no light of its own.",
+    "2": "The sun produces its own light. Look for an object that would not be seen if no light from other sources fell on it.",
+    "3": "A firefly makes its own light, so it can be seen in the dark. Look for an object that gives out no light at all."
+   },
+   "why": {
+    "right": "A plane mirror is non-luminous, so it is seen only when light from a source reflects off it into the eye.",
+    "wrong": [
+     "A plane mirror is luminous, so it is seen by the faint light it gives out on its own.",
+     "A plane mirror is non-luminous, so it is seen by light that travels out from the eye to the mirror."
+    ]
+   }
   },
   {
    "id": "c05q9",
@@ -160,11 +244,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Reflection is the bouncing of light off a surface, such as a mirror.",
    "hint": "",
    "image": null,
    "lo": "Explain how we see objects using reflection",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Dispersion is the splitting of white light into its colours. Bouncing off a surface does not split light into colours.",
+    "1": "Refraction is the bending of light as it passes into a different material. Here the light does not enter the material but comes back off it.",
+    "2": "In absorption the light is taken in by the surface and does not come back off it. Here the light comes back off the surface."
+   },
+   "why": null
   },
   {
    "id": "c05q10",
@@ -178,11 +268,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A non-luminous object gives out no light. We see it when light from a source reflects off the object and enters our eyes.",
    "hint": "",
    "image": null,
    "lo": "Explain how we see objects using reflection",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Light that passes around an object does not come from the object, so it cannot show the object to us. Think about where light must go after reaching the object.",
+    "2": "Eyes do not send out light. They only receive light, so think about which way light must travel for an object to be seen.",
+    "3": "Light that is absorbed by an object does not leave it, so it cannot reach the eye. Some light must come back off the object."
+   },
+   "why": {
+    "right": "A non-luminous object is seen when light bouncing off it enters the eye.",
+    "wrong": [
+     "A non-luminous object is seen when light sent out by the eye reaches it.",
+     "A non-luminous object is seen when it soaks up light and then glows."
+    ]
+   }
   },
   {
    "id": "c05q11",
@@ -196,11 +298,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Neither ball gives out its own light. In a totally dark room there is no light to reflect off them into our eyes, so neither ball is seen.",
    "hint": "",
    "image": null,
    "lo": "Explain how we see objects using reflection",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A black ball absorbs most light, so it would be the harder one to see. In total darkness, think about whether there is any light to reflect at all.",
+    "2": "Both balls are non-luminous. Think about what must fall on a non-luminous object before it can be seen, and whether this room has any.",
+    "3": "A white ball reflects light well, but it does not make its own light. Think about what a white surface needs before it can reflect anything."
+   },
+   "why": {
+    "right": "In a totally dark room no light falls on either ball, so no light reflects into the eyes.",
+    "wrong": [
+     "In a totally dark room the white ball gives out a faint glow of its own that the eyes can detect.",
+     "In a totally dark room the eyes send out enough light to show objects close by."
+    ]
+   }
   },
   {
    "id": "c05q12",
@@ -214,11 +328,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The normal is a line drawn at 90° to the mirror at the point where the ray hits it. Angles in ray diagrams are measured from it.",
    "hint": "",
    "image": null,
    "lo": "Name the parts of a reflection ray diagram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The incident ray is the ray of light travelling towards the mirror. The line in the question is a construction line drawn at 90° to the mirror.",
+    "1": "The boundary is the surface of the mirror itself. The line in the question is at 90° to that surface, so it has a different name.",
+    "3": "The reflected ray is the ray of light leaving the mirror. The line in the question is a construction line at 90° to the mirror, not a ray."
+   },
+   "why": null
   },
   {
    "id": "c05q13",
@@ -232,11 +352,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The incident ray is the ray of light travelling towards a surface and hitting it.",
    "hint": "",
    "image": null,
    "lo": "Name the parts of a reflection ray diagram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A refracted ray is one that has passed into a new material and changed direction. The ray here has not reached the surface yet.",
+    "2": "The normal is a construction line at 90° to the surface, not a ray of light. The question asks about the light arriving at the surface.",
+    "3": "The reflected ray is the one leaving the surface after bouncing off. The question asks about the ray before it reaches the surface."
+   },
+   "why": null
   },
   {
    "id": "c05q14",
@@ -250,11 +376,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The reflected ray is the ray that travels away from the surface after the light bounces off it.",
    "hint": "",
    "image": null,
    "lo": "Name the parts of a reflection ray diagram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The normal is a construction line at 90° to the surface, not a ray of light. The question asks about light leaving the surface.",
+    "2": "A refracted ray passes into a new material and bends. Light that bounces back off a surface does not enter the material.",
+    "3": "The incident ray is the one arriving at the surface. The question asks about the ray after it has bounced off."
+   },
+   "why": null
   },
   {
    "id": "c05q15",
@@ -268,11 +400,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The angle of incidence is measured between the incident ray and the normal, not between the ray and the mirror surface.",
    "hint": "",
    "image": null,
    "lo": "Name the parts of a reflection ray diagram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Angles in ray diagrams are not measured from the horizontal, since a mirror can be tilted. They are measured from a line drawn at the point of incidence.",
+    "1": "The angle between the incident ray and the reflected ray is made of two angles added together. The angle of incidence is only one of them.",
+    "2": "The angle between the ray and the mirror surface is not the angle of incidence. Angles in ray diagrams are measured from a line at 90° to the mirror."
+   },
+   "why": null
   },
   {
    "id": "c05q16",
@@ -286,11 +424,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The angle of reflection is the angle between the reflected ray and the normal.",
    "hint": "",
    "image": null,
    "lo": "Name the parts of a reflection ray diagram",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The angle of refraction is used when light passes into a new material and bends. The reflected ray bounces back and stays in the same material.",
+    "1": "A right angle is any angle of 90°. The angle between the reflected ray and the normal can be any size, so it has its own name.",
+    "3": "The angle of incidence belongs to the incident ray, the ray arriving at the surface. The question asks about the ray leaving the surface."
+   },
+   "why": null
   },
   {
    "id": "c05q17",
@@ -304,11 +448,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The law of reflection states that the angle of reflection is always equal to the angle of incidence.",
    "hint": "",
    "image": null,
    "lo": "Apply angle of reflection equals angle of incidence",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Reflection does not shrink the angle. Look at a ray diagram and compare the angles on each side of the normal using the law of reflection.",
+    "1": "The angle of reflection is not fixed. It changes whenever the angle of incidence changes, so think about how the two angles are linked.",
+    "3": "Reflection does not widen the angle. Compare the angle of the incoming ray and the angle of the outgoing ray, both measured from the normal."
+   },
+   "why": null
   },
   {
    "id": "c05q18",
@@ -322,11 +472,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The angle of reflection equals the angle of incidence. The angle of incidence is 30°, so the angle of reflection is also 30°.",
    "hint": "",
    "image": null,
    "lo": "Apply angle of reflection equals angle of incidence",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "90° is the angle between the normal and the mirror, not the angle of the reflected ray. Use the law of reflection to link the two angles.",
+    "1": "Halving the angle of incidence gives 15°, but reflection does not halve the angle. Use the law of reflection to link the two angles.",
+    "2": "60° is the angle between the incident ray and the mirror, found by taking 30° from 90°. The angle of reflection is measured from the normal."
+   },
+   "why": {
+    "right": "The law of reflection states that the angle of reflection equals the angle of incidence.",
+    "wrong": [
+     "The law of reflection states that the angle of reflection and the angle of incidence add up to 90°.",
+     "The law of reflection states that the angle of reflection is half the angle of incidence."
+    ]
+   }
   },
   {
    "id": "c05q19",
@@ -340,11 +502,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The angle of reflection equals the angle of incidence, so an angle of incidence of 45° gives an angle of reflection of 45°.",
    "hint": "",
    "image": null,
    "lo": "Apply angle of reflection equals angle of incidence",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "135° is found by taking 45° from 180°. Angles of reflection are measured from the normal and are never more than 90°.",
+    "2": "Halving the angle of incidence gives 22.5°, but reflection does not halve the angle. Use the law of reflection to link the two angles.",
+    "3": "90° is the total angle between the incident ray and the reflected ray here, not the angle of reflection alone. Each angle is measured from the normal."
+   },
+   "why": {
+    "right": "The reflected ray makes the same angle with the normal as the incident ray does.",
+    "wrong": [
+     "The reflected ray makes half the angle with the normal that the incident ray does.",
+     "The reflected ray makes an angle with the normal that adds up to 180° with the incident angle."
+    ]
+   }
   },
   {
    "id": "c05q20",
@@ -358,11 +532,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A ray along the normal has an angle of incidence of 0°. The angle of reflection equals this, so it is 0° and the ray reflects straight back.",
    "hint": "",
    "image": null,
    "lo": "Apply angle of reflection equals angle of incidence",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The ray makes 90° with the mirror surface, but angles are measured from the normal. Work out the angle between this ray and the normal first.",
+    "2": "45° would need the ray to arrive at a slant to the normal. This ray lies along the normal, so find its angle of incidence first.",
+    "3": "180° describes the ray turning round to go back, but angles of reflection are measured from the normal. Find the angle of incidence first."
+   },
+   "why": {
+    "right": "A ray along the normal has an angle of incidence of 0°, so it reflects straight back along the normal.",
+    "wrong": [
+     "A ray along the normal has an angle of incidence of 90°, so it reflects along the mirror surface.",
+     "A ray along the normal has an angle of incidence of 0°, so it passes straight through the mirror."
+    ]
+   }
   },
   {
    "id": "c05q21",
@@ -376,11 +562,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The angle of incidence equals the angle of reflection, so if the angle of reflection is 25°, the angle of incidence is also 25°.",
    "hint": "",
    "image": null,
    "lo": "Apply angle of reflection equals angle of incidence",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Doubling the angle gives 50°, which is the total angle between the two rays. Each angle is measured separately from the normal.",
+    "2": "155° is found by taking 25° from 180°. Angles of incidence are measured from the normal and are never more than 90°.",
+    "3": "65° is the angle between the reflected ray and the mirror, found by taking 25° from 90°. The angle of incidence is measured from the normal."
+   },
+   "why": {
+    "right": "The law of reflection works both ways, so the angle of incidence equals the angle of reflection.",
+    "wrong": [
+     "The law of reflection works both ways, so the angle of incidence is double the angle of reflection.",
+     "The law of reflection works both ways, so the two angles always add up to 90°."
+    ]
+   }
   },
   {
    "id": "c05q22",
@@ -394,11 +592,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The angle of incidence is measured from the normal, which is at 90° to the mirror. So the angle of incidence is 90° minus 60°, which is 30°.",
    "hint": "",
    "image": null,
    "lo": "Apply angle of reflection equals angle of incidence",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "90° is the angle between the normal and the mirror. The angle of incidence is the angle between the ray and the normal.",
+    "2": "120° is found by taking 60° from 180°. The angle of incidence lies between the ray and the normal, which is at 90° to the mirror.",
+    "3": "60° is the angle from the mirror surface. The angle of incidence is measured from the normal, which is at 90° to the mirror."
+   },
+   "why": {
+    "right": "The angle of incidence is measured from the normal, which is at 90° to the mirror surface.",
+    "wrong": [
+     "The angle of incidence is measured from the mirror surface, which is where the ray strikes.",
+     "The angle of incidence is measured from the reflected ray, which leaves the mirror at the same point."
+    ]
+   }
   },
   {
    "id": "c05q23",
@@ -412,11 +622,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A plane mirror forms an image that is upright, the same size as the object, virtual and laterally inverted.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A person's head appears at the top of their image in a plane mirror. Check which way up the image is, not just its size.",
+    "1": "A plane mirror image is neither upside down nor smaller. Think about how a reflection in a bathroom mirror looks compared with the real person.",
+    "2": "A plane mirror does not enlarge the image. Magnified images come from a concave mirror used close up, so think again about the size of a plane mirror image."
+   },
+   "why": null
   },
   {
    "id": "c05q24",
@@ -430,11 +646,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A virtual image cannot be formed on a screen because the light rays do not actually meet where the image appears.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Size is not what makes an image virtual. A virtual image can be larger, smaller or the same size as the object.",
+    "1": "Being upside down is not what makes an image virtual. The image in a plane mirror is virtual and upright.",
+    "3": "An image that can be caught on a screen is called a real image. Think about whether light actually reaches the place where a virtual image appears."
+   },
+   "why": null
   },
   {
    "id": "c05q25",
@@ -448,11 +670,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Lateral inversion is the reversal of left and right in the image formed by a plane mirror.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Magnification is a change in the size of an image. A plane mirror image is the same size, but its left and right sides are swapped.",
+    "1": "Dispersion is the splitting of white light into colours by a prism. It has nothing to do with swapping left and right.",
+    "2": "Refraction is the bending of light when it passes into a new material. A mirror reflects light instead."
+   },
+   "why": null
   },
   {
    "id": "c05q26",
@@ -466,11 +694,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In a plane mirror the image is as far behind the mirror as the object is in front. The girl is 2 m in front, so her image is 2 m behind.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The image is not on the mirror surface. It appears behind the mirror, at a distance linked to how far the object is in front.",
+    "2": "Halving the distance gives 1 m, but the image is not closer to the mirror than the object. Compare the two distances from the mirror.",
+    "3": "4 m is the distance between the girl and her image. The question asks only for the distance from the image to the mirror."
+   },
+   "why": {
+    "right": "A plane mirror image is as far behind the mirror as the object is in front of it.",
+    "wrong": [
+     "A plane mirror image is half as far behind the mirror as the object is in front of it.",
+     "A plane mirror image is twice as far behind the mirror as the object is in front of it."
+    ]
+   }
   },
   {
    "id": "c05q27",
@@ -484,11 +724,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The image is 1.5 m behind the mirror and the boy is 1.5 m in front of it. The distance between them is 1.5 m + 1.5 m = 3 m.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "6 m is four times the distance to the mirror. The image is only as far behind the mirror as the boy is in front.",
+    "1": "Halving gives 0.75 m, but the image is not closer than the boy. Add the distance of the boy in front to the distance of the image behind.",
+    "3": "1.5 m is the distance from the boy to the mirror. The question asks for the distance from the boy to his image, which is behind the mirror."
+   },
+   "why": {
+    "right": "The image is as far behind the mirror as the boy is in front, so the two distances are added.",
+    "wrong": [
+     "The image is formed on the mirror surface, so the distance is just the distance of the boy from the mirror.",
+     "The image is twice as far behind the mirror as the boy is in front, so the distance is doubled."
+    ]
+   }
   },
   {
    "id": "c05q28",
@@ -502,11 +754,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The cat and its image are the same distance from the mirror. The 6 m between them is split equally, so the cat is 3 m from the mirror.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Dividing by three gives 2 m, but the gap has only two parts, one in front of the mirror and one behind. Compare those two parts.",
+    "2": "6 m is the distance between the cat and its image. The mirror lies somewhere between them.",
+    "3": "Doubling gives 12 m, but the distance from the cat to the mirror is only part of the 6 m gap, not more than it."
+   },
+   "why": {
+    "right": "In a plane mirror, the mirror lies halfway between the object and its image.",
+    "wrong": [
+     "In a plane mirror, the mirror lies one third of the way from the object to its image.",
+     "In a plane mirror, the mirror lies at the image, because the image forms on its surface."
+    ]
+   }
   },
   {
    "id": "c05q29",
@@ -519,11 +783,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A plane mirror image is laterally inverted, so left and right are reversed. When the right hand is raised, the image raises its left hand.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The image faces the person, so its sides are swapped compared with the person. Think about lateral inversion in a plane mirror.",
+    "2": "A mirror does not add a second raised hand. The image copies the one movement with a change, so think about lateral inversion."
+   },
+   "why": {
+    "right": "A plane mirror image is laterally inverted, so the left and right sides are swapped.",
+    "wrong": [
+     "A plane mirror image is upside down, so the left and right sides are swapped.",
+     "A plane mirror image is formed by refraction, so the left and right sides are swapped."
+    ]
+   }
   },
   {
    "id": "c05q30",
@@ -537,11 +812,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A plane mirror laterally inverts writing. Printing the word AMBULANCE in reverse means it reads the right way round in the mirror of the driver in front.",
    "hint": "",
    "image": null,
    "lo": "State and apply the characteristics of a plane mirror image",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Reversing the letters does not make them brighter or easier to see in the dark. Think about how the word looks in a mirror.",
+    "1": "A plane mirror image is the same size as the object, so reversing the letters cannot make them larger. Think about lateral inversion.",
+    "3": "Reversing the letters does not change their colour. Think about what a mirror does to left and right in writing."
+   },
+   "why": {
+    "right": "A rear-view mirror laterally inverts writing, so reversed letters appear the right way round.",
+    "wrong": [
+     "A rear-view mirror magnifies writing, so reversed letters appear larger and clearer.",
+     "A rear-view mirror turns writing upside down, so reversed letters appear upright."
+    ]
+   }
   },
   {
    "id": "c05q31",
@@ -555,11 +842,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A convex mirror curves outwards. It forms an image that is upright and smaller than the object, which gives a wide view.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An upright, magnified image comes from a concave mirror used close up. A convex mirror curves outwards and shows a wide view, so think about image size.",
+    "1": "A same-size image comes from a plane mirror. A convex mirror curves outwards and fits a wide view into a small space.",
+    "2": "A convex mirror does not form an upside-down image. Think about how things look in a mirror at a road junction."
+   },
+   "why": null
   },
   {
    "id": "c05q32",
@@ -573,11 +866,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "When an object is close to a concave mirror, the image is upright and magnified. This is why concave mirrors are used as make-up and dental mirrors.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An upright, smaller image comes from a convex mirror. A concave mirror used close up is chosen for seeing fine detail.",
+    "2": "A concave mirror can form an inverted image, but only when the object is far away. This question is about an object close to the mirror.",
+    "3": "A same-size image comes from a plane mirror. A concave mirror used close up is chosen for seeing fine detail, such as in make-up mirrors."
+   },
+   "why": null
   },
   {
    "id": "c05q33",
@@ -590,11 +889,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A convex mirror gives an upright, diminished image with a wide field of view, so drivers can see more of the road around a blind corner.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A plane mirror shows only a narrow view at the same size as the scene. Around a blind corner, drivers need to see as much of the road as possible.",
+    "1": "A concave mirror gives a magnified view of things close to it, which shows only a small area. Drivers at a corner need a wide view."
+   },
+   "why": {
+    "right": "Road junction mirrors are convex because they give a wide field of view.",
+    "wrong": [
+     "Road junction mirrors are convex because they give a magnified image of cars.",
+     "Road junction mirrors are convex because they give an image the same size as the cars."
+    ]
+   }
   },
   {
    "id": "c05q34",
@@ -607,11 +917,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A concave mirror held close to a tooth forms an upright, magnified image, so the dentist can see small details clearly.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A convex mirror makes things look smaller to give a wide view. A dentist needs to see the small details of one tooth.",
+    "2": "A plane mirror shows the tooth at the same size. A dentist needs the details of the tooth to look larger."
+   },
+   "why": {
+    "right": "Dental mirrors are concave because they form an upright, magnified image when held close.",
+    "wrong": [
+     "Dental mirrors are concave because they form an upright, diminished image with a wide view.",
+     "Dental mirrors are concave because they form an image that is not laterally inverted."
+    ]
+   }
   },
   {
    "id": "c05q35",
@@ -624,11 +945,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A periscope uses two plane mirrors. They reflect light along the tube and give an upright image that is the same size as the view.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A convex mirror makes the view smaller and harder to judge. A periscope needs to show the scene at its true size.",
+    "2": "A concave mirror magnifies only nearby objects and can turn distant images upside down. A periscope shows a distant scene the right way up at true size."
+   },
+   "why": {
+    "right": "Periscopes use plane mirrors because these give an upright image the same size as the object.",
+    "wrong": [
+     "Periscopes use plane mirrors because these bend light as it passes through the glass.",
+     "Periscopes use plane mirrors because these magnify distant objects so they look closer."
+    ]
+   }
   },
   {
    "id": "c05q36",
@@ -641,11 +973,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A concave mirror behind the bulb reflects the light forward into a strong, narrow beam instead of letting it spread out.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A plane mirror reflects light without bringing the rays together, so the light keeps spreading out. A headlight needs the rays sent forward together.",
+    "2": "A convex mirror spreads reflected light out over a wide area. A headlight needs the light sent forward in one strong beam."
+   },
+   "why": {
+    "right": "Headlight mirrors are concave because they reflect the light of the bulb forward in a narrow, strong beam.",
+    "wrong": [
+     "Headlight mirrors are concave because they spread the light of the bulb out over a wide area.",
+     "Headlight mirrors are concave because they produce extra light of their own."
+    ]
+   }
   },
   {
    "id": "c05q37",
@@ -658,11 +1001,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Only a concave mirror held close to the face forms an upright, magnified image. This is how a make-up mirror works.",
    "hint": "",
    "image": null,
    "lo": "Choose a plane, convex or concave mirror for a given use",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A plane mirror forms an upright image, but it is the same size as the face, not magnified.",
+    "2": "A convex mirror forms an upright image, but it is smaller than the face, not magnified."
+   },
+   "why": {
+    "right": "A concave mirror forms an upright, magnified image when an object is close to it.",
+    "wrong": [
+     "A concave mirror forms an upright, same-size image of any object placed in front of it.",
+     "A concave mirror forms an upright, magnified image of any object, however far away it is."
+    ]
+   }
   },
   {
    "id": "c05q38",
@@ -676,11 +1030,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A smooth surface is flat, so parallel rays all meet it at the same angle of incidence. The rays are reflected in the same direction.",
    "hint": "",
    "image": null,
    "lo": "Compare reflection on smooth and rough surfaces",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Reflection sends light back off a surface, not into it. Think about the direction the rays take after they bounce.",
+    "1": "Rays reflect back along the normal only when they arrive along it. These parallel rays can arrive at any angle.",
+    "2": "Rays go off in different directions from a rough surface, where the normals point different ways. A smooth surface has the same normal everywhere."
+   },
+   "why": {
+    "right": "On a smooth surface, the normals are all parallel, so every ray reflects at the same angle.",
+    "wrong": [
+     "On a smooth surface, less light is absorbed, so every ray reflects in the same direction.",
+     "On a smooth surface, the rays all reflect along the normal, so they leave in the same direction."
+    ]
+   }
   },
   {
    "id": "c05q39",
@@ -694,11 +1060,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A rough surface has tiny bumps facing different ways, so the normals point in different directions. Parallel rays are reflected in different directions.",
    "hint": "",
    "image": null,
    "lo": "Compare reflection on smooth and rough surfaces",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Parallel rays leave in the same direction only from a smooth, flat surface. A rough surface has tiny bumps that face different ways.",
+    "1": "Rays reflect back along the normal only when they arrive along it. On a rough surface, think about how the bumps change the normal at each point.",
+    "2": "Reflection sends light back off a surface, not into it. Think about how tiny bumps affect the direction of each reflected ray."
+   },
+   "why": {
+    "right": "On a rough surface, the normal points a different way at each point, so rays reflect in different directions.",
+    "wrong": [
+     "On a rough surface, the law of reflection does not apply, so rays reflect in different directions.",
+     "On a rough surface, some rays slow down more than others, so rays reflect in different directions."
+    ]
+   }
   },
   {
    "id": "c05q40",
@@ -712,11 +1090,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The law of reflection applies to every ray, even on a rough surface. Each ray reflects at an angle equal to its own angle of incidence.",
    "hint": "",
    "image": null,
    "lo": "Compare reflection on smooth and rough surfaces",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An angle of reflection of zero happens only for a ray arriving along the normal. On a rough surface rays arrive at many different angles.",
+    "1": "A rough surface does not change the law of reflection. It only changes the direction of the normal at each point.",
+    "3": "A rough surface does not make angles of reflection smaller. The bumps only change which way the normal points at each point."
+   },
+   "why": {
+    "right": "Every ray obeys the law of reflection, but the normal points a different way at each bump.",
+    "wrong": [
+     "Every ray slows down at a rough surface, so it leaves at a different angle from how it arrived.",
+     "Every ray loses some energy at a rough surface, so its angle of reflection changes."
+    ]
+   }
   },
   {
    "id": "c05q41",
@@ -730,11 +1120,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Paper has a rough surface, so it reflects light in many different directions. The reflected rays do not form a clear image.",
    "hint": "",
    "image": null,
    "lo": "Compare reflection on smooth and rough surfaces",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Paper that absorbed all light would look black. White paper reflects most light, so think about the directions the reflected light takes.",
+    "1": "Paper does not give out its own light, so it is non-luminous. Think about how the shape of its surface affects reflection.",
+    "2": "Light that hits paper mostly bounces off rather than passing into it. Think about how the surface affects the directions of the reflected rays."
+   },
+   "why": {
+    "right": "White paper reflects light in many directions, so rays from one point do not stay together to form an image.",
+    "wrong": [
+     "White paper reflects light too weakly, so too little light reaches the eye to form an image.",
+     "White paper does not obey the law of reflection, so its reflected rays cannot form an image."
+    ]
+   }
   },
   {
    "id": "c05q42",
@@ -748,11 +1150,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Calm water has a smooth, flat surface. Parallel rays reflect off it in the same direction, so a clear image forms.",
    "hint": "",
    "image": null,
    "lo": "Compare reflection on smooth and rough surfaces",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Paper looks smooth, but its surface is rough at a small scale. It reflects light in many directions, so no clear image forms.",
+    "2": "A wooden table has a rough surface unless it is highly polished. Look for the surface that is the smoothest and flattest.",
+    "3": "A brick wall is very rough, so it reflects light in many directions. Look for the surface that is the smoothest and flattest."
+   },
+   "why": {
+    "right": "Calm water is smooth and flat, so parallel rays reflect off it in the same direction.",
+    "wrong": [
+     "Calm water is transparent, so light passes through it and forms an image underneath.",
+     "Calm water is dark in colour, so it absorbs light and shows the image clearly."
+    ]
+   }
   },
   {
    "id": "c05q43",
@@ -766,11 +1180,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Refraction is the bending of light as it passes from one transparent material into another, such as from air into water.",
    "hint": "",
    "image": null,
    "lo": "Explain refraction as a change in the speed of light",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Dispersion is the splitting of white light into colours. Light bending at any boundary between two materials has a more general name.",
+    "2": "Reflection is light bouncing back off a surface. Here the light passes through the boundary into the second material.",
+    "3": "In absorption, light is taken in by a material and does not come out. Here the light carries on through the boundary."
+   },
+   "why": null
   },
   {
    "id": "c05q44",
@@ -784,11 +1204,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Light travels at different speeds in different materials. When it crosses a boundary at an angle, the change in speed makes it bend.",
    "hint": "",
    "image": null,
    "lo": "Explain refraction as a change in the speed of light",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Absorbed light does not travel on, so it cannot bend. Refraction happens to light that passes through into the new material.",
+    "1": "Light keeps its colour when it passes from one material into another. Think about what else is different for light in each material.",
+    "3": "Light that stopped at the boundary would not pass into the second material. In refraction, light carries on through but in a new direction."
+   },
+   "why": {
+    "right": "Light bends at a boundary because one side of the beam changes speed before the other side.",
+    "wrong": [
+     "Light bends at a boundary because the second material pulls the light towards it.",
+     "Light bends at a boundary because some of the light is absorbed at the surface."
+    ]
+   }
   },
   {
    "id": "c05q45",
@@ -802,11 +1234,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Optical density describes how much a material slows light down. The more optically dense the material, the slower light travels in it.",
    "hint": "",
    "image": null,
    "lo": "Explain refraction as a change in the speed of light",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Optical density is not about mass. It describes how a material affects light, which is different from how heavy the material is.",
+    "2": "This is the reverse of the idea. Think about light entering glass from air, and whether it speeds up or slows down.",
+    "3": "Optical density does not change how bright light is. It is about how the material affects light travelling through it."
+   },
+   "why": null
   },
   {
    "id": "c05q46",
@@ -820,11 +1258,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Glass is optically denser than air, so light slows down when it enters glass. This makes it bend towards the normal.",
    "hint": "",
    "image": null,
    "lo": "Predict whether light bends towards or away from the normal",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Light does slow down in glass, but slowing down is linked to one direction of bending. Check which way a slower ray turns relative to the normal.",
+    "1": "Glass is optically denser than air, so light does not speed up when entering it. Both the speed change and the bending need checking.",
+    "3": "Glass is optically denser than air. Think about what that means for the speed of light inside the glass."
+   },
+   "why": {
+    "right": "Light bends towards the normal entering glass because it slows down in the optically denser material.",
+    "wrong": [
+     "Light bends towards the normal entering glass because the normal attracts light that hits the glass.",
+     "Light bends towards the normal entering glass because it speeds up in the optically denser material."
+    ]
+   }
   },
   {
    "id": "c05q47",
@@ -838,11 +1288,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Air is less optically dense than glass, so light speeds up when it leaves glass. This makes it bend away from the normal.",
    "hint": "",
    "image": null,
    "lo": "Predict whether light bends towards or away from the normal",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Light does speed up in air, but speeding up is linked to one direction of bending. Check which way a faster ray turns relative to the normal.",
+    "1": "Air is less optically dense than glass. Think about what that means for the speed of light once it is in the air.",
+    "2": "Air is less optically dense than glass, so light does not slow down when it enters air. Both the speed change and the bending need checking."
+   },
+   "why": {
+    "right": "Light bends away from the normal leaving glass because it speeds up in the less optically dense air.",
+    "wrong": [
+     "Light bends away from the normal leaving glass because it slows down in the less optically dense air.",
+     "Light bends away from the normal leaving glass because the glass surface pushes the light outwards."
+    ]
+   }
   },
   {
    "id": "c05q48",
@@ -856,11 +1318,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Water is optically denser than air, so light slows down as it enters water at an angle and bends towards the normal.",
    "hint": "",
    "image": null,
    "lo": "Predict whether light bends towards or away from the normal",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Bending away from the normal happens when light speeds up. Think about whether light speeds up or slows down when it enters water.",
+    "2": "Light that goes back into the air has been reflected, not refracted. This question is about light passing into the water.",
+    "3": "Light entering water does not run along the surface. It passes into the water, so think about how its speed changes there."
+   },
+   "why": {
+    "right": "Light slows down when it enters water from air, so it bends towards the normal.",
+    "wrong": [
+     "Light speeds up when it enters water from air, so it bends towards the normal.",
+     "Light is pulled down by the weight of the water, so it bends towards the normal."
+    ]
+   }
   },
   {
    "id": "c05q49",
@@ -874,11 +1348,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Air is less optically dense than water, so light speeds up as it leaves water at an angle and bends away from the normal.",
    "hint": "",
    "image": null,
    "lo": "Predict whether light bends towards or away from the normal",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Bending towards the normal happens when light slows down. Think about whether light speeds up or slows down when it enters air from water.",
+    "1": "Light passing from water into air does not run along the surface. It enters the air, so think about how its speed changes there.",
+    "3": "Light that goes back into the water has been reflected, not refracted. This question is about light passing into the air."
+   },
+   "why": {
+    "right": "Light speeds up when it enters air from water, so it bends away from the normal.",
+    "wrong": [
+     "Light slows down when it enters air from water, so it bends away from the normal.",
+     "Light is pulled up by the lighter air above, so it bends away from the normal."
+    ]
+   }
   },
   {
    "id": "c05q50",
@@ -892,11 +1378,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A ray along the normal meets the boundary straight on. Its speed changes, but its direction does not, so it passes straight through.",
    "hint": "",
    "image": null,
    "lo": "Predict whether light bends towards or away from the normal",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A ray can only bend towards the normal if it arrives at an angle to it. This ray already travels along the normal.",
+    "1": "A ray can only bend away from the normal if it arrives at an angle to it. This ray already travels along the normal.",
+    "2": "The block is transparent, so the light passes into it. The question is about the direction of the light inside the block."
+   },
+   "why": {
+    "right": "A ray along the normal changes speed but not direction, since it meets the boundary straight on.",
+    "wrong": [
+     "A ray along the normal does not change speed, since it meets the boundary straight on.",
+     "A ray along the normal changes speed but not direction, since the block is too thin to bend it."
+    ]
+   }
   },
   {
    "id": "c05q51",
@@ -910,11 +1408,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Light bends towards the normal when it slows down. So material X is optically denser than air, and light is slower in X.",
    "hint": "",
    "image": null,
    "lo": "Predict whether light bends towards or away from the normal",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Light that stopped completely could not form a ray inside X. The ray carries on in X, so think about how its speed changed.",
+    "2": "Light that speeds up bends away from the normal. Link the direction of bending to the change in speed.",
+    "3": "If the speed stayed the same, the ray would not bend at all. The ray did bend, so its speed must have changed."
+   },
+   "why": {
+    "right": "Light bends towards the normal only when it slows down on entering the new material.",
+    "wrong": [
+     "Light bends towards the normal only when it speeds up on entering the new material.",
+     "Light bends towards the normal only when the new material is heavier than air."
+    ]
+   }
   },
   {
    "id": "c05q52",
@@ -928,11 +1438,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Light from the part of the pencil under water bends as it passes from water into air. This makes that part appear in a different place.",
    "hint": "",
    "image": null,
    "lo": "Describe effects of refraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Reflection is light bouncing off a surface. Here the light from the pencil passes from water into air, crossing a boundary.",
+    "2": "Dispersion splits white light into colours. The pencil does not show colours. It looks bent, so think about light crossing from water into air.",
+    "3": "Lateral inversion is the swap of left and right in a plane mirror. There is no mirror here, only light passing from water into air."
+   },
+   "why": {
+    "right": "A pencil in water looks bent because light from the pencil changes direction as it leaves the water.",
+    "wrong": [
+     "A pencil in water looks bent because the water splits the light from the pencil into colours.",
+     "A pencil in water looks bent because light from the pencil reflects off the water surface."
+    ]
+   }
   },
   {
    "id": "c05q53",
@@ -946,11 +1468,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Light from the bottom of the pool bends away from the normal as it leaves the water. The bottom appears raised, so the pool looks shallower than it is.",
    "hint": "",
    "image": null,
    "lo": "Describe effects of refraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Light from the bottom bends as it leaves the water, so the pool does not look its true depth. Think about where the bottom appears to be.",
+    "1": "Light from the bottom bends away from the normal as it enters the air. Trace the rays back to see whether the bottom appears higher or lower.",
+    "2": "Refraction at the surface mainly changes how deep things look. Think about whether the bottom appears higher or lower than it really is."
+   },
+   "why": {
+    "right": "A pool looks shallower because light from the bottom bends away from the normal as it leaves the water.",
+    "wrong": [
+     "A pool looks shallower because light from the bottom bends towards the normal as it leaves the water.",
+     "A pool looks shallower because light from the bottom reflects off the water surface back down."
+    ]
+   }
   },
   {
    "id": "c05q54",
@@ -964,11 +1498,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Light from the letters bends away from the normal as it leaves the glass. The letters appear raised, nearer to the surface than they really are.",
    "hint": "",
    "image": null,
    "lo": "Describe effects of refraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A glass block does not turn letters upside down. Refraction at the top surface changes how deep the letters appear.",
+    "1": "Light from the letters bends away from the normal as it leaves the glass. Trace the rays back to see whether the letters appear raised or lowered.",
+    "3": "Lateral inversion happens in a plane mirror. A glass block refracts light, which changes how deep the letters appear."
+   },
+   "why": {
+    "right": "Letters under glass look raised because their light bends away from the normal as it leaves the glass.",
+    "wrong": [
+     "Letters under glass look raised because their light bends towards the normal as it leaves the glass.",
+     "Letters under glass look raised because the glass reflects their light back up from the bottom."
+    ]
+   }
   },
   {
    "id": "c05q55",
@@ -982,11 +1528,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Light from the coin bends as it passes from water into air, so the coin appears nearer the surface. The other options are caused by straight-line travel or reflection.",
    "hint": "",
    "image": null,
    "lo": "Describe effects of refraction in everyday life",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A shadow forms because light travels in straight lines and is blocked. No light crosses a boundary between materials here.",
+    "2": "The moon is seen because it reflects sunlight. Refraction needs light to cross a boundary between two transparent materials.",
+    "3": "A face in a mirror is seen by reflection, which is light bouncing off a surface. Refraction needs light to pass into a different material."
+   },
+   "why": {
+    "right": "A coin in water looks nearer the surface because its light bends as it passes from water into air.",
+    "wrong": [
+     "A coin in water looks nearer the surface because its light bounces off the water surface.",
+     "A coin in water looks nearer the surface because the water splits its light into colours."
+    ]
+   }
   },
   {
    "id": "c05q56",
@@ -1000,11 +1558,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Dispersion is the splitting of white light into its seven colours, for example by a prism.",
    "hint": "",
    "image": null,
    "lo": "Describe dispersion of white light by a prism",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Reflection is light bouncing off a surface. It does not separate white light into colours.",
+    "2": "Lateral inversion is the swap of left and right in a plane mirror image. It has nothing to do with colours.",
+    "3": "In absorption, light is taken in by a material. Splitting white light into colours has a different name."
+   },
+   "why": null
   },
   {
    "id": "c05q57",
@@ -1018,11 +1582,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "White light is made up of seven colours. They are red, orange, yellow, green, blue, indigo and violet.",
    "hint": "",
    "image": null,
    "lo": "Describe dispersion of white light by a prism",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Six colours leaves one out. Count the colours of the spectrum in order from red to violet, including indigo.",
+    "1": "Five colours leaves some out. Count the colours of the spectrum in order from red to violet.",
+    "3": "Three colours leaves most of the spectrum out. Count the colours from red to violet, as seen in a rainbow."
+   },
+   "why": null
   },
   {
    "id": "c05q58",
@@ -1036,11 +1606,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Violet light slows down the most in glass, so it is refracted through the largest angle.",
    "hint": "",
    "image": null,
    "lo": "Describe dispersion of white light by a prism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Yellow lies near the middle of the spectrum, so its bending is in between. Look at the end of the spectrum that bends the most.",
+    "2": "Red is at the end of the spectrum that bends the least. Look at the other end of the spectrum.",
+    "3": "Green lies near the middle of the spectrum, so its bending is in between. Look at the end of the spectrum that bends the most."
+   },
+   "why": {
+    "right": "Violet bends the most because it slows down more than any other colour in glass.",
+    "wrong": [
+     "Violet bends the most because it travels faster than any other colour in glass.",
+     "Violet bends the most because it is reflected more strongly by the glass surface."
+    ]
+   }
   },
   {
    "id": "c05q59",
@@ -1054,11 +1636,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Red light slows down the least in glass, so it is refracted the least.",
    "hint": "",
    "image": null,
    "lo": "Describe dispersion of white light by a prism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Violet is at the end of the spectrum that bends the most. Look at the other end of the spectrum.",
+    "2": "Green lies near the middle of the spectrum, so its bending is in between. Look at the end of the spectrum that bends the least.",
+    "3": "Blue is near the end of the spectrum that bends the most. Look at the end of the spectrum that bends the least."
+   },
+   "why": {
+    "right": "Red bends the least because it slows down less than any other colour in glass.",
+    "wrong": [
+     "Red bends the least because it slows down more than any other colour in glass.",
+     "Red bends the least because it is the weakest colour and loses its energy in the glass."
+    ]
+   }
   },
   {
    "id": "c05q60",
@@ -1072,11 +1666,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Each colour travels at a different speed in glass, so each is refracted by a different amount. The colours spread out into a spectrum.",
    "hint": "",
    "image": null,
    "lo": "Describe dispersion of white light by a prism",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Absorbed light would not come out of the prism. All seven colours come out, so think about how each colour behaves inside the glass.",
+    "1": "The colours come out through the far side of the prism, so they pass through it. Think about how each colour behaves inside the glass.",
+    "2": "If every colour travelled at the same speed in glass, all would bend by the same amount and stay together as white light."
+   },
+   "why": {
+    "right": "Each colour bends by a different amount because the change in speed decides how much light bends.",
+    "wrong": [
+     "Each colour bends by a different amount because the glass absorbs some colours and lets others through.",
+     "Each colour bends by a different amount because the prism adds colour to the white light."
+    ]
+   }
   },
   {
    "id": "c05q61",
@@ -1089,11 +1695,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Visible light is the only part of the electromagnetic spectrum that human eyes can detect.",
    "hint": "",
    "image": null,
    "lo": "State beneficial and harmful effects of infrared, UV and visible light",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "UV radiation cannot be detected by the human eye, even though it comes with sunlight. It is noticed by its effects, such as sunburn.",
+    "2": "Infrared radiation cannot be seen by the human eye. It is felt as heat on the skin."
+   },
+   "why": null
   },
   {
    "id": "c05q62",
@@ -1106,11 +1717,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "All warm objects give out infrared radiation, and hotter objects give out more. A thermal imaging camera detects this, so a person with a fever shows up as warmer.",
    "hint": "",
    "image": null,
    "lo": "State beneficial and harmful effects of infrared, UV and visible light",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Visible light shows only what a person looks like, not how warm they are. Think about the radiation that warm bodies give out.",
+    "2": "People do not give out UV radiation. Think about the radiation that warm bodies give out and that is felt as heat."
+   },
+   "why": {
+    "right": "Thermal cameras detect infrared because warmer bodies give out more infrared radiation.",
+    "wrong": [
+     "Thermal cameras detect infrared because warmer bodies reflect more visible light.",
+     "Thermal cameras detect infrared because warmer bodies give out more UV radiation."
+    ]
+   }
   },
   {
    "id": "c05q63",
@@ -1123,11 +1745,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "UV radiation in sunlight helps the skin make vitamin D, which is needed for healthy bones and teeth.",
    "hint": "",
    "image": null,
    "lo": "State beneficial and harmful effects of infrared, UV and visible light",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Infrared radiation warms the skin but does not help it make vitamin D. Think about the radiation in sunlight that also causes sunburn.",
+    "1": "Visible light lets us see but does not help the skin make vitamin D. Think about the radiation in sunlight that also causes sunburn."
+   },
+   "why": null
   },
   {
    "id": "c05q64",
@@ -1140,11 +1767,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Too much UV radiation can cause sunburn and skin cancer. Sunscreen absorbs or blocks much of the UV radiation before it reaches the skin.",
    "hint": "",
    "image": null,
    "lo": "State beneficial and harmful effects of infrared, UV and visible light",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Infrared radiation warms the skin, but sunscreen is not mainly for that. Think about the radiation in sunlight that causes sunburn.",
+    "2": "Visible light lets us see and is not what sunscreen blocks. Think about the radiation in sunlight that causes sunburn."
+   },
+   "why": {
+    "right": "Sunscreen is needed because too much UV radiation can cause sunburn and skin cancer.",
+    "wrong": [
+     "Sunscreen is needed because too much infrared radiation can cause sunburn and skin cancer.",
+     "Sunscreen is needed because too much UV radiation stops the skin from making vitamin D."
+    ]
+   }
   },
   {
    "id": "c05q65",
@@ -1157,11 +1795,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The warm Earth gives out infrared radiation. Greenhouse gases trap some of it in the atmosphere, which warms the Earth and contributes to climate change.",
    "hint": "",
    "image": null,
    "lo": "State beneficial and harmful effects of infrared, UV and visible light",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Visible light from the sun mostly passes through the atmosphere. Think about the radiation given out by the warm ground that greenhouse gases trap.",
+    "2": "UV radiation is linked to sunburn and the ozone layer, not to trapped heat. Think about the radiation that warm objects give out."
+   },
+   "why": {
+    "right": "The Earth gives out infrared radiation, and greenhouse gases trap it, which warms the atmosphere.",
+    "wrong": [
+     "The Earth gives out UV radiation, and greenhouse gases trap it, which warms the atmosphere.",
+     "The Earth gives out infrared radiation, and the ozone layer traps it, which warms the atmosphere."
+    ]
+   }
   },
   {
    "id": "c05q66",
@@ -1174,11 +1823,16 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Plants absorb visible light with chlorophyll and use its energy to make food by photosynthesis.",
    "hint": "",
    "image": null,
    "lo": "State beneficial and harmful effects of infrared, UV and visible light",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Too much UV radiation can damage plant cells. Think about the light that chlorophyll in leaves absorbs to make food.",
+    "1": "Infrared radiation mainly warms leaves. Think about the light that chlorophyll in leaves absorbs to make food."
+   },
+   "why": null
   },
   {
    "id": "c05q67",
@@ -1192,11 +1846,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Light pollution is too much artificial light in the environment, such as bright street lamps and buildings lit up at night.",
    "hint": "",
    "image": null,
    "lo": "Describe the impact of artificial lighting on society and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Climate change is the long-term change in the weather patterns of the Earth. Too much artificial light is a different problem with its own name.",
+    "1": "Refraction is the bending of light at a boundary between materials. It is a property of light, not an environmental problem.",
+    "2": "Dispersion is the splitting of white light into colours. It is a property of light, not an environmental problem."
+   },
+   "why": null
   },
   {
    "id": "c05q68",
@@ -1210,11 +1870,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Migratory birds use natural light cues to know when and where to fly. Artificial light at night can confuse them and disrupt their migration timing.",
    "hint": "",
    "image": null,
    "lo": "Describe the impact of artificial lighting on society and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The question asks how artificial lighting harms birds, and better vision would not be harm. Think about how birds use natural light to decide when to travel.",
+    "1": "Helping birds find nests would be a benefit, not harm. Think about how birds use natural light to decide when to travel.",
+    "2": "Artificial light does not give birds more food, and that would not be harm. Think about how birds use natural light to decide when to travel."
+   },
+   "why": {
+    "right": "Bright artificial light at night confuses birds that use natural light cues to time their migration.",
+    "wrong": [
+     "Bright artificial light at night heats the air and makes birds too warm to fly.",
+     "Bright artificial light at night blinds birds for good so they cannot see their nests."
+    ]
+   }
   },
   {
    "id": "c05q69",
@@ -1228,11 +1900,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "LEDs use less electrical energy than older lamps for the same amount of light. Using them only where and when needed also reduces light pollution.",
    "hint": "",
    "image": null,
    "lo": "Describe the impact of artificial lighting on society and the environment",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "More street lamps would add light and use more energy. Look for an option that cuts both energy use and stray light.",
+    "2": "Brighter floodlights use more energy and send more light into the sky. Look for an option that cuts both.",
+    "3": "Lights left on all night waste energy and add to light pollution. Look for an option that uses light only when it is needed."
+   },
+   "why": {
+    "right": "LEDs use less energy for the same light, and switching them on only when needed cuts light pollution.",
+    "wrong": [
+     "LEDs give out more light than other lamps, so leaving them on all night cuts light pollution.",
+     "LEDs use more energy than other lamps, so they are switched on less often and cut light pollution."
+    ]
+   }
   }
  ]
 }

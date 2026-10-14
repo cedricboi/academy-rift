@@ -16,11 +16,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Science is the study of natural phenomena, the things that happen in the natural world. It is done both inside and outside the laboratory.",
    "hint": "",
    "image": null,
    "lo": "State that science is the study of natural phenomena, in and out of the laboratory",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Science is not limited to the laboratory. Scientists also study things outdoors, such as weather, rocks and animals in their habitats.",
+    "1": "Science covers non-living things too, such as light, rocks, weather and stars, not only plants and animals.",
+    "2": "Science deals with what can be observed and tested. Opinions cannot be tested, so they are not what science studies."
+   },
+   "why": null
   },
   {
    "id": "c01q2",
@@ -34,11 +40,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Quantitative data are numbers with units. These numbers come from measuring with instruments such as rulers, balances and thermometers.",
    "hint": "",
    "image": null,
    "lo": "Classify data as qualitative or quantitative",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Descriptions in words are qualitative data. Quantitative data are numbers, so think about what gives a number reading.",
+    "2": "Smell gives a description, not a number. Quantitative data need a reading that is a number with a unit.",
+    "3": "A drawing records what something looks like. It does not give a number, so it is qualitative data."
+   },
+   "why": null
   },
   {
    "id": "c01q3",
@@ -52,11 +64,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Qualitative data describe qualities such as colour, texture or smell. They are recorded in words or drawings, not as numbers.",
    "hint": "",
    "image": null,
    "lo": "Classify data as qualitative or quantitative",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Numbers with units are quantitative data. Qualitative data describe qualities such as colour or texture.",
+    "1": "A reading on a scale is a measurement, so it gives quantitative data. Qualitative data describe qualities without measuring.",
+    "3": "SI units are used for measured quantities, which are quantitative data. Qualitative data do not have units."
+   },
+   "why": null
   },
   {
    "id": "c01q4",
@@ -69,11 +87,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Hard and smooth are descriptions of the shell in words. No measurement or number is given, so the data is qualitative.",
    "hint": "",
    "image": null,
    "lo": "Classify data as qualitative or quantitative",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Quantitative data must contain a measured number with a unit. Check whether the sentence has any number at all.",
+    "2": "For both types, the sentence needs a description and a measured number. This sentence has no number in it."
+   },
+   "why": {
+    "right": "The shell data is qualitative because it describes the shell in words without any measured number.",
+    "wrong": [
+     "The shell data is qualitative because it was collected by touching the shell instead of looking at it.",
+     "The shell data is qualitative because it is about an object that is found in nature."
+    ]
+   }
   },
   {
    "id": "c01q5",
@@ -86,11 +115,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A mass of 1.2 kg is a number with a unit, measured with a balance. Measured numbers are quantitative data.",
    "hint": "",
    "image": null,
    "lo": "Classify data as qualitative or quantitative",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Qualitative data describe qualities in words. This sentence gives a measured number with a unit.",
+    "2": "To be both types, the sentence also needs a description in words, such as colour or texture. It only gives a measurement."
+   },
+   "why": {
+    "right": "The coconut data is quantitative because it is a measured number with a unit.",
+    "wrong": [
+     "The coconut data is quantitative because mass is a property that every object has.",
+     "The coconut data is quantitative because it was written down as a full sentence."
+    ]
+   }
   },
   {
    "id": "c01q6",
@@ -103,11 +143,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The sentence compares the chair and the table in words. No measured number with a unit is given, so the data is qualitative.",
    "hint": "",
    "image": null,
    "lo": "Classify data as qualitative or quantitative",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "For both types, a measured number with a unit is needed as well as a description. This sentence has no number.",
+    "2": "Taller is a comparison, not a measurement. Quantitative data need a measured number with a unit, and none is given here."
+   },
+   "why": {
+    "right": "The chair data is qualitative because it compares heights in words without giving a measured number.",
+    "wrong": [
+     "The chair data is qualitative because height can never be measured with an instrument.",
+     "The chair data is qualitative because it compares two objects instead of describing one."
+    ]
+   }
   },
   {
    "id": "c01q7",
@@ -120,11 +171,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sour is a description in words, which is qualitative. 8 °C is a measured number with a unit, which is quantitative. The sentence contains both.",
    "hint": "",
    "image": null,
    "lo": "Classify data as qualitative or quantitative",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "8 °C is quantitative, but the sentence also describes the taste as sour. Check every part of the sentence.",
+    "1": "Sour is qualitative, but the sentence also gives a temperature reading. Check every part of the sentence."
+   },
+   "why": {
+    "right": "The juice data is both types because it has a description in words and a measured number with a unit.",
+    "wrong": [
+     "The juice data is both types because it was collected using two different senses.",
+     "The juice data is both types because it describes two different properties of the same drink."
+    ]
+   }
   },
   {
    "id": "c01q8",
@@ -138,11 +200,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Scientific knowledge must be supported by evidence from observations and experiments. This evidence can be checked and tested by others.",
    "hint": "",
    "image": null,
    "lo": "Describe the nature of scientific knowledge (evidence-based, open to change, multiple interpretations)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Science does not decide by vote. Many people can believe something that is not supported by observations or experiments.",
+    "1": "Feelings differ from person to person and cannot be tested. Science needs something that others can check.",
+    "2": "Imagination helps scientists think of ideas, but an idea is only accepted once it is supported by what is observed or measured."
+   },
+   "why": {
+    "right": "Scientific knowledge rests on evidence because observations and measurements can be checked and repeated by others.",
+    "wrong": [
+     "Scientific knowledge rests on evidence because evidence never changes once it has been collected.",
+     "Scientific knowledge rests on evidence because evidence is always agreed on by everyone who sees it."
+    ]
+   }
   },
   {
    "id": "c01q9",
@@ -156,11 +230,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Scientific knowledge changes when new evidence is found and the scientific community checks and accepts it.",
    "hint": "",
    "image": null,
    "lo": "Describe the nature of scientific knowledge (evidence-based, open to change, multiple interpretations)",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Scientific ideas are not changed by popular opinion. A change needs something that can be observed or measured and then checked.",
+    "1": "Old ideas stay in use as long as the evidence supports them. Age alone is not a reason to change scientific knowledge.",
+    "2": "Even a famous scientist must support a claim with evidence that other scientists can check. Fame alone does not change knowledge."
+   },
+   "why": {
+    "right": "Scientific knowledge changes after new evidence is checked by many scientists and found to be reliable.",
+    "wrong": [
+     "Scientific knowledge changes after a set number of years because ideas need to be updated regularly.",
+     "Scientific knowledge changes after the most senior scientist decides that an idea is out of date."
+    ]
+   }
   },
   {
    "id": "c01q10",
@@ -174,11 +260,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Scientists can look at the same evidence and interpret it differently. Different conclusions do not mean the data or the scientists are wrong.",
    "hint": "",
    "image": null,
    "lo": "Describe the nature of scientific knowledge (evidence-based, open to change, multiple interpretations)",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Correct data can still lead to different conclusions. The difference comes from how the data is explained, not from the data itself.",
+    "1": "Different conclusions are a normal part of science. Honest scientists can explain the same data in different ways.",
+    "3": "Both scientists are studying data, so they are using evidence. The question is about how that evidence is explained."
+   },
+   "why": {
+    "right": "Different conclusions can come from the same data because scientists may explain the evidence in different ways.",
+    "wrong": [
+     "Different conclusions can come from the same data because data changes each time someone looks at it.",
+     "Different conclusions can come from the same data because one scientist always makes a mistake."
+    ]
+   }
   },
   {
    "id": "c01q11",
@@ -192,11 +290,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A hypothesis is a proposed explanation for an observation. It can be tested by doing an experiment.",
    "hint": "",
    "image": null,
    "lo": "Identify a hypothesis and a scientific question",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A conclusion is stated after the experiment, based on the results. The term needed is the explanation proposed before testing.",
+    "2": "A variable is a factor that can change in an experiment. It is not an explanation of an observation.",
+    "3": "A result is what is observed or measured during an experiment. The term needed is the explanation suggested before the test."
+   },
+   "why": null
   },
   {
    "id": "c01q12",
@@ -210,11 +314,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A scientific question can be answered by testing and measuring. The effect of temperature on how fast sugar dissolves can be measured in an experiment.",
    "hint": "",
    "image": null,
    "lo": "Identify a hypothesis and a scientific question",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The best flavour is a matter of personal opinion. A scientific question must be answerable by measuring or observing.",
+    "2": "Which cookie looks nicest depends on personal taste. It cannot be answered by a fair test with measurements.",
+    "3": "This is about culture and tradition. It cannot be tested with an experiment that measures variables."
+   },
+   "why": {
+    "right": "A scientific question can be tested, since its answer comes from measuring a variable in an experiment.",
+    "wrong": [
+     "A scientific question can be tested, since it starts with the word how instead of why.",
+     "A scientific question can be tested, since most people would give the same answer to it."
+    ]
+   }
   },
   {
    "id": "c01q13",
@@ -228,11 +344,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a fair test, only one variable is changed. All other variables are kept constant, so any effect can be linked to that one change.",
    "hint": "",
    "image": null,
    "lo": "Identify the variable changed, measured and kept constant",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "If several variables change, the cause of any difference in results cannot be identified. A fair test changes as few as possible.",
+    "1": "With two variables changed, it is unclear which one caused the result. A fair test keeps every other variable constant.",
+    "2": "Changing every variable makes it impossible to tell what caused the result. A fair test keeps most variables constant."
+   },
+   "why": {
+    "right": "A fair test changes one variable so that any change in the results can be linked to that variable.",
+    "wrong": [
+     "A fair test changes one variable so that the experiment takes less time and uses less equipment.",
+     "A fair test changes one variable so that the results always match the hypothesis."
+    ]
+   }
   },
   {
    "id": "c01q14",
@@ -246,11 +374,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The variable changed is the one the student changes on purpose. Here the student changes the sugar mass to see its effect on setting time.",
    "hint": "",
    "image": null,
    "lo": "Identify the variable changed, measured and kept constant",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The fridge temperature could affect setting time, so it should be kept constant. It is not what the student is testing.",
+    "2": "Setting time is the result that the student records. Look for the variable the student changes on purpose.",
+    "3": "The volume of water should stay the same so the test is fair. It is not the factor being tested."
+   },
+   "why": {
+    "right": "Sugar mass is the variable changed because the student chooses different values of it on purpose.",
+    "wrong": [
+     "Sugar mass is the variable changed because it is the variable that takes longest to measure.",
+     "Sugar mass is the variable changed because it is the result recorded at the end."
+    ]
+   }
   },
   {
    "id": "c01q15",
@@ -264,11 +404,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The variable measured is the result recorded in the experiment. The student measures how long the jelly takes to set for each sugar mass.",
    "hint": "",
    "image": null,
    "lo": "Identify the variable changed, measured and kept constant",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The volume of water should be kept constant for a fair test. It is not the result being recorded.",
+    "2": "The fridge temperature should be kept constant. It is a condition of the test, not the result being recorded.",
+    "3": "Sugar mass is chosen by the student on purpose. The variable measured is the result that depends on it."
+   },
+   "why": {
+    "right": "Jelly setting time is the variable measured because it is the result that depends on the sugar mass.",
+    "wrong": [
+     "Jelly setting time is the variable measured because the student chooses its value before starting.",
+     "Jelly setting time is the variable measured because it stays the same in every trial."
+    ]
+   }
   },
   {
    "id": "c01q16",
@@ -281,11 +433,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The mass of the toy car could affect the results, so it must be kept the same. Then only the ramp height is changed.",
    "hint": "",
    "image": null,
    "lo": "Identify the variable changed, measured and kept constant",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Speed is the result that the student measures. It is expected to change, so it cannot be kept constant.",
+    "1": "Ramp height is what the student changes on purpose. It is not kept constant."
+   },
+   "why": {
+    "right": "Keeping the car's mass constant makes the test fair, since only the ramp height is then being changed.",
+    "wrong": [
+     "Keeping the car's mass constant makes the test fair, since a heavier car cannot roll down a ramp.",
+     "Keeping the car's mass constant makes the test fair, since it keeps the speed the same in every trial."
+    ]
+   }
   },
   {
    "id": "c01q17",
@@ -299,11 +462,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The variable measured is the result recorded. The student records the speed of the toy car for each ramp height.",
    "hint": "",
    "image": null,
    "lo": "Identify the variable changed, measured and kept constant",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The ramp length should be kept constant for a fair test. It is not the result being recorded.",
+    "2": "Ramp height is changed on purpose by the student. The variable measured is the result that depends on it.",
+    "3": "The car's mass should be kept the same in every trial. It is not the result being recorded."
+   },
+   "why": {
+    "right": "The car's speed is the variable measured because it is the result that depends on the ramp height.",
+    "wrong": [
+     "The car's speed is the variable measured because the student sets it before each trial.",
+     "The car's speed is the variable measured because it is kept the same in every trial."
+    ]
+   }
   },
   {
    "id": "c01q18",
@@ -317,11 +492,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Only the amount of light is changed, and the plants are identical. So the investigation tests how light affects plant growth.",
    "hint": "",
    "image": null,
    "lo": "Identify the variable changed, measured and kept constant",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The plants are identical, so plant type is kept the same. The investigation is about the one factor that changes.",
+    "1": "Water is not mentioned as changing, so it should be kept constant. Look at which factor is changed.",
+    "3": "Soil is not the factor being changed. The investigation tests the effect of the one variable that changes."
+   },
+   "why": {
+    "right": "The plant investigation tests light because the variable changed is the factor whose effect is being studied.",
+    "wrong": [
+     "The plant investigation tests light because plants need light more than they need water or soil.",
+     "The plant investigation tests light because light is the easiest variable to keep constant."
+    ]
+   }
   },
   {
    "id": "c01q19",
@@ -335,11 +522,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The SI unit of mass is the kilogram (kg).",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "N is the newton, the unit of force. Mass and force are different quantities.",
+    "2": "The gram is a unit of mass, but it is not the SI unit. The SI unit of mass is 1000 times larger.",
+    "3": "The milligram is a unit of mass, but it is far smaller than the SI unit of mass."
+   },
+   "why": null
   },
   {
    "id": "c01q20",
@@ -353,11 +546,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The SI unit of length is the metre (m). Other units such as cm, mm and km are based on it.",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The centimetre is a unit of length, but it is one hundredth of the SI unit of length.",
+    "1": "The millimetre is a unit of length, but it is one thousandth of the SI unit of length.",
+    "2": "The kilometre is a unit of length, but it is 1000 times the SI unit of length."
+   },
+   "why": null
   },
   {
    "id": "c01q21",
@@ -371,11 +570,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of time is the second (s).",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "The hour is a common unit of time, but it is not the SI unit. One hour is 3600 of the SI unit.",
+    "2": "The minute is a common unit of time, but it is not the SI unit. One minute is 60 of the SI unit.",
+    "3": "The millisecond is one thousandth of the SI unit of time. It is not the SI unit itself."
+   },
+   "why": null
   },
   {
    "id": "c01q22",
@@ -389,11 +594,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The SI unit of temperature is the kelvin (K). Degrees Celsius is used in daily life but is not the SI unit.",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "J is the joule, the unit of energy. Temperature is a different quantity from energy.",
+    "1": "Degrees Celsius is used in daily life and in the laboratory, but it is not the SI unit of temperature.",
+    "2": "Degrees Fahrenheit is used in some countries, but it is not the SI unit of temperature."
+   },
+   "why": null
   },
   {
    "id": "c01q23",
@@ -407,11 +618,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The SI unit of volume is the cubic metre (m³). Units such as ml, cm³ and l are smaller units often used for liquids.",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The millilitre is commonly used for liquids, but it is not the SI unit of volume.",
+    "1": "The cubic centimetre is a unit of volume, but it is based on the centimetre, which is not the SI unit of length.",
+    "3": "The litre is a common unit for liquids, but it is not the SI unit of volume."
+   },
+   "why": null
   },
   {
    "id": "c01q24",
@@ -425,11 +642,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The SI unit of mass is the kilogram, not the gram. The other three pairs are correct SI units.",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "This pair is correct, since the second is the SI unit of time. The question asks for the pair that is not correct.",
+    "2": "This pair is correct, since the kelvin is the SI unit of temperature. The question asks for the pair that is not correct.",
+    "3": "This pair is correct, since the metre is the SI unit of length. The question asks for the pair that is not correct."
+   },
+   "why": null
   },
   {
    "id": "c01q25",
@@ -443,11 +666,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The kelvin (K) is the SI unit of temperature.",
    "hint": "",
    "image": null,
    "lo": "State the SI units of mass, length, time, temperature and volume",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The SI unit of length is the metre. The kelvin measures a different quantity.",
+    "2": "The SI unit of mass is the kilogram. The kelvin measures a different quantity.",
+    "3": "The SI unit of time is the second. The kelvin measures a different quantity."
+   },
+   "why": null
   },
   {
    "id": "c01q26",
@@ -461,11 +690,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Accuracy is how close a reading is to the true value of the quantity being measured.",
    "hint": "",
    "image": null,
    "lo": "Judge the accuracy and precision of a set of readings",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Closeness to the zero mark relates to zero error, not accuracy. Accuracy is about whether a reading is correct.",
+    "1": "Closeness to other readings describes precision. Accuracy is about whether a reading is correct.",
+    "2": "The largest reading is not a standard to compare with. Accuracy is about whether a reading is correct."
+   },
+   "why": null
   },
   {
    "id": "c01q27",
@@ -479,11 +714,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Precision is how close repeated readings are to one another. Precise readings may still be inaccurate.",
    "hint": "",
    "image": null,
    "lo": "Judge the accuracy and precision of a set of readings",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The smallest division tells how finely a scale can be read. Precision is about the spread of repeated readings.",
+    "1": "Closeness to the zero mark relates to zero error. Precision is about the spread of repeated readings.",
+    "3": "Closeness to the true value is accuracy. Precision is about the spread of repeated readings."
+   },
+   "why": null
   },
   {
    "id": "c01q28",
@@ -497,11 +738,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The readings are all close to 10.0 cm, so they are accurate. They are also close to one another, so they are precise.",
    "hint": "",
    "image": null,
    "lo": "Judge the accuracy and precision of a set of readings",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "All three readings are within 0.1 cm of the true value and of one another. Compare them with the true value and with each other.",
+    "2": "The readings differ by only 0.2 cm at most, so they are close together. Check how close they are to one another.",
+    "3": "Each reading is within 0.1 cm of the true value of 10.0 cm. Check how close they are to the true value."
+   },
+   "why": {
+    "right": "The readings are both precise and accurate because they are close together and close to 10.0 cm.",
+    "wrong": [
+     "The readings are both precise and accurate because one of them is exactly equal to 10.0 cm.",
+     "The readings are both precise and accurate because three readings were taken instead of one."
+    ]
+   }
   },
   {
    "id": "c01q29",
@@ -515,11 +768,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The readings 45, 45 and 46 g are close to one another, so they are precise. They are all far from 50 g, so they are not accurate.",
    "hint": "",
    "image": null,
    "lo": "Judge the accuracy and precision of a set of readings",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The readings agree with one another, but compare them with the true value of 50 g. They are about 5 g too low.",
+    "1": "These readings are far from 50 g, and they are very close to one another. Check each term again.",
+    "2": "The readings differ by only 1 g, so they are close together. Check how they compare with one another."
+   },
+   "why": {
+    "right": "The readings are precise but not accurate because they are close together but about 5 g below 50 g.",
+    "wrong": [
+     "The readings are precise but not accurate because none of them is a round number.",
+     "The readings are precise but not accurate because mass readings are less accurate than length readings."
+    ]
+   }
   },
   {
    "id": "c01q30",
@@ -533,11 +798,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The readings 12, 41 and 33 °C are spread far apart, so they are not precise. They are also far from 25 °C, so they are not accurate.",
    "hint": "",
    "image": null,
    "lo": "Judge the accuracy and precision of a set of readings",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The readings range from 12 °C to 41 °C, so they are not close together. Check how they compare with one another.",
+    "2": "The readings are spread far apart and none is close to 25 °C. Check each term against the data.",
+    "3": "Each reading is between 8 °C and 16 °C away from 25 °C. None of them is close to the true value."
+   },
+   "why": {
+    "right": "The readings are neither precise nor accurate because they are far apart and far from 25 °C.",
+    "wrong": [
+     "The readings are neither precise nor accurate because temperature cannot be measured exactly.",
+     "The readings are neither precise nor accurate because only three readings were taken."
+    ]
+   }
   },
   {
    "id": "c01q31",
@@ -551,11 +828,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Readings that are close to one another are precise. Readings that are far from the true value are not accurate.",
    "hint": "",
    "image": null,
    "lo": "Judge the accuracy and precision of a set of readings",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "This swaps the two terms. Closeness to one another and closeness to the true value are described by different words.",
+    "2": "The readings are close to one another, so one of the two qualities is present. Check which term describes that.",
+    "3": "The readings are far from the true value, so they cannot have both qualities. Check which one is missing."
+   },
+   "why": {
+    "right": "Readings close to each other are precise, and readings far from the true value are not accurate.",
+    "wrong": [
+     "Readings close to each other are accurate, and readings far from the true value are not precise.",
+     "Readings close to each other are precise, and accuracy depends only on which instrument is used."
+    ]
+   }
   },
   {
    "id": "c01q32",
@@ -569,11 +858,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Zero error is when an instrument shows a reading that is not zero when it should read zero, such as an empty balance showing 2 g.",
    "hint": "",
    "image": null,
    "lo": "Identify zero error and correct readings for it",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Reading from the wrong angle causes parallax error. Zero error comes from the instrument itself before anything is measured.",
+    "1": "Readings that are far apart are not precise. Zero error is about what the instrument shows when nothing is being measured.",
+    "3": "Not being able to measure small values relates to the smallest division on the scale. Zero error is about the starting reading."
+   },
+   "why": null
   },
   {
    "id": "c01q33",
@@ -587,11 +882,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The tare function sets the display of an electronic balance back to zero. This removes zero error before the mass is measured.",
    "hint": "",
    "image": null,
    "lo": "Identify zero error and correct readings for it",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The hold function keeps a reading on the display. It does not reset the balance to zero.",
+    "1": "The unit function changes the unit shown, such as from g to kg. It does not reset the balance to zero.",
+    "2": "Switching off does not correct the starting reading. The function needed sets the display back to zero."
+   },
+   "why": null
   },
   {
    "id": "c01q34",
@@ -605,11 +906,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The balance reads 2 g too high. The zero error is subtracted from the reading, so 50 g minus 2 g gives 48 g.",
    "hint": "",
    "image": null,
    "lo": "Identify zero error and correct readings for it",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "50 g is the reading shown, which includes the zero error. The 2 g shown when empty must be taken into account.",
+    "2": "Adding the zero error moves the answer further from the true mass. The balance already reads too high.",
+    "3": "2 g is the zero error, not the mass of the rock. Use it to correct the rock's reading."
+   },
+   "why": {
+    "right": "The rock's mass is found by subtracting the 2 g zero error from the 50 g reading.",
+    "wrong": [
+     "The rock's mass is found by adding the 2 g zero error to the 50 g reading.",
+     "The rock's mass is found by ignoring the zero error because 2 g is very small."
+    ]
+   }
   },
   {
    "id": "c01q35",
@@ -623,11 +936,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The scale reads 200 g too low, so 200 g must be added to every reading. 0 g plus 200 g gives 200 g.",
    "hint": "",
    "image": null,
    "lo": "Identify zero error and correct readings for it",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This counts the zero error twice. The scale reads 200 g too low, so the correction only needs to be made once.",
+    "2": "0 g is the reading shown, but the scale starts 200 g below zero. The reading must be corrected.",
+    "3": "−200 g is the zero error, not the mass of the apple. A mass cannot be negative."
+   },
+   "why": {
+    "right": "The apple's mass is found by adding 200 g, since the scale reads 200 g too low.",
+    "wrong": [
+     "The apple's mass is found by subtracting 200 g, since the scale shows a negative number.",
+     "The apple's mass is found by doubling 200 g, since the error affects both readings."
+    ]
+   }
   },
   {
    "id": "c01q36",
@@ -641,11 +966,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A zero error of +5 g means the balance reads 5 g too high. The reading is 30 g plus 5 g, which is 35 g.",
    "hint": "",
    "image": null,
    "lo": "Identify zero error and correct readings for it",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Subtracting is how a reading is corrected. This question asks what the balance shows, which includes the extra 5 g.",
+    "1": "30 g is the true mass. The balance adds its zero error to every reading it shows.",
+    "3": "5 g is only the zero error. The balance also measures the 30 g object."
+   },
+   "why": {
+    "right": "The balance shows 35 g because a +5 g zero error adds 5 g to every reading.",
+    "wrong": [
+     "The balance shows 35 g because heavier objects make the zero error grow larger.",
+     "The balance shows 35 g because the object gains 5 g of mass on the balance."
+    ]
+   }
   },
   {
    "id": "c01q37",
@@ -659,11 +996,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Parallax error happens when a scale is read with the eye in the wrong position, at an angle instead of directly in line with the marking.",
    "hint": "",
    "image": null,
    "lo": "State how to avoid parallax error for common instruments",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Slow reaction time affects timing with a stopwatch. Parallax error happens while a scale is being read.",
+    "1": "An instrument not reading zero has zero error. Parallax error comes from the person reading the scale, not the instrument.",
+    "2": "Wind is a condition of the experiment that can cause unpredictable error. Parallax error happens while a scale is being read."
+   },
+   "why": {
+    "right": "Parallax error happens because the reading appears to change when the scale is viewed at an angle.",
+    "wrong": [
+     "Parallax error happens because the scale markings shift on the instrument when it is moved.",
+     "Parallax error happens because the instrument was not set to zero before it was used."
+    ]
+   }
   },
   {
    "id": "c01q38",
@@ -677,11 +1026,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water forms a curved surface called a meniscus that dips in the middle. The reading is taken with the eye level with the bottom of the meniscus.",
    "hint": "",
    "image": null,
    "lo": "State how to avoid parallax error for common instruments",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Water curves down in the middle, and its edges climb up the glass. Reading where the edges are gives a value that is too high.",
+    "1": "The eye must be level with the liquid surface being read, not the base. Looking from the base causes parallax error.",
+    "3": "The eye must be level with the liquid surface being read. The top of the cylinder is not where the water is."
+   },
+   "why": {
+    "right": "The bottom of the meniscus is read because the water surface curves down and its lowest point gives the level.",
+    "wrong": [
+     "The bottom of the meniscus is read because the top of the meniscus is too hard to see clearly.",
+     "The bottom of the meniscus is read because lower readings are always more accurate than higher ones."
+    ]
+   }
   },
   {
    "id": "c01q39",
@@ -695,11 +1056,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The line of sight should be perpendicular to the ruler at the marking being read. Viewing at an angle causes parallax error.",
    "hint": "",
    "image": null,
    "lo": "State how to avoid parallax error for common instruments",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Viewing at an angle from the right makes the marking seem to shift. This gives parallax error.",
+    "2": "Viewing at an angle from the left makes the marking seem to shift. This gives parallax error.",
+    "3": "Looking along the ruler, parallel to it, makes the markings impossible to read. The eye should be directly above the mark."
+   },
+   "why": {
+    "right": "Viewing a ruler perpendicular to the marking avoids parallax error because the mark does not appear to shift.",
+    "wrong": [
+     "Viewing a ruler perpendicular to the marking avoids parallax error because it makes the markings look larger.",
+     "Viewing a ruler perpendicular to the marking avoids parallax error because it removes any zero error."
+    ]
+   }
   },
   {
    "id": "c01q40",
@@ -713,11 +1086,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Looking down from above means the eye is not level with the meniscus. This causes parallax error, so the reading will be wrong.",
    "hint": "",
    "image": null,
    "lo": "State how to avoid parallax error for common instruments",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Viewing from above does not make a reading more precise. It moves the eye away from the correct position.",
+    "2": "Zero error comes from the instrument itself. The problem here is the position of the eye.",
+    "3": "The eye is not level with the meniscus, so the reading will not be correct."
+   },
+   "why": {
+    "right": "Reading a cylinder from above gives an error because the eye is not level with the meniscus.",
+    "wrong": [
+     "Reading a cylinder from above gives an error because the scale does not start at zero.",
+     "Reading a cylinder from above gives an error because the water moves when the student leans over."
+    ]
+   }
   },
   {
    "id": "c01q41",
@@ -730,11 +1115,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The balance shows 3 g too much every time. An error that is the same size and in the same direction each time is a consistent error.",
    "hint": "",
    "image": null,
    "lo": "Classify errors as consistent or unpredictable",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The readings differ from the true mass by 3 g, so there is an error. Look at whether it is the same every time.",
+    "2": "Unpredictable errors change from reading to reading. Here the error is always 3 g too high."
+   },
+   "why": {
+    "right": "The balance has a consistent error because every reading is too high by the same 3 g.",
+    "wrong": [
+     "The balance has a consistent error because 3 g is too small to be an unpredictable error.",
+     "The balance has a consistent error because the student takes each reading carefully."
+    ]
+   }
   },
   {
    "id": "c01q42",
@@ -747,11 +1143,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Reaction time is not the same each time, so the stopwatch starts late by different amounts. This makes the error unpredictable.",
    "hint": "",
    "image": null,
    "lo": "Classify errors as consistent or unpredictable",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A consistent error is the same every time. Reaction time varies from one try to the next.",
+    "1": "Starting the stopwatch late changes the time recorded, so there is an error."
+   },
+   "why": {
+    "right": "Reaction time causes an unpredictable error because the delay is different each time the stopwatch is started.",
+    "wrong": [
+     "Reaction time causes an unpredictable error because the stopwatch has a zero error that changes the reading.",
+     "Reaction time causes an unpredictable error because the student's delay is exactly the same in every trial."
+    ]
+   }
   },
   {
    "id": "c01q43",
@@ -764,11 +1171,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Wind does not affect every beaker in the same way or by the same amount. An error that varies like this is an unpredictable error.",
    "hint": "",
    "image": null,
    "lo": "Classify errors as consistent or unpredictable",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A consistent error affects every reading in the same way. Wind affects only one beaker, and not by a set amount.",
+    "2": "The faster evaporation changes the results for that beaker, so there is an error."
+   },
+   "why": {
+    "right": "Wind causes an unpredictable error because it changes the results by different amounts at different times.",
+    "wrong": [
+     "Wind causes an unpredictable error because evaporation can only happen when the air is moving.",
+     "Wind causes an unpredictable error because it makes every reading too high by the same amount."
+    ]
+   }
   },
   {
    "id": "c01q44",
@@ -782,11 +1200,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Zero error shifts every reading by the same amount in the same direction. The readings are therefore consistently inaccurate.",
    "hint": "",
    "image": null,
    "lo": "Classify errors as consistent or unpredictable",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Readings with zero error are all shifted away from the true value. Check whether shifted readings can be accurate.",
+    "1": "The readings are consistent, but they are shifted away from the true value. Check whether shifted readings can be accurate.",
+    "2": "Readings that are sometimes too high and sometimes too low come from unpredictable errors. Zero error shifts readings the same way each time."
+   },
+   "why": {
+    "right": "Zero error makes readings inaccurate because every reading is shifted from the true value by the same amount.",
+    "wrong": [
+     "Zero error makes readings inaccurate because every reading is shifted by a different random amount.",
+     "Zero error makes readings inaccurate because the instrument cannot show numbers below zero."
+    ]
+   }
   },
   {
    "id": "c01q45",
@@ -800,11 +1230,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Recording results honestly, even when they do not support the hypothesis, shows integrity.",
    "hint": "",
    "image": null,
    "lo": "Identify scientific attitudes from a described action",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Perseverance means continuing when a task is difficult. This student is being honest about her results.",
+    "2": "Creativity means coming up with new ideas. This action is about reporting results truthfully.",
+    "3": "Curiosity means wanting to find out more. This action is about reporting results truthfully."
+   },
+   "why": {
+    "right": "Recording unexpected results as obtained shows integrity because it reports the evidence honestly.",
+    "wrong": [
+     "Recording unexpected results as obtained shows integrity because it proves the hypothesis was correct.",
+     "Recording unexpected results as obtained shows integrity because it makes the experiment finish faster."
+    ]
+   }
   },
   {
    "id": "c01q46",
@@ -818,11 +1260,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Repeating a difficult experiment many times without giving up shows perseverance.",
    "hint": "",
    "image": null,
    "lo": "Identify scientific attitudes from a described action",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Integrity means being honest about results. This student is showing that they keep trying.",
+    "2": "Creativity means thinking of new ideas or methods. This student repeats the same experiment.",
+    "3": "Objectivity means judging evidence fairly without bias. This student is showing that they do not give up."
+   },
+   "why": {
+    "right": "Repeating a hard experiment until it works shows perseverance because the student keeps trying despite difficulty.",
+    "wrong": [
+     "Repeating a hard experiment until it works shows perseverance because the student changes results until they look right.",
+     "Repeating a hard experiment until it works shows perseverance because the student follows the steps without thinking."
+    ]
+   }
   },
   {
    "id": "c01q47",
@@ -836,11 +1290,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Considering another person's different explanation before deciding shows open-mindedness.",
    "hint": "",
    "image": null,
    "lo": "Identify scientific attitudes from a described action",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Integrity means being honest about results. This student is willing to consider a different idea.",
+    "1": "Perseverance means not giving up on a difficult task. This student is willing to consider a different idea.",
+    "3": "Creativity means coming up with new ideas. Here the student is considering someone else's idea."
+   },
+   "why": {
+    "right": "Considering a classmate's explanation shows open-mindedness because other ideas are weighed before judging.",
+    "wrong": [
+     "Considering a classmate's explanation shows open-mindedness because the classmate's idea must be correct.",
+     "Considering a classmate's explanation shows open-mindedness because the student has no ideas of their own."
+    ]
+   }
   },
   {
    "id": "c01q48",
@@ -854,11 +1320,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Broken glass is sharp and can cut people. It goes in a puncture-proof sharps container so no one is hurt when the waste is handled.",
    "hint": "",
    "image": null,
    "lo": "Apply laboratory safety rules",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Glass in the sink can cut someone and block the drain. Sharp waste needs a container it cannot cut through.",
+    "1": "Sharp glass can cut through a paper bag and injure someone. It needs a container it cannot pierce.",
+    "2": "Cleaners may not know there is glass in a normal dustbin and could be cut. Sharp waste needs a special container."
+   },
+   "why": {
+    "right": "Broken glass goes in a sharps container because the container cannot be pierced, so nobody gets cut.",
+    "wrong": [
+     "Broken glass goes in a sharps container because glass reacts with other waste in a normal bin.",
+     "Broken glass goes in a sharps container because glass is a toxic substance."
+    ]
+   }
   },
   {
    "id": "c01q49",
@@ -872,11 +1350,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A spill should be reported to the teacher immediately. The teacher knows how to clean up the chemical safely.",
    "hint": "",
    "image": null,
    "lo": "Apply laboratory safety rules",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Carrying on leaves the spill where others may touch it. A spill must be dealt with before the experiment continues.",
+    "2": "Leaving does not make the spill safe, and others may be harmed. Someone who can deal with it must be told.",
+    "3": "Many chemicals can burn or harm the skin. Spills should never be touched with bare hands."
+   },
+   "why": {
+    "right": "A chemical spill is reported at once because the teacher knows how to clean up that chemical safely.",
+    "wrong": [
+     "A chemical spill is reported at once because the student will lose marks if it is found later.",
+     "A chemical spill is reported at once because all spilled chemicals catch fire within a few minutes."
+    ]
+   }
   },
   {
    "id": "c01q50",
@@ -890,11 +1380,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The contents of a heated test tube can spurt out suddenly. Pointing the mouth away from everyone keeps people safe.",
    "hint": "",
    "image": null,
    "lo": "Apply laboratory safety rules",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Hot contents can spurt out of a heated test tube. Pointing it at a classmate puts them in danger.",
+    "1": "Hot contents can spurt out of a heated test tube. Pointing it at your own face puts you in danger.",
+    "2": "Pointing the mouth down at the flame can make the contents pour out. The direction must keep spurting liquid from reaching anyone."
+   },
+   "why": {
+    "right": "A heated test tube is pointed away from people because hot contents can spurt out suddenly.",
+    "wrong": [
+     "A heated test tube is pointed away from people because the glass may glow too brightly to look at.",
+     "A heated test tube is pointed away from people because the flame only heats the tube from one side."
+    ]
+   }
   },
   {
    "id": "c01q51",
@@ -908,11 +1410,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water conducts electricity. Touching a plug with wet hands can give an electric shock, so it is unsafe.",
    "hint": "",
    "image": null,
    "lo": "Apply laboratory safety rules",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Switching off before unplugging is a safe habit. The question asks which action is unsafe.",
+    "1": "Keeping devices away from water prevents electric shocks, so this is safe. The question asks for the unsafe action.",
+    "3": "Reporting a frayed wire is the safe thing to do. The question asks for the unsafe action."
+   },
+   "why": {
+    "right": "Touching a plug with wet hands is unsafe because water can conduct electricity into the body.",
+    "wrong": [
+     "Touching a plug with wet hands is unsafe because water makes the plug rust and break at once.",
+     "Touching a plug with wet hands is unsafe because wet hands make the device use more electricity."
+    ]
+   }
   },
   {
    "id": "c01q52",
@@ -926,11 +1440,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Diluted chemicals are less concentrated, so they do less harm if spilled or splashed. Dilution makes them safer to use.",
    "hint": "",
    "image": null,
    "lo": "Apply laboratory safety rules",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Diluting a chemical usually makes it react more slowly, not faster. Think about why a weaker solution is chosen in school.",
+    "2": "Diluting is not done to change colour. Think about what a weaker solution does to the risk of harm.",
+    "3": "Hazardous means dangerous. Dilution lowers the concentration, so consider whether that raises or lowers the danger."
+   },
+   "why": {
+    "right": "Diluted chemicals are used because a lower concentration does less harm if it is spilled or splashed.",
+    "wrong": [
+     "Diluted chemicals are used because adding water removes the chemical completely.",
+     "Diluted chemicals are used because a lower concentration always reacts faster."
+    ]
+   }
   },
   {
    "id": "c01q53",
@@ -944,11 +1470,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A corrosive substance can severely damage skin and eyes on contact.",
    "hint": "",
    "image": null,
    "lo": "Match a hazard symbol to the danger it warns of",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Flammable substances catch fire easily. This label warns about damage to skin and eyes.",
+    "2": "Explosive substances can blow up suddenly. This label warns about damage to skin and eyes.",
+    "3": "Oxidising substances release oxygen and can make fires worse. This label warns about damage to skin and eyes."
+   },
+   "why": null
   },
   {
    "id": "c01q54",
@@ -962,11 +1494,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An oxidising substance releases oxygen easily. The oxygen helps other materials burn, so it can cause or worsen a fire.",
    "hint": "",
    "image": null,
    "lo": "Match a hazard symbol to the danger it warns of",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Gas under pressure warns that a container may burst. This substance is a hazard because of what it releases.",
+    "2": "Corrosive substances damage skin and eyes. This substance is a hazard because it gives off a gas that helps burning.",
+    "3": "Environmental toxicity warns of harm to living things in nature. This substance is a hazard because of the gas it releases."
+   },
+   "why": null
   },
   {
    "id": "c01q55",
@@ -980,11 +1518,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Acute toxicity means a substance can cause serious harm or death quickly if it is swallowed, breathed in or touched.",
    "hint": "",
    "image": null,
    "lo": "Match a hazard symbol to the danger it warns of",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Gas under pressure warns that a container may burst or explode. This substance harms the body when taken in.",
+    "1": "Flammable substances catch fire easily. This substance harms the body when swallowed or breathed in.",
+    "2": "Oxidising substances release oxygen that helps fires. This substance harms the body when taken in."
+   },
+   "why": null
   },
   {
    "id": "c01q56",
@@ -998,11 +1542,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Carcinogenicity means a substance can cause cancer. This hazard also warns of long-term damage to organs.",
    "hint": "",
    "image": null,
    "lo": "Match a hazard symbol to the danger it warns of",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Explosive substances can blow up suddenly. This substance causes long-term harm inside the body.",
+    "1": "Corrosive substances damage skin and eyes on contact. This substance causes long-term harm inside the body.",
+    "3": "Flammable substances catch fire easily. This substance causes long-term harm inside the body."
+   },
+   "why": null
   },
   {
    "id": "c01q57",
@@ -1016,11 +1566,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The flammable symbol warns that a substance catches fire easily. It must be kept away from flames and heat.",
    "hint": "",
    "image": null,
    "lo": "Match a hazard symbol to the danger it warns of",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Harm to the environment is shown by the environmental toxicity symbol. Think about what the word flammable means.",
+    "1": "Damage to skin is shown by the corrosive symbol. Think about what the word flammable means.",
+    "2": "Releasing oxygen is shown by the oxidising symbol. Think about what the word flammable means."
+   },
+   "why": null
   },
   {
    "id": "c01q58",
@@ -1034,11 +1590,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Most plastics do not break down easily. They build up on land and in water, causing pollution that harms living things.",
    "hint": "",
    "image": null,
    "lo": "Classify considerations as ethical, social, environmental or economic",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Being lightweight is a useful property of plastics. The question asks for a harmful effect.",
+    "2": "Cheap containers are a benefit of plastics. The question asks for a harmful effect.",
+    "3": "Being waterproof is a useful property of plastics. The question asks for a harmful effect."
+   },
+   "why": {
+    "right": "Plastics cause pollution because most of them do not break down and they build up in the environment.",
+    "wrong": [
+     "Plastics cause pollution because they dissolve in water and turn it into a poison.",
+     "Plastics cause pollution because they break down within days into harmful gases."
+    ]
+   }
   },
   {
    "id": "c01q59",
@@ -1052,11 +1620,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Cost is about money. A question about how much something costs to make is an economic consideration.",
    "hint": "",
    "image": null,
    "lo": "Classify considerations as ethical, social, environmental or economic",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Social considerations are about how people live and use things. This question is about money.",
+    "1": "Ethical considerations are about what is right or wrong. This question is about money.",
+    "3": "Environmental considerations are about effects on nature and living things. This question is about money."
+   },
+   "why": {
+    "right": "The cost question is an economic consideration because it is about the money spent to make a product.",
+    "wrong": [
+     "The cost question is an economic consideration because it is about whether making the product is right.",
+     "The cost question is an economic consideration because it is about how the product affects living things."
+    ]
+   }
   },
   {
    "id": "c01q60",
@@ -1070,11 +1650,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Effects on living things and their surroundings are environmental considerations.",
    "hint": "",
    "image": null,
    "lo": "Classify considerations as ethical, social, environmental or economic",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Economic considerations are about money and cost. This question is about effects on living things.",
+    "2": "Social considerations are about how people live and use things. This question is about effects on living things in nature.",
+    "3": "Ethical considerations are about what is right or wrong. This question asks about effects on living things."
+   },
+   "why": {
+    "right": "The question on plastics and living things is environmental because it is about effects on nature.",
+    "wrong": [
+     "The question on plastics and living things is environmental because it is about the cost of plastics.",
+     "The question on plastics and living things is environmental because it is about whether people like plastics."
+    ]
+   }
   },
   {
    "id": "c01q61",
@@ -1088,11 +1680,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "How often people use plastic products in daily life is about people's habits and way of life. This makes it a social consideration.",
    "hint": "",
    "image": null,
    "lo": "Classify considerations as ethical, social, environmental or economic",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Environmental considerations are about effects on nature. This question is about how people live.",
+    "1": "Ethical considerations are about what is right or wrong. This question is about people's daily habits.",
+    "3": "Economic considerations are about money and cost. This question is about people's daily habits."
+   },
+   "why": {
+    "right": "The question on daily plastic use is social because it is about people's habits and way of life.",
+    "wrong": [
+     "The question on daily plastic use is social because it is about the money people spend.",
+     "The question on daily plastic use is social because it is about pollution of land and water."
+    ]
+   }
   },
   {
    "id": "c01q62",
@@ -1106,11 +1710,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Science has limits. It cannot answer every question, such as questions of opinion, and it cannot solve every problem in the world.",
    "hint": "",
    "image": null,
    "lo": "Classify considerations as ethical, social, environmental or economic",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Questions of opinion or belief cannot be tested by experiments, so science cannot answer them.",
+    "1": "Anyone who observes, questions and tests ideas carefully is doing science, including students.",
+    "2": "Science can also be misused or have harmful side effects, such as pollution from new products."
+   },
+   "why": {
+    "right": "Science cannot solve every problem because some questions involve opinions or values that cannot be tested.",
+    "wrong": [
+     "Science cannot solve every problem because scientists have already stopped making new discoveries.",
+     "Science cannot solve every problem because experiments are only allowed inside a laboratory."
+    ]
+   }
   },
   {
    "id": "c01q63",
@@ -1124,11 +1740,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "As the temperature rises from 20 °C to 60 °C, the melting time falls from 90 s to 30 s. So the higher the temperature, the shorter the time.",
    "hint": "",
    "image": null,
    "lo": "Draw conclusions from data and improve how it is presented",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "No data was taken below 20 °C, so nothing can be concluded about it. A conclusion must come from the data collected.",
+    "2": "The melting time changes as the temperature changes, so temperature does have an effect.",
+    "3": "Look at the data again. As the temperature increases, check whether the time goes up or down."
+   },
+   "why": {
+    "right": "The ice conclusion fits because each rise in water temperature in the data comes with a fall in melting time.",
+    "wrong": [
+     "The ice conclusion fits because ice always melts faster in a larger volume of water.",
+     "The ice conclusion fits because the melting time goes up as the water temperature goes up."
+    ]
+   }
   },
   {
    "id": "c01q64",
@@ -1142,11 +1770,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A line graph shows how one variable changes with another. The pattern of the plotted points makes the trend easy to see.",
    "hint": "",
    "image": null,
    "lo": "Draw conclusions from data and improve how it is presented",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A drawing of the apparatus shows how the experiment was set up. It does not show the readings.",
+    "2": "A photograph shows what the set-up looked like, not how the readings change.",
+    "3": "A paragraph can list readings, but a pattern is hard to spot in text."
+   },
+   "why": {
+    "right": "A line graph shows a trend best because the rise or fall of the plotted points can be seen at once.",
+    "wrong": [
+     "A line graph shows a trend best because it uses more colours than a table of readings.",
+     "A line graph shows a trend best because it removes any readings that do not fit the pattern."
+    ]
+   }
   },
   {
    "id": "c01q65",
@@ -1160,11 +1800,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "How close repeated readings are to one another shows their precision.",
    "hint": "",
    "image": null,
    "lo": "Draw conclusions from data and improve how it is presented",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Zero error is found by checking the instrument before measuring. It is not shown by comparing repeated readings.",
+    "2": "The variable changed is the temperature chosen by the student. Repeated readings do not show what was changed.",
+    "3": "Accuracy compares readings with the true value. Here the readings are only being compared with each other."
+   },
+   "why": {
+    "right": "Close repeated readings show precision because precision is about how well readings agree with each other.",
+    "wrong": [
+     "Close repeated readings show precision because close readings must also be equal to the true value.",
+     "Close repeated readings show precision because precision is about how small the units of the readings are."
+    ]
+   }
   },
   {
    "id": "c01q66",
@@ -1178,11 +1830,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "If the results give no clear conclusion, the student should modify the investigation, for example by changing the method or taking more readings, and test again.",
    "hint": "",
    "image": null,
    "lo": "Draw conclusions from data and improve how it is presented",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Removing readings that disagree hides real evidence. Every result must be recorded honestly.",
+    "2": "Making up data is dishonest and breaks scientific integrity. Conclusions must come from real results.",
+    "3": "Copying results is dishonest. The student needs real evidence from their own investigation."
+   },
+   "why": {
+    "right": "Modifying the investigation helps because a better method can give reliable evidence for a clear conclusion.",
+    "wrong": [
+     "Modifying the investigation helps because it lets the student change the results to match the hypothesis.",
+     "Modifying the investigation helps because an unclear result means the hypothesis was certainly true."
+    ]
+   }
   }
  ]
 }

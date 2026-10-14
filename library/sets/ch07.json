@@ -16,11 +16,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Matter is anything that has mass and takes up space. Solids, liquids and gases are all matter, whether or not they can be seen or felt.",
    "hint": "",
    "image": null,
    "lo": "State that matter is anything that has mass and takes up space",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Gases such as air are matter too. The definition of matter is about two properties that solids, liquids and gases all share.",
+    "2": "Air cannot be seen but it is still matter. Whether something is visible does not decide if it is matter.",
+    "3": "Some gases cannot be felt by touch but are still matter. The definition is about properties all matter has, not about our senses."
+   },
+   "why": null
   },
   {
    "id": "c07q2",
@@ -34,11 +40,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Light is a form of energy. It has no mass and does not take up space, so it is not matter. Steam, air and water all have mass and take up space.",
    "hint": "",
    "image": null,
    "lo": "State that matter is anything that has mass and takes up space",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Steam is water in the gas state. Gases have mass and take up space, so steam counts as matter.",
+    "1": "Air is a mixture of gases. A balloon gets bigger when air is blown in, which shows that air takes up space.",
+    "2": "Water is a liquid with mass that fills the cup. Anything with mass that takes up space is matter."
+   },
+   "why": {
+    "right": "Light is not matter because it is energy, with no mass and taking up no space.",
+    "wrong": [
+     "Light is not matter because it travels too fast for its mass to be measured.",
+     "Light is not matter because it cannot be touched, and only things that can be touched are matter."
+    ]
+   }
   },
   {
    "id": "c07q3",
@@ -52,11 +70,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The particulate nature of matter states that all matter is made up of small discrete particles. These particles are far too small to be seen.",
    "hint": "",
    "image": null,
    "lo": "State that matter is made up of small discrete particles in constant and random motion",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Cells are the building blocks of living things only. Non-living matter such as rock and air has no cells, and cells are made of smaller units.",
+    "1": "The particles in matter are far too small to be seen with the naked eye. Think about how tiny and separate the units must be.",
+    "3": "Matter is not one continuous piece. It is made of separate units with spaces between them, which is why gases can be compressed."
+   },
+   "why": null
   },
   {
    "id": "c07q4",
@@ -70,11 +94,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The particles that make up matter are always moving, and their direction of movement keeps changing in an unpredictable way. This is constant and random motion.",
    "hint": "",
    "image": null,
    "lo": "State that matter is made up of small discrete particles in constant and random motion",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Even in a solid, particles are never completely still. They vibrate about their positions, so they are always moving.",
+    "2": "Particles do move all the time, but they keep colliding and changing direction. Their paths do not stay straight for long.",
+    "3": "Particles move even without heating. Heating only makes them move faster."
+   },
+   "why": null
   },
   {
    "id": "c07q5",
@@ -88,11 +118,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Brownian motion is the random movement of tiny particles, such as pollen or smoke, suspended in a liquid or gas. It is caused by the moving particles of the liquid or gas hitting them.",
    "hint": "",
    "image": null,
    "lo": "Describe Brownian motion as evidence for moving particles",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Expansion is an increase in size when a substance is heated. The question describes random movement of tiny suspended particles, not a change in size.",
+    "1": "Diffusion is the net movement of particles from higher to lower concentration. The question is about the random jiggling of suspended particles, which has its own name.",
+    "2": "Condensation is a gas changing into a liquid. The question describes movement, not a change of state."
+   },
+   "why": null
   },
   {
    "id": "c07q6",
@@ -106,11 +142,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Air particles are moving constantly and randomly. They hit the smoke particles unevenly from all sides, which pushes the smoke particles about in a random way.",
    "hint": "",
    "image": null,
    "lo": "Describe Brownian motion as evidence for moving particles",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Expanding would change the size of the smoke particles, not make them move about. The movement is caused by something hitting them.",
+    "2": "Wind would push all the smoke particles the same way. The movement seen is random, with each particle changing direction often.",
+    "3": "Smoke particles are not living things. Non-living particles move randomly because of what is happening to the air around them."
+   },
+   "why": {
+    "right": "Smoke particles move randomly because fast-moving air particles collide with them unevenly from all sides.",
+    "wrong": [
+     "Smoke particles move randomly because they give out energy that pushes them in different directions.",
+     "Smoke particles move randomly because they are lighter than air and float about on their own."
+    ]
+   }
   },
   {
    "id": "c07q7",
@@ -124,11 +172,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The pollen grains are pushed about by water particles that cannot be seen. Their random movement is evidence that water is made of tiny particles in constant and random motion.",
    "hint": "",
    "image": null,
    "lo": "Describe Brownian motion as evidence for moving particles",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Pollen grains are not moving by themselves. Non-living particles of the same size also move in this way in water.",
+    "1": "If water particles were fixed in place, nothing would push the pollen grains about. Think about what makes the grains move.",
+    "3": "Water particles are far too small to be seen, even under a microscope. Only the pollen grains are seen moving."
+   },
+   "why": {
+    "right": "Pollen grains move randomly because invisible water particles are moving and keep hitting them from different sides.",
+    "wrong": [
+     "Pollen grains move randomly because they are alive and swim about using their own energy.",
+     "Pollen grains move randomly because they slowly dissolve and break into pieces in the water."
+    ]
+   }
   },
   {
    "id": "c07q8",
@@ -142,11 +202,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "There is nothing between the particles, not even air. The empty space between particles is a vacuum.",
    "hint": "",
    "image": null,
    "lo": "State what the particle model shows and its limitations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Water is itself made of particles. The question asks what is between particles, and in the model there is no other substance there.",
+    "2": "If there were more particles in the gaps, those particles would also have spaces between them. The gaps contain no particles.",
+    "3": "Air is made of particles too, so it cannot fill the gaps between particles. The gaps contain nothing at all."
+   },
+   "why": {
+    "right": "The space between particles is a vacuum because any substance there would itself be made of particles.",
+    "wrong": [
+     "The space between particles is a vacuum because the particles have used up all the air inside the substance.",
+     "The space between particles is a vacuum because heating has driven out the air that was there before."
+    ]
+   }
   },
   {
    "id": "c07q9",
@@ -160,11 +232,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Each circle in the particle model stands for one particle. Real particles are far too small to see, so the model draws them much larger.",
    "hint": "",
    "image": null,
    "lo": "State what the particle model shows and its limitations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A grain of sand is big enough to see and is made of a huge number of particles. Each circle stands for something much smaller.",
+    "1": "A drop of liquid contains a huge number of particles. Each circle stands for something much smaller.",
+    "3": "Cells are found only in living things and are made of many particles. Each circle stands for something much smaller."
+   },
+   "why": null
   },
   {
    "id": "c07q10",
@@ -178,11 +256,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A particle model drawing is a still picture. It cannot show that particles are moving all the time, which is a limitation of the drawing.",
    "hint": "",
    "image": null,
    "lo": "State what the particle model shows and its limitations",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Showing solid particles closely packed is correct and useful. A limitation is something the drawing fails to show.",
+    "2": "Being able to show all three states is a strength of the model. A limitation is something the drawing fails to show.",
+    "3": "Showing the spaces between particles is correct and useful. A limitation is something real particles do that a still picture cannot show."
+   },
+   "why": {
+    "right": "The particle drawing has this limitation because a still picture cannot show particles that are always moving.",
+    "wrong": [
+     "The particle drawing has this limitation because real particles do not move, so movement cannot be drawn.",
+     "The particle drawing has this limitation because particles only move in gases, which are hard to draw."
+    ]
+   }
   },
   {
    "id": "c07q11",
@@ -195,11 +285,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A solid has a definite shape and a definite volume. Its particles are held in fixed positions by very strong forces of attraction.",
    "hint": "",
    "image": null,
    "lo": "Classify the physical properties of solids, liquids and gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A gas spreads out to fill its whole container, so its shape and volume both change. Think about which state keeps its shape anywhere.",
+    "2": "A liquid keeps its volume but flows to take the shape of its container. The question needs a state that keeps both."
+   },
+   "why": {
+    "right": "A solid keeps its shape and volume because its particles are held in fixed positions by very strong forces.",
+    "wrong": [
+     "A solid keeps its shape and volume because its particles do not move at all.",
+     "A solid keeps its shape and volume because its particles are larger than those of liquids and gases."
+    ]
+   }
   },
   {
    "id": "c07q12",
@@ -212,11 +313,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A liquid has a definite volume but takes the shape of its container. Its particles are close together but can slide past one another.",
    "hint": "",
    "image": null,
    "lo": "Classify the physical properties of solids, liquids and gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A gas has no definite volume because it spreads out to fill any container. The question needs a state whose volume stays fixed.",
+    "2": "A solid keeps its shape as well as its volume. The question needs a state whose shape can change."
+   },
+   "why": {
+    "right": "A liquid flows into any shape because its particles are close together but can slide past one another.",
+    "wrong": [
+     "A liquid flows into any shape because its particles are far apart with lots of empty space between them.",
+     "A liquid flows into any shape because its particles are soft and can bend to fit the container."
+    ]
+   }
   },
   {
    "id": "c07q13",
@@ -229,11 +341,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A gas has no definite shape and no definite volume. Its particles are far apart and move quickly in all directions, so a gas spreads out to fill its whole container.",
    "hint": "",
    "image": null,
    "lo": "Classify the physical properties of solids, liquids and gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A solid has both a definite shape and a definite volume. The question asks for a state with neither.",
+    "2": "A liquid keeps its volume even though its shape changes. The question asks for a state where both can change."
+   },
+   "why": {
+    "right": "A gas fills any container because its particles are far apart and move quickly in all directions.",
+    "wrong": [
+     "A gas fills any container because its particles grow larger until they touch the container walls.",
+     "A gas fills any container because its particles have no mass, so nothing holds them down."
+    ]
+   }
   },
   {
    "id": "c07q14",
@@ -246,11 +369,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A gas can be compressed because there is a lot of space between its particles. Pushing on the gas moves the particles closer together.",
    "hint": "",
    "image": null,
    "lo": "Classify the physical properties of solids, liquids and gases",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Liquid particles are already close together, so there is very little space to push them into. Think about which state has large gaps between particles.",
+    "1": "Solid particles are packed very closely with almost no space between them. Think about which state has large gaps between particles."
+   },
+   "why": {
+    "right": "A gas can be compressed because there is a lot of empty space between its particles.",
+    "wrong": [
+     "A gas can be compressed because its particles can be squashed into smaller particles.",
+     "A gas can be compressed because some of its particles are destroyed when it is pushed."
+    ]
+   }
   },
   {
    "id": "c07q15",
@@ -263,11 +397,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Water is a liquid, so it has a definite volume but no definite shape. Its shape changes to fit the bowl.",
    "hint": "",
    "image": null,
    "lo": "Classify the physical properties of solids, liquids and gases",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A shape that stays fixed in any container describes a solid. Water is a liquid, and liquids flow.",
+    "2": "Water does not keep the shape of the cup. Once poured, a liquid flows to fit whatever holds it."
+   },
+   "why": {
+    "right": "Water takes the shape of the bowl because its particles can slide past one another.",
+    "wrong": [
+     "Water takes the shape of the bowl because its particles spread far apart to fill the space.",
+     "Water takes the shape of the bowl because its particles change size to fit the bowl."
+    ]
+   }
   },
   {
    "id": "c07q16",
@@ -280,11 +425,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A liquid cannot be compressed because its particles are close together, but it flows to take the shape of its container. A solid keeps its own shape, and a gas can be compressed.",
    "hint": "",
    "image": null,
    "lo": "Classify the physical properties of solids, liquids and gases",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A gas can be compressed easily because its particles are far apart. The substance in the question cannot be compressed.",
+    "1": "A solid cannot be compressed, but it keeps its own shape. The substance in the question takes the shape of its container."
+   },
+   "why": {
+    "right": "A substance that flows but cannot be compressed is a liquid because its particles are close but can slide past one another.",
+    "wrong": [
+     "A substance that flows but cannot be compressed is a liquid because its particles are far apart but held tightly.",
+     "A substance that flows but cannot be compressed is a liquid because its particles are large and soft, so they bend."
+    ]
+   }
   },
   {
    "id": "c07q17",
@@ -298,11 +454,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a solid, the particles are very closely packed in an orderly manner. They form a regular pattern held together by very strong forces of attraction.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Far apart and disorderly describes gas particles. Think about how particles must be arranged for a solid to keep a fixed shape.",
+    "1": "Closely packed in a disorderly manner describes a liquid. Think about the pattern particles need for a solid to keep a fixed shape.",
+    "2": "No state of matter has particles far apart in an orderly pattern. A solid keeps a fixed shape, which needs particles held close together."
+   },
+   "why": null
   },
   {
    "id": "c07q18",
@@ -316,11 +478,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a liquid, the particles are closely packed in a disorderly manner. They are close together but not in a regular pattern, so they can slide past one another.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Very closely packed in an orderly manner describes a solid. A liquid can flow, so its particles cannot be locked in a regular pattern.",
+    "1": "No state of matter has particles far apart in an orderly pattern. A liquid cannot be compressed, so its particles must be close together.",
+    "2": "Far apart and disorderly describes gas particles. A liquid cannot be compressed, so its particles must be close together."
+   },
+   "why": null
   },
   {
    "id": "c07q19",
@@ -334,11 +502,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In a gas, the particles are far apart in a disorderly manner. There is a lot of space between them, which is why a gas can be compressed.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Closely packed and disorderly describes a liquid. A gas can be compressed, so there must be large spaces between its particles.",
+    "2": "Gas particles move quickly in all directions, so they cannot keep an orderly pattern. Think about the arrangement that fast, random movement would give.",
+    "3": "Very closely packed and orderly describes a solid. A gas can be compressed, so its particles cannot be packed tightly."
+   },
+   "why": null
   },
   {
    "id": "c07q20",
@@ -352,11 +526,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Solid particles are held in fixed positions by very strong forces of attraction. They cannot move about, but they vibrate about their fixed positions.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Sliding past one another describes liquid particles. Solid particles are held in place, which is why a solid keeps its shape.",
+    "1": "Moving randomly and quickly describes gas particles. Solid particles are held in place by very strong forces.",
+    "2": "Particles in all states are always moving. In a solid they stay in place but are still not completely still."
+   },
+   "why": null
   },
   {
    "id": "c07q21",
@@ -370,11 +550,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Liquid particles are close together but not held in fixed positions. They move randomly and slide past one another, which is why a liquid can flow.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Particles in all states are always moving. A liquid can flow, so its particles must be able to change places.",
+    "2": "Vibrating about fixed positions describes solid particles. A liquid can flow, so its particles must be able to change places.",
+    "3": "Liquid particles keep colliding with their neighbours, so they do not travel in straight lines. Their motion is random."
+   },
+   "why": null
   },
   {
    "id": "c07q22",
@@ -388,11 +574,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Gas particles are far apart, and the forces of attraction between them are weak. This lets gas particles move freely and quickly in all directions.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Very strong forces would hold the particles in fixed positions, as in a solid. Gas particles move freely and are far apart.",
+    "1": "Solid particles are held by very strong forces, which keep them in place. Gas particles move freely, so their forces must be different.",
+    "3": "Strong forces would keep particles close together, as in a liquid. Gas particles are far apart and move freely."
+   },
+   "why": null
   },
   {
    "id": "c07q23",
@@ -405,11 +597,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Solid particles are held in fixed positions by very strong forces of attraction. The forces between liquid particles are strong, and the forces between gas particles are weak.",
    "hint": "",
    "image": null,
    "lo": "Describe the arrangement, movement and forces of particles in each state",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Liquid particles can slide past one another, so their forces are not strong enough to hold them in place. Think about which state keeps a fixed shape.",
+    "2": "Gas particles are far apart and move freely, so the forces between them are weak. Think about which state keeps a fixed shape."
+   },
+   "why": {
+    "right": "Solids have the strongest forces of attraction, which is why their particles are held in fixed positions.",
+    "wrong": [
+     "Solids have the strongest forces of attraction, which is why their particles do not move at all.",
+     "Solids have the strongest forces of attraction, which is why their particles are the largest in size."
+    ]
+   }
   },
   {
    "id": "c07q24",
@@ -422,11 +625,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Particles that vibrate about fixed positions belong to a solid. They are held in place by very strong forces of attraction.",
    "hint": "",
    "image": null,
    "lo": "Identify the state of matter from a particle description",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Gas particles move quickly and freely in all directions. Particles that stay in fixed positions are not free to move about.",
+    "1": "Liquid particles slide past one another, so their positions are not fixed. The description says the particles stay in one place."
+   },
+   "why": {
+    "right": "Vibrating about fixed positions shows a solid, because very strong forces stop the particles from moving away.",
+    "wrong": [
+     "Vibrating about fixed positions shows a solid, because solid particles have no energy to move any further.",
+     "Vibrating about fixed positions shows a solid, because solid particles are too large to fit past each other."
+    ]
+   }
   },
   {
    "id": "c07q25",
@@ -439,11 +653,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Gas particles are far apart and move quickly in all directions. The forces of attraction between them are weak.",
    "hint": "",
    "image": null,
    "lo": "Identify the state of matter from a particle description",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Liquid particles are close together, even though they can move. The description says the particles are far apart.",
+    "2": "Solid particles are very closely packed and only vibrate about fixed positions. The description says the particles move quickly and are far apart."
+   },
+   "why": {
+    "right": "Fast particles that are far apart show a gas, because weak forces let the particles move freely.",
+    "wrong": [
+     "Fast particles that are far apart show a gas, because gas particles are the smallest particles of all.",
+     "Fast particles that are far apart show a gas, because gas particles have no mass to slow them down."
+    ]
+   }
   },
   {
    "id": "c07q26",
@@ -456,11 +681,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Liquid particles are closely packed but not held in fixed positions. They slide past one another, which is why a liquid can flow.",
    "hint": "",
    "image": null,
    "lo": "Identify the state of matter from a particle description",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Gas particles are far apart, not closely packed. The description says the particles are close together.",
+    "2": "Solid particles are closely packed but cannot slide, because they are held in fixed positions. The description says the particles can change places."
+   },
+   "why": {
+    "right": "Sliding particles that are close together show a liquid, because the forces hold them close but not fixed.",
+    "wrong": [
+     "Sliding particles that are close together show a liquid, because liquid particles are round and smooth.",
+     "Sliding particles that are close together show a liquid, because liquid particles have no forces between them."
+    ]
+   }
   },
   {
    "id": "c07q27",
@@ -473,11 +709,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Weak forces of attraction between particles are found in a gas. These forces cannot hold the particles close, so gas particles are far apart and move freely.",
    "hint": "",
    "image": null,
    "lo": "Identify the state of matter from a particle description",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Liquid particles are held by strong forces that keep them close together. Weak forces cannot keep particles close.",
+    "2": "Solid particles are held in fixed positions by very strong forces. Weak forces cannot keep particles in place."
+   },
+   "why": {
+    "right": "Weak forces show a gas, because weak forces cannot hold the particles close together or in place.",
+    "wrong": [
+     "Weak forces show a gas, because gas particles are too small for forces to act on them.",
+     "Weak forces show a gas, because gas particles have no mass for the forces to pull on."
+    ]
+   }
   },
   {
    "id": "c07q28",
@@ -491,11 +738,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A fixed volume but no fixed shape describes a liquid. Liquid particles are close together and slide past one another.",
    "hint": "",
    "image": null,
    "lo": "Identify the state of matter from a particle description",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Vibrating about fixed positions describes a solid, which also has a fixed shape. This substance has no fixed shape.",
+    "1": "Particles in all states are always moving. A substance that changes shape must have particles that can change places.",
+    "2": "Fast particles that are far apart describe a gas, which has no fixed volume. This substance keeps a fixed volume."
+   },
+   "why": {
+    "right": "A fixed volume with no fixed shape means a liquid, whose close particles can still slide past one another.",
+    "wrong": [
+     "A fixed volume with no fixed shape means a liquid, whose particles stretch to fit the container.",
+     "A fixed volume with no fixed shape means a liquid, whose particles move apart to fill the container."
+    ]
+   }
   },
   {
    "id": "c07q29",
@@ -509,11 +768,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A substance that keeps its shape in any container is a solid. Solid particles are very closely packed in an orderly manner.",
    "hint": "",
    "image": null,
    "lo": "Identify the state of matter from a particle description",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Closely packed and disorderly describes a liquid, which takes the shape of its container. This substance keeps its own shape.",
+    "1": "No state of matter has particles far apart in an orderly pattern. Keeping a fixed shape needs particles held close together.",
+    "2": "Far apart and disorderly describes a gas, which spreads out to fill its container. This substance keeps its own shape."
+   },
+   "why": {
+    "right": "A substance that keeps its shape is a solid, whose particles are held tightly in a regular pattern.",
+    "wrong": [
+     "A substance that keeps its shape is a solid, whose particles do not move at all.",
+     "A substance that keeps its shape is a solid, whose particles are much harder than other particles."
+    ]
+   }
   },
   {
    "id": "c07q30",
@@ -527,11 +798,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A gas can be compressed because there is a lot of space between its particles. When the gas is pushed, the particles move closer together into that space.",
    "hint": "",
    "image": null,
    "lo": "Explain compression using the space between particles",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The particles themselves do not change size. Compression changes something else about the gas.",
+    "2": "Vibrating about fixed positions describes solid particles, and solids cannot be compressed. Think about how far apart gas particles are.",
+    "3": "Gas particles do have mass, and mass does not decide whether something can be compressed. Think about how far apart gas particles are."
+   },
+   "why": {
+    "right": "A gas can be compressed because pushing it moves its particles closer together into the empty spaces.",
+    "wrong": [
+     "A gas can be compressed because pushing it squashes each particle into a smaller size.",
+     "A gas can be compressed because pushing it destroys some of its particles."
+    ]
+   }
   },
   {
    "id": "c07q31",
@@ -545,11 +828,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Solid particles are very closely packed, so there is very little space between them. They cannot be pushed any closer, so a solid cannot be compressed.",
    "hint": "",
    "image": null,
    "lo": "Explain compression using the space between particles",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particle size is not what stops compression. Think about how much space there is between the particles.",
+    "1": "Solid particles are very close together, not far apart. Particles that are far apart would make compression easy.",
+    "2": "Solid particles do move. They vibrate about fixed positions. Movement is not what stops compression."
+   },
+   "why": {
+    "right": "A solid cannot be compressed because its particles are packed so closely that there is no room to move closer.",
+    "wrong": [
+     "A solid cannot be compressed because its particles are too heavy to be pushed together.",
+     "A solid cannot be compressed because its particles are not moving and so cannot be pushed."
+    ]
+   }
   },
   {
    "id": "c07q32",
@@ -563,11 +858,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Pushing the plunger forces the air particles into a smaller volume. The particles move closer together, but their number and size stay the same.",
    "hint": "",
    "image": null,
    "lo": "Explain compression using the space between particles",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Particles are not destroyed when a gas is compressed. The number of particles stays the same.",
+    "1": "The volume got smaller, so the particles have less room. They cannot be further apart in a smaller space.",
+    "3": "The particles keep the same size when a gas is compressed. Think about what happens to the spaces between them."
+   },
+   "why": {
+    "right": "Air in a syringe takes up less volume because its particles move closer together into the empty spaces.",
+    "wrong": [
+     "Air in a syringe takes up less volume because its particles shrink when they are pushed.",
+     "Air in a syringe takes up less volume because some of its particles are destroyed by the push."
+    ]
+   }
   },
   {
    "id": "c07q33",
@@ -581,11 +888,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water is a liquid. Its particles are already closely packed with very little space between them, so its volume stays the same when it is pushed.",
    "hint": "",
    "image": null,
    "lo": "Explain compression using the space between particles",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Pushing on a substance cannot make it take up more space. Think about whether the water particles have any room to move closer.",
+    "1": "A large decrease in volume happens when a gas is compressed. Water particles are already close together.",
+    "3": "Matter always takes up space, so its volume can never drop to zero. Think about how close the water particles already are."
+   },
+   "why": {
+    "right": "Water in a syringe keeps its volume because its particles are already close with very little space between them.",
+    "wrong": [
+     "Water in a syringe keeps its volume because its particles are held in fixed positions like a solid.",
+     "Water in a syringe keeps its volume because its particles are too hard to be squashed any smaller."
+    ]
+   }
   },
   {
    "id": "c07q34",
@@ -598,11 +917,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Only a gas can be pushed in easily. Gas particles are far apart, so they can be moved much closer together.",
    "hint": "",
    "image": null,
    "lo": "Explain compression using the space between particles",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Liquid particles are already close together, so a liquid cannot be pushed in. Think about which state has large spaces between particles.",
+    "2": "Solid particles are very closely packed, so a solid cannot be pushed in. Think about which state has large spaces between particles."
+   },
+   "why": {
+    "right": "Contents that are easily compressed must be a gas, because only gas particles have large spaces between them.",
+    "wrong": [
+     "Contents that are easily compressed must be a gas, because only gas particles can be squashed smaller.",
+     "Contents that are easily compressed must be a gas, because only gas particles have no forces at all."
+    ]
+   }
   },
   {
    "id": "c07q35",
@@ -616,11 +946,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Heating gives the particles more energy. The particles in a solid then vibrate more vigorously about their fixed positions.",
    "hint": "",
    "image": null,
    "lo": "Explain expansion and contraction using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particles keep the same size when heated. Heating changes how the particles move.",
+    "1": "Heating gives particles more energy, so they move more, not less. Particles only slow down when cooled.",
+    "2": "Vibrating less vigorously happens when a solid is cooled. Heating adds energy to the particles."
+   },
+   "why": {
+    "right": "Heated solid particles vibrate more because they gain energy from the heat supplied.",
+    "wrong": [
+     "Heated solid particles vibrate more because they grow larger and bump into each other.",
+     "Heated solid particles vibrate more because the heat breaks them into smaller pieces."
+    ]
+   }
   },
   {
    "id": "c07q36",
@@ -633,11 +975,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "When a solid is heated, its particles vibrate more vigorously and move further apart. The distance between the particles increases, so the solid expands.",
    "hint": "",
    "image": null,
    "lo": "Explain expansion and contraction using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A decrease in distance happens when a solid is cooled and contracts. Heating makes the particles vibrate more.",
+    "2": "The solid became bigger, but the particles did not change in size or number. Something else about them must have changed."
+   },
+   "why": {
+    "right": "A heated solid expands because its particles vibrate more and move further apart from one another.",
+    "wrong": [
+     "A heated solid expands because each of its particles swells up and becomes bigger.",
+     "A heated solid expands because heat creates new particles that fill the solid."
+    ]
+   }
   },
   {
    "id": "c07q37",
@@ -651,11 +1004,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heating makes the particles of the ball vibrate more vigorously and move further apart. The ball expands, so it no longer fits through the ring.",
    "hint": "",
    "image": null,
    "lo": "Explain expansion and contraction using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Particles do not grow when heated. The ball gets bigger for a different reason.",
+    "1": "Heating does not change the mass of particles. Think about what happens to the gaps between them.",
+    "3": "Heating does not create new particles. The number of particles stays the same."
+   },
+   "why": {
+    "right": "A heated metal ball expands because its particles vibrate more and move further apart.",
+    "wrong": [
+     "A heated metal ball expands because its particles swell up as they take in heat.",
+     "A heated metal ball expands because heat adds new particles to the metal."
+    ]
+   }
   },
   {
    "id": "c07q38",
@@ -668,11 +1033,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cooling makes the particles in the lid vibrate less vigorously and move closer together. The lid contracts, so its volume decreases.",
    "hint": "",
    "image": null,
    "lo": "Explain expansion and contraction using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An increase in volume happens when a solid is heated. Cooling takes energy away from the particles.",
+    "2": "Cooling changes how much the particles vibrate, which changes the space they take up. The volume does not stay the same."
+   },
+   "why": {
+    "right": "A cooled metal lid contracts because its particles vibrate less and move closer together.",
+    "wrong": [
+     "A cooled metal lid contracts because its particles shrink in the cold.",
+     "A cooled metal lid contracts because some of its particles freeze and disappear."
+    ]
+   }
   },
   {
    "id": "c07q39",
@@ -686,11 +1062,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Warming gives the liquid particles more energy, so they move faster and further apart. The liquid expands and rises up the narrow tube.",
    "hint": "",
    "image": null,
    "lo": "Explain expansion and contraction using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "No new particles enter the thermometer. The number of particles stays the same.",
+    "1": "Particles stay the same size when heated. Think about the spaces between them.",
+    "2": "Contraction makes a liquid take up less space, so the level would fall. The liquid level rose."
+   },
+   "why": {
+    "right": "Thermometer liquid rises when warmed because its particles move further apart, so the liquid takes up more space.",
+    "wrong": [
+     "Thermometer liquid rises when warmed because its particles become larger, so the liquid takes up more space.",
+     "Thermometer liquid rises when warmed because hot liquid particles are lighter and float upwards."
+    ]
+   }
   },
   {
    "id": "c07q40",
@@ -704,11 +1092,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Cooling makes the air particles lose energy and move more slowly. They move closer together, so the air takes up less space and the balloon shrinks.",
    "hint": "",
    "image": null,
    "lo": "Explain expansion and contraction using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Particles lose energy when cooled, not gain it. A freezer takes energy away from the air.",
+    "2": "Particles are not destroyed by cooling. The number of air particles inside the balloon stays the same.",
+    "3": "Particles keep the same size when cooled. Think about the spaces between them."
+   },
+   "why": {
+    "right": "A balloon shrinks in a freezer because its air particles lose energy and move closer together.",
+    "wrong": [
+     "A balloon shrinks in a freezer because its air particles shrink to a smaller size.",
+     "A balloon shrinks in a freezer because some of its air particles are destroyed by the cold."
+    ]
+   }
   },
   {
    "id": "c07q41",
@@ -722,11 +1122,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "During expansion, the particles move further apart. The number of particles and the size of each particle do not change.",
    "hint": "",
    "image": null,
    "lo": "Apply conservation of mass during expansion and contraction",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particles keep the same size when a substance expands. Only the distance between them changes.",
+    "2": "Expansion makes a substance bigger, but particles are not lost or shrunk. Only the distance between them changes.",
+    "3": "No new particles are made and none grow bigger during expansion. Only the distance between them changes."
+   },
+   "why": {
+    "right": "During expansion, particles keep their number and size because only the distance between them increases.",
+    "wrong": [
+     "During expansion, particles keep their number and size because the particles stop moving while expanding.",
+     "During expansion, particles keep their number and size because expansion happens only in gases."
+    ]
+   }
   },
   {
    "id": "c07q42",
@@ -740,11 +1152,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Expansion only increases the distance between particles. The number of particles and their mass stay the same, so the rod still has a mass of 50 g.",
    "hint": "",
    "image": null,
    "lo": "Apply conservation of mass during expansion and contraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The rod still exists after heating. It has the same particles, so it must still have mass.",
+    "1": "The rod does not lose particles when it expands. Spreading the same particles further apart does not remove mass.",
+    "2": "The rod takes up more space, but no particles are added. A larger volume does not mean a larger mass."
+   },
+   "why": {
+    "right": "A heated rod keeps the same mass because it has the same number of particles, just further apart.",
+    "wrong": [
+     "A heated rod keeps the same mass because mass can only change when a solid melts.",
+     "A heated rod keeps the same mass because its particles shrink as they move further apart."
+    ]
+   }
   },
   {
    "id": "c07q43",
@@ -758,11 +1182,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Contraction only decreases the distance between particles. The number of particles stays the same, so the iron block still has a mass of 200 g.",
    "hint": "",
    "image": null,
    "lo": "Apply conservation of mass during expansion and contraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The block still exists after cooling. It has the same particles, so it must still have mass.",
+    "2": "No particles are added when the block contracts. Moving particles closer together does not add mass.",
+    "3": "The block takes up less space, but no particles are lost. A smaller volume does not mean a smaller mass."
+   },
+   "why": {
+    "right": "A cooled iron block keeps the same mass because no particles are added or lost when it contracts.",
+    "wrong": [
+     "A cooled iron block keeps the same mass because its particles grow as they move closer together.",
+     "A cooled iron block keeps the same mass because iron is too hard for its volume to change."
+    ]
+   }
   },
   {
    "id": "c07q44",
@@ -776,11 +1212,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Heating only moves the particles further apart. The number of particles does not change, so the wire had the same mass of 30 g before heating.",
    "hint": "",
    "image": null,
    "lo": "Apply conservation of mass during expansion and contraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Heating did not remove any particles from the wire. Its mass did not drop during heating.",
+    "1": "Heating did not add any particles to the wire. Its mass did not rise during heating.",
+    "3": "The wire existed before heating and was made of the same particles. It must have had mass then too."
+   },
+   "why": {
+    "right": "A copper wire has the same mass before and after heating because it keeps the same number of particles.",
+    "wrong": [
+     "A copper wire has the same mass before and after heating because copper does not expand when heated.",
+     "A copper wire has the same mass before and after heating because the heat gained balances the particles lost."
+    ]
+   }
   },
   {
    "id": "c07q45",
@@ -794,11 +1242,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The bottle is sealed, so no air particles can enter or leave. Warming only makes the particles move faster, so the mass stays at 120 g.",
    "hint": "",
    "image": null,
    "lo": "Apply conservation of mass during expansion and contraction",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "No particles can enter a sealed bottle. Warming the air does not add particles, so it cannot add mass.",
+    "2": "Warm air does not have less mass. The sealed bottle still holds every air particle it had.",
+    "3": "The bottle and the air inside still exist after warming. Both have mass."
+   },
+   "why": {
+    "right": "A sealed bottle of air keeps its mass when warmed because no particles can enter or leave it.",
+    "wrong": [
+     "A sealed bottle of air keeps its mass when warmed because air has no mass, so only the bottle counts.",
+     "A sealed bottle of air keeps its mass when warmed because air particles do not move faster when warmed."
+    ]
+   }
   },
   {
    "id": "c07q46",
@@ -812,11 +1272,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Melting is the change of state from solid to liquid. It happens when a solid is heated to its melting point.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Boiling is a liquid changing into a gas. The question starts with a solid.",
+    "2": "Condensation is a gas changing into a liquid. The question starts with a solid.",
+    "3": "Freezing is a liquid changing into a solid, which is the reverse of this change. The question starts with a solid."
+   },
+   "why": null
   },
   {
    "id": "c07q47",
@@ -830,11 +1296,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Condensation is the change of state from gas to liquid. It happens when a gas is cooled and its particles lose energy.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Boiling is a liquid changing into a gas, which is the reverse of this change. The question starts with a gas.",
+    "1": "Melting is a solid changing into a liquid. The question starts with a gas.",
+    "2": "Freezing is a liquid changing into a solid. The question starts with a gas."
+   },
+   "why": null
   },
   {
    "id": "c07q48",
@@ -848,11 +1320,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Water vapour in the air touches the cold glass and loses energy. It changes from a gas into liquid water droplets. This is condensation.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Boiling turns a liquid into a gas and needs heating. The droplets form on something cold.",
+    "1": "Melting turns a solid into a liquid. The droplets come from water vapour in the air, which is not a solid.",
+    "3": "Freezing turns a liquid into a solid. The droplets are liquid, not solid."
+   },
+   "why": {
+    "right": "Droplets form on a cold glass because water vapour in the air cools and turns into liquid.",
+    "wrong": [
+     "Droplets form on a cold glass because water inside the glass seeps out through tiny holes.",
+     "Droplets form on a cold glass because the coldness itself turns into water on the surface."
+    ]
+   }
   },
   {
    "id": "c07q49",
@@ -866,11 +1350,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Freezing is the change of state from liquid to solid. Liquid wax loses energy as it cools and becomes solid wax.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Condensation is a gas changing into a liquid. Liquid wax is already a liquid.",
+    "2": "Boiling turns a liquid into a gas and needs heating. The wax is cooling.",
+    "3": "Melting turns a solid into a liquid, which is the reverse of this change. The wax is becoming hard."
+   },
+   "why": {
+    "right": "Liquid wax hardening is freezing because the wax changes from liquid to solid as it loses energy.",
+    "wrong": [
+     "Liquid wax hardening is freezing because the wax becomes colder than 0 °C as it hardens.",
+     "Liquid wax hardening is freezing because the wax changes from liquid to gas as it gains energy."
+    ]
+   }
   },
   {
    "id": "c07q50",
@@ -884,11 +1380,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a solid, very strong forces of attraction hold the particles in fixed positions. During melting, the particles gain enough energy to overcome these forces and slide past one another.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particles do not change size when a substance melts. The energy is used to free the particles from their fixed positions.",
+    "1": "Melting does not make new particles. The same particles are there before and after.",
+    "2": "Heated particles vibrate more, not less. They gain energy to break free of something holding them."
+   },
+   "why": {
+    "right": "Melting needs energy because the strong forces holding solid particles in fixed positions must be overcome.",
+    "wrong": [
+     "Melting needs energy because the solid particles must be made larger before they can flow.",
+     "Melting needs energy because new particles must be made to fill the liquid."
+    ]
+   }
   },
   {
    "id": "c07q51",
@@ -902,11 +1410,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "When a liquid is cooled, its particles lose energy and move more slowly. The forces of attraction then hold them in fixed positions, and the liquid becomes a solid.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The particles do lose energy, but they do not change size. Think about what happens to where the particles are.",
+    "1": "Cooling takes energy away from particles. Particles that gain energy and move apart would not form a solid.",
+    "3": "Cooling takes energy away from particles. Sliding past each other describes a liquid, not a solid."
+   },
+   "why": {
+    "right": "A freezing liquid becomes solid because its particles lose energy and forces hold them in fixed positions.",
+    "wrong": [
+     "A freezing liquid becomes solid because its particles shrink and lock together like puzzle pieces.",
+     "A freezing liquid becomes solid because its particles stop moving completely once they are cold."
+    ]
+   }
   },
   {
    "id": "c07q52",
@@ -919,11 +1439,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "While pure ice is melting, the energy taken in is used to overcome the forces between particles. The temperature stays at 0 °C until all the ice has melted.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The ice is taking in heat while it melts, so its temperature does not fall. Think about where the energy is going.",
+    "2": "The ice is taking in energy, but during melting this energy is used to free the particles, not to warm them."
+   },
+   "why": {
+    "right": "Melting ice stays at the same temperature because the energy taken in is used to overcome the forces between particles.",
+    "wrong": [
+     "Melting ice stays at the same temperature because ice cannot take in any heat until it has melted.",
+     "Melting ice stays at the same temperature because the cold of the ice cancels out the heat from outside."
+    ]
+   }
   },
   {
    "id": "c07q53",
@@ -937,11 +1468,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Boiling is the change from liquid to gas. The liquid particles gain enough energy to overcome the forces of attraction and move far apart.",
    "hint": "",
    "image": null,
    "lo": "Name and explain changes of state using the particle model",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Melting starts with a solid, not a liquid. The question starts with liquid particles.",
+    "2": "Freezing happens when particles lose energy, not gain it. The particles in the question gain energy.",
+    "3": "Condensation happens when gas particles lose energy and move closer together. The particles in the question start as a liquid."
+   },
+   "why": {
+    "right": "Boiling turns liquid to gas because the particles gain enough energy to overcome the forces holding them close.",
+    "wrong": [
+     "Boiling turns liquid to gas because the particles grow so large that they push each other apart.",
+     "Boiling turns liquid to gas because the particles lose energy and float away from each other."
+    ]
+   }
   },
   {
    "id": "c07q54",
@@ -955,11 +1498,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Diffusion is the net movement of particles from a region of higher concentration to a region of lower concentration. It continues until the concentration is the same everywhere.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion as the net movement of particles from higher to lower concentration",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Particles spread out from where they are crowded. They do not crowd into a region that already has more of them.",
+    "1": "Diffusion is about how many particles are in a region, not how hot it is. Temperature changes the speed, not the direction.",
+    "3": "Diffusion is about how many particles are in a region, not how hot it is. Think about where the particles are crowded."
+   },
+   "why": null
   },
   {
    "id": "c07q55",
@@ -973,11 +1522,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Perfume particles spread through the air from where they are crowded, near the bottle, to where there are fewer of them. This net movement is diffusion.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion as the net movement of particles from higher to lower concentration",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Ice melting is a change of state from solid to liquid. Diffusion is about particles spreading out from a crowded region.",
+    "1": "Condensation is a gas changing into a liquid. Diffusion is about particles spreading out from a crowded region.",
+    "2": "Expansion is a substance getting bigger when heated. Diffusion is about particles spreading out from a crowded region."
+   },
+   "why": {
+    "right": "Perfume smell spreads through a room because perfume particles move from higher to lower concentration.",
+    "wrong": [
+     "Perfume smell spreads through a room because perfume particles expand to fill the room.",
+     "Perfume smell spreads through a room because air particles stay still while perfume moves through them."
+    ]
+   }
   },
   {
    "id": "c07q56",
@@ -991,11 +1552,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Helium particles are very small and move constantly. Over a few days, some pass out through tiny gaps in the balloon, from higher concentration inside to lower concentration outside.",
    "hint": "",
    "image": null,
    "lo": "Define diffusion as the net movement of particles from higher to lower concentration",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Particles do not change size. The balloon shrinks because the amount of helium inside changes.",
+    "2": "Condensation needs a gas to be cooled into a liquid. A balloon at room temperature does not fill with liquid helium.",
+    "3": "Particles are not destroyed. The helium particles still exist but are no longer inside the balloon."
+   },
+   "why": {
+    "right": "A helium balloon shrinks because helium particles move out from higher concentration inside to lower concentration outside.",
+    "wrong": [
+     "A helium balloon shrinks because helium particles slowly shrink as they lose energy over time.",
+     "A helium balloon shrinks because helium particles are used up as they hold the balloon up."
+    ]
+   }
   },
   {
    "id": "c07q57",
@@ -1009,11 +1582,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Concentration is the number of particles in a given volume. A high concentration means many solute particles per unit volume.",
    "hint": "",
    "image": null,
    "lo": "Compare concentrations and predict the direction of diffusion",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Concentration is not about temperature. It is about how crowded the solute particles are.",
+    "2": "Concentration is not about the size of particles. It is about how crowded the solute particles are.",
+    "3": "Fewer particles in each unit of volume means the solution is less crowded, so its concentration is lower."
+   },
+   "why": null
   },
   {
    "id": "c07q58",
@@ -1026,11 +1605,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Region X has the higher concentration of ink particles, 40 per cm³, and region Y has 10 per cm³. Ink particles move from higher to lower concentration, so they move from X to Y.",
    "hint": "",
    "image": null,
    "lo": "Compare concentrations and predict the direction of diffusion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Y has fewer ink particles per cm³ than X. Diffusion moves particles away from where they are crowded.",
+    "2": "There is a difference in concentration between X and Y, so there is a net movement. It stops only when both are equal."
+   },
+   "why": {
+    "right": "Ink particles spread from 40 per cm³ to 10 per cm³ because diffusion goes from higher to lower concentration.",
+    "wrong": [
+     "Ink particles spread from 40 per cm³ to 10 per cm³ because diffusion goes from lower to higher concentration.",
+     "Ink particles spread from 40 per cm³ to 10 per cm³ because crowded particles are pushed out by their weight."
+    ]
+   }
   },
   {
    "id": "c07q59",
@@ -1043,11 +1633,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Region Q has the higher concentration, 18 per cm³, and region P has 6 per cm³. Ink particles move from higher to lower concentration, so they move from Q to P.",
    "hint": "",
    "image": null,
    "lo": "Compare concentrations and predict the direction of diffusion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "There is a difference in concentration between P and Q, so there is a net movement. It stops only when both are equal.",
+    "1": "P has fewer ink particles per cm³ than Q. Diffusion moves particles away from where they are crowded, not toward it."
+   },
+   "why": {
+    "right": "Ink particles spread from 18 per cm³ to 6 per cm³ because diffusion goes from higher to lower concentration.",
+    "wrong": [
+     "Ink particles spread from 18 per cm³ to 6 per cm³ because smaller groups of particles attract larger groups.",
+     "Ink particles spread from 18 per cm³ to 6 per cm³ because particles in crowded regions are larger and heavier."
+    ]
+   }
   },
   {
    "id": "c07q60",
@@ -1060,11 +1661,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Concentration is the number of particles per unit volume. R has 10 particles per cm³ and S has 4 particles per cm³, so particles move from R to S.",
    "hint": "",
    "image": null,
    "lo": "Compare concentrations and predict the direction of diffusion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Both regions have 20 particles, but the volumes are different. Concentration compares particles per unit volume, not total particles.",
+    "2": "S has the larger volume, so its particles are more spread out. Work out the particles per cm³ in each region."
+   },
+   "why": {
+    "right": "Particles spread from 20 in 2 cm³ to 20 in 5 cm³ because the first region is more concentrated.",
+    "wrong": [
+     "Particles spread from 20 in 2 cm³ to 20 in 5 cm³ because particles always move toward the larger space.",
+     "Particles spread from 20 in 2 cm³ to 20 in 5 cm³ because the second region has more particles."
+    ]
+   }
   },
   {
    "id": "c07q61",
@@ -1078,11 +1690,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Net movement of ink happens only while there is a difference in concentration. It stops when the ink is spread evenly and the concentration is uniform. The particles still keep moving randomly.",
    "hint": "",
    "image": null,
    "lo": "Compare concentrations and predict the direction of diffusion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The water does not need to boil for diffusion to happen or stop. Diffusion depends on differences in concentration.",
+    "1": "Ink spreads in all directions, not only downward. Think about when there is no longer a crowded region.",
+    "2": "Diffusion has no fixed time. How long it takes depends on conditions such as temperature."
+   },
+   "why": {
+    "right": "Net movement of ink stops when it is evenly spread because there is no longer a concentration difference.",
+    "wrong": [
+     "Net movement of ink stops when it is evenly spread because the ink particles stop moving completely.",
+     "Net movement of ink stops when it is evenly spread because the water particles block the ink."
+    ]
+   }
   },
   {
    "id": "c07q62",
@@ -1095,11 +1719,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Particles diffuse from a region of higher concentration to a region of lower concentration. Sugar moved from A to B, so region A had the higher concentration.",
    "hint": "",
    "image": null,
    "lo": "Compare concentrations and predict the direction of diffusion",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "If the concentrations were equal, there would be no net movement. The sugar did move from one region to the other.",
+    "1": "Diffusion moves particles away from the crowded region. Sugar left one region and went to the other, so think about which was crowded."
+   },
+   "why": {
+    "right": "Sugar diffusing from region A to region B shows A was more concentrated, since diffusion goes from higher to lower concentration.",
+    "wrong": [
+     "Sugar diffusing from region A to region B shows A was more concentrated, since sugar particles in A were heavier.",
+     "Sugar diffusing from region A to region B shows A was more concentrated, since particles in B pulled the sugar across."
+    ]
+   }
   },
   {
    "id": "c07q63",
@@ -1113,11 +1748,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Open-mindedness means being willing to change an idea when new evidence does not fit it. The scientists showed this by re-examining an old idea.",
    "hint": "",
    "image": null,
    "lo": "Identify scientific attitudes shown in building and changing models",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Curiosity is wanting to find out more. The key action here is being willing to change an existing idea.",
+    "1": "Perseverance is continuing despite difficulty. The key action here is being willing to change an existing idea.",
+    "2": "Integrity is being honest in recording and reporting results. The key action here is being willing to change an existing idea."
+   },
+   "why": {
+    "right": "Re-examining an old idea shows open-mindedness because scientists accept that new evidence may change their ideas.",
+    "wrong": [
+     "Re-examining an old idea shows open-mindedness because scientists accept every new idea without testing it.",
+     "Re-examining an old idea shows open-mindedness because old ideas in science are always proved wrong."
+    ]
+   }
   },
   {
    "id": "c07q64",
@@ -1131,11 +1778,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Creativity is coming up with new ideas or new ways of doing things. Using beads to build a new model of particles is a creative way to show an idea.",
    "hint": "",
    "image": null,
    "lo": "Identify scientific attitudes shown in building and changing models",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Perseverance is continuing despite difficulty. The question is about making something new.",
+    "2": "Integrity is being honest in recording and reporting results. The question is about making something new.",
+    "3": "Objectivity is judging evidence without letting personal feelings affect it. The question is about making something new."
+   },
+   "why": {
+    "right": "Building a bead model shows creativity because it is a new way to represent particles that cannot be seen.",
+    "wrong": [
+     "Building a bead model shows creativity because beads behave exactly like real particles.",
+     "Building a bead model shows creativity because any model made by hand is always correct."
+    ]
+   }
   }
  ]
 }

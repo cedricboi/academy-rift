@@ -16,11 +16,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The cell is like the pump. It provides the energy that pushes charge around the circuit, just as a pump pushes water around the pipes.",
    "hint": "",
    "image": null,
    "lo": "Name the main components of an electrical system and their functions",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Wires are like the pipes. They give a path for charge to flow but do not push it. Think about which part supplies the energy.",
+    "1": "A switch is like a tap. It opens or closes the path but does not push charge. Think about which part supplies the energy.",
+    "3": "A bulb uses energy, like a water wheel turned by flowing water. Think about which part gives the charge its energy in the first place."
+   },
+   "why": {
+    "right": "A cell acts like a pump because it gives charge the energy to move around the circuit.",
+    "wrong": [
+     "A cell acts like a pump because it stores current and releases it into the wires.",
+     "A cell acts like a pump because it controls whether the circuit is open or closed."
+    ]
+   }
   },
   {
    "id": "c13q2",
@@ -34,11 +46,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Electrons are tiny negatively charged particles. In metal wires some electrons are free to move, and they carry the charge around the circuit.",
    "hint": "",
    "image": null,
    "lo": "Name the main components of an electrical system and their functions",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Neutrons have no charge, so they cannot carry electric charge. Think about which particle has a charge and is free to move in a metal.",
+    "2": "Protons are charged but they are held in the nucleus of each atom and do not move along a wire. Think about which charged particle can move.",
+    "3": "The atoms in a metal wire stay in place. Electric charge is carried by smaller charged particles that can move between the atoms."
+   },
+   "why": {
+    "right": "Electrons carry charge in wires because some of them are free to move between the metal atoms.",
+    "wrong": [
+     "Electrons carry charge in wires because they are the heaviest particles in an atom.",
+     "Electrons carry charge in wires because they have no charge and slip easily through metal."
+    ]
+   }
   },
   {
    "id": "c13q3",
@@ -52,11 +76,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A battery is two or more cells joined end to end. Joining cells this way gives a larger push to the charge.",
    "hint": "",
    "image": null,
    "lo": "Name the main components of an electrical system and their functions",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A fuse is a safety device with a thin wire that melts when the current is too large. It is not made of cells.",
+    "2": "A resistor opposes the flow of current. It does not supply energy, so joining cells does not make one.",
+    "3": "A rheostat is a resistor whose resistance can be changed. It does not supply energy, so joining cells does not make one."
+   },
+   "why": null
   },
   {
    "id": "c13q4",
@@ -70,11 +100,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A closed circuit is a complete loop with no gaps. Charge can travel all the way round, so current flows.",
    "hint": "",
    "image": null,
    "lo": "Identify open and closed circuits",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "An open switch makes a gap in the circuit. A closed circuit has no gaps anywhere in the loop.",
+    "1": "This describes an open circuit. In a closed circuit the loop is complete, so think about what charge can do in a complete loop.",
+    "2": "A bulb fails to light when there is a gap in the loop. In a closed circuit the loop is complete."
+   },
+   "why": {
+    "right": "Current flows in a closed circuit because there is a complete path for charge to travel round.",
+    "wrong": [
+     "Current flows in a closed circuit because the switch stores charge until it is pressed.",
+     "Current flows in a closed circuit because the wires inside it have no resistance at all."
+    ]
+   }
   },
   {
    "id": "c13q5",
@@ -88,11 +130,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An open switch leaves a gap in the circuit. No current can flow, so the bulb does not light up.",
    "hint": "",
    "image": null,
    "lo": "Identify open and closed circuits",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A dim bulb still needs some current. An open switch makes a gap, so think about whether any current can flow at all.",
+    "2": "A bulb only overheats with a current far too large. An open switch makes a gap in the circuit, so think about how much current flows.",
+    "3": "A bright bulb needs a large current through a complete loop. An open switch makes a gap in the circuit."
+   },
+   "why": {
+    "right": "A bulb in a circuit with an open switch stays off because the gap stops current from flowing.",
+    "wrong": [
+     "A bulb in a circuit with an open switch stays off because the switch uses up all the energy.",
+     "A bulb in a circuit with an open switch stays off because the cell stops making charge."
+    ]
+   }
   },
   {
    "id": "c13q6",
@@ -105,11 +159,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Cutting a wire makes a gap in the circuit. A circuit with a gap is an open circuit, so no current flows.",
    "hint": "",
    "image": null,
    "lo": "Identify open and closed circuits",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Parallel describes components arranged on separate branches. It does not describe a break in a wire. Think about what a gap does to the loop.",
+    "2": "A closed circuit is a complete loop. A cut wire leaves a gap, so the loop is no longer complete."
+   },
+   "why": {
+    "right": "A circuit with a cut wire is open because the cut leaves a gap in the path for charge.",
+    "wrong": [
+     "A circuit with a cut wire is open because the charge leaks out through the cut ends.",
+     "A circuit with a cut wire is open because the cut wire now has no resistance."
+    ]
+   }
   },
   {
    "id": "c13q7",
@@ -122,11 +187,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The bulb lights up, so current is flowing. Current can only flow when the switch is closed and the circuit is complete.",
    "hint": "",
    "image": null,
    "lo": "Identify open and closed circuits",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Removing a switch would leave a gap in the circuit, so the bulb would not light. Think about the switch position that completes the loop.",
+    "1": "An open switch makes a gap in the circuit, so no current flows. The bulb lit up, so think about which switch position completes the loop."
+   },
+   "why": {
+    "right": "A switch that lights a bulb is closed because a closed switch completes the path for charge.",
+    "wrong": [
+     "A switch that lights a bulb is closed because a closed switch gives extra energy to the charge.",
+     "A switch that lights a bulb is closed because a closed switch stores charge for the bulb."
+    ]
+   }
   },
   {
    "id": "c13q8",
@@ -140,11 +216,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The symbol for a cell is a long line beside a short line. The long line is the positive terminal and the short line is the negative terminal.",
    "hint": "",
    "image": null,
    "lo": "Identify open and closed circuits",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A switch is drawn as a break in the wire with a hinged line. Think about which symbol shows two parallel lines of different lengths.",
+    "1": "A bulb is drawn as a circle with a cross inside. Think about which symbol shows two parallel lines of different lengths.",
+    "2": "A fixed resistor is drawn as a rectangle. Think about which symbol shows two parallel lines of different lengths."
+   },
+   "why": null
   },
   {
    "id": "c13q9",
@@ -158,11 +240,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Electric current is the rate of flow of electric charge. It tells how much charge passes a point in the circuit each second.",
    "hint": "",
    "image": null,
    "lo": "Describe current and potential difference and state their SI units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Energy to move a unit charge describes potential difference. Current is about the movement of the charge itself, not the energy it carries.",
+    "2": "Opposition to the flow of charge describes resistance. Current is about the movement of the charge itself.",
+    "3": "Energy used per unit time describes power. Current is about the movement of the charge itself, not energy."
+   },
+   "why": null
   },
   {
    "id": "c13q10",
@@ -176,11 +264,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Potential difference is the energy needed to move a unit charge between two points in a circuit. It is measured in volts.",
    "hint": "",
    "image": null,
    "lo": "Describe current and potential difference and state their SI units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Energy used per unit time describes power. Potential difference is about the energy linked to each unit of charge.",
+    "1": "Opposition to the flow of charge describes resistance. Potential difference is about the energy linked to each unit of charge.",
+    "3": "The rate of flow of charge describes current. Potential difference is about the energy linked to each unit of charge."
+   },
+   "why": null
   },
   {
    "id": "c13q11",
@@ -194,11 +288,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Potential difference is also called voltage because it is measured in volts.",
    "hint": "",
    "image": null,
    "lo": "Describe current and potential difference and state their SI units",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Resistance is a different quantity. It measures how much a component opposes current. Think about the name that comes from the unit of potential difference.",
+    "2": "Power is a different quantity. It is the energy used per unit time. Think about the name that comes from the unit of potential difference.",
+    "3": "Current is a different quantity. It is the rate of flow of charge. Think about the name that comes from the unit of potential difference."
+   },
+   "why": null
   },
   {
    "id": "c13q12",
@@ -212,11 +312,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Resistance measures how much a component opposes the flow of current. A larger resistance means a smaller current for the same cell.",
    "hint": "",
    "image": null,
    "lo": "Describe resistance and state its SI unit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Measuring current is the job of an ammeter. Resistance is a property of a component that affects how easily current passes through it.",
+    "1": "Pushing charge around a circuit is the job of the cell. Resistance is about how easily current can pass through a component.",
+    "2": "Storing chemical energy is what a cell does. Resistance is about how easily current can pass through a component."
+   },
+   "why": null
   },
   {
    "id": "c13q13",
@@ -230,11 +336,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A resistor adds to the total resistance of the circuit. The current becomes smaller, so the bulb is less bright.",
    "hint": "",
    "image": null,
    "lo": "Describe resistance and state its SI unit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A resistor does not switch current on and off. It changes the size of a steady current. Think about whether the current becomes larger or smaller.",
+    "2": "A resistor opposes the flow of current, so it changes the current in the bulb. Think about whether the current becomes larger or smaller.",
+    "3": "A resistor adds resistance to the circuit. More resistance does not give a larger current. Think about what happens to the current through the bulb."
+   },
+   "why": {
+    "right": "A bulb dims when a resistor is added because the larger total resistance lowers the current.",
+    "wrong": [
+     "A bulb dims when a resistor is added because the resistor uses up the current before the bulb.",
+     "A bulb dims when a resistor is added because the resistor stores some of the charge from the cell."
+    ]
+   }
   },
   {
    "id": "c13q14",
@@ -248,11 +366,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Current is measured in amperes (A). The ampere is the SI unit of current.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The volt is the unit of potential difference, not current. Think about the unit shown on an ammeter.",
+    "1": "The watt is the unit of power, not current. Think about the unit shown on an ammeter.",
+    "3": "The ohm is the unit of resistance, not current. Think about the unit shown on an ammeter."
+   },
+   "why": null
   },
   {
    "id": "c13q15",
@@ -266,11 +390,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Potential difference is measured in volts (V). This is why it is also called voltage.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The watt is the unit of power, not potential difference. Think about the unit shown on a voltmeter.",
+    "1": "The ohm is the unit of resistance, not potential difference. Think about the unit shown on a voltmeter.",
+    "2": "The ampere is the unit of current, not potential difference. Think about the unit shown on a voltmeter."
+   },
+   "why": null
   },
   {
    "id": "c13q16",
@@ -284,11 +414,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Resistance is measured in ohms (Ω). The ohm is the SI unit of resistance.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The joule is the unit of energy, not resistance. Match each unit to the quantity it measures.",
+    "2": "The volt is the unit of potential difference, not resistance. Match each unit to the quantity it measures.",
+    "3": "The ampere is the unit of current, not resistance. Match each unit to the quantity it measures."
+   },
+   "why": null
   },
   {
    "id": "c13q17",
@@ -302,11 +438,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Current is measured in amperes (A), not volts. The volt is the unit of potential difference. The other three pairs are correct.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Resistance is measured in ohms, so this pair is correct. The question asks for the pair that is not correct.",
+    "1": "Energy is measured in joules, so this pair is correct. The question asks for the pair that is not correct.",
+    "2": "Power is measured in watts, so this pair is correct. The question asks for the pair that is not correct."
+   },
+   "why": null
   },
   {
    "id": "c13q18",
@@ -320,11 +462,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The ampere (A) is the unit of current. A reading of 2.5 A is a current reading from an ammeter.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Potential difference is measured in volts (V). Look at the unit letter A in the reading and match it to its quantity.",
+    "2": "Resistance is measured in ohms (Ω). Look at the unit letter A in the reading and match it to its quantity.",
+    "3": "Power is measured in watts (W). Look at the unit letter A in the reading and match it to its quantity."
+   },
+   "why": null
   },
   {
    "id": "c13q19",
@@ -338,11 +486,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The volt (V) is the unit of potential difference. Potential difference is measured with a voltmeter.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "An ammeter measures current in amperes (A). The reading is in volts, so think about which instrument measures potential difference.",
+    "1": "A fuse is a safety device, not a measuring instrument. The reading is in volts, so think about which instrument measures potential difference.",
+    "3": "A rheostat changes the resistance in a circuit. It does not give readings. Think about which instrument measures potential difference."
+   },
+   "why": null
   },
   {
    "id": "c13q20",
@@ -356,11 +510,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An ammeter measures current. It is connected in series with the bulb so the same current passes through both.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A rheostat changes the current but does not measure it. Think about which instrument gives a reading in amperes.",
+    "2": "A voltmeter measures potential difference in volts, not current. Think about which instrument gives a reading in amperes.",
+    "3": "A thermometer measures temperature, not current. Think about which instrument gives a reading in amperes."
+   },
+   "why": null
   },
   {
    "id": "c13q21",
@@ -374,11 +534,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A circle with the letter A inside is the symbol for an ammeter. A stands for amperes, the unit of the current it measures.",
    "hint": "",
    "image": null,
    "lo": "Match each quantity to its SI unit and measuring instrument",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A voltmeter is drawn as a circle with the letter V inside. Think about what the letter A stands for.",
+    "1": "A cell is drawn as a long line beside a short line. Think about what the letter A stands for.",
+    "2": "A bulb is drawn as a circle with a cross inside. Think about what the letter A stands for."
+   },
+   "why": null
   },
   {
    "id": "c13q22",
@@ -392,11 +558,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An ammeter is connected in series with the component. All the current through the component then also passes through the ammeter.",
    "hint": "",
    "image": null,
    "lo": "Connect ammeters and voltmeters correctly in a circuit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Connecting in parallel is how a voltmeter is used. An ammeter must have the same current flowing through it as the component.",
+    "1": "An ammeter connected across the cell would let a very large current flow. An ammeter must be on the same path as the component.",
+    "3": "An ammeter does not supply energy, so it cannot replace the cell. It must have the same current flowing through it as the component."
+   },
+   "why": {
+    "right": "An ammeter is placed in series so that the same current flows through it and the component.",
+    "wrong": [
+     "An ammeter is placed in series so that it can add extra current to the component.",
+     "An ammeter is placed in series so that it can measure the energy stored in the component."
+    ]
+   }
   },
   {
    "id": "c13q23",
@@ -410,11 +588,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A voltmeter is connected in parallel with the component, with one lead on each side of it. It then measures the potential difference across that component.",
    "hint": "",
    "image": null,
    "lo": "Connect ammeters and voltmeters correctly in a circuit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A voltmeter does not supply energy, so it cannot replace the cell. It must measure between the two ends of the component.",
+    "2": "Connecting in series is how an ammeter is used. A voltmeter compares the two ends of the component.",
+    "3": "Replacing the switch would not connect the voltmeter to the two ends of the component. It must measure across the component itself."
+   },
+   "why": {
+    "right": "A voltmeter is placed in parallel so that its leads join the two ends of the component.",
+    "wrong": [
+     "A voltmeter is placed in parallel so that all the current passes through the voltmeter first.",
+     "A voltmeter is placed in parallel so that it can supply extra voltage to the component."
+    ]
+   }
   },
   {
    "id": "c13q24",
@@ -428,11 +618,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Potential difference is measured across a component. The voltmeter is joined in parallel with the bulb, with one lead on each side of it.",
    "hint": "",
    "image": null,
    "lo": "Connect ammeters and voltmeters correctly in a circuit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Series connection is used for an ammeter. A voltmeter must be connected to the two ends of the bulb to measure across it.",
+    "2": "A voltmeter in series with the cell is not connected across the bulb. It must be joined to the two ends of the bulb.",
+    "3": "Replacing the bulb removes the very component being measured. The voltmeter must be joined to the two ends of the bulb."
+   },
+   "why": {
+    "right": "A voltmeter goes in parallel with a bulb because potential difference is measured across its two ends.",
+    "wrong": [
+     "A voltmeter goes in parallel with a bulb because the voltmeter must carry all of the bulb's current.",
+     "A voltmeter goes in parallel with a bulb because the voltmeter pushes extra charge through the bulb."
+    ]
+   }
   },
   {
    "id": "c13q25",
@@ -446,11 +648,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Current is measured through a component. The ammeter is joined in series with the resistor, so the same current passes through both.",
    "hint": "",
    "image": null,
    "lo": "Connect ammeters and voltmeters correctly in a circuit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Replacing the resistor removes the component being measured and changes the current. The ammeter must have the resistor's current flowing through it.",
+    "2": "Parallel connection is used for a voltmeter. An ammeter must have the same current flowing through it as the resistor.",
+    "3": "An ammeter across the cell would let a very large current flow and does not measure the resistor. It must carry the resistor's current."
+   },
+   "why": {
+    "right": "An ammeter goes in series with a resistor because the same current then flows through both of them.",
+    "wrong": [
+     "An ammeter goes in series with a resistor because the ammeter measures the energy the resistor stores.",
+     "An ammeter goes in series with a resistor because the ammeter adds more current to the resistor."
+    ]
+   }
   },
   {
    "id": "c13q26",
@@ -464,11 +678,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Electrical insulators have very high resistance. Almost no current can flow through them, so they are used to cover wires and plugs.",
    "hint": "",
    "image": null,
    "lo": "Classify materials by their resistance",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "Adjustable resistance describes a rheostat. Insulators are materials that let almost no current pass through.",
+    "2": "Low resistance describes good conductors such as copper. Insulators are materials that let almost no current pass through.",
+    "3": "No resistance would let current flow very easily, which is the opposite of an insulator. Insulators let almost no current pass through."
+   },
+   "why": null
   },
   {
    "id": "c13q27",
@@ -482,11 +702,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Copper has low resistance, so current flows through it easily and little energy is wasted as heat in the connecting wires.",
    "hint": "",
    "image": null,
    "lo": "Classify materials by their resistance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Adjustable resistance describes a rheostat. Connecting wires need to let current pass easily all the time.",
+    "1": "High resistance would make the wires heat up and reduce the current. Connecting wires need to let current pass easily.",
+    "3": "Very high resistance describes insulators such as plastic. Connecting wires need to let current pass easily."
+   },
+   "why": {
+    "right": "Copper suits connecting wires because current passes through it easily and little energy is lost as heat.",
+    "wrong": [
+     "Copper suits connecting wires because it stops too much current from reaching the components.",
+     "Copper suits connecting wires because it heats up quickly and gives a warning of a fault."
+    ]
+   }
   },
   {
    "id": "c13q28",
@@ -500,11 +732,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Plastic is an insulator with very high resistance. It stops current from passing from the wire to anyone who touches it.",
    "hint": "",
    "image": null,
    "lo": "Classify materials by their resistance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A conductor with low resistance would let current pass to anyone touching the wire. A wire covering must stop current from passing.",
+    "1": "A variable resistor is a component used inside circuits. A wire covering must stop current from passing through it.",
+    "2": "A conductor, even one with high resistance, still lets some current pass. A wire covering must stop current from passing through it."
+   },
+   "why": {
+    "right": "Plastic is used to cover wires because almost no current can pass through it to a person.",
+    "wrong": [
+     "Plastic is used to cover wires because it carries extra current safely along the wire.",
+     "Plastic is used to cover wires because it stores the charge that leaks from the wire."
+    ]
+   }
   },
   {
    "id": "c13q29",
@@ -518,11 +762,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Nichrome is a conductor with high resistance. When current passes through it, much electrical energy is converted to heat, so it is used in heating elements.",
    "hint": "",
    "image": null,
    "lo": "Classify materials by their resistance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Copper is a conductor with low resistance, so little energy becomes heat in it. Think about a conductor with high resistance.",
+    "1": "Glass is an insulator, so almost no current passes through it. The material asked for must be a conductor.",
+    "3": "Silver is a conductor with very low resistance, so little energy becomes heat in it. Think about a conductor with high resistance."
+   },
+   "why": {
+    "right": "Nichrome heats up strongly because its high resistance converts much electrical energy to heat.",
+    "wrong": [
+     "Nichrome heats up strongly because it is an insulator that traps heat inside the wire.",
+     "Nichrome heats up strongly because it stores electrical energy and releases it later as heat."
+    ]
+   }
   },
   {
    "id": "c13q30",
@@ -536,11 +792,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Silver is a metal and a very good conductor with low resistance. Current passes through it easily.",
    "hint": "",
    "image": null,
    "lo": "Classify materials by their resistance",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Tungsten is a conductor, but its resistance is high, which is why it glows in a filament bulb. Think about a metal that lets current pass very easily.",
+    "2": "Glass is an insulator with very high resistance. The material asked for must be a conductor that lets current pass easily.",
+    "3": "Plastic is an insulator with very high resistance. The material asked for must be a conductor that lets current pass easily."
+   },
+   "why": null
   },
   {
    "id": "c13q31",
@@ -553,11 +815,16 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In a series circuit the components are connected one after another, so there is only one path for the current.",
    "hint": "",
    "image": null,
    "lo": "Predict how adding resistors in series or parallel changes the current",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "In a parallel arrangement the current splits into separate branches, so there is more than one path. Think about components joined one after another.",
+    "2": "A short circuit is a fault where current takes a path with almost no resistance. It is not a way of arranging resistors."
+   },
+   "why": null
   },
   {
    "id": "c13q32",
@@ -570,11 +837,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A second resistor in series adds to the total resistance. With more resistance and the same cell, the current becomes smaller, so the ammeter reading decreases.",
    "hint": "",
    "image": null,
    "lo": "Predict how adding resistors in series or parallel changes the current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The resistor adds resistance to the only path, so the current does change. Think about whether more resistance gives more or less current.",
+    "2": "Adding a resistor in series makes the total resistance larger, not smaller. Think about what a larger resistance does to the current."
+   },
+   "why": {
+    "right": "Adding a resistor in series lowers the current because the total resistance of the single path increases.",
+    "wrong": [
+     "Adding a resistor in series lowers the current because each resistor uses up part of the current.",
+     "Adding a resistor in series lowers the current because the resistor stores some of the charge from the cell."
+    ]
+   }
   },
   {
    "id": "c13q33",
@@ -587,11 +865,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A second resistor in parallel gives the current an extra path. The total resistance decreases, so the total current increases and the ammeter reading increases.",
    "hint": "",
    "image": null,
    "lo": "Predict how adding resistors in series or parallel changes the current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A resistor added in parallel gives the current an extra path. Think about whether an extra path makes the total resistance larger or smaller.",
+    "1": "An extra parallel path changes the total resistance of the circuit. Think about whether more paths let more or less charge flow."
+   },
+   "why": {
+    "right": "Adding a resistor in parallel raises the current because the extra path lowers the total resistance.",
+    "wrong": [
+     "Adding a resistor in parallel raises the current because each resistor adds its own current to the circuit.",
+     "Adding a resistor in parallel raises the current because the extra resistor gives the charge more energy."
+    ]
+   }
   },
   {
    "id": "c13q34",
@@ -604,11 +893,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Resistors in series add together. A second resistor in series makes the overall resistance larger.",
    "hint": "",
    "image": null,
    "lo": "Predict how adding resistors in series or parallel changes the current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Each resistor in series opposes the current, and their effects add together. Think about what adding another one does to the total.",
+    "2": "A decrease happens when a resistor is added in parallel. In series, the current must pass through every resistor in turn."
+   },
+   "why": {
+    "right": "Resistors in series raise the overall resistance because the current must pass through each one in turn.",
+    "wrong": [
+     "Resistors in series raise the overall resistance because they use up more of the current.",
+     "Resistors in series raise the overall resistance because they give the current an extra path."
+    ]
+   }
   },
   {
    "id": "c13q35",
@@ -621,11 +921,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A resistor added in parallel with the existing resistor gives an extra path. The total resistance decreases, the current increases and the bulb becomes brighter.",
    "hint": "",
    "image": null,
    "lo": "Predict how adding resistors in series or parallel changes the current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "An extra parallel path changes the total resistance and so changes the current through the bulb. Think about whether the current rises or falls.",
+    "2": "A bulb becomes dimmer when a resistor is added in series. A parallel resistor gives an extra path, which changes the total resistance."
+   },
+   "why": {
+    "right": "A parallel resistor brightens the bulb because the total resistance falls and a larger current flows.",
+    "wrong": [
+     "A parallel resistor brightens the bulb because the resistor adds its own current to the bulb.",
+     "A parallel resistor brightens the bulb because the total resistance rises and pushes more charge."
+    ]
+   }
   },
   {
    "id": "c13q36",
@@ -638,11 +949,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Adding a resistor in parallel lowers the total resistance, so the current increases and the bulb becomes brighter. A resistor in series would make it dimmer.",
    "hint": "",
    "image": null,
    "lo": "Predict how adding resistors in series or parallel changes the current",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "If the resistor replaced the bulb, there would be no bulb left to light up. Think about which arrangement lowers the total resistance.",
+    "1": "A resistor in series raises the total resistance, which makes the bulb dimmer. Think about which arrangement lowers the total resistance."
+   },
+   "why": {
+    "right": "A parallel resistor makes the bulb brighter because the extra path lowers the total resistance.",
+    "wrong": [
+     "A parallel resistor makes the bulb brighter because it adds its own energy to the bulb.",
+     "A parallel resistor makes the bulb brighter because it raises the total resistance of the circuit."
+    ]
+   }
   },
   {
    "id": "c13q37",
@@ -656,11 +978,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A rheostat is a variable resistor. Moving its slider changes its resistance, and this changes the current in the circuit.",
    "hint": "",
    "image": null,
    "lo": "Predict how a variable resistor changes current and brightness",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A rheostat does not supply energy, so it does not change the cell's voltage. Think about what moving the slider changes inside the rheostat.",
+    "1": "A power rating is a label on an appliance and is not changed by a slider. Think about what moving the slider changes inside the rheostat.",
+    "2": "A rheostat does not add or remove cells. Think about what moving the slider changes inside the rheostat."
+   },
+   "why": {
+    "right": "A rheostat changes the current because moving its slider changes the length of wire the current passes through.",
+    "wrong": [
+     "A rheostat changes the current because moving its slider changes how much charge the rheostat stores.",
+     "A rheostat changes the current because moving its slider changes the voltage that the cell supplies."
+    ]
+   }
   },
   {
    "id": "c13q38",
@@ -673,11 +1007,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Increasing the resistance of the rheostat makes the total resistance larger. The current becomes smaller, so the bulb becomes less bright.",
    "hint": "",
    "image": null,
    "lo": "Predict how a variable resistor changes current and brightness",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Changing the rheostat's resistance changes the current in the whole circuit. Think about whether more resistance gives a larger or smaller current.",
+    "2": "More resistance does not give a larger current. Think about what a larger resistance does to the current through the bulb."
+   },
+   "why": {
+    "right": "A bulb dims when rheostat resistance rises because a larger resistance gives a smaller current.",
+    "wrong": [
+     "A bulb dims when rheostat resistance rises because the rheostat uses up the current first.",
+     "A bulb dims when rheostat resistance rises because the rheostat stores charge meant for the bulb."
+    ]
+   }
   },
   {
    "id": "c13q39",
@@ -690,11 +1035,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Decreasing the resistance of the rheostat makes the total resistance smaller. A larger current flows, so the ammeter reading increases.",
    "hint": "",
    "image": null,
    "lo": "Predict how a variable resistor changes current and brightness",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Changing the rheostat's resistance changes the current in the whole circuit. Think about whether less resistance gives a larger or smaller current.",
+    "2": "Less resistance means less opposition to the current. Think about what this does to the amount of current that flows."
+   },
+   "why": {
+    "right": "The ammeter reading rises when rheostat resistance falls because less opposition lets more current flow.",
+    "wrong": [
+     "The ammeter reading rises when rheostat resistance falls because the rheostat now adds current.",
+     "The ammeter reading rises when rheostat resistance falls because the cell now makes more charge."
+    ]
+   }
   },
   {
    "id": "c13q40",
@@ -707,11 +1063,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The lights became dimmer, so the current became smaller. A smaller current means the resistance of the dimmer has increased.",
    "hint": "",
    "image": null,
    "lo": "Predict how a variable resistor changes current and brightness",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Less resistance would give a larger current and brighter lights. The lights became dimmer, so think about how the resistance changed.",
+    "1": "If the resistance did not change, the current and brightness would not change. Turning the dimmer changed the brightness."
+   },
+   "why": {
+    "right": "Lights become dimmer when resistance increases because a larger resistance gives a smaller current.",
+    "wrong": [
+     "Lights become dimmer when resistance increases because the dimmer uses up part of the current.",
+     "Lights become dimmer when resistance increases because the dimmer lowers the mains supply voltage."
+    ]
+   }
   },
   {
    "id": "c13q41",
@@ -724,11 +1091,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A rising ammeter reading means a larger current. A larger current flows when the resistance of the rheostat decreases.",
    "hint": "",
    "image": null,
    "lo": "Predict how a variable resistor changes current and brightness",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "More resistance would give a smaller current and a lower reading. The reading rose, so think about how the resistance changed.",
+    "2": "If the resistance did not change, the current would not change. The reading rose, so the resistance must have changed."
+   },
+   "why": {
+    "right": "A rising ammeter reading shows lower resistance because less opposition lets more current flow.",
+    "wrong": [
+     "A rising ammeter reading shows lower resistance because the rheostat now adds charge to the circuit.",
+     "A rising ammeter reading shows lower resistance because the cell now supplies a higher voltage."
+    ]
+   }
   },
   {
    "id": "c13q42",
@@ -742,11 +1120,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Nichrome is a conductor with high resistance and a high melting point. It converts much electrical energy to heat without melting.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Glass is an insulator, so current cannot pass through it to produce heat. A heating element must be a conductor.",
+    "1": "Copper has low resistance, so little electrical energy becomes heat in it. A heating element needs a conductor with high resistance.",
+    "2": "Plastic is an insulator and would melt when hot. A heating element must be a conductor that can get very hot."
+   },
+   "why": {
+    "right": "Heating elements use nichrome because its high resistance turns much electrical energy into heat.",
+    "wrong": [
+     "Heating elements use nichrome because its low resistance lets it store more heat.",
+     "Heating elements use nichrome because it is an insulator that keeps the heat in."
+    ]
+   }
   },
   {
    "id": "c13q43",
@@ -759,11 +1149,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Coating tweezers with silver is electroplating. Current passes through a solution and deposits a thin layer of metal, which is the chemical effect of current.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "The heating effect makes things hot, as in a kettle. Coating an object with a metal layer uses a different effect of current.",
+    "2": "The magnetic effect produces a magnetic field, as in an electromagnet. Coating an object with a metal layer uses a different effect of current."
+   },
+   "why": {
+    "right": "Electroplating uses the chemical effect because current through a solution deposits metal on an object.",
+    "wrong": [
+     "Electroplating uses the chemical effect because current melts the metal so it drips on the object.",
+     "Electroplating uses the chemical effect because current magnetises metal so it sticks to the object."
+    ]
+   }
   },
   {
    "id": "c13q44",
@@ -776,11 +1177,22 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A rice cooker has a heating element. Current through the element produces heat, which cooks the rice. This is the heating effect of current.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The magnetic effect produces a magnetic field, as in an electromagnet. Cooking rice needs the food to get hot.",
+    "2": "The chemical effect is used in electroplating. Cooking rice needs the food to get hot."
+   },
+   "why": {
+    "right": "A rice cooker uses the heating effect because current in its element converts electrical energy to heat.",
+    "wrong": [
+     "A rice cooker uses the heating effect because current reacts with the water to release heat.",
+     "A rice cooker uses the heating effect because current passes into the rice grains and cooks them."
+    ]
+   }
   },
   {
    "id": "c13q45",
@@ -793,11 +1205,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An MRI machine uses a very strong electromagnet. Current in its coils produces a strong magnetic field, which is the magnetic effect of current.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The chemical effect is used in electroplating. Think about what large coils carrying current in a scanner produce.",
+    "1": "The heating effect is used in kettles and rice cookers. An MRI scanner does not make images by heating the body."
+   },
+   "why": {
+    "right": "An MRI machine uses the magnetic effect because current in its coils produces a strong magnetic field.",
+    "wrong": [
+     "An MRI machine uses the magnetic effect because current coats the body in a thin metal layer.",
+     "An MRI machine uses the magnetic effect because current heats the tissues until they glow."
+    ]
+   }
   },
   {
    "id": "c13q46",
@@ -810,11 +1233,22 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Electroplating uses the chemical effect of current. Current through a solution deposits a thin layer of titanium on the implant.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "The magnetic effect produces a magnetic field, as in an electromagnet. Electroplating deposits a metal layer, which uses a different effect.",
+    "1": "The heating effect makes things hot, as in a kettle. Electroplating deposits a metal layer, which uses a different effect."
+   },
+   "why": {
+    "right": "Electroplating an implant uses the chemical effect because current through a solution deposits metal on it.",
+    "wrong": [
+     "Electroplating an implant uses the chemical effect because current heats the metal until it melts onto it.",
+     "Electroplating an implant uses the chemical effect because current magnetises the metal so it sticks to it."
+    ]
+   }
   },
   {
    "id": "c13q47",
@@ -828,11 +1262,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An iron core inside the coil becomes magnetised by the current. Its magnetism adds to the coil's field, so the electromagnet becomes stronger.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Without the coil there is no current to produce a magnetic field. The coil is what makes an electromagnet work.",
+    "1": "Plastic is not a magnetic material, so it does not strengthen the field. Think about a core material that can be magnetised.",
+    "2": "Switching off the current stops the electromagnet from working at all. Its magnetism comes from the current in the coil."
+   },
+   "why": {
+    "right": "An iron core strengthens an electromagnet because the iron becomes magnetised and adds to the field.",
+    "wrong": [
+     "An iron core strengthens an electromagnet because the iron adds extra current to the coil.",
+     "An iron core strengthens an electromagnet because the iron stores charge from the coil."
+    ]
+   }
   },
   {
    "id": "c13q48",
@@ -845,11 +1291,22 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A current in a wire produces a magnetic field around it. This field pushes on the compass needle, so the needle deflects. This is the magnetic effect of current.",
    "hint": "",
    "image": null,
    "lo": "Identify the chemical, heating or magnetic effect in an application",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Heat from a wire does not turn a compass needle. Think about what normally makes a compass needle point in a direction.",
+    "2": "The chemical effect deposits metal from a solution, as in electroplating. Think about what normally makes a compass needle point in a direction."
+   },
+   "why": {
+    "right": "A compass needle deflects near a current because the current produces a magnetic field around the wire.",
+    "wrong": [
+     "A compass needle deflects near a current because heat from the wire pushes on the needle.",
+     "A compass needle deflects near a current because charge flows out of the wire into the needle."
+    ]
+   }
   },
   {
    "id": "c13q49",
@@ -863,11 +1320,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Plugging many appliances into one socket overloads it. The large total current heats the wires strongly, which can cause an electrical fire.",
    "hint": "",
    "image": null,
    "lo": "State how changes to an electrical system cause hazards",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "More appliances draw more current, and more current makes the wires hotter, not cooler. Think about what too much heat can lead to.",
+    "1": "Plugging in appliances does not make a magnet. Think about what a very large current does to the temperature of the wires.",
+    "2": "Each appliance draws its own current, so the total current through the socket gets larger. Think about what this does to the wires."
+   },
+   "why": {
+    "right": "Overloading a socket is dangerous because the large total current makes the wires overheat.",
+    "wrong": [
+     "Overloading a socket is dangerous because each appliance takes current away from the others.",
+     "Overloading a socket is dangerous because the socket stores the extra charge until it bursts."
+    ]
+   }
   },
   {
    "id": "c13q50",
@@ -881,11 +1350,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Worn insulation leaves the metal wire exposed. Anyone who touches the exposed live wire can get an electric shock.",
    "hint": "",
    "image": null,
    "lo": "State how changes to an electrical system cause hazards",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Worn insulation does not break the metal wire, so current can still flow. Think about what can happen if someone touches the bare metal.",
+    "1": "Damage to a wire's covering does not change the fuse. Think about what can happen if someone touches the bare metal.",
+    "2": "The metal inside is still a conductor. It is the plastic covering that has worn away, leaving the metal bare."
+   },
+   "why": {
+    "right": "Worn insulation is a hazard because current can pass from the bare wire through a person.",
+    "wrong": [
+     "Worn insulation is a hazard because the bare wire stops conducting and the appliance fails.",
+     "Worn insulation is a hazard because the bare wire draws charge out of the fuse."
+    ]
+   }
   },
   {
    "id": "c13q51",
@@ -899,11 +1380,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Water, especially tap water with dissolved substances, conducts electricity. Wet hands let current pass into the body more easily, so there is a risk of electric shock.",
    "hint": "",
    "image": null,
    "lo": "State how changes to an electrical system cause hazards",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water does not melt a fuse. Think about what water does when it touches something carrying current.",
+    "2": "Tap water is not an insulator. If it were, wet hands would be safer, not more dangerous.",
+    "3": "Wet skin has lower resistance than dry skin, not higher. Think about how easily current can pass through water."
+   },
+   "why": {
+    "right": "Wet hands are dangerous near appliances because water lets current pass into the body easily.",
+    "wrong": [
+     "Wet hands are dangerous near appliances because water blocks current and makes the appliance overheat.",
+     "Wet hands are dangerous near appliances because water stores charge and releases it later."
+    ]
+   }
   },
   {
    "id": "c13q52",
@@ -917,11 +1410,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A very large current produces a lot of heat in the wires. The wires can overheat, melt their insulation and start a fire.",
    "hint": "",
    "image": null,
    "lo": "State how changes to an electrical system cause hazards",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A large current does not change a metal into an insulator. Think about what a large current does to the temperature of the wires.",
+    "1": "A large current would not make a bulb dimmer. Think about what a large current does to the temperature of the wires.",
+    "2": "A very large current is the opposite of zero current. Think about what so much current does to the temperature of the wires."
+   },
+   "why": {
+    "right": "A very large current is a hazard because its heating effect makes the wires overheat.",
+    "wrong": [
+     "A very large current is a hazard because the wires run out of charge and stop working.",
+     "A very large current is a hazard because the current flows out of the wires into the air."
+    ]
+   }
   },
   {
    "id": "c13q53",
@@ -935,11 +1440,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A fuse contains a thin wire with a low melting point. When the current is too large, the wire melts and breaks the circuit, which stops the current.",
    "hint": "",
    "image": null,
    "lo": "State precautions and safety devices for using electricity at home",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "A fuse does not store charge. It is a thin wire that reacts to how large the current is.",
+    "1": "A fuse never increases the current. It is there to stop a current that has become too large.",
+    "2": "A fuse does not change the voltage. It is a thin wire that reacts to how large the current is."
+   },
+   "why": {
+    "right": "A fuse protects an appliance because a large current heats its thin wire until it breaks the circuit.",
+    "wrong": [
+     "A fuse protects an appliance because its thin wire stores the extra current until it is safe.",
+     "A fuse protects an appliance because its thin wire turns the extra current into light."
+    ]
+   }
   },
   {
    "id": "c13q54",
@@ -953,11 +1470,17 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A circuit breaker trips when a fault causes too large a current. This cuts off the current, and it can be reset after the fault is fixed.",
    "hint": "",
    "image": null,
    "lo": "State precautions and safety devices for using electricity at home",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "1": "A voltmeter only measures potential difference. It cannot cut off the current. Think about a safety device that can be reset.",
+    "2": "A rheostat changes resistance to adjust the current but does not trip on a fault. Think about a safety device that can be reset.",
+    "3": "An ammeter only measures current. It cannot cut off the current. Think about a safety device that can be reset."
+   },
+   "why": null
   },
   {
    "id": "c13q55",
@@ -971,11 +1494,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A melted fuse has a broken wire, so the circuit stays open. Once the fault is fixed, a new fuse of the correct rating is fitted.",
    "hint": "",
    "image": null,
    "lo": "State precautions and safety devices for using electricity at home",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A melted fuse has a broken wire, so it cannot complete the circuit again. Think about what restores the protection.",
+    "2": "A copper wire would not melt when the current is too large, so there would be no protection. This is dangerous.",
+    "3": "Without a fuse the circuit is either broken or unprotected. The appliance needs working protection after the fault is fixed."
+   },
+   "why": {
+    "right": "A melted fuse must be replaced because its broken wire leaves a gap in the circuit.",
+    "wrong": [
+     "A melted fuse must be replaced because its wire has used up all of its stored charge.",
+     "A melted fuse must be replaced because its wire now lets too much current pass through."
+    ]
+   }
   },
   {
    "id": "c13q56",
@@ -989,11 +1524,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Switching off the power supply stops current from reaching the appliance. Water conducts electricity, so washing a live appliance could give an electric shock.",
    "hint": "",
    "image": null,
    "lo": "State precautions and safety devices for using electricity at home",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "Water conducts electricity, so a wet cloth on a plug can lead to an electric shock. Think about how to make sure no current reaches the appliance.",
+    "1": "Insulation protects people from the metal wires. Removing it exposes the wires and makes a shock more likely.",
+    "3": "A switched-on appliance can carry current. With water, this can cause an electric shock. Think about stopping the current first."
+   },
+   "why": {
+    "right": "Switching off before washing is safe because no current can then pass through the water to a person.",
+    "wrong": [
+     "Switching off before washing is safe because water becomes an insulator when the power is off.",
+     "Switching off before washing is safe because the appliance then keeps its charge locked inside."
+    ]
+   }
   },
   {
    "id": "c13q57",
@@ -1007,11 +1554,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A plug adaptor is designed to connect a two-pin plug safely to a three-pin socket. Fingers, metal objects or wires in a socket can cause an electric shock.",
    "hint": "",
    "image": null,
    "lo": "State precautions and safety devices for using electricity at home",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "Putting fingers into a socket can give an electric shock. A safe way is one that keeps the body away from the socket's live parts.",
+    "2": "Metal conducts electricity, so a metal object in a socket can give an electric shock. A safe way keeps the body away from live parts.",
+    "3": "A bare wire conducts electricity, so pushing one into a socket can give an electric shock. A safe way keeps the body away from live parts."
+   },
+   "why": {
+    "right": "A plug adaptor is the safe choice because it is designed to connect the plug without exposing live parts.",
+    "wrong": [
+     "A plug adaptor is the safe choice because it changes the mains voltage to suit a two-pin plug.",
+     "A plug adaptor is the safe choice because it stores extra current for the appliance to use."
+    ]
+   }
   },
   {
    "id": "c13q58",
@@ -1025,11 +1584,17 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Power is the electrical energy used per unit time. It tells how quickly an appliance uses electrical energy.",
    "hint": "",
    "image": null,
    "lo": "Explain what power is and state its SI unit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The rate of flow of charge describes current. Power links energy with time, not charge.",
+    "1": "Opposition to current describes resistance. Power links energy with time.",
+    "3": "Energy to move a unit charge describes potential difference. Power links energy with time, not charge."
+   },
+   "why": null
   },
   {
    "id": "c13q59",
@@ -1043,11 +1608,17 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The SI unit of power is the watt (W). One watt is one joule of energy used each second.",
    "hint": "",
    "image": null,
    "lo": "Explain what power is and state its SI unit",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The volt is the unit of potential difference, not power. Think about the unit that equals one joule per second.",
+    "2": "The kilowatt-hour is a unit of energy, not power, and it is not an SI unit. Think about the unit that equals one joule per second.",
+    "3": "The joule is the unit of energy, not power. Power is energy used per second, so it has its own unit."
+   },
+   "why": null
   },
   {
    "id": "c13q60",
@@ -1061,11 +1632,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "1 kW = 1000 W. So 2 kW = 2 × 1000 W = 2000 W.",
    "hint": "",
    "image": null,
    "lo": "Explain what power is and state its SI unit",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This uses 1 kW as 10 W. Kilo means one thousand, so check how many watts make one kilowatt.",
+    "1": "This uses 1 kW as 10 000 W. Kilo means one thousand, so check how many watts make one kilowatt.",
+    "2": "This uses 1 kW as 100 W. Kilo means one thousand, so check how many watts make one kilowatt."
+   },
+   "why": {
+    "right": "Kilowatts are changed to watts by multiplying by 1000, since kilo means one thousand.",
+    "wrong": [
+     "Kilowatts are changed to watts by multiplying by 100, since kilo means one hundred.",
+     "Kilowatts are changed to watts by multiplying by 10 000, since kilo means ten thousand."
+    ]
+   }
   },
   {
    "id": "c13q61",
@@ -1079,11 +1662,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Power is the energy used per unit time. So energy used = power × time. With power in kW and time in h, the energy is in kWh.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Dividing time by power does not give energy. Power is the energy used in each hour, so think about how to get the total for many hours.",
+    "2": "Dividing power by time gives a smaller answer for longer use, but using an appliance for longer uses more energy. Think about how the total grows.",
+    "3": "Power and time are different quantities, so they cannot be added. Think about how the total energy grows with each extra hour."
+   },
+   "why": {
+    "right": "Electrical energy is power multiplied by time because power is the energy used in each hour.",
+    "wrong": [
+     "Electrical energy is power multiplied by time because power and time are both forms of energy.",
+     "Electrical energy is power multiplied by time because power grows the longer an appliance runs."
+    ]
+   }
   },
   {
    "id": "c13q62",
@@ -1097,11 +1692,17 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "1 kWh is the energy used by a 1 kW (1000 W) appliance switched on for one hour.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "The kilowatt-hour uses hours, not seconds. Look at the time in the name of the unit.",
+    "1": "100 W is only 0.1 kW. Check how many watts make one kilowatt.",
+    "2": "1 W is only 0.001 kW. Check how many watts make one kilowatt."
+   },
+   "why": null
   },
   {
    "id": "c13q63",
@@ -1115,11 +1716,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Energy = power × time = 2 kW × 3 h = 6 kWh.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This divides the power by the time. Using the heater for longer uses more energy, so think about which operation makes the total grow.",
+    "1": "This adds the power and the time. Power and time are different quantities, so they cannot be added.",
+    "3": "This divides the time by the power. Energy grows with both power and time, so think about which operation links them."
+   },
+   "why": {
+    "right": "Energy in kWh is found by multiplying the power in kW by the time in hours.",
+    "wrong": [
+     "Energy in kWh is found by dividing the power in kW by the time in hours.",
+     "Energy in kWh is found by adding the power in kW to the time in hours."
+    ]
+   }
   },
   {
    "id": "c13q64",
@@ -1133,11 +1746,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "500 W = 0.5 kW. Energy = power × time = 0.5 kW × 2 h = 1 kWh.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "This divides 500 by 2 and does not change watts to kilowatts. Change 500 W to kW first, then use energy = power × time.",
+    "2": "This multiplies 500 W by 2 h without changing watts to kilowatts. An answer in kWh needs the power in kW.",
+    "3": "This changes 500 W to kW correctly but then divides by the time. Using the iron for longer uses more energy."
+   },
+   "why": {
+    "right": "Energy in kWh is found by changing 500 W to 0.5 kW, then multiplying by the time in hours.",
+    "wrong": [
+     "Energy in kWh is found by multiplying 500 W by the time in hours, with no change of unit.",
+     "Energy in kWh is found by changing 500 W to 0.5 kW, then dividing by the time in hours."
+    ]
+   }
   },
   {
    "id": "c13q65",
@@ -1151,11 +1776,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Cost = energy × cost per kWh = 4 kWh × 30 cents = 120 cents = $1.20.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This changes 120 cents to dollars wrongly. There are 100 cents in a dollar, so check the conversion.",
+    "1": "This changes 120 cents to dollars wrongly. There are 100 cents in a dollar, so check the conversion.",
+    "2": "This divides 30 by 4 instead of multiplying. Using more energy costs more, so the cost grows with each kWh."
+   },
+   "why": {
+    "right": "Electricity cost is found by multiplying the energy in kWh by the cost of each kWh.",
+    "wrong": [
+     "Electricity cost is found by dividing the energy in kWh by the cost of each kWh.",
+     "Electricity cost is found by adding the energy in kWh to the cost of each kWh."
+    ]
+   }
   },
   {
    "id": "c13q66",
@@ -1169,11 +1806,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Energy = 1.5 kW × 2 h = 3 kWh. Cost = 3 kWh × 20 cents = 60 cents = $0.60.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This changes 60 cents to dollars wrongly. There are 100 cents in a dollar, so check the conversion.",
+    "1": "This multiplies the power by the tariff but leaves out the time. Work out the energy in kWh first.",
+    "3": "This treats 60 cents as 60 dollars. There are 100 cents in a dollar, so check the conversion."
+   },
+   "why": {
+    "right": "The cost of running an appliance is found by multiplying the power, the time and the tariff together.",
+    "wrong": [
+     "The cost of running an appliance is found by multiplying the power by the tariff, leaving out the time.",
+     "The cost of running an appliance is found by dividing the power by the time, then multiplying by the tariff."
+    ]
+   }
   },
   {
    "id": "c13q67",
@@ -1187,11 +1836,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Energy = power × time, so time = energy ÷ power = 4 kWh ÷ 2 kW = 2 h.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "This divides the power by the energy. Rearrange energy = power × time to make time the subject.",
+    "2": "This multiplies the energy by the power. Rearrange energy = power × time to make time the subject.",
+    "3": "This adds the energy and the power. They are different quantities, so rearrange energy = power × time instead."
+   },
+   "why": {
+    "right": "Time of use is found by dividing the energy used in kWh by the power in kW.",
+    "wrong": [
+     "Time of use is found by multiplying the energy used in kWh by the power in kW.",
+     "Time of use is found by dividing the power in kW by the energy used in kWh."
+    ]
+   }
   },
   {
    "id": "c13q68",
@@ -1205,11 +1866,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Energy = power × time, so power = energy ÷ time = 6 kWh ÷ 3 h = 2 kW.",
    "hint": "",
    "image": null,
    "lo": "Calculate electrical energy in kWh and its cost",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "This adds the energy and the time. They are different quantities, so rearrange energy = power × time instead.",
+    "2": "This divides the time by the energy. Rearrange energy = power × time to make power the subject.",
+    "3": "This multiplies the energy by the time. Rearrange energy = power × time to make power the subject."
+   },
+   "why": {
+    "right": "Power is found by dividing the energy used in kWh by the time in hours.",
+    "wrong": [
+     "Power is found by multiplying the energy used in kWh by the time in hours.",
+     "Power is found by dividing the time in hours by the energy used in kWh."
+    ]
+   }
   },
   {
    "id": "c13q69",
@@ -1223,11 +1896,23 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Appliances left on at the power socket still use a small amount of power to stay ready, for example to respond to a remote control. This is standby power.",
    "hint": "",
    "image": null,
    "lo": "Suggest ways to reduce household electrical energy consumption",
-   "ao": "A"
+   "ao": "A",
+   "notes": {
+    "0": "Being fully charged is about a battery, not standby. Think about appliances that are not in use but are still connected and switched on.",
+    "2": "An unplugged appliance has no connection to the supply, so it uses no power at all. Think about appliances that are still connected.",
+    "3": "Switching off at the socket stops all current to the appliance, so it uses no power. Standby needs the supply to stay on."
+   },
+   "why": {
+    "right": "Standby power is used because an appliance left on at the socket still draws a small current to stay ready.",
+    "wrong": [
+     "Standby power is used because an appliance switched off at the socket stores energy to use later.",
+     "Standby power is used because the socket keeps pushing current into an unplugged appliance."
+    ]
+   }
   },
   {
    "id": "c13q70",
@@ -1241,11 +1926,23 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Switching off the water heater after use stops it from using electrical energy when hot water is not needed. The other habits keep appliances using energy.",
    "hint": "",
    "image": null,
    "lo": "Suggest ways to reduce household electrical energy consumption",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A TV on standby still uses some electrical energy. Think about a habit that stops an appliance using energy when it is not needed.",
+    "1": "An air conditioner has a high power rating, so using it all day uses a lot of energy. Think about a habit that stops energy use when not needed.",
+    "2": "An electric hot water dispenser keeps heating water all the time, which uses energy. Think about a habit that stops energy use when not needed."
+   },
+   "why": {
+    "right": "Turning off an appliance after use saves energy because it uses no electrical energy while it is off.",
+    "wrong": [
+     "Turning off an appliance after use saves energy because it stores extra energy for the next use.",
+     "Turning off an appliance after use saves energy because it lowers the appliance's power rating."
+    ]
+   }
   },
   {
    "id": "c13q71",
@@ -1259,11 +1956,23 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "On an energy label, more ticks means the appliance is more energy efficient. It uses less electrical energy to do the same job.",
    "hint": "",
    "image": null,
    "lo": "Suggest ways to reduce household electrical energy consumption",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "0": "A higher power rating means the appliance uses energy faster, so it costs more to run. Think about what the ticks on the label show.",
+    "1": "Fewer ticks means the appliance is less energy efficient. Think about which end of the tick scale saves energy.",
+    "3": "Without a label there is no information about energy efficiency. The label is what helps compare appliances."
+   },
+   "why": {
+    "right": "More ticks on an energy label save energy because they show the appliance is more energy efficient.",
+    "wrong": [
+     "More ticks on an energy label save energy because they show the appliance has a higher power rating.",
+     "More ticks on an energy label save energy because they show the appliance draws a larger current."
+    ]
+   }
   },
   {
    "id": "c13q72",
@@ -1277,11 +1986,23 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A fan has a much lower power rating than an air conditioner. It uses less electrical energy each hour, so switching to a fan saves energy.",
    "hint": "",
    "image": null,
    "lo": "Suggest ways to reduce household electrical energy consumption",
-   "ao": "B"
+   "ao": "B",
+   "notes": {
+    "1": "A higher power rating would mean using more energy each hour, not less. Think about how the two power ratings compare.",
+    "2": "A larger current would mean using more energy, not less. Think about how the power ratings of the two appliances compare.",
+    "3": "A fan does use electricity to turn its motor. It just uses less of it. Think about how the two power ratings compare."
+   },
+   "why": {
+    "right": "A fan saves energy compared to an air conditioner because it uses less electrical energy each hour.",
+    "wrong": [
+     "A fan saves energy compared to an air conditioner because it runs without any electrical energy.",
+     "A fan saves energy compared to an air conditioner because it draws a larger current from the supply."
+    ]
+   }
   }
  ]
 }

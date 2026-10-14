@@ -770,3 +770,19 @@ body.calm .stage-ambient,body.calm .stage-bg{animation:none!important;}
 .qa-btn{min-height:max(48px,calc(62 * var(--u)));padding:calc(8 * var(--u)) calc(14 * var(--u)) calc(8 * var(--u)) calc(10 * var(--u));font-size:max(15px,calc(21 * var(--u)));gap:calc(10 * var(--u));}
 .qa-btn b{min-width:max(26px,calc(34 * var(--u)));height:max(26px,calc(34 * var(--u)));font-size:max(13px,calc(17 * var(--u)));}
 .qs-along.ok,.qs-along.bad{display:flex;}
+
+/* ===== the note above a question that comes back, and the Ultimate's "why" card ===== */
+.mcq-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:calc(8 * var(--u)) calc(12 * var(--u));
+  background:linear-gradient(90deg,rgba(242,184,75,.16),rgba(242,184,75,.04));border-left:4px solid var(--gold);
+  font-size:max(13px,calc(19 * var(--u)));line-height:1.35;color:#f6ecd6;}
+.mcq-note.hidden{display:none;}
+.mcq-note b{font-family:"Rift Display",system-ui;font-weight:400;color:var(--gold);letter-spacing:.06em;}
+.mcq-note em{font-style:normal;font-weight:700;color:#ffb1bd;}
+.mcq-note span{flex-basis:100%;}
+.mcq.why{border-color:var(--gold);box-shadow:0 0 0 2px rgba(242,184,75,.5),0 0 40px rgba(242,184,75,.35);}
+.mcq.why .mcq-tag{background:linear-gradient(135deg,#fff1b8,#f2b84b);color:#2a1606;}
+.mcq.why .mcq-q{white-space:pre-line;}
+.mcq.why .bloom-chip{display:none;}
+.report-q{white-space:pre-line;}
+.reward-line.coin-parts{font-size:.85em;opacity:.9;border-bottom:none;}
+.reward-line.coin-parts b{color:var(--gold);}
