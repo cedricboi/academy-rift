@@ -680,8 +680,15 @@ body.calm .arena.rift-break .stagecam{animation:none;} body.calm .arena.rift-bre
 /* Fighters never freeze now: they keep breathing through questions and spotlights, at a frame rate the level sets.
    Each step repaints one small frame box, so even Smooth's 3 frames a second costs almost nothing. */
 .arena.asking .spr-frame,.arena.focus .tok:not(.focus):not(.target-pick) .spr-frame{animation-play-state:running;}
-/* in the spotlight the others stand in the dark: they rest, except on Detailed */
-body:not(.gfx-quality) .arena.focus .tok:not(.focus):not(.target-pick) .spr-frame,.arena:has(.ss-overlay) .spr-frame{animation-play-state:paused;}
+/* fighters waiting for their turn keep their idle loop going on every level, in the spotlight too */
+.arena:has(.ss-overlay) .spr-frame{animation-play-state:paused;}
+/* the fighter in the spotlight: after the pose they hold their battle stance and breathe, so they never freeze */
+.chibi.posing .spr-frame{transform-origin:50% 100%;
+  animation:sprPoseB var(--pdur,1s) steps(var(--psteps,14),end) var(--pdelay,0s) 1 forwards,
+            poseBreathe 2.4s ease-in-out calc(var(--pdur,1s) + var(--pdelay,0s)) infinite;}
+@keyframes poseBreathe{0%,100%{scale:1 1}50%{scale:1.012 1.03}}
+body.calm .chibi.posing .spr-frame{animation:sprPoseB var(--pdur,1s) steps(var(--psteps,14),end) var(--pdelay,0s) 1 forwards;}
+@media (prefers-reduced-motion: reduce){ .chibi.posing .spr-frame{animation:sprPoseB 1ms steps(1,end) 1 forwards;} }
 .gfx-smooth .chibi:not(.posing) .spr-frame{animation-duration:calc(var(--n,8) * 333ms);}     /* 3 frames a second */
 .gfx-balanced .chibi:not(.posing) .spr-frame{animation-duration:calc(var(--n,8) * 200ms);}   /* 5 frames a second */
 /* Detailed keeps each fighter's own speed (6 to 8 frames a second) */
