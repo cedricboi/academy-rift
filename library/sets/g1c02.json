@@ -1,0 +1,638 @@
+{
+ "id": "g1c02",
+ "title": "G1 C2 · Energy Transfer Through Waves",
+ "folder": "sec3g1",
+ "chapter": 102,
+ "questions": [
+  {
+   "id": "g02q1",
+   "q": "A wave travels along a rope. State what the wave carries along the rope.",
+   "choices": [
+    "force",
+    "matter",
+    "energy",
+    "mass"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q2",
+   "q": "A cork floats on a pond. Describe how the cork moves as a wave passes.",
+   "choices": [
+    "forward and backward",
+    "up and down",
+    "forward with the wave",
+    "backward against the wave"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q3",
+   "q": "Light is a wave. Identify the fact that shows light transfers energy.",
+   "choices": [
+    "Light can power calculators.",
+    "Light can be reflected.",
+    "Light travels very fast.",
+    "Light can form shadows."
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q4",
+   "q": "A wave vibrates at right angles to the way it travels. State the word for this.",
+   "choices": [
+    "parallel",
+    "vertical",
+    "perpendicular",
+    "horizontal"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q5",
+   "q": "A wave vibrates along the line it travels in. State the word for this.",
+   "choices": [
+    "perpendicular",
+    "horizontal",
+    "vertical",
+    "parallel"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q6",
+   "q": "A slinky is shaken up and down. Identify the waves that vibrate like this.",
+   "choices": [
+    "sound and light waves",
+    "water and light waves",
+    "sound waves only",
+    "sound and water waves"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q7",
+   "q": "A slinky is pushed back and forth. Identify the wave that vibrates like this.",
+   "choices": [
+    "sound wave",
+    "water wave",
+    "light wave",
+    "radio wave"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q8",
+   "q": "A wave moves along a rope. Name the highest point of the wave.",
+   "choices": [
+    "amplitude",
+    "crest",
+    "wavelength",
+    "trough"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q9",
+   "q": "A water wave moves across a pond. Name the lowest point of the wave.",
+   "choices": [
+    "wavelength",
+    "amplitude",
+    "trough",
+    "crest"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q10",
+   "q": "Name the height of a wave from its rest position to its crest.",
+   "choices": [
+    "amplitude",
+    "frequency",
+    "trough",
+    "wavelength"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q11",
+   "q": "Define wavelength.",
+   "choices": [
+    "distance a wave travels per second",
+    "distance between a crest and trough",
+    "distance from rest position to crest",
+    "distance between two neighbouring crests"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q12",
+   "q": "State the SI unit of wavelength.",
+   "choices": [
+    "second (s)",
+    "metre (m)",
+    "hertz (Hz)",
+    "joule (J)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q13",
+   "q": "Three complete waves on a rope measure 12 cm. Calculate the wavelength.",
+   "choices": [
+    "4 cm",
+    "36 cm",
+    "9 cm",
+    "15 cm"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q14",
+   "q": "A wave has a wavelength of 5 cm. Calculate how many waves fit in 20 cm.",
+   "choices": [
+    "15",
+    "4",
+    "100",
+    "25"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q15",
+   "q": "A wave carries more energy. Predict the change in its amplitude.",
+   "choices": [
+    "it becomes larger",
+    "it stays the same",
+    "it becomes smaller",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q16",
+   "q": "Sound is a wave. Identify what is larger for a loud sound than a soft sound.",
+   "choices": [
+    "frequency",
+    "wavelength",
+    "speed",
+    "amplitude"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q17",
+   "q": "Define frequency.",
+   "choices": [
+    "distance between two neighbouring crests",
+    "time taken for one wave",
+    "number of waves produced per second",
+    "number of crests in one metre"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q18",
+   "q": "State the SI unit of frequency.",
+   "choices": [
+    "hertz (Hz)",
+    "metre (m)",
+    "joule (J)",
+    "second (s)"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q19",
+   "q": "A boy makes 10 rope waves in 2 s. Calculate the frequency.",
+   "choices": [
+    "8 Hz",
+    "12 Hz",
+    "5 Hz",
+    "20 Hz"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q20",
+   "q": "A rope makes 8 complete waves in 2 s. Calculate the frequency.",
+   "choices": [
+    "4 Hz",
+    "10 Hz",
+    "6 Hz",
+    "16 Hz"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q21",
+   "q": "30 water waves pass a point in 5 s. Calculate the frequency.",
+   "choices": [
+    "25 Hz",
+    "150 Hz",
+    "6 Hz",
+    "35 Hz"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q22",
+   "q": "A 2 Hz wave passes a point. Calculate the number of waves in 10 s.",
+   "choices": [
+    "12",
+    "20",
+    "8",
+    "5"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q23",
+   "q": "A 5 Hz wave makes 20 complete waves. Calculate the time taken.",
+   "choices": [
+    "25 s",
+    "100 s",
+    "15 s",
+    "4 s"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q24",
+   "q": "Identify the electromagnetic wave with the longest wavelength.",
+   "choices": [
+    "radio waves",
+    "X-rays",
+    "visible light",
+    "gamma rays"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q25",
+   "q": "Identify the electromagnetic wave with the highest frequency.",
+   "choices": [
+    "radio waves",
+    "X-rays",
+    "visible light",
+    "gamma rays"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q26",
+   "q": "Four electromagnetic waves are compared. Identify the one with the longest wavelength.",
+   "choices": [
+    "ultraviolet",
+    "infrared",
+    "X-rays",
+    "microwaves"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q27",
+   "q": "Three electromagnetic waves are put in order. Identify the order from lowest to highest frequency.",
+   "choices": [
+    "X-rays, radio, visible light",
+    "radio, visible light, X-rays",
+    "X-rays, visible light, radio",
+    "radio, X-rays, visible light"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q28",
+   "q": "Three electromagnetic waves are put in order. Identify the order from shortest to longest wavelength.",
+   "choices": [
+    "X-rays, radio, visible light",
+    "radio, visible light, X-rays",
+    "X-rays, visible light, radio",
+    "radio, X-rays, visible light"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q29",
+   "q": "Name the electromagnetic wave used in TV remote controls.",
+   "choices": [
+    "infrared",
+    "microwaves",
+    "ultraviolet",
+    "radio waves"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q30",
+   "q": "Name the electromagnetic wave used to check for fake banknotes.",
+   "choices": [
+    "X-rays",
+    "visible light",
+    "ultraviolet",
+    "infrared"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q31",
+   "q": "Name the electromagnetic wave used to scan bags at airports.",
+   "choices": [
+    "microwaves",
+    "ultraviolet",
+    "gamma rays",
+    "X-rays"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q32",
+   "q": "Name the electromagnetic wave used in satellite communication.",
+   "choices": [
+    "infrared",
+    "microwaves",
+    "X-rays",
+    "ultraviolet"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q33",
+   "q": "Optical fibres are thin glass threads. Name the electromagnetic wave that carries data through them.",
+   "choices": [
+    "visible light",
+    "ultraviolet",
+    "microwaves",
+    "X-rays"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q34",
+   "q": "Name the electromagnetic wave also known as heat waves.",
+   "choices": [
+    "visible light",
+    "infrared",
+    "microwaves",
+    "ultraviolet"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  },
+  {
+   "id": "g02q35",
+   "q": "Gamma rays are high-energy waves. Identify one use of gamma rays.",
+   "choices": [
+    "scanning bags at airports",
+    "checking for fake banknotes",
+    "killing cancer cells",
+    "cooking food quickly"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy Transfer Through Waves",
+   "ao": ""
+  }
+ ]
+}

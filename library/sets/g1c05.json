@@ -1,0 +1,494 @@
+{
+ "id": "g1c05",
+ "title": "G1 C5 · Sources of Electricity",
+ "folder": "sec3g1",
+ "chapter": 105,
+ "questions": [
+  {
+   "id": "g05q1",
+   "q": "Power stations make electricity. Name the energy source of a nuclear power station.",
+   "choices": [
+    "oil",
+    "coal",
+    "uranium",
+    "natural gas"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q2",
+   "q": "Power stations use different fuels. State the types of power station used in Singapore.",
+   "choices": [
+    "nuclear and coal-fired",
+    "oil-fired and gas-fired",
+    "nuclear and gas-fired",
+    "coal-fired and oil-fired"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q3",
+   "q": "Nuclear power stations make little pollution. Explain why Singapore does not use them.",
+   "choices": [
+    "they produce less energy",
+    "fossil fuels cause no pollution",
+    "leaks have long health risks",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q4",
+   "q": "Coal, oil and natural gas are fossil fuels. State the energy stored in them.",
+   "choices": [
+    "kinetic energy",
+    "heat energy",
+    "electrical energy",
+    "chemical potential energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q5",
+   "q": "Name the part of a power station where the fuel is burned.",
+   "choices": [
+    "generator",
+    "boiler",
+    "turbine",
+    "furnace"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q6",
+   "q": "Fuel burns in a power station furnace. State the energy it gives out.",
+   "choices": [
+    "heat energy",
+    "kinetic energy",
+    "chemical potential energy",
+    "electrical energy"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q7",
+   "q": "Moving steam pushes and spins a set of blades. Name this power station part.",
+   "choices": [
+    "turbine",
+    "furnace",
+    "generator",
+    "boiler"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q8",
+   "q": "Name the power station part that changes kinetic energy into electrical energy.",
+   "choices": [
+    "furnace",
+    "boiler",
+    "generator",
+    "turbine"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q9",
+   "q": "Identify the order of parts in a fossil fuel power station.",
+   "choices": [
+    "furnace --> boiler --> turbine --> generator",
+    "furnace --> turbine --> boiler --> generator",
+    "boiler --> furnace --> turbine --> generator",
+    "furnace --> boiler --> generator --> turbine"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q10",
+   "q": "In a power station, steam turns the turbine. Name the part that makes the steam.",
+   "choices": [
+    "transformer",
+    "boiler",
+    "furnace",
+    "generator"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q11",
+   "q": "Electricity reaches homes through a grid. Describe an electricity grid.",
+   "choices": [
+    "group of power stations",
+    "single cable to each home",
+    "set of rechargeable batteries",
+    "network of cables and substations"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q12",
+   "q": "Electricity leaves a power station. Name the device it passes through first.",
+   "choices": [
+    "circuit breaker",
+    "fuse",
+    "step-down transformer",
+    "step-up transformer"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q13",
+   "q": "Electricity goes from power stations to homes. State where its voltage is stepped down.",
+   "choices": [
+    "in the home's socket",
+    "at substations near homes",
+    "along the long cables",
+    "at the power station"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q14",
+   "q": "Electricity from the grid reaches a home. Name the last device it passed through.",
+   "choices": [
+    "step-up transformer",
+    "step-down transformer",
+    "turbine",
+    "generator"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q15",
+   "q": "Identify the path of electricity from a power station to homes.",
+   "choices": [
+    "step-down --> cables --> step-up --> homes",
+    "step-up --> step-down --> cables --> homes",
+    "step-up --> cables --> step-down --> homes",
+    "cables --> step-up --> step-down --> homes"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q16",
+   "q": "Electricity is sent through long cables at high voltage. Explain why.",
+   "choices": [
+    "to provide safety",
+    "to reduce energy loss",
+    "to allow overhead cables",
+    "to allow the use of transformers"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q17",
+   "q": "The voltage in long cables is stepped up. Predict the change in current.",
+   "choices": [
+    "it stays the same",
+    "it decreases",
+    "it increases",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q18",
+   "q": "Describe the structure of a simple transformer.",
+   "choices": [
+    "two coils on an iron core",
+    "two coils on a plastic core",
+    "one coil on an iron core",
+    "two iron cores in one coil"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q19",
+   "q": "A transformer has two coils. Name the coil connected to the input voltage.",
+   "choices": [
+    "primary coil",
+    "iron core",
+    "live wire",
+    "secondary coil"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q20",
+   "q": "Transformers change voltage. Name the type of current that transformers work with.",
+   "choices": [
+    "current from batteries",
+    "alternating current (a.c.)",
+    "direct current (d.c.)",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q21",
+   "q": "A device changes 25 kV to 400 kV. Identify the device.",
+   "choices": [
+    "circuit breaker",
+    "step-down transformer",
+    "step-up transformer",
+    "generator"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q22",
+   "q": "A laptop adapter plugs into the mains socket. Identify what the adapter acts as.",
+   "choices": [
+    "step-down transformer",
+    "step-up transformer",
+    "fuse",
+    "circuit breaker"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q23",
+   "q": "A laptop needs an adapter for the mains. Explain why it cannot plug in directly.",
+   "choices": [
+    "mains voltage is too high",
+    "mains has no earth wire",
+    "mains voltage is too low",
+    "mains current is too small"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q24",
+   "q": "Step-up transformers raise the voltage. Identify where step-up transformers are used.",
+   "choices": [
+    "inside laptop adapters",
+    "at power stations",
+    "at substations near homes",
+    "inside phone chargers"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q25",
+   "q": "Batteries are used in torches and phones. Explain why batteries are important.",
+   "choices": [
+    "they give very high voltage",
+    "they produce a.c.",
+    "they are portable",
+    "they never run out"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q26",
+   "q": "A battery converts chemical potential energy. State the energy it is converted into.",
+   "choices": [
+    "heat energy",
+    "kinetic energy",
+    "light energy",
+    "electrical energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g05q27",
+   "q": "State an advantage of a rechargeable battery.",
+   "choices": [
+    "it never runs out",
+    "it produces a.c.",
+    "it can be used again",
+    "it gives a higher voltage"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Electricity",
+   "ao": ""
+  }
+ ]
+}

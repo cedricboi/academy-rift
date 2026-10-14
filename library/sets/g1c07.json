@@ -1,0 +1,692 @@
+{
+ "id": "g1c07",
+ "title": "G1 C7 · Food Chemistry",
+ "folder": "sec3g1",
+ "chapter": 107,
+ "questions": [
+  {
+   "id": "g07q1",
+   "q": "Salt water is an example of a mixture. Define a mixture.",
+   "choices": [
+    "substances that cannot be separated",
+    "substances that always form new products",
+    "substances that are chemically combined",
+    "substances that are not chemically combined"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q2",
+   "q": "A tea strainer removes tea leaves from tea. Name the separation technique used.",
+   "choices": [
+    "evaporation",
+    "chromatography",
+    "filtration",
+    "distillation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q3",
+   "q": "Salt water is heated until only salt is left. Name this separation technique.",
+   "choices": [
+    "distillation",
+    "evaporation",
+    "filtration",
+    "chromatography"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q4",
+   "q": "Coloured sweets contain several dyes. Name the technique that separates these dyes.",
+   "choices": [
+    "paper chromatography",
+    "distillation",
+    "filtration",
+    "evaporation"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q5",
+   "q": "A mixture is stirred in water and then filtered. Identify the mixture this separates.",
+   "choices": [
+    "two food dyes",
+    "salt and water",
+    "salt and sugar",
+    "sand and salt"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q6",
+   "q": "Distillation is used on seawater. Name the substance collected.",
+   "choices": [
+    "salt water",
+    "salt",
+    "pure water",
+    "sand"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q7",
+   "q": "Sugar dissolves in water to make a solution. Identify the role of the water.",
+   "choices": [
+    "solvent",
+    "filtrate",
+    "residue",
+    "solute"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q8",
+   "q": "A mixture of sand and water is filtered. Name the solid left on the filter paper.",
+   "choices": [
+    "solute",
+    "residue",
+    "filtrate",
+    "solvent"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q9",
+   "q": "A mixture of sand and water is filtered. Name the liquid that passes through.",
+   "choices": [
+    "solute",
+    "residue",
+    "solvent",
+    "filtrate"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q10",
+   "q": "A food colouring gives three spots on chromatography paper. Identify what it is.",
+   "choices": [
+    "a mixture of dyes",
+    "a solvent",
+    "a residue",
+    "a pure substance"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q11",
+   "q": "A pure food colouring is tested by paper chromatography. Predict the number of spots.",
+   "choices": [
+    "none",
+    "one",
+    "two",
+    "three"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q12",
+   "q": "Dyes move up chromatography paper with the solvent. Identify the dye that moves furthest.",
+   "choices": [
+    "the darkest dye",
+    "the least soluble dye",
+    "the most concentrated dye",
+    "the most soluble dye"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q13",
+   "q": "Food M gives a spot level with banned dye A. Identify what M contains.",
+   "choices": [
+    "no banned dye",
+    "only the solvent",
+    "only allowed dyes",
+    "banned dye A"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q14",
+   "q": "Cooking and burning are examples of chemical reactions. Define a chemical reaction.",
+   "choices": [
+    "a process where a liquid evaporates",
+    "a process where a solid dissolves",
+    "a process where new products form",
+    "a process that separates a mixture"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q15",
+   "q": "An iron nail rusts. State the two things needed for rusting.",
+   "choices": [
+    "water and oxygen",
+    "water and carbon dioxide",
+    "sunlight and oxygen",
+    "sunlight and carbon dioxide"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q16",
+   "q": "Blue litmus paper is dipped into an acid. Describe its colour change.",
+   "choices": [
+    "from blue to green",
+    "it stays blue",
+    "from blue to red",
+    "from red to blue"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q17",
+   "q": "Detergent solution is alkaline. State one property of alkalis.",
+   "choices": [
+    "turns blue litmus red",
+    "turns red litmus blue",
+    "tastes sour",
+    "has a pH below 7"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q18",
+   "q": "Neutral solutions are neither acidic nor alkaline. State the pH of a neutral solution.",
+   "choices": [
+    "1",
+    "7",
+    "0",
+    "14"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q19",
+   "q": "Lemon juice tastes sour. Identify the pH of lemon juice.",
+   "choices": [
+    "equal to 7",
+    "more than 7",
+    "less than 7",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q20",
+   "q": "Solutions have pH 2, 5, 7 and 12. Identify the pH of the most acidic one.",
+   "choices": [
+    "pH 12",
+    "pH 2",
+    "pH 7",
+    "pH 5"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q21",
+   "q": "A solution has a pH of 12. Identify the type of solution.",
+   "choices": [
+    "acidic",
+    "neutral",
+    "alkaline",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q22",
+   "q": "Universal indicator turns red in a solution. Identify the solution.",
+   "choices": [
+    "ammonia solution",
+    "distilled water",
+    "sodium hydroxide solution",
+    "dilute sulphuric acid"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q23",
+   "q": "An acid reacts with a metal. State the products of this reaction.",
+   "choices": [
+    "salt + hydrogen",
+    "salt + water",
+    "salt + carbon dioxide + water",
+    "salt + oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q24",
+   "q": "An acid reacts with a carbonate. State the products of this reaction.",
+   "choices": [
+    "salt + hydrogen",
+    "salt + carbon dioxide + water",
+    "salt + water",
+    "salt + oxygen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q25",
+   "q": "Magnesium metal is added to lemon juice. Name the gas given off.",
+   "choices": [
+    "oxygen",
+    "carbon dioxide",
+    "hydrogen",
+    "nitrogen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q26",
+   "q": "Egg shells contain a carbonate. They are added to vinegar. Name the gas given off.",
+   "choices": [
+    "hydrogen",
+    "carbon dioxide",
+    "oxygen",
+    "nitrogen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q27",
+   "q": "A gas puts out a lighted splint with a pop sound. Identify the gas.",
+   "choices": [
+    "carbon dioxide",
+    "hydrogen",
+    "oxygen",
+    "nitrogen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q28",
+   "q": "A gas is bubbled into limewater and turns it chalky. Identify the gas.",
+   "choices": [
+    "hydrogen",
+    "nitrogen",
+    "oxygen",
+    "carbon dioxide"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q29",
+   "q": "A reaction makes a salt and hydrogen gas. Identify the two reactants.",
+   "choices": [
+    "an acid and a metal",
+    "a metal and water",
+    "an acid and a carbonate",
+    "an acid and a base"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q30",
+   "q": "Neutralisation is a reaction between an acid and a base. State the products.",
+   "choices": [
+    "salt + hydrogen",
+    "salt + carbon dioxide + water",
+    "base + water",
+    "salt + water"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q31",
+   "q": "Too much stomach acid causes indigestion. Identify the type of substance in antacid medicine.",
+   "choices": [
+    "a base",
+    "a salt",
+    "an indicator",
+    "an acid"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q32",
+   "q": "Toothpaste neutralises acid on the teeth. Identify the type of substance in toothpaste.",
+   "choices": [
+    "a base",
+    "an acid",
+    "a salt",
+    "an indicator"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q33",
+   "q": "Fabric softener neutralises alkaline detergent in laundry. Identify the type of substance in it.",
+   "choices": [
+    "a salt",
+    "a mild acid",
+    "a mild base",
+    "an indicator"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q34",
+   "q": "Soil is too acidic for crops. Name the substance farmers add to neutralise it.",
+   "choices": [
+    "compost",
+    "chemical fertiliser",
+    "calcium hydroxide",
+    "acidifying fertiliser"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q35",
+   "q": "Calcium hydroxide is added to acidic soil. Name this type of reaction.",
+   "choices": [
+    "rusting",
+    "distillation",
+    "neutralisation",
+    "burning"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q36",
+   "q": "Some detergents contain phosphates. Predict what phosphates cause in rivers.",
+   "choices": [
+    "algae bloom",
+    "haze",
+    "acid rain",
+    "soil erosion"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q37",
+   "q": "A thick layer of algae covers a river. State what happens to the oxygen level.",
+   "choices": [
+    "it decreases",
+    "it increases",
+    "it stays the same",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  },
+  {
+   "id": "g07q38",
+   "q": "Microbes break down waste in waste water. Name the microbes used.",
+   "choices": [
+    "yeasts",
+    "viruses",
+    "algae",
+    "bacteria"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Chemistry",
+   "ao": ""
+  }
+ ]
+}

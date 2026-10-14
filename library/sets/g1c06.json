@@ -1,0 +1,638 @@
+{
+ "id": "g1c06",
+ "title": "G1 C6 · Sources of Food",
+ "folder": "sec3g1",
+ "chapter": 106,
+ "questions": [
+  {
+   "id": "g06q1",
+   "q": "Plants make food by photosynthesis. Name the gas they take in from the air.",
+   "choices": [
+    "hydrogen",
+    "nitrogen",
+    "carbon dioxide",
+    "oxygen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q2",
+   "q": "Plants make food by photosynthesis. Name the source of energy they use.",
+   "choices": [
+    "water",
+    "sunlight",
+    "soil",
+    "fertiliser"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q3",
+   "q": "Good soil helps plants grow well. Identify what good soil contains.",
+   "choices": [
+    "nutrients and a suitable pH",
+    "starch and a suitable pH",
+    "nutrients and a very low pH",
+    "sugar and a suitable pH"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q4",
+   "q": "Photosynthesis uses carbon dioxide and water. State the products of photosynthesis.",
+   "choices": [
+    "carbon dioxide + water",
+    "sugar + oxygen",
+    "sugar + carbon dioxide",
+    "oxygen + water"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q5",
+   "q": "Chlorophyll is the green substance in leaves. State what chlorophyll absorbs.",
+   "choices": [
+    "light energy",
+    "water",
+    "carbon dioxide",
+    "oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q6",
+   "q": "Universal indicator turns green in a soil solution. Identify the type of soil.",
+   "choices": [
+    "acidic soil",
+    "neutral soil",
+    "alkaline soil",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q7",
+   "q": "Universal indicator turns red in a soil solution. Identify the type of soil.",
+   "choices": [
+    "alkaline soil",
+    "acidic soil",
+    "neutral soil",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q8",
+   "q": "Red litmus paper turns blue in a soil solution. Identify the type of soil.",
+   "choices": [
+    "neutral soil",
+    "acidic soil",
+    "alkaline soil",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q9",
+   "q": "A pH meter reads 5 in a soil solution. Identify the type of soil.",
+   "choices": [
+    "alkaline soil",
+    "acidic soil",
+    "neutral soil",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q10",
+   "q": "A soil is alkaline. Predict the colour of universal indicator in its solution.",
+   "choices": [
+    "red",
+    "green",
+    "yellow",
+    "blue"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q11",
+   "q": "A soil is neutral. Predict the pH meter reading for its solution.",
+   "choices": [
+    "pH 12",
+    "pH 9",
+    "pH 5",
+    "pH 7"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q12",
+   "q": "Farmers add fertilisers to soil. State how fertilisers help plants.",
+   "choices": [
+    "fruits on plants ripen early",
+    "weeds near plants are killed",
+    "plants grow faster and bigger",
+    "pests on plants are killed"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q13",
+   "q": "Chemical fertilisers are rich in two nutrients. Name these nutrients.",
+   "choices": [
+    "nitrogen and phosphorus",
+    "sugar and oxygen",
+    "carbon dioxide and water",
+    "nitrogen and oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q14",
+   "q": "Rain washes chemical fertiliser from a farm into a pond. Predict the effect on the pond.",
+   "choices": [
+    "algae grow very quickly",
+    "the water becomes cleaner",
+    "fish grow very quickly",
+    "the water gets more oxygen"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q15",
+   "q": "A thick layer of algae covers a pond. State what it stops from reaching pond life.",
+   "choices": [
+    "sugar and starch",
+    "nitrogen and phosphorus",
+    "carbon dioxide and water",
+    "sunlight and oxygen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q16",
+   "q": "Excess chemical fertiliser washes into groundwater. State the effect on our drinking water.",
+   "choices": [
+    "it becomes cleaner",
+    "it gains more oxygen",
+    "it becomes polluted",
+    "it is not affected"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q17",
+   "q": "Slash-and-burn clears forest by cutting and burning trees. State one benefit of it.",
+   "choices": [
+    "haze makes breathing hard",
+    "animals lose their homes",
+    "ashes add nutrients to soil",
+    "the soil is washed away"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q18",
+   "q": "Farmers use slash-and-burn to clear land. State one problem it causes.",
+   "choices": [
+    "soil erosion",
+    "cheaper land clearing",
+    "fewer pests",
+    "fewer plant diseases"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q19",
+   "q": "Slash-and-burn causes haze. State one health effect of haze.",
+   "choices": [
+    "breathing difficulties",
+    "algae bloom",
+    "forest fires",
+    "soil erosion"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q20",
+   "q": "Pesticide is sprayed on soil. Explain why birds that eat earthworms are harmed.",
+   "choices": [
+    "birds breathe in haze",
+    "earthworms carry the poison",
+    "algae block the sunlight",
+    "birds lose their nesting trees"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q21",
+   "q": "Rain carries pesticides into a river. Predict which living things are harmed.",
+   "choices": [
+    "only the farm crops",
+    "river plants and animals",
+    "only the weeds",
+    "only the pests"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q22",
+   "q": "Biological control uses natural enemies to kill pests. State one benefit of it.",
+   "choices": [
+    "no chemicals in the crops",
+    "adds nutrients to the soil",
+    "kills every single pest",
+    "clears forest land quickly"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q23",
+   "q": "Biological control uses natural enemies to kill pests. State one problem of it.",
+   "choices": [
+    "contamination of the crops",
+    "algae bloom in ponds",
+    "imbalance in the food chain",
+    "contamination of the soil"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q24",
+   "q": "The world needs more food every year. Explain why food production must improve.",
+   "choices": [
+    "fewer people and more space",
+    "more farmland and fewer people",
+    "more rain and richer soil",
+    "more people and limited space"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q25",
+   "q": "Farmers plant good seedlings. State how this improves food production.",
+   "choices": [
+    "weeds are killed by hormones",
+    "pests are eaten by enemies",
+    "land is cleared by burning",
+    "crops grow bigger and better"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q26",
+   "q": "Hydroponics grows plants in a nutrient solution. State one disadvantage of hydroponics.",
+   "choices": [
+    "crops grow once a year",
+    "crops are not protected",
+    "expensive to set up",
+    "plants lack nutrients"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q27",
+   "q": "Plant hormones are used on farms. State one use of plant hormones.",
+   "choices": [
+    "killing pests",
+    "ripening fruits",
+    "adding nutrients to soil",
+    "clearing forest land"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q28",
+   "q": "Some plant hormones are used as weedkillers. Explain why they are safe for crops.",
+   "choices": [
+    "they kill crops but not weeds",
+    "they kill pests and weeds",
+    "they add nutrients to weeds",
+    "they kill weeds but not crops"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q29",
+   "q": "Plants are grown in a nutrient solution with no soil. Name this method.",
+   "choices": [
+    "hydroponics",
+    "aeroponics",
+    "biological control",
+    "slash-and-burn"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q30",
+   "q": "Plant roots hang in the air and are sprayed with nutrient mist. Name this method.",
+   "choices": [
+    "aeroponics",
+    "hydroponics",
+    "biological control",
+    "slash-and-burn"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q31",
+   "q": "Natural enemies of pests are used to kill the pests. Name this method.",
+   "choices": [
+    "slash-and-burn",
+    "hydroponics",
+    "biological control",
+    "chemical control"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q32",
+   "q": "Trees are cut down and burned to clear land. Name this method.",
+   "choices": [
+    "biological control",
+    "slash-and-burn",
+    "hydroponics",
+    "aeroponics"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q33",
+   "q": "A farmer sprays a chemical to kill weeds. Name this chemical.",
+   "choices": [
+    "fertiliser",
+    "compost",
+    "pesticide",
+    "herbicide"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q34",
+   "q": "Rotted plant matter is added to soil. Name this material.",
+   "choices": [
+    "chemical fertiliser",
+    "herbicide",
+    "compost",
+    "pesticide"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  },
+  {
+   "id": "g06q35",
+   "q": "A farmer uses biological control. Describe what the farmer does.",
+   "choices": [
+    "sprays chemicals on pests",
+    "grows plants in nutrient solution",
+    "burns trees to clear land",
+    "uses natural enemies of pests"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Sources of Food",
+   "ao": ""
+  }
+ ]
+}

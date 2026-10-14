@@ -1,0 +1,710 @@
+{
+ "id": "g1c10",
+ "title": "G1 C10 · Breathing",
+ "folder": "sec3g1",
+ "chapter": 110,
+ "questions": [
+  {
+   "id": "g10q1",
+   "q": "In our cells, food is broken down with oxygen to release energy. Name this process.",
+   "choices": [
+    "digestion",
+    "respiration",
+    "photosynthesis",
+    "breathing"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q2",
+   "q": "Breathing brings air into our lungs. Explain why we need to breathe.",
+   "choices": [
+    "to take in carbon dioxide",
+    "to take in oxygen for respiration",
+    "to digest our food",
+    "to make glucose in cells"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q3",
+   "q": "Glucose reacts with oxygen in our cells. State the products of respiration.",
+   "choices": [
+    "carbon dioxide + water + energy",
+    "carbon dioxide + glucose + energy",
+    "oxygen + water + energy",
+    "nitrogen + water + energy"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q4",
+   "q": "Respiration takes place in our cells. State the substances needed for respiration.",
+   "choices": [
+    "oxygen and nitrogen",
+    "carbon dioxide and water",
+    "glucose and oxygen",
+    "glucose and water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q5",
+   "q": "Breathed-in air passes through the nose. Name the tube it enters next.",
+   "choices": [
+    "windpipe",
+    "bronchi",
+    "air sacs",
+    "gullet"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q6",
+   "q": "Breathed-in air passes through the windpipe. Name the tubes it enters next.",
+   "choices": [
+    "bronchi",
+    "gullet",
+    "nose",
+    "air sacs"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q7",
+   "q": "Breathed-in air passes through the bronchi. Name the part it reaches next.",
+   "choices": [
+    "windpipe",
+    "air sacs in the lungs",
+    "nose",
+    "gullet"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q8",
+   "q": "In the lungs, oxygen leaves the air sacs. Name what it passes into.",
+   "choices": [
+    "nose",
+    "windpipe",
+    "blood",
+    "bronchi"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q9",
+   "q": "Breathed-in air has just entered the bronchi. Name the tube it has just left.",
+   "choices": [
+    "nose",
+    "windpipe",
+    "air sacs",
+    "gullet"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q10",
+   "q": "Air enters the body through the nose. State one function of the nose.",
+   "choices": [
+    "pushes air into the lungs",
+    "traps dirt and germs in air",
+    "exchanges oxygen with the blood",
+    "protects the lungs and heart"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q11",
+   "q": "Cells in the windpipe make a sticky substance that traps dust. Name this substance.",
+   "choices": [
+    "mucus",
+    "water",
+    "blood",
+    "saliva"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q12",
+   "q": "The windpipe splits into two tubes going to the lungs. Name these tubes.",
+   "choices": [
+    "air sacs",
+    "gullet",
+    "ribs",
+    "bronchi"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q13",
+   "q": "The ribs form a cage around the chest. State the function of the ribcage.",
+   "choices": [
+    "traps dust and germs",
+    "exchanges gases with blood",
+    "carries air to the lungs",
+    "protects the lungs and heart"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q14",
+   "q": "Name the muscle under the lungs that separates the chest from the belly.",
+   "choices": [
+    "diaphragm",
+    "windpipe",
+    "ribcage",
+    "stomach"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q15",
+   "q": "A person chokes while eating. Name the tube that the food has entered.",
+   "choices": [
+    "bronchi",
+    "gullet",
+    "stomach",
+    "windpipe"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q16",
+   "q": "When we swallow, food goes down a tube to the stomach. Name this tube.",
+   "choices": [
+    "gullet",
+    "windpipe",
+    "bronchi",
+    "air sacs"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q17",
+   "q": "Inhale means breathe in. Describe the movement of the ribcage when we inhale.",
+   "choices": [
+    "downwards and inwards",
+    "upwards and outwards",
+    "downwards and outwards",
+    "upwards and inwards"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q18",
+   "q": "Inhale means breathe in. Describe the movement of the diaphragm when we inhale.",
+   "choices": [
+    "contracts and moves up",
+    "relaxes and moves up",
+    "contracts and moves down",
+    "relaxes and moves down"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q19",
+   "q": "Exhale means breathe out. Describe the movement of the ribcage when we exhale.",
+   "choices": [
+    "downwards and outwards",
+    "downwards and inwards",
+    "upwards and outwards",
+    "upwards and inwards"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q20",
+   "q": "Exhale means breathe out. Describe the movement of the diaphragm when we exhale.",
+   "choices": [
+    "relaxes and moves up",
+    "contracts and moves up",
+    "contracts and moves down",
+    "relaxes and moves down"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q21",
+   "q": "In the chest, the diaphragm contracts and moves down. Identify the process taking place.",
+   "choices": [
+    "swallowing",
+    "breathing out",
+    "choking",
+    "breathing in"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q22",
+   "q": "In the chest, the ribcage moves downwards and inwards. Identify the process taking place.",
+   "choices": [
+    "breathing in",
+    "swallowing",
+    "breathing out",
+    "choking"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q23",
+   "q": "Exhaled air is breathed-out air. Name the two gases it has more of.",
+   "choices": [
+    "oxygen and water vapour",
+    "carbon dioxide and water vapour",
+    "nitrogen and carbon dioxide",
+    "oxygen and nitrogen"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q24",
+   "q": "Inhaled air is breathed-in air. State the percentage of oxygen in inhaled air.",
+   "choices": [
+    "4%",
+    "16%",
+    "21%",
+    "78%"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q25",
+   "q": "Exhaled air is breathed-out air. State the percentage of oxygen in exhaled air.",
+   "choices": [
+    "21%",
+    "4%",
+    "78%",
+    "16%"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q26",
+   "q": "Exhaled air is breathed-out air. State the percentage of carbon dioxide in exhaled air.",
+   "choices": [
+    "4%",
+    "0.03%",
+    "16%",
+    "21%"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q27",
+   "q": "A gas is 21% of breathed-in air and 16% of breathed-out air. Identify the gas.",
+   "choices": [
+    "water vapour",
+    "carbon dioxide",
+    "oxygen",
+    "nitrogen"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q28",
+   "q": "A gas is 78% of both breathed-in and breathed-out air. Identify the gas.",
+   "choices": [
+    "water vapour",
+    "carbon dioxide",
+    "oxygen",
+    "nitrogen"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q29",
+   "q": "Breathed-in air has 21% oxygen. Breathed-out air has 16% oxygen. Calculate the difference.",
+   "choices": [
+    "37%",
+    "16%",
+    "21%",
+    "5%"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q30",
+   "q": "Exhaled air has less oxygen than inhaled air. Explain why.",
+   "choices": [
+    "oxygen is stored in the bronchi",
+    "oxygen is trapped by mucus",
+    "oxygen is used in respiration",
+    "oxygen is made in respiration"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q31",
+   "q": "Name the substance used to test for carbon dioxide.",
+   "choices": [
+    "blue litmus paper",
+    "cobalt chloride paper",
+    "limewater",
+    "silica gel"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q32",
+   "q": "Dry cobalt chloride paper is placed in water vapour. Describe its colour change.",
+   "choices": [
+    "from blue to green",
+    "from pink to blue",
+    "from clear to milky",
+    "from blue to pink"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q33",
+   "q": "Breathed-in and breathed-out air are bubbled through limewater. Predict which turns it milky faster.",
+   "choices": [
+    "neither of them",
+    "breathed-out air",
+    "both at the same time",
+    "breathed-in air"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q34",
+   "q": "Name the substance in cigarette smoke that makes smokers addicted.",
+   "choices": [
+    "nicotine",
+    "mucus",
+    "tar",
+    "carbon dioxide"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q35",
+   "q": "Name the substance in cigarette smoke that can cause lung cancer.",
+   "choices": [
+    "tar",
+    "mucus",
+    "oxygen",
+    "nicotine"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q36",
+   "q": "Hair-like structures in the windpipe sweep out dust. Describe the effect of tar on them.",
+   "choices": [
+    "they grow longer",
+    "they make more mucus",
+    "they move faster",
+    "they stick together"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q37",
+   "q": "Chemicals in cigarette smoke can block blood vessels. Name the disease this can cause.",
+   "choices": [
+    "bronchitis",
+    "lung cancer",
+    "heart disease",
+    "pneumonia"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q38",
+   "q": "In a smoker, the bronchi become swollen and sore. Name this disease.",
+   "choices": [
+    "pneumonia",
+    "heart disease",
+    "bronchitis",
+    "lung cancer"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  },
+  {
+   "id": "g10q39",
+   "q": "A passive smoker does not smoke. Explain why passive smokers can still get smoking diseases.",
+   "choices": [
+    "they have too many air sacs",
+    "they breathe in others' smoke",
+    "they breathe in too much oxygen",
+    "they make tar in their lungs"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Breathing",
+   "ao": ""
+  }
+ ]
+}

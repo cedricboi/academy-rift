@@ -1,0 +1,638 @@
+{
+ "id": "g1c04",
+ "title": "G1 C4 · Electricity",
+ "folder": "sec3g1",
+ "chapter": 104,
+ "questions": [
+  {
+   "id": "g04q1",
+   "q": "Define electric current.",
+   "choices": [
+    "rate of energy conversion",
+    "rate of flow of charge",
+    "energy to push charge around",
+    "opposition to the current"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q2",
+   "q": "State the SI unit of resistance.",
+   "choices": [
+    "ohm (Ω)",
+    "ampere (A)",
+    "watt (W)",
+    "volt (V)"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q3",
+   "q": "A lamp circuit has a fixed voltage. Its resistance increases. Predict the change in current.",
+   "choices": [
+    "it stays the same",
+    "it decreases",
+    "it increases",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q4",
+   "q": "The current through a bulb is measured. State the meter used and its connection.",
+   "choices": [
+    "voltmeter in parallel",
+    "ammeter in series",
+    "voltmeter in series",
+    "ammeter in parallel"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q5",
+   "q": "The voltage across a bulb is measured. State the meter used and its connection.",
+   "choices": [
+    "voltmeter in parallel",
+    "ammeter in series",
+    "voltmeter in series",
+    "ammeter in parallel"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q6",
+   "q": "R is resistance, V is voltage, I is current. Identify the formula for R.",
+   "choices": [
+    "R = V x I",
+    "R = I ÷ V",
+    "R = V + I",
+    "R = V ÷ I"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q7",
+   "q": "A 2 A current flows through a 10 Ω resistor. Calculate the voltage.",
+   "choices": [
+    "8 V",
+    "12 V",
+    "20 V",
+    "5 V"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q8",
+   "q": "A 12 V supply is across a 4 Ω resistor. Calculate the current.",
+   "choices": [
+    "48 A",
+    "8 A",
+    "16 A",
+    "3 A"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q9",
+   "q": "A lamp has 12 V across it and 2 A through it. Calculate its resistance.",
+   "choices": [
+    "14 Ω",
+    "6 Ω",
+    "24 Ω",
+    "10 Ω"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q10",
+   "q": "A 20 V supply drives 4 A through a heater. Calculate its resistance.",
+   "choices": [
+    "16 Ω",
+    "5 Ω",
+    "24 Ω",
+    "80 Ω"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q11",
+   "q": "Ammeters X and Y are in series. X reads 2 A. State the reading on Y.",
+   "choices": [
+    "0.5 A",
+    "1 A",
+    "4 A",
+    "2 A"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q12",
+   "q": "Two identical bulbs are in series with a 6 V battery. Calculate each bulb's voltage.",
+   "choices": [
+    "4 V",
+    "12 V",
+    "3 V",
+    "6 V"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q13",
+   "q": "Two identical bulbs are in parallel with a 6 V battery. State each bulb's voltage.",
+   "choices": [
+    "6 V",
+    "12 V",
+    "4 V",
+    "3 V"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q14",
+   "q": "Two identical bulbs in parallel take 4 A in total. Calculate each bulb's current.",
+   "choices": [
+    "8 A",
+    "4 A",
+    "1 A",
+    "2 A"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q15",
+   "q": "Two identical bulbs in series have 3 V each. Calculate the supply voltage.",
+   "choices": [
+    "9 V",
+    "6 V",
+    "1.5 V",
+    "3 V"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q16",
+   "q": "Two 10 Ω resistors are joined in series. Calculate the effective resistance.",
+   "choices": [
+    "10 Ω",
+    "100 Ω",
+    "20 Ω",
+    "5 Ω"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q17",
+   "q": "Two 10 Ω resistors are joined in parallel. Calculate the effective resistance.",
+   "choices": [
+    "5 Ω",
+    "10 Ω",
+    "20 Ω",
+    "100 Ω"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q18",
+   "q": "More resistors are added in series. State the change in effective resistance.",
+   "choices": [
+    "it stays the same",
+    "it increases",
+    "it decreases",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q19",
+   "q": "State a feature of a series circuit.",
+   "choices": [
+    "each bulb has its own switch",
+    "each bulb gets the full voltage",
+    "more than one path for current",
+    "only one path for current"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q20",
+   "q": "A torch has its cells, switch and bulb in one loop. Name this circuit type.",
+   "choices": [
+    "short circuit",
+    "series circuit",
+    "parallel circuit",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q21",
+   "q": "Lights in homes are wired in parallel. Explain why.",
+   "choices": [
+    "current has only one path",
+    "the bulbs share the voltage",
+    "all bulbs switch on together",
+    "each bulb can be switched separately"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q22",
+   "q": "Many appliances are plugged into one socket. Name the hazard this causes.",
+   "choices": [
+    "damaged insulation",
+    "loose connections",
+    "overheating of cables",
+    "damp conditions"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q23",
+   "q": "A girl uses a hairdryer with wet hands. Explain why this is dangerous.",
+   "choices": [
+    "water conducts electricity",
+    "water makes cables overheat",
+    "water damages the insulation",
+    "water is an insulator"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q24",
+   "q": "The current through a fuse becomes too large. Describe what the fuse does.",
+   "choices": [
+    "it melts and opens the circuit",
+    "it covers the exposed wires",
+    "it carries current to the earth",
+    "it lets more current flow"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q25",
+   "q": "P is power, V is voltage, I is current. Identify the formula for P.",
+   "choices": [
+    "P = I ÷ V",
+    "P = V ÷ I",
+    "P = V + I",
+    "P = V x I"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q26",
+   "q": "A bulb has 9 V across it and 2 A through it. Calculate its power.",
+   "choices": [
+    "18 W",
+    "7 W",
+    "11 W",
+    "4.5 W"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q27",
+   "q": "A 12 W lamp works on a 6 V supply. Calculate the current.",
+   "choices": [
+    "18 A",
+    "72 A",
+    "2 A",
+    "6 A"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q28",
+   "q": "A 100 W lamp has a current of 5 A. Calculate the voltage.",
+   "choices": [
+    "20 V",
+    "500 V",
+    "95 V",
+    "105 V"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q29",
+   "q": "A hairdryer has a power of 1 kW. Calculate its power in watts.",
+   "choices": [
+    "1 W",
+    "10 W",
+    "1000 W",
+    "100 W"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q30",
+   "q": "A 100 W lamp is on for 20 s. Calculate the energy used.",
+   "choices": [
+    "80 J",
+    "2000 J",
+    "5 J",
+    "120 J"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q31",
+   "q": "State the unit in which electrical energy is sold to homes.",
+   "choices": [
+    "watt (W)",
+    "joule (J)",
+    "kilowatt-hour (kWh)",
+    "kilowatt (kW)"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q32",
+   "q": "A lamp has a power of 500 W. Calculate its power in kW.",
+   "choices": [
+    "5 kW",
+    "500 kW",
+    "0.5 kW",
+    "50 kW"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q33",
+   "q": "A 2 kW air-conditioner runs for 8 h. Calculate the energy in kWh.",
+   "choices": [
+    "16 kWh",
+    "10 kWh",
+    "6 kWh",
+    "4 kWh"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q34",
+   "q": "A home uses 5 kWh at 20 cents per kWh. Calculate the cost.",
+   "choices": [
+    "4 cents",
+    "25 cents",
+    "100 cents",
+    "15 cents"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  },
+  {
+   "id": "g04q35",
+   "q": "A 2 kW heater uses 6 kWh of energy. Calculate the time it was on.",
+   "choices": [
+    "4 h",
+    "3 h",
+    "12 h",
+    "8 h"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Electricity",
+   "ao": ""
+  }
+ ]
+}

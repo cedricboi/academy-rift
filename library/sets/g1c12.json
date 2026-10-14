@@ -1,0 +1,728 @@
+{
+ "id": "g1c12",
+ "title": "G1 C12 · Staying Healthy",
+ "folder": "sec3g1",
+ "chapter": 112,
+ "questions": [
+  {
+   "id": "g12q1",
+   "q": "Identify a habit that keeps us healthy in body and mind.",
+   "choices": [
+    "getting enough sleep",
+    "using the computer for hours",
+    "listening to loud music",
+    "eating fast food daily"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q2",
+   "q": "We should eat regular, balanced meals. State what a balanced diet gives us.",
+   "choices": [
+    "only vitamins and minerals",
+    "as much food as possible",
+    "the nutrients and energy we need",
+    "only protein and fats"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q3",
+   "q": "Name the condition that long hours of loud music can cause.",
+   "choices": [
+    "deafness",
+    "poor eyesight",
+    "diabetes",
+    "back pain"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q4",
+   "q": "A student uses a computer for hours without breaks. Identify what may be damaged.",
+   "choices": [
+    "kidneys",
+    "bones",
+    "hearing",
+    "eyesight"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q5",
+   "q": "Name the substances found in large amounts in convenience food.",
+   "choices": [
+    "fibre, vitamins and minerals",
+    "salt, sugar and saturated fats",
+    "protein, water and fibre",
+    "calcium, iron and vitamin D"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q6",
+   "q": "Identify a health problem caused by eating convenience food often.",
+   "choices": [
+    "poor eyesight",
+    "shoulder pain",
+    "high blood pressure",
+    "deafness"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q7",
+   "q": "A person has shoulder and back pain. Identify the likely cause.",
+   "choices": [
+    "listening to loud music",
+    "eating fast food every day",
+    "long computer use without breaks",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q8",
+   "q": "BMI tells us if our weight is healthy. State the formula for BMI.",
+   "choices": [
+    "mass ÷ (height x height)",
+    "mass x height x height",
+    "mass ÷ height",
+    "(height x height) ÷ mass"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q9",
+   "q": "State the unit of BMI.",
+   "choices": [
+    "kg/m",
+    "kg",
+    "m²/kg",
+    "kg/m²"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q10",
+   "q": "A person has mass 80 kg. Height x height is 4 m². Calculate the BMI.",
+   "choices": [
+    "84 kg/m²",
+    "20 kg/m²",
+    "320 kg/m²",
+    "76 kg/m²"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q11",
+   "q": "A person has mass 44 kg. Height x height is 2 m². Calculate the BMI.",
+   "choices": [
+    "22 kg/m²",
+    "46 kg/m²",
+    "42 kg/m²",
+    "88 kg/m²"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q12",
+   "q": "A person has BMI 20 kg/m². Height x height is 2 m². Calculate the mass.",
+   "choices": [
+    "18 kg",
+    "10 kg",
+    "40 kg",
+    "22 kg"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q13",
+   "q": "A person has a BMI below 18.5. Identify the weight group.",
+   "choices": [
+    "obese",
+    "underweight",
+    "healthy weight",
+    "overweight"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q14",
+   "q": "A person has a BMI of 32. Identify the weight group.",
+   "choices": [
+    "overweight",
+    "obese",
+    "underweight",
+    "healthy weight"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q15",
+   "q": "A person has a BMI of 20. Identify the weight group.",
+   "choices": [
+    "obese",
+    "overweight",
+    "underweight",
+    "healthy weight"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q16",
+   "q": "Over-exercising means exercising far too much. Name a risk of over-exercising.",
+   "choices": [
+    "malnutrition",
+    "damage to eyesight",
+    "injury to muscles and joints",
+    "high blood pressure"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q17",
+   "q": "Over-dieting means eating far too little. Name a risk of over-dieting.",
+   "choices": [
+    "high blood pressure",
+    "obesity",
+    "malnutrition",
+    "injury to muscles and joints"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q18",
+   "q": "A person wants to lose weight safely. Identify the best way.",
+   "choices": [
+    "eating only one type of food",
+    "balanced meals and regular exercise",
+    "exercising for hours every day",
+    "skipping meals every day"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q19",
+   "q": "State the cause of influenza (flu).",
+   "choices": [
+    "viruses",
+    "lack of exercise",
+    "bacteria",
+    "parents' genes"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q20",
+   "q": "State the cause of tuberculosis.",
+   "choices": [
+    "viruses",
+    "lack of exercise",
+    "parents' genes",
+    "bacteria"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q21",
+   "q": "State the cause of thalassemia.",
+   "choices": [
+    "parents' genes",
+    "bacteria",
+    "lack of exercise",
+    "viruses"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q22",
+   "q": "State the cause of SARS.",
+   "choices": [
+    "lack of exercise",
+    "bacteria",
+    "parents' genes",
+    "viruses"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q23",
+   "q": "Identify the disease caused by a virus.",
+   "choices": [
+    "syphilis",
+    "AIDS",
+    "tuberculosis",
+    "colour blindness"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q24",
+   "q": "Hereditary diseases are passed on from parents. Identify the hereditary disease.",
+   "choices": [
+    "SARS",
+    "influenza",
+    "colour blindness",
+    "tuberculosis"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q25",
+   "q": "Name the germ-killing chemical used to clean a floor.",
+   "choices": [
+    "antibiotic",
+    "antiseptic",
+    "disinfectant",
+    "vaccine"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q26",
+   "q": "Name the germ-killing chemical used to wash our hands.",
+   "choices": [
+    "antiseptic",
+    "vaccine",
+    "disinfectant",
+    "antibiotic"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q27",
+   "q": "A doctor gives medicine to kill bacteria inside the body. Name this medicine.",
+   "choices": [
+    "disinfectant",
+    "vaccine",
+    "antiseptic",
+    "antibiotic"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q28",
+   "q": "Identify where a disinfectant should be used.",
+   "choices": [
+    "on a cut on the skin",
+    "on our hands",
+    "inside the body",
+    "on a kitchen table"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q29",
+   "q": "Name the germs that antibiotics kill.",
+   "choices": [
+    "bacteria",
+    "viruses",
+    "viruses and bacteria",
+    "all germs"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q30",
+   "q": "Hands are washed in different ways. Identify the way that removes the most bacteria.",
+   "choices": [
+    "washing with water only",
+    "washing with ordinary soap",
+    "washing with antiseptic soap",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q31",
+   "q": "Vaccination is given before we fall sick. State what it protects us from.",
+   "choices": [
+    "all diseases",
+    "hereditary diseases",
+    "certain viruses",
+    "lifestyle diseases"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q32",
+   "q": "Name the method that protects us from certain viruses.",
+   "choices": [
+    "vaccination",
+    "disinfectants",
+    "antibiotics",
+    "antiseptics"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q33",
+   "q": "A doctor gives a full course of antibiotics. Explain why we must finish it.",
+   "choices": [
+    "the vaccine may wear off",
+    "bacteria left may multiply",
+    "our genes may change",
+    "viruses left may multiply"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q34",
+   "q": "A boy stops his antibiotics too early. Predict what may happen.",
+   "choices": [
+    "he may fall sick again",
+    "he may become protected from viruses",
+    "he may get better faster",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q35",
+   "q": "Thalassemia is a hereditary disease. State how a hereditary disease is passed on.",
+   "choices": [
+    "through an unhealthy diet",
+    "through the parents' genes",
+    "through viruses",
+    "through bacteria"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q36",
+   "q": "In thalassemia, a faulty gene affects red blood cells. Describe what happens to them.",
+   "choices": [
+    "they make blood clot",
+    "they are destroyed",
+    "they become sickle-shaped",
+    "they become too many"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q37",
+   "q": "A mother has thalassemia. Explain why her children may have it.",
+   "choices": [
+    "it spreads through the air",
+    "it spreads through bacteria",
+    "it is passed on in genes",
+    "it comes from a poor diet"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q38",
+   "q": "Kidney dialysis helps people whose kidneys have failed. State what it does.",
+   "choices": [
+    "puts in a new kidney",
+    "gives protection from viruses",
+    "makes more red blood cells",
+    "does the work of the kidney"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q39",
+   "q": "State one problem with kidney dialysis.",
+   "choices": [
+    "it removes wastes from blood",
+    "the body may reject it",
+    "it puts in a new kidney",
+    "it is not permanent"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  },
+  {
+   "id": "g12q40",
+   "q": "A patient gets a new kidney. Explain why the patient needs long-term medicine.",
+   "choices": [
+    "to protect against hereditary diseases",
+    "to stop the body rejecting it",
+    "to remove wastes from blood",
+    "to do the kidney's work"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Staying Healthy",
+   "ao": ""
+  }
+ ]
+}

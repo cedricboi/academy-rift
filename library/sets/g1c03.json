@@ -1,0 +1,656 @@
+{
+ "id": "g1c03",
+ "title": "G1 C3 · Effects of Forces",
+ "folder": "sec3g1",
+ "chapter": 103,
+ "questions": [
+  {
+   "id": "g03q1",
+   "q": "A sponge is squeezed. Identify the effect of the force.",
+   "choices": [
+    "changes its shape",
+    "changes its speed",
+    "stops it moving",
+    "changes its direction"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q2",
+   "q": "A ball is still on the ground. It is kicked. Identify the effect of the force.",
+   "choices": [
+    "turns it about a pivot",
+    "changes its shape",
+    "makes it start moving",
+    "stops it moving"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q3",
+   "q": "A hockey stick hits a moving ball to one side. Identify the effect of the force.",
+   "choices": [
+    "changes its shape",
+    "stops it moving",
+    "makes it start moving",
+    "changes its direction"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q4",
+   "q": "A goalkeeper catches a moving ball. Identify the effect of the force.",
+   "choices": [
+    "changes its direction",
+    "turns it about a pivot",
+    "stops it moving",
+    "makes it start moving"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q5",
+   "q": "A cyclist brakes and the bicycle slows down. Identify the effect of the force.",
+   "choices": [
+    "changes its shape",
+    "changes its speed",
+    "turns it about a pivot",
+    "changes its direction"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q6",
+   "q": "A door is pushed and swings on its hinges. Identify the effect of the force.",
+   "choices": [
+    "changes its speed",
+    "changes its shape",
+    "stops it moving",
+    "turns it about a pivot"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q7",
+   "q": "A force can change the shape of an object. Identify the example of this.",
+   "choices": [
+    "pushing a door open",
+    "pressing a lump of clay",
+    "braking a moving bicycle",
+    "catching a moving ball"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q8",
+   "q": "A force can turn an object. Name the turning effect of a force.",
+   "choices": [
+    "friction",
+    "pivot",
+    "moment",
+    "acceleration"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q9",
+   "q": "A moment depends on the size of the force. State the other factor.",
+   "choices": [
+    "time the force acts",
+    "speed of the object",
+    "mass of the object",
+    "perpendicular distance from the pivot"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q10",
+   "q": "The same force pushes a door further from its hinge. Predict the change in moment.",
+   "choices": [
+    "it increases",
+    "it decreases",
+    "it stays the same",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q11",
+   "q": "A distance is 3 km. Calculate this distance in metres.",
+   "choices": [
+    "30 000 m",
+    "300 m",
+    "30 m",
+    "3000 m"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q12",
+   "q": "A time is 30 min. Calculate this time in hours.",
+   "choices": [
+    "2 h",
+    "0.5 h",
+    "0.3 h",
+    "30 h"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q13",
+   "q": "A time is 2 h. Calculate this time in minutes.",
+   "choices": [
+    "120 min",
+    "60 min",
+    "7200 min",
+    "200 min"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q14",
+   "q": "A distance is 2500 m. Calculate this distance in kilometres.",
+   "choices": [
+    "2500 km",
+    "2.5 km",
+    "250 km",
+    "25 km"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q15",
+   "q": "State the formula for speed.",
+   "choices": [
+    "speed = time ÷ distance",
+    "speed = distance + time",
+    "speed = distance x time",
+    "speed = distance ÷ time"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q16",
+   "q": "Speed is distance divided by time. Identify the formula for time.",
+   "choices": [
+    "time = distance + speed",
+    "time = speed ÷ distance",
+    "time = distance x speed",
+    "time = distance ÷ speed"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q17",
+   "q": "A car travels 300 km in 2 h. Calculate its average speed.",
+   "choices": [
+    "150 km/h",
+    "302 km/h",
+    "600 km/h",
+    "298 km/h"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q18",
+   "q": "A runner runs 100 m in 20 s. Calculate the average speed.",
+   "choices": [
+    "120 m/s",
+    "80 m/s",
+    "5 m/s",
+    "2000 m/s"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q19",
+   "q": "A girl walks at 2 m/s for 50 s. Calculate the distance she walks.",
+   "choices": [
+    "100 m",
+    "48 m",
+    "25 m",
+    "52 m"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q20",
+   "q": "A car travels 45 km at 15 km/h. Calculate the time taken.",
+   "choices": [
+    "30 h",
+    "3 h",
+    "675 h",
+    "60 h"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q21",
+   "q": "Define acceleration.",
+   "choices": [
+    "the rate of change of speed",
+    "the time taken to speed up",
+    "the distance travelled per second",
+    "the total change in speed"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q22",
+   "q": "State the SI unit of acceleration.",
+   "choices": [
+    "m/s²",
+    "m",
+    "s",
+    "m/s"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q23",
+   "q": "A truck's speed increases by 6 m/s in 3 s. Calculate the acceleration.",
+   "choices": [
+    "18 m/s²",
+    "2 m/s²",
+    "3 m/s²",
+    "9 m/s²"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q24",
+   "q": "A car speeds up from 0 to 20 m/s in 5 s. Calculate the acceleration.",
+   "choices": [
+    "100 m/s²",
+    "25 m/s²",
+    "4 m/s²",
+    "15 m/s²"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q25",
+   "q": "A bicycle slows down from 8 m/s to a stop in 2 s. Calculate its deceleration.",
+   "choices": [
+    "4 m/s²",
+    "6 m/s²",
+    "16 m/s²",
+    "10 m/s²"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q26",
+   "q": "A car's speed increases by 10 m/s. Its acceleration is 2 m/s². Calculate the time taken.",
+   "choices": [
+    "20 s",
+    "12 s",
+    "5 s",
+    "8 s"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q27",
+   "q": "A distance-time graph is a horizontal line. Describe the motion of the object.",
+   "choices": [
+    "it is speeding up",
+    "it is not moving",
+    "it is slowing down",
+    "it moves at constant speed"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q28",
+   "q": "A distance-time graph is a straight sloping line. Describe the motion of the object.",
+   "choices": [
+    "it is not moving",
+    "it is slowing down",
+    "it moves at constant speed",
+    "it is speeding up"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q29",
+   "q": "Two lines on a distance-time graph are compared. Identify what the steeper line shows.",
+   "choices": [
+    "no movement",
+    "a lower speed",
+    "a higher speed",
+    "a longer time"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q30",
+   "q": "An object is not moving. Identify the shape of its distance-time graph.",
+   "choices": [
+    "a horizontal line",
+    "a straight sloping line",
+    "a vertical line",
+    "a steep straight line"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q31",
+   "q": "A distance-time graph shows a cyclist travels 20 m in 4 s. Calculate the average speed.",
+   "choices": [
+    "16 m/s",
+    "5 m/s",
+    "24 m/s",
+    "80 m/s"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q32",
+   "q": "A distance-time graph shows a speed of 2 m/s. Calculate the distance covered in 3 s.",
+   "choices": [
+    "1 m",
+    "1.5 m",
+    "5 m",
+    "6 m"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q33",
+   "q": "A stone raises a measuring cylinder reading from 18 to 26 cm³. Calculate the stone's volume.",
+   "choices": [
+    "44 cm³",
+    "26 cm³",
+    "8 cm³",
+    "18 cm³"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q34",
+   "q": "A thermometer reads 25 °C, then 40 °C. Calculate the rise in temperature.",
+   "choices": [
+    "25 °C",
+    "15 °C",
+    "40 °C",
+    "65 °C"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q35",
+   "q": "A stopwatch reads 1 min 6 s. Calculate this time in seconds.",
+   "choices": [
+    "66 s",
+    "7 s",
+    "106 s",
+    "6 s"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  },
+  {
+   "id": "g03q36",
+   "q": "A pile of 5 identical blocks is 20 cm high. Calculate the height of one block.",
+   "choices": [
+    "15 cm",
+    "25 cm",
+    "100 cm",
+    "4 cm"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Effects of Forces",
+   "ao": ""
+  }
+ ]
+}

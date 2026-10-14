@@ -51,7 +51,7 @@ function render() {
 
     <h2 class="r-sec">Weakest learning objectives</h2>
     <table class="r-table"><thead><tr><th>Learning objective</th><th>Chapter</th><th class="r-num">Right</th><th class="r-num">Answers</th></tr></thead><tbody>
-      ${rep.objectives.map((o) => `<tr><td>${esc(o.lo)}</td><td>${o.chapter ? `Ch ${o.chapter}` : esc(o.topic)}</td>
+      ${rep.objectives.map((o) => `<tr><td>${esc(o.lo)}</td><td>${o.chapter ? (o.chapter > 100 ? `G1 C${o.chapter - 100}` : `Ch ${o.chapter}`) : esc(o.topic)}</td>
         <td class="r-num"><span class="r-bar"><i style="width:${o.pct}%"></i></span>${o.pct}%</td><td class="r-num">${o.asked}</td></tr>`).join("")}
     </tbody></table>
 
@@ -60,7 +60,7 @@ function render() {
       ${rep.wrong.map((w, i) => `<tr><td>${i + 1}</td><td>${esc(w.q)}
           <div class="r-right">✓ ${esc(w.right)}</div>
           ${w.commonWrong ? `<div class="r-wrongpick">Most common wrong answer: ${esc(w.commonWrong)}${w.commonNote ? `<span class="r-note">The misconception: ${esc(w.commonNote)}</span>` : ""}</div>` : ""}
-          <div class="r-lo">${w.chapter ? `Ch ${w.chapter} · ` : ""}${esc(w.lo)}</div></td>
+          <div class="r-lo">${w.chapter ? (w.chapter > 100 ? `G1 C${w.chapter - 100} · ` : `Ch ${w.chapter} · `) : ""}${esc(w.lo)}</div></td>
         <td class="r-num">${w.wrong} of ${w.asked}</td><td class="r-num">${w.students}</td></tr>`).join("")}
     </tbody></table>
 
@@ -119,7 +119,7 @@ function downloadMd() {
   L.push(`# Academy Rift learning report: tournament ${rep.code}`, "", `${rep.totals.answers} answers, ${pct(rep.totals.answers - rep.totals.wrong, rep.totals.answers)}% right, ${rep.totals.questions} different questions.`, "");
   L.push("## Request for Claude", "", "Please build an MCQ sheet with different questions that test the same learning objectives as the weakest ones below, in the house MCQ style (four parallel options, one correct), with an answer key.", "");
   L.push("## Weakest learning objectives", "", "| Learning objective | Chapter | Right | Answers |", "|---|---|---|---|");
-  for (const o of rep.objectives) L.push(`| ${o.lo} | ${o.chapter ? "Ch " + o.chapter : o.topic} | ${o.pct}% | ${o.asked} |`);
+  for (const o of rep.objectives) L.push(`| ${o.lo} | ${o.chapter ? (o.chapter > 100 ? "G1 C" + (o.chapter - 100) : "Ch " + o.chapter) : o.topic} | ${o.pct}% | ${o.asked} |`);
   L.push("", "## Every question answered wrong", "", "| # | Question | Right answer | Most common wrong answer | Wrong | Learning objective |", "|---|---|---|---|---|---|");
   rep.wrong.forEach((w, i) => L.push(`| ${i + 1} | ${w.q.replace(/\|/g, "/")} | ${w.right.replace(/\|/g, "/")} | ${(w.commonWrong || "").replace(/\|/g, "/")} | ${w.wrong} of ${w.asked} | ${w.lo} |`));
   if (sheet?.missing?.length) { L.push("", "## Objectives with no other questions in the game yet", ""); sheet.missing.forEach((m) => L.push(`- ${m.lo}`)); }

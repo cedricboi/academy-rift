@@ -1,0 +1,674 @@
+{
+ "id": "g1c09",
+ "title": "G1 C9 · Digestion",
+ "folder": "sec3g1",
+ "chapter": 109,
+ "questions": [
+  {
+   "id": "g09q1",
+   "q": "Insoluble means cannot dissolve. Describe what digestion does to large, insoluble food molecules.",
+   "choices": [
+    "makes small, insoluble molecules",
+    "makes large, soluble molecules",
+    "makes larger, insoluble molecules",
+    "makes small, soluble molecules"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q2",
+   "q": "Our body uses food for energy, growth and repair. Explain why food must be digested.",
+   "choices": [
+    "so it can become insoluble",
+    "so it can enter the blood",
+    "so it can leave as faeces",
+    "so it can become larger"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q3",
+   "q": "Teeth cut food into smaller pieces. Identify the type of digestion.",
+   "choices": [
+    "physical digestion",
+    "chemical digestion",
+    "absorption",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q4",
+   "q": "Enzymes break food down into simpler substances. Identify the type of digestion.",
+   "choices": [
+    "chemical digestion",
+    "absorption",
+    "physical digestion",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q5",
+   "q": "Bile is a liquid that acts on fats. Describe what bile does to fats.",
+   "choices": [
+    "absorbs fats into the blood",
+    "breaks big droplets into small ones",
+    "stores fats in the liver",
+    "digests fats into simpler substances"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q6",
+   "q": "The alimentary canal is the food tube. Name the part where food enters it.",
+   "choices": [
+    "mouth",
+    "gullet",
+    "stomach",
+    "anus"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q7",
+   "q": "The gullet joins the mouth to the stomach. Describe how it moves food.",
+   "choices": [
+    "absorbs digested food into blood",
+    "makes digestive juice for food",
+    "contracts and relaxes to push food",
+    "breaks up big fat droplets"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q8",
+   "q": "The stomach makes acid. State the function of this acid.",
+   "choices": [
+    "kills bacteria in the food",
+    "absorbs water from the food",
+    "breaks up big fat droplets",
+    "pushes food into the intestine"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q9",
+   "q": "Food has just left the stomach. Name the part it enters next.",
+   "choices": [
+    "gullet",
+    "small intestine",
+    "rectum",
+    "large intestine"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q10",
+   "q": "Name the part of the alimentary canal where digested food is absorbed.",
+   "choices": [
+    "stomach",
+    "gullet",
+    "small intestine",
+    "large intestine"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q11",
+   "q": "State the function of the large intestine.",
+   "choices": [
+    "absorbs water and mineral salts",
+    "stores faeces",
+    "absorbs digested food",
+    "breaks down proteins"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q12",
+   "q": "Faeces is undigested food. Name the part that stores faeces before it leaves.",
+   "choices": [
+    "small intestine",
+    "stomach",
+    "anus",
+    "rectum"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q13",
+   "q": "Bile is a greenish-yellow liquid. Name the organ that produces bile.",
+   "choices": [
+    "liver",
+    "stomach",
+    "pancreas",
+    "gall bladder"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q14",
+   "q": "Bile is made in the liver. State the function of the gall bladder.",
+   "choices": [
+    "produces bile",
+    "breaks down alcohol",
+    "stores bile",
+    "produces insulin"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q15",
+   "q": "Name the organ that breaks down alcohol into harmless substances.",
+   "choices": [
+    "stomach",
+    "liver",
+    "gall bladder",
+    "pancreas"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q16",
+   "q": "Name the organ that stores extra glucose in the body.",
+   "choices": [
+    "liver",
+    "gall bladder",
+    "stomach",
+    "pancreas"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q17",
+   "q": "Insulin controls glucose in the blood. Name the organ that produces insulin.",
+   "choices": [
+    "gall bladder",
+    "pancreas",
+    "stomach",
+    "liver"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q18",
+   "q": "Enzymes speed up digestion. Name the enzyme that digests proteins.",
+   "choices": [
+    "bile",
+    "carbohydrase",
+    "lipase",
+    "protease"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q19",
+   "q": "Enzymes speed up digestion. Name the enzyme that digests fats.",
+   "choices": [
+    "carbohydrase",
+    "lipase",
+    "bile",
+    "protease"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q20",
+   "q": "Carbohydrase is an enzyme. Name the nutrient that carbohydrase digests.",
+   "choices": [
+    "proteins",
+    "fats",
+    "vitamins",
+    "carbohydrates"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q21",
+   "q": "Saliva is made by the salivary glands. Name the enzyme in saliva.",
+   "choices": [
+    "carbohydrase",
+    "protease",
+    "bile",
+    "lipase"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q22",
+   "q": "The stomach makes a digestive juice. Name the enzyme in this juice.",
+   "choices": [
+    "protease",
+    "bile",
+    "carbohydrase",
+    "lipase"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q23",
+   "q": "Name the organ that produces carbohydrase, protease and lipase.",
+   "choices": [
+    "liver",
+    "gall bladder",
+    "pancreas",
+    "large intestine"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q24",
+   "q": "State the temperature at which enzymes in our body work best.",
+   "choices": [
+    "60 °C",
+    "100 °C",
+    "25 °C",
+    "37 °C"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q25",
+   "q": "A digestive enzyme is heated to 80 °C. Predict what happens to the enzyme.",
+   "choices": [
+    "it works fastest",
+    "it is not affected",
+    "it is destroyed",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q26",
+   "q": "A digestive enzyme is kept at a low temperature. Predict what happens to the enzyme.",
+   "choices": [
+    "it is destroyed",
+    "it works fastest",
+    "it becomes inactive",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q27",
+   "q": "An enzyme digests food in the shortest time at 35 °C. State its optimum temperature.",
+   "choices": [
+    "35 °C",
+    "25 °C",
+    "37 °C",
+    "40 °C"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q28",
+   "q": "Stomach enzymes work in acid. State the pH at which they work best.",
+   "choices": [
+    "pH 7",
+    "pH 2",
+    "pH 8",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q29",
+   "q": "State the pH at which enzymes in the small intestine work best.",
+   "choices": [
+    "pH 8",
+    "pH 2",
+    "pH 7",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q30",
+   "q": "State the pH at which enzymes in the mouth work best.",
+   "choices": [
+    "pH 7",
+    "pH 2",
+    "pH 8",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q31",
+   "q": "A digestive enzyme works best at pH 2. Identify where in the body it works.",
+   "choices": [
+    "mouth",
+    "large intestine",
+    "stomach",
+    "small intestine"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q32",
+   "q": "A digestive enzyme works best at pH 8. Identify where in the body it works.",
+   "choices": [
+    "mouth",
+    "stomach",
+    "large intestine",
+    "small intestine"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q33",
+   "q": "A person drinks too much alcohol for many years. Name a disease this can cause.",
+   "choices": [
+    "food poisoning",
+    "diabetes",
+    "liver cancer",
+    "constipation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q34",
+   "q": "A diet lacks fibre and water. Name the problem this causes.",
+   "choices": [
+    "liver damage",
+    "constipation",
+    "liver cancer",
+    "diabetes"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q35",
+   "q": "In diabetes, a substance in the blood cannot be controlled. Name the substance.",
+   "choices": [
+    "glucose",
+    "urea",
+    "bile",
+    "alcohol"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q36",
+   "q": "A doctor checks a patient for diabetes. State what the doctor measures.",
+   "choices": [
+    "alcohol level in the blood",
+    "sugar level in the blood",
+    "bile level in the liver",
+    "sugar level in the saliva"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  },
+  {
+   "id": "g09q37",
+   "q": "A diet high in two nutrients can lead to diabetes. Name the two nutrients.",
+   "choices": [
+    "fibre and vitamins",
+    "protein and water",
+    "fat and sugar",
+    "fibre and water"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Digestion",
+   "ao": ""
+  }
+ ]
+}

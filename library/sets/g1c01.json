@@ -1,0 +1,638 @@
+{
+ "id": "g1c01",
+ "title": "G1 C1 · Energy and its Uses",
+ "folder": "sec3g1",
+ "chapter": 101,
+ "questions": [
+  {
+   "id": "g01q1",
+   "q": "Define energy.",
+   "choices": [
+    "the amount of matter",
+    "the rate of energy conversion",
+    "the capacity to do work",
+    "a push or a pull"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q2",
+   "q": "State the SI unit of energy.",
+   "choices": [
+    "second (s)",
+    "joule (J)",
+    "newton (N)",
+    "watt (W)"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q3",
+   "q": "A ball rolls along the floor. Name the energy the moving ball has.",
+   "choices": [
+    "gravitational potential energy",
+    "elastic potential energy",
+    "kinetic energy",
+    "chemical potential energy"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q4",
+   "q": "Four identical balls roll along a floor. Identify the ball with the most kinetic energy.",
+   "choices": [
+    "the ball at 1 m/s",
+    "the ball at 2 m/s",
+    "the ball at 8 m/s",
+    "the ball at 4 m/s"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q5",
+   "q": "Name the energy stored in a stretched rubber band.",
+   "choices": [
+    "chemical potential energy",
+    "kinetic energy",
+    "gravitational potential energy",
+    "elastic potential energy"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q6",
+   "q": "Name the energy stored in food and fuels.",
+   "choices": [
+    "kinetic energy",
+    "chemical potential energy",
+    "gravitational potential energy",
+    "elastic potential energy"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q7",
+   "q": "Name the energy an object has because of its height.",
+   "choices": [
+    "elastic potential energy",
+    "gravitational potential energy",
+    "thermal energy",
+    "chemical potential energy"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q8",
+   "q": "Identify the object that stores elastic potential energy.",
+   "choices": [
+    "a compressed spring",
+    "a bowl of cooked rice",
+    "a fully charged battery",
+    "a car moving along a road"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q9",
+   "q": "A lift moves in a tall building. Identify where it has the most gravitational potential energy.",
+   "choices": [
+    "at the middle floor",
+    "in the basement",
+    "at the ground floor",
+    "at the top floor"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q10",
+   "q": "An object has thermal energy because of one property. State this property.",
+   "choices": [
+    "position",
+    "shape",
+    "temperature",
+    "speed"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q11",
+   "q": "State the direction in which thermal energy is transferred.",
+   "choices": [
+    "from hotter to cooler regions",
+    "from larger to smaller objects",
+    "from heavier to lighter objects",
+    "from cooler to hotter regions"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q12",
+   "q": "A bottle of hot milk is placed in cold water. Predict what happens to the milk.",
+   "choices": [
+    "it takes in cold from water",
+    "it cools down",
+    "its temperature stays the same",
+    "it warms up"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q13",
+   "q": "State the Principle of the Conservation of Energy.",
+   "choices": [
+    "energy cannot be created or destroyed",
+    "energy cannot be stored or released",
+    "energy can be used up completely",
+    "energy cannot be changed or transferred"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q14",
+   "q": "Energy changes from one form to another. Predict the total energy after the change.",
+   "choices": [
+    "the same as before",
+    "half as much as before",
+    "more than before",
+    "less than before"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q15",
+   "q": "A television is switched on. Identify the main energy conversion.",
+   "choices": [
+    "electrical --> kinetic + sound",
+    "chemical potential --> light + sound",
+    "sound --> electrical + light",
+    "electrical --> light + sound"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q16",
+   "q": "A candle burns. Identify the energy conversion.",
+   "choices": [
+    "heat + light --> chemical potential",
+    "electrical --> heat + light",
+    "chemical potential --> heat + light",
+    "kinetic --> heat + light"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q17",
+   "q": "A battery is used to light a torch. Identify the energy conversion in the battery.",
+   "choices": [
+    "electrical --> light",
+    "electrical --> chemical potential",
+    "chemical potential --> electrical",
+    "light --> electrical"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q18",
+   "q": "A person sings into a microphone. Identify the energy conversion in the microphone.",
+   "choices": [
+    "kinetic --> sound",
+    "sound --> heat",
+    "electrical --> sound",
+    "sound --> electrical"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q19",
+   "q": "A generator in a power station spins. Identify the energy conversion in the generator.",
+   "choices": [
+    "kinetic --> electrical",
+    "chemical potential --> heat",
+    "electrical --> kinetic",
+    "heat --> kinetic"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q20",
+   "q": "Identify the activity that changes electrical energy into chemical potential energy.",
+   "choices": [
+    "burning charcoal for a barbecue",
+    "charging a phone battery",
+    "roasting chicken in an oven",
+    "switching on a ceiling fan"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q21",
+   "q": "A radio uses 200 J. 50 J becomes heat, the rest sound. Calculate the sound energy.",
+   "choices": [
+    "200 J",
+    "150 J",
+    "4 J",
+    "250 J"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q22",
+   "q": "A lamp gives out 300 J light and 700 J heat. Calculate the energy supplied.",
+   "choices": [
+    "700 J",
+    "300 J",
+    "1000 J",
+    "400 J"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q23",
+   "q": "A ball thrown up has 100 J kinetic energy. State its potential energy at the top.",
+   "choices": [
+    "100 J",
+    "50 J",
+    "200 J",
+    "0 J"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q24",
+   "q": "A swing moves from its highest point to its lowest point. Identify the energy change.",
+   "choices": [
+    "chemical potential --> kinetic",
+    "kinetic --> elastic potential",
+    "gravitational potential --> kinetic",
+    "kinetic --> gravitational potential"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q25",
+   "q": "A child swings freely on a swing. Identify where the kinetic energy is greatest.",
+   "choices": [
+    "halfway up the swing",
+    "at the highest point",
+    "the same at all points",
+    "at the lowest point"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q26",
+   "q": "Define power.",
+   "choices": [
+    "the rate of energy conversion",
+    "the energy stored in a fuel",
+    "the capacity to do work",
+    "the total energy used"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q27",
+   "q": "State the SI unit of power.",
+   "choices": [
+    "watt (W)",
+    "second (s)",
+    "joule (J)",
+    "newton (N)"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q28",
+   "q": "State the formula for power in terms of energy and time.",
+   "choices": [
+    "power = energy x time",
+    "power = energy ÷ time",
+    "power = time ÷ energy",
+    "power = energy + time"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q29",
+   "q": "P is power, E is energy and t is time. Identify the formula for time.",
+   "choices": [
+    "t = E + P",
+    "t = E ÷ P",
+    "t = E x P",
+    "t = P ÷ E"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q30",
+   "q": "A boy uses 800 J of energy in 4 s. Calculate his power.",
+   "choices": [
+    "200 W",
+    "804 W",
+    "796 W",
+    "3200 W"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q31",
+   "q": "A fan uses 900 J of energy in 3 s. Calculate its power.",
+   "choices": [
+    "2700 W",
+    "897 W",
+    "903 W",
+    "300 W"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q32",
+   "q": "An activity lasts 2 minutes. Calculate this time in seconds.",
+   "choices": [
+    "30 s",
+    "200 s",
+    "60 s",
+    "120 s"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q33",
+   "q": "A heater has a power of 2 kW. Calculate its power in watts.",
+   "choices": [
+    "200 W",
+    "20 W",
+    "2000 W",
+    "2 W"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q34",
+   "q": "A 200 W oven is on for 10 s. Calculate the energy used.",
+   "choices": [
+    "190 J",
+    "2000 J",
+    "20 J",
+    "210 J"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  },
+  {
+   "id": "g01q35",
+   "q": "A 50 W lamp uses 1000 J of energy. Calculate the time taken.",
+   "choices": [
+    "950 s",
+    "50 000 s",
+    "1050 s",
+    "20 s"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Energy and its Uses",
+   "ao": ""
+  }
+ ]
+}

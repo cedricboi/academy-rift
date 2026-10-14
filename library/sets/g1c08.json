@@ -1,0 +1,710 @@
+{
+ "id": "g1c08",
+ "title": "G1 C8 · Food Health and Safety",
+ "folder": "sec3g1",
+ "chapter": 108,
+ "questions": [
+  {
+   "id": "g08q1",
+   "q": "A balanced diet keeps us healthy. State what a balanced diet contains.",
+   "choices": [
+    "the right amounts of all nutrients",
+    "mostly carbohydrates for energy",
+    "only vitamins and mineral salts",
+    "equal amounts of all nutrients"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q2",
+   "q": "Proteins are a nutrient in our food. State the function of proteins.",
+   "choices": [
+    "carry oxygen in the blood",
+    "prevent constipation",
+    "main source of energy",
+    "growth and repair of tissues"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q3",
+   "q": "Iron is a mineral salt. State the function of iron in the body.",
+   "choices": [
+    "carry oxygen in the blood",
+    "stop the gums from bleeding",
+    "help the body absorb calcium",
+    "build strong bones and teeth"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q4",
+   "q": "Fruits are rich in vitamin C. State the function of vitamin C.",
+   "choices": [
+    "help the body absorb calcium",
+    "carry oxygen in the blood",
+    "stop the gums from bleeding",
+    "build strong bones and teeth"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q5",
+   "q": "Cod liver oil is rich in vitamin D. State the function of vitamin D.",
+   "choices": [
+    "help the body absorb calcium",
+    "growth and repair of tissues",
+    "carry oxygen in the blood",
+    "stop the gums from bleeding"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q6",
+   "q": "Name the nutrient in vegetables that helps to prevent constipation.",
+   "choices": [
+    "protein",
+    "dietary fibre",
+    "fats",
+    "iron"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q7",
+   "q": "Identify the food that is a good source of carbohydrates.",
+   "choices": [
+    "rice",
+    "fish",
+    "eggs",
+    "butter"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q8",
+   "q": "Identify the food that is a good source of protein.",
+   "choices": [
+    "potatoes",
+    "fish",
+    "bread",
+    "cooking oil"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q9",
+   "q": "Chicken skin is greasy. Name the main nutrient in chicken skin.",
+   "choices": [
+    "dietary fibre",
+    "protein",
+    "carbohydrates",
+    "fats"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q10",
+   "q": "Calcium builds strong bones and teeth. Identify a good source of calcium.",
+   "choices": [
+    "milk",
+    "cooking oil",
+    "rice",
+    "oranges"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q11",
+   "q": "My Healthy Plate shows a healthy meal. State what fills half the plate.",
+   "choices": [
+    "healthier oils",
+    "meat and other proteins",
+    "fruits and vegetables",
+    "whole grains"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q12",
+   "q": "On My Healthy Plate, one quarter is whole grains. Name what fills the other quarter.",
+   "choices": [
+    "meat and other proteins",
+    "fruits and vegetables",
+    "healthier oils",
+    "whole grains"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q13",
+   "q": "A food label shows 200 Calories per serving. Calculate the Calories in 2 servings.",
+   "choices": [
+    "100",
+    "400",
+    "202",
+    "198"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q14",
+   "q": "One serving of cereal has 5 g of protein. Calculate the protein in 4 servings.",
+   "choices": [
+    "1.25 g",
+    "9 g",
+    "1 g",
+    "20 g"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q15",
+   "q": "A cup of soup has 200 Calories. Calculate the number of cups that give 500 Calories.",
+   "choices": [
+    "700",
+    "2.5",
+    "0.4",
+    "300"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q16",
+   "q": "A serving has 240 mg of sodium. Sodium Daily Value is 2400 mg. Calculate the %DV.",
+   "choices": [
+    "10%",
+    "24%",
+    "1000%",
+    "0.1%"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q17",
+   "q": "The fat Daily Value is 65 g. Calculate 10% of this mass.",
+   "choices": [
+    "55 g",
+    "6.5 g",
+    "75 g",
+    "650 g"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q18",
+   "q": "%DV means percentage Daily Value. State the %DV that is considered high.",
+   "choices": [
+    "50% or more",
+    "5% or less",
+    "20% or more",
+    "10% or less"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q19",
+   "q": "Identify the diet that can lead to high blood pressure.",
+   "choices": [
+    "a diet high in salt",
+    "a diet high in calcium",
+    "a diet high in protein",
+    "a diet high in fibre"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q20",
+   "q": "Fat can build up inside blood vessels. Name the disease this can lead to.",
+   "choices": [
+    "constipation",
+    "food poisoning",
+    "high blood pressure",
+    "diabetes"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q21",
+   "q": "A diet is high in sugar. Name a disease it can lead to.",
+   "choices": [
+    "bleeding gums",
+    "constipation",
+    "diabetes",
+    "food poisoning"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q22",
+   "q": "A diet lacks fibre and water. Name the problem it can lead to.",
+   "choices": [
+    "high blood pressure",
+    "diabetes",
+    "food poisoning",
+    "constipation"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q23",
+   "q": "In diabetes, a substance in the blood cannot be controlled. Name the substance.",
+   "choices": [
+    "iron",
+    "sodium",
+    "glucose",
+    "cholesterol"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q24",
+   "q": "Name the food test used to detect starch.",
+   "choices": [
+    "biuret test",
+    "oil blot test",
+    "iodine test",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q25",
+   "q": "Biuret solution is blue. State its colour after it is added to protein.",
+   "choices": [
+    "blue-black",
+    "violet",
+    "brown",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q26",
+   "q": "Iodine solution on a food turns from brown to blue-black. Identify the nutrient present.",
+   "choices": [
+    "dietary fibre",
+    "protein",
+    "starch",
+    "oil"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q27",
+   "q": "Biuret solution added to a food turns from blue to violet. Identify the nutrient present.",
+   "choices": [
+    "starch",
+    "oil",
+    "protein",
+    "dietary fibre"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q28",
+   "q": "A food rubbed on paper leaves a translucent mark. Identify the nutrient present.",
+   "choices": [
+    "starch",
+    "oil",
+    "protein",
+    "vitamin C"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q29",
+   "q": "Define microbes.",
+   "choices": [
+    "tiny organisms we can easily see",
+    "tiny organisms too small to see",
+    "tiny organisms that are all harmful",
+    "tiny organisms that are all moulds"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q30",
+   "q": "Eating food with harmful microbes can make us sick. Name this illness.",
+   "choices": [
+    "constipation",
+    "high blood pressure",
+    "diabetes",
+    "food poisoning"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q31",
+   "q": "Old bread has a fluffy green growth on it. Name this type of microbe.",
+   "choices": [
+    "yeast",
+    "bacteria",
+    "mould",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q32",
+   "q": "Pickling keeps food in vinegar. Explain how pickling preserves food.",
+   "choices": [
+    "it kills microbes with heat",
+    "it reduces the oxygen supply",
+    "it lowers the water content",
+    "it lowers the pH"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q33",
+   "q": "Dehydration means drying food. Explain how dehydration preserves food.",
+   "choices": [
+    "it reduces the oxygen supply",
+    "it kills microbes with heat",
+    "it lowers the water content",
+    "it lowers the pH"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q34",
+   "q": "Bottling seals food in airtight bottles. Explain how bottling preserves food.",
+   "choices": [
+    "it reduces the oxygen supply",
+    "it lowers the water content",
+    "it kills microbes with heat",
+    "it lowers the pH"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q35",
+   "q": "Sterilisation heats food to a high temperature. Explain how sterilisation preserves food.",
+   "choices": [
+    "it lowers the water content",
+    "it kills microbes with heat",
+    "it lowers the pH",
+    "it reduces the oxygen supply"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q36",
+   "q": "Identify the preservation method that lowers the pH of food.",
+   "choices": [
+    "pasteurisation",
+    "bottling",
+    "pickling",
+    "freezing"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q37",
+   "q": "Vitamins and mineral salts are added to food. Identify the type of food additive.",
+   "choices": [
+    "nutrient supplements",
+    "preservatives",
+    "texture and appearance modifiers",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q38",
+   "q": "Food colourings are added to food. Identify the type of food additive.",
+   "choices": [
+    "texture and appearance modifiers",
+    "preservatives",
+    "nutrient supplements",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  },
+  {
+   "id": "g08q39",
+   "q": "Sulfur dioxide is a preservative. Predict an effect of eating too much of it.",
+   "choices": [
+    "high blood pressure",
+    "allergic reactions",
+    "diabetes",
+    "food poisoning"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Food Health and Safety",
+   "ao": ""
+  }
+ ]
+}

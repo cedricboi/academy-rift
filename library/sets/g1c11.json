@@ -1,0 +1,710 @@
+{
+ "id": "g1c11",
+ "title": "G1 C11 · Fitness and Cardiac Health",
+ "folder": "sec3g1",
+ "chapter": 111,
+ "questions": [
+  {
+   "id": "g11q1",
+   "q": "Fitness and health have different meanings. State the meaning of fitness.",
+   "choices": [
+    "able to do physical activities",
+    "able to fight off bacteria",
+    "free from disease and illness",
+    "free from germs and bacteria"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q2",
+   "q": "Fitness and health have different meanings. State the meaning of health.",
+   "choices": [
+    "able to do physical activities",
+    "able to lift heavy weights",
+    "free from disease and illness",
+    "able to run very fast"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q3",
+   "q": "Blood flows to all parts of the body. Name two substances it brings to cells.",
+   "choices": [
+    "oxygen and glucose",
+    "carbon dioxide and wastes",
+    "glucose and wastes",
+    "oxygen and carbon dioxide"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q4",
+   "q": "Blood flows to all parts of the body. Name two substances it takes away from cells.",
+   "choices": [
+    "oxygen and carbon dioxide",
+    "glucose and wastes",
+    "carbon dioxide and wastes",
+    "oxygen and glucose"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q5",
+   "q": "Blood has four parts. Name the part that carries oxygen.",
+   "choices": [
+    "red blood cells",
+    "plasma",
+    "white blood cells",
+    "platelets"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q6",
+   "q": "Name the part of blood that helps blood to clot.",
+   "choices": [
+    "red blood cells",
+    "white blood cells",
+    "plasma",
+    "platelets"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q7",
+   "q": "Name the part of blood that destroys bacteria.",
+   "choices": [
+    "white blood cells",
+    "platelets",
+    "plasma",
+    "red blood cells"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q8",
+   "q": "Name the part of blood that carries food substances and carbon dioxide.",
+   "choices": [
+    "plasma",
+    "white blood cells",
+    "red blood cells",
+    "platelets"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q9",
+   "q": "A cut keeps bleeding for a long time. Identify which part of blood is too low.",
+   "choices": [
+    "plasma",
+    "red blood cells",
+    "platelets",
+    "white blood cells"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q10",
+   "q": "After surgery, a patient has many more white blood cells. Suggest a reason.",
+   "choices": [
+    "more oxygen is needed",
+    "blood needs to clot faster",
+    "more nutrients are needed",
+    "an infection has started"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q11",
+   "q": "Blood low in oxygen returns from the body. Name where it enters first.",
+   "choices": [
+    "the arteries",
+    "right side of the heart",
+    "the lungs",
+    "left side of the heart"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q12",
+   "q": "The right side of the heart pumps blood out. State where this blood goes.",
+   "choices": [
+    "left side of the heart",
+    "the lungs",
+    "the rest of the body",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q13",
+   "q": "Blood picks up oxygen in the lungs. State where this blood goes next.",
+   "choices": [
+    "right side of the heart",
+    "the rest of the body",
+    "left side of the heart",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q14",
+   "q": "The left side of the heart pumps blood out. State where this blood goes.",
+   "choices": [
+    "right side of the heart",
+    "the rest of the body",
+    "the lungs",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q15",
+   "q": "Blood has just entered the left side of the heart. Name where it came from.",
+   "choices": [
+    "the rest of the body",
+    "right side of the heart",
+    "the lungs",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q16",
+   "q": "An artery has a thick muscular wall. Explain why.",
+   "choices": [
+    "to carry blood to the heart",
+    "to stop blood flowing backwards",
+    "to let gases pass through",
+    "to cope with high blood pressure"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q17",
+   "q": "A vein has valves inside it. Explain why.",
+   "choices": [
+    "to help blood to clot",
+    "to stop blood flowing backwards",
+    "to let gases pass through",
+    "to cope with high blood pressure"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q18",
+   "q": "Describe the wall of a capillary.",
+   "choices": [
+    "one cell thick",
+    "thick and muscular",
+    "thin with valves",
+    "made of cartilage"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q19",
+   "q": "Name the blood vessel that carries blood away from the heart.",
+   "choices": [
+    "vein",
+    "capillary",
+    "artery",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q20",
+   "q": "Name the blood vessel that carries blood back to the heart.",
+   "choices": [
+    "capillary",
+    "artery",
+    "vein",
+    ""
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q21",
+   "q": "Gases pass between blood and body cells. Name the blood vessel where this happens.",
+   "choices": [
+    "capillary",
+    "vein",
+    "artery",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q22",
+   "q": "Cholesterol can build up inside arteries. Name the fatty deposits it forms.",
+   "choices": [
+    "antibodies",
+    "plaques",
+    "valves",
+    "platelets"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q23",
+   "q": "An artery to the heart muscle is blocked. Explain why this causes a heart attack.",
+   "choices": [
+    "the heart pumps more blood",
+    "the heart muscle gets less oxygen",
+    "the heart muscle gets more oxygen",
+    "the blood clots less easily"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q24",
+   "q": "An artery to the brain is blocked by plaques. Name the condition this causes.",
+   "choices": [
+    "osteoporosis",
+    "heart attack",
+    "arthritis",
+    "stroke"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q25",
+   "q": "Pulse rate counts pulses in one minute. State how it compares with heart rate.",
+   "choices": [
+    "half the heart rate",
+    "always higher than heart rate",
+    "double the heart rate",
+    "the same as heart rate"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q26",
+   "q": "Each heart beat gives a pulse in one type of blood vessel. Name this blood vessel.",
+   "choices": [
+    "artery",
+    "capillary",
+    "vein",
+    ""
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q27",
+   "q": "Pulse rate goes up during exercise. Explain why.",
+   "choices": [
+    "muscles need more oxygen",
+    "muscles need less oxygen",
+    "muscles need more carbon dioxide",
+    "the body needs to cool down"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q28",
+   "q": "Three pulse readings add up to 210 beats/min. Calculate the average pulse rate.",
+   "choices": [
+    "213 beats/min",
+    "630 beats/min",
+    "207 beats/min",
+    "70 beats/min"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q29",
+   "q": "Three pulse readings have an average of 60 beats/min. Calculate their total.",
+   "choices": [
+    "63 beats/min",
+    "180 beats/min",
+    "20 beats/min",
+    "57 beats/min"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q30",
+   "q": "Four students have different resting pulse rates. Identify the fittest student.",
+   "choices": [
+    "the student at 90 beats/min",
+    "the student at 75 beats/min",
+    "the student at 60 beats/min",
+    "the student at 105 beats/min"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q31",
+   "q": "Two people do the same exercise. Predict whose pulse rate returns to resting first.",
+   "choices": [
+    "the less fit person",
+    "the fitter person",
+    "both at the same time",
+    ""
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q32",
+   "q": "Name the part of a joint that joins bone to bone.",
+   "choices": [
+    "cartilage",
+    "muscle",
+    "ligament",
+    "tendon"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q33",
+   "q": "Name the part of a joint that joins muscle to bone.",
+   "choices": [
+    "cartilage",
+    "ligament",
+    "tendon",
+    "muscle"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q34",
+   "q": "Name the part of a joint that absorbs shock.",
+   "choices": [
+    "cartilage",
+    "muscle",
+    "ligament",
+    "tendon"
+   ],
+   "correct": [
+    0
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q35",
+   "q": "In a joint, the bones are forced out of their places. Name this problem.",
+   "choices": [
+    "fracture",
+    "sprain",
+    "dislocation",
+    "arthritis"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q36",
+   "q": "A ligament is stretched too far or torn. Name this problem.",
+   "choices": [
+    "arthritis",
+    "fracture",
+    "sprain",
+    "dislocation"
+   ],
+   "correct": [
+    2
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q37",
+   "q": "Bones become weak and break easily. Name this condition.",
+   "choices": [
+    "arthritis",
+    "osteoporosis",
+    "dislocation",
+    "sprain"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q38",
+   "q": "A person has arthritis. Describe what has happened to the joints.",
+   "choices": [
+    "the bones are out of place",
+    "they are swollen and painful",
+    "the bones have broken",
+    "a ligament is torn"
+   ],
+   "correct": [
+    1
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  },
+  {
+   "id": "g11q39",
+   "q": "Osteoporosis is caused by a lack of two substances. Name these substances.",
+   "choices": [
+    "fats and cholesterol",
+    "salt and saturated fats",
+    "glucose and oxygen",
+    "calcium and vitamin D"
+   ],
+   "correct": [
+    3
+   ],
+   "explain": "",
+   "hint": "",
+   "image": null,
+   "lo": "Fitness and Cardiac Health",
+   "ao": ""
+  }
+ ]
+}
