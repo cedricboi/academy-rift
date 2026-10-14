@@ -1745,13 +1745,23 @@ function renderDock(b, cur, myTurn, stealActorC) {
 function updateCamera() {
   const b = room?.battle, a = $("arena"), cam = $("stagecam"); if (!cam) return;
   let actor = b && !theatreOn && (b.phase === "steal-action" ? b.stealActor : b.phase === "action" ? b.current : null);
-  if (actor && `${actor}|${b.question?.startedAt}` === actedKey) actor = null;
+  // While your own move menu is open the camera always stays on you, so the menu keeps bursting out of your fighter.
+  // (Without this, a stray result from earlier in the turn could drop the menu back to the old strip at the bottom.)
+  const myMenu = !!b && !theatreOn && !spectating && !$("commands").classList.contains("hidden")
+    && ((b.phase === "action" && b.current === myId) || (b.phase === "steal-action" && b.stealActor === myId));
+  if (actor && `${actor}|${b.question?.startedAt}` === actedKey && !myMenu) actor = null;
+  if (myMenu) actor = myId;
   if ((actor || null) !== focusPose.uid) {            // a new fighter in the spotlight: they strike a pose
     const old = focusPose.uid; focusPose = { uid: actor || null, start: Date.now() };
     [old, actor].forEach((uid) => refreshChibi(uid));
   }
   const tok = actor ? tokenEl(actor) : null;
   document.querySelectorAll("#arena .tok.focus").forEach((t) => t !== tok && t.classList.remove("focus"));
+  if (!tok && myMenu && !updateCamera._retry) {
+    updateCamera._retry = true;
+    for (const id of ["laneAllyFront", "laneAllyBack", "laneEnemyFront", "laneEnemyBack"]) $(id).dataset.k = "";
+    renderBattle(); updateCamera._retry = false; return;
+  }
   if (!tok) { a.classList.remove("focus", "p5", "aim"); cam.style.transform = ""; return; }
   const W = a.clientWidth, H = a.clientHeight, mid = (t) => [t.parentElement.offsetLeft, t.parentElement.offsetTop + t.offsetHeight * 0.52];
   const ally = tok.dataset.side === "ally";
