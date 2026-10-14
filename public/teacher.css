@@ -11,7 +11,7 @@ body.teacher::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.10;poi
 
 /* ---------- start screen ---------- */
 .t-start{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:linear-gradient(rgba(8,4,12,.78),rgba(8,4,12,.78)),url('assets/Opening Scene.webp') center/cover no-repeat;}
+  background:linear-gradient(rgba(8,4,12,.78),rgba(8,4,12,.78)),url('assets/title/title_bg_4x.webp') center/cover no-repeat;}
 .t-start-card{width:min(560px,94vw);text-align:center;}
 .t-start-text{font-size:1.1rem;line-height:1.55;color:var(--ash);margin:0 0 18px;}
 

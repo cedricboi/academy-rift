@@ -89,11 +89,11 @@ body{font-family:"Rift Body",system-ui,sans-serif;color:var(--paper);background:
 .ts-embers i:nth-child(12){left:86%;--dx:calc(-70 * var(--tpx));animation-delay:-5.9s;animation-duration:8s;}
 .ts-embers i:nth-child(13){left:93%;--dx:calc(-78 * var(--tpx));animation-delay:-0.2s;}
 .ts-embers i:nth-child(14){left:49%;--dx:calc(2 * var(--tpx));animation-delay:-3.4s;animation-duration:4.5s;}
-/* the fighters, from behind, coats and capes flapping in the wind (6-frame strip) */
-.ts-heroes{position:absolute;left:calc(76 * var(--tpx));bottom:0;width:calc(328 * var(--tpx));height:calc(160 * var(--tpx));
-  background:url('assets/title/heroes.webp') 0 0/600% 100% no-repeat;image-rendering:pixelated;pointer-events:none;
-  animation:tsFlap .78s steps(6) infinite;}
-@keyframes tsFlap{to{background-position:120% 0;}}
+/* the fighters, from behind, coats, capes and hair flapping in the wind (8 frames animated in PixelLab) */
+.ts-heroes{position:absolute;left:calc(60 * var(--tpx));bottom:0;width:calc(352 * var(--tpx));height:calc(160 * var(--tpx));
+  background:url('assets/title/heroes.webp') 0 0/800% 100% no-repeat;image-rendering:pixelated;pointer-events:none;
+  animation:tsFlap .9s steps(8) infinite;}
+@keyframes tsFlap{to{background-position:114.2857% 0;}}
 .ts-logo{position:absolute;left:50%;top:calc(20 * var(--tpx));width:calc(157 * var(--tpx));transform:translateX(-50%);margin:0;line-height:0;
   animation:tsLogo .9s .7s cubic-bezier(.2,1.4,.4,1) both;}
 .ts-logo img{width:100%;image-rendering:pixelated;filter:drop-shadow(0 0 calc(5 * var(--tpx)) rgba(255,40,80,.55));}
@@ -120,7 +120,7 @@ body{font-family:"Rift Body",system-ui,sans-serif;color:var(--paper);background:
 
 /* ===== HOME / FORMS ===== */
 #home,#room{background:linear-gradient(rgba(8,4,12,.70),rgba(8,4,12,.70)),
-  url('assets/Opening Scene.webp') center/cover no-repeat;}
+  url('assets/title/title_bg_4x.webp') center/cover no-repeat;}
 .panel-card{width:min(440px,94vw);background:var(--panel);border:3px solid var(--crimson);
   box-shadow:10px 10px 0 rgba(0,0,0,.6);padding:24px;
   clip-path:polygon(0 0,100% 0,100% 93%,96% 100%,0 100%);}
@@ -570,7 +570,7 @@ input:focus{outline:none;border-color:var(--cyan);}
 /* ===== CLASS TOURNAMENT (student screen) ===== */
 .join-note{margin-top:10px;font-size:.92rem;color:var(--ash);line-height:1.4;}
 #tourney{justify-content:flex-start;padding:12px 16px;
-  background:linear-gradient(rgba(8,4,12,.78),rgba(8,4,12,.78)),url('assets/Opening Scene.webp') center/cover no-repeat;}
+  background:linear-gradient(rgba(8,4,12,.78),rgba(8,4,12,.78)),url('assets/title/title_bg_4x.webp') center/cover no-repeat;}
 .tn-wrap{width:min(1100px,98vw);display:flex;flex-direction:column;gap:10px;}
 .tn-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
 .tn-head .head{margin-bottom:2px;font-size:1.8rem;}
@@ -1011,7 +1011,7 @@ input:focus{outline:none;border-color:var(--cyan);}
 /* =====================================================================
    PRACTICE FIGHT — the start card, and the coach on the battle stage
    ===================================================================== */
-#tutorial{background:linear-gradient(rgba(8,4,12,.72),rgba(8,4,12,.72)),url('assets/Opening Scene.webp') center/cover no-repeat;}
+#tutorial{background:linear-gradient(rgba(8,4,12,.72),rgba(8,4,12,.72)),url('assets/title/title_bg_4x.webp') center/cover no-repeat;}
 .pr-card{gap:14px;align-items:stretch;}
 .pr-kicker{align-self:center;font-family:"Rift Display",system-ui;letter-spacing:2px;font-size:1rem;color:var(--ink);background:var(--gold);
   padding:3px 18px;clip-path:polygon(6% 0,100% 0,94% 100%,0 100%);}

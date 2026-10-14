@@ -29,7 +29,7 @@ body{background:var(--ln-night);}
   radial-gradient(130% 90% at 50% 0%,#1b2046 0%,var(--ln-night) 62%);}
 #game::after{opacity:.5;background-image:radial-gradient(rgba(255,227,166,.5) .8px,transparent 1.2px),radial-gradient(rgba(255,227,166,.25) .6px,transparent 1px);
   background-size:140px 120px,90px 70px;background-position:0 0,40px 30px;}
-#home,#room,#tutorial{background:linear-gradient(rgba(8,10,24,.62),rgba(8,10,24,.78)),url('assets/Opening Scene.webp') center/cover no-repeat;}
+#home,#room,#tutorial{background:linear-gradient(rgba(8,6,20,.45),rgba(8,6,20,.72)),url('assets/title/title_bg_4x.webp') center/cover no-repeat;}
 .screen{animation:lnFade .35s ease;}
 @keyframes lnFade{from{opacity:0;}to{opacity:1;}}
 
