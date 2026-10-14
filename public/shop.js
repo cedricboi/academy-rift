@@ -60,8 +60,7 @@ export function setupShop({ socket, SFX }) {
       <div class="mm-bag" id="mmBag"></div>
       <div class="mm-card" id="mmCard"></div>
       <button class="mm-leave" id="mmLeave" type="button"><span>THANK YOU, AUNTIE!</span><b>LEAVE ▶</b></button>
-      <div class="mm-sign"><em id="mmNext"></em></div>
-      <img class="mm-board" src="${ART}sign.webp" alt="Auntie's Magic Mama" draggable="false">
+      <div class="mm-sign"><span>AUNTIE'S</span><b>MAGIC MAMA</b><em id="mmNext"></em></div>
     </div>
     <div class="mm-doors" aria-hidden="true"><i class="l"></i><i class="r"></i><b class="mm-open">OPEN · COME IN!</b></div>`;
   document.getElementById("game").appendChild(root);

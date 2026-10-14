@@ -2242,7 +2242,8 @@ function renderTourney() {
   put("tnYou", `You are <b>${esc(v.you.name)}</b>${v.partner ? ` · partner <b>${esc(v.partner.name)}</b>` : ""}`);
   put("tnStatus", statusHtml(v));
   const finished = v.status === "finished";
-  put("tnLeft", finished ? standingsHtml(v) : shopDoorHtml(v) + partnerHtml(v) + fighterHtml(v));
+  put("tnLeft", finished ? standingsHtml(v) : partnerHtml(v) + fighterHtml(v));
+  put("tnShop", finished ? "" : shopDoorHtml(v));
   shop.update(v.you, shopNextHtml(v));
   put("tnRight", finished ? historyHtml(v) : watchHtml(v) + standingsHtml(v) + historyHtml(v));
   tickCountdowns();
@@ -2350,15 +2351,16 @@ function partnerHtml(v) {
     ${list ? `<div class="tn-mates">${list}</div>` : `<p class="tn-text">Nobody else is free right now. If you are still on your own when the round starts, you are paired at random.</p>`}</div>`;
 }
 
-// the shop door on the tournament screen: coins, what is in the bag, and a way in
+// the shop door on the tournament screen: Auntie's signboard along the bottom, with coins and what is in the bag
 function shopDoorHtml(v) {
   const bag = Object.entries(v.you.bag || {}).flatMap(([id, n]) => Array(n > 0 ? n : 0).fill(id));
-  return `<div class="tn-card"><button class="tn-shop" data-shop="1" type="button">
-    <img src="assets/shop/auntie_face.webp" alt="">
-    <span><span class="tns-t">🏪 AUNTIE'S SHOP</span>
-      <span class="tns-s"><span class="tns-c"><i class="mm-coin"></i>${v.you.coins || 0}</span> coins · buy items for your next battle</span>
-      ${bag.length ? `<span class="tns-bag">${bag.map((id) => `<img src="${itemIcon(id)}" alt="${esc(ITEM_BY_ID[id]?.name || id)}">`).join("")}</span>` : ""}</span>
-  </button></div>`;
+  return `<button class="tn-shop" data-shop="1" type="button" aria-label="Open Auntie's Magic Mama shop">
+    <img class="tns-face" src="assets/shop/auntie_face.webp" alt="">
+    <img class="tns-board" src="assets/shop/sign.webp" alt="Auntie's Magic Mama">
+    <span class="tns-side"><span class="tns-c"><i class="mm-coin"></i>${v.you.coins || 0}<small>coins</small></span>
+      ${bag.length ? `<span class="tns-bag">${bag.map((id) => `<img src="${itemIcon(id)}" alt="${esc(ITEM_BY_ID[id]?.name || id)}">`).join("")}</span>` : `<span class="tns-s">Buy items for your next battle</span>`}</span>
+    <span class="tns-go">ENTER ▶</span>
+  </button>`;
 }
 // the round countdown, shown on the shop sign
 function shopNextHtml(v) {
