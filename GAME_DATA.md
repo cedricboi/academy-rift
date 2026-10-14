@@ -349,8 +349,12 @@ Each element is the weak spot of exactly one character and resisted by exactly o
 | Metal | Saya (Ice) | Jun (Fire) |
 
 **Damage Formula:**
-- WEAK hit: 1.75× damage
-- RESIST hit: 0.5× damage
+- WEAK hit: 1.25× damage
+- RESIST hit: 0.85× damage
 - CORRECT answer: 1.22× damage multiplier
 - CRITICAL (7% chance): 1.25× damage
-- Base damage scaled by 0.62× (`DMG_SCALE` in `combat.js`)
+- Base damage scaled by 0.58× (`DMG_SCALE` in `combat.js`)
+- Skill power compressed: 250 × (power ÷ 250)^0.7 × (1 + SP ÷ 400)
+- DEF: the target takes (100 − DEF)% of each hit
+- Ultimate hits: 0.85× (they hit both enemies)
+- Heals: half the printed power × 1.22 after a right answer; a fighter's heals share one cooldown

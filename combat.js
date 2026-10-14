@@ -7,14 +7,23 @@ import { effectiveness } from "./public/data/characters.js";
 
 // ---- tuning ----
 export const CORRECT_MULT = 1.22;          // a correct answer empowers your action (was 1.35)
-export const SP_DMG_SCALE = 140;           // higher-SP skills hit harder: power * (1 + sp/SP_DMG_SCALE)
-export const DMG_SCALE = 0.62;             // global damage scale — lower = longer battles (0.55 before the character balance in Oct 2026)
+export const SP_DMG_SCALE = 400;           // higher-SP skills hit a little harder: power * (1 + sp/SP_DMG_SCALE) (was 140)
+export const DMG_SCALE = 0.58;             // global damage scale — lower = longer battles
+// Skill power is compressed so a heavy skill is a strong hit, not a near-knockout: a power-500 skill lands about
+// 1.6x a power-250 one (it used to be 2x, and 2.8x with the SP bonus). The printed power on the cards stays the same.
+export const POWER_REF = 250, POWER_CURVE = 0.7;
+export const HEAL_SCALE = 0.5;             // heals restore half their printed power (they used to restore all of it, more after a right answer)
+export const ULT_SCALE = 0.85;             // Ultimates hit both enemies, so each hit is a little lighter
+export const BENTO_HEAL = 300;             // HP Boost item (was 500)
 export const CRIT_CHANCE = 0.07;           // chance any hit crits (was 0.10)
 export const CRIT_MULT = 1.25;             // crit damage multiplier (was 1.5)
 export const SYNC_CORRECT = 25, SYNC_WEAK = 18, SYNC_SUPPORT = 14, SYNC_TEAM = 22; // kept for older tools; the gauge now fills from answer streaks (server.js teamStreak)
 export const DEFAULT_ITEMS = { bento: 1, energy: 1, revive: 1 };
 
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+// what a damaging skill hits for before effectiveness, defence and the global scale
+export const skillPower = (sk) => POWER_REF * Math.pow(Math.max(1, sk.power) / POWER_REF, POWER_CURVE) * (1 + (sk.sp || 0) / SP_DMG_SCALE);
+export const healAmount = (power, cm) => Math.round(power * HEAL_SCALE * cm);
 
 // A fighter at the start of a battle, from a character's data.
 export function makeCombatant(base, p, hintsLeft = 0) {
@@ -22,7 +31,7 @@ export function makeCombatant(base, p, hintsLeft = 0) {
     uid: p.id, name: p.name, bot: p.bot, team: p.team,
     charId: base.id, charName: base.name, element: base.element, role: base.role,
     weakTo: base.weakTo, resists: base.resists,
-    maxHp: base.hp, hp: base.hp, maxSp: base.sp, sp: base.sp, atk: base.atk,
+    maxHp: base.hp, hp: base.hp, maxSp: base.sp, sp: base.sp, atk: base.atk, def: base.def || 0,
     skills: base.skills, ultimate: base.ultimate,
     alive: true, defending: false, shield: false, atkBuff: 0,
     cooldowns: {},       // skillIndex → turns remaining
@@ -88,12 +97,13 @@ export function resolveAction(room, actor, action) {
 
     if (sk.kind === "atk" || sk.kind === "heavy") {
       const t = pickEnemy(action.targetId);
-      const power = sk.power * (1 + sk.sp / SP_DMG_SCALE);   // more SP invested = more damage
-      if (t) events.push(damage(room, actor, t, power, sk.element, cm));
+      if (t) events.push(damage(room, actor, t, skillPower(sk), sk.element, cm));
 
     } else if (sk.kind === "heal") {
       const t = allyTarget(action.targetId);
-      const amt = Math.round(sk.power * cm);
+      const amt = healAmount(sk.power, cm);
+      // a fighter's heals share one cooldown, so a healer with two heals cannot chain them turn after turn
+      actor.skills.forEach((o, i) => { if (o.kind === "heal" && i !== action.skillIndex) actor.cooldowns[i] = Math.max(actor.cooldowns[i] || 0, 2); });
       t.hp = Math.min(t.maxHp, t.hp + amt); if (t.hp > 0) t.alive = true;
             events.push({ target: t.uid, heal: amt, kind: "heal" });
 
@@ -115,7 +125,7 @@ export function resolveAction(room, actor, action) {
     } else if (sk.kind === "debuff") {
       const t = pickEnemy(action.targetId);
       if (t) {
-        if (sk.power > 0) events.push(damage(room, actor, t, sk.power, sk.element, cm, { debuff: true }));
+        if (sk.power > 0) events.push(damage(room, actor, t, POWER_REF * Math.pow(sk.power / POWER_REF, POWER_CURVE), sk.element, cm, { debuff: true }));
         if (sk.eff === "timer") t.timerDownTurns = 2;
         else if (sk.eff === "accuracy") t.accDownTurns = 2;
         else if (sk.eff === "atk") t.atkDownTurns = 2;
@@ -137,7 +147,7 @@ export function resolveAction(room, actor, action) {
     const ult = actor.ultimate, arch = ult.archetype || "damage";
     if (arch === "heal") {                                   // hybrid: heal both allies + damage enemies
       const half = ult.power / 2;
-      allies.filter((a) => a.alive).forEach((a) => { const amt = Math.round(half * cm); a.hp = Math.min(a.maxHp, a.hp + amt); events.push({ target: a.uid, heal: amt, kind: "heal" }); });
+      allies.filter((a) => a.alive).forEach((a) => { const amt = healAmount(half, cm); a.hp = Math.min(a.maxHp, a.hp + amt); events.push({ target: a.uid, heal: amt, kind: "heal" }); });
       enemies.forEach((t) => events.push(damage(room, actor, t, half, actor.element, cm, { ult: true })));
     } else if (arch === "shield") {                          // hybrid: shield both allies (2t) + damage enemies
       allies.filter((a) => a.alive).forEach((a) => { a.defUpTurns = Math.max(a.defUpTurns, 2); events.push({ target: a.uid, kind: "guard" }); });
@@ -165,7 +175,9 @@ export function damage(room, actor, target, basePower, element, correctMult, opt
   // target mods: guard/Iron Stand DEF-up (−30%), Guard Break DEF-down (+25%)
   const incomingMult = (target.defUpTurns > 0 ? 0.7 : 1) * (target.defDownTurns > 0 ? 1.25 : 1);
   const halfPowerMult = actor._halfPower ? 0.5 : 1;   // steal penalty
-  let dmg = basePower * eff.mult * correctMult * crit * defMult * shieldMult * incomingMult * variance * buffMult * DMG_SCALE * halfPowerMult;
+  const toughMult = 1 - (target.def || 0) / 100;      // a fighter's own toughness: tanks shrug off part of every hit
+  const ultMult = opts.ult ? ULT_SCALE : 1;
+  let dmg = basePower * eff.mult * correctMult * crit * defMult * shieldMult * incomingMult * variance * buffMult * DMG_SCALE * halfPowerMult * toughMult * ultMult;
   dmg = Math.max(1, Math.round(dmg));
   target.hp = Math.max(0, target.hp - dmg);
   if (room.practice && target.team === 0) target.hp = Math.max(1, target.hp);   // practice: your team can't be knocked out
@@ -178,7 +190,7 @@ export function useItem(room, actor, itemId, targetId, cm) {
   const b = room.battle; const events = [];
   if (!actor.items[itemId] || actor.items[itemId] <= 0) return events;
   const ally = b.combatants[targetId] && b.combatants[targetId].team === actor.team ? b.combatants[targetId] : actor;
-  if (itemId === "bento") { const a = 500; ally.hp = Math.min(ally.maxHp, ally.hp + a); if (ally.hp > 0) ally.alive = true; events.push({ target: ally.uid, heal: a, kind: "heal" }); }
+  if (itemId === "bento") { const a = BENTO_HEAL; ally.hp = Math.min(ally.maxHp, ally.hp + a); if (ally.hp > 0) ally.alive = true; events.push({ target: ally.uid, heal: a, kind: "heal" }); }
   else if (itemId === "energy") { ally.sp = Math.min(ally.maxSp, ally.sp + 150); events.push({ target: ally.uid, kind: "sp", sp: 150 }); }
   else if (itemId === "shield") { ally.shield = true; events.push({ target: ally.uid, kind: "guard" }); }
   else if (itemId === "crystal") { addSync(room, actor.team, 40); events.push({ target: actor.uid, kind: "sync" }); }

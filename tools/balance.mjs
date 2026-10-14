@@ -12,7 +12,7 @@
 //   node tools/balance.mjs 50000        more battles
 //   node tools/balance.mjs 20000 pairs  also show the best and worst teammate for each character
 import { CHARACTERS, CHAR_BY_ID } from "../public/data/characters.js";
-import { makeCombatant, resolveAction, addSync, enemiesOf, alliesOf, decStatuses, SYNC_CORRECT, SYNC_TEAM, SP_DMG_SCALE } from "../combat.js";
+import { makeCombatant, resolveAction, addSync, enemiesOf, alliesOf, decStatuses, skillPower, POWER_REF, POWER_CURVE } from "../combat.js";
 import { effectiveness } from "../public/data/characters.js";
 
 const N = Number(process.argv[2]) || 20000;
@@ -26,7 +26,7 @@ if (tryAt > 0) {
     const c = CHAR_BY_ID[id]; if (!c) continue;
     if (v.hp) c.hp = v.hp; if (v.sp) c.sp = v.sp; if (v.atk) c.atk = v.atk;
     if (v.ult || v.archetype) c.ultimate = { ...c.ultimate, power: v.ult || c.ultimate.power, archetype: v.archetype || c.ultimate.archetype };
-    if (v.weakTo) c.weakTo = v.weakTo; if (v.resists) c.resists = v.resists;
+    if (v.weakTo) c.weakTo = v.weakTo; if (v.resists) c.resists = v.resists; if (v.def != null) c.def = v.def;
   }
 }
 const arg = (name, dflt) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : dflt; };
@@ -35,11 +35,12 @@ const P_RIGHT = Number(arg("--right", 0.7)), TIMER_PENALTY = 0.1, P_STEAL = 0.35
 const RANDOM_MOVES = arg("--policy", "") === "random";
 const TURNS_8_MIN = 36;          // about 4.5 questions a minute (tools/bench-pace.mjs)
 const rnd = (a) => a[Math.floor(Math.random() * a.length)];
+const STREAK_SYNC = [0, 0, 20, 25, 30];   // as in server.js
 
 // ---- how a sensible student picks a move ----
 function expectedHit(c, move, target) {
   const eff = effectiveness(move.element, target).mult;
-  const base = move.kind === "strike" ? c.atk : move.kind === "debuff" ? move.power : move.power * (1 + move.sp / SP_DMG_SCALE);
+  const base = move.kind === "strike" ? c.atk : move.kind === "debuff" ? POWER_REF * Math.pow(move.power / POWER_REF, POWER_CURVE) : skillPower(move);
   return base * eff;
 }
 function chooseMove(c, b, stolen) {
@@ -80,18 +81,20 @@ function battle(ids, maxTurns) {
   const b = { combatants: Object.fromEntries(cs.map((c) => [c.uid, c])), order: [cs[0].uid, cs[2].uid, cs[1].uid, cs[3].uid], sync: { 0: 0, 1: 0 } };
   const room = { battle: b };
   const st = Object.fromEntries(cs.map((c) => [c.uid, { dmg: 0, heal: 0, turns: 0, kos: 0, ults: 0 }]));
+  let firstKo = 0, bigHit = 0, turnNow = 0;
   const alive = (team) => cs.some((c) => c.team === team && c.alive);
-  const grade = (c, correct) => {
+  const streak = { 0: 0, 1: 0 };
+  const grade = (c, correct) => {             // the gauge fills only from a team's run of right answers (server.js teamStreak)
     c._correct = correct; c._answered = true;
-    if (!correct) return;
-    addSync(room, c.team, SYNC_CORRECT);
-    const mate = cs.find((x) => x.team === c.team && x.uid !== c.uid);
-    if (mate._answered && mate._correct) addSync(room, c.team, SYNC_TEAM);
+    if (!correct) { streak[c.team] = 0; return; }
+    const n = ++streak[c.team];
+    addSync(room, c.team, STREAK_SYNC[Math.min(n, STREAK_SYNC.length - 1)]);
   };
   const act = (c, action) => {
     if (action.type === "ultimate" && b.sync[c.team] >= 100) st[c.uid].ults++;
     for (const ev of resolveAction(room, c, action)) {
-      if (ev.dmg != null) { st[c.uid].dmg += ev.dmg; if (ev.ko) st[c.uid].kos++; }
+      if (ev.dmg != null) { st[c.uid].dmg += ev.dmg; if (ev.ko) { st[c.uid].kos++; if (!firstKo) firstKo = turnNow; }
+        if (ev.kind !== "ult") bigHit = Math.max(bigHit, ev.dmg / b.combatants[ev.target].maxHp); }
       if (ev.heal != null) st[c.uid].heal += ev.heal;
     }
   };
@@ -104,7 +107,7 @@ function battle(ids, maxTurns) {
       if (c.stunned) { c.stunned = false; decStatuses(c); continue; }
       break;
     }
-    turns++;
+    turns++; turnNow = turns;
     c.defending = false;
     for (const k of Object.keys(c.cooldowns)) if (--c.cooldowns[k] <= 0) delete c.cooldowns[k];
     decStatuses(c);
@@ -129,17 +132,20 @@ function battle(ids, maxTurns) {
     const d = share(0) - share(1);
     winner = Math.abs(d) < 0.005 ? -1 : d > 0 ? 0 : 1;
   }
-  return { cs, st, winner, turns };
+  return { cs, st, winner, turns, firstKo, bigHit };
 }
 
 export function run(maxTurns, n = N) {
   const per = Object.fromEntries(CHARACTERS.map((c) => [c.id, { games: 0, wins: 0, draws: 0, dmg: 0, heal: 0, turns: 0, kos: 0, ults: 0 }]));
   const pair = {};
-  let totalTurns = 0, timeUps = 0;
+  let totalTurns = 0, timeUps = 0; const firstKos = [], ends = [], bigHits = [], team = {};
   for (let k = 0; k < n; k++) {
     const ids = [...CHARACTERS.map((c) => c.id)].sort(() => Math.random() - 0.5).slice(0, 4);
     const r = battle(ids, maxTurns);
-    totalTurns += r.turns;
+    totalTurns += r.turns; if (r.firstKo) firstKos.push(r.firstKo); bigHits.push(r.bigHit);
+    if (r.winner !== -1 && (!r.cs.some((c) => c.team === 0 && c.alive) || !r.cs.some((c) => c.team === 1 && c.alive))) ends.push(r.turns);
+    const tk = (t) => r.cs.filter((c) => c.team === t).map((c) => c.charId).sort().join("+");
+    for (const t of [0, 1]) { const k = tk(t) + " vs " + tk(1 - t); (team[k] ||= { g: 0, w: 0 }); team[k].g++; if (r.winner === t) team[k].w++; else if (r.winner === -1) team[k].w += .5; }
     if (r.cs.every((c) => c.team !== 0 || c.alive) && r.cs.some((c) => c.team === 1 && c.alive) && r.turns >= maxTurns) timeUps++;
     r.cs.forEach((c, i) => {
       const p = per[c.charId], s = r.st[c.uid];
@@ -149,11 +155,17 @@ export function run(maxTurns, n = N) {
       const k = c.charId + ">" + mate; (pair[k] ||= { g: 0, w: 0 }); pair[k].g++; if (r.winner === c.team) pair[k].w++;
     });
   }
-  return { per, pair, avgTurns: totalTurns / n };
+  return { per, pair, avgTurns: totalTurns / n, firstKos, ends, bigHits, team, n };
 }
 
-function report(title, { per, pair, avgTurns }) {
+const med = (a) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[s.length >> 1] : 0; };
+const q = (a, p) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length * p)] : 0; };
+function report(title, { per, pair, avgTurns, firstKos, ends, bigHits, team, n }) {
   console.log(`\n${title}: ${N} battles, ${avgTurns.toFixed(1)} turns on average`);
+  console.log(`at least one knockout in ${(firstKos.length / n * 100).toFixed(0)}% of battles · first knockout: median turn ${med(firstKos)} (fastest 10% by turn ${q(firstKos, .1)}) · battles won by knockout: ${(ends.length / n * 100).toFixed(0)}%, median ${med(ends)} turns`);
+  console.log(`biggest single hit (not Ultimate): median ${(med(bigHits) * 100).toFixed(0)}% of the target's HP, worst 5% ${(q(bigHits, .95) * 100).toFixed(0)}%`);
+  const tm = Object.entries(team).filter(([, v]) => v.g >= 25).map(([k, v]) => [k, v.w / v.g]).sort((a, z) => a[1] - z[1]);
+  if (tm.length) console.log(`team matchups (seen 25+ times): ${tm.length}, worst ${(tm[0][1] * 100).toFixed(0)}% (${tm[0][0]}), share outside 30-70%: ${(tm.filter(([, w]) => w < .3 || w > .7).length / tm.length * 100).toFixed(0)}%`);
   console.log("character   win%   dmg/turn  heal/turn  KOs/game  ults/game   HP  SP  ATK  ult");
   const rows = CHARACTERS.map((c) => ({ c, p: per[c.id], w: (per[c.id].wins + per[c.id].draws / 2) / per[c.id].games }))
     .sort((a, z) => z.w - a.w);

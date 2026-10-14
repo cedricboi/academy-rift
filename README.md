@@ -253,8 +253,15 @@ again after changing any number in `characters.js`. Options: `50000` for more ba
 `--try changes.json` to test new numbers without editing the file.
 
 The element chart is even: each element is the weak spot of exactly one fighter, and
-exactly one fighter resists it. A WEAK hit does 1.75× damage; a resisted
-hit does half.
+exactly one fighter resists it. A WEAK hit does 1.25× damage and a resisted hit 0.85×, so a
+bad matchup is a disadvantage, not a lost battle.
+
+Balance (October 2026): heavy skills are a strong hit rather than a near-knockout (skill power
+is compressed, so the biggest single hit is about a third of a fighter's HP), heals restore half
+their printed power and a fighter's heals share one cooldown, the HP Boost item restores 300 HP,
+and every fighter has a DEF stat, the share of each hit they shrug off (Taiga 20%, Emi and Mina
+10%, Saya and Renji 8%, Nao 5%). In the simulator the first knockout comes around turn 23 of 36 in
+an 8-minute battle (it was turn 15), and no fighter wins more than 54% or less than 47%.
 
 | Element | Weak spot of | Resisted by |
 |---|---|---|

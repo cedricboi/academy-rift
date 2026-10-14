@@ -1291,7 +1291,7 @@ function skillSheetHTML(c) {
   return `<div class="cs-scroll">
     <div class="cs-crest"><span class="cs-el">${esc(c.element)}</span><i></i><span>${esc(c.role)}</span></div>
     <div class="cs-stats">
-      <div class="cs-stat"><b>${c.hp}</b><span>HP</span></div><div class="cs-stat"><b>${c.sp}</b><span>SP</span></div><div class="cs-stat"><b>${c.atk}</b><span>ATK</span></div>
+      <div class="cs-stat"><b>${c.hp}</b><span>HP</span></div><div class="cs-stat"><b>${c.sp}</b><span>SP</span></div><div class="cs-stat"><b>${c.atk}</b><span>ATK</span></div><div class="cs-stat"><b>${c.def || 0}%</b><span>DEF</span></div>
       <div class="cs-match">Weak to <b>${esc(c.weakTo)}</b> · Resists <b>${esc((c.resists || []).join(", "))}</b></div>
     </div>
     <h4 class="cs-h">Skills</h4>
@@ -2350,7 +2350,7 @@ function coachMessage(p, b) {
     if ($("skillSheet")) return m("SKILL CARDS", "<b>SP</b> is what a skill costs: the pink bar under your HP. <b>CD</b> is how many turns before you can use it again. Tap <b>Ember Slash</b>.", { spot: q('#skillSheet .ss-card[data-sk="0"]:not(:disabled)') });
     if (movePicking) {
       if (p.lesson === "skills" && moveSel?.kind === "skill" && renji?.alive)
-        return m("WEAK SPOT", `<b>${nm(renji)}</b> is weak to <b>Fire</b>, and you are a Fire fighter! Hit ${nm(renji)} for a <b>WEAK</b> hit: extra damage and extra Sync.`, { spot: flagOf(renji) });
+        return m("WEAK SPOT", `<b>${nm(renji)}</b> is weak to <b>Fire</b>, and you are a Fire fighter! Hit ${nm(renji)} for a <b>WEAK</b> hit: extra damage.`, { spot: flagOf(renji) });
       return m("PICK A TARGET", "Now tap a rival to hit them. Their HP shows above their heads.");
     }
     if (b.phase === "steal-action") return m("STOLEN TURN", "You stole it! A stolen turn only does <b>half damage</b>. Tap <b>STRIKE</b>.", { spot: q(".ms-move.strike") });

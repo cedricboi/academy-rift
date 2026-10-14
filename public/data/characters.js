@@ -16,7 +16,8 @@ export const ELEMENT_COLORS = {
 
 // Per-character weakness/resistance drive damage effectiveness (source of truth).
 // The chart is even: every element is the weakness of exactly one fighter and is
-// resisted by exactly one. HP, SP, ATK and Ultimate power were balanced with
+// resisted by exactly one. def is toughness: the share of every hit a fighter shrugs off
+// (Taiga the tank 20%, Renji 8%). HP, SP, ATK, def and Ultimate power were balanced with
 // tools/balance.mjs (every fighter wins about half of their battles); run it again
 // after changing any number here. The skill numbers (SP cost, power, CD) are printed
 // on the skill card art, so change the art too if you change those.
@@ -30,7 +31,7 @@ export const ELEMENT_COLORS = {
 export const CHARACTERS = [
   {
     id: "jun", name: "Jun Kisaragi", element: "Fire", role: "Attacker",
-    weakTo: "Water", resists: ["Metal"], hp: 1080, sp: 300, atk: 185,
+    weakTo: "Water", resists: ["Metal"], hp: 1120, sp: 300, atk: 185, def: 0,
     skills: [
       { name: "Ember Slash",   sp: 20, power: 250, kind: "atk",   element: "Fire", cd: 0, desc: "A quick, cocky flick of the wrist. The blade barely catches fire — but then again, Jun barely needs it to. Deals Fire damage to one enemy." },
       { name: "Flame Break",   sp: 35, power: 350, kind: "atk",   element: "Fire", cd: 0, desc: "Jun shatters a wall of compressed fire around his blade, engulfing the target in rolling heat. Deals Fire damage to one enemy." },
@@ -41,7 +42,7 @@ export const CHARACTERS = [
   },
   {
     id: "saya", name: "Saya Mizuno", element: "Ice", role: "Control",
-    weakTo: "Metal", resists: ["Water"], hp: 1280, sp: 400, atk: 195,
+    weakTo: "Metal", resists: ["Water"], hp: 1280, sp: 400, atk: 195, def: 8,
     skills: [
       { name: "Frost Pin",        sp: 18, power: 230, kind: "atk",    element: "Ice", cd: 0, desc: "Saya flicks a sliver of ice with two fingers — insultingly small, right up until the frostbite spreads. Deals Ice damage to one enemy." },
       { name: "Crystal Lock",     sp: 34, power: 320, kind: "debuff", element: "Ice", cd: 1, eff: "timer", desc: "Saya encases the enemy's joints in crystalline ice. Their thoughts move; their hands don't. Deals Ice damage and cuts the enemy's answer time by 4s for 2 turns." },
@@ -52,7 +53,7 @@ export const CHARACTERS = [
   },
   {
     id: "raiden", name: "Raiden Aoki", element: "Electric", role: "Burst",
-    weakTo: "Earth", resists: ["Wind"], hp: 1120, sp: 310, atk: 205,
+    weakTo: "Earth", resists: ["Wind"], hp: 1170, sp: 310, atk: 205, def: 0,
     skills: [
       { name: "Spark Step",   sp: 18, power: 240, kind: "atk",    element: "Electric", cd: 0, desc: "Raiden closes the distance in a flash of static, arriving before the sound does. Deals Electric damage to one enemy." },
       { name: "Static Rush",  sp: 55, power: 495, kind: "heavy",  element: "Electric", cd: 2, desc: "Raiden discharges every volt in his body at once. The shockwave rattles the ground and the air alike. Deals heavy Electric damage to one enemy." },
@@ -63,7 +64,7 @@ export const CHARACTERS = [
   },
   {
     id: "nao", name: "Nao Kazehara", element: "Wind", role: "Evasion",
-    weakTo: "Ice", resists: ["Earth"], hp: 1230, sp: 370, atk: 205,
+    weakTo: "Ice", resists: ["Earth"], hp: 1280, sp: 370, atk: 205, def: 5,
     skills: [
       { name: "Razor Breeze",  sp: 18, power: 240, kind: "atk",    element: "Wind", cd: 0, desc: "A thin crescent of wind follows Nao's blade, arriving a half-second after the cut. Deals Wind damage to one enemy." },
       { name: "Gale Trick",    sp: 30, power: 300, kind: "debuff", element: "Wind", cd: 1, eff: "accuracy", desc: "A disorienting whirlwind hurls dust into the enemy's face. Deals Wind damage and lowers their accuracy (25% miss chance) for 2 turns." },
@@ -74,7 +75,7 @@ export const CHARACTERS = [
   },
   {
     id: "emi", name: "Emi Shiraishi", element: "Light", role: "Healer",
-    weakTo: "Mind", resists: ["Shadow"], hp: 1220, sp: 420, atk: 175,
+    weakTo: "Mind", resists: ["Shadow"], hp: 1220, sp: 420, atk: 190, def: 10,
     skills: [
       { name: "Mending Touch", sp: 30, power: 320, kind: "heal",    element: "Light", cd: 2, desc: "Emi coaxes the body to remember what healthy feels like. A quieter skill than most — it saves people anyway. Restores HP to one ally." },
       { name: "Heal Veil",     sp: 36, power: 450, kind: "heal",    element: "Light", cd: 2, desc: "Emi wraps an ally in a cocoon of golden light, knitting wounds shut and easing exhaustion. Restores a large amount of HP to one ally." },
@@ -85,7 +86,7 @@ export const CHARACTERS = [
   },
   {
     id: "kuro", name: "Kuro Amane", element: "Shadow", role: "Curse",
-    weakTo: "Light", resists: ["Mind"], hp: 1070, sp: 360, atk: 170,
+    weakTo: "Light", resists: ["Mind"], hp: 1070, sp: 360, atk: 170, def: 0,
     skills: [
       { name: "Hex Thorn",   sp: 20, power: 250, kind: "atk",    element: "Shadow", cd: 0, desc: "A barbed curse lashes out from Kuro's shadow, dark thorns blooming at the point of impact. Deals Shadow damage to one enemy." },
       { name: "Shadow Bind", sp: 34, power: 330, kind: "debuff", element: "Shadow", cd: 1, eff: "timer", desc: "Kuro's shadow coils around the enemy's thoughts, pulling them somewhere slower and darker. Deals Shadow damage and cuts the enemy's answer time by 4s for 2 turns." },
@@ -96,29 +97,29 @@ export const CHARACTERS = [
   },
   {
     id: "taiga", name: "Taiga Domoto", element: "Earth", role: "Tank",
-    weakTo: "Wind", resists: ["Electric"], hp: 1350, sp: 260, atk: 155,
+    weakTo: "Wind", resists: ["Electric"], hp: 1300, sp: 260, atk: 140, def: 20,
     skills: [
       { name: "Quake Palm",     sp: 34, power: 360, kind: "atk",   element: "Earth", cd: 0, desc: "A thunderous palm strike sends a shockwave rolling through the ground toward the enemy's feet. Deals Earth damage to one enemy." },
       { name: "Iron Stand",     sp: 28, power:   0, kind: "buff",  element: "Earth", cd: 1, eff: "def", target: "self", desc: "Taiga roots himself like a mountain, his stance hardening into something that could withstand a siege. Raises Taiga's DEF by 30% for 1 turn." },
       { name: "Fortress Roar",  sp: 50, power: 480, kind: "heavy", element: "Earth", cd: 2, desc: "Taiga slams both fists into the earth and roars; a wall of stone and debris rises to crush the enemy. Deals heavy Earth damage to one enemy." },
       { name: "Shelter Stance", sp: 36, power:   0, kind: "guard", element: "Earth", cd: 1, target: "party", desc: "The earth rises around Taiga and his partner, forming a curved wall of stone. 'Stay close.' Reduces damage taken by both allies by 30% for 1 turn." },
     ],
-    ultimate: { name: "King's Bastion", power: 580, archetype: "shield" },
+    ultimate: { name: "King's Bastion", power: 500, archetype: "shield" },
   },
   {
     id: "hina", name: "Hina Kagari", element: "Mind", role: "Disruption",
-    weakTo: "Shadow", resists: ["Light"], hp: 1170, sp: 370, atk: 180,
+    weakTo: "Shadow", resists: ["Light"], hp: 1170, sp: 370, atk: 195, def: 0,
     skills: [
       { name: "Mind Needle",   sp: 20, power: 250, kind: "atk",    element: "Mind", cd: 0, desc: "A sliver of pure psychic force slips past the target's defenses. It hurts the way doubt hurts. Deals Mind damage to one enemy." },
       { name: "Focus Break",   sp: 32, power: 320, kind: "debuff", element: "Mind", cd: 1, eff: "accuracy", desc: "Hina shatters the enemy's concentration mid-action. Deals Mind damage and lowers their accuracy (25% miss chance) for 2 turns." },
       { name: "Logic Snare",   sp: 48, power: 470, kind: "heavy",  element: "Mind", cd: 2, desc: "Hina traps the enemy's mind in an inescapable paradox. The mental strain manifests as very real damage. Deals heavy Mind damage to one enemy." },
       { name: "Clarity Field", sp: 30, power:   0, kind: "buff",   element: "Mind", cd: 1, eff: "accuracy", target: "party", desc: "Hina extends a field of mental clarity over the party, sharpening their perceptions. Protects both allies from accuracy debuffs for 1 turn." },
     ],
-    ultimate: { name: "Thought Maze", power: 530, archetype: "stun" },
+    ultimate: { name: "Thought Maze", power: 620, archetype: "stun" },
   },
   {
     id: "mina", name: "Mina Arakawa", element: "Water", role: "Sustain",
-    weakTo: "Electric", resists: ["Fire"], hp: 1250, sp: 370, atk: 180,
+    weakTo: "Electric", resists: ["Fire"], hp: 1250, sp: 370, atk: 190, def: 10,
     skills: [
       { name: "Tide Cut",     sp: 20, power: 250, kind: "atk",   element: "Water", cd: 0, desc: "A crescent of pressurized water slices toward the enemy, clean enough they don't realise how deep it goes. Deals Water damage to one enemy." },
       { name: "Aqua Guard",   sp: 28, power:   0, kind: "guard", element: "Water", cd: 1, target: "self", desc: "A swirling shell of water wraps around Mina, cushioning and dispersing incoming force. Reduces damage Mina takes by 30% for 1 turn." },
@@ -129,14 +130,14 @@ export const CHARACTERS = [
   },
   {
     id: "renji", name: "Renji Kurosawa", element: "Metal", role: "Heavy",
-    weakTo: "Fire", resists: ["Ice"], hp: 1210, sp: 300, atk: 205,
+    weakTo: "Fire", resists: ["Ice"], hp: 1210, sp: 300, atk: 190, def: 8,
     skills: [
       { name: "Iron Smash",    sp: 22, power: 255, kind: "atk",    element: "Metal", cd: 0, desc: "Renji's fist connects like a girder dropped from a great height. Impossible to pretend you're fine after. Deals Metal damage to one enemy." },
       { name: "Guard Break",   sp: 34, power: 350, kind: "debuff", element: "Metal", cd: 1, eff: "def", desc: "A precise strike finds the seam in the enemy's defenses and cracks it open. Deals Metal damage and lowers their DEF by 25% for 2 turns (they take more damage)." },
       { name: "Steel Rush",    sp: 55, power: 520, kind: "heavy",  element: "Metal", cd: 2, desc: "Renji folds his whole body into a charge and becomes a wall of living metal. Everything ahead loses the argument. Deals heavy Metal damage to one enemy." },
       { name: "Steel Shelter", sp: 34, power:   0, kind: "guard",  element: "Metal", cd: 1, target: "party", desc: "Renji steps between his partner and the incoming attack and takes it. Reduces damage taken by both allies by 30% for 1 turn." },
     ],
-    ultimate: { name: "Chrome Guillotine", power: 670, archetype: "shield" },
+    ultimate: { name: "Chrome Guillotine", power: 590, archetype: "shield" },
   },
 ];
 
@@ -144,7 +145,7 @@ export const CHAR_BY_ID = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
 
 // Battle items — each player starts with one of each.
 export const ITEMS = [
-  { id: "bento",  name: "HP Boost",  desc: "Restore 500 HP to one ally" },
+  { id: "bento",  name: "HP Boost",  desc: "Restore 300 HP to one ally" },
   { id: "energy", name: "SP Boost",  desc: "Restore 150 SP to one ally" },
   { id: "revive", name: "Revive",    desc: "Revive a KO’d teammate at 50% HP" },
 ];
@@ -152,8 +153,10 @@ export const ITEMS = [
 export const ITEM_BY_ID = Object.fromEntries(ITEMS.map((i) => [i.id, i]));
 
 // Damage effectiveness from attack element vs a defender character.
+// A weakness is a real edge but not a knockout on its own (was 1.75x); a resist softens a hit, not cancels it (was 0.5x).
+export const WEAK_MULT = 1.25, RESIST_MULT = 0.85;
 export function effectiveness(attackElement, defender) {
-  if (attackElement === defender.weakTo) return { mult: 1.75, tag: "WEAK" };
-  if (defender.resists.includes(attackElement)) return { mult: 0.5, tag: "RESIST" };
+  if (attackElement === defender.weakTo) return { mult: WEAK_MULT, tag: "WEAK" };
+  if (defender.resists.includes(attackElement)) return { mult: RESIST_MULT, tag: "RESIST" };
   return { mult: 1, tag: "" };
 }
