@@ -238,8 +238,13 @@ damage or healing numbers. The HP bars move when the cinematic ends.
 
 ### Settings and sound
 The gear in the top-right corner opens Settings on every screen: music and sound-effect
-volume, battle camera zoom, light cinematics for older iPads, calm effects (fewer flashes and
-no shaking), a frame-rate readout and full screen. Settings are kept on each device. The
+volume, battle camera zoom, **Graphics**, calm effects (fewer flashes and no shaking), a
+frame-rate readout and full screen. Graphics has four choices: **Smooth** (fighters move at 3
+frames a second, lighter cinematics, the steadiest frame rate), **Balanced** (5 frames a second
+and drifting motes of light over the stage), **Detailed** (each fighter's full speed, the motes,
+and a slowly breathing stage, for newer devices) and **Auto**, which starts on Balanced and
+switches a device to Smooth for good if its first battle cannot hold about 45 fps. Fighters keep
+moving through questions on every level. Settings are kept on each device. The
 teacher's screen has its own gear: the projector music and **Sound on students' devices**
 (students choose, music off, or all sound off), which applies straight away. The intro theme
 (`assets/Intro Theme.mp3`) plays everywhere outside battles; Victory Fanfare plays in battle.

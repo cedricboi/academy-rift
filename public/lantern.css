@@ -675,3 +675,39 @@ body.calm .arena.rift-break .stagecam{animation:none;} body.calm .arena.rift-bre
 .tf-n{font-family:inherit;font-size:.72em;padding:1px 8px;border-radius:999px;background:rgba(226,184,101,.22);color:var(--ln-gold-hi,#ffe3a6);}
 .topic-folder.on .tf-n{background:#22170a;color:#ffe3a6;}
 .topic-empty{grid-column:1/-1;color:var(--ln-mute,#a99f8a);margin:6px 0;}
+
+/* ===================== Graphics levels (Settings → Graphics) ===================== */
+/* Fighters never freeze now: they keep breathing through questions and spotlights, at a frame rate the level sets.
+   Each step repaints one small frame box, so even Smooth's 3 frames a second costs almost nothing. */
+.arena.asking .spr-frame,.arena.focus .tok:not(.focus):not(.target-pick) .spr-frame{animation-play-state:running;}
+/* in the spotlight the others stand in the dark: they rest, except on Detailed */
+body:not(.gfx-quality) .arena.focus .tok:not(.focus):not(.target-pick) .spr-frame,.arena:has(.ss-overlay) .spr-frame{animation-play-state:paused;}
+.gfx-smooth .chibi:not(.posing) .spr-frame{animation-duration:calc(var(--n,8) * 333ms);}     /* 3 frames a second */
+.gfx-balanced .chibi:not(.posing) .spr-frame{animation-duration:calc(var(--n,8) * 200ms);}   /* 5 frames a second */
+/* Detailed keeps each fighter's own speed (6 to 8 frames a second) */
+
+/* drifting motes of light: transform and opacity only, so the graphics chip moves them without repainting */
+.stage-ambient{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;display:none;}
+.gfx-balanced .stage-ambient,.gfx-quality .stage-ambient{display:block;}
+.stage-ambient i{position:absolute;bottom:-4%;width:calc(10 * var(--u));height:calc(10 * var(--u));border-radius:50%;opacity:0;will-change:transform,opacity;
+  background:radial-gradient(circle,#fff6e0 0,rgba(255,224,160,.75) 32%,rgba(255,214,140,0) 70%);
+  animation:mote var(--md,14s) linear var(--mdl,0s) infinite;}
+.gfx-balanced .stage-ambient i:nth-child(n+9){display:none;}
+@keyframes mote{0%{transform:translate(0,0) scale(.6);opacity:0}12%{opacity:.85}70%{opacity:.55}100%{transform:translate(var(--mx,30px),calc(-78 * var(--u) * 10)) scale(1.1);opacity:0}}
+.stage-ambient i:nth-child(1){left:6%;--md:15s;--mdl:-2s;--mx:40px}   .stage-ambient i:nth-child(2){left:18%;--md:12s;--mdl:-7s;--mx:-30px}
+.stage-ambient i:nth-child(3){left:29%;--md:17s;--mdl:-11s;--mx:24px} .stage-ambient i:nth-child(4){left:41%;--md:13s;--mdl:-4s;--mx:-44px}
+.stage-ambient i:nth-child(5){left:53%;--md:16s;--mdl:-9s;--mx:36px}  .stage-ambient i:nth-child(6){left:64%;--md:14s;--mdl:-1s;--mx:-20px}
+.stage-ambient i:nth-child(7){left:76%;--md:18s;--mdl:-13s;--mx:30px} .stage-ambient i:nth-child(8){left:89%;--md:12.5s;--mdl:-6s;--mx:-36px}
+.stage-ambient i:nth-child(9){left:11%;--md:19s;--mdl:-15s;--mx:-26px} .stage-ambient i:nth-child(10){left:23%;--md:14.5s;--mdl:-3s;--mx:46px}
+.stage-ambient i:nth-child(11){left:35%;--md:16.5s;--mdl:-12s;--mx:-34px} .stage-ambient i:nth-child(12){left:47%;--md:13.5s;--mdl:-8s;--mx:22px}
+.stage-ambient i:nth-child(13){left:58%;--md:17.5s;--mdl:-5s;--mx:-40px} .stage-ambient i:nth-child(14){left:70%;--md:15.5s;--mdl:-10s;--mx:34px}
+.stage-ambient i:nth-child(15){left:82%;--md:12s;--mdl:-14s;--mx:-24px} .stage-ambient i:nth-child(16){left:94%;--md:18.5s;--mdl:-2.5s;--mx:28px}
+.stage-ambient i:nth-child(3n){width:calc(6 * var(--u));height:calc(6 * var(--u));}
+.stage-ambient i:nth-child(4n){width:calc(14 * var(--u));height:calc(14 * var(--u));}
+.arena.asking .stage-ambient i,.arena.theatre-on .stage-ambient i{animation-play-state:paused;}
+.arena.focus .stage-ambient{display:none!important;}   /* under the dark shade they would only cost frames during the zoom */
+/* Detailed: the stage breathes, a slow drift of the picture (its own scale and translate, so the camera's transform is untouched) */
+.gfx-quality .arena:not(.focus):not(.asking) .stage-bg{animation:stageBreathe 26s ease-in-out infinite alternate;will-change:scale,translate;}
+@keyframes stageBreathe{from{scale:1;translate:0 0}to{scale:1.035;translate:-1.2% -.6%}}
+body.calm .stage-ambient,body.calm .stage-bg{animation:none!important;}
+@media (prefers-reduced-motion: reduce){ .stage-ambient{display:none!important;} .stage-bg{animation:none!important;} }

@@ -28,3 +28,7 @@ label.set-row{grid-template-columns:auto 1fr auto;}
   background:rgba(5,6,16,.85);color:#9ff5c2;pointer-events:none;font-variant-numeric:tabular-nums;}
 .fps-meter[data-ok="fair"]{color:var(--st-gold-hi);} .fps-meter[data-ok="poor"]{color:#ff8a7a;}
 .set-row input[type=range]:disabled{opacity:.35;}
+/* graphics: four choices in a row under the label */
+.set-row.set-col{display:flex;flex-direction:column;align-items:stretch;gap:6px;}
+.set-seg4{display:grid;grid-template-columns:repeat(4,1fr);}
+.set-seg4 button{padding:0 6px;}

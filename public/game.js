@@ -85,8 +85,16 @@ function preloadStage(stage, level) { for (const l of [level, level + 1]) if (l 
 // Music tracks. playsInline keeps iOS from hijacking them into a fullscreen player.
 // ---- player settings (top-right gear): volumes and battle display, kept on this device ----
 const SET_KEY = "riftSettings";
-const settings = Object.assign({ music: 70, sfx: 85, camera: true, lite: false, calm: false, fps: false },
+const settings = Object.assign({ music: 70, sfx: 85, camera: true, graphics: "auto", calm: false, fps: false },
   (() => { try { return JSON.parse(localStorage.getItem(SET_KEY)) || {}; } catch { return {}; } })());
+if (settings.lite === true && !settings._gfxMigrated) settings.graphics = "smooth";   // the old "Light cinematics" switch
+settings._gfxMigrated = true; delete settings.lite;
+// Graphics: Smooth (idle at 3 frames a second, light cinematics, no extras) · Balanced (5 a second, drifting light)
+// · Detailed (full-speed idle, drifting light and a slowly breathing stage). Auto starts on Balanced and drops to Smooth
+// for good on a device that cannot keep up; the choice is remembered per device.
+const GFX_AUTO_KEY = "riftGfxAuto";
+let gfxAuto = (() => { try { return localStorage.getItem(GFX_AUTO_KEY) === "smooth" ? "smooth" : "balanced"; } catch { return "balanced"; } })();
+const gfxLevel = () => (settings.graphics === "auto" ? gfxAuto : ["smooth", "balanced", "quality"].includes(settings.graphics) ? settings.graphics : "balanced");
 const SOUND = { music: settings.music / 100, sfx: settings.sfx / 100 };   // what is playing now, after the teacher's class setting
 const lobbyBGM = new Audio("assets/Intro Theme.mp3");
 lobbyBGM.loop = true;
@@ -476,7 +484,9 @@ function applySettings() {
   SOUND.sfx = rule === "off" ? 0 : settings.sfx / 100;
   SFX.setVolumes(SOUND.music, SOUND.sfx);
   for (const el of [lobbyBGM, battleBGM]) { el.volume = Math.min(1, MUSIC_BASE * SOUND.music); el.muted = SOUND.music === 0; }
-  if (TH) { TH.setSfxVolume(SOUND.sfx); TH.setCalm(settings.calm); TH.setLite(settings.lite); }
+  const gfx = gfxLevel();
+  if (TH) { TH.setSfxVolume(SOUND.sfx); TH.setCalm(settings.calm); TH.setLite(gfx === "smooth"); }
+  for (const g of ["smooth", "balanced", "quality"]) document.body.classList.toggle("gfx-" + g, gfx === g);
   document.body.classList.toggle("calm", !!settings.calm);
   fpsMeter(!!settings.fps);
   const note = $("setRule");
@@ -496,6 +506,28 @@ function fpsMeter(on) {
     fpsRaf = requestAnimationFrame(tick); };
   fpsRaf = requestAnimationFrame(tick);
 }
+// Auto graphics: during the first battle on this device, if the stage cannot hold about 45 fps, drop to Smooth for good.
+let gfxWatch = null;
+function watchGraphics() {
+  if (settings.graphics !== "auto" || gfxAuto === "smooth" || gfxWatch) return;
+  const frames = []; let last = 0, t0 = 0;
+  const tick = (t) => {
+    const a = $("arena"), live = $("battle")?.classList.contains("active") && a && !a.classList.contains("theatre-on") && !document.hidden;
+    if (live && last && t - last < 500) { frames.push(t - last); if (!t0) t0 = t; }
+    last = t;
+    if (frames.length >= 360 || (t0 && t - t0 > 12000)) {
+      const s = frames.slice(30).sort((x, y) => x - y), med = s[s.length >> 1] || 16;
+      gfxWatch = "done";
+      if (med > 22 && settings.graphics === "auto") {
+        gfxAuto = "smooth"; try { localStorage.setItem(GFX_AUTO_KEY, "smooth"); } catch {}
+        applySettings(); toast("Graphics set to Smooth to keep this device running smoothly (change it in ⚙ Settings).");
+      }
+      return;
+    }
+    requestAnimationFrame(tick);
+  };
+  gfxWatch = "running"; requestAnimationFrame(tick);
+}
 function saveSettings() { try { localStorage.setItem(SET_KEY, JSON.stringify(settings)); } catch {} applySettings(); }
 function renderSettingsPanel() {
   const p = $("setPanel"); if (!p) return;
@@ -512,13 +544,21 @@ function renderSettingsPanel() {
       <input type="range" min="0" max="100" step="5" value="${settings.sfx}" data-vol="sfx" aria-label="Sound effects volume" />
       <output class="set-val">${settings.sfx}</output></label>
     <div class="set-row"><span class="set-label">Battle camera</span>${sw("camera", "Zoom in", "Stay wide")}</div>
-    <div class="set-row"><span class="set-label">Cinematics</span>${sw("lite", "Light", "Full")}</div>
-    <p class="set-help">Light runs smoother on older iPads.</p>
+    <div class="set-row set-col"><span class="set-label">Graphics</span>
+      <div class="set-seg set-seg4" role="group">${[["auto", "Auto"], ["smooth", "Smooth"], ["balanced", "Balanced"], ["quality", "Detailed"]].map(([v, l]) =>
+        `<button type="button" data-gfx="${v}" class="${settings.graphics === v ? "on" : ""}" aria-pressed="${settings.graphics === v}">${l}</button>`).join("")}</div></div>
+    <p class="set-help">${{ auto: `Auto picks for this device (now ${gfxAuto === "smooth" ? "Smooth" : "Balanced"}).`,
+      smooth: "Smooth: the steadiest frame rate. Fighters move at 3 frames a second and cinematics are lighter.",
+      balanced: "Balanced: fighters move at 5 frames a second, with drifting light over the stage.",
+      quality: "Detailed: full-speed fighters, drifting light and a slowly moving stage. Best on newer devices." }[settings.graphics] || ""}</p>
     <div class="set-row"><span class="set-label">Flashes and shaking</span>${sw("calm", "Calm", "Full")}</div>
     <div class="set-row"><span class="set-label">Frame rate</span>${sw("fps", "Show", "Hide")}</div>
     ${fs ? `<button type="button" class="set-full" data-full="1">${document.fullscreenElement || document.webkitFullscreenElement ? "Leave full screen" : "Full screen"}</button>` : ""}`;
   p.querySelectorAll("[data-vol]").forEach((r) => r.addEventListener("input", () => {
     settings[r.dataset.vol] = +r.value; r.nextElementSibling.textContent = r.value; saveSettings();
+  }));
+  p.querySelectorAll("[data-gfx]").forEach((b) => b.addEventListener("click", () => {
+    settings.graphics = b.dataset.gfx; saveSettings(); renderSettingsPanel(); SFX.play("select");
   }));
   p.querySelectorAll("[data-set]").forEach((b) => b.addEventListener("click", () => {
     settings[b.dataset.set] = b.dataset.v === "true"; saveSettings(); renderSettingsPanel(); SFX.play("select");
@@ -712,6 +752,7 @@ function onRoom(s) {
 // battleStart can arrive before or after the room(battle) broadcast — handle bg here,
 // but the authoritative sprite prep happens whenever battle data lands (ensureChibisThenRender).
 socket.on("battleStart", () => {
+  setTimeout(watchGraphics, 3000);
   angelUids.clear();
   setArenaBg(room?.status === "battle" ? room.battle?.stage : undefined, room?.battle?.stageLevel);
   showScreen("battle");
