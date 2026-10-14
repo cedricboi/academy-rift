@@ -30,7 +30,7 @@ function mkClient(name, idx) {
   s.on("yourQuestion", ({ question }) => {
     if (idx === 0) s.emit("useHint");
     const a = ANSWER.get(question.q);
-    setTimeout(() => s.emit("answer", { choiceIndex: Math.random() < 0.7 ? a : (a + 1) % 4 }), 150);
+    setTimeout(() => s.emit("answer", { choiceIndex: Math.random() < 0.7 ? a : (a + 1) % 4 }), 350);   // after the reading time (4 s, 0.2 s at 20x)
   });
   if (idx === 0) {
     s.on("hint", (h) => hintsGot.push(h));

@@ -604,9 +604,9 @@ function startQuestion(room) {
   b.q = q;
   // A timer debuff (Crystal Lock / Static Pulse / Shadow Bind) shaves 4s off this answer.
   b.asked = (b.asked || 0) + 1;
-  // Recall first: from the 7th question on, the answers stay hidden for a few seconds so players recall the answer
-  // before they can recognise it. The clock gets those seconds back.
-  const recall = !p && b.asked >= RECALL_FROM ? RECALL_SECONDS : 0;
+  // Reading time: every question shows on its own for a few seconds before the answers appear, so everyone reads it
+  // properly and thinks of the answer before they can recognise it. The clock gets those seconds back.
+  const recall = !p ? RECALL_SECONDS : 0;
   const seconds = Math.max(6, (b.qSeconds ?? QUESTION_SECONDS) - (c.timerDownTurns > 0 ? 4 : 0)) + recall;
   // practice: hints are only offered from the hint lesson on
   const hint = p && (p.lesson === "strike" || p.lesson === "skills" || c.bot) ? null : hintKind(q);
@@ -629,7 +629,7 @@ function startQuestion(room) {
       return;
     }
     // Bot takes 3–6 seconds to "think", giving human players time to read the question
-    const thinkMs = 3000 + Math.floor(Math.random() * 3001);
+    const thinkMs = (b.publicQuestion.recall || 0) * 1000 + 2000 + Math.floor(Math.random() * 3001);
     b.timers.bot = later(() => botTurn(room), thinkMs);
     openShadow(room);
     return;
@@ -643,7 +643,7 @@ function startQuestion(room) {
 // While one player answers, every other student in the battle (knocked-out ones too) answers the same question on
 // their own screen. Nobody is told if they were right until the question is over, so it never gives a steal away.
 // A right answer adds a little Sync for their team; a wrong one comes back to them later.
-const SHADOW_SYNC = 2, RECALL_FROM = 7, RECALL_SECONDS = 4;
+const SHADOW_SYNC = 2, RECALL_SECONDS = 4;
 function openShadow(room) {
   const b = room.battle; if (!b || b.practice) return;
   for (const c of Object.values(b.combatants))
@@ -651,7 +651,7 @@ function openShadow(room) {
 }
 function handleShadow(room, sid, choiceIndex) {
   const b = room?.battle;
-  if (!b || b.practice || b.phase !== "question" || sid === b.current) return;
+  if (!b || b.practice || b.phase !== "question" || sid === b.current || reading(b)) return;
   const c = b.combatants[sid];
   if (!c || c.bot || b.shadow[sid] || !Number.isInteger(choiceIndex) || choiceIndex < 0 || choiceIndex >= b.q.choices.length) return;
   const correct = isRight(b.q, choiceIndex);
@@ -694,9 +694,11 @@ function handleHint(room, sid) {
   broadcast(room);
 }
 
+// no answers while the question is still being read (the choices are not on screen yet)
+const reading = (b) => !!b.publicQuestion?.recall && Date.now() < b.publicQuestion.startedAt + (b.publicQuestion.recall * 1000) / SPEED - 250;
 function handleAnswer(room, sid, choiceIndex) {
   const b = room?.battle;
-  if (!b || b.current !== sid || b.phase !== "question") return;
+  if (!b || b.current !== sid || b.phase !== "question" || reading(b)) return;
   clearTimeout(b.timers.q);
   resolveAnswer(room, choiceIndex);
 }

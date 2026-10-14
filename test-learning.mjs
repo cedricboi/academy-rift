@@ -44,8 +44,8 @@ for (let i = 0; i < 4; i++) {
   });
   // half the answers wrong on purpose, so mistakes come back
   const pick = (q, wrongish) => { const right = ANSWER.get(q.q) || [0]; return wrongish && Math.random() < 0.5 ? (right[0] + 1) % q.choices.length : right[0]; };
-  st.s.on("yourQuestion", ({ question }) => setTimeout(() => st.s.emit("answer", { choiceIndex: pick(question, true) }), 120));
-  st.s.on("shadowOpen", ({ question }) => { stats.shadowOpen++; setTimeout(() => st.s.emit("shadowAnswer", { choiceIndex: pick(question, true) }), 80); });
+  st.s.on("yourQuestion", ({ question }) => setTimeout(() => st.s.emit("answer", { choiceIndex: pick(question, true) }), 320));
+  st.s.on("shadowOpen", ({ question }) => { stats.shadowOpen++; setTimeout(() => st.s.emit("shadowAnswer", { choiceIndex: pick(question, true) }), 300); });
   st.s.on("shadowLocked", () => stats.along++);
   st.s.on("chooseAction", () => {
     const b = st.room?.battle, me = b?.combatants.find((c) => c.uid === st.pid);

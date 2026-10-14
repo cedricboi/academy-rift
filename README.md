@@ -150,8 +150,9 @@ the chapter names) in a folder and run `node tools/build-library.mjs <folder>`.
   them again on their own turn a few questions later ("Back again"). Each question comes back once per battle and
   at most every other turn. Questions still wrong carry into the student's next tournament battle (up to four).
 - **Interleaving.** With several topics or chapters ticked, the deck deals one from each in turn.
-- **Recall first.** From the 7th question of a battle, the choices stay covered for 4 seconds (the clock gives the
-  time back), so students recall the answer before they can recognise it.
+- **Reading time.** Every question (except in the practice fight) shows on its own for 4 seconds before the choices
+  appear (the clock gives the time back, and bots wait too), so students read it and recall the answer before they
+  can recognise it. On another player's turn the question box is large, with the answers in a 2 x 2 grid.
 - **The Rift Report.** After each battle a student sees each question they missed (with the right answer, the
   learning objective, and whether they put it right later), then writes two or three short answers in full
   sentences: the missed question without its options, or the learning objective in their own words. Only after

@@ -638,7 +638,7 @@ document.querySelectorAll("[data-go]").forEach((b) =>
 // ============================================================
 //  TUTORIAL
 // ============================================================
-const TUT_SLIDES = 4;
+const TUT_SLIDES = 5;
 let tutSlide = 0;
 function tutGoTo(i) {
   tutSlide = i;
@@ -1568,7 +1568,7 @@ function alongState(q, meC, open) {
 function alongHTML(a, q) {
   if (!a) return "";
   if (a.mode === "result") return `<div class="qs-along ${a.ok ? "ok" : "bad"}"><span class="qa-tag">${a.ok ? "✓ You were right" : `✗ You picked ${esc(a.picked)}`}</span></div>`;
-  if (a.mode === "recall") return `<div class="qs-along"><span class="qa-tag">ANSWER ALONG</span><span class="qa-think">Think of the answer first… the choices appear in a moment</span></div>`;
+  if (a.mode === "recall") return `<div class="qs-along"><span class="qa-tag">ANSWER ALONG</span><span class="qa-think">Read the question and think of the answer. The choices appear in a moment.</span></div>`;
   return `<div class="qs-along"><span class="qa-tag">${a.mode === "locked" ? "LOCKED IN" : "ANSWER ALONG"}</span>${q.choices.map((c, i) =>
     `<button type="button" class="qa-btn ${a.choice === i ? "picked" : ""}" data-along="${i}" ${a.mode === "locked" ? "disabled" : ""}><b>${"ABCD"[i]}</b>${esc(c)}</button>`).join("")}</div>`;
 }
@@ -1640,7 +1640,7 @@ function fillQuestionCard(mode, q, cur, onPick) {
     btn.addEventListener("click", () => { if (inputLocked || btn.disabled) return; mySelected = i; lockBriefly(); onPick(i); });
     wrap.appendChild(btn);
   });
-  // Recall first: the choices stay covered for a few seconds so the answer is remembered before it is recognised
+  // Reading time: the choices stay covered for a few seconds so the question is read and the answer remembered before it is recognised
   clearInterval(fillQuestionCard._recall);
   const recallLeft = mode === "ask" && q.recall ? Math.max(0, q.startedAt + q.recall * 1000 - srvNow()) : 0;
   wrap.classList.toggle("recalling", recallLeft > 0);
@@ -1650,7 +1650,7 @@ function fillQuestionCard(mode, q, cur, onPick) {
     const end = Date.now() + recallLeft;
     const tick = () => { const n = Math.ceil((end - Date.now()) / 1000);
       if (n <= 0) { clearInterval(fillQuestionCard._recall); wrap.classList.remove("recalling"); cover.remove(); return; }
-      cover.innerHTML = `<b>Think of the answer first</b><span>The choices appear in ${n}</span>`; };
+      cover.innerHTML = `<b>Read the question</b><span>Think of the answer. The choices appear in ${n}</span>`; };
     tick(); wrap.appendChild(cover); fillQuestionCard._recall = setInterval(tick, 200);
   }
   stopTimer();

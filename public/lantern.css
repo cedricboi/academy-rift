@@ -752,3 +752,21 @@ body.calm .stage-ambient,body.calm .stage-bg{animation:none!important;}
 .report-model{margin-top:6px;padding:6px 10px;border-left:3px solid #7CF29B;background:rgba(124,242,155,.07);}
 .report-model small{display:block;color:var(--ln-mute,#a99f8a);margin-top:2px;}
 .report-done{color:#7CF29B;margin:8px 0 0;}
+
+/* ===================== someone else's question: a bigger box (14 Oct) ===================== */
+/* It sits under the two teams' HUD across most of the stage, with large text and answer buttons in a 2 x 2 grid,
+   so the students who are answering along can read it as easily as their own question card. */
+.qstrip,.arena.clocked .qstrip{top:calc(138 * var(--u));width:calc(1000 * var(--u));max-width:calc(100% - 24px);min-width:0;
+  gap:calc(18 * var(--u));padding:calc(16 * var(--u)) calc(24 * var(--u)) calc(16 * var(--u)) calc(18 * var(--u));}
+.qs-label{font-size:max(13px,calc(18 * var(--u)));}
+.qs-q{font-size:max(19px,calc(31 * var(--u)));line-height:1.22;-webkit-line-clamp:4;}
+.qs-ans{font-size:max(16px,calc(24 * var(--u)));}
+.qs-timer{font-size:max(24px,calc(42 * var(--u)));}
+.qs-pic{width:calc(170 * var(--u));height:calc(110 * var(--u));}
+.qs-along{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(10 * var(--u));margin-top:calc(10 * var(--u));padding-top:calc(12 * var(--u));}
+.qa-tag,.qa-think{grid-column:1/-1;}
+.qa-tag{font-size:max(12px,calc(16 * var(--u)));}
+.qa-think{font-size:max(15px,calc(20 * var(--u)));}
+.qa-btn{min-height:max(48px,calc(62 * var(--u)));padding:calc(8 * var(--u)) calc(14 * var(--u)) calc(8 * var(--u)) calc(10 * var(--u));font-size:max(15px,calc(21 * var(--u)));gap:calc(10 * var(--u));}
+.qa-btn b{min-width:max(26px,calc(34 * var(--u)));height:max(26px,calc(34 * var(--u)));font-size:max(13px,calc(17 * var(--u)));}
+.qs-along.ok,.qs-along.bad{display:flex;}
