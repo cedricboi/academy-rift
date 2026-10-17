@@ -25,6 +25,7 @@
       <label class="jf"><span>WAR CODE</span><input id="joinCode" class="code-in" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="4" placeholder="W···" required inputmode="text"></label>
       <label class="jf"><span>YOUR NAME</span><input id="joinName" autocomplete="off" spellcheck="false" maxlength="20" placeholder="Your name" required></label>
       <button class="war-btn" type="submit"><span>⚔ MARCH TO WAR</span></button>
+      <button class="ghost-btn practice-btn" id="practiceBtn" type="button">⚔ PRACTICE WAR · YOU AND BOTS AGAINST THE BOT COMMANDER</button>
       <a class="back-link" href="/">← Back to Academy Rift</a>
     </form>
   </div>
@@ -71,6 +72,7 @@
     </div>
     <div class="mission"><div class="eyebrow">YOUR MISSION</div><div>Break into the Crimson Fortress</div></div>
     <div class="t-right">
+      <button class="coin-chip" id="coinChip" type="button" title="Auntie's delivery"><i></i><b id="coinTxt">0</b></button>
       <div class="enemy-chip"><img src="monsters/warlord.png" alt=""><div><div class="eyebrow">YOUR ENEMY</div><div id="enemyName">Crimson Commander</div></div></div>
       <button class="help-btn" id="helpBtn" type="button" aria-label="How to play">?</button>
     </div>
@@ -82,11 +84,13 @@
       <div class="buffs map-buffs" id="buffs"></div>
       <section id="infoCard" class="panel info-card hidden"></section>
       <div id="joinPrompt" class="panel red join-prompt hidden"></div>
+      <div id="auntieRide" class="auntie-ride hidden" aria-hidden="true"><i class="ar-sprite"></i><span class="ar-say">Delivery lah! Order something?</span></div>
       <section id="actBar" class="act-bar hidden">
         <div class="ab-band" id="abBand"></div>
         <div class="ab-text"><div class="ab-step" id="abStep"></div><div class="ab-sub" id="abSub"></div></div>
         <div class="ab-mp" id="abMp"></div>
         <div class="ab-btns">
+          <button class="btn ab-auntie" type="button" id="abAuntie"><i></i>AUNTIE</button>
           <button class="btn ab-join hidden" type="button" id="abJoin"></button>
           <button class="btn ab-leave hidden" type="button" id="leaveBandBtn">Leave warband</button>
           <button class="ab-end" type="button" id="endTurnBtn">END MOVE</button>
@@ -100,19 +104,31 @@
     <header class="b-head">
       <div><div class="eyebrow" id="bEyebrow">BATTLE</div><div class="cinzel b-title" id="bTitle">Battle</div></div>
       <div class="b-allies" id="bAllies"></div>
-      <div class="b-resolve"><div class="eyebrow">WARBAND RESOLVE</div><div class="rbar"><i id="bResolveBar"></i></div><b id="bResolveTxt"></b></div>
+      <div class="b-gauges">
+        <div class="b-resolve"><div class="eyebrow">WARBAND HP</div><div class="rbar"><i id="bResolveBar"></i></div><b id="bResolveTxt"></b></div>
+        <div class="b-sync"><div class="eyebrow">SYNC</div><div class="sbar"><i id="bSyncBar"></i></div><b id="bSyncTxt"></b></div>
+      </div>
     </header>
     <div class="b-stagewrap">
       <div id="bStage" class="b-stage"></div>
+      <div id="bTheatre" class="b-theatre hidden"></div>
       <div class="b-foes" id="bFoes"></div>
       <div class="b-centre" id="bCentre"></div>
     </div>
     <div class="b-role" id="bRole"></div>
     <div id="bCardHost" class="b-card"><div id="bCard"></div></div>
+    <div id="bMoves" class="b-moves hidden"></div>
     <div class="b-reveal hidden" id="bReveal"></div>
   </section>
 
   <section id="ending" class="ending hidden"></section>
+  <section id="shop" class="shop hidden" role="dialog" aria-labelledby="shopTitle">
+    <div class="shop-box">
+      <div class="shop-head"><img src="auntie/bust.png" alt=""><div><div class="eyebrow">AUNTIE'S DELIVERY</div><h3 id="shopTitle">Auntie Mama rides in!</h3><p>"Aiyo, fighting so hard must eat! What you want? I deliver straight to your bag."</p></div><button type="button" class="x-close" data-close="1" aria-label="Close">×</button></div>
+      <div class="shop-coins">You have <b id="shopCoins">0</b> coins · each right answer earns 10 · use items on your turn in battle</div>
+      <div class="shop-grid" id="shopGrid"></div>
+    </div>
+  </section>
   <section id="help" class="help hidden" role="dialog" aria-labelledby="helpTitle">
     <div class="help-box">
       <div class="help-slides" id="helpSlides"></div>
@@ -122,6 +138,7 @@
 </section>
 
 <div id="toast" class="toast hidden" role="status"></div>
+<script src="../theatre/engine.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script type="module" src="play.js"></script>
 </body>

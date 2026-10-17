@@ -1587,7 +1587,7 @@ function playAction(o) {
     if (!readyFor([actorId, allyId, tgtId], simg) || !SKILLS[actorId]) { res({ skipped: true }); return; }
     resetWorld(); stageI = (o.stage || 0) % STAGES.length; stageImgI = simg;
     hero.cid = actorId; hero.x = HOME; hero.y = 0; hero.armed = false; hero.angelLap = false;
-    tgt.cid = tgtId; tgt.x = ENEMY; tgt.y = 0; tgt.armed = false; tgt.hidden = false;
+    tgt.cid = tgtId; tgt.x = ENEMY; tgt.y = 0; tgt.armed = false; tgt.hidden = false; tgt.flip = !(CH[tgtId] && CH[tgtId].monster);
     ally.hidden = !allyId; ally.cid = allyId || 'E'; ally.x = EMI_X; ally.y = 0; ally.armed = false;
     rest(hero); rest(tgt); rest(ally);
     MIRROR = !!o.mirror; cv.style.transform = MIRROR ? 'scaleX(-1)' : '';
@@ -1601,9 +1601,50 @@ function playAction(o) {
   });
 }
 
+// ---------- Total War: the Crimson Host's monsters as targets, and monsters hitting back ----------
+// A monster is registered like a fighter (its PixelLab sheets: idle and atk, 192 px frames, facing left).
+function registerMonster(id, o) {
+  if (CH[id]) return;
+  const idle = { src: o.idle, n: o.idleN || 8, w: 192, h: 192 }, atk = { src: o.atk, n: o.atkN || 9, w: 192, h: 192 };
+  const sheets = { idle, hurt: idle, atk };
+  if (MAN) MAN.chars[id] = sheets; AS[id] = sheets;
+  CH[id] = { name: (o.name || id).toUpperCase(), monster: true, hit: o.hit || 5, anch: { idle: 96, hurt: 96, atk: 96 },
+    hurt: [0, 1, 2, 1, 0].map((f) => Math.min(f, idle.n - 1)), idle: range(0, idle.n - 1), idleMs: 140 };
+}
+// The monster lunges at the fighters: o = { actor, ally, target, stage, level, dmg, blocked, stunned }
+function playCounter(o) {
+  return new Promise((res) => {
+    if (PLAY) endPlay();
+    const simg = (o.stage || 0) * 5 + Math.max(0, Math.min(4, (o.level || 1) - 1));
+    if (!readyFor([o.actor, o.ally, o.target], simg) || !CH[o.target]) { res({ skipped: true }); return; }
+    resetWorld(); stageI = (o.stage || 0) % STAGES.length; stageImgI = simg;
+    hero.cid = o.actor; hero.x = HOME; hero.y = 0; hero.armed = isNew(hero); tgt.cid = o.target; tgt.x = ENEMY; tgt.y = 0; tgt.flip = false; tgt.hidden = false; tgt.armed = false;
+    ally.hidden = !o.ally; ally.cid = o.ally || 'E'; ally.x = EMI_X; ally.y = 0; ally.armed = isNew(ally);
+    rest(hero); rest(ally); rest(tgt);
+    MIRROR = false; cv.style.transform = '';
+    PLAY = { o: { dmg: null }, res, heals: [], dmgShown: true }; busy = true; speed = 1; idleT = 0;
+    audio(); startLoop();
+    if (o.stunned) {   // the Ultimate stunned it: it shakes, but cannot strike
+      later(200, () => { num0('STUNNED', ENEMY, FLOOR - 190, true, 0, 'resist'); tgtHurt(); });
+      later(1300, () => endPlay());
+    } else {
+      const n = AS[tgt.cid].atk.n, hitF = Math.min(n - 2, CH[tgt.cid].hit);
+      tween(tgt, 'x', ENEMY - 150, 320, 'inout');
+      playA(tgt, 'atk', range(0, n - 1), range(0, n - 1).map((i) => (i === hitF ? 140 : 80)), { on: { [hitF]: () => {
+        SFX.hit(); fxState.shake = 280; fxState.shakeMag = 5; fxState.flash = .18; fxState.flashCol = '255,120,120';
+        fire('burst', hero.x + 30, FLOOR - 70, { anchor: 'center', fps: 60, glow: .4 });
+        for (const a of [hero, ally]) if (!a.hidden) playA(a, 'hurt', CH[a.cid].hurt, 80, { after: () => rest(a) });
+        if (o.dmg != null) num0('-' + o.dmg, hero.x + 20, FLOOR - 150, true, 0);
+        if (o.blocked) num0(`BLOCKED ${o.blocked}%`, hero.x + 20, FLOOR - 196, false, 160, 'resist');
+      } }, after: () => { rest(tgt); tween(tgt, 'x', ENEMY, 320, 'inout'); later(650, () => endPlay()); } });
+    }
+    clearTimeout(safety); safety = setTimeout(() => endPlay(), 6000);
+  });
+}
+
 window.Theatre = {
   canvas: cv, init, prepare, readyFor: (cids, stage = 0) => readyFor([...new Set(cids.filter(Boolean).flatMap(c => c === 'E' ? ['E', 'EA'] : [c]))], stage),
-  play: playAction, skip() { if (PLAY) endPlay(); },
+  play: playAction, counter: playCounter, registerMonster, skip() { if (PLAY) endPlay(); },
   get playing() { return !!PLAY; },
   unlock() { audio(); },
   setSound(on) { soundOn = !!on; },

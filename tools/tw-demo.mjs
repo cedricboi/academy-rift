@@ -56,6 +56,14 @@ if (!joinCode) { teacher.emit("twStart"); console.log("started"); }
 const ROUTES = [[1, 10, 2, 3, 4, 25, FORTRESS], [1, 17, 18, 19, 9, FORTRESS], [1, 10, 2, 13]];
 function act(b) {
   const v = b.state; if (!v || v.status !== "playing") return;
+  // on their turn after a right answer, bots pick a move as a student would: the Ultimate when it is ready, often a skill
+  const M = v.myBattle?.moves;
+  if (M && b.lastMove !== v.myBattle.choose?.endsAt) {
+    b.lastMove = v.myBattle.choose?.endsAt;
+    const ok = M.skills.filter((k) => k.ok);
+    const act = M.ult.ready ? { kind: "ult" } : ok.length && Math.random() < 0.65 ? { kind: "skill", index: ok[Math.floor(Math.random() * ok.length)].i } : { kind: "strike" };
+    setTimeout(() => b.sock.emit("twAction", act), 1500 / (v.speed || 1));
+  }
   const q = v.own && !v.own.result ? v.own.question : v.myBattle?.question && !v.myBattle.question.mine ? v.myBattle.question : null;
   if (q && b.lastQ !== q.startedAt + q.q) {
     b.lastQ = q.startedAt + q.q;

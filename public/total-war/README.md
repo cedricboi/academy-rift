@@ -40,6 +40,35 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   plus whichever classmate strikes that question. The projector shows every pair in the battle.
   Enemy attack and idle animations are PixelLab animations in `monsters/anim/`; the backdrops are in `art/bg/`.
 
+### Skills, Ultimates and items (the same as the Arena)
+
+- Every student fights as **their own fighter** (the one they picked in the lobby), with that fighter's
+  Academy Rift skills. After a right answer on your turn (or a steal), you have 12 seconds to pick a move:
+  **Strike**, a **Skill** (costs SP, has cooldowns), the **Ultimate** (when the team's Sync gauge is full) or an
+  **Item** from your bag. If time runs out, you strike.
+- Moves play in the Academy Rift battle theatre (`../theatre/engine.js`, via `theatre-tw.js`), with the
+  same animations and effects as the Arena, then the monster hits back. Damage is shown at Arena scale (×100).
+- Skill kinds: attacks hit harder the stronger the skill; heals restore Resolve; guard blocks the next
+  counter; buffs and debuffs weaken the Crimson's next hits. Ultimates: damage (splash), stun (no counter),
+  heal (50% Resolve) or shield (blocks the whole counter).
+
+### Auntie's delivery
+
+- Auntie Mama is now a travelling merchant on a scooter (`auntie/`). Each right answer earns **10 coins**.
+  Tap the coin chip or **AUNTIE** to order food; it goes into your bag (not during a battle). She rides across
+  the map at the start of every class turn.
+
+### Bots and practice
+
+- **Practice war** (join page): one student against the Bot Commander, with two bot pairs and a bot partner.
+- Lobby **BOTS** settings: **Bot Commander** (a bot plays the Crimson Host), **Bot partners** (a lone student
+  gets a bot fighter), and **Add a bot pair** to fill up the class.
+
+### The teacher's screen
+
+- A step guide at the top: send out units → give them orders → end your turn.
+- Sending out a unit asks straight away what it should do: **March to…**, **Hunt**, **Hold**, or decide later.
+
 ## The teacher's orders
 
 - Tap a Crimson stack, then a unit (or none, for every unit there). **March to…** a stop: they march

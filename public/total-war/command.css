@@ -72,3 +72,32 @@
 .energy .ward{margin-left:14px;color:var(--cyan);letter-spacing:2px}
 .energy .ward b{font:700 15px "Rift Pixel";color:var(--ivory);margin-left:4px}
 .battle-list .bl.atk{border-color:#ff5a6e88}
+
+/* ---------- bots, the order prompt and the step guide ---------- */
+.bot-row{display:flex;flex-direction:column;gap:8px}
+.tog{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:#0c0a12;border:2px solid #3a3a46;cursor:pointer}
+.tog input{width:24px;height:24px;margin-top:2px;accent-color:#d94b5c;flex:0 0 24px}
+.tog b{display:block;font:700 15px "Rift Pixel";color:var(--ivory)}.tog small{font:400 13px "Rift Body";color:#b9b2a6}
+.bot-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bot-tag{display:inline-block;padding:0 5px;margin-left:4px;background:#3b6fd9;color:#fff;font:700 10px "Rift Pixel";font-style:normal;letter-spacing:1px;vertical-align:middle}
+.pair.botty{opacity:.85}
+.order-ask{position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);z-index:30;width:min(560px,calc(100% - 32px));display:flex;flex-direction:column;gap:12px}
+.oa-top{display:flex;gap:14px;align-items:center}
+.oa-top img{width:84px;height:84px;object-fit:contain;image-rendering:pixelated;background:#1a0d12;box-shadow:0 0 0 2px #000}
+.oa-top h3{margin:2px 0}.oa-top p{margin:0;font:400 14px "Rift Body";color:#d8cfbf}
+.oa-pick{margin:0;padding:8px 10px;background:#3a0f18;border:2px solid #d94b5c;font:700 14px "Rift Pixel";color:#ffd7dc;animation:pulse 1.2s ease-in-out infinite alternate}
+.oa-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.oa-grid .btn{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:72px;padding:10px 12px;text-align:left;white-space:normal}
+.oa-grid .btn b{font:700 16px "Rift Pixel"}.oa-grid .btn small{font:400 12px "Rift Body";opacity:.8;letter-spacing:0;text-transform:none}
+.order-ask:has(.oa-pick){top:auto;bottom:110px;transform:translateX(-50%)}
+.guide{position:absolute;left:50%;top:84px;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:6px;pointer-events:none;max-width:calc(100% - 24px)}
+.guide:empty{display:none}
+.g-step{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#0c0a12e6;border:2px solid #3a3a46;box-shadow:0 0 0 2px #000;opacity:.6}
+.g-step i{width:24px;height:24px;display:grid;place-items:center;background:#2a2430;font:700 13px "Rift Pixel";font-style:normal;color:#e9e2d2}
+.g-step b{display:block;font:700 13px "Rift Pixel";color:var(--ivory)}.g-step small{font:400 11px "Rift Body";color:#b9b2a6}
+.g-step.now{opacity:1;border-color:#d94b5c;background:#2a0d14ee}.g-step.now i{background:#d94b5c;color:#fff}
+.g-step.done{opacity:.8}.g-step.done i{background:#2fb35a;color:#06200f}
+.g-arrow{color:#d94b5c;font:700 18px "Rift Pixel"}
+.g-wait,.g-bot{padding:6px 12px;background:#0c0a12e6;border:2px solid #3a3a46;box-shadow:0 0 0 2px #000;font:500 13px "Rift Body";color:#d8cfbf}
+@keyframes pulse{to{background:#5a1724}}
+@media (max-width:820px){.g-step small{display:none}.oa-grid{grid-template-columns:1fr}}

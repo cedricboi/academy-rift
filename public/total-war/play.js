@@ -5,6 +5,8 @@ import { NODES } from './movement.js';
 import { CAMPS, UNITS, FORTRESS, HOME, battleLength } from './rules.js';
 import { BANNERS, bannerFor } from './banners.js';
 import { createStage, enemyName } from './stage.js';
+import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
+import { CHARACTERS, ITEMS } from '../data/characters.js';
 
 const socket = io();
 const $ = (id) => document.getElementById(id);
@@ -26,6 +28,12 @@ $('joinForm').addEventListener('submit', (e) => {
   e.preventDefault();
   localStorage.setItem('tw.name', $('joinName').value.trim());
   socket.emit('twJoin', { code: $('joinCode').value.trim().toUpperCase(), name: $('joinName').value.trim() });
+});
+$('practiceBtn').addEventListener('click', () => {
+  const name = $('joinName').value.trim();
+  if (!name) { $('joinName').focus(); toast('Type your name first.'); return; }
+  localStorage.setItem('tw.name', name);
+  socket.emit('twPractice', { name, char: BANNERS[Math.floor(Math.random() * BANNERS.length)].id });
 });
 socket.on('connect', () => {
   const saved = JSON.parse(localStorage.getItem(SAVE) || 'null');
@@ -99,7 +107,10 @@ const map = createMap($('mapHost'), {
 const card = createCard($('card'), { onPick: (i, startedAt) => socket.emit('twAnswer', { chosen: i, startedAt }) });
 const bcard = createCard($('bCard'), { onPick: (i, startedAt) => { myPick = i; socket.emit('twAnswer', { chosen: i, startedAt }); } });
 const stage = createStage($('bStage'), { mode: 'pair' });
-let lastRoundAt = 0, lastBattleId = null;
+let lastRoundAt = 0, lastBattleId = null, cinema = false, movesOpen = null, moveKey = '';
+initTheatre($('bTheatre'));
+const CHAR_BY = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
+const X = (v) => Math.round(v * SCALE);      // battles count in hits; they are shown at the Arena's scale
 
 $('endTurnBtn').addEventListener('click', () => socket.emit('twVote', { to: 'stay' }));
 $('leaveBandBtn').addEventListener('click', () => socket.emit('twLeaveBand'));
@@ -143,6 +154,8 @@ function render() {
   renderBattle();
   renderEnding();
   maybeHelp();
+  renderShop();
+  maybeAuntie();
 }
 
 // The bar along the bottom of the map: what to do right now, and the buttons for it
@@ -262,56 +275,103 @@ function renderQuestion() {
 
 function renderBattle() {
   const B = S.myBattle;
-  if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; return; }
+  if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; if (cinema) { skipTheatre(); cinema = false; } return; }
   $('battle').classList.remove('hidden');
   const defend = B.kind === 'defend';
   const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'The Crimson Warlord' : defend ? 'The Crimson Host attacks!' : 'The Crimson Host';
   $('bEyebrow').textContent = `${defend ? 'DEFEND' : 'BATTLE'} · ${nodeName(B.node).toUpperCase()}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}`;
   $('bTitle').textContent = what;
   const pairs = B.bands.flatMap((b) => b.pairs);
-  const strikerPair = B.status === 'fight' ? B.striker?.pairNo : B.round ? (B.round.stealer || B.round.striker)?.pairNo : null;
-  setHTML($('bAllies'), pairs.map((p) => `<span class="ally ${p.no === S.me.pairNo ? 'me' : ''} ${p.no === strikerPair ? 'striking' : ''}" title="Pair ${p.no}"><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}"><small>${p.no === S.me.pairNo ? 'You' : `P${p.no}`}</small></span>`).join(''));
+  const turnPair = (B.choose || B.striker)?.pairNo ?? (B.round ? (B.round.stealer || B.round.striker)?.pairNo : null);
+  setHTML($('bAllies'), pairs.map((p) => `<span class="ally ${p.no === S.me.pairNo ? 'me' : ''} ${p.no === turnPair ? 'striking' : ''}" title="Pair ${p.no}"><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}"><small>${p.no === S.me.pairNo ? 'You' : `P${p.no}`}</small></span>`).join(''));
   const rmax = B.resolveMax || 1, r = B.resolveMax ? B.resolve : rmax;
   $('bResolveBar').style.width = `${Math.max(0, (r / rmax) * 100)}%`;
   $('bResolveBar').parentElement.classList.toggle('low', r / rmax < 0.34);
-  $('bResolveTxt').textContent = B.resolveMax ? `${Math.ceil(r)} / ${rmax}` : '';
+  $('bResolveTxt').textContent = B.resolveMax ? `${X(r)} / ${X(rmax)}` : '';
+  $('bSyncBar').style.width = `${B.sync || 0}%`; $('bSyncBar').parentElement.classList.toggle('full', (B.sync || 0) >= 100);
+  $('bSyncTxt').textContent = (B.sync || 0) >= 100 ? 'ULTIMATE READY' : `${B.sync || 0}%`;
 
-  // the stage: my pair's fighter against the enemy
-  if (lastBattleId !== B.id) { lastBattleId = B.id; lastRoundAt = 0; stage.skip(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); }
-  if (B.round && B.round.at !== lastRoundAt && (B.status === 'result' || B.status === 'over')) { lastRoundAt = B.round.at; stage.playRound(B.round); }
-  if (B.status === 'fight' && stage.busy) stage.skip();
-  stage.set({ node: B.node, kind: B.kind, pairs: [{ key: `p${S.me.pairNo}`, char: S.me.char, label: 'You', me: true }], foes: B.enemies });
-  setHTML($('bFoes'), B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}</span><div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div></div>`).join(''));
+  // the field between moves (the fighters waiting), and the Academy Rift theatre for every move
+  const myChar = B.me?.char || S.me.char;
+  if (lastBattleId !== B.id) {
+    lastBattleId = B.id; lastRoundAt = 0; stage.skip(); skipTheatre(); cinema = false;
+    stage.preload([myChar], B.enemies.map((e) => e.type));
+    prepareBattle(B, [...new Set((B.party || []).map((f) => f.char).concat(myChar))]);
+  }
+  if (B.round && B.round.at !== lastRoundAt && (B.status === 'result' || B.status === 'over')) {
+    lastRoundAt = B.round.at;
+    if (hasTheatre()) {
+      cinema = true; $('bTheatre').classList.remove('hidden'); $('battle').classList.add('cinema');
+      playRound(B, B.round, myChar).catch(() => {}).finally(() => { cinema = false; $('bTheatre').classList.add('hidden'); $('battle').classList.remove('cinema'); render(); });
+    } else stage.playRound(B.round);
+  }
+  if ((B.status === 'fight' || B.status === 'choose') && cinema) { skipTheatre(); }
+  stage.set({ node: B.node, kind: B.kind, pairs: [{ key: `p${S.me.pairNo}`, char: myChar, label: 'You', me: true }], foes: B.enemies });
+  setHTML($('bFoes'), B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}</span><div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div><small>${X(Math.max(0, e.hp))} / ${X(e.max)}</small></div>`).join(''));
 
   let centre = '', role = '';
   const fighting = B.status === 'fight' && B.question;
-  $('battle').classList.toggle('fighting', !!fighting);
+  const choosing = B.status === 'choose';
+  $('battle').classList.toggle('fighting', !!(fighting || choosing));
   if (B.status === 'gather') centre = `<span class="big">${defend ? 'To arms!' : 'Battle stations!'}</span>The battle starts in <b data-until="${B.gatherEnds}">${gameSecondsLeft(B.gatherEnds)}</b>. Warbands one road away can still join.`;
   if (B.status === 'over') centre = B.outcome === 'won'
     ? `<span class="big">Victory!</span>${B.kind === 'camp' ? `${esc(CAMPS[B.node].buffName)}: ${esc(CAMPS[B.node].buffText)}.` : B.kind === 'gate' ? 'The gate is broken!' : defend ? 'You drove off the attack.' : 'The way is clear.'}`
-    : defend && B.resolve > 0 ? '<span class="big">You held!</span>The Crimson Host pulls back.' : `<span class="big">Driven back</span>${B.resolve <= 0 ? 'Your warband\'s Resolve ran out.' : 'The enemy held.'} You fall back to regroup. The damage you dealt stays.`;
-  setHTML($('bCentre'), centre);
+    : defend && B.resolve > 0 ? '<span class="big">You held!</span>The Crimson Host pulls back.' : `<span class="big">Driven back</span>${B.resolve <= 0 ? 'Your warband ran out of HP.' : 'The enemy held.'} You fall back to regroup. The damage you dealt stays.`;
+  if (choosing && !B.moves) centre = `<span class="big">${esc(B.choose.name)}${B.choose.half ? ' stole the turn' : '\'s turn'}</span>${B.choose.bot ? 'The bot is' : 'They are'} picking a move…`;
+  setHTML($('bCentre'), cinema ? '' : centre);
   if (fighting) {
     const s = B.striker;
-    role = B.role === 'striker' ? '<b class="you-strike">YOUR TURN!</b> Answer right to attack the enemy. Your warband answers along with you.'
-      : `It is <b>${esc(s?.name || '')}${s?.pairNo ? ` (Pair ${s.pairNo})` : ''}</b>'s turn. Answer along: right answers add hits and block the counterattack. If they miss, the first right answer steals the turn.`;
+    role = B.role === 'striker' ? '<b class="you-strike">YOUR TURN!</b> Answer right, then pick your move: Strike, a skill or your Ultimate.'
+      : `It is <b>${esc(s?.name || '')}${s?.pairNo ? ` (Pair ${s.pairNo})` : ''}</b>'s turn. Answer along: right answers add hits, fill the Sync gauge, and steal the turn if they miss.`;
   }
   setHTML($('bRole'), role);
   if (fighting) {
     if (lastBattleQ !== B.question.startedAt) { lastBattleQ = B.question.startedAt; myPick = B.question.mine?.chosen ?? null; }
     $('bCardHost').classList.remove('hidden');
-    bcard.show({ q: B.question, tag: B.role === 'striker' ? 'YOUR TURN' : 'ANSWER ALONG', sub: `Question ${B.qNo} of ${B.limit}`, thumb: S.me.char ? portrait(S.me.char) : null,
+    bcard.show({ q: B.question, tag: B.role === 'striker' ? 'YOUR TURN' : 'ANSWER ALONG', sub: `Question ${B.qNo} of ${B.limit}`, thumb: myChar ? portrait(myChar) : null,
       picked: B.question.mine?.chosen ?? null, footer: B.question.mine ? 'Answer locked in. Waiting for the others…' : '', serverNow: S.serverNow, speed });
   } else { $('bCardHost').classList.add('hidden'); bcard.hide(); }
-  // after each question: the answer, and how you did
+  renderMoves(B);
+  // after each question: the answer, and what happened
   const rd = B.status === 'result' ? B.round : null;
-  if (rd) {
+  if (rd && !cinema) {
     const my = rd.my, right = rd.answer;
     const you = !my ? '' : my.ok ? '<span class="good">You were right!</span>' : my.chosen < 0 ? '<span class="bad">Time ran out.</span>' : '<span class="bad">Not this time.</span>';
-    setHTML($('bReveal'), `${you} The answer was <b>${'ABCD'[right]}. ${esc(rd.choices[right])}</b> · <b>${rd.hits}</b> ${rd.hits === 1 ? 'hit' : 'hits'} · the Crimson hit back for <b>${Math.round(rd.counterTotal * 10) / 10}</b>`);
+    const act = rd.action ? `${esc((rd.stealer || rd.striker)?.name || '')} used <b>${esc(rd.action.name)}</b>${rd.note ? ` · ${esc(rd.note)}` : ''} · ` : '';
+    setHTML($('bReveal'), `${you} The answer was <b>${'ABCD'[right]}. ${esc(rd.choices[right])}</b><br>${act}<b>${X(rd.hits)}</b> damage · the Crimson hit back for <b>${X(rd.counterTotal)}</b>`);
     $('bReveal').classList.remove('hidden');
   } else $('bReveal').classList.add('hidden');
 }
+
+// The move menu, as in the Arena: STRIKE, SKILLS, ULTIMATE and ITEMS, after a right answer on your turn
+const KIND_TXT = { atk: 'Damage', heavy: 'Heavy damage', heal: 'Heals the warband', guard: 'Softens the next counterattack', buff: 'Hit 25% harder for 2 questions', debuff: 'Weakens the enemy', cleanse: 'Heals the warband' };
+function renderMoves(B) {
+  const box = $('bMoves'), m = B.status === 'choose' ? B.moves : null;
+  if (!m || cinema) { box.classList.add('hidden'); movesOpen = null; return; }
+  const key = `${B.id}:${B.choose.endsAt}`; if (key !== moveKey) { moveKey = key; movesOpen = null; }
+  const c = CHAR_BY[m.char];
+  const left = `<b data-until="${B.choose.endsAt}">${gameSecondsLeft(B.choose.endsAt)}</b>`;
+  let html = `<div class="mv-head"><span class="mv-ok ${B.choose.half ? 'steal' : ''}">${B.choose.half ? '⚡ STOLEN · HALF DAMAGE' : '✓ CORRECT'}</span><span>Pick your move · ${left}s</span><span class="mv-sp">SP <b>${m.sp}</b>/${m.maxSp}</span></div>`;
+  if (movesOpen === 'skills') {
+    html += `<div class="mv-list">${m.skills.map((k) => `<button type="button" class="mv-skill" data-act="skill" data-i="${k.i}" ${k.ok ? '' : 'disabled'}><b>${esc(k.name)}</b><small>${k.cd > 0 ? `Ready in ${k.cd}` : `${k.sp} SP`} · ${KIND_TXT[k.kind] || ''}</small></button>`).join('')}</div><button type="button" class="mv-back" data-open="">← BACK</button>`;
+  } else if (movesOpen === 'items') {
+    html += `<div class="mv-list">${m.items.length ? m.items.map((it) => `<button type="button" class="mv-skill" data-act="item" data-item="${it.id}"><b>${esc(it.name)} ×${it.n}</b><small>${esc(it.desc)}</small></button>`).join('') : '<p class="mv-empty">Your bag is empty. Order from Auntie\'s delivery between battles.</p>'}</div><button type="button" class="mv-back" data-open="">← BACK</button>`;
+  } else {
+    const ready = m.skills.filter((k) => k.ok).length;
+    html += `<div class="mv-row">
+      <button type="button" class="mv-big strike" data-act="strike"><b>STRIKE</b><small>${esc(c?.element || '')} hit on the enemy</small></button>
+      <button type="button" class="mv-big skills" data-open="skills"><b>SKILLS</b><small>${ready} of ${m.skills.length} ready</small></button>
+      <button type="button" class="mv-big ult ${m.ult.ready ? 'ready' : ''}" data-act="ult" ${m.ult.ready ? '' : 'disabled'}><b>ULTIMATE</b><small>${esc(m.ult.name)}${m.ult.ready ? '' : ` · Sync ${B.sync}%`}</small></button>
+      <button type="button" class="mv-big items" data-open="items"><b>ITEMS</b><small>${m.items.reduce((a, x) => a + x.n, 0)} in your bag</small></button></div>`;
+  }
+  setHTML(box, html); box.classList.remove('hidden');
+}
+$('bMoves').addEventListener('click', (e) => {
+  const o = e.target.closest('[data-open]'); if (o) { movesOpen = o.dataset.open || null; render(); return; }
+  const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+  const act = { kind: b.dataset.act }; if (b.dataset.i != null) act.index = +b.dataset.i; if (b.dataset.item) act.item = b.dataset.item;
+  socket.emit('twAction', act); $('bMoves').classList.add('hidden');
+});
 
 function renderEnding() {
   const box = $('ending');
@@ -354,4 +414,35 @@ function maybeHelp() {
   helpChecked = true;
   let seen = false; try { seen = !!localStorage.getItem('tw.helpSeen'); } catch {}
   if (!seen) showHelp(0);
+}
+
+// ------------------------------------------------------------------ Auntie's delivery: the Arena's shop on a scooter
+const shopIcon = (id) => `../assets/shop/${id}.webp`;
+function renderShop() {
+  if (!S?.me) return;
+  $('coinTxt').textContent = S.me.coins || 0;
+  if ($('shop').classList.contains('hidden')) return;
+  $('shopCoins').textContent = S.me.coins || 0;
+  const bag = S.me.bag || {}, inBattle = !!S.myBattle;
+  setHTML($('shopGrid'), ITEMS.filter((it) => it.price && !it.passive).map((it) => {
+    const have = bag[it.id] || 0, can = !inBattle && (S.me.coins || 0) >= it.price;
+    return `<div class="shop-item"><img src="${shopIcon(it.id)}" alt=""><div class="si-t"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>${have ? `<em>In your bag: ${have}</em>` : ''}</div>
+      <button type="button" class="gold-btn small" data-buy="${it.id}" ${can ? '' : 'disabled'}><span>${it.price} 🪙</span></button></div>`;
+  }).join(''));
+}
+const openShop = () => { $('shop').classList.remove('hidden'); renderShop(); };
+$('coinChip').addEventListener('click', openShop);
+$('abAuntie').addEventListener('click', openShop);
+$('auntieRide').addEventListener('click', openShop);
+$('shop').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-buy]'); if (b && !b.disabled) { socket.emit('twBuy', { item: b.dataset.buy }); return; }
+  if (e.target.closest('[data-close]') || e.target === $('shop')) $('shop').classList.add('hidden');
+});
+// Auntie rides across the map at the start of every move
+let auntieTurn = 0;
+function maybeAuntie() {
+  if (!S || S.status !== 'playing' || S.phase !== 'crystal' || S.myBattle || auntieTurn === S.turn) return;
+  auntieTurn = S.turn;
+  const r = $('auntieRide'); r.classList.remove('hidden', 'go'); void r.offsetWidth; r.classList.add('go');
+  setTimeout(() => r.classList.add('hidden'), 9000);
 }

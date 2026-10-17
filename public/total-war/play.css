@@ -229,3 +229,62 @@
 @media (max-aspect-ratio:1/1){.q-dock{box-shadow:0 -3px 0 #6b1e28,0 -6px 0 #000}}
 .gold-btn,.ab-end{font-size:18px!important;letter-spacing:2px}
 .gold-btn.small{font-size:17px!important}
+
+/* ---------- Academy Rift moves in Total War battles ---------- */
+.b-gauges{display:flex;flex-direction:column;gap:6px;width:240px}
+.b-sync{text-align:right}
+.b-sync .sbar{height:10px;background:#1c1630;margin:3px 0 2px;box-shadow:0 0 0 2px #000}
+.b-sync .sbar i{display:block;height:100%;background:linear-gradient(90deg,#9a5cff,#e0b0ff);transition:width .5s}
+.b-sync .sbar.full i{background:linear-gradient(90deg,#f2c46a,#fff3c9);animation:alarm 1s infinite}
+.b-sync b{font:700 12px "Rift Pixel";color:#e0c8ff}
+.b-foes .foe small{display:block;font:700 11px "Rift Pixel";color:#ffd8de;margin-top:2px}
+.b-theatre{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:#000}
+.b-theatre canvas{height:100%;max-width:100%;aspect-ratio:16/9;width:auto;image-rendering:pixelated;display:block}
+.battle.cinema .b-stagewrap{flex:1;height:auto}
+.battle.cinema .b-role,.battle.cinema .b-card,.battle.cinema .b-reveal,.battle.cinema .b-moves{display:none!important}
+.b-moves{align-self:center;width:min(940px,100%);padding:12px 14px;border:14px solid transparent;border-image:url(ui/panel_gold.png) 36 fill / 24px / 10px stretch;image-rendering:pixelated;display:flex;flex-direction:column;gap:10px}
+.mv-head{display:flex;align-items:center;justify-content:space-between;gap:12px;font:600 15px "Rift Body";color:#d7e3e0}
+.mv-ok{font:700 18px "Rift Pixel";color:#7ff3a4}.mv-ok.steal{color:#9fe8ff}
+.mv-sp{font:700 14px "Rift Pixel";color:#9fd8ff}.mv-sp b{color:#e6f6ff}
+.mv-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.mv-big{min-height:92px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:10px 14px;background:#0c0a12;border:2px solid #d8bd80;box-shadow:0 0 0 2px #000,inset 0 -4px 0 #00000088;color:var(--ivory);text-align:left;cursor:pointer}
+.mv-big b{font:700 22px "Rift Pixel";letter-spacing:1px}
+.mv-big small{font:500 13px "Rift Body";color:#c8bfae}
+.mv-big.strike{border-color:#ff8a9a}.mv-big.skills{border-color:#81e3d4}.mv-big.items{border-color:#e9cf8e}
+.mv-big.ult{border-color:#9a5cff}.mv-big.ult.ready{border-color:#f2c46a;background:linear-gradient(#2a1d08,#120c04);box-shadow:0 0 0 2px #000,0 0 22px #f2c46a88;animation:alarm 1.2s infinite}
+.mv-big:disabled{opacity:.4}
+.mv-big:active,.mv-skill:active{transform:translateY(2px)}
+.mv-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.mv-skill{min-height:64px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 12px;background:#0c0a12;border:2px solid #81e3d4;box-shadow:0 0 0 2px #000;color:var(--ivory);text-align:left}
+.mv-skill b{font:700 17px "Rift Pixel"}.mv-skill small{font:500 13px "Rift Body";color:#c8bfae}
+.mv-skill:disabled{opacity:.4}
+.mv-back{align-self:flex-start;min-height:44px;padding:0 16px;background:#0d0b12;border:2px solid #d8bd80;color:var(--ivory);font:700 14px "Rift Pixel"}
+.mv-empty{grid-column:1/-1;margin:6px 0;font:500 15px "Rift Body";color:#cfc4b4}
+@media (max-aspect-ratio:1/1){.mv-row{grid-template-columns:repeat(2,1fr)}.b-gauges{width:160px}}
+.practice-btn{min-height:52px;font-size:13px!important;letter-spacing:1px;white-space:normal}
+
+/* ---------- Auntie's delivery ---------- */
+.coin-chip{display:flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;background:#1a1408;border:2px solid #f2c46a;box-shadow:0 0 0 2px #000;color:#ffe9b0;font:700 16px "Rift Pixel"}
+.coin-chip i{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3c9,#f2c46a 50%,#a8741c);box-shadow:0 0 0 2px #5a3a0a}
+.ab-auntie{display:flex;align-items:center;gap:6px}
+.ab-auntie i{width:34px;height:34px;background:url(auntie/bust.png) center 20%/cover;image-rendering:pixelated;box-shadow:0 0 0 2px #000}
+.auntie-ride{position:absolute;left:0;bottom:118px;z-index:8;display:flex;align-items:flex-end;gap:6px;cursor:pointer;pointer-events:auto;transform:translateX(-260px)}
+.auntie-ride.go{animation:rideIn 9s linear forwards}
+@keyframes rideIn{0%{transform:translateX(-260px)}25%{transform:translateX(22vw)}70%{transform:translateX(22vw)}100%{transform:translateX(110vw)}}
+.ar-sprite{width:144px;height:144px;background:url(auntie/ride.webp) 0 0/800% 100% no-repeat;image-rendering:pixelated;animation:mbIcon .9s steps(7) infinite}
+.ar-say{margin-bottom:96px;padding:8px 12px;background:#fffbe9;color:#3a2410;font:700 15px "Rift Body";border:2px solid #3a2410;box-shadow:0 3px 0 #000;white-space:nowrap}
+.shop{position:absolute;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;padding:20px;background:#05040ae0}
+.shop-box{width:min(940px,100%);max-height:100%;overflow:auto;padding:18px 20px;border:14px solid transparent;border-image:url(ui/panel_gold.png) 36 fill / 24px / 10px stretch;image-rendering:pixelated;display:flex;flex-direction:column;gap:12px}
+.shop-head{display:flex;gap:16px;align-items:center;position:relative}
+.shop-head img{width:120px;height:120px;object-fit:contain;image-rendering:pixelated;background:#173a24;box-shadow:0 0 0 2px #000,0 0 0 4px #2fb35a}
+.shop-head h3{margin:2px 0 4px;font:700 24px "Rift Pixel";color:#7ff3a4}
+.shop-head p{margin:0;font:500 16px "Rift Body";color:#e2ddd2}
+.shop-head .x-close{position:absolute;right:0;top:0}
+.shop-coins{font:500 15px "Rift Body";color:#d8cfbf}.shop-coins b{color:#f2c46a;font:700 18px "Rift Pixel"}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.shop-item{display:flex;align-items:center;gap:10px;padding:10px;background:#0c0a12;border:2px solid #3a3a46;box-shadow:0 0 0 2px #000}
+.shop-item img{width:54px;height:54px;object-fit:contain;image-rendering:pixelated}
+.si-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.si-t b{font:700 15px "Rift Pixel";color:var(--ivory)}.si-t small{font:500 12px "Rift Body";color:#c8bfae}.si-t em{font:700 11px "Rift Pixel";color:#7ff3a4;font-style:normal}
+.shop-item .gold-btn{min-width:96px;height:46px}
+.shop-item .gold-btn:disabled{filter:grayscale(.8) brightness(.7)}

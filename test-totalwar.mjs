@@ -219,6 +219,7 @@ console.log(`  battle lost at least once: ${sawLoss}`);
 const unexpected = bots.flatMap((b) => b.errors).filter((e) => !/one stop at a time|battle is being fought|finished moving|not your turn|Wait for your turn|too far|Too late|in a battle|already|same stop|is not here|battle is on/i.test(e));
 check(!unexpected.length, `no unexpected errors for students${unexpected.length ? ": " + [...new Set(unexpected)].slice(0, 4).join(" | ") : ""}`);
 await wardWar();
+await practiceWar();
 summary();
 done(fails.length ? 1 : 0);
 
@@ -257,5 +258,41 @@ async function wardWar() {
   check(H2.ward.hp < H2.ward.max, `the Crimson Host battered the Academy Ward (${H2.ward.hp}/${H2.ward.max})`);
   check(H2.status === "ended" && H2.winner === "crimson" && H2.endedBy === "ward", `breaking the Academy Ward wins the war for the Crimson Host (turn ${H2.turn})`);
   s.disconnect(); t.disconnect();
+}
+// A practice war: one student against the Bot Commander, with bot pairs and a bot partner. Checks skills,
+// items bought from Auntie with coins, and that the bot teacher plays its own turns.
+async function practiceWar() {
+  console.log("\n--- practice war (bot teacher, bot students, skills, Auntie) ---");
+  const s = io(URL, { transports: ["websocket"] }); let v = null; const errs = []; const kinds = new Set(); let maxBands = 0, bought = false, crimsonTurns = 0, lastTurn = 0, usedItem = false;
+  s.on("twError", (m) => errs.push(m));
+  s.on("twState", (x) => {
+    v = x; if (x.status !== "playing") return; maxBands = Math.max(maxBands, x.bands?.length || 0);
+    if (x.phase === "crystal" && x.turn !== lastTurn) { lastTurn = x.turn; if (x.turn > 1) crimsonTurns++; }
+    const B = x.myBattle;
+    if (B?.round?.action) kinds.add(B.round.action.kind);
+    const q = x.own && !x.own.result ? x.own.question : B?.question && !B.question.mine ? B.question : null;
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (B?.moves && s.lastMove !== B.choose?.endsAt) {
+      s.lastMove = B.choose?.endsAt; const M = B.moves, ok = M.skills.filter((k) => k.ok);
+      const act = M.items.length && !usedItem ? (usedItem = true, { kind: "item", item: M.items[0].id }) : M.ult.ready ? { kind: "ult" } : ok.length ? { kind: "skill", index: ok[0].i } : { kind: "strike" };
+      s.emit("twAction", act);
+    }
+    if (!B && !bought && x.me.coins >= 120) { bought = true; s.emit("twBuy", { item: "bento" }); }
+    const band = x.bands?.find((b) => b.id === x.me.bandId);
+    if (x.phase === "crystal" && band && !band.done && !band.battle) { const key = `${x.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const to = stepTowards(band.node, FORTRESS); s.emit("twVote", { to: to ?? "stay" }); } }
+  });
+  await new Promise((r) => s.on("connect", r));
+  s.emit("twPractice", { name: "Solo", char: "jun" });
+  const until = Date.now() + 160000;
+  while (Date.now() < until && !(v?.status === "ended" || (kinds.has("skill") && usedItem && kinds.size >= 2 && crimsonTurns >= 3))) await sleep(50);
+  check(v && v.status !== "lobby", "a practice war starts straight away with one student");
+  check(maxBands >= 3, `the practice war fills up with bot pairs (${maxBands} banners)`);
+  check(crimsonTurns >= 2 || v?.status === "ended", `the Bot Commander plays its own turns (${crimsonTurns})`);
+  check(kinds.has("skill"), `students can use their Academy Rift skills in battle (moves seen: ${[...kinds].join(", ")})`);
+  check(bought && v.me.bag && (v.me.bag.bento > 0 || usedItem), "coins buy food from Auntie's delivery");
+  check(usedItem && kinds.has("item"), "an item from the bag can be used on your turn in battle");
+  const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle/i.test(e));
+  check(!odd.length, `no unexpected errors in the practice war${odd.length ? ": " + odd.slice(0, 3).join(" | ") : ""}`);
+  s.disconnect();
 }
 function summary() { console.log(`\n${fails.length ? "FAILED: " + fails.length : "ALL PASSED"}`); }

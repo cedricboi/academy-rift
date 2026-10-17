@@ -4,18 +4,21 @@
 // warbands that vote on every step, to break into the Crimson Fortress.
 // Answers never leave the server, and each student only receives what the fog of war lets them see.
 import { randomBytes } from "crypto";
+import { skillPower } from "./combat.js";
+import { ITEMS, ITEM_BY_ID, SHOP_LIMIT } from "./public/data/characters.js";
 import { NODES } from "./public/total-war/movement.js";
 import {
   HOME, FORTRESS, OUTPOSTS, UNITS, SUMMONABLE, CAMPS, neighbours, isAdjacent, cost, visibleNodes,
   tallyVotes, pairMP, energyPerTurn, energyCarry, auraFor, battleLength, questionHits, dealHits,
   nearestRally, stepTowards, hops, STACK_LIMIT, FORTRESS_LIMIT, READ_SECONDS, ANSWER_SECONDS, VOTE_SECONDS,
-  JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, PREPARE_SECONDS, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
+  JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, PREPARE_SECONDS, WARCRY_HIT, SUPPORT_HIT, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
 } from "./public/total-war/rules.js";
 
 const token = (n = 18) => randomBytes(n).toString("base64url");
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const rightAnswers = (q) => (Array.isArray(q.answers) && q.answers.length ? q.answers : [q.answer]);
 const qKey = (q) => q.qid || q.q;
+const ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
 
 export function setupTotalWar(deps) {
   const { io, filterQuestions, normalizeTopics, topicLabel, CHARACTERS, bank, isRoomCode = () => false } = deps;
@@ -32,7 +35,7 @@ export function setupTotalWar(deps) {
     while (sessions.has(c) || isRoomCode(c));
     return c;
   }
-  const defaultSettings = () => ({ commander: "Mr Cedric", topic: null, turns: 12, crimsonSeconds: PREPARE_SECONDS, crystalSeconds: 150, target: 25, warlordPct: 80 });
+  const defaultSettings = () => ({ commander: "Mr Cedric", topic: null, turns: 12, crimsonSeconds: PREPARE_SECONDS, crystalSeconds: 150, target: 25, warlordPct: 80, botCommander: false, botPartners: true });
 
   function createSession() {
     const S = {
@@ -61,7 +64,7 @@ export function setupTotalWar(deps) {
   const buffOn = (S) => Object.fromEntries(Object.entries(S.buffs).filter(([, until]) => until >= S.turn).map(([k]) => [k, true]));
   const studentsOfBand = (S, b) => b.pairs.flatMap((pid) => S.pairs.get(pid)?.members || []);
   const pairLabel = (S, p) => `Pair ${p.no}`;
-  const isConnected = (s) => s.sockets.size > 0;
+  const isConnected = (s) => !!s && (s.bot || s.sockets.size > 0);
   const warlordReady = (S) => {
     if (S.warlord.released) return true;
     const st = [...S.students.values()];
@@ -104,7 +107,7 @@ export function setupTotalWar(deps) {
 
   function record(S, st, q, chosen) {
     const ok = chosen >= 0 && rightAnswers(q).includes(chosen);
-    st.answered++; if (ok) st.correct++; else { st.wrong++; st.redo.push({ key: qKey(q), after: st.answered + 3 }); }
+    st.answered++; if (ok) { st.correct++; st.coins = (st.coins || 0) + COINS_PER_RIGHT; } else { st.wrong++; st.redo.push({ key: qKey(q), after: st.answered + 3 }); }
     st.lastAnswerAt = Date.now();
     st.history.push({ key: qKey(q), lo: q.lo || q.topic || "", ok });
     return ok;
@@ -118,8 +121,9 @@ export function setupTotalWar(deps) {
   }
 
   // ------------------------------------------------------------------ pairing and joining
-  function addStudent(S, name) {
+  function addStudent(S, name, bot = false) {
     const st = {
+      bot, coins: 0, bag: {},
       pid: id(S, "s"), token: token(), name: String(name || "").trim().slice(0, 20) || "Student",
       sockets: new Set(), pairId: null, want: null, char: null, ready: false, answered: 0, correct: 0, wrong: 0, musterThisTurn: 0,
       seen: new Set(), redo: [], history: [], own: null, lastAnswerAt: 0, joinedAt: Date.now(),
@@ -150,7 +154,10 @@ export function setupTotalWar(deps) {
   function startGame(S) {
     if (S.status !== "lobby") return "The game has already started.";
     const loose = [...S.students.values()].filter((s) => !s.pairId);
-    for (const st of loose) makePair(S, [st.pid]);          // anyone without a partner marches alone
+    for (const st of loose) {                                  // anyone without a partner gets a bot partner (or marches alone)
+      if (S.settings.botPartners && !st.bot) { const bot = addBot(S, st.char); makePair(S, [st.pid, bot.pid]); }
+      else makePair(S, [st.pid]);
+    }
     if (!S.pairs.size) return "No one has joined yet.";
     S.pool = null; poolOf(S);
     S.status = "playing";
@@ -212,6 +219,7 @@ export function setupTotalWar(deps) {
     for (const b of S.bands.values()) if (b.voteOpenedAt && now >= b.voteOpenedAt + ms(VOTE_SECONDS)) resolveVote(S, b);
     // battles
     for (const B of S.battles.values()) battleTick(S, B, now);
+    botTick(S, now);
     // phase ends
     if (S.phase === "crimson") {
       // the class prepares for at most crimsonSeconds (30 s); it ends sooner once the teacher has ended the turn
@@ -350,6 +358,7 @@ export function setupTotalWar(deps) {
       id: id(S, "x"), node: n, kind, bands: bandIds, enemies, status: "gather", startedAt: Date.now(),
       gatherEnds: Date.now() + ms(JOIN_SECONDS), qNo: 0, limit: battleLength(kind === "defend" ? "host" : kind, buffOn(S)),
       q: null, striker: null, answers: new Map(), strikes: new Map(), warcryNow: 0, cheers: new Map(),
+      fighters: {}, sync: 0, mod: { guard: 0, atkUp: 0, atkDown: 0 }, choose: null, pending: null,
       resolve: 0, resolveMax: 0, round: null, resultUntil: 0, outcome: null, attackers: kind === "defend" ? attackers.map((u) => u.id) : [],
     };
     for (const bid of bandIds) { const x = S.bands.get(bid); x.battle = B.id; x.done = true; x.votes = {}; x.voteOpenedAt = 0; }
@@ -385,6 +394,7 @@ export function setupTotalWar(deps) {
     if (B.status === "gather" && now >= B.gatherEnds) {
       if (!pairsIn(S, B).length) return finishBattle(S, B, false);
       B.resolveMax = B.resolve = resolveFor(pairsIn(S, B).length);
+      for (const p of fightersOf(S, B)) fighterOf(S, B, p);
       B.status = "fight"; nextBattleQuestion(S, B); return;
     }
     if (B.status === "fight" && B.q) {
@@ -393,6 +403,7 @@ export function setupTotalWar(deps) {
       if (allIn || now >= questionEnds(B.q)) resolveBattleQuestion(S, B);
       return;
     }
+    if (B.status === "choose" && now >= B.choose.endsAt) { applyRound(S, B, { kind: "strike" }); return; }
     if (B.status === "result" && now >= B.resultUntil) {
       if (B.enemies.every((e) => e.hp <= 0)) return finishBattle(S, B, true);
       if (B.resolve <= 0 || B.qNo >= B.limit) return finishBattle(S, B, false);
@@ -434,38 +445,138 @@ export function setupTotalWar(deps) {
     S.dirty = true;
   }
 
-  const who = (S, pid) => { const st = S.students.get(pid), p = st && S.pairs.get(st.pairId); return st ? { pid, name: st.name, pairNo: p?.no || null, char: p?.char || null } : null; };
+  const who = (S, pid) => { const st = S.students.get(pid), p = st && S.pairs.get(st.pairId); return st ? { pid, name: st.name, pairNo: p?.no || null, char: st.char || p?.char || null, bot: !!st.bot } : null; };
+
+  // ---- each student's Academy Rift fighter in this battle: SP, cooldowns, their bag of items ----
+  const CHAR = (id) => CHARACTERS.find((c) => c.id === id) || CHARACTERS[0];
+  function fighterOf(S, B, pid) {
+    if (!B.fighters[pid]) {
+      const st = S.students.get(pid), p = pairOf(S, pid);
+      const base = CHAR(st?.char || p?.char || "kuro");
+      B.fighters[pid] = { char: base.id, sp: base.sp, maxSp: base.sp, cd: {} };
+    }
+    return B.fighters[pid];
+  }
+  // the move menu a student sees on their turn
+  function movesFor(S, B, pid) {
+    const F = fighterOf(S, B, pid), base = CHAR(F.char), st = S.students.get(pid);
+    return {
+      char: base.id, sp: F.sp, maxSp: F.maxSp,
+      skills: base.skills.map((sk, i) => ({ i, name: sk.name, sp: sk.sp, kind: sk.kind, desc: sk.desc, cd: F.cd[i] || 0, ok: F.sp >= sk.sp && !(F.cd[i] > 0) })),
+      ult: { name: base.ultimate.name, archetype: base.ultimate.archetype, ready: B.sync >= 100 },
+      items: Object.entries(st?.bag || {}).filter(([, n]) => n > 0).map(([id, n]) => ({ id, n, name: ITEM_BY_ID[id]?.name || id, desc: ITEM_BY_ID[id]?.desc || "" })).filter((x) => !ITEM_BY_ID[x.id]?.passive),
+    };
+  }
+  // a fighter's skill as Total War hits: a basic strike is 2 hits; stronger skills hit harder, as in the Arena
+  const skillHits = (sk) => 2 * skillPower(sk) / skillPower({ power: 250, sp: 0 });
 
   function resolveBattleQuestion(S, B) {
     for (const p of fightersOf(S, B)) if (!B.answers.has(p)) { const st = S.students.get(p); if (st && isConnected(st)) { record(S, st, B.q.full, -1); B.answers.set(p, { chosen: -1, ok: false, at: Infinity }); } }
     const strikerAns = B.answers.get(B.striker);
     const strike = !!strikerAns?.ok;
-    const supporters = [...B.answers.entries()].filter(([p]) => p !== B.striker);
-    const rightSup = supporters.filter(([, a]) => a.ok).sort((x, y) => x[1].at - y[1].at);
-    const stealer = !strike && rightSup.length ? rightSup[0][0] : null;
-    const support = rightSup.filter(([p]) => p !== stealer).length;
-    const buffs = buffOn(S);
-    const hits = questionHits({ strike, steal: !!stealer, support, warcry: B.warcryNow }, buffs);
-    const mainHits = +questionHits({ strike, steal: !!stealer }, buffs).toFixed(2);
-    const target = Math.max(0, B.enemies.findIndex((e) => e.hp > 0));
-    const res = dealHits(B.enemies, hits);
-    B.enemies = res.enemies;
-    // the Crimson hits back, unless every enemy has fallen
+    const along = [...B.answers.entries()].filter(([p]) => p !== B.striker);
+    const rightAlong = along.filter(([, a]) => a.ok).sort((x, y) => x[1].at - y[1].at);
+    const stealer = !strike && rightAlong.length ? rightAlong[0][0] : null;
     const answered = [...B.answers.values()];
-    const frac = answered.length ? answered.filter((a) => a.ok).length / answered.length : 0;
-    const counter = res.beaten ? { blows: [], guard: 0, total: 0 } : counterAttack(B.enemies, frac);
-    B.resolve = Math.max(0, +(B.resolve - counter.total).toFixed(2));
-    B.round = {
-      qNo: B.qNo, striker: who(S, B.striker), strike, stealer: stealer ? who(S, stealer) : null,
-      support, supporters: supporters.length, warcry: B.warcryNow, hits: +hits.toFixed(1), fallen: res.fallen, mainHits, target,
-      enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
-      counter: counter.blows, guard: +counter.guard.toFixed(2), counterTotal: counter.total, resolve: B.resolve,
+    const right = answered.filter((a) => a.ok).length;
+    B.sync = Math.min(100, B.sync + right * SYNC_GAIN);                  // the warband's Sync gauge, as in the Arena
+    for (const F of Object.values(B.fighters)) F.sp = Math.min(F.maxSp, F.sp + SP_REGEN);
+    B.pending = {
+      strike, stealer, support: rightAlong.filter(([p]) => p !== stealer).length, along: along.length, warcry: B.warcryNow,
+      frac: answered.length ? right / answered.length : 0,
       answer: rightAnswers(B.q.full)[0], q: B.q.q, choices: B.q.choices,
       mine: Object.fromEntries([...B.answers.entries()].map(([p, a]) => [p, { chosen: a.chosen, ok: a.ok }])),
-      at: Date.now(),
     };
-    B.status = "result"; B.resultUntil = Date.now() + ms(5.2);
     B.q = null;
+    const actor = strike ? B.striker : stealer;
+    if (actor) { B.status = "choose"; B.choose = { pid: actor, half: !strike, endsAt: Date.now() + ms(ACTION_SECONDS), at: Date.now() }; S.dirty = true; return; }
+    applyRound(S, B, null);
+  }
+
+  // The student whose turn it is picks a move: { kind: strike | skill | ult | item, index, item }
+  function chooseAction(S, st, act) {
+    const B = [...S.battles.values()].find((x) => x.status === "choose" && x.choose?.pid === st.pid);
+    if (!B) return "It is not your turn to pick a move.";
+    const F = fighterOf(S, B, st.pid), base = CHAR(F.char);
+    if (act?.kind === "skill") { const sk = base.skills[act.index]; if (!sk) return "Pick one of your skills."; if (F.sp < sk.sp) return "Not enough SP for that skill."; if (F.cd[act.index] > 0) return "That skill is still cooling down."; }
+    else if (act?.kind === "ult") { if (B.sync < 100) return "The Sync gauge is not full yet."; }
+    else if (act?.kind === "item") { if (!(st.bag?.[act.item] > 0)) return "You do not have that item."; }
+    else act = { kind: "strike" };
+    applyRound(S, B, act);
+    return null;
+  }
+
+  function applyRound(S, B, act) {
+    const P = B.pending, buffs = buffOn(S), power = buffs.power ? 1.25 : 1, cry = WARCRY_HIT * (buffs.warcry ? 2 : 1);
+    const pid = act ? B.choose.pid : null, half = act && B.choose.half ? 0.5 : 1;
+    const st = pid ? S.students.get(pid) : null, F = pid ? fighterOf(S, B, pid) : null, base = F ? CHAR(F.char) : null;
+    const target = Math.max(0, B.enemies.findIndex((e) => e.hp > 0));
+    let main = 0, heal = 0, splash = 0, stun = false, note = "", name = "Strike", index = -1, kind = act?.kind || null, extra = 1;
+    if (act?.kind === "strike") main = 2;
+    else if (act?.kind === "skill") {
+      const sk = base.skills[act.index]; index = act.index; name = sk.name;
+      F.sp -= sk.sp; if (sk.cd) F.cd[act.index] = sk.cd + 1;
+      if (sk.kind === "atk" || sk.kind === "heavy") main = skillHits(sk);
+      else if (sk.kind === "debuff") { main = sk.power ? skillHits(sk) : 0; B.mod.atkDown = 2; note = "The enemy hits back weaker for 2 questions"; }
+      else if (sk.kind === "heal") { heal = Math.max(2, Math.round(sk.power / 100)); note = `The warband heals ${heal} Resolve`; }
+      else if (sk.kind === "guard") { B.mod.guard = Math.max(B.mod.guard, 0.3); note = "The next counterattack is 30% weaker"; }
+      else if (sk.kind === "buff") { B.mod.atkUp = 2; note = "The warband hits 25% harder for 2 questions"; }
+      else if (sk.kind === "cleanse") { heal = 2; note = "The warband heals 2 Resolve"; }
+    } else if (act?.kind === "ult") {
+      const u = base.ultimate; name = u.name; B.sync = 0;
+      if (u.archetype === "damage") { main = 2 * u.power / 250; splash = 3; }
+      else if (u.archetype === "stun") { main = 4; stun = true; note = "The enemy is stunned and cannot hit back"; }
+      else if (u.archetype === "heal") { main = 2; heal = Math.ceil(B.resolveMax * 0.5); note = `The warband heals ${heal} Resolve`; }
+      else { main = 2; B.mod.guard = 1; note = "The next counterattack is blocked completely"; }
+    } else if (act?.kind === "item") {
+      const it = ITEM_BY_ID[act.item]; name = it?.name || act.item; st.bag[act.item]--;
+      if (act.item === "bento") heal = 3;
+      else if (act.item === "energy") F.sp = Math.min(F.maxSp, F.sp + 150);
+      else if (act.item === "revive") heal = 5;
+      else if (act.item === "shield") B.mod.guard = Math.max(B.mod.guard, 0.5);
+      else if (act.item === "crystal") B.sync = Math.min(100, B.sync + 30);
+      else if (act.item === "tonic") { heal = 1; B.mod.atkDown = Math.max(B.mod.atkDown, 1); }
+      else if (act.item === "chilli") { main = 2; extra = 1.25; }
+      else if (act.item === "durian") main = 3;
+      note = it?.desc || "";
+    }
+    main = main * half * power * extra * (B.mod.atkUp > 0 ? 1.25 : 1);
+    const along = P.support * SUPPORT_HIT * power + P.warcry * cry;
+    // the move hits the enemy in front; an Ultimate's splash hits every other enemy; answering along hits front to back
+    let enemies = B.enemies.map((e) => ({ ...e })), fallen = 0;
+    const hurt = (i, h) => { const e = enemies[i]; if (!e || e.hp <= 0 || h <= 0) return; e.hp = Math.max(0, +(e.hp - h).toFixed(2)); if (e.hp <= 0) fallen++; };
+    hurt(target, main);
+    if (splash) enemies.forEach((e, i) => { if (i !== target) hurt(i, splash); });
+    const res = dealHits(enemies, along); enemies = res.enemies; fallen += res.fallen;
+    B.enemies = enemies;
+    B.resolve = Math.min(B.resolveMax, +(B.resolve + heal).toFixed(2));
+    const beaten = B.enemies.every((e) => e.hp <= 0);
+    // the Crimson hits back (weaker after a debuff, softened by a guard, not at all when stunned)
+    let counter = { blows: [], guard: 0, total: 0 }, blocked = 0;
+    if (!beaten && !stun) {
+      counter = counterAttack(B.enemies, P.frac);
+      const k = (B.mod.atkDown > 0 ? 0.75 : 1) * (1 - B.mod.guard);
+      counter.blows = counter.blows.map((x) => ({ ...x, dmg: +(x.dmg * k).toFixed(2) }));
+      counter.total = +(counter.total * k).toFixed(2);
+      blocked = Math.round((1 - (1 - counter.guard) * k) * 100);
+    }
+    B.resolve = Math.max(0, +(B.resolve - counter.total).toFixed(2));
+    B.mod.guard = 0; if (B.mod.atkUp > 0) B.mod.atkUp--; if (B.mod.atkDown > 0) B.mod.atkDown--;
+    for (const f of Object.values(B.fighters)) for (const k of Object.keys(f.cd)) if (f.cd[k] > 0) f.cd[k]--;
+    // who stands beside the student in the cinematic: their partner if they are fighting too, else another fighter
+    const pairMates = pid ? (pairOf(S, pid)?.members || []).filter((m) => m !== pid && B.fighters[m]) : [];
+    const allyPid = pairMates[0] || Object.keys(B.fighters).find((x) => x !== pid) || null;
+    B.round = {
+      qNo: B.qNo, striker: who(S, B.striker), strike: P.strike, stealer: P.stealer ? who(S, P.stealer) : null,
+      support: P.support, supporters: P.along, warcry: P.warcry, hits: +(main + along + splash * Math.max(0, B.enemies.length - 1)).toFixed(1), fallen,
+      mainHits: +main.toFixed(1), target, heal, note, stunned: stun,
+      action: act ? { kind, index, name, pid, char: F.char, ally: allyPid ? B.fighters[allyPid].char : null, archetype: kind === "ult" ? base.ultimate.archetype : null } : null,
+      enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
+      counter: counter.blows, guard: blocked / 100, counterTotal: counter.total, resolve: B.resolve, sync: B.sync,
+      answer: P.answer, q: P.q, choices: P.choices, mine: P.mine, at: Date.now(),
+    };
+    B.pending = null; B.choose = null;
+    B.status = "result"; B.resultUntil = Date.now() + ms(act ? (kind === "ult" ? 15 : 10) : 5.5);
     S.dirty = true;
   }
 
@@ -621,6 +732,87 @@ export function setupTotalWar(deps) {
     return false;
   }
 
+
+  // ------------------------------------------------------------------ Auntie's delivery (the Arena's shop, on a scooter)
+  function buy(S, st, itemId) {
+    const it = ITEM_BY_ID[itemId]; if (!it || !it.price) return "Auntie does not sell that.";
+    const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
+    if (b?.battle) return "Auntie cannot ride into a battle. Order after it.";
+    st.bag ||= {};
+    const total = Object.values(st.bag).reduce((a, n) => a + n, 0);
+    if ((st.bag[itemId] || 0) >= SHOP_LIMIT.each) return `You can carry ${SHOP_LIMIT.each} of those at most.`;
+    if (total >= SHOP_LIMIT.total) return `Your bag is full (${SHOP_LIMIT.total} items).`;
+    if ((st.coins || 0) < it.price) return "Not enough coins yet. Right answers earn coins.";
+    st.coins -= it.price; st.bag[itemId] = (st.bag[itemId] || 0) + 1;
+    return null;
+  }
+
+
+  // ------------------------------------------------------------------ bots: students and a commander
+  const BOT_NAMES = ["Aiko", "Bao", "Cass", "Dev", "Ezra", "Faye", "Gus", "Hana", "Iris", "Jojo", "Kit", "Leo", "Max", "Nia", "Oz", "Pip"];
+  const rand = (a) => a[Math.floor(Math.random() * a.length)];
+  function addBot(S, avoidChar) {
+    const used = new Set([...S.students.values()].filter((x) => x.bot).map((x) => x.name));
+    const name = "Bot " + (BOT_NAMES.find((n) => !used.has("Bot " + n)) || rand(BOT_NAMES));
+    const st = addStudent(S, name, true);
+    st.char = rand(CHARACTERS.filter((c) => c.id !== avoidChar)).id; st.ready = true;
+    return st;
+  }
+  function addBotPair(S) { const a = addBot(S), b = addBot(S, a.char); return makePair(S, [a.pid, b.pid]); }
+  const botDelay = () => ms(READ_SECONDS + 2 + Math.random() * 7);
+  const botPick = (q) => (Math.random() < 0.75 ? rightAnswers(q)[0] : Math.floor(Math.random() * q.choices.length));
+
+  function botTick(S, now) {
+    for (const st of S.students.values()) {
+      if (!st.bot) continue;
+      const o = st.own;                                                       // preparing or a War Cry
+      if (o && !o.result) { if (o._bot == null) o._bot = o.startedAt + botDelay(); if (now >= o._bot) answerOwn(S, st, botPick(o.q)); }
+      for (const B of S.battles.values()) {
+        if (!fightersOf(S, B).includes(st.pid)) continue;
+        if (B.status === "fight" && B.q && !B.answers.has(st.pid)) { if (B.q._bot?.[st.pid] == null) (B.q._bot ||= {})[st.pid] = B.q.startedAt + botDelay(); if (now >= B.q._bot[st.pid]) battleAnswer(S, st, botPick(B.q.full)); }
+        if (B.status === "choose" && B.choose.pid === st.pid && now >= B.choose.at + ms(2)) {
+          const m = movesFor(S, B, st.pid), hit = m.skills.filter((x) => x.ok && (x.kind === "atk" || x.kind === "heavy"));
+          const act = m.ult.ready ? { kind: "ult" } : hit.length && Math.random() < 0.6 ? { kind: "skill", index: rand(hit).i } : B.resolve < B.resolveMax * 0.4 && m.items.some((x) => x.id === "bento") ? { kind: "item", item: "bento" } : { kind: "strike" };
+          chooseAction(S, st, act);
+        }
+      }
+    }
+    // bot pairs march with the class: they follow a human warband, join it, and copy its vote
+    for (const b of [...S.bands.values()]) {
+      const bots = b.pairs.filter((x) => S.pairs.get(x)?.members.every((m) => S.students.get(m)?.bot));
+      if (!bots.length) continue;
+      const joinable = [...S.battles.values()].find((B) => canJoinBattle(S, b, B));
+      if (joinable && b.pairs.length === bots.length) { joinBattle(S, bots[0], joinable.id); continue; }
+      if (S.phase !== "crystal" || b.done || b.battle) continue;
+      const humanVote = b.pairs.map((x) => b.votes[x]).find((v, i) => v !== undefined && !bots.includes(b.pairs[i]));
+      const humansHere = b.pairs.length > bots.length;
+      if (humansHere) { if (humanVote !== undefined) for (const x of bots) if (b.votes[x] === undefined) vote(S, x, humanVote); continue; }
+      const key = `${S.turn}:${b.node}:${b.mp}`; if (b._botKey === key) continue; b._botKey = key;
+      const humans = [...S.bands.values()].filter((x) => x !== b && x.pairs.some((pid) => S.pairs.get(pid)?.members.some((m) => !S.students.get(m)?.bot)));
+      const d = hops(b.node);
+      const near = humans.sort((x, y) => (d.get(x.node) ?? 99) - (d.get(y.node) ?? 99))[0];
+      if (near && near.node === b.node && !near.battle) { joinBand(S, bots[0], near.id); continue; }
+      const target = near ? near.node : FORTRESS;
+      const step = stepTowards(b.node, target, (n) => !campAt(S, n) && !unitsAt(S, n).length || n === target);
+      const to = step != null && !canStep(S, b, step) ? step : "stay";
+      for (const x of bots) vote(S, x, to);
+    }
+    // the Bot Commander takes the Crimson turn
+    if (S.settings.botCommander && S.phase === "crimson" && !S.teacherEnded && now >= S.phaseStartedAt + ms(3)) botCommand(S);
+  }
+
+  function botCommand(S) {
+    const mix = ["orc_vanguard", "rift_hound", "warlock", "gargoyle", "ogre", "wyvern", "goblin_sappers", "orc_warchanter", "imp_swarm", "hollow_knight"];
+    for (let k = 0; k < 6; k++) {
+      const can = mix.filter((t) => UNITS[t].cost <= S.energy);
+      if (!can.length || unitsAt(S, FORTRESS).length >= FORTRESS_LIMIT) break;
+      summon(S, rand(can));
+    }
+    const units = [...S.units.values()].filter((u) => !u.order && !u.battle);
+    units.forEach((u, i) => { u.order = u.node === FORTRESS && i === 0 && unitsAt(S, FORTRESS).length > 1 ? { kind: "hold" } : i % 3 === 2 ? { kind: "march", to: HOME } : { kind: "hunt" }; });
+    S.teacherEnded = true;
+  }
+
   // ------------------------------------------------------------------ views
   const bandView = (S, b) => ({
     id: b.id, node: b.node, mp: b.mp, done: b.done, battle: b.battle, voting: !!b.voteOpenedAt,
@@ -637,7 +829,10 @@ export function setupTotalWar(deps) {
       enemies: B.enemies.map((e) => ({ type: e.type, hp: +(+e.hp).toFixed(1), max: +(+e.max).toFixed(1), atk: e.atk, dug: !!e.dug, aura: !!e.aura })),
       bands: B.bands.map((x) => S.bands.get(x)).filter(Boolean).map((b) => bandView(S, b)),
       fighters: fighters.length, answered: B.answers.size,
-      striker: B.status === "fight" ? who(S, B.striker) : null,
+      striker: B.status === "fight" || B.status === "choose" ? who(S, B.striker) : null,
+      sync: B.sync, mod: { ...B.mod },
+      choose: B.status === "choose" ? { ...who(S, B.choose.pid), endsAt: B.choose.endsAt, half: B.choose.half } : null,
+      party: Object.entries(B.fighters).map(([pid, f]) => ({ pid, char: f.char, sp: f.sp, maxSp: f.maxSp, name: S.students.get(pid)?.name || "?", pairNo: pairOf(S, pid)?.no || null })),
       round: B.status === "result" || B.status === "over" ? { ...B.round, mine: undefined } : null,
       outcome: B.outcome, cheers: [...B.cheers.entries()].map(([pid, n]) => ({ pair: S.pairs.get(pid)?.no, n })),
     };
@@ -645,6 +840,8 @@ export function setupTotalWar(deps) {
       v.role = B.striker === forPid ? "striker" : "support";
       if (B.q) { const mine = B.answers.get(forPid); v.question = { ...B.q, full: undefined, mine: mine ? { chosen: mine.chosen } : null }; }
       if (v.round && B.round?.mine) v.round.my = B.round.mine[forPid] || null;
+      if (B.status === "choose" && B.choose.pid === forPid) v.moves = movesFor(S, B, forPid);
+      v.me = { char: fighterOf(S, B, forPid).char };
     }
     return v;
   }
@@ -672,11 +869,11 @@ export function setupTotalWar(deps) {
     const vis = S.status === "playing" ? classVisible(S) : null;
     const v = classView(S, vis);
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
-    v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: p?.char || null, bandId: b?.id || null,
+    v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: st.char || p?.char || null, bandId: b?.id || null, coins: st.coins || 0, bag: st.bag || {},
       partner: p ? p.members.filter((m) => m !== st.pid).map((m) => S.students.get(m)?.name) : [], bank: p?.bank || 0 };
     v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready;
     v.lobby = S.status === "lobby" ? {
-      students: [...S.students.values()].map((s) => ({ pid: s.pid, name: s.name, pairId: s.pairId, want: s.want, ready: s.ready, connected: isConnected(s) })),
+      students: [...S.students.values()].map((s) => ({ pid: s.pid, name: s.name, pairId: s.pairId, want: s.want, ready: s.ready, connected: isConnected(s), bot: !!s.bot, char: s.char })),
       pairs: [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name) })),
     } : null;
     if (st.own) v.own = { kind: st.own.kind, battleId: st.own.battleId, retry: st.own.retry, result: st.own.result,
@@ -693,10 +890,10 @@ export function setupTotalWar(deps) {
     v.warlordReady = warlordReady(S);
     const now = Date.now();
     v.students = [...S.students.values()].map((s) => ({
-      pid: s.pid, name: s.name, pairNo: pairOf(S, s.pid)?.no || null, answered: s.answered, correct: s.correct, ready: s.ready,
-      connected: isConnected(s), quiet: S.status === "playing" && isConnected(s) && now - Math.max(s.lastAnswerAt, S.phaseStartedAt) > ms(90),
+      pid: s.pid, name: s.name, pairNo: pairOf(S, s.pid)?.no || null, answered: s.answered, correct: s.correct, ready: s.ready, bot: !!s.bot, char: s.char,
+      connected: isConnected(s), quiet: S.status === "playing" && !s.bot && isConnected(s) && now - Math.max(s.lastAnswerAt, S.phaseStartedAt) > ms(90),
     }));
-    v.pairs = [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name) }));
+    v.pairs = [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name), bots: x.members.filter((m) => S.students.get(m)?.bot).length, size: x.members.length }));
     v.onTarget = v.students.filter((s) => s.answered >= S.settings.target).length;
     v.sets = bank ? bank.playableSets() : [];
     return v;
@@ -739,6 +936,7 @@ export function setupTotalWar(deps) {
       if (S.status !== "lobby") return "Settings are fixed once the war starts.";
       if ("topic" in s) S.settings.topic = normalizeTopics(s.topic);
       if ("commander" in s) S.settings.commander = String(s.commander || "").trim().slice(0, 30) || "Your teacher";
+      for (const k of ["botCommander", "botPartners"]) if (k in s) S.settings[k] = !!s[k];
       for (const k of ["turns", "crimsonSeconds", "crystalSeconds", "target", "warlordPct"]) if (k in s) {
         const lim = { turns: [4, 30], crimsonSeconds: [20, 120], crystalSeconds: [60, 300], target: [5, 60], warlordPct: [0, 100] }[k];
         const n = Math.round(+s[k]); if (Number.isFinite(n)) S.settings[k] = Math.max(lim[0], Math.min(lim[1], n));
@@ -746,7 +944,9 @@ export function setupTotalWar(deps) {
       S.pool = null;
     }));
     socket.on("twStart", asHost((S) => startGame(S)));
-    socket.on("twSummon", asHost((S, { type }) => summon(S, type)));
+    socket.on("twSummon", asHost((S, { type }) => { const err = summon(S, type); if (!err) socket.emit("twSummoned", { unitId: `u${S.seq}`, type }); return err; }));
+    socket.on("twAddBots", asHost((S, { pairs = 1 }) => { if (S.status !== "lobby") return "Add bots before the war starts."; for (let i = 0; i < Math.min(6, +pairs || 1); i++) addBotPair(S); }));
+    socket.on("twRemoveBots", asHost((S) => { if (S.status !== "lobby") return; for (const p of [...S.pairs.values()]) if (p.members.every((m) => S.students.get(m)?.bot)) { for (const m of p.members) S.students.delete(m); S.pairs.delete(p.id); } }));
     socket.on("twMoveUnit", asHost((S, { unitId, to }) => moveUnit(S, unitId, +to)));
     socket.on("twOrder", asHost((S, { unitIds, order }) => setOrder(S, unitIds, order)));
     socket.on("twEndTurn", asHost((S) => { if (S.phase !== "crimson") return "It is not your turn."; S.teacherEnded = true; }));
@@ -767,6 +967,16 @@ export function setupTotalWar(deps) {
       socket.emit("twMe", { code: S.code, token: st.token, pid: st.pid });
       touch(S);
     };
+    // a practice war: one student against the Bot Commander, with bot allies
+    socket.on("twPractice", ({ name, char } = {}) => {
+      const S = createSession();
+      Object.assign(S.settings, { botCommander: true, botPartners: true, commander: "The Bot Commander", turns: 8, target: 12 });
+      S.practice = true;
+      const st = addStudent(S, name || "You"); if (CHAR_IDS.has(char)) st.char = char;
+      st.ready = true; addBotPair(S); addBotPair(S);
+      startGame(S);
+      enter(S, st);
+    });
     socket.on("twJoin", ({ code, name } = {}) => {
       const S = sessions.get(String(code || "").trim().toUpperCase());
       if (!S) return fail("No war with that code. Check the code on the board.");
@@ -803,6 +1013,8 @@ export function setupTotalWar(deps) {
       if (st.own && st.own.startedAt === startedAt) return answerOwn(S, st, c);
       battleAnswer(S, st, c);
     }));
+    socket.on("twAction", asStudent((S, st, act) => chooseAction(S, st, act)));
+    socket.on("twBuy", asStudent((S, st, { item }) => buy(S, st, item)));
     socket.on("twVote", asStudent((S, st, { to }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return vote(S, p.id, to === "stay" ? "stay" : +to); }));
     socket.on("twEndMove", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return vote(S, p.id, "stay"); }));
     socket.on("twJoinBand", asStudent((S, st, { bandId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return joinBand(S, p.id, bandId); }));

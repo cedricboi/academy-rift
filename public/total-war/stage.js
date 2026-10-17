@@ -219,13 +219,15 @@ export function createStage(host, { mode = 'pair' } = {}) {
 
   async function strike(h, target, dmg, half) {
     const cfg = h.cfg, homeX = h.x;
-    const reach = target.x - 150 * (cfg.dash || 1) - (cfg.dash ? 0 : 0);
+    // stop just short of the monster's body, whatever the sizes, so the blow lands on it (not in front or behind)
+    const gap = 62 * target.s + 44 * h.s;
+    const reach = target.x - gap;
     h.moving = true;
-    if (cfg.dash) await tween(h, 'x', homeX + (reach - homeX) * cfg.dash, 260);
+    if (cfg.dash && reach > homeX) await tween(h, 'x', homeX + (reach - homeX) * cfg.dash, 260);
     const n = sheetFor(h.L, cfg.strike)?.n || 12;
     const hitAt = Math.min(cfg.hit, n - 2);
     await play(h, cfg.strike, 15, { [hitAt]: () => {
-      burst(cfg.fx, target.x - 6, floorY(target) - 80 * target.s, half ? 0.9 : 1.25, true, 560);
+      burst(cfg.fx, target.x, floorY(target) - 78 * target.s, half ? 0.9 : 1.25, true, 560);
       target.flash = 1; shake = 260; num(`-${dmg}`, target.x, floorY(target) - 170 * target.s, '#ffd36b', true);
     } });
     if (cfg.dash) await tween(h, 'x', homeX, 300);

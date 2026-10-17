@@ -48,6 +48,12 @@
           <label class="field">Questions each<select id="setTarget"></select></label>
         </div>
         <p class="hint">The Crimson Warlord comes out once the gate is broken and 80% of the class have answered the "questions each" number. You can also release him yourself.</p>
+        <div class="eyebrow" style="margin-top:6px">BOTS</div>
+        <div class="bot-row">
+          <label class="tog"><input type="checkbox" id="setBotCmd"><span><b>Bot Commander</b><small>A bot leads the Crimson Host for you: the class plays against it.</small></span></label>
+          <label class="tog"><input type="checkbox" id="setBotPartners"><span><b>Bot partners</b><small>A student with no partner gets a bot fighter beside them.</small></span></label>
+          <div class="bot-btns"><button class="btn" type="button" id="addBots">+ Add a bot pair</button><button class="btn" type="button" id="removeBots">Remove bot pairs</button></div>
+        </div>
         <div class="eyebrow" style="margin-top:6px">THE CLASS <span id="classCount"></span></div>
         <div id="roster" class="roster"></div>
         <p class="hint" id="rosterHint">Students pair themselves up on their iPads. Tap two unpaired names here to pair them yourself. Anyone without a partner marches alone.</p>
@@ -72,6 +78,8 @@
     </div>
   </header>
   <div id="mapHost"></div>
+  <div id="guide" class="guide"></div>
+  <section id="orderAsk" class="panel red order-ask hidden"></section>
   <button id="classChip" class="class-chip" type="button"></button>
   <div id="battles" class="battle-list"></div>
   <section id="stackPanel" class="panel red stack-panel hidden"></section>
