@@ -163,7 +163,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     cancelAnimationFrame(raf); drawRiders();
   }
 
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null }) {
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [] }) {
     if (focusNode !== focus) { focus = focusNode; fit(); }
     // roads of the chosen step, and (for the teacher) where marching units are heading
     const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
@@ -215,6 +215,12 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
         html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}${badge}${us.some((u) => u.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? 'Crimson warband' : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
     }
     // Crystal banners: one per warband
+    // stops the class has secured: its standard flies there
+    for (const n of state.rally || []) list.push({ key: `rally${n}`, kind: 'rally', ref: n, node: n, small: true, label: `${NODES[n].name}: rally point`,
+      html: `<span class="cloth crystal-std">${CRYSTAL}</span><span class="pole"></span><span class="tag">Secured</span>` });
+    // the enemy your company lost to, and how wounded it still is
+    if (wounded) list.push({ key: 'wounded', kind: 'wounded', ref: 'wounded', node: wounded.node, small: true, label: 'Wounded enemy',
+      html: `<span class="cloth wound">${SWORDS}</span><span class="pole"></span><span class="tag">Wounded · ${wounded.pct}% left</span>` });
     // where the Crimson Host was last seen (it may have moved since)
     for (const g of lastSeen) list.push({ key: `seen${g.id}`, kind: 'seen', ref: g.id, node: g.node, small: true, dim: true, label: `Last seen: ${UNITS[g.type]?.name}`,
       html: `<span class="cloth"><img src="${sprite(g.type)}" alt=""></span><span class="pole"></span><span class="tag">Last seen · turn ${g.turn}</span>` });
@@ -225,13 +231,19 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       const lead = b.pairs[0]; if (!lead) continue;
       const isMine = mine && b.id === mine;
       const hp = Math.min(...b.pairs.map((p) => (p.hp ?? 10) / (p.maxHp || 10)));
-      list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}`, label: `Pair ${lead.no}`,
+      list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}` || highlight.includes(b.id), label: `Pair ${lead.no}`,
         html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i><span class="pole"></span><span class="tag">${isMine ? (b.pairs.length > 1 ? 'Your warband' : 'You') : b.pairs.length > 1 ? 'Warband' : `Pair ${lead.no}`}</span>${isMine && status ? `<span class="status">${esc(status)}</span>` : ''}` });
     }
     placeBanners(list);
     setRiders(state.riders || [], state.serverNow, state.me?.pid || null);
   }
-  return { render, fit, setBottom };
+  function pulse(node, label) {
+    const n = NODES[node]; if (!n) return;
+    const el = document.createElement('div'); el.className = 'tw-pulse'; el.style.left = `${n.x}px`; el.style.top = `${n.y}px`;
+    el.innerHTML = `<i></i><i></i><i></i>${label ? `<b>${esc(label)}</b>` : ''}`;
+    riderLayer.appendChild(el); setTimeout(() => el.remove(), 3600);
+  }
+  return { render, fit, setBottom, pulse };
 }
 
 // The roads a marching unit will take to its target (fewest roads), as points

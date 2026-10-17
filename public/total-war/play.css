@@ -494,3 +494,16 @@
 .act-bar .ab-step{white-space:normal}
 .tw-pip{transition:top .3s ease}
 .tw-pip.low{top:auto;bottom:12px}
+
+/* a camp secured */
+.secured{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:40;min-width:300px;padding:12px 20px;text-align:center;background:#0b1a1fee;border:3px solid #7ff3e4;box-shadow:0 0 0 2px #000,0 0 30px #7ff3e466;pointer-events:none}
+.secured.show{animation:securedIn 5.2s ease forwards}
+@keyframes securedIn{0%{opacity:0;transform:translate(-50%,-10px)}8%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+.secured h3{margin:2px 0;font:700 22px "Rift Pixel";color:#bff5e0}.secured p{margin:0;font:500 15px "Rift Body";color:#e9e2d2}.secured small{display:block;margin-top:4px;font:700 12px "Rift Body";color:var(--gold)}
+/* the campaign replay on the end screen */
+.story-map{position:relative;margin:8px 0 10px;border:2px solid #d8bd80;box-shadow:0 0 0 2px #000}
+.story-map img{display:block;width:100%;filter:brightness(.75)}
+.story-map i{position:absolute;transform:translate(-50%,-50%) scale(0);width:26px;height:26px;border-radius:50%;background:var(--gold);color:#1a1408;font:700 13px "Rift Pixel";font-style:normal;display:grid;place-items:center;box-shadow:0 0 0 2px #000,0 0 14px var(--gold);animation:storyPin .5s ease-out forwards}
+@keyframes storyPin{to{transform:translate(-50%,-50%) scale(1)}}
+.story li{opacity:0;animation:storyLine .5s ease-out forwards}
+@keyframes storyLine{from{opacity:0;transform:translateX(-8px)}to{opacity:1}}

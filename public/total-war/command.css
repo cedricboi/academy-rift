@@ -113,3 +113,6 @@
 .g-council b{font:700 13px "Rift Pixel";color:var(--gold);letter-spacing:1px}
 .g-council .btn{min-height:34px;padding:0 10px;font-size:12px}
 .g-idle{margin-left:8px;padding:6px 10px;background:#3a2a10;border:2px solid #f2c46a;color:#ffe9b0;font:700 12px "Rift Body";cursor:pointer;box-shadow:0 0 0 2px #000}
+.story-map{position:relative;margin:8px 0 10px;border:2px solid #d8bd80}
+.story-map img{display:block;width:100%;filter:brightness(.75)}
+.story-map i{position:absolute;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:var(--gold);color:#1a1408;font:700 12px "Rift Pixel";font-style:normal;display:grid;place-items:center;box-shadow:0 0 0 2px #000}

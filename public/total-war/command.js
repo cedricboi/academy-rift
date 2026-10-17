@@ -246,7 +246,7 @@ function render() {
     end.classList.remove('hidden');
     setHTML(end, `<div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? 'Your Warlord has fallen' : H.endedBy === 'ward' ? 'You broke the Academy Ward' : 'Your fortress stands'}</h1>
       <table><tr><th>Student</th><th>Pair</th><th>Answered</th><th>Right</th></tr>${[...H.students].sort((a, b) => b.answered - a.answered).map((s) => `<tr><td>${esc(s.name)}</td><td>${s.pairNo || ''}</td><td>${s.answered}</td><td>${s.answered ? Math.round((s.correct / s.answered) * 100) : 0}%</td></tr>`).join('')}</table>
-      ${H.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div><ol>${H.story.map((e) => `<li><small>Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
+      ${H.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div><div class="story-map"><img src="art/moonveil-map.webp" alt="">${H.story.map((e, i) => e.node == null ? '' : `<i style="left:${(NODES[e.node].x / 14.4).toFixed(2)}%;top:${(NODES[e.node].y / 9).toFixed(2)}%">${i + 1}</i>`).join('')}</div><ol>${H.story.map((e) => `<li><small>Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
       <button class="btn crimson" type="button" onclick="localStorage.removeItem('${SAVE}');location.reload()">Start a new war</button>`);
   }
 }

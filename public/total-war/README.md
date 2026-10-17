@@ -86,6 +86,22 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 Each banner shows its status beside it and on the action bar (planning, agreeing, committed, marching, enemy
 encountered, holding, recovering), and a small HP bar.
 
+## After a fight on the march
+
+- When an enemy (or an ambush) interrupts a route and the company wins, it gets 15 seconds to choose: **CARRY ON**
+  along the rest of its route (with the AP it has left) or **STAY HERE**. It never carries on by itself, and the turn
+  waits for that choice.
+- After a defeat, the next War Council marks the wounded enemy on the map ("Wounded · 40% left") and makes the
+  friendly companies the beaten company could reach and join glow.
+
+## Victories change the map
+
+- A stop the class holds as a rally point flies the class's standard ("Secured").
+- Beating a jungle camp sends a pulse out from it, and a message says what changed, for how many turns, and who
+  secured it ("Moonwell secured · Stronger War Cries · 2 turns left · Secured by Kuro's company"). The buff chips show
+  the turns left.
+- The end screen replays the campaign on the map: each moment of the story is pinned where it happened, in order.
+
 ## HP, food and recovery
 
 - A pair has 10 HP (shown ×100 in battle). It **does not come back after a battle**: a warband fights with the HP its

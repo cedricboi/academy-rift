@@ -177,3 +177,15 @@ button:disabled{cursor:default}
 .tw-banner .status{margin-top:2px;padding:1px 6px;background:#0b1a1fe6;border:1px solid var(--gold);font:700 11px "Rift Body";color:#ffe9b0;white-space:nowrap}
 .tw-banner.marching .cloth{animation:sway .45s ease-in-out infinite alternate}
 @keyframes sway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+
+.tw-banner.rally .crystal-std{background:#1d5d58;display:grid;place-items:center}
+.tw-banner.rally .tag{color:#bff5e0;font-size:10px}
+.tw-banner.wounded .wound{background:#5a1724;display:grid;place-items:center;color:#ffd0d6;animation:woundPulse 1.2s ease-in-out infinite alternate}
+.tw-banner.wounded .tag{color:#ffb3bd}
+@keyframes woundPulse{to{box-shadow:0 0 14px #ff5a6e}}
+.tw-pulse{position:absolute;transform:translate(-50%,-50%) scale(var(--inv,1));pointer-events:none;z-index:6}
+.tw-pulse i{position:absolute;left:-30px;top:-30px;width:60px;height:60px;border-radius:50%;border:4px solid #7ff3e4;animation:pulseOut 1.8s ease-out forwards;opacity:0}
+.tw-pulse i:nth-child(2){animation-delay:.4s}.tw-pulse i:nth-child(3){animation-delay:.8s}
+@keyframes pulseOut{0%{transform:scale(.4);opacity:1}100%{transform:scale(4.5);opacity:0}}
+.tw-pulse b{position:absolute;left:50%;top:-64px;transform:translateX(-50%);padding:4px 10px;background:#0b1a1fee;border:2px solid #7ff3e4;color:#bff5e0;font:700 14px "Rift Pixel";white-space:nowrap;animation:pulseTag 3.6s ease forwards}
+@keyframes pulseTag{0%{opacity:0;transform:translate(-50%,8px)}10%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}

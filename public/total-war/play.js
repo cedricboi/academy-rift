@@ -123,9 +123,10 @@ $('endTurnBtn').addEventListener('click', (e) => {
   if (a === 'propose' && draft?.length > 1) socket.emit('twRoute', { route: draft });
   else if (a === 'hold') { draft = null; socket.emit('twRoute', { hold: true }); }
   else if (a === 'support') socket.emit('twSupport', { battleId: e.currentTarget.dataset.battle });
+  else if (a === 'resume') socket.emit('twResume', { go: true });
   render();
 });
-$('abHold').addEventListener('click', () => { draft = null; socket.emit('twRoute', { hold: true }); render(); });
+$('abHold').addEventListener('click', () => { draft = null; if (myBand()?.status === 'resume') socket.emit('twResume', { go: false }); else socket.emit('twRoute', { hold: true }); render(); });
 $('abSub').addEventListener('click', (e) => { const b = e.target.closest('[data-agree]'); if (b) { draft = null; socket.emit('twAgree', { pairId: b.dataset.agree }); } });
 $('leaveBandBtn').addEventListener('click', () => socket.emit('twLeaveBand'));
 $('abJoin').addEventListener('click', (e) => { const id = e.currentTarget.dataset.band; if (id) socket.emit('twJoinBand', { bandId: id }); });
@@ -149,7 +150,7 @@ function render() {
   $('phaseTitle').textContent = phase === 'crimson' ? `${boss()} is moving` : phase === 'crystal' ? 'Your move' : phase === 'battles' ? 'The last battles' : 'The war is over';
   $('phaseClock').classList.toggle('red', phase === 'crimson');
   $('enemyName').textContent = `${boss()}, Crimson Commander`;
-  setHTML($('buffs'), S.buffs.map((b) => { const c = Object.values(CAMPS).find((x) => x.buff === b.key); return c ? `<span class="buff">${esc(c.buffName)}: ${esc(c.buffText)}</span>` : ''; }).join(''));
+  setHTML($('buffs'), S.buffs.map((b) => { const c = Object.values(CAMPS).find((x) => x.buff === b.key); return c ? `<span class="buff">${esc(c.buffName)}: ${esc(c.buffText)} · ${b.left} turn${b.left === 1 ? '' : 's'}</span>` : ''; }).join(''));
 
   // map: in the War Council, the stops your warband can reach this move, your route, and your classmates' routes
   const planning = isCouncil() && band && !band.battle;
@@ -166,7 +167,11 @@ function render() {
   trackLastSeen();
   map.render({ state: S, mine: band?.id, focusNode: band?.node ?? null, options, selected, route: shown?.length > 1 ? lineOf(shown) : null,
     friends, ghost: shown?.length > 1 && band?.status !== 'marching' ? { node: shown.at(-1), char: S.me.char } : null,
-    lastSeen: [...lastSeen.values()].filter((g) => !S.units.some((u) => u.id === g.id)), status: band ? STATUS_TXT(band) : null });
+    lastSeen: [...lastSeen.values()].filter((g) => !S.units.some((u) => u.id === g.id)), status: band ? STATUS_TXT(band) : null,
+    // after a defeat: the wounded enemy, and friendly companies the company could reach and join
+    wounded: planning && band.lastDefeatAt ? band.lastDefeatAt : null,
+    highlight: planning && band.lastDefeatAt ? S.bands.filter((b) => b.id !== band.id && reach.has(b.node)).map((b) => b.id) : [] });
+  announceBuffs();
 
   // ribbon: only for alarms (the Academy under attack, or a siege unit you can see within one march of it)
   const siege = S.units.some((u) => u.node === HOME && !u.battle);
@@ -224,6 +229,10 @@ function renderActBar(band) {
       sub = (band.lastDefeat ? `${esc(band.lastDefeat)} Regroup for another attack, or join your allies. ` : '') + (others.length ? others.map(([pid, r]) => proposalBtn(band, pid, r)).join(' ') : `Tap a glowing stop to plan your route, or hold here. Council ends in ${left}.`);
       holdOn = true;
     }
+  } else if (band.status === 'resume' && band.rest?.length) {
+    step = `You won! Carry on to ${nodeName(band.rest.at(-1))}?`;
+    sub = `The rest of your route: ${band.rest.map((n) => esc(nodeName(n))).join(' → ')}. Decide in <b data-until="${band.resumeUntil}">${gameSecondsLeft(band.resumeUntil)}</b>s, or you stay here.`;
+    act = ['resume', 'CARRY ON']; holdOn = true;
   } else if (S.phase === 'crystal' && S.stage === 'march') {
     step = STATUS_TXT(band); sub = band.status === 'marching' ? `Next stop ${nodeName(band.path[0])}.` : band.status === 'interrupted' ? 'Enemy encountered. The route is paused.' : 'Waiting for the other banners to arrive.';
   } else { step = fight ? 'Battles are being fought' : 'The turn is ending'; sub = 'The next turn starts when they end.'; }
@@ -233,7 +242,8 @@ function renderActBar(band) {
   setHTML($('abStep'), esc(step)); setHTML($('abSub'), sub); setHTML($('abMp'), mp);
   end.classList.toggle('hidden', !act);
   if (act) { end.dataset.act = act[0]; end.textContent = act[1]; }
-  hold.classList.toggle('hidden', !holdOn || !isCouncil());
+  hold.classList.toggle('hidden', !holdOn || !(isCouncil() || band.status === 'resume'));
+  hold.textContent = band.status === 'resume' ? 'STAY HERE' : 'HOLD HERE';
   // another banner on this stop: join them as a warband
   const other = S.bands.find((b) => b.id !== band.id && b.node === band.node && !b.battle);
   const join = $('abJoin');
@@ -308,8 +318,25 @@ function proposalBtn(band, pid, r) {
 const STATUS_TXT = (b) => ({
   planning: 'Planning: choose a destination', agreeing: 'Agreeing on a route', committed: Array.isArray(b.plan) ? `Committed · ${routeCost(b.plan)} AP` : 'Holding this move',
   marching: b.path?.length ? `Marching · next stop ${nodeName(b.path[0])}` : 'Marching', interrupted: 'Enemy encountered · route paused', holding: `Holding ${nodeName(b.node)}`,
-  arrived: `Arrived at ${nodeName(b.node)}`, battle: 'In battle', quiz: 'Answering questions', recovering: 'Recovering at a rally point', waiting: 'Waiting',
+  arrived: `Arrived at ${nodeName(b.node)}`, resume: 'Won · carry on or stay?', battle: 'In battle', quiz: 'Answering questions', recovering: 'Recovering at a rally point', waiting: 'Waiting',
 })[b.status] || '';
+// a jungle camp beaten: its location pulses, and a short message says what changed and who did it
+const knownBuffs = new Set(); let buffsPrimed = false;
+function announceBuffs() {
+  for (const b of S.buffs || []) {
+    const key = `${b.key}:${b.at || 0}`;
+    if (knownBuffs.has(key)) continue;
+    knownBuffs.add(key);
+    if (!buffsPrimed) continue;
+    const c = Object.values(CAMPS).find((x) => x.buff === b.key); if (!c) continue;
+    if (b.node != null) map.pulse(b.node, `${c.name.split(' ')[0]} secured`);
+    const box = $('secured');
+    setHTML(box, `<div class="eyebrow">${esc(nodeName(b.node ?? 0).toUpperCase())} SECURED</div><h3>${esc(c.buffName)}</h3><p>${esc(c.buffText)} · ${b.left} turn${b.left === 1 ? '' : 's'} left</p>${b.by ? `<small>Secured by ${esc(b.by)}</small>` : ''}`);
+    box.classList.remove('hidden', 'show'); void box.offsetWidth; box.classList.add('show');
+    clearTimeout(announceBuffs._t); announceBuffs._t = setTimeout(() => box.classList.add('hidden'), 5200);
+  }
+  buffsPrimed = true;
+}
 // where scouted Crimson units were last seen, kept until that stop is seen again
 const lastSeen = new Map();
 function trackLastSeen() {
@@ -538,7 +565,9 @@ function renderEnding() {
   const ward = S.endedBy === 'ward';
   setHTML(box, `<div class="eyebrow">${won ? 'VICTORY' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${won ? 'The Crimson Warlord has fallen' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
     <p>${won ? `Your class broke the gate and beat ${esc(boss())}'s champion. Well fought, commanders.` : ward ? `${esc(boss())}'s army broke into the Crystal Academy. Next time, leave defenders at home.` : `${esc(boss())} held the fortress this time. Next time, march together sooner.`}</p>
-    ${S.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div><ol>${S.story.map((e) => `<li><small>Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}`);
+    ${S.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div>
+      <div class="story-map"><img src="art/moonveil-map.webp" alt="">${S.story.map((e, i) => e.node == null ? '' : `<i style="left:${(NODES[e.node].x / 14.4).toFixed(2)}%;top:${(NODES[e.node].y / 9).toFixed(2)}%;animation-delay:${0.5 + i * 0.7}s">${i + 1}</i>`).join('')}</div>
+      <ol>${S.story.map((e, i) => `<li style="animation-delay:${0.5 + i * 0.7}s"><small>${e.node == null ? '' : `${i + 1} · `}Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}`);
   box.classList.remove('hidden');
 }
 

@@ -18,7 +18,7 @@ const token = (n = 18) => randomBytes(n).toString("base64url");
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const rightAnswers = (q) => (Array.isArray(q.answers) && q.answers.length ? q.answers : [q.answer]);
 const qKey = (q) => q.qid || q.q;
-const QUIZ_SECONDS = 90, ORDER_SECONDS = 30, COOK_SECONDS = 3, RIDE_STEP = 3, ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
+const RESUME_SECONDS = 15, QUIZ_SECONDS = 90, ORDER_SECONDS = 30, COOK_SECONDS = 3, RIDE_STEP = 3, ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
 
 export function setupTotalWar(deps) {
   const { io, filterQuestions, normalizeTopics, topicLabel, CHARACTERS, bank, isRoomCode = () => false } = deps;
@@ -66,7 +66,7 @@ export function setupTotalWar(deps) {
   const pairLabel = (S, p) => `Pair ${p.no}`;
   // a warband by its lead fighter, for the class feed and the end-of-war story
   const company = (S, b) => { const p = b && S.pairs.get(b.pairs[0]); const c = p && CHARACTERS.find((x) => x.id === p.char); return `${c ? c.name.split(" ")[0] : `Pair ${p?.no ?? "?"}`}'s company`; };
-  const story = (S, text) => { (S.story ||= []).push({ turn: S.turn, text }); if (S.story.length > 40) S.story.shift(); };
+  const story = (S, text, node = null) => { (S.story ||= []).push({ turn: S.turn, text, node }); if (S.story.length > 40) S.story.shift(); };
   const isConnected = (s) => !!s && (s.bot || s.sockets.size > 0);
   // the class preparation target (questions each): met, it weakens the Warlord for the final battle
   const prepMet = (S) => {
@@ -276,7 +276,7 @@ export function setupTotalWar(deps) {
     for (const b of S.bands.values()) {
       if (b.battle) continue;
       const plan = b.plan || majorityPlan(S, b);
-      b.plan = plan; b.held = plan === "hold"; b.lastDefeat = null;
+      b.plan = plan; b.held = plan === "hold"; b.lastDefeat = null; b.lastDefeatAt = null; b.rest = null; b.resumeUntil = 0;
       b.path = plan === "hold" || routeError(S, b, plan) ? [] : plan.slice(1);
       b.nextAt = now + ms(0.5 + 0.15 * k++); b.done = !b.path.length;
       if (b.held) say(S, `${b.pairs.map((x) => pairLabel(S, S.pairs.get(x))).join(", ")} ${b.pairs.length > 1 ? "hold" : "holds"} at ${nodeName(b.node)}.`, "crystal");
@@ -292,7 +292,7 @@ export function setupTotalWar(deps) {
     if (B) { joinBattle(S, b.pairs[0], B.id); return true; }
     b.node = to; S.dirty = true;
     if (OUTPOSTS.includes(to) && !unitsAt(S, to).length && !S.rally.has(to)) { S.rally.add(to); say(S, `The class has taken ${nodeName(to)}. It is now a rally point.`, "crystal"); }
-    if (to === WATCHTOWER && !unitsAt(S, to).length && !S.towerTaken) { S.towerTaken = true; story(S, `${company(S, b)} climbed the watchtower and scouted the Crimson Host.`); }
+    if (to === WATCHTOWER && !unitsAt(S, to).length && !S.towerTaken) { S.towerTaken = true; story(S, `${company(S, b)} climbed the watchtower and scouted the Crimson Host.`, to); }
     if (to === FORTRESS) { startBattle(S, b, S.gate.broken ? "boss" : "gate"); return true; }
     if (unitsAt(S, to).length) { startBattle(S, b, "host"); return true; }
     if (campAt(S, to)) { startBattle(S, b, "camp"); return true; }
@@ -303,13 +303,25 @@ export function setupTotalWar(deps) {
       if (!b.path?.length || b.battle || now < b.nextAt) continue;
       const to = b.path.shift();
       const stopped = stepTo(S, b, to);
-      if (stopped && b.path.length) { b.interrupted = true; say(S, `Enemy encountered at ${nodeName(b.node)}. The route is paused.`, "battle"); }
+      if (stopped && b.path.length) { b.interrupted = true; b.rest = b.path.slice(); say(S, `Enemy encountered at ${nodeName(b.node)}. The route is paused.`, "battle"); }
       if (stopped) b.path = [];
       b.nextAt = now + ms(MARCH_STEP);
       if (!b.path.length) { b.done = true; b.arrived = !b.battle; }
     }
   }
+  function resumeRoute(S, pairId, go) {
+    const b = bandOf(S, pairId); if (!b) return "You are not on the map yet.";
+    if (!b.rest?.length || !b.resumeUntil || Date.now() >= b.resumeUntil) return "There is no route to carry on.";
+    if (b.battle) return "Your warband is in a battle.";
+    b.resumeUntil = 0;
+    if (!go) { b.rest = null; b.interrupted = false; b.held = true; S.dirty = true; return null; }
+    const err = routeError(S, b, [b.node, ...b.rest]); if (err) { b.rest = null; return err; }
+    b.path = b.rest; b.rest = null; b.interrupted = false; b.nextAt = Date.now() + ms(0.4); b.done = false;
+    say(S, `${company(S, b)} carries on towards ${nodeName(b.path.at(-1))}.`, "crystal");
+    S.dirty = true; return null;
+  }
   function bandStatus(S, b) {
+    if (!b.battle && b.resumeUntil && Date.now() < b.resumeUntil) return "resume";
     if (b.battle) return "battle";
     if (S.phase === "crystal" && S.stage === "quiz") return "quiz";
     if (S.phase === "crystal" && S.stage === "council") return b.plan ? "committed" : Object.keys(b.props || {}).length ? "agreeing" : "planning";
@@ -357,14 +369,18 @@ export function setupTotalWar(deps) {
       if (S.launch || now >= S.phaseEndsAt || (agreed && now >= S.moveStartedAt + ms(STRATEGY_SECONDS))) startMarch(S);
     } else if (S.phase === "crystal") {
       marchTick(S, now);
-      const marching = [...S.bands.values()].some((b) => b.path?.length && !b.battle);
+      const marching = [...S.bands.values()].some((b) => (b.path?.length && !b.battle) || (b.resumeUntil && now < b.resumeUntil));
       const riding = [...S.riders.values()].some((r) => r.status !== "delivered");
       if ((!marching && !riding) || now >= S.phaseEndsAt) {
-        for (const b of S.bands.values()) { if (!b.battle) b.done = true; b.path = null; }
+        for (const b of S.bands.values()) { if (!b.battle) b.done = true; if (!b.resumeUntil || now >= b.resumeUntil) b.path = null; }
         if (S.battles.size) { S.phase = "battles"; S.dirty = true; say(S, "The last battles of this turn are being fought."); }
         else startCrimson(S);
       }
-    } else if (S.phase === "battles" && !S.battles.size) startCrimson(S);
+    } else if (S.phase === "battles") {
+      marchTick(S, now);
+      const busy = [...S.bands.values()].some((b) => (b.path?.length && !b.battle) || (b.resumeUntil && now < b.resumeUntil));
+      if (!S.battles.size && !busy) startCrimson(S);
+    }
     flush(S);
   }
 
@@ -775,7 +791,7 @@ export function setupTotalWar(deps) {
     for (const b of bands) b.battle = null;
     if (B.kind === "defend") {
       const attackers = B.attackers.map((x) => S.units.get(x)).filter(Boolean);
-      if (won) { say(S, `${bands.map((b) => company(S, b)).join(" and ")} repelled the attack at ${nodeName(n)}!${n === HOME ? " Ward protected." : ""}`, "crystal"); story(S, `${bands.map((b) => company(S, b)).join(" and ")} repelled ${n === HOME ? "the siege at the Academy Ward" : `the Crimson attack at ${nodeName(n)}`}.`); }
+      if (won) { say(S, `${bands.map((b) => company(S, b)).join(" and ")} repelled the attack at ${nodeName(n)}!${n === HOME ? " Ward protected." : ""}`, "crystal"); story(S, `${bands.map((b) => company(S, b)).join(" and ")} repelled ${n === HOME ? "the siege at the Academy Ward" : `the Crimson attack at ${nodeName(n)}`}.`, n); }
       else if (B.resolve <= 0 || !bands.length) {
         const back = fallbackFor(S, n);
         for (const b of bands) b.node = back;
@@ -791,18 +807,21 @@ export function setupTotalWar(deps) {
     if (won) {
       if (B.kind === "camp") {
         const c = CAMPS[n]; S.camps[n] = { alive: false, hp: c.hp, returnTurn: S.turn + CAMP_RETURN_TURNS };
-        story(S, `${bands.map((b) => company(S, b)).join(" and ")} beat ${c.name}: ${c.buffName || c.buffText}.`);
+        story(S, `${bands.map((b) => company(S, b)).join(" and ")} beat ${c.name}: ${c.buffName || c.buffText}.`, n);
+        (S.buffBy ||= {})[c.buff] = { by: bands.map((b) => company(S, b)).join(" and "), node: n, at: Date.now() };
         if (c.buff === "siege") { S.gate.hp = Math.max(1, S.gate.hp - 15); say(S, `${c.name} is beaten! ${c.buffText}.`, "crystal"); }
         else { S.buffs[c.buff] = S.turn + c.turns - (S.phase === "crimson" ? 1 : 0); say(S, `${c.name} is beaten! ${c.buffName}: ${c.buffText}.`, "crystal"); }
       } else if (B.kind === "gate") {
         S.gate.broken = true; S.gate.hp = 0;
         say(S, `The gate of the Crimson Fortress is broken! The Warlord appears. Assemble for the final assault!`, "big");
-        story(S, `${bands.length > 1 ? `${bands.length} companies united to break` : `${company(S, bands[0])} broke`} the gate of the Crimson Fortress.`);
+        story(S, `${bands.length > 1 ? `${bands.length} companies united to break` : `${company(S, bands[0])} broke`} the gate of the Crimson Fortress.`, n);
       } else if (B.kind === "boss") {
-        S.warlord.hp = 0; story(S, `${bands.map((b) => company(S, b)).join(" and ")} defeated the Crimson Warlord.`);
+        S.warlord.hp = 0; story(S, `${bands.map((b) => company(S, b)).join(" and ")} defeated the Crimson Warlord.`, n);
         return endGame(S, "crystal");
-      } else { say(S, `The Crimson Host at ${nodeName(n)} is defeated!`, "crystal"); if (B.ambush) story(S, `${company(S, bands[0])} survived an ambush at ${nodeName(n)} and won.`); }
-      for (const b of bands) b.lastDefeat = null;
+      } else { say(S, `The Crimson Host at ${nodeName(n)} is defeated!`, "crystal"); if (B.ambush) story(S, `${company(S, bands[0])} survived an ambush at ${nodeName(n)} and won.`, n); }
+      for (const b of bands) { b.lastDefeat = null; b.lastDefeatAt = null; }
+      // a march that a fight interrupted can carry on, if the company chooses to (never by itself)
+      for (const b of bands) if (b.rest?.length && S.phase !== "crimson") { const r = [b.node, ...b.rest]; b.rest = routeError(S, b, r) ? null : b.rest; if (b.rest) b.resumeUntil = Date.now() + ms(RESUME_SECONDS); }
       // the fortress itself cannot be stood in: winners at the gate fall back one road to rest
       if (n === FORTRESS) { const back = neighbours(FORTRESS).find((m) => !unitsAt(S, m).length) ?? fallbackFor(S, n); for (const b of bands) b.node = back; }
       else if (OUTPOSTS.includes(n) && !S.rally.has(n)) { S.rally.add(n); say(S, `The class has taken ${nodeName(n)}. It is now a rally point.`, "crystal"); }
@@ -812,7 +831,7 @@ export function setupTotalWar(deps) {
       if (B.kind === "camp") S.camps[n].hp = CAMPS[n].hp;
       say(S, `The battle at ${nodeName(n)} is lost. The warband falls back to ${nodeName(back)}.`, "crimson");
       const left = B.enemies.reduce((a, e) => a + Math.max(0, e.hp), 0), all = B.enemies.reduce((a, e) => a + e.max, 0) || 1;
-      for (const b of bands) b.lastDefeat = `The enemy at ${nodeName(n)} is wounded: ${Math.round((left / all) * 100)}% of its strength is left.`;
+      for (const b of bands) { b.lastDefeat = `The enemy at ${nodeName(n)} is wounded: ${Math.round((left / all) * 100)}% of its strength is left.`; b.lastDefeatAt = { node: n, pct: Math.round((left / all) * 100) }; b.rest = null; }
     }
     S.dirty = true;
   }
@@ -1066,7 +1085,7 @@ export function setupTotalWar(deps) {
   const bandView = (S, b) => ({
     id: b.id, node: b.node, mp: b.mp, done: b.done, battle: b.battle, voting: !!b.voteOpenedAt,
     voteEnds: b.voteOpenedAt ? b.voteOpenedAt + ms(VOTE_SECONDS) : 0,
-    status: bandStatus(S, b), lastDefeat: b.lastDefeat || null, plan: b.plan || null, props: b.props || {}, path: b.path || null, interrupted: !!b.interrupted,
+    status: bandStatus(S, b), lastDefeat: b.lastDefeat || null, lastDefeatAt: b.lastDefeatAt || null, rest: b.resumeUntil ? b.rest : null, resumeUntil: b.resumeUntil || 0, plan: b.plan || null, props: b.props || {}, path: b.path || null, interrupted: !!b.interrupted,
     pairs: b.pairs.map((x) => { const p = S.pairs.get(x); return p ? { id: p.id, no: p.no, char: p.char, names: p.members.map((m) => S.students.get(m)?.name || "?"), vote: b.votes[x] ?? null, hp: +(+(p.hp ?? RESOLVE_PER_PAIR)).toFixed(1), maxHp: p.maxHp || RESOLVE_PER_PAIR } : null; }).filter(Boolean),
   });
   const unitView = (u, full) => ({ id: u.id, type: u.type, node: u.node, hp: u.hp, max: u.max, moved: u.moved, speed: UNITS[u.type].speed,
@@ -1116,7 +1135,7 @@ export function setupTotalWar(deps) {
       warlord: { hp: S.warlord.hp, max: S.warlord.max, out: S.gate.broken && warlordReady(S), weakened: !!S.warlord.weakened },
       prep: { target: S.settings.target, pct: S.settings.warlordPct, met: prepMet(S), lock: !!S.settings.warlordLock,
         done: [...S.students.values()].filter((st) => st.answered >= S.settings.target).length, of: S.students.size },
-      buffs: Object.entries(S.buffs).filter(([, until]) => until >= S.turn).map(([k, until]) => ({ key: k, until })),
+      buffs: Object.entries(S.buffs).filter(([, until]) => until >= S.turn).map(([k, until]) => ({ key: k, until, left: until - S.turn + 1, ...(S.buffBy?.[k] || {}) })),
       rally: [...S.rally], visible: visible ? [...visible] : null,
       battles: [...S.battles.values()].filter((B) => sees(B.node)).map((B) => battleView(S, B)),
       log: S.log.slice(-8), story: S.status === "ended" ? (S.story || []) : undefined, riders: [...S.riders.values()].map((r) => riderView(S, r)),
@@ -1294,6 +1313,7 @@ export function setupTotalWar(deps) {
     socket.on("twVote", asStudent((S, st, { to }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; const b = bandOf(S, p.id); return proposeRoute(S, p.id, to === "stay" ? "hold" : [b?.node, +to]); }));
     socket.on("twRoute", asStudent((S, st, { route, hold }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return proposeRoute(S, p.id, hold ? "hold" : (Array.isArray(route) ? route.map((n) => Math.round(+n)) : null)); }));
     socket.on("twAgree", asStudent((S, st, { pairId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; const b = bandOf(S, p.id); const r = b?.props?.[pairId]; if (r === undefined) return "That route is no longer on the table."; return proposeRoute(S, p.id, r); }));
+    socket.on("twResume", asStudent((S, st, { go }) => { const p = pairOf(S, st.pid); if (!p) return; return resumeRoute(S, p.id, !!go); }));
     socket.on("twSupport", asStudent((S, st, { battleId }) => { const B = S.battles.get(battleId); if (!B || B.status === "over") return "That battle is over."; if (bandOf(S, st.pairId)?.battle) return "You are in a battle yourself."; st.supporting = battleId; S.dirty = true; }));
     socket.on("twEndMove", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return proposeRoute(S, p.id, "hold"); }));
     socket.on("twJoinBand", asStudent((S, st, { bandId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return joinBand(S, p.id, bandId); }));
