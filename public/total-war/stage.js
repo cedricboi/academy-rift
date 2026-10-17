@@ -194,14 +194,14 @@ export function createStage(host, { mode = 'pair' } = {}) {
     for (const e of fx) drawFx(e);
     for (const n of nums) {
       const p = n.age / 1300; g.save(); g.globalAlpha = p < 0.8 ? 1 : 1 - (p - 0.8) * 5;
-      g.font = `700 ${n.big ? 34 : 22}px Cinzel, Georgia, serif`; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = '#0b0d1a'; g.fillStyle = n.col;
+      g.font = `700 ${n.big ? 34 : 22}px "Rift Pixel", Georgia, serif`; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = '#0b0d1a'; g.fillStyle = n.col;
       const y = n.y - 40 * ease(Math.min(1, p * 2)); g.strokeText(n.t, n.x, y); g.fillText(n.t, n.x, y); g.restore();
     }
     if (caption) {
       const p = caption.age; g.save(); g.globalAlpha = Math.min(1, p / 150);
       const room = W - 2 * Math.min(200, W * 0.24);              // keep clear of the enemy list in the corner
-      let fs = 20; g.font = `700 ${fs}px Cinzel, Georgia, serif`;
-      while (fs > 12 && g.measureText(caption.t).width + 32 > room) { fs--; g.font = `700 ${fs}px Cinzel, Georgia, serif`; }
+      let fs = 20; g.font = `700 ${fs}px "Rift Pixel", Georgia, serif`;
+      while (fs > 12 && g.measureText(caption.t).width + 32 > room) { fs--; g.font = `700 ${fs}px "Rift Pixel", Georgia, serif`; }
       g.textAlign = 'center';
       const w = g.measureText(caption.t).width + 32, x = W / 2;
       g.fillStyle = 'rgba(8,10,20,.8)'; g.fillRect(x - w / 2, 12, w, fs + 16);

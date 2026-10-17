@@ -7,20 +7,20 @@ img{-webkit-user-drag:none;-webkit-touch-callout:none}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 button:disabled{cursor:default}
 .hidden{display:none!important}
-.eyebrow{font:700 11px "Rift Display",system-ui;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
-.cinzel{font-family:Cinzel,serif;font-weight:700}
+.eyebrow{font:700 11px "Rift Pixel",system-ui;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+.cinzel{font-family:"Rift Pixel";font-weight:700}
 .btn{min-height:44px;padding:0 18px;border:1px solid #a89c6e88;background:transparent;color:#dfd1aa;font:600 14px "Rift Body"}
-.btn.primary{background:var(--gold);border:0;color:#13202a;font:700 14px "Rift Display";letter-spacing:1px;text-transform:uppercase}
-.btn.cyan{background:var(--cyan);border:0;color:#0b1a1e;font:700 14px "Rift Display";letter-spacing:1px;text-transform:uppercase}
-.btn.crimson{background:var(--crimson);border:0;color:#1a0f15;font:700 14px "Rift Display";letter-spacing:1px;text-transform:uppercase}
+.btn.primary{background:var(--gold);border:0;color:#13202a;font:700 14px "Rift Pixel";letter-spacing:1px;text-transform:uppercase}
+.btn.cyan{background:var(--cyan);border:0;color:#0b1a1e;font:700 14px "Rift Pixel";letter-spacing:1px;text-transform:uppercase}
+.btn.crimson{background:var(--crimson);border:0;color:#1a0f15;font:700 14px "Rift Pixel";letter-spacing:1px;text-transform:uppercase}
 .btn:disabled{opacity:.45}
 .screen{position:fixed;inset:0;display:flex;flex-direction:column}
 
 /* ---------- top bar ---------- */
 .topbar{height:64px;flex:0 0 64px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;background:#0b141c;border-bottom:1px solid var(--line);z-index:5}
 .topbar .t-left{display:flex;align-items:center;gap:14px;min-width:0}
-.topbar .t-title{font:700 19px Cinzel;color:var(--ivory);white-space:nowrap}
-.clock{padding:6px 12px;border:1px solid #81e3d466;font:700 16px "Rift Display";color:var(--cyan);font-variant-numeric:tabular-nums}
+.topbar .t-title{font:700 19px "Rift Pixel";color:var(--ivory);white-space:nowrap}
+.clock{padding:6px 12px;border:1px solid #81e3d466;font:700 16px "Rift Pixel";color:var(--cyan);font-variant-numeric:tabular-nums}
 .clock.red{border-color:#ff8a9866;color:var(--rose)}
 .mission{text-align:center}
 .mission div{font:600 15px "Rift Body"}
@@ -40,12 +40,12 @@ button:disabled{cursor:default}
 .road-line{fill:none;stroke:var(--gold2);stroke-width:3.5;stroke-dasharray:10 9;stroke-linecap:round;stroke-linejoin:round;animation:march 1s linear infinite}
 @keyframes march{to{stroke-dashoffset:-19}}
 .twmap-stops,.twmap-banners{position:absolute;inset:0;pointer-events:none}
-.tw-stop{pointer-events:auto;position:absolute;transform:translate(-50%,-50%) scale(max(1,calc(var(--inv,1) * 1.18)));width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;background:#0b2a2cdd;border:3px solid var(--cyan);box-shadow:0 0 14px var(--cyan);font:700 18px "Rift Display";color:var(--ivory);z-index:3;animation:pulse 1.4s ease-in-out infinite}
+.tw-stop{pointer-events:auto;position:absolute;transform:translate(-50%,-50%) scale(max(1,calc(var(--inv,1) * 1.18)));width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;background:#0b2a2cdd;border:3px solid var(--cyan);box-shadow:0 0 14px var(--cyan);font:700 18px "Rift Pixel";color:var(--ivory);z-index:3;animation:pulse 1.4s ease-in-out infinite}
 .tw-stop.attack{background:#3a1219dd;border-color:#ff5a6e;box-shadow:0 0 14px #ff5a6e;color:#ffd0d6}
 .tw-stop.attack.mine{color:#1a1408}
 .tw-stop svg,.tw-banner .fight svg{display:block}
 .tw-stop.mine{background:var(--gold);border-color:#fff3c9;color:#1a1408;box-shadow:0 0 20px var(--gold)}
-.tw-stop .vote-count{position:absolute;right:-8px;top:-8px;min-width:22px;height:22px;border-radius:11px;background:var(--ivory);color:var(--ink);font:700 12px "Rift Display";font-style:normal;display:flex;align-items:center;justify-content:center}
+.tw-stop .vote-count{position:absolute;right:-8px;top:-8px;min-width:22px;height:22px;border-radius:11px;background:var(--ivory);color:var(--ink);font:700 12px "Rift Pixel";font-style:normal;display:flex;align-items:center;justify-content:center}
 @keyframes pulse{50%{box-shadow:0 0 26px var(--cyan),0 0 0 6px #81e3d433}}
 .tw-stop.attack{animation-name:pulseRed}
 @keyframes pulseRed{50%{box-shadow:0 0 26px #ff5a6e,0 0 0 6px #ff5a6e33}}
@@ -55,7 +55,7 @@ button:disabled{cursor:default}
 .tw-banner .cloth img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%);display:block}
 .tw-banner .pole{width:3px;height:12px;background:#c9ab6c}
 .tw-banner .tag{font:600 12px "Rift Body";color:var(--ivory);white-space:nowrap;text-shadow:0 1px 3px #000,0 0 8px #000}
-.tw-banner .count{position:absolute;right:12px;top:-8px;min-width:24px;height:24px;border-radius:12px;background:var(--crimson);color:#1a0f15;font:700 13px "Rift Display";font-style:normal;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #000;z-index:2}
+.tw-banner .count{position:absolute;right:12px;top:-8px;min-width:24px;height:24px;border-radius:12px;background:var(--crimson);color:#1a0f15;font:700 13px "Rift Pixel";font-style:normal;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #000;z-index:2}
 .tw-banner .count.light{background:var(--ivory);color:var(--ink)}
 .tw-banner .fight{position:absolute;left:10px;top:-8px;width:26px;height:26px;border-radius:13px;background:#ff5a6e;color:#1a0f15;font-style:normal;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2;animation:pulse2 .9s infinite}
 @keyframes pulse2{50%{transform:scale(1.2)}}
@@ -74,7 +74,7 @@ button:disabled{cursor:default}
 .tw-banner.academy .cloth svg{margin-top:6px}
 .tw-banner.academy .pole{background:#4d8f86;height:8px;width:2px}
 .tw-banner.academy .tag{color:var(--cyan);font-size:11px}
-.tw-banner .order{position:absolute;left:50%;bottom:-15px;transform:translateX(-50%);padding:1px 6px;background:#1a0f15;border:1px solid #ff8a9a;color:#ffd0d6;font:700 9px "Rift Display";letter-spacing:1px;font-style:normal;white-space:nowrap;z-index:2}
+.tw-banner .order{position:absolute;left:50%;bottom:-15px;transform:translateX(-50%);padding:1px 6px;background:#1a0f15;border:1px solid #ff8a9a;color:#ffd0d6;font:700 9px "Rift Pixel";letter-spacing:1px;font-style:normal;white-space:nowrap;z-index:2}
 .tw-banner .order.hold{border-color:var(--gold);color:var(--gold)}
 .tw-stop.target{width:34px;height:34px;background:#3a1219cc;border-color:#ff8a9a;box-shadow:0 0 10px #ff5a6e;color:#ffd0d6;font-size:15px;animation:none}
 .twmap-roads .road-march{fill:none;stroke:#ff5a6e;stroke-width:5;stroke-dasharray:4 12;stroke-linecap:round;opacity:.8}
@@ -131,3 +131,16 @@ button:disabled{cursor:default}
 .field input,.field select{min-height:48px;padding:0 14px;background:#0b161e;border:1px solid #d8bd8066;color:var(--ivory);font:600 18px "Rift Body"}
 .center-screen{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto;background:radial-gradient(ellipse at 50% 20%,#1c2d3a,#0b141c 70%)}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);padding:12px 18px;background:#2a1219;border:1px solid var(--crimson);color:#ffd0d6;font:600 14px "Rift Body";z-index:50;max-width:90vw}
+
+/* ---------- pixel-art UI kit (PixelLab frames and plates; drawn crisp at any size) ---------- */
+.px-gold,.panel,.lb-card,.qd-head,.act-bar,.help-box,.pick-box,.info-card{border:14px solid transparent!important;border-image:url(ui/panel_gold.png) 36 fill / 24px / 10px stretch!important;background:none!important;image-rendering:pixelated;box-shadow:none!important}
+.px-iron,.panel.red,.join-plate,.lb-status,.join-prompt{border:14px solid transparent!important;border-image:url(ui/panel_iron.png) 30 fill / 26px / 12px stretch!important;background:none!important;image-rendering:pixelated;box-shadow:none!important}
+.gold-btn,.ab-end,.btn.primary{border:0!important;border-image:url(ui/btn_gold.png) 14 40 fill / 14px 40px stretch!important;background:none!important;box-shadow:none!important;image-rendering:pixelated;color:#3a2410!important;font-family:"Rift Pixel",sans-serif!important;font-weight:700;text-shadow:0 1px 0 #fff3c9;filter:drop-shadow(0 3px 0 #000a)}
+.gold-btn.on,.ab-end.voted{filter:hue-rotate(115deg) saturate(.85) drop-shadow(0 3px 0 #000a)}
+.btn,.ghost-btn,.help-btn{border:2px solid #d8bd80!important;background:#0d0b12!important;box-shadow:0 0 0 2px #000,inset 0 0 0 2px #00000099!important;border-radius:0!important;font-family:"Rift Pixel",sans-serif;font-weight:700;letter-spacing:1px}
+.btn.crimson,.btn.cyan{border-color:transparent!important;box-shadow:0 0 0 2px #000,inset 0 -3px 0 #00000055!important}
+.btn.crimson{background:#c43a52!important;color:#fff0f2!important}.btn.cyan{background:#3cc9b8!important;color:#06201c!important}
+.code-chip,.clock{border-radius:0;box-shadow:0 0 0 2px #000,inset 0 0 0 2px #00000099}
+.clock{display:inline-flex;align-items:center;gap:6px;font-family:"Rift Pixel",sans-serif}
+.clock::before{content:"";width:12px;height:18px;background:url(ui/ico_time.png) center/contain no-repeat;image-rendering:pixelated}
+.topbar{border-bottom:0!important;box-shadow:0 3px 0 #6b1e28,0 6px 0 #000;background:linear-gradient(#14101a,#0b0a10)!important}
