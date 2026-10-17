@@ -104,7 +104,8 @@ export function createStage(host, { mode = 'pair' } = {}) {
   function loop(t) {
     const dt = Math.min(60, t - last); last = t;
     step(dt); draw();
-    raf = document.hidden ? 0 : requestAnimationFrame(loop);
+    const shown = cv.offsetParent !== null;                // the battle screen is closed: stop drawing until it opens again
+    raf = document.hidden || (!shown && !playing) ? 0 : requestAnimationFrame(loop);
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
   const later = (ms) => new Promise((res) => waits.push({ t: ms, res }));

@@ -63,7 +63,7 @@ while (bots.some((b) => !b.me || !b.state)) await sleep(20);
 check(host.students?.length === N || (await sleep(200), host.students.length === N), `${N} students joined`);
 
 // pairs: S1+S2, S3+S4 ... (the last one alone if odd)
-for (let i = 0; i + 1 < N; i += 2) { bots[i].sock.emit("twPartner", { pid: bots[i + 1].me.pid }); await sleep(30); }
+for (let i = 0; i + 1 < N; i += 2) { bots[i].sock.emit("twPartner", { pid: bots[i + 1].me.pid }); await sleep(30); bots[i + 1].sock.emit("twPartner", { pid: bots[i].me.pid }); await sleep(30); }
 await sleep(200);
 const chars = ["kuro", "jun", "emi", "hina", "raiden", "saya", "nao", "taiga", "mina", "renji"];
 for (let i = 0; i < N; i += 2) bots[i].sock.emit("twStandard", { char: chars[(i / 2) % 10] });

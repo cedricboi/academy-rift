@@ -1,7 +1,7 @@
 // A Total War demo: creates a war on a running server, fills it with bot students who play, and lets
 // real browsers join too (a student at /total-war/?code=..., the teacher at /total-war/command.html).
 //   node tools/tw-demo.mjs [url] [bots] [--auto-teacher] [--start-after=seconds]
-// The war starts once at least one real student has picked a standard, or after --start-after seconds.
+// The war starts once every real student has tapped I'M READY, or after --start-after seconds.
 import { io } from "socket.io-client";
 import { writeFileSync } from "fs";
 import { QUESTIONS } from "../questions.js";
@@ -38,7 +38,7 @@ for (let i = 0; i < BOTS; i++) {
 await Promise.all(bots.map((b) => new Promise((r) => b.sock.on("connect", r))));
 for (const b of bots) b.sock.emit("twJoin", { code: hosting.code, name: names[b.i % names.length] });
 while (bots.some((b) => !b.me)) await sleep(20);
-for (let i = 0; i + 1 < BOTS; i += 2) { bots[i].sock.emit("twPartner", { pid: bots[i + 1].me.pid }); await sleep(40); }
+for (let i = 0; i + 1 < BOTS; i += 2) { bots[i].sock.emit("twPartner", { pid: bots[i + 1].me.pid }); await sleep(40); bots[i + 1].sock.emit("twPartner", { pid: bots[i].me.pid }); await sleep(40); }
 await sleep(200);
 for (let i = 0; i < BOTS; i += 2) bots[i].sock.emit("twStandard", { char: chars[(i / 2) % chars.length] });
 
@@ -46,7 +46,7 @@ const t0 = Date.now();
 while (!joinCode) {
   await sleep(250);
   const humans = (host?.students || []).filter((s) => !bots.some((b) => b.me.pid === s.pid));
-  const ready = humans.length && host.pairs.some((p) => p.char && p.names.some((n) => humans.some((h) => h.name === n)));
+  const ready = humans.length && humans.every((h) => h.ready);     // the war starts once every real student taps I'M READY
   if (ready || (startAfter && Date.now() - t0 > startAfter * 1000)) break;
 }
 await sleep(500);

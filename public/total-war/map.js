@@ -23,19 +23,52 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
   const map = host.querySelector('.twmap'), roads = host.querySelector('.twmap-roads'), fog = host.querySelector('.twmap-fog');
   const stops = host.querySelector('.twmap-stops'), layer = host.querySelector('.twmap-banners');
   const els = new Map();       // banner key -> element, kept so banners glide when they move
-  let scale = 1;
+  let scale = 1, panX = 0, panY = 0, focus = null, focusedOn = null, userPanned = false;
+  let lastFog = null;
+  function setBottom(b) { if (b !== bottom) { bottom = b; fit(); } }
+  // Landscape: the whole map fits. Portrait (a tall iPad): the map fills the height and slides sideways,
+  // following your banner, and can be dragged with a finger.
   function fit() {
     const r = host.getBoundingClientRect();
     const room = Math.max(100, r.height - top - bottom);           // keep space for banners above the top stops (and any bottom bar)
-    scale = Math.min(r.width / W, room / H) || 1;
-    map.style.transform = `translate(${(r.width - W * scale) / 2}px, ${top + (room - H * scale) / 2}px) scale(${scale})`;
+    const contain = Math.min(r.width / W, room / H) || 1;
+    const tall = r.height > r.width * 1.05;
+    scale = tall ? Math.min(Math.max(contain, (room / H) * 0.92), 1.2) : contain;
+    const mw = W * scale, mh = H * scale;
+    let x, y;
+    if (mw <= r.width) x = (r.width - mw) / 2;
+    else {
+      if (focus != null && (!userPanned || focusedOn !== focus)) { panX = r.width / 2 - NODES[focus].x * scale; focusedOn = focus; userPanned = false; }
+      else if (focus == null && !userPanned) panX = (r.width - mw) / 2;
+      x = Math.min(0, Math.max(r.width - mw, panX)); panX = x;
+    }
+    if (mh <= room) y = top + (room - mh) / 2;
+    else { y = Math.min(top, Math.max(top + room - mh, panY)); panY = y; }
+    map.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    map.style.setProperty('--inv', String(1 / (scale || 1)));             // stops and banners keep a finger-sized size at any zoom
   }
   new ResizeObserver(fit).observe(host); fit();
+  // dragging the map (a drag never counts as a tap on a stop or banner)
+  let drag = null, dragged = false;
+  host.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, px: panX, py: panY }; dragged = false; });
+  host.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!dragged && Math.hypot(dx, dy) < 10) return;
+    dragged = true; userPanned = true; panX = drag.px + dx; panY = drag.py + dy; fit();
+  });
+  const endDrag = () => { drag = null; };
+  host.addEventListener('pointerup', endDrag); host.addEventListener('pointercancel', endDrag);
+  host.addEventListener('click', (e) => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
+  host.style.touchAction = 'none';
 
   stops.addEventListener('click', (e) => { const b = e.target.closest('[data-stop]'); if (b && onStop) onStop(+b.dataset.stop); });
   layer.addEventListener('click', (e) => { const b = e.target.closest('[data-key]'); if (b && onBanner) onBanner(b.dataset.kind, b.dataset.ref, +b.dataset.node); });
 
   function drawFog(visible) {
+    const key = visible ? visible.join(',') : '';
+    if (key === lastFog) return;                                     // redraw the fog only when what the class sees changes
+    lastFog = key;
     const g = fog.getContext('2d'); g.clearRect(0, 0, fog.width, fog.height);
     if (!visible) return;
     g.fillStyle = 'rgba(6,10,18,0.74)'; g.fillRect(0, 0, fog.width, fog.height);
@@ -69,7 +102,8 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     for (const [k, el] of els) if (!seen.has(k)) { el.remove(); els.delete(k); }
   }
 
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [] }) {
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null }) {
+    if (focusNode !== focus) { focus = focusNode; fit(); }
     // roads of the chosen step, and (for the teacher) where marching units are heading
     const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
     const roadHtml = (route ? `<polyline points="${pts(route)}" class="road-shadow"/><polyline points="${pts(route)}" class="road-line"/>` : '')
@@ -120,7 +154,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     }
     placeBanners(list);
   }
-  return { render, fit };
+  return { render, fit, setBottom };
 }
 
 // The roads a marching unit will take to its target (fewest roads), as points

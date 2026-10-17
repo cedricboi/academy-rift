@@ -1,7 +1,9 @@
 /* Academy Rift: Total War — shared look for the student, teacher and projector screens */
 :root{color-scheme:dark;--ink:#0b141c;--panel:#0f1d27;--panel2:#13232e;--gold:#d8bd80;--gold2:#e9cf8e;--ivory:#f2ead6;--muted:#a9bcb9;--cyan:#81e3d4;--crimson:#e0566e;--rose:#ff8a98;--line:#d8bd8044}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--ink);color:var(--ivory);font-family:"Rift Body",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overflow:hidden}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--ivory);font-family:"Rift Body",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overflow:hidden;overscroll-behavior:none;-webkit-text-size-adjust:100%;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+input,textarea{-webkit-user-select:text;user-select:text}
+img{-webkit-user-drag:none;-webkit-touch-callout:none}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 button:disabled{cursor:default}
 .hidden{display:none!important}
@@ -38,13 +40,16 @@ button:disabled{cursor:default}
 .road-line{fill:none;stroke:var(--gold2);stroke-width:3.5;stroke-dasharray:10 9;stroke-linecap:round;stroke-linejoin:round;animation:march 1s linear infinite}
 @keyframes march{to{stroke-dashoffset:-19}}
 .twmap-stops,.twmap-banners{position:absolute;inset:0;pointer-events:none}
-.tw-stop{pointer-events:auto;position:absolute;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;background:#0b2a2cdd;border:3px solid var(--cyan);box-shadow:0 0 14px var(--cyan);font:700 18px "Rift Display";color:var(--ivory);z-index:3;animation:pulse 1.4s ease-in-out infinite}
+.tw-stop{pointer-events:auto;position:absolute;transform:translate(-50%,-50%) scale(max(1,calc(var(--inv,1) * 1.18)));width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;background:#0b2a2cdd;border:3px solid var(--cyan);box-shadow:0 0 14px var(--cyan);font:700 18px "Rift Display";color:var(--ivory);z-index:3;animation:pulse 1.4s ease-in-out infinite}
 .tw-stop.attack{background:#3a1219dd;border-color:#ff5a6e;box-shadow:0 0 14px #ff5a6e;color:#ffd0d6}
 .tw-stop.attack.mine{color:#1a1408}
 .tw-stop svg,.tw-banner .fight svg{display:block}
 .tw-stop.mine{background:var(--gold);border-color:#fff3c9;color:#1a1408;box-shadow:0 0 20px var(--gold)}
 .tw-stop .vote-count{position:absolute;right:-8px;top:-8px;min-width:22px;height:22px;border-radius:11px;background:var(--ivory);color:var(--ink);font:700 12px "Rift Display";font-style:normal;display:flex;align-items:center;justify-content:center}
-@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes pulse{50%{box-shadow:0 0 26px var(--cyan),0 0 0 6px #81e3d433}}
+.tw-stop.attack{animation-name:pulseRed}
+@keyframes pulseRed{50%{box-shadow:0 0 26px #ff5a6e,0 0 0 6px #ff5a6e33}}
+.tw-stop.mine{animation:none}
 .tw-banner{pointer-events:auto;position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;width:96px;padding:0;background:none;border:0;transition:left .7s ease-in-out,top .7s ease-in-out;z-index:2}
 .tw-banner .cloth{position:relative;width:52px;height:68px;padding:3px;background:var(--c,#d8bd80);clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%);filter:drop-shadow(0 6px 6px #000)}
 .tw-banner .cloth img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%);display:block}

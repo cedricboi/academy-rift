@@ -121,7 +121,7 @@ export function setupTotalWar(deps) {
   function addStudent(S, name) {
     const st = {
       pid: id(S, "s"), token: token(), name: String(name || "").trim().slice(0, 20) || "Student",
-      sockets: new Set(), pairId: null, answered: 0, correct: 0, wrong: 0, musterThisTurn: 0,
+      sockets: new Set(), pairId: null, want: null, char: null, ready: false, answered: 0, correct: 0, wrong: 0, musterThisTurn: 0,
       seen: new Set(), redo: [], history: [], own: null, lastAnswerAt: 0, joinedAt: Date.now(),
     };
     S.students.set(st.pid, st);
@@ -129,9 +129,9 @@ export function setupTotalWar(deps) {
   }
   function makePair(S, members) {
     const no = Math.max(0, ...[...S.pairs.values()].map((p) => p.no)) + 1;
-    const p = { id: id(S, "p"), no, members, char: null, bank: 0 };
+    const p = { id: id(S, "p"), no, members, char: members.map((m) => S.students.get(m)?.char).find(Boolean) || null, bank: 0 };
     S.pairs.set(p.id, p);
-    for (const m of members) S.students.get(m).pairId = p.id;
+    for (const m of members) { const st = S.students.get(m); st.pairId = p.id; st.want = null; }
     if (S.status === "playing") placePair(S, p);
     return p;
   }
@@ -673,8 +673,9 @@ export function setupTotalWar(deps) {
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
     v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: p?.char || null, bandId: b?.id || null,
       partner: p ? p.members.filter((m) => m !== st.pid).map((m) => S.students.get(m)?.name) : [], bank: p?.bank || 0 };
+    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready;
     v.lobby = S.status === "lobby" ? {
-      students: [...S.students.values()].map((s) => ({ pid: s.pid, name: s.name, pairId: s.pairId })),
+      students: [...S.students.values()].map((s) => ({ pid: s.pid, name: s.name, pairId: s.pairId, want: s.want, ready: s.ready, connected: isConnected(s) })),
       pairs: [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name) })),
     } : null;
     if (st.own) v.own = { kind: st.own.kind, battleId: st.own.battleId, retry: st.own.retry, result: st.own.result,
@@ -691,7 +692,7 @@ export function setupTotalWar(deps) {
     v.warlordReady = warlordReady(S);
     const now = Date.now();
     v.students = [...S.students.values()].map((s) => ({
-      pid: s.pid, name: s.name, pairNo: pairOf(S, s.pid)?.no || null, answered: s.answered, correct: s.correct,
+      pid: s.pid, name: s.name, pairNo: pairOf(S, s.pid)?.no || null, answered: s.answered, correct: s.correct, ready: s.ready,
       connected: isConnected(s), quiet: S.status === "playing" && isConnected(s) && now - Math.max(s.lastAnswerAt, S.phaseStartedAt) > ms(90),
     }));
     v.pairs = [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name) }));
@@ -769,7 +770,9 @@ export function setupTotalWar(deps) {
       const S = sessions.get(String(code || "").trim().toUpperCase());
       if (!S) return fail("No war with that code. Check the code on the board.");
       if (S.status === "ended") return fail("That war has ended.");
-      enter(S, addStudent(S, name));
+      const st = addStudent(S, name);
+      if (S.status === "playing") makePair(S, [st.pid]);          // a latecomer marches alone from the Academy
+      enter(S, st);
     });
     socket.on("twRejoin", ({ code, token: tok } = {}) => {
       const S = sessions.get(String(code || "").toUpperCase());
@@ -777,20 +780,23 @@ export function setupTotalWar(deps) {
       if (!st) return socket.emit("twGone");
       enter(S, st);
     });
+    // partners: tap a classmate; when they tap you too, you are a pair (as in the class tournament)
     socket.on("twPartner", asStudent((S, st, { pid }) => {
       if (S.status !== "lobby") return "Pairs are fixed once the war starts.";
+      if (pid == null) { st.want = null; return; }
       const other = S.students.get(pid); if (!other || other === st) return "Pick a classmate.";
       if (other.pairId) return `${other.name} already has a partner.`;
       if (st.pairId) dissolvePair(S, S.pairs.get(st.pairId));
-      makePair(S, [st.pid, other.pid]);
+      st.want = st.want === other.pid ? null : other.pid;
+      if (st.want && other.want === st.pid) makePair(S, [other.pid, st.pid]);
     }));
     socket.on("twLeavePair", asStudent((S, st) => { if (S.status !== "lobby" || !st.pairId) return; dissolvePair(S, S.pairs.get(st.pairId)); }));
     socket.on("twStandard", asStudent((S, st, { char }) => {
       if (!CHAR_IDS.has(char)) return "Pick one of the ten standards.";
-      let p = pairOf(S, st.pid);
-      if (!p) { if (S.status !== "lobby") return "Join a pair first."; p = makePair(S, [st.pid]); }
-      p.char = char;
+      st.char = char;
+      const p = pairOf(S, st.pid); if (p) p.char = char;
     }));
+    socket.on("twReady", asStudent((S, st, { ready }) => { if (S.status !== "lobby") return; st.ready = ready !== false; }));
     socket.on("twAnswer", asStudent((S, st, { chosen, startedAt }) => {
       const c = Math.round(+chosen); if (!(c >= 0 && c < 6)) return;
       if (st.own && st.own.startedAt === startedAt) return answerOwn(S, st, c);
