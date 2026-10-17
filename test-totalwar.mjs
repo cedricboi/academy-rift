@@ -17,7 +17,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const fails = [];
 const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log("  ✗ " + msg); } else console.log("  ✓ " + msg); };
 
-const server = spawn(process.execPath, ["server.js"], { env: { ...process.env, PORT: String(PORT), RIFT_SPEED: String(SPEED) }, stdio: ["ignore", "pipe", "inherit"] });
+const server = spawn(process.execPath, ["server.js"], { env: { ...process.env, PORT: String(PORT), RIFT_SPEED: String(SPEED), RIFT_TEST_CHEAT: "1" }, stdio: ["ignore", "pipe", "inherit"] });
 const done = (code) => { server.kill(); process.exit(code); };
 setTimeout(() => { console.log("TIMEOUT"); summary(); done(1); }, 420000);
 process.on("uncaughtException", (e) => { console.log("ERROR", e); done(1); });
@@ -233,8 +233,9 @@ async function wardWar() {
   const s = io(URL, { transports: ["websocket"] }); let st = null;
   s.on("twState", (v) => { st = v;
     const q = v.own && !v.own.result ? v.own.question : v.myBattle?.question && !v.myBattle.question.mine ? v.myBattle.question : null;
-    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
     const band = v.bands?.find((x) => x.id === v.me.bandId);
+    if (v.phase === "crystal" && band?.done && !v.me.orderDone && s.ordered !== v.turn) { s.ordered = v.turn; s.emit("twOrderDone"); }
     if (v.phase === "crystal" && band && !band.done && !band.battle) { const key = `${v.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; s.emit("twVote", { to: ({ [HOME]: 1, 1: 10, 10: 12 })[band.node] ?? "stay" }); } }
   });
   await new Promise((r) => s.on("connect", r)); s.emit("twJoin", { code: hs.code, name: "Lone" });
@@ -242,7 +243,7 @@ async function wardWar() {
   s.emit("twStandard", { char: "jun" }); await sleep(100);
   t.emit("twStart");
   let lastT = 0, ordered = false;
-  const until = Date.now() + 150000;
+  const until = Date.now() + 220000;
   while (H2.status !== "ended" && Date.now() < until) {
     await sleep(40);
     if (H2.phase === "crimson" && H2.turn !== lastT) {
@@ -256,7 +257,7 @@ async function wardWar() {
   }
   check(ordered && H2.units.some((u) => u.order?.kind === "march" || u.node === HOME), "march orders move units across the map by themselves");
   check(H2.ward.hp < H2.ward.max, `the Crimson Host battered the Academy Ward (${H2.ward.hp}/${H2.ward.max})`);
-  check(H2.status === "ended" && H2.winner === "crimson" && H2.endedBy === "ward", `breaking the Academy Ward wins the war for the Crimson Host (turn ${H2.turn})`);
+  check(H2.status === "ended" && H2.winner === "crimson" && H2.endedBy === "ward", `breaking the Academy Ward wins the war for the Crimson Host (turn ${H2.turn}, ${H2.status}, ${H2.winner}, ${H2.endedBy}, ward ${H2.ward.hp})`);
   s.disconnect(); t.disconnect();
 }
 // A practice war: one student against the Bot Commander, with bot pairs and a bot partner. Checks skills,
@@ -271,13 +272,15 @@ async function practiceWar() {
     const B = x.myBattle;
     if (B?.round?.action) kinds.add(B.round.action.kind);
     const q = x.own && !x.own.result ? x.own.question : B?.question && !B.question.mine ? B.question : null;
-    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
     if (B?.moves && s.lastMove !== B.choose?.endsAt) {
       s.lastMove = B.choose?.endsAt; const M = B.moves, ok = M.skills.filter((k) => k.ok);
       const act = M.items.length && !usedItem ? (usedItem = true, { kind: "item", item: M.items[0].id }) : M.ult.ready ? { kind: "ult" } : ok.length ? { kind: "skill", index: ok[0].i } : { kind: "strike" };
       s.emit("twAction", act);
     }
-    if (!B && !bought && x.me.coins >= 120) { bought = true; s.emit("twBuy", { item: "bento" }); }
+    const myB = x.bands?.find((b) => b.id === x.me.bandId);
+    if (x.phase === "crimson" && !s.triedEarly) { s.triedEarly = true; s.emit("twBuy", { item: "bento" }); }
+    if (!B && !bought && x.me.coins >= 100 && x.phase === "crystal" && myB?.done && !myB.battle) { bought = true; s.emit("twBuy", { item: "energy" }); }
     const band = x.bands?.find((b) => b.id === x.me.bandId);
     if (x.phase === "crystal" && band && !band.done && !band.battle) { const key = `${x.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const to = stepTowards(band.node, FORTRESS); s.emit("twVote", { to: to ?? "stay" }); } }
   });
@@ -289,9 +292,10 @@ async function practiceWar() {
   check(maxBands >= 3, `the practice war fills up with bot pairs (${maxBands} banners)`);
   check(crimsonTurns >= 2 || v?.status === "ended", `the Bot Commander plays its own turns (${crimsonTurns})`);
   check(kinds.has("skill"), `students can use their Academy Rift skills in battle (moves seen: ${[...kinds].join(", ")})`);
-  check(bought && v.me.bag && (v.me.bag.bento > 0 || usedItem), "coins buy food from Auntie's delivery");
+  check(bought && v.me.bag && (v.me.bag.energy > 0 || usedItem), "coins buy food from Grab-Ma's delivery");
   check(usedItem && kinds.has("item"), "an item from the bag can be used on your turn in battle");
-  const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle/i.test(e));
+  check(errs.some((e) => /Lock in your move first/.test(e)), "Grab-Ma only delivers once your move is locked in");
+  const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle|Lock in your move/i.test(e));
   check(!odd.length, `no unexpected errors in the practice war${odd.length ? ": " + odd.slice(0, 3).join(" | ") : ""}`);
   s.disconnect();
 }

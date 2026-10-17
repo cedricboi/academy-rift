@@ -46,17 +46,26 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   Academy Rift skills. After a right answer on your turn (or a steal), you have 12 seconds to pick a move:
   **Strike**, a **Skill** (costs SP, has cooldowns), the **Ultimate** (when the team's Sync gauge is full) or an
   **Item** from your bag. If time runs out, you strike.
-- Moves play in the Academy Rift battle theatre (`../theatre/engine.js`, via `theatre-tw.js`), with the
-  same animations and effects as the Arena, then the monster hits back. Damage is shown at Arena scale (×100).
+- The fight itself is the **Arena's own battle screen**: `arena-bridge.js` opens the Arena page (`/?tw=1`) in a
+  frame over the map and feeds it the war's battle as an Arena room (your fighter and a classmate against up to two
+  monsters). So the question card, the answer-along strip, the camera zoom onto whoever is moving, the move menu,
+  the skill cards, Ultimate cut-ins and cinematics are the Arena's. After each move the monster hits back in the
+  theatre. Damage is shown at Arena scale (×100). The war page shows the gathering and how the battle ended.
 - Skill kinds: attacks hit harder the stronger the skill; heals restore Resolve; guard blocks the next
   counter; buffs and debuffs weaken the Crimson's next hits. Ultimates: damage (splash), stun (no counter),
   heal (50% Resolve) or shield (blocks the whole counter).
 
-### Auntie's delivery
+### Grab-Ma's delivery
 
-- Auntie Mama is now a travelling merchant on a scooter (`auntie/`). Each right answer earns **10 coins**.
-  Tap the coin chip or **AUNTIE** to order food; it goes into your bag (not during a battle). She rides across
-  the map at the start of every class turn.
+- Auntie Mama is now Grab-Ma, a travelling merchant on a scooter (`auntie/`). Each right answer earns **10 coins**.
+- She only delivers during the class's move, **after a banner has locked in its move**: she rides across the map
+  and **ORDER GRAB-MA** appears. Once every banner has locked in, there are up to 20 seconds to order (or until
+  everyone taps DONE ORDERING) before the Crimson turn. Food goes into your bag and is used on your turn in battle.
+
+### Questions while the Crimson Host moves
+
+- During the Crimson turn (prepare), the question sits in the middle of the screen, as in Academy Rift.
+  During the class's move it docks beside the map, so the map is never covered while students move.
 
 ### Bots and practice
 

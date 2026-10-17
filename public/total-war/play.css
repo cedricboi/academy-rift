@@ -110,7 +110,7 @@
 .q-dock .choice{min-height:60px}
 .q-dock .choice-txt{font-size:clamp(16px,1.8vw,20px)}
 .q-dock .card-clock{width:54px;height:54px;flex-basis:54px;font-size:17px}
-.docked .act-bar{display:none}
+.docked .act-bar .ab-mp{display:none}
 /* the bar along the bottom: what to do now */
 .act-bar{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));min-height:84px;display:flex;align-items:center;gap:14px;padding:10px 12px;background:linear-gradient(#111c27f2,#0b121af2);border:2px solid #d8bd8077;box-shadow:0 10px 30px #000a;z-index:7}
 .ab-band{display:flex;gap:6px;flex:0 0 auto}
@@ -288,3 +288,19 @@
 .si-t b{font:700 15px "Rift Pixel";color:var(--ivory)}.si-t small{font:500 12px "Rift Body";color:#c8bfae}.si-t em{font:700 11px "Rift Pixel";color:#7ff3a4;font-style:normal}
 .shop-item .gold-btn{min-width:96px;height:46px}
 .shop-item .gold-btn:disabled{filter:grayscale(.8) brightness(.7)}
+
+/* ---------- battles on the Academy Rift battle screen (the Arena page in a frame) ---------- */
+.arena-host{position:fixed;inset:0;z-index:60;background:#05030a}
+.arena-host iframe{width:100%;height:100%;border:0;display:block}
+
+/* the question in the middle while the Crimson Host moves (the map stays the same size behind it) */
+.g-main.centred::after{content:"";position:absolute;inset:0;z-index:20;background:#05040ab8;pointer-events:auto}
+.q-dock.centre{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:21;width:min(860px,calc(100% - 32px));max-height:calc(100% - 24px);
+  padding:16px;border:14px solid transparent!important;border-image:url(ui/panel_gold.png) 36 fill / 24px / 10px stretch!important;box-shadow:none!important;background:none;animation:centreIn .25s ease-out}
+@keyframes centreIn{from{transform:translate(-50%,-46%);opacity:0}}
+.q-dock.centre .card-choices,.q-dock.centre .card-choices.long{grid-template-columns:1fr 1fr!important}
+.q-dock.centre .card-q{font-size:clamp(20px,2.6vw,30px)}
+.q-dock.centre .choice{min-height:72px}
+@media (max-aspect-ratio:1/1){.q-dock.centre{max-height:calc(100% - 24px)}.q-dock.centre .card-choices{grid-template-columns:1fr!important}}
+.shop-foot{display:flex;justify-content:flex-end;gap:10px;align-items:center}
+.shop-foot .gold-btn{min-width:230px}

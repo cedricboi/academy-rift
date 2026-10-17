@@ -4,8 +4,11 @@ import { TOPICS, BLOOM_META } from "./data/topics.js";
 import { FOLDERS, DEFAULT_FOLDER, folderOf } from "./data/folders.js";
 import { setupShop, itemIcon } from "./shop.js";
 
-const socket = io();
-let myId = null;
+// Total War opens this page in a frame for its battles (?tw=1): the war page hands it a socket that speaks the Arena's
+// events, so a Total War battle is the Arena's battle screen, with the Crimson Host's monsters on the other side.
+const TW = (() => { try { return new URLSearchParams(location.search).has("tw") && window.parent !== window ? window.parent.twArena || null : null; } catch { return null; } })();
+const socket = TW ? TW.socket : io();
+let myId = TW ? TW.me : null;
 let room = null;
 let inputLocked = false;
 let mySelected = -1;
@@ -66,6 +69,7 @@ const ASSETS = {
   // and every Ultimate breaks it one level further (battle.stageLevel), so all four players see the same scene.
   stages: ["library", "alchemy-lab", "rooftop", "courtyard", "classroom", "hallway"].flatMap((n) => [1, 2, 3, 4, 5].map((l) => `assets/stages/${n}-${l}.webp`)),
 };
+if (TW) ASSETS.stages = TW.stages;
 const stageImg = (stage, level) => (Math.max(0, stage | 0) % 6) * 5 + Math.max(0, Math.min(4, (level || 1) - 1));
 let arenaBg = "", arenaKey = "";
 function setArenaBg(stage, level = 1) {
@@ -127,6 +131,7 @@ function showScreen(id) {
   SCREENS.forEach((s) => $(s).classList.toggle("active", s === id));
   if (id !== "tourney" && shop?.isOpen()) shop.close("battle");   // a battle is starting
   if (id === was || WATCH) return;                // same screen re-render → don't touch music
+  if (TW && id !== "battle") { lobbyBGM.pause(); battleBGM.pause(); return; }
   // music: battle screen uses battleBGM, all others use lobbyBGM. Only (re)start a
   // track if it's actually paused, so re-entering the same screen never restarts it.
   if (id === "battle") {
@@ -148,7 +153,7 @@ function refreshCoins() { const el = $("homeCoins"); if (el) el.textContent = pr
 // the first user gesture, so we (a) try on load, and (b) guarantee it on the very
 // first interaction — i.e. the moment the player clicks "ENTER THE RIFT".
 function startLobbyMusicOnce() {
-  if (WATCH) return;
+  if (WATCH || TW) return;
   if (!$("battle").classList.contains("active") && lobbyBGM.paused) {
     lobbyBGM.play().catch(() => {});
   }
@@ -163,7 +168,7 @@ function startLobbyMusicOnce() {
   window.removeEventListener("pointerdown", startLobbyMusicOnce, true);
   window.removeEventListener("keydown", startLobbyMusicOnce, true);
 }
-document.addEventListener("DOMContentLoaded", () => { if (!WATCH) lobbyBGM.play().catch(() => {}); });
+document.addEventListener("DOMContentLoaded", () => { if (!WATCH && !TW) lobbyBGM.play().catch(() => {}); });
 window.addEventListener("pointerdown", startLobbyMusicOnce, true);
 window.addEventListener("keydown", startLobbyMusicOnce, true);
 
@@ -278,6 +283,7 @@ function blackKnockout(url) {
 function preloadArt(ids) {
   const jobs = [];
   [...new Set(ids)].forEach((id) => {
+    if (isMon(id)) return;
     if (!ARENA[spriteId(id)]) jobs.push(transparentize(ASSETS.idle(id)), blackKnockout(ASSETS.attack(id)));
     const im = new Image(); im.src = encodeURI(ASSETS.ult(id));   // warm cut-in art
   });
@@ -293,6 +299,7 @@ const attackSrc = (id) => artCache[ASSETS.attack(id)] || encodeURI(ASSETS.attack
 const attackPosed = new Set();
 
 function chibiImg(charId, uid) {
+  if (isMon(charId)) return TW.chibi(charId.slice(2));
   const posed = uid && attackPosed.has(uid) ? " posed" : "";
   const id = spriteId(charId, uid), a = ARENA[id], p = POSE[id];
   // Each fighter is one frame-sized box whose background steps through the sheet. (A whole sheet as a sliding <img> made a
@@ -335,6 +342,7 @@ function clearAttackPose(uid) {
 
 // Card portrait — uses the Ultimate Scene splash art, framed to the upper body.
 function thumb(charId) {
+  if (isMon(charId)) return `<img src="${TW.face(charId.slice(2))}" alt="" style="width:100%;height:100%;object-fit:contain;image-rendering:pixelated;background:#1a0b10;" />`;
   const c = CHAR_BY_ID[charId]; if (!c) return "";
   return `<img src="${encodeURI(ASSETS.ult(charId))}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
 }
@@ -481,7 +489,10 @@ if (TH) {
   $("theatre").appendChild(TH.canvas);
   document.addEventListener("pointerdown", () => TH.unlock(), { capture: true });
 }
-const labId = (c) => (c ? LAB[c.charId] : null);
+// a Total War monster is "m:<type>"; the theatre knows it by its type
+const labOf = (charId) => (String(charId || "").startsWith("m:") ? charId.slice(2) : LAB[charId]);
+const isMon = (charId) => String(charId || "").startsWith("m:");
+const labId = (c) => (c ? labOf(c.charId) : null);
 
 // ============================================================
 //  SETTINGS PANEL (top-right gear)
@@ -728,6 +739,7 @@ $("rematchBtn").addEventListener("click", () => {
 //  SOCKET EVENTS
 // ============================================================
 socket.on("connect", () => {
+  if (TW) return;
   myId = socket.id;
   if (WATCH) return socket.emit("tWatch", { code: WATCH.code, matchId: spectating?.matchId || WATCH.matchId });
   // back in a class tournament after a reload or a dropped connection
@@ -782,11 +794,12 @@ function ensureChibisThenRender(combatants) {
   const key = ids.slice().sort().join(",");
   if (key === preppedKey) return;
   preppedKey = key;
-  prepTheatre(ids.map((id) => LAB[id]), stageImg(room?.battle?.stage || 0, room?.battle?.stageLevel || 1));
+  if (TW && TH) for (const c of combatants) if (isMon(c.charId)) TW.register(TH, c.charId.slice(2));
+  prepTheatre(ids.map(labOf), stageImg(room?.battle?.stage || 0, room?.battle?.stageLevel || 1));
   // decode the stage poses and the skill cards now, so the first spotlight and the first skill sheet do not stall
   const dec = (u) => { const im = new Image(); im.src = encodeURI(u); im.decode?.().catch(() => {}); return im; };
   preDecoded.length = 0;
-  for (const id of new Set(ids.map((x) => LAB[x]).flatMap((x) => (x === "E" ? ["E", "EA"] : [x])))) preDecoded.push(dec(`theatre/arena/${id}_pose_ol.webp`), dec(`theatre/arena/${id}.webp`));
+  for (const id of new Set(ids.filter((x) => !isMon(x)).map((x) => LAB[x]).flatMap((x) => (x === "E" ? ["E", "EA"] : [x])))) preDecoded.push(dec(`theatre/arena/${id}_pose_ol.webp`), dec(`theatre/arena/${id}.webp`));
   if (mine) preDecoded.push(dec(ASSETS.skillSheet(mine.charId)));
   preloadArt(ids).then((done) => { if (done.length && room?.status === "battle") renderBattle(); });
 }
@@ -1091,6 +1104,31 @@ function cutIn(uid, name) {
   cutIn._t = setTimeout(() => { ci.classList.add("hidden"); cutIn._busy = false; }, 2000);
 }
 
+let counterOn = false;
+if (TW) {
+  socket.on("twCounter", (o) => { theatreDone = theatreDone.then(() => playCounter(o)); });
+  window.twBusy = () => theatreOn || counterOn;
+  window.twDebug = () => ({ theatreOn, counterOn, held: !!heldRoom, phase: room?.battle?.phase, label: room?.battle?.label, cls: $("arena").className, screen: SCREENS.find((x) => $(x).classList.contains("active")) });
+}
+function playCounter(o) {
+  const b = room?.battle; if (!b) return;
+  const all = b.combatants, me = all.find((c) => c.uid === o.actor) || all.find((c) => c.uid === myId);
+  const mate = all.find((c) => c.team === me?.team && c.uid !== me?.uid && c.alive), foe = all.find((c) => c.uid === o.from) || all.find((c) => c.team !== me?.team && c.alive);
+  if (!me || !foe) return;
+  const stage = b.stage || 0, level = b.stageLevel || 1, cids = [labId(me), labId(mate), labId(foe)];
+  const after = () => { counterOn = false; theatreOn = false; $("arena").classList.remove("theatre-on"); const s = heldRoom; heldRoom = null; if (s) onRoom(s); else { updateBars(); if (room?.status === "battle") renderBattle(); } };
+  if (TH && TH.readyFor(cids, stageImg(stage, level))) {
+    counterOn = theatreOn = true; hideMoves(); updateCamera(); $("arena").classList.add("theatre-on");
+    return TH.counter({ actor: cids[0], ally: cids[1], target: cids[2], stage, level, dmg: o.dmg, blocked: o.blocked, stunned: o.stunned }).then(after);
+  }
+  // no cinematic ready: the monster lunges on the stage
+  const tf = tokenEl(foe.uid); if (tf) { tf.classList.add("attackL"); setTimeout(() => tf.classList.remove("attackL"), 500); }
+  for (const c of [me, mate]) if (c) { const t = tokenEl(c.uid); if (t) { t.classList.add("hurt"); setTimeout(() => t.classList.remove("hurt"), 420); } }
+  if (o.stunned) floatAt(foe.uid, "STUNNED", "weakpop");
+  else { floatAt(me.uid, `-${o.dmg}`, "dmg"); if (o.blocked) floatAt(me.uid, `BLOCKED ${o.blocked}%`, "heal"); SFX.play("hit"); }
+  updateBars();
+  return new Promise((r) => setTimeout(r, 900));
+}
 socket.on("battleEnd", (d) => { if (theatreOn) theatreDone.then(() => battleEnded(d)); else battleEnded(d); });
 function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
   attackPosed.clear();
@@ -1451,8 +1489,8 @@ function hudRowHTML(c, side, acting) {
 function tokenHTML(c, facing, acting, side) {
   const col = fxColor(c.element);
   const posed = attackPosed.has(c.uid) ? " posed" : "";
-  return `<div class="tok ${c.alive?"":"down"} ${acting?"acting":""}${posed}" data-uid="${c.uid}" data-facing="${facing}" data-side="${side}" data-el="${c.element}"
-       style="--glow:${hexRGBA(col,0.8)};--pc:${col};--ef:${col}">
+  return `<div class="tok ${c.alive?"":"down"} ${acting?"acting":""}${posed}${isMon(c.charId) ? " mon" : ""}" data-uid="${c.uid}" data-facing="${facing}" data-side="${side}" data-el="${c.element}"
+       style="--glow:${hexRGBA(col,0.8)};--pc:${col};--ef:${col}${isMon(c.charId) ? `;--flip:${TW.flip(c.charId.slice(2)) ? -1 : 1};--pscale:${TW.size(c.charId.slice(2))}` : ""}">
     <div class="tok-spot"></div>
     <div class="tok-aura"></div>
     ${chibiImg(c.charId, c.uid)}
@@ -1502,7 +1540,7 @@ function renderBattle() {
   setSyncMine(b.sync[myTeam]); setSyncFoe(b.sync[enmTeam]);
   setMatchClock(b.msLeft);
   const rounds = tView?.settings?.rounds, round = tView?.round;
-  $("hudRound").textContent = room.tournament && !spectating && round && rounds ? `ROUND ${round} OF ${rounds}` : "";
+  $("hudRound").textContent = TW ? (b.label || "") : room.tournament && !spectating && round && rounds ? `ROUND ${round} OF ${rounds}` : "";
 
   const cur    = b.combatants.find((c) => c.uid === b.current);
   const myTurn = b.current === myId;

@@ -96,6 +96,7 @@ function init(o = {}) {
   initP = fetch(BASE + 'theatre/manifest.json').then(r => r.json()).then(m => { MAN = m;
     for (const [k, v] of Object.entries(m.FX)) AS.FX[k] = v;
     for (const [cid, anims] of Object.entries(m.chars)) AS[cid] = anims;
+    for (const [id, sh] of Object.entries(MONS)) MAN.chars[id] = sh;          // monsters registered before the manifest arrived
     Object.assign(SND.src, m.sfx); Object.assign(SND.loud, m.loud); img.fx = {}; img.stages = []; });
   return initP;
 }
@@ -161,11 +162,12 @@ function playAction(o) {
 
 // ---------- Total War: the Crimson Host's monsters as targets, and monsters hitting back ----------
 // A monster is registered like a fighter (its PixelLab sheets: idle and atk, 192 px frames, facing left).
+const MONS = {};
 function registerMonster(id, o) {
   if (CH[id]) return;
   const idle = { src: o.idle, n: o.idleN || 8, w: 192, h: 192 }, atk = { src: o.atk, n: o.atkN || 9, w: 192, h: 192 };
   const sheets = { idle, hurt: idle, atk };
-  if (MAN) MAN.chars[id] = sheets; AS[id] = sheets;
+  MONS[id] = sheets; if (MAN) MAN.chars[id] = sheets; AS[id] = sheets;
   CH[id] = { name: (o.name || id).toUpperCase(), monster: true, hit: o.hit || 5, anch: { idle: 96, hurt: 96, atk: 96 },
     hurt: [0, 1, 2, 1, 0].map((f) => Math.min(f, idle.n - 1)), idle: range(0, idle.n - 1), idleMs: 140 };
 }

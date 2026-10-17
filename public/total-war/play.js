@@ -7,6 +7,7 @@ import { BANNERS, bannerFor } from './banners.js';
 import { createStage, enemyName } from './stage.js';
 import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
 import { CHARACTERS, ITEMS } from '../data/characters.js';
+import { createArenaBridge } from './arena-bridge.js';
 
 const socket = io();
 const $ = (id) => document.getElementById(id);
@@ -109,6 +110,9 @@ const bcard = createCard($('bCard'), { onPick: (i, startedAt) => { myPick = i; s
 const stage = createStage($('bStage'), { mode: 'pair' });
 let lastRoundAt = 0, lastBattleId = null, cinema = false, movesOpen = null, moveKey = '';
 initTheatre($('bTheatre'));
+const arena = createArenaBridge({ socket, host: $('arenaHost') });
+// the last cinematic of a battle finishes in the Arena before the war page shows how it ended
+setInterval(() => { if (S?.myBattle?.status === 'over' && arena.open && !arena.busy()) render(); }, 400);
 const CHAR_BY = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
 const X = (v) => Math.round(v * SCALE);      // battles count in hits; they are shown at the Arena's scale
 
@@ -161,7 +165,7 @@ function render() {
 // The bar along the bottom of the map: what to do right now, and the buttons for it
 function renderActBar(band, options, myVote) {
   const bar = $('actBar');
-  const on = band && S.status === 'playing' && !S.own && !S.myBattle;
+  const on = band && S.status === 'playing' && !S.myBattle;
   bar.classList.toggle('hidden', !on);
   map.setBottom(on ? 104 : 0);
   if (!on) return;
@@ -179,7 +183,8 @@ function renderActBar(band, options, myVote) {
       step = myVote == null ? 'Vote: tap a glowing stop' : myVote === 'stay' ? 'You voted to stay here' : `You voted for ${nodeName(myVote)}`;
       sub = band.voting ? `Most votes wins. The vote closes in <b data-until="${band.voteEnds}">${gameSecondsLeft(band.voteEnds)}</b>.` : 'Every pair votes. Your warband moves one stop at a time.';
     } else { step = 'Your move: tap a glowing stop'; sub = `One stop at a time. A ${'<span class="sw">⚔</span>'} stop starts a battle.`; }
-  } else if (S.phase === 'crystal') { step = 'Finished moving'; sub = 'Waiting for the other banners to move.'; }
+  } else if (S.phase === 'crystal' && S.orderEnds && !S.me.orderDone) { step = 'Grab-Ma is here!'; sub = `Order food for your next battle. The Crimson turn starts in <b data-until="${S.orderEnds}">${gameSecondsLeft(S.orderEnds)}</b>, or when everyone is done.`; }
+  else if (S.phase === 'crystal') { step = 'Move locked in'; sub = S.me.orderDone ? 'Waiting for the others.' : 'Order from Grab-Ma while the other banners finish moving.'; }
   else if (S.phase === 'battles') { step = 'Battles are being fought'; sub = 'The next turn starts when they end.'; }
   setHTML($('abStep'), esc(step)); setHTML($('abSub'), sub);
   setHTML($('abMp'), moving ? `<b>${band.mp}</b><small>AP LEFT</small>` : '');
@@ -255,8 +260,11 @@ function renderJoin() {
 function renderQuestion() {
   const o = S.own;
   const dock = $('qDock');
-  if (!o || S.myBattle) { dock.classList.add('hidden'); $('gMain').classList.remove('docked'); card.hide(); return; }
-  dock.classList.remove('hidden'); $('gMain').classList.add('docked');
+  if (!o || S.myBattle) { dock.classList.add('hidden'); $('gMain').classList.remove('docked', 'centred'); dock.classList.remove('centre'); card.hide(); return; }
+  // while the Crimson Host moves, the question sits in the middle (as in Academy Rift); during your move it docks beside the map
+  const centre = S.phase !== 'crystal';
+  dock.classList.remove('hidden'); dock.classList.toggle('centre', centre);
+  $('gMain').classList.toggle('docked', !centre); $('gMain').classList.toggle('centred', centre);
   const battle = o.kind === 'warcry' ? S.battles.find((b) => b.id === o.battleId) : null;
   if (o.kind === 'muster') {
     const bank = S.me.bank, ap = 1 + Math.min(3, bank);
@@ -275,6 +283,7 @@ function renderQuestion() {
 
 function renderBattle() {
   const B = S.myBattle;
+  if (arena.feed(S)) { $('battle').classList.add('hidden'); bcard.hide(); return; }    // the fight itself is on the Arena's battle screen
   if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; if (cinema) { skipTheatre(); cinema = false; } return; }
   $('battle').classList.remove('hidden');
   const defend = B.kind === 'defend';
@@ -425,23 +434,31 @@ function renderShop() {
   $('shopCoins').textContent = S.me.coins || 0;
   const bag = S.me.bag || {}, inBattle = !!S.myBattle;
   setHTML($('shopGrid'), ITEMS.filter((it) => it.price && !it.passive).map((it) => {
-    const have = bag[it.id] || 0, can = !inBattle && (S.me.coins || 0) >= it.price;
+    const have = bag[it.id] || 0, can = !inBattle && canOrder() && (S.me.coins || 0) >= it.price;
     return `<div class="shop-item"><img src="${shopIcon(it.id)}" alt=""><div class="si-t"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>${have ? `<em>In your bag: ${have}</em>` : ''}</div>
       <button type="button" class="gold-btn small" data-buy="${it.id}" ${can ? '' : 'disabled'}><span>${it.price} 🪙</span></button></div>`;
   }).join(''));
 }
-const openShop = () => { $('shop').classList.remove('hidden'); renderShop(); };
+// Grab-Ma delivers only during the class's move, once your banner has locked in its move
+const canOrder = () => { const b = myBand(); return !!(S && S.status === 'playing' && S.phase === 'crystal' && b && b.done && !b.battle && !S.myBattle && !S.me.orderDone); };
+const openShop = () => {
+  if (!canOrder()) { toast('Grab-Ma delivers during your move. Lock in your move first, then order.'); return; }
+  $('shop').classList.remove('hidden'); renderShop();
+};
 $('coinChip').addEventListener('click', openShop);
 $('abAuntie').addEventListener('click', openShop);
 $('auntieRide').addEventListener('click', openShop);
 $('shop').addEventListener('click', (e) => {
   const b = e.target.closest('[data-buy]'); if (b && !b.disabled) { socket.emit('twBuy', { item: b.dataset.buy }); return; }
+  if (e.target.closest('[data-orderdone]')) { socket.emit('twOrderDone'); $('shop').classList.add('hidden'); return; }
   if (e.target.closest('[data-close]') || e.target === $('shop')) $('shop').classList.add('hidden');
 });
 // Auntie rides across the map at the start of every move
 let auntieTurn = 0;
 function maybeAuntie() {
-  if (!S || S.status !== 'playing' || S.phase !== 'crystal' || S.myBattle || auntieTurn === S.turn) return;
+  $('abAuntie').classList.toggle('hidden', !canOrder());
+  if (!canOrder() && !$('shop').classList.contains('hidden')) $('shop').classList.add('hidden');
+  if (!canOrder() || auntieTurn === S.turn) return;
   auntieTurn = S.turn;
   const r = $('auntieRide'); r.classList.remove('hidden', 'go'); void r.offsetWidth; r.classList.add('go');
   setTimeout(() => r.classList.add('hidden'), 9000);

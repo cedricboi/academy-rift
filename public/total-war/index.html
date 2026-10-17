@@ -72,7 +72,7 @@
     </div>
     <div class="mission"><div class="eyebrow">YOUR MISSION</div><div>Break into the Crimson Fortress</div></div>
     <div class="t-right">
-      <button class="coin-chip" id="coinChip" type="button" title="Auntie's delivery"><i></i><b id="coinTxt">0</b></button>
+      <button class="coin-chip" id="coinChip" type="button" title="Grab-Ma's delivery"><i></i><b id="coinTxt">0</b></button>
       <div class="enemy-chip"><img src="monsters/warlord.png" alt=""><div><div class="eyebrow">YOUR ENEMY</div><div id="enemyName">Crimson Commander</div></div></div>
       <button class="help-btn" id="helpBtn" type="button" aria-label="How to play">?</button>
     </div>
@@ -84,13 +84,13 @@
       <div class="buffs map-buffs" id="buffs"></div>
       <section id="infoCard" class="panel info-card hidden"></section>
       <div id="joinPrompt" class="panel red join-prompt hidden"></div>
-      <div id="auntieRide" class="auntie-ride hidden" aria-hidden="true"><i class="ar-sprite"></i><span class="ar-say">Delivery lah! Order something?</span></div>
+      <div id="auntieRide" class="auntie-ride hidden" aria-hidden="true"><i class="ar-sprite"></i><span class="ar-say">Grab-Ma here! Move done? Order something!</span></div>
       <section id="actBar" class="act-bar hidden">
         <div class="ab-band" id="abBand"></div>
         <div class="ab-text"><div class="ab-step" id="abStep"></div><div class="ab-sub" id="abSub"></div></div>
         <div class="ab-mp" id="abMp"></div>
         <div class="ab-btns">
-          <button class="btn ab-auntie" type="button" id="abAuntie"><i></i>AUNTIE</button>
+          <button class="btn ab-auntie hidden" type="button" id="abAuntie"><i></i>ORDER GRAB-MA</button>
           <button class="btn ab-join hidden" type="button" id="abJoin"></button>
           <button class="btn ab-leave hidden" type="button" id="leaveBandBtn">Leave warband</button>
           <button class="ab-end" type="button" id="endTurnBtn">END MOVE</button>
@@ -124,9 +124,10 @@
   <section id="ending" class="ending hidden"></section>
   <section id="shop" class="shop hidden" role="dialog" aria-labelledby="shopTitle">
     <div class="shop-box">
-      <div class="shop-head"><img src="auntie/bust.png" alt=""><div><div class="eyebrow">AUNTIE'S DELIVERY</div><h3 id="shopTitle">Auntie Mama rides in!</h3><p>"Aiyo, fighting so hard must eat! What you want? I deliver straight to your bag."</p></div><button type="button" class="x-close" data-close="1" aria-label="Close">×</button></div>
-      <div class="shop-coins">You have <b id="shopCoins">0</b> coins · each right answer earns 10 · use items on your turn in battle</div>
+      <div class="shop-head"><img src="auntie/bust.png" alt=""><div><div class="eyebrow">GRAB-MA · FOOD DELIVERY</div><h3 id="shopTitle">Grab-Ma rides in!</h3><p>"Aiyo, fighting so hard must eat! What you want? I deliver straight to your bag."</p></div><button type="button" class="x-close" data-close="1" aria-label="Close">×</button></div>
+      <div class="shop-coins">You have <b id="shopCoins">0</b> coins · each right answer earns 10 · order after you lock in your move · use food on your turn in battle</div>
       <div class="shop-grid" id="shopGrid"></div>
+      <div class="shop-foot"><button type="button" class="btn" data-close="1">Close</button><button type="button" class="gold-btn small" data-orderdone="1"><span>DONE ORDERING</span></button></div>
     </div>
   </section>
   <section id="help" class="help hidden" role="dialog" aria-labelledby="helpTitle">
@@ -137,7 +138,8 @@
   </section>
 </section>
 
-<div id="toast" class="toast hidden" role="status"></div>
+<div id="arenaHost" class="arena-host hidden"></div>
+  <div id="toast" class="toast hidden" role="status"></div>
 <script src="../theatre/engine.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script type="module" src="play.js"></script>

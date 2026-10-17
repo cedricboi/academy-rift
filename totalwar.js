@@ -18,7 +18,7 @@ const token = (n = 18) => randomBytes(n).toString("base64url");
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const rightAnswers = (q) => (Array.isArray(q.answers) && q.answers.length ? q.answers : [q.answer]);
 const qKey = (q) => q.qid || q.q;
-const ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
+const ORDER_SECONDS = 20, ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
 
 export function setupTotalWar(deps) {
   const { io, filterQuestions, normalizeTopics, topicLabel, CHARACTERS, bank, isRoomCode = () => false } = deps;
@@ -184,7 +184,8 @@ export function setupTotalWar(deps) {
   }
 
   function startCrystal(S) {
-    S.phase = "crystal";
+    S.phase = "crystal"; S.orderEnds = 0;
+    for (const st of S.students.values()) st.orderDone = false;
     S.phaseStartedAt = Date.now(); S.phaseEndsAt = Date.now() + ms(S.settings.crystalSeconds);
     const buffs = buffOn(S);
     for (const p of S.pairs.values()) { p.mp = pairMP(p.bank, buffs); p.bank = 0; }
@@ -230,8 +231,14 @@ export function setupTotalWar(deps) {
       const allDone = [...S.bands.values()].every((b) => b.done || b.battle);
       if ((allDone && !S.battles.size) || now >= S.phaseEndsAt) {
         for (const b of S.bands.values()) if (!b.battle) b.done = true;
-        if (S.battles.size) { S.phase = "battles"; S.dirty = true; say(S, "The last battles of this turn are being fought."); }
-        else startCrimson(S);
+        // everyone has locked in: a short window to order from Grab-Ma before the Crimson turn
+        if (!S.orderEnds) { S.orderEnds = now + ms(ORDER_SECONDS); S.dirty = true; }
+        const waiting = [...S.students.values()].filter((st) => !st.bot && isConnected(st) && !st.orderDone && !bandOf(S, st.pairId)?.battle);
+        if (now >= S.orderEnds || !waiting.length) {
+          S.orderEnds = 0;
+          if (S.battles.size) { S.phase = "battles"; S.dirty = true; say(S, "The last battles of this turn are being fought."); }
+          else startCrimson(S);
+        }
       }
     } else if (S.phase === "battles" && !S.battles.size) startCrimson(S);
     flush(S);
@@ -443,6 +450,7 @@ export function setupTotalWar(deps) {
     const ok = record(S, st, B.q.full, chosen);
     B.answers.set(st.pid, { chosen, ok, at: Date.now() });
     S.dirty = true;
+    return { ok, chosen, striker: B.striker === st.pid, startedAt: B.q.startedAt };
   }
 
   const who = (S, pid) => { const st = S.students.get(pid), p = st && S.pairs.get(st.pairId); return st ? { pid, name: st.name, pairNo: p?.no || null, char: st.char || p?.char || null, bot: !!st.bot } : null; };
@@ -484,7 +492,7 @@ export function setupTotalWar(deps) {
     B.pending = {
       strike, stealer, support: rightAlong.filter(([p]) => p !== stealer).length, along: along.length, warcry: B.warcryNow,
       frac: answered.length ? right / answered.length : 0,
-      answer: rightAnswers(B.q.full)[0], q: B.q.q, choices: B.q.choices,
+      answer: rightAnswers(B.q.full)[0], right: rightAnswers(B.q.full), q: B.q.q, choices: B.q.choices,
       mine: Object.fromEntries([...B.answers.entries()].map(([p, a]) => [p, { chosen: a.chosen, ok: a.ok }])),
     };
     B.q = null;
@@ -510,7 +518,8 @@ export function setupTotalWar(deps) {
     const P = B.pending, buffs = buffOn(S), power = buffs.power ? 1.25 : 1, cry = WARCRY_HIT * (buffs.warcry ? 2 : 1);
     const pid = act ? B.choose.pid : null, half = act && B.choose.half ? 0.5 : 1;
     const st = pid ? S.students.get(pid) : null, F = pid ? fighterOf(S, B, pid) : null, base = F ? CHAR(F.char) : null;
-    const target = Math.max(0, B.enemies.findIndex((e) => e.hp > 0));
+    const aimed = Number.isInteger(act?.target) && B.enemies[act.target]?.hp > 0 ? act.target : -1;     // the enemy the student tapped
+    const target = aimed >= 0 ? aimed : Math.max(0, B.enemies.findIndex((e) => e.hp > 0));
     let main = 0, heal = 0, splash = 0, stun = false, note = "", name = "Strike", index = -1, kind = act?.kind || null, extra = 1;
     if (act?.kind === "strike") main = 2;
     else if (act?.kind === "skill") {
@@ -573,7 +582,7 @@ export function setupTotalWar(deps) {
       action: act ? { kind, index, name, pid, char: F.char, ally: allyPid ? B.fighters[allyPid].char : null, archetype: kind === "ult" ? base.ultimate.archetype : null } : null,
       enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
       counter: counter.blows, guard: blocked / 100, counterTotal: counter.total, resolve: B.resolve, sync: B.sync,
-      answer: P.answer, q: P.q, choices: P.choices, mine: P.mine, at: Date.now(),
+      answer: P.answer, right: P.right, q: P.q, choices: P.choices, mine: P.mine, at: Date.now(),
     };
     B.pending = null; B.choose = null;
     B.status = "result"; B.resultUntil = Date.now() + ms(act ? (kind === "ult" ? 15 : 10) : 5.5);
@@ -737,7 +746,9 @@ export function setupTotalWar(deps) {
   function buy(S, st, itemId) {
     const it = ITEM_BY_ID[itemId]; if (!it || !it.price) return "Auntie does not sell that.";
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
-    if (b?.battle) return "Auntie cannot ride into a battle. Order after it.";
+    if (b?.battle) return "Grab-Ma cannot ride into a battle. Order after it.";
+    if (S.phase !== "crystal" || !b?.done) return "Grab-Ma delivers during your move. Lock in your move first, then order.";
+    if (st.orderDone) return "You have finished ordering this turn.";
     st.bag ||= {};
     const total = Object.values(st.bag).reduce((a, n) => a + n, 0);
     if ((st.bag[itemId] || 0) >= SHOP_LIMIT.each) return `You can carry ${SHOP_LIMIT.each} of those at most.`;
@@ -831,7 +842,7 @@ export function setupTotalWar(deps) {
       fighters: fighters.length, answered: B.answers.size,
       striker: B.status === "fight" || B.status === "choose" ? who(S, B.striker) : null,
       sync: B.sync, mod: { ...B.mod },
-      choose: B.status === "choose" ? { ...who(S, B.choose.pid), endsAt: B.choose.endsAt, half: B.choose.half } : null,
+      choose: B.status === "choose" ? { ...who(S, B.choose.pid), endsAt: B.choose.endsAt, half: B.choose.half, right: B.pending?.right || null, striker: who(S, B.striker) } : null,
       party: Object.entries(B.fighters).map(([pid, f]) => ({ pid, char: f.char, sp: f.sp, maxSp: f.maxSp, name: S.students.get(pid)?.name || "?", pairNo: pairOf(S, pid)?.no || null })),
       round: B.status === "result" || B.status === "over" ? { ...B.round, mine: undefined } : null,
       outcome: B.outcome, cheers: [...B.cheers.entries()].map(([pid, n]) => ({ pair: S.pairs.get(pid)?.no, n })),
@@ -839,6 +850,7 @@ export function setupTotalWar(deps) {
     if (forPid !== undefined && fighters.includes(forPid)) {
       v.role = B.striker === forPid ? "striker" : "support";
       if (B.q) { const mine = B.answers.get(forPid); v.question = { ...B.q, full: undefined, mine: mine ? { chosen: mine.chosen } : null }; }
+      if (B.q && process.env.RIFT_TEST_CHEAT === "1") v.question.cheat = rightAnswers(B.q.full)[0];     // screenshots and tests only, never set in class
       if (v.round && B.round?.mine) v.round.my = B.round.mine[forPid] || null;
       if (B.status === "choose" && B.choose.pid === forPid) v.moves = movesFor(S, B, forPid);
       v.me = { char: fighterOf(S, B, forPid).char };
@@ -849,7 +861,7 @@ export function setupTotalWar(deps) {
     const sees = (n) => !visible || visible.has(n);
     return {
       code: S.code, status: S.status, winner: S.winner, turn: S.turn, turns: S.settings.turns,
-      phase: S.phase, phaseEndsAt: S.phaseEndsAt, serverNow: Date.now(), speed: SPEED,
+      phase: S.phase, phaseEndsAt: S.phaseEndsAt, orderEnds: S.orderEnds || 0, serverNow: Date.now(), speed: SPEED,
       topic: topicLabel(S.settings.topic), commander: S.settings.commander,
       bands: [...S.bands.values()].map((b) => bandView(S, b)),
       units: [...S.units.values()].filter((u) => sees(u.node)).map((u) => unitView(u, !visible)),
@@ -871,13 +883,14 @@ export function setupTotalWar(deps) {
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
     v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: st.char || p?.char || null, bandId: b?.id || null, coins: st.coins || 0, bag: st.bag || {},
       partner: p ? p.members.filter((m) => m !== st.pid).map((m) => S.students.get(m)?.name) : [], bank: p?.bank || 0 };
-    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready;
+    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready; v.me.orderDone = !!st.orderDone;
     v.lobby = S.status === "lobby" ? {
       students: [...S.students.values()].map((s) => ({ pid: s.pid, name: s.name, pairId: s.pairId, want: s.want, ready: s.ready, connected: isConnected(s), bot: !!s.bot, char: s.char })),
       pairs: [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name) })),
     } : null;
     if (st.own) v.own = { kind: st.own.kind, battleId: st.own.battleId, retry: st.own.retry, result: st.own.result,
       question: publicQ(st.own.q, st.own.startedAt) };
+    if (v.own && process.env.RIFT_TEST_CHEAT === "1") v.own.question.cheat = rightAnswers(st.own.q)[0];      // tests only
     if (b?.battle) { const B = S.battles.get(b.battle); if (B) v.myBattle = battleView(S, B, st.pid); }
     // battles this warband could still join
     if (b && !b.battle) v.joinable = [...S.battles.values()].filter((B) => canJoinBattle(S, b, B)).map((B) => ({ id: B.id, node: B.node, kind: B.kind, gatherEnds: B.gatherEnds }));
@@ -1011,10 +1024,12 @@ export function setupTotalWar(deps) {
     socket.on("twAnswer", asStudent((S, st, { chosen, startedAt }) => {
       const c = Math.round(+chosen); if (!(c >= 0 && c < 6)) return;
       if (st.own && st.own.startedAt === startedAt) return answerOwn(S, st, c);
-      battleAnswer(S, st, c);
+      const r = battleAnswer(S, st, c);
+      if (r) socket.emit("twBattleAnswered", r);              // the student whose turn it is learns straight away, as in the Arena
     }));
     socket.on("twAction", asStudent((S, st, act) => chooseAction(S, st, act)));
     socket.on("twBuy", asStudent((S, st, { item }) => buy(S, st, item)));
+    socket.on("twOrderDone", asStudent((S, st) => { st.orderDone = true; }));
     socket.on("twVote", asStudent((S, st, { to }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return vote(S, p.id, to === "stay" ? "stay" : +to); }));
     socket.on("twEndMove", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return vote(S, p.id, "stay"); }));
     socket.on("twJoinBand", asStudent((S, st, { bandId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return joinBand(S, p.id, bandId); }));
