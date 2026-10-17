@@ -23,8 +23,8 @@
         and every round the pairs are matched up and battle at the same time. The leaderboard stays on this screen.</p>
       <button class="shard-btn primary big" id="createBtn"><span>START A TOURNAMENT</span></button>
       <p class="msg" id="startMsg"></p>
-      <p class="t-start-hub">Want a whole-class war instead? <a href="/total-war/command.html">Open Total War: Crimson Command</a>. You lead the Crimson Host and the class marches on your fortress.</p>
-      <p class="t-start-hub">Want your own questions? <a href="/hub">Open the question hub</a> to add sets, pictures and Blooket spreadsheets.</p>
+      <p class="t-start-hub">Or switch to another mode:</p>
+      <div data-modes="cards"></div>
     </div>
   </section>
 
@@ -45,6 +45,7 @@
         <span class="t-code" id="tCode">----</span>
       </div>
       <div class="t-head-right">
+        <span data-modes></span>
         <span class="t-phase" id="phaseChip">LOBBY</span>
         <a class="shard-btn small" id="reportBtn" href="/report" target="_blank" rel="noopener" title="Opens in a new tab: keep it off the projector, it shows names"><span>📖 LEARNING REPORT</span></a>
         <button class="shard-btn small" id="settingsBtn"><span>⚙ SETTINGS</span></button>
@@ -101,5 +102,6 @@
 
   <script src="/socket.io/socket.io.js"></script>
   <script type="module" src="teacher.js"></script>
+<script src="/modes.js"></script>
 </body>
 </html>

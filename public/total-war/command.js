@@ -23,7 +23,7 @@ const saved = () => JSON.parse(localStorage.getItem(SAVE) || 'null');
 $('resumeWar').classList.toggle('hidden', !saved());
 $('newWar').addEventListener('click', () => socket.emit('twCreate'));
 $('resumeWar').addEventListener('click', () => socket.emit('twResume', saved()));
-socket.on('connect', () => { const s = saved(); if (s && hosting) socket.emit('twResume', s); });
+socket.on('connect', () => { const s = saved(); if (s) socket.emit('twResume', s); });   // a war in progress opens again by itself (as the tournament page does)
 socket.on('twHosting', (h) => { hosting = h; localStorage.setItem(SAVE, JSON.stringify(h)); });
 socket.on('twGone', () => { localStorage.removeItem(SAVE); hosting = null; $('resumeWar').classList.add('hidden'); show('setup'); toast('That war is no longer running. Start a new one.'); });
 socket.on('twError', (m) => toast(m));

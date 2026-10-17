@@ -19,6 +19,7 @@
       <p class="sub">You command the Crimson Host. Your class marches against you in pairs, and must band together to break into your fortress.</p>
       <button class="btn crimson" id="newWar" type="button">Start a new war</button>
       <button class="btn hidden" id="resumeWar" type="button">Return to the war in progress</button>
+      <div data-modes="cards"></div>
     </div>
   </div>
 </section>
@@ -33,6 +34,7 @@
         <div class="join-url" id="joinUrl"></div>
         <div class="host-warn hidden" id="hostWarn"></div>
         <a class="btn" id="projectorLink" target="_blank" rel="noopener">Open the projector screen</a>
+        <span data-modes></span>
         <button class="btn crimson" id="startWar" type="button" style="width:100%">Start the war</button>
       </div>
       <div class="panel settings-card">
@@ -65,6 +67,7 @@
       <button class="btn hidden" id="releaseBtn" type="button">Release the Warlord</button>
       <button class="btn" id="autoBtn" type="button">Auto</button>
       <button class="btn crimson" id="endTurnBtn" type="button">End turn</button>
+      <span data-modes></span>
       <button class="btn icon" id="menuBtn" type="button" aria-label="More">⋯</button>
     </div>
   </header>
@@ -84,5 +87,6 @@
 <div id="toast" class="toast hidden" role="status"></div>
 <script src="/socket.io/socket.io.js"></script>
 <script type="module" src="command.js"></script>
+<script src="/modes.js"></script>
 </body>
 </html>
