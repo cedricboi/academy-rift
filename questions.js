@@ -28,49 +28,49 @@ export const QUESTIONS = [
   },
   {
     q: "Why should you always start by looking at a specimen with the lowest magnification?",
-    choices: ["It is the easiest to use", "It gives you a wider view so you can find the specimen first", "It protects your eyes", "It makes the colors brighter"],
+    choices: ["It shows the most detail of the cells", "It gives you a wider view so you can find the specimen first", "It stops the specimen from drying out", "It makes the specimen look the biggest"],
     answer: 1,
     topic: "Microscope",
     explain: "Low magnification shows a bigger area. This helps you locate and center your specimen before zooming in."
   },
   {
     q: "What is the purpose of the light source in a microscope?",
-    choices: ["To heat the specimen", "To make the specimen bigger", "To shine light through the specimen so you can see it", "To stain the specimen different colors"],
+    choices: ["To focus the image of the specimen", "To make the specimen bigger", "To shine light through the specimen so you can see it", "To stain the specimen different colors"],
     answer: 2,
     topic: "Microscope",
     explain: "The light passes through the specimen. Without light, you cannot see anything under the microscope."
   },
   {
     q: "What should you do before moving a microscope from one place to another?",
-    choices: ["Take it apart into pieces", "Carry it by the eyepiece", "Hold it by the arm and support the base", "Wrap it in a towel"],
+    choices: ["Hold it by the stage with one hand", "Carry it by the eyepiece", "Hold it by the arm and support the base", "Carry it by the base only, with one hand"],
     answer: 2,
     topic: "Microscope",
     explain: "Always hold the arm and support the base with your hand. This keeps it safe and stops it from getting damaged."
   },
   {
     q: "Why is it important to keep the microscope clean?",
-    choices: ["To make it look nice", "So the glass lenses stay clear and you can see properly", "To stop dust from entering the building", "To keep it working forever"],
+    choices: ["So the image becomes larger", "So the glass lenses stay clear and you can see properly", "So the light bulb does not overheat", "So the stage clips hold slides tightly"],
     answer: 1,
     topic: "Microscope",
     explain: "If dust and dirt are on the lenses, they block light and make the image blurry. Clean lenses = clear picture."
   },
   {
     q: "What does the stage clip do?",
-    choices: ["It makes the slide bigger", "It holds the slide in place so it does not slip", "It focuses the light", "It cleans the lens"],
+    choices: ["It moves the slide up and down to focus", "It holds the slide in place so it does not slip", "It focuses the light", "It covers the specimen to keep it flat"],
     answer: 1,
     topic: "Microscope",
     explain: "The stage clip is a metal holder. It keeps your slide from moving around when you are looking at it."
   },
   {
     q: "What is a coverslip used for when making a slide?",
-    choices: ["To hold the stage in place", "To cover the specimen and keep it flat and clean", "To magnify the image", "To turn on the light"],
+    choices: ["To hold the slide on the stage", "To cover the specimen and keep it flat and clean", "To magnify the image", "To add colour to the specimen"],
     answer: 1,
     topic: "Microscope",
     explain: "A coverslip is a thin piece of glass. You put it on top of the specimen to protect it and flatten it for better viewing."
   },
   {
     q: "Why do scientists use a stain like methylene blue when preparing a slide?",
-    choices: ["To kill the specimen", "To make the specimen bigger", "To color the cells so they are easier to see under the microscope", "To keep the specimen fresh"],
+    choices: ["To make the light brighter", "To make the specimen bigger", "To color the cells so they are easier to see under the microscope", "To keep the specimen fresh"],
     answer: 2,
     topic: "Microscope",
     explain: "Stains add color to the structures inside cells. Colored structures are much easier to see than clear, colorless ones."
@@ -79,7 +79,7 @@ export const QUESTIONS = [
   // ── Part 2: Parts of a Cell - What Each Part Does ────────────────────────
   {
     q: "What is a cell?",
-    choices: ["A type of battery", "The smallest living unit that makes up all living things", "A part of a tissue", "A tiny piece of rock"],
+    choices: ["A group of tissues that does one job", "The smallest living unit that makes up all living things", "A group of organs working together", "The smallest particle that makes up all matter"],
     answer: 1,
     topic: "Cell Parts",
     explain: "A cell is the basic building block of all living things. All organisms are made of one or more cells."
@@ -100,7 +100,7 @@ export const QUESTIONS = [
   },
   {
     q: "What does the cell membrane do?",
-    choices: ["It makes the cell bigger", "It controls what goes in and out of the cell", "It produces energy for the cell", "It stores food"],
+    choices: ["It gives the cell a fixed shape", "It controls what goes in and out of the cell", "It produces energy for the cell", "It stores food"],
     answer: 1,
     topic: "Cell Parts",
     explain: "The cell membrane is a protective layer. It decides what substances can enter and leave the cell."
@@ -121,28 +121,28 @@ export const QUESTIONS = [
   },
   {
     q: "What is the purpose of a vacuole in a cell?",
-    choices: ["To move the cell around", "To store water, food, and waste", "To protect the nucleus", "To produce energy"],
+    choices: ["To control what enters the cell", "To store water, food, and waste", "To protect the nucleus", "To produce energy"],
     answer: 1,
     topic: "Cell Parts",
     explain: "Vacuoles are storage bags inside cells. Plant cells have one big vacuole. Animal cells have small ones or none."
   },
   {
     q: "Why do plant cells have chloroplasts but animal cells do not?",
-    choices: ["Plants are bigger than animals", "Plants need to make their own food using sunlight, but animals eat food instead", "Animal cells have a cell wall instead", "Chloroplasts are too big for animal cells"],
+    choices: ["Plants need chloroplasts to take in oxygen, but animals breathe with lungs", "Plants need to make their own food using sunlight, but animals eat food instead", "Plants need chloroplasts to stay upright, but animals have skeletons", "Plants need chloroplasts to store water, but animals drink water instead"],
     answer: 1,
     topic: "Cell Parts",
     explain: "Plants make their own food through photosynthesis. Animals eat other things for food, so they don't need chloroplasts."
   },
   {
     q: "What would happen to a cell if its nucleus was removed?",
-    choices: ["It would grow bigger", "It would make more food", "It would eventually die because it has no control center", "It would become an animal cell"],
+    choices: ["It would divide faster because nothing stops it", "It would carry on as normal because the cytoplasm takes over", "It would eventually die because it has no control center", "It would grow a new nucleus because the membrane makes one"],
     answer: 2,
     topic: "Cell Parts",
     explain: "The nucleus controls everything the cell does. Without it, the cell cannot survive or function."
   },
   {
     q: "How are plant cells and animal cells similar?",
-    choices: ["They both have a cell wall", "They both have chloroplasts", "They both have a cell membrane, nucleus, and cytoplasm", "They are exactly the same"],
+    choices: ["They both have a cell wall", "They both have chloroplasts", "They both have a cell membrane, nucleus, and cytoplasm", "They both have one large vacuole"],
     answer: 2,
     topic: "Cell Parts",
     explain: "Both plant and animal cells have these basic parts. But plant cells also have a cell wall and chloroplasts."
@@ -151,56 +151,56 @@ export const QUESTIONS = [
   // ── Part 3: Plant Cells vs Animal Cells ─────────────────────────────────
   {
     q: "What is the main difference between a plant cell and an animal cell?",
-    choices: ["Animal cells are always bigger", "Plant cells have a cell wall and chloroplasts", "Animal cells have more nuclei", "There is no difference at all"],
+    choices: ["Animal cells have a cell wall and plant cells do not", "Plant cells have a cell wall and chloroplasts", "Plant cells have a cell membrane and animal cells do not", "Animal cells have a nucleus and plant cells do not"],
     answer: 1,
     topic: "Cell Types",
     explain: "Plant cells have a rigid cell wall and chloroplasts for making food. Animal cells have neither of these."
   },
   {
     q: "Why do plant cells have a fixed shape but animal cells are round?",
-    choices: ["Plant cells are frozen", "The rigid cell wall gives plant cells a box-like shape", "Animal cells cannot hold their shape", "Plant cells are older"],
+    choices: ["The cell membrane of plant cells is thick and stiff", "The rigid cell wall gives plant cells a box-like shape", "The chloroplasts hold plant cells in a box-like shape", "The cytoplasm of plant cells is solid, not jelly-like"],
     answer: 1,
     topic: "Cell Types",
     explain: "The cell wall is tough and rigid. It prevents the plant cell from changing shape. Animal cells have only a flexible membrane."
   },
   {
     q: "Which of these is a plant cell?",
-    choices: ["A red blood cell", "A nerve cell", "A leaf cell with a cell wall and chloroplasts", "A muscle cell"],
+    choices: ["A cheek cell with a nucleus and cytoplasm", "A red blood cell with no nucleus", "A leaf cell with a cell wall and chloroplasts", "A muscle cell with many small vacuoles"],
     answer: 2,
     topic: "Cell Types",
     explain: "Plant cells have a cell wall on the outside and chloroplasts inside. This combination is unique to plants."
   },
   {
     q: "Where do you find animal cells?",
-    choices: ["Only in trees and flowers", "In animals like humans, dogs, and fish", "Only in water", "In rocks"],
+    choices: ["In plants such as trees and grasses", "In animals like humans, dogs, and fish", "Only in animals that have a backbone", "Only in the human body"],
     answer: 1,
     topic: "Cell Types",
     explain: "Animal cells are in all animals - including humans. They make up our skin, blood, muscles, and organs."
   },
   {
     q: "Do all plant cells have chloroplasts?",
-    choices: ["Yes, every plant cell has them", "No, only leaves have chloroplasts", "No, roots and other parts without light do not have them", "Chloroplasts are in animal cells, not plants"],
+    choices: ["Yes, every plant cell has them", "No, only leaves have chloroplasts", "No, roots and other parts without light do not have them", "No, only cells in the stem have them"],
     answer: 2,
     topic: "Cell Types",
     explain: "Chloroplasts need light to work. Root cells underground have no light, so they don't have chloroplasts."
   },
   {
     q: "What is the color of a chloroplast?",
-    choices: ["Red", "Green because it contains a green substance called chlorophyll", "Yellow", "Clear"],
+    choices: ["Red because it contains a red substance called haemoglobin", "Green because it contains a green substance called chlorophyll", "Yellow because it stores starch", "Clear because it is filled with cell sap"],
     answer: 1,
     topic: "Cell Types",
     explain: "Chlorophyll is a green pigment inside chloroplasts. This is what makes leaves green and captures sunlight."
   },
   {
     q: "Which type of cell can survive without a nucleus?",
-    choices: ["Plant cells", "Animal cells", "Red blood cells (mature ones)", "All cells can"],
+    choices: ["Plant cells", "Animal cells", "Red blood cells (mature ones)", "Root hair cells"],
     answer: 2,
     topic: "Cell Types",
     explain: "Mature red blood cells push out their nucleus before entering the bloodstream. They can still deliver oxygen without it."
   },
   {
     q: "What shape are most animal cells?",
-    choices: ["Square", "Box-shaped like plant cells", "Round or irregular", "Star-shaped"],
+    choices: ["Long and thin like a hair", "Box-shaped like plant cells", "Round or irregular", "Fixed in one shape by a cell wall"],
     answer: 2,
     topic: "Cell Types",
     explain: "Animal cells do not have a rigid cell wall, so they can be round or have different shapes. Plant cells are always box-like."
@@ -214,7 +214,7 @@ export const QUESTIONS = [
   },
   {
     q: "Do animal cells have large vacuoles like plant cells?",
-    choices: ["Yes, they are exactly the same", "No, animal cells either have very small vacuoles or none at all", "Animal cells have more vacuoles than plants", "Vacuoles are only in plant roots"],
+    choices: ["Yes, animal cells have one large central vacuole", "No, animal cells either have very small vacuoles or none at all", "Yes, but only in muscle cells", "No, vacuoles are found only in plant leaves"],
     answer: 1,
     topic: "Cell Types",
     explain: "Plant cells have one big central vacuole. Animal cells have tiny ones or no vacuoles at all."
@@ -223,63 +223,63 @@ export const QUESTIONS = [
   // ── Part 4: Cells and Living Organisms ─────────────────────────────────
   {
     q: "What is a unicellular organism?",
-    choices: ["A very large organism", "A living thing made of only ONE cell", "An organism with many organs", "Something that is not alive"],
+    choices: ["A living thing that can only live in water", "A living thing made of only ONE cell", "A living thing made of one organ", "A living thing made of one tissue"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "Unicellular means 'one cell.' Examples are bacteria and amoeba. They are alive but have only one cell."
   },
   {
     q: "What is a multicellular organism?",
-    choices: ["An organism made of many cells working together", "Something that is not alive", "A tiny organism you cannot see", "An old organism"],
+    choices: ["An organism made of many cells working together", "An organism made of one very large cell", "An organism that can only be seen under a microscope", "An organism whose cells each live and work alone"],
     answer: 0,
     topic: "Cells & Org.",
     explain: "Multicellular organisms have many cells that work together. Humans, plants, and animals are all multicellular."
   },
   {
     q: "Which of these is a unicellular organism?",
-    choices: ["A human", "A dog", "A bacterium", "A tree"],
+    choices: ["A mushroom", "A tiny worm", "A bacterium", "A moss plant"],
     answer: 2,
     topic: "Cells & Org.",
     explain: "Bacteria are made of just one cell. Humans, dogs, and trees are made of millions of cells."
   },
   {
     q: "Can you see a unicellular organism with your naked eye?",
-    choices: ["Yes, always", "No, most are too small and need a microscope to see", "Only on Mondays", "Size does not matter"],
+    choices: ["Yes, all of them are easy to see", "No, most are too small and need a microscope to see", "Only when they are dead and dried", "Only when they are in clean water"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "Most unicellular organisms are microscopic (very tiny). You need a microscope to see them."
   },
   {
     q: "What is a tissue in biology?",
-    choices: ["A piece of paper", "A group of similar cells working together to do one job", "A type of cell", "Part of a microscope"],
+    choices: ["A group of different organs working together", "A group of similar cells working together to do one job", "A single cell that does one job", "A group of different tissues working together"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "A tissue is made of many similar cells. For example, muscle tissue is made of many muscle cells working together."
   },
   {
     q: "What is an organ?",
-    choices: ["A musical instrument", "A group of different tissues working together to do a job", "A single cell", "A type of microscope"],
+    choices: ["A group of similar cells working together to do one job", "A group of different tissues working together to do a job", "A group of organ systems working together", "A single cell that does one important job"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "An organ is made of several types of tissue. Your heart is an organ made of muscle, nerve, and blood vessel tissue."
   },
   {
     q: "How does a multicellular organism like you work?",
-    choices: ["Each cell does everything by itself", "Trillions of cells work together in an organized way", "Only one cell controls everything", "Cells do not really work together"],
+    choices: ["Each cell does everything by itself", "Trillions of cells work together in an organized way", "Only one cell controls everything", "All the cells are the same and do the same job"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "Your body has trillions of cells. Different cells specialize in different jobs and work together to keep you alive."
   },
   {
     q: "What does 'division of labor' mean in a multicellular organism?",
-    choices: ["Cells fighting with each other", "Different cells doing different jobs to work together efficiently", "Cells being separated", "Only big cells working"],
+    choices: ["Every cell doing all the jobs of the body", "Different cells doing different jobs to work together efficiently", "Cells dividing to make more cells", "Large cells doing the work for small cells"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "In your body, muscle cells contract, nerve cells send signals, and blood cells carry oxygen. Each type has its own job."
   },
   {
     q: "Why do multicellular organisms need many cells instead of just one giant cell?",
-    choices: ["It looks nicer", "Small cells are more efficient - different cells can specialize in different jobs", "Giant cells are stronger but slower", "There is no good reason"],
+    choices: ["A giant cell would be too heavy to move around", "Small cells are more efficient - different cells can specialize in different jobs", "Many small cells need less food than one giant cell", "Many small cells divide faster than one giant cell"],
     answer: 1,
     topic: "Cells & Org.",
     explain: "Having many specialized cells allows complex organisms to function. A single giant cell would not be as efficient."
@@ -295,42 +295,42 @@ export const QUESTIONS = [
   // ── Part 5: How Cells Divide and Grow ───────────────────────────────────
   {
     q: "Why do cells divide?",
-    choices: ["Because they are bored", "To grow larger and repair damage, and to make new organisms", "Because they are lazy", "Cells never divide"],
+    choices: ["To make each cell bigger and stronger", "To grow larger and repair damage, and to make new organisms", "To get rid of waste from the cell", "To make food for the organism"],
     answer: 1,
     topic: "Cell Division",
     explain: "Cell division allows organisms to grow, repair injuries, and reproduce. One cell becomes two identical cells."
   },
   {
     q: "What happens during cell division?",
-    choices: ["The cell disappears", "The nucleus divides and the cell splits into two new cells", "The cell becomes bigger but stays as one", "Nothing important happens"],
+    choices: ["The cell splits into two, but only one keeps a nucleus", "The nucleus divides and the cell splits into two new cells", "The cell becomes bigger but stays as one", "Two cells join together to make one larger cell"],
     answer: 1,
     topic: "Cell Division",
     explain: "The nucleus divides first. Then the cytoplasm splits. You end up with two cells where you started with one."
   },
   {
     q: "How many new cells are created when one cell divides?",
-    choices: ["One new cell", "Three new cells", "Two new identical cells", "Many random cells"],
+    choices: ["One new cell", "Four new identical cells", "Two new identical cells", "Two new cells that are different"],
     answer: 2,
     topic: "Cell Division",
     explain: "When a cell divides, it creates two daughter cells. Each one is identical to the original cell."
   },
   {
     q: "What does the nucleus do before a cell divides?",
-    choices: ["It disappears", "It copies its DNA so each new cell gets a copy of the genetic information", "It shrinks", "It moves to the edge"],
+    choices: ["It splits its DNA in half so each new cell gets half", "It copies its DNA so each new cell gets a copy of the genetic information", "It makes a new cell wall around itself", "It grows to double the size of the cell"],
     answer: 1,
     topic: "Cell Division",
     explain: "Before dividing, the nucleus makes a complete copy of all its DNA. This way, each new cell has the same instructions."
   },
   {
     q: "Why is cell division important for growth?",
-    choices: ["It makes cells lazy", "It increases the number of cells so the organism gets bigger and stronger", "It stops growth", "It is not important"],
+    choices: ["It makes each cell grow much bigger", "It increases the number of cells so the organism gets bigger and stronger", "It replaces all the old cells with fewer, larger cells", "It breaks the cells into smaller and smaller pieces"],
     answer: 1,
     topic: "Cell Division",
     explain: "You grew from a baby to your current size because your cells kept dividing. More cells = bigger body."
   },
   {
     q: "Can cells divide forever?",
-    choices: ["Yes, infinitely", "No, most cells have a limit to how many times they can divide", "Only plant cells can divide many times", "It depends on the color"],
+    choices: ["Yes, infinitely", "No, most cells have a limit to how many times they can divide", "Only plant cells can divide many times", "Only animal cells can divide"],
     answer: 1,
     topic: "Cell Division",
     explain: "Cells have a 'Hayflick limit' - most can only divide about 50-70 times before they stop or die."
@@ -344,21 +344,21 @@ export const QUESTIONS = [
   },
   {
     q: "What is asexual reproduction in single-celled organisms?",
-    choices: ["Making babies", "One cell dividing to create two identical cells", "Cells fighting", "Eating other cells"],
+    choices: ["Two cells joining together to make one new cell", "One cell dividing to create two identical cells", "One cell growing bigger without dividing", "One cell taking in food from other cells"],
     answer: 1,
     topic: "Cell Division",
     explain: "When bacteria or amoebas divide, each parent cell becomes two identical offspring. No mating is needed."
   },
   {
     q: "Why is it dangerous for cancer cells to divide out of control?",
-    choices: ["They make noise", "Too many unhealthy cells crowd out normal cells and damage organs", "Cancer cells are too slow", "It is not dangerous"],
+    choices: ["Cancer cells spread from person to person like germs", "Too many unhealthy cells crowd out normal cells and damage organs", "Cancer cells stop all other cells from dividing", "Cancer cells divide too slowly to replace dead cells"],
     answer: 1,
     topic: "Cell Division",
     explain: "Cancer happens when cells divide when they should not. This creates tumors that damage healthy tissue."
   },
   {
     q: "How can you help your cells stay healthy and divide properly?",
-    choices: ["Eat junk food", "Eat healthy food, exercise, sleep well, and avoid smoking and too much sun", "Sit in the dark all day", "Do nothing special"],
+    choices: ["Eat mostly sugary snacks for quick energy", "Eat healthy food, exercise, sleep well, and avoid smoking and too much sun", "Stay in the sun as long as possible", "Avoid exercise so the cells are not damaged"],
     answer: 1,
     topic: "Cell Division",
     explain: "A healthy lifestyle gives your cells what they need to function properly and divide correctly when needed."
@@ -367,70 +367,70 @@ export const QUESTIONS = [
   // ── Part 6: Technology and Cells ────────────────────────────────────────
   {
     q: "Why was the microscope an important invention?",
-    choices: ["To make glass prettier", "It let scientists see cells and discover the microscopic world for the first time", "To replace magnifying glasses", "It was not really important"],
+    choices: ["It let scientists see atoms for the first time", "It let scientists see cells and discover the microscopic world for the first time", "It let doctors cure all diseases", "It let doctors see inside the body without cutting"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Before microscopes, people didn't know cells existed. Microscopes opened up an entire hidden world."
   },
   {
     q: "What can an electron microscope do that a light microscope cannot?",
-    choices: ["Make things look prettier", "Show MUCH more detail because it magnifies way more - up to 500,000 times", "Work in sunlight", "Never break down"],
+    choices: ["Show living cells moving in colour", "Show much more detail because it can magnify up to 500,000 times", "Work using ordinary light and glass lenses", "Be carried easily and used anywhere"],
     answer: 1,
     topic: "Cells & Tech",
-    explain: "Electron microscopes magnify up to 500,000×. Light microscopes magnify only about 1,500×. See way more detail!"
+    explain: "Electron microscopes can magnify up to 500,000 times. Light microscopes magnify only about 1,500 times, so an electron microscope shows much more detail."
   },
   {
     q: "What was discovered when scientists looked at cells under microscopes?",
-    choices: ["That cells are not real", "That all living things are made of cells", "That cells are made of rocks", "Nothing new"],
+    choices: ["That only plants are made of cells", "That all living things are made of cells", "That all cells look exactly the same", "That non-living things are also made of cells"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Scientists discovered that all living things are made of cells. This is called 'Cell Theory' and it changed biology forever."
   },
   {
     q: "How do scientists use cell technology to study diseases?",
-    choices: ["They ignore cells", "They look at cells under microscopes and grow cells in labs to understand disease", "They turn cells into robots", "They do nothing"],
+    choices: ["They study only the outside of the body", "They look at cells under microscopes and grow cells in labs to understand disease", "They study cells only after a person has died", "They look at cells with a hand lens"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Studying cells helps doctors understand how diseases work and develop medicines and treatments."
   },
   {
     q: "What is a vaccine?",
-    choices: ["A type of food", "A substance that teaches your immune cells to recognize and fight diseases", "A broken microscope", "A type of cell"],
+    choices: ["A medicine that kills bacteria already in your body", "A substance that teaches your immune cells to recognize and fight diseases", "A chemical that kills germs on surfaces", "A type of white blood cell given by injection"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Vaccines help your body's cells learn to fight specific diseases BEFORE you catch them. This protects you."
   },
   {
     q: "How have microscopes improved over time?",
-    choices: ["They have stayed exactly the same", "They have become more powerful and can see smaller and smaller things", "They got slower", "Modern ones are worse"],
+    choices: ["They have stayed the same since the first one", "They have become more powerful and can see smaller and smaller things", "They have become weaker but cheaper", "They can now show only dead cells"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "From simple lenses to electron microscopes, technology keeps improving. We keep discovering more about cells."
   },
   {
     q: "Why do doctors take biopsies (small samples of cells)?",
-    choices: ["For fun", "To look at the cells under a microscope and check for diseases like cancer", "To give you snacks", "It has no purpose"],
+    choices: ["To stop the cells from dividing", "To look at the cells under a microscope and check for diseases like cancer", "To give the patient new healthy cells", "To make a vaccine from the patient's cells"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "By examining cells from a biopsy, doctors can diagnose diseases and figure out the best treatment."
   },
   {
     q: "What is cloning?",
-    choices: ["Making a cell dirty", "Creating a genetically identical copy of an organism from one cell", "Breaking things", "Planting seeds"],
+    choices: ["Joining cells from two parents to make a new organism", "Creating a genetically identical copy of an organism from one cell", "Changing the colour of an organism's cells", "Making an organism grow faster than normal"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Scientists can take one cell and use its DNA to create an organism that is genetically identical to the original."
   },
   {
     q: "What is stem cell research?",
-    choices: ["Studying plants only", "Studying special cells that can become different cell types and help repair bodies", "Making clothes", "Building robots"],
+    choices: ["Studying how plant stems carry water", "Studying special cells that can become different cell types and help repair bodies", "Studying cells that can become only one type of cell", "Studying why old cells stop working"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Stem cells can grow into many different types of cells. Scientists hope to use them to treat injuries and diseases."
   },
   {
     q: "How is cell technology being used to make medicine?",
-    choices: ["It is not used at all", "Scientists grow cells in labs to test medicines and develop treatments", "Cells are ignored", "Only plants are studied"],
+    choices: ["Scientists turn cells directly into tablets", "Scientists grow cells in labs to test medicines and develop treatments", "Scientists give new medicines to patients without testing", "Scientists study only dead cells from animals"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Cell cultures in labs let scientists test thousands of drug compounds quickly before trying them on patients."

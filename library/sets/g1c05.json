@@ -47,7 +47,7 @@
     "they produce less energy",
     "fossil fuels cause no pollution",
     "leaks have long health risks",
-    ""
+    "they need strong winds to work"
    ],
    "correct": [
     2
@@ -299,7 +299,7 @@
     "it stays the same",
     "it decreases",
     "it increases",
-    ""
+    "it drops to zero"
    ],
    "correct": [
     1
@@ -353,7 +353,7 @@
     "current from batteries",
     "alternating current (a.c.)",
     "direct current (d.c.)",
-    ""
+    "current from solar cells"
    ],
    "correct": [
     1

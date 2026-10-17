@@ -1320,9 +1320,9 @@
    "id": "c16q50",
    "q": "Which is an effect on the baby of smoking during pregnancy?",
    "choices": [
-    "better lung development",
+    "being born after the due date",
     "higher birth weight",
-    "stronger immune system",
+    "faster growth in the womb",
     "low birth weight"
    ],
    "correct": [
@@ -1334,9 +1334,9 @@
    "lo": "State the negative effects of substance abuse on the foetus",
    "ao": "A",
    "notes": {
-    "0": "Smoking harms the baby's development. It does not improve the growth of the lungs.",
+    "0": "Smoking makes it more likely that a baby is born too early, not late.",
     "1": "Smoking slows the growth of the foetus. The baby is more likely to be smaller, not bigger.",
-    "2": "Smoking harms the developing baby. It does not make the baby's defences against disease stronger."
+    "2": "Smoking reduces the oxygen reaching the foetus, so it grows more slowly, not faster."
    },
    "why": {
     "right": "Smoking leads to low birth weight because less oxygen reaches the foetus, so it grows less.",
@@ -1351,8 +1351,8 @@
    "q": "A premature baby may need intensive care because",
    "choices": [
     "its organs may not be fully developed",
-    "its immune system is too strong",
-    "it has stopped growing",
+    "it has too much body fat",
+    "its bones have finished growing",
     "it has too many red blood cells"
    ],
    "correct": [
@@ -1364,7 +1364,7 @@
    "lo": "State the negative effects of substance abuse on the foetus",
    "ao": "A",
    "notes": {
-    "1": "A premature baby's defences against disease are weaker than normal, not too strong.",
+    "1": "A premature baby has less body fat than a baby born at full term, not too much.",
     "2": "A premature baby is still growing. It needs care because its body is not yet fully ready.",
     "3": "Being born early does not give a baby too many red blood cells. The concern is that the body is not fully ready."
    },
@@ -1380,10 +1380,10 @@
    "id": "c16q52",
    "q": "A woman often drank alcohol during pregnancy. Her child may later",
    "choices": [
-    "develop stronger lungs",
+    "develop sickle cell anaemia",
     "find it hard to pay attention",
-    "grow taller than other children",
-    "be protected from infections"
+    "become colour-blind",
+    "become immune to alcohol"
    ],
    "correct": [
     1
@@ -1394,9 +1394,9 @@
    "lo": "State the negative effects of substance abuse on the foetus",
    "ao": "B",
    "notes": {
-    "0": "Alcohol harms the developing baby. It does not make the lungs stronger.",
-    "2": "Alcohol can slow the growth of the baby. It does not make a child grow taller.",
-    "3": "Alcohol harms the developing baby. It does not protect the child against infections."
+    "0": "Sickle cell anaemia is a hereditary disease passed on in genes. Alcohol does not cause it.",
+    "2": "Colour blindness is passed on in genes. Alcohol does not cause it.",
+    "3": "Alcohol does not make a child immune to alcohol. It harms the developing brain of the foetus."
    },
    "why": {
     "right": "The child may have attention problems because alcohol reached the foetus and harmed its developing brain.",
@@ -1434,9 +1434,9 @@
    "id": "c16q54",
    "q": "Which is a possible consequence of an abortion?",
    "choices": [
-    "more eggs being released",
+    "the ovaries stopping egg production",
     "protection against STIs",
-    "a stronger uterus",
+    "a lower risk of future miscarriage",
     "infertility from a damaged uterus"
    ],
    "correct": [
@@ -1448,9 +1448,9 @@
    "lo": "State the consequences of abortion and pre-marital sex",
    "ao": "A",
    "notes": {
-    "0": "An abortion does not make the ovaries release more eggs.",
+    "0": "An abortion acts on the uterus. It does not stop the ovaries from producing eggs.",
     "1": "An abortion does not protect against sexually transmitted infections.",
-    "2": "An abortion can damage the uterus. It does not make the uterus stronger."
+    "2": "Damage to the uterus can make later pregnancies harder, not safer."
    },
    "why": {
     "right": "Infertility may follow an abortion because the procedure can damage the uterus or cause an infection.",
@@ -1467,7 +1467,7 @@
     "an unwanted pregnancy",
     "a lower risk of infertility",
     "protection against STIs",
-    "a stronger immune system"
+    "a lower chance of getting HIV"
    ],
    "correct": [
     0
@@ -1480,7 +1480,7 @@
    "notes": {
     "1": "Pre-marital sex increases the risk of infections that can cause infertility. It does not lower this risk.",
     "2": "Sexual intercourse is the main way STIs spread. It does not protect against them.",
-    "3": "Sexual intercourse does not strengthen the immune system. It carries risks such as infections."
+    "3": "HIV can be passed on through sexual intercourse, so the risk goes up, not down."
    },
    "why": null
   },
@@ -1519,8 +1519,8 @@
    "q": "STIs are mainly transmitted through",
    "choices": [
     "sexual intercourse",
-    "shaking hands",
-    "sharing textbooks",
+    "sharing food and drinks",
+    "using public swimming pools",
     "coughing and sneezing"
    ],
    "correct": [
@@ -1532,8 +1532,8 @@
    "lo": "State how STIs spread and the harmful consequences of syphilis, gonorrhoea and AIDS",
    "ao": "A",
    "notes": {
-    "1": "STI germs are passed in body fluids. They are not spread by shaking hands.",
-    "2": "STI germs are passed in body fluids. They are not spread by sharing objects such as textbooks.",
+    "1": "STI germs are passed in body fluids during sexual contact. They are not spread by sharing food or drinks.",
+    "2": "STI germs do not spread through pool water. They are passed on through sexual contact.",
     "3": "Coughing and sneezing spread infections such as influenza. STIs are passed on in a different way."
    },
    "why": {

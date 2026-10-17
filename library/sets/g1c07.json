@@ -335,7 +335,7 @@
     "equal to 7",
     "more than 7",
     "less than 7",
-    ""
+    "equal to 14"
    ],
    "correct": [
     2
@@ -371,7 +371,7 @@
     "acidic",
     "neutral",
     "alkaline",
-    ""
+    "weakly acidic"
    ],
    "correct": [
     2
@@ -659,7 +659,7 @@
     "it decreases",
     "it increases",
     "it stays the same",
-    ""
+    "it rises and then stays high"
    ],
    "correct": [
     0

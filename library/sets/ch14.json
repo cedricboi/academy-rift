@@ -1325,9 +1325,9 @@
    "q": "Which choice lowers the risk of diabetes?",
    "choices": [
     "exercising 30 minutes, five days a week",
-    "eating more fried food",
+    "eating white rice instead of brown rice",
     "skipping health screenings",
-    "drinking sugary drinks every day"
+    "drinking fruit juice instead of plain water"
    ],
    "correct": [
     0
@@ -1338,9 +1338,9 @@
    "lo": "Describe diabetes and the food and lifestyle choices that reduce its risk",
    "ao": "B",
    "notes": {
-    "1": "Fried food is high in fat and can lead to weight gain, which raises the risk of diabetes. Think about habits that keep body mass healthy.",
+    "1": "White rice has less fibre than brown rice and raises the blood sugar level faster. It does not lower the risk of diabetes.",
     "2": "Health screenings help find diabetes early. Skipping them does not lower the risk. Think about habits that keep body mass healthy.",
-    "3": "Sugary drinks raise the blood sugar level and can lead to weight gain. Think about habits that keep body mass healthy."
+    "3": "Fruit juice contains a lot of sugar. Drinking it in place of water raises the amount of sugar taken in."
    },
    "why": {
     "right": "Regular exercise lowers the risk of diabetes because it helps the body use up sugar and stay at a healthy mass.",

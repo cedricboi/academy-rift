@@ -94,7 +94,7 @@
    "choices": [
     "strand of human hair",
     "fingernail",
-    "football stadium",
+    "coin",
     "grain of rice"
    ],
    "correct": [
@@ -107,7 +107,7 @@
    "ao": "A",
    "notes": {
     "1": "A fingernail is far wider than a million atoms. A million atoms in a row is still a very short distance.",
-    "2": "A football stadium is enormous compared with a million atoms. A million atoms in a row is still a very short distance.",
+    "2": "A coin is far wider than a million atoms. A million atoms in a row is still a very short distance.",
     "3": "A grain of rice is much wider than a million atoms. Think of something even thinner that is still just visible."
    },
    "why": null
@@ -1614,9 +1614,9 @@
    "id": "c08q58",
    "q": "Why were older models of the atom replaced?",
    "choices": [
-    "most people disliked them",
-    "they were too hard to draw",
-    "they were too old",
+    "most scientists voted against them",
+    "newer models were simpler to draw",
+    "they had been used for too many years",
     "they could not explain many properties of atoms"
    ],
    "correct": [
@@ -1628,8 +1628,8 @@
    "lo": "Describe how atomic models are simplified and revised with new evidence",
    "ao": "A",
    "notes": {
-    "0": "Science does not change models because people dislike them. Models change when they do not match the evidence.",
-    "1": "How hard a model is to draw does not decide whether it is kept. Models change when they do not match the evidence.",
+    "0": "Scientific models are not changed by a vote. Models change when they do not match the evidence.",
+    "1": "How easy a model is to draw does not decide whether it is kept. Models change when they do not match the evidence.",
     "2": "Age alone does not make a model wrong. Some old ideas are still used today because they match the evidence."
    },
    "why": {

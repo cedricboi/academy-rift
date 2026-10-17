@@ -263,7 +263,7 @@
     "it becomes larger",
     "it stays the same",
     "it becomes smaller",
-    ""
+    "it depends only on the frequency"
    ],
    "correct": [
     0

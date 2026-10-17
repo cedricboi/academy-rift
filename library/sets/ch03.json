@@ -68,10 +68,10 @@
    "id": "c03q3",
    "q": "Why do we need to know what waste materials are made of?",
    "choices": [
-    "to make them heavier",
+    "to find out how heavy they are",
     "to recycle them correctly",
-    "to burn them faster",
-    "to change their colour"
+    "to make them break down faster",
+    "to make them less harmful"
    ],
    "correct": [
     1
@@ -82,9 +82,9 @@
    "lo": "State why knowing the chemical composition of everyday items matters (useful or harmful, recycling)",
    "ao": "A",
    "notes": {
-    "0": "Knowing what waste is made of does not change its mass. Think about what happens to waste after it is collected and sorted.",
-    "2": "Burning waste quickly is not the reason for finding out what it is made of. Some materials give off harmful gases when burnt. Think about reusing materials.",
-    "3": "Knowing what waste is made of does not change its colour. Think about how different materials are sorted so they can be used again."
+    "0": "The mass of waste can be found by weighing it, without knowing what it is made of. Think about what happens to waste after it is collected and sorted.",
+    "2": "Knowing what waste is made of does not make it break down any faster. Think about how different materials are sorted so they can be used again.",
+    "3": "Knowing what waste is made of does not change how harmful it is. Think about how different materials are sorted so they can be used again."
    },
    "why": {
     "right": "Knowing what waste is made of matters because each material must be sorted and recycled by a suitable method.",

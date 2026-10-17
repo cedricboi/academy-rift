@@ -590,9 +590,9 @@
    "id": "c15q22",
    "q": "Multicellular organisms need a transport system to",
    "choices": [
-    "make all cells the same size",
-    "stop diffusion in cells",
-    "remove the need for food",
+    "make food for all cells",
+    "produce oxygen for all cells",
+    "remove the need for diffusion",
     "move substances quickly to all cells"
    ],
    "correct": [
@@ -604,9 +604,9 @@
    "lo": "Explain the need for a transport system in multicellular organisms",
    "ao": "A",
    "notes": {
-    "0": "Cells in an organism differ in size and type. A transport system carries substances and does not change the size of cells.",
-    "1": "Diffusion still happens between the blood and the cells. A transport system works together with diffusion rather than stopping it.",
-    "2": "All cells still need food. A transport system delivers food, so it does not remove the need for it."
+    "0": "A transport system carries food that was digested or made elsewhere. It does not make food itself.",
+    "1": "A transport system carries oxygen taken in by the lungs or leaves. It does not produce oxygen.",
+    "2": "Diffusion still happens between the blood and the cells. A transport system works together with diffusion rather than replacing it."
    },
    "why": {
     "right": "Large organisms need a transport system because diffusion alone is too slow to supply cells deep inside.",
@@ -620,8 +620,8 @@
    "id": "c15q23",
    "q": "A large animal has no transport system. What would happen to its inner cells?",
    "choices": [
-    "nothing would happen",
-    "they would grow faster",
+    "they would get enough food by diffusion alone",
+    "they would make their own food",
     "they would die from lack of food",
     "they would make their own oxygen"
    ],
@@ -635,7 +635,7 @@
    "ao": "B",
    "notes": {
     "0": "Inner cells are far from the surface. Substances would take too long to reach them by diffusion alone.",
-    "1": "Growth needs a good supply of food and oxygen. Inner cells far from the surface would get very little of either.",
+    "1": "Animal cells cannot make their own food. They depend on food brought to them from outside.",
     "3": "Animal cells cannot make their own oxygen. They depend on oxygen brought to them from outside."
    },
    "why": {
@@ -904,7 +904,7 @@
    "id": "c15q33",
    "q": "A plant's xylem is blocked. What happens to its leaves?",
    "choices": [
-    "they grow faster",
+    "they get water from the phloem instead",
     "they stay the same",
     "they make more sugar",
     "they wilt"
@@ -918,7 +918,7 @@
    "lo": "Infer from an investigation that the xylem transports water and mineral salts",
    "ao": "B",
    "notes": {
-    "0": "Growth needs water. If the xylem is blocked, the leaves receive less water, not more.",
+    "0": "The phloem carries food made in the leaves, not water from the roots. If the xylem is blocked, water cannot reach the leaves.",
     "1": "Leaves keep losing water through their stomata. If no water arrives to replace it, the leaves change.",
     "2": "Photosynthesis needs water. With the xylem blocked, less water reaches the leaves, so less sugar can be made."
    },
@@ -1275,7 +1275,7 @@
     "solid",
     "dissolved",
     "made into sugar",
-    "heated"
+    "broken down by enzymes"
    ],
    "correct": [
     1
@@ -1288,7 +1288,7 @@
    "notes": {
     "0": "Solid particles cannot pass into the cells. Mineral salts have to be in a form that can spread through water.",
     "2": "Sugar is made by photosynthesis in the leaves. Mineral salts are taken in as they are, not changed into sugar.",
-    "3": "Heating is not needed. Mineral salts diffuse into roots at the normal temperature of the soil."
+    "3": "Mineral salts are not digested by enzymes. They only need to be dissolved in soil water to diffuse into root cells."
    },
    "why": {
     "right": "Mineral salts must be dissolved because only dissolved particles can spread through water into the root cells.",
@@ -1578,7 +1578,7 @@
    "id": "c15q57",
    "q": "Second-hand smoke from cigarettes",
    "choices": [
-    "improves heart health",
+    "harms only people with asthma",
     "harms only the smoker",
     "is harmless to others",
     "also harms people nearby"
@@ -1592,7 +1592,7 @@
    "lo": "Describe the harmful effects of drug abuse on the transport system and other systems",
    "ao": "A",
    "notes": {
-    "0": "Cigarette smoke contains harmful substances. It damages the heart and blood vessels rather than improving them.",
+    "0": "Second-hand smoke harms the health of anyone who breathes it in, not only people with asthma.",
     "1": "Smoke spreads into the air around the smoker. Other people breathe it in too.",
     "2": "People nearby breathe in the same smoke. The harmful substances in it affect them as well."
    },
@@ -1740,9 +1740,9 @@
    "id": "c15q63",
    "q": "Why do some countries use an opt-out scheme for organ donation?",
    "choices": [
-    "to lengthen waiting lists",
+    "to let doctors choose who donates",
     "to make organs cheaper to buy",
-    "to reduce the supply of organs",
+    "to shorten the time for each surgery",
     "to increase the supply of organs"
    ],
    "correct": [
@@ -1754,9 +1754,9 @@
    "lo": "Identify ethical issues in organ transplants",
    "ao": "B",
    "notes": {
-    "0": "Long waiting lists are a problem that these schemes try to solve. More donors means patients wait less.",
+    "0": "In an opt-out scheme, everyone is counted as a donor unless they say no. Doctors do not choose who donates.",
     "1": "Selling organs is not allowed. An opt-out scheme is about the number of donors, not the price of organs.",
-    "2": "Countries want more organs for patients who need them. A scheme that reduced the supply would make the shortage worse."
+    "2": "The scheme is about how many organs are available, not how long each operation takes."
    },
    "why": {
     "right": "An opt-out scheme raises the supply because people are counted as donors unless they choose to say no.",

@@ -119,7 +119,7 @@
     "listening to loud music",
     "eating fast food every day",
     "long computer use without breaks",
-    ""
+    "eating too much sugar"
    ],
    "correct": [
     2
@@ -533,7 +533,7 @@
     "washing with water only",
     "washing with ordinary soap",
     "washing with antiseptic soap",
-    ""
+    "rinsing quickly with cold water"
    ],
    "correct": [
     2
@@ -550,13 +550,13 @@
    "choices": [
     "all diseases",
     "hereditary diseases",
-    "certain viruses",
+    "certain infectious diseases",
     "lifestyle diseases"
    ],
    "correct": [
     2
    ],
-   "explain": "A vaccination prepares the body to fight a particular disease before we catch it. It protects us from certain diseases, such as those caused by some viruses, but not from all diseases.",
+   "explain": "A vaccination prepares the body to fight a particular disease before we catch it. It protects us from certain infectious diseases caused by viruses or bacteria, such as measles and tuberculosis. It does not protect us from all diseases.",
    "hint": "",
    "image": "349a21a4e4811c62b690.webp",
    "lo": "Staying Healthy",
@@ -564,7 +564,7 @@
   },
   {
    "id": "g12q32",
-   "q": "Name the method that protects us from certain viruses.",
+   "q": "Name the method that prepares the body to fight certain germs before we fall sick.",
    "choices": [
     "vaccination",
     "disinfectants",
@@ -574,7 +574,7 @@
    "correct": [
     0
    ],
-   "explain": "Vaccination protects us from certain viruses. Antibiotics kill bacteria, and disinfectants and antiseptics kill germs outside the body.",
+   "explain": "Vaccination prepares the body to fight certain germs, such as some viruses and bacteria, before we catch them. Antibiotics kill bacteria inside the body, and disinfectants and antiseptics kill germs outside the body.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -605,7 +605,7 @@
     "he may fall sick again",
     "he may become protected from viruses",
     "he may get better faster",
-    ""
+    "he may become immune to all bacteria"
    ],
    "correct": [
     0

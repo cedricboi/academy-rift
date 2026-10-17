@@ -94,8 +94,8 @@
    "choices": [
     "cost",
     "name of the mixture",
-    "size of the laboratory",
-    "colour of the apparatus"
+    "temperature of the room",
+    "shape of the beaker"
    ],
    "correct": [
     0
@@ -107,8 +107,8 @@
    "ao": "A",
    "notes": {
     "1": "The name of a mixture does not change how it can be separated. Think about how much a technique needs in energy and equipment.",
-    "2": "The size of the laboratory does not decide which technique works. Think about how much a technique needs in energy and equipment.",
-    "3": "The colour of the apparatus does not affect how well it separates. Think about how much a technique needs in energy and equipment."
+    "2": "These techniques all work at normal room temperature, so the room temperature does not decide which one is chosen. Think about how much a technique needs in energy and equipment.",
+    "3": "The same mixture can be separated in beakers of any shape. Think about how much a technique needs in energy and equipment."
    },
    "why": {
     "right": "Cost affects the choice of technique because some techniques need a lot of energy or expensive equipment.",

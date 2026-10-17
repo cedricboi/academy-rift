@@ -47,7 +47,7 @@
     "it stays the same",
     "it decreases",
     "it increases",
-    ""
+    "it drops to zero"
    ],
    "correct": [
     1
@@ -317,7 +317,7 @@
     "it stays the same",
     "it increases",
     "it decreases",
-    ""
+    "it drops to zero"
    ],
    "correct": [
     1
@@ -353,7 +353,7 @@
     "short circuit",
     "series circuit",
     "parallel circuit",
-    ""
+    "branched circuit"
    ],
    "correct": [
     1

@@ -47,7 +47,7 @@
     "physical digestion",
     "chemical digestion",
     "absorption",
-    ""
+    "egestion"
    ],
    "correct": [
     0
@@ -65,7 +65,7 @@
     "chemical digestion",
     "absorption",
     "physical digestion",
-    ""
+    "egestion"
    ],
    "correct": [
     0
@@ -189,14 +189,14 @@
    "q": "State the function of the large intestine.",
    "choices": [
     "absorbs water and mineral salts",
-    "stores faeces",
+    "digests fats",
     "absorbs digested food",
     "breaks down proteins"
    ],
    "correct": [
     0
    ],
-   "explain": "The large intestine absorbs water and mineral salts from the undigested food. Digested food is absorbed in the small intestine, and faeces are stored in the rectum.",
+   "explain": "The large intestine absorbs water and mineral salts from the undigested food. Digested food is absorbed in the small intestine, which is also where fats are digested.",
    "hint": "",
    "image": "10f8366242972b1835fc.webp",
    "lo": "Digestion",
@@ -443,7 +443,7 @@
     "it works fastest",
     "it is not affected",
     "it is destroyed",
-    ""
+    "it becomes inactive only for a while"
    ],
    "correct": [
     2
@@ -461,7 +461,7 @@
     "it is destroyed",
     "it works fastest",
     "it becomes inactive",
-    ""
+    "it is not affected"
    ],
    "correct": [
     2
@@ -497,7 +497,7 @@
     "pH 7",
     "pH 2",
     "pH 8",
-    ""
+    "pH 12"
    ],
    "correct": [
     1
@@ -515,7 +515,7 @@
     "pH 8",
     "pH 2",
     "pH 7",
-    ""
+    "pH 5"
    ],
    "correct": [
     0
@@ -533,7 +533,7 @@
     "pH 7",
     "pH 2",
     "pH 8",
-    ""
+    "pH 12"
    ],
    "correct": [
     0

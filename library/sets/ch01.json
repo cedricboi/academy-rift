@@ -1435,7 +1435,7 @@
     "to make them safer to use",
     "to make them react faster",
     "to change their colour",
-    "to make them hazardous"
+    "to make them last longer"
    ],
    "correct": [
     0
@@ -1448,7 +1448,7 @@
    "notes": {
     "1": "Diluting a chemical usually makes it react more slowly, not faster. Think about why a weaker solution is chosen in school.",
     "2": "Diluting is not done to change colour. Think about what a weaker solution does to the risk of harm.",
-    "3": "Hazardous means dangerous. Dilution lowers the concentration, so consider whether that raises or lowers the danger."
+    "3": "Dilution is not done to make a chemical last longer. It lowers the concentration, so think about what that does to the risk of harm."
    },
    "why": {
     "right": "Diluted chemicals are used because a lower concentration does less harm if it is spilled or splashed.",

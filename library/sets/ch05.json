@@ -1862,9 +1862,9 @@
    "id": "c05q68",
    "q": "How can artificial lighting harm migratory birds?",
    "choices": [
-    "it improves their vision",
-    "it helps them find nests",
-    "it gives them more food",
+    "it fades the colour of their feathers",
+    "it heats the air so they overheat",
+    "it damages their eyes permanently",
     "it disrupts their migration timing"
    ],
    "correct": [
@@ -1876,9 +1876,9 @@
    "lo": "Describe the impact of artificial lighting on society and the environment",
    "ao": "A",
    "notes": {
-    "0": "The question asks how artificial lighting harms birds, and better vision would not be harm. Think about how birds use natural light to decide when to travel.",
-    "1": "Helping birds find nests would be a benefit, not harm. Think about how birds use natural light to decide when to travel.",
-    "2": "Artificial light does not give birds more food, and that would not be harm. Think about how birds use natural light to decide when to travel."
+    "0": "Lamps at night do not fade the colour of feathers. Think about how birds use natural light to decide when to travel.",
+    "1": "Street lamps and building lights do not heat the open air enough to harm birds. Think about how birds use natural light to decide when to travel.",
+    "2": "Artificial light confuses birds but does not blind them for good. Think about how birds use natural light to decide when to travel."
    },
    "why": {
     "right": "Bright artificial light at night confuses birds that use natural light cues to time their migration.",

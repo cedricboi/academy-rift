@@ -1313,7 +1313,7 @@
    "q": "Plugging many appliances into one socket can cause",
    "choices": [
     "less heat in the wires",
-    "a stronger magnet",
+    "the appliances to work faster",
     "a lower current",
     "an electrical fire"
    ],
@@ -1327,7 +1327,7 @@
    "ao": "A",
    "notes": {
     "0": "More appliances draw more current, and more current makes the wires hotter, not cooler. Think about what too much heat can lead to.",
-    "1": "Plugging in appliances does not make a magnet. Think about what a very large current does to the temperature of the wires.",
+    "1": "Appliances do not work faster when they share a socket. Think about what a very large current does to the temperature of the wires.",
     "2": "Each appliance draws its own current, so the total current through the socket gets larger. Think about what this does to the wires."
    },
    "why": {
@@ -1343,7 +1343,7 @@
    "q": "The insulation on a wire is worn out. What is the hazard?",
    "choices": [
     "the current stops completely",
-    "the fuse becomes stronger",
+    "the bulb becomes brighter",
     "the wire becomes an insulator",
     "electric shock from exposed wires"
    ],
@@ -1357,7 +1357,7 @@
    "ao": "B",
    "notes": {
     "0": "Worn insulation does not break the metal wire, so current can still flow. Think about what can happen if someone touches the bare metal.",
-    "1": "Damage to a wire's covering does not change the fuse. Think about what can happen if someone touches the bare metal.",
+    "1": "Worn insulation does not change how bright a bulb is. Think about what can happen if someone touches the bare metal.",
     "2": "The metal inside is still a conductor. It is the plastic covering that has worn away, leaving the metal bare."
    },
    "why": {
@@ -1516,8 +1516,8 @@
    "id": "c13q56",
    "q": "What should be done before washing an electrical appliance?",
    "choices": [
-    "use a wet cloth on the plug",
-    "remove the insulation",
+    "turn it to its lowest setting",
+    "cover the plug with tape",
     "switch off the power supply",
     "keep the appliance switched on"
    ],
@@ -1530,8 +1530,8 @@
    "lo": "State precautions and safety devices for using electricity at home",
    "ao": "B",
    "notes": {
-    "0": "Water conducts electricity, so a wet cloth on a plug can lead to an electric shock. Think about how to make sure no current reaches the appliance.",
-    "1": "Insulation protects people from the metal wires. Removing it exposes the wires and makes a shock more likely.",
+    "0": "An appliance on its lowest setting is still connected and can still carry current. With water, this can cause an electric shock.",
+    "1": "Tape on the plug does not stop current from reaching the appliance. Think about how to make sure no current reaches it.",
     "3": "A switched-on appliance can carry current. With water, this can cause an electric shock. Think about stopping the current first."
    },
    "why": {
@@ -1547,9 +1547,9 @@
    "q": "A two-pin plug does not fit a three-pin socket. You should use",
    "choices": [
     "a plug adaptor",
-    "your fingers to open the hole",
+    "a pen pushed into the top hole",
     "a metal object in the hole",
-    "a wire pushed into the hole"
+    "force the plug in firmly"
    ],
    "correct": [
     0
@@ -1560,9 +1560,9 @@
    "lo": "State precautions and safety devices for using electricity at home",
    "ao": "B",
    "notes": {
-    "1": "Putting fingers into a socket can give an electric shock. A safe way is one that keeps the body away from the socket's live parts.",
+    "1": "Pushing objects into a socket can damage it and expose live parts. A safe way keeps the body away from the socket's live parts.",
     "2": "Metal conducts electricity, so a metal object in a socket can give an electric shock. A safe way keeps the body away from live parts.",
-    "3": "A bare wire conducts electricity, so pushing one into a socket can give an electric shock. A safe way keeps the body away from live parts."
+    "3": "Forcing in a plug that does not fit can damage the socket and expose live parts. A safe way uses a device designed to connect the plug."
    },
    "why": {
     "right": "A plug adaptor is the safe choice because it is designed to connect the plug without exposing live parts.",
