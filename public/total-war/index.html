@@ -18,8 +18,7 @@
   <div class="war-art" aria-hidden="true"><i class="embers"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i></div>
   <div class="join-wrap">
     <div class="tw-logo">
-      <img class="tw-logo-ar" src="../assets/title/logo.webp" alt="Academy Rift">
-      <div class="tw-logo-row"><i class="tw-emblem" aria-hidden="true"></i><h1><img class="tw-logo-img" src="art/tw-logo.png" alt="Total War"></h1><i class="tw-emblem flip" aria-hidden="true"></i></div>
+      <div class="tw-logo-row"><img class="tw-logo-ar" src="../assets/title/logo.webp" alt="Academy Rift"><i class="tw-emblem" aria-hidden="true"></i><h1><img class="tw-logo-img" src="art/tw-logo.png" alt="Total War"></h1></div>
       <p class="tw-tag">The Crimson Host marches. Band together and break the fortress.</p>
     </div>
     <form id="joinForm" class="join-plate" autocomplete="off">
@@ -31,7 +30,7 @@
   </div>
 </section>
 
-<!-- lobby: partner, standard and ready (as in the class tournament) -->
+<!-- lobby: partner, fighter and ready (as in the class tournament) -->
 <section id="lobby" class="screen war-bg dim hidden">
   <div class="war-art" aria-hidden="true"></div>
   <div class="lb-wrap">
@@ -49,7 +48,7 @@
           <div id="partnerList" class="partner-list"></div>
           <div id="pairBox" class="pair-box hidden"><div id="pairNames" class="pair-names"></div><button class="ghost-btn" id="leavePair" type="button">CHANGE</button></div>
         </section>
-        <section class="lb-card"><h4>YOUR STANDARD</h4><div id="standardCard" class="std-card"></div></section>
+        <section class="lb-card"><h4>YOUR FIGHTER</h4><div id="standardCard" class="std-card"></div></section>
       </div>
       <div class="lb-col">
         <section class="lb-card"><h4>THE ARMY <span id="armyCount"></span></h4><div id="army" class="army"></div></section>
@@ -57,8 +56,8 @@
     </div>
   </div>
   <div class="pick-screen hidden" id="stdPick" role="dialog" aria-labelledby="stdTitle">
-    <div class="pick-box"><div class="pick-head"><h3 id="stdTitle">CHOOSE YOUR STANDARD</h3><button type="button" class="x-close" data-close="1" aria-label="Close">×</button></div>
-      <p class="lb-hint">Your banner carries this hero across the map, and they fight for your pair in battle.</p>
+    <div class="pick-box"><div class="pick-head"><h3 id="stdTitle">CHOOSE YOUR FIGHTER</h3><button type="button" class="x-close" data-close="1" aria-label="Close">×</button></div>
+      <p class="lb-hint">Your fighter leads your pair's banner across the map and fights for you in battle.</p>
       <div id="standards" class="standards"></div></div>
   </div>
 </section>

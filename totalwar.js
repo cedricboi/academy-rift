@@ -9,7 +9,7 @@ import {
   HOME, FORTRESS, OUTPOSTS, UNITS, SUMMONABLE, CAMPS, neighbours, isAdjacent, cost, visibleNodes,
   tallyVotes, pairMP, energyPerTurn, energyCarry, auraFor, battleLength, questionHits, dealHits,
   nearestRally, stepTowards, hops, STACK_LIMIT, FORTRESS_LIMIT, READ_SECONDS, ANSWER_SECONDS, VOTE_SECONDS,
-  JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
+  JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, PREPARE_SECONDS, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
 } from "./public/total-war/rules.js";
 
 const token = (n = 18) => randomBytes(n).toString("base64url");
@@ -32,7 +32,7 @@ export function setupTotalWar(deps) {
     while (sessions.has(c) || isRoomCode(c));
     return c;
   }
-  const defaultSettings = () => ({ commander: "Mr Cedric", topic: null, turns: 12, crimsonSeconds: 120, crystalSeconds: 150, target: 25, warlordPct: 80 });
+  const defaultSettings = () => ({ commander: "Mr Cedric", topic: null, turns: 12, crimsonSeconds: PREPARE_SECONDS, crystalSeconds: 150, target: 25, warlordPct: 80 });
 
   function createSession() {
     const S = {
@@ -214,9 +214,10 @@ export function setupTotalWar(deps) {
     for (const B of S.battles.values()) battleTick(S, B, now);
     // phase ends
     if (S.phase === "crimson") {
+      // the class prepares for at most crimsonSeconds (30 s); it ends sooner once the teacher has ended the turn
+      // and everyone has answered their preparing questions
       const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st));
-      const minTime = now >= S.phaseStartedAt + ms(75);
-      if ((S.teacherEnded && (musterDone || minTime)) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
+      if ((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
     } else if (S.phase === "crystal") {
       const allDone = [...S.bands.values()].every((b) => b.done || b.battle);
       if ((allDone && !S.battles.size) || now >= S.phaseEndsAt) {
@@ -530,7 +531,7 @@ export function setupTotalWar(deps) {
 
   // ------------------------------------------------------------------ the teacher's Crimson turn
   function summon(S, type) {
-    if (S.phase !== "crimson") return "You can only send out the Host in your turn.";
+    if (S.status !== "playing") return "The war is not on.";
     const u = UNITS[type]; if (!u || u.fixed) return "That unit cannot be summoned.";
     if (S.energy < u.cost) return "Not enough Rift Energy.";
     if (unitsAt(S, FORTRESS).length >= FORTRESS_LIMIT) return "The fortress is full. Move some units out first.";
@@ -739,7 +740,7 @@ export function setupTotalWar(deps) {
       if ("topic" in s) S.settings.topic = normalizeTopics(s.topic);
       if ("commander" in s) S.settings.commander = String(s.commander || "").trim().slice(0, 30) || "Your teacher";
       for (const k of ["turns", "crimsonSeconds", "crystalSeconds", "target", "warlordPct"]) if (k in s) {
-        const lim = { turns: [4, 30], crimsonSeconds: [45, 300], crystalSeconds: [60, 300], target: [5, 60], warlordPct: [0, 100] }[k];
+        const lim = { turns: [4, 30], crimsonSeconds: [20, 120], crystalSeconds: [60, 300], target: [5, 60], warlordPct: [0, 100] }[k];
         const n = Math.round(+s[k]); if (Number.isFinite(n)) S.settings[k] = Math.max(lim[0], Math.min(lim[1], n));
       }
       S.pool = null;

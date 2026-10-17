@@ -7,8 +7,9 @@ export const FORTRESS = 5;             // Crimson Fortress: the gate guardian, t
 export const OUTPOSTS = [2, 8, 6];     // Whispering Watch, Sunken Watch, Silverwood Camp: rally points once the class holds them
 
 export const SIGHT = 2;                // fog of war: students see this many roads beyond any of their banners
-export const BASE_MP = 2;              // every pair moves at least this far each Crystal turn
-export const MUSTER_MP_CAP = 2;        // most a pair can add from muster answers in one turn (every 2 right answers = +1)
+export const BASE_MP = 1;              // action points (AP) every pair gets each move, before answering anything
+export const MUSTER_MP_CAP = 3;        // most AP a pair can add by preparing: each right answer in the pair is +1 AP
+export const PREPARE_SECONDS = 30;     // how long the class prepares (answers questions) while the teacher moves
 export const MUSTER_PER_TURN = 3;      // muster questions each student answers in a Crimson turn
 export const READ_SECONDS = 4;         // Academy Rift's reading time before the choices appear
 export const ANSWER_SECONDS = 21;      // Academy Rift's time to answer
@@ -132,9 +133,9 @@ export function tallyVotes(votes, order) {
   return tied[0];
 }
 
-// MP for a pair at the start of a Crystal turn
+// Action points (AP) for a pair at the start of its move: 1, plus 1 for every right answer while preparing (up to +3)
 export function pairMP(musterCorrect, buffs = {}) {
-  return BASE_MP + Math.min(MUSTER_MP_CAP, Math.floor(musterCorrect / 2)) + (buffs.mp ? 1 : 0);
+  return BASE_MP + Math.min(MUSTER_MP_CAP, musterCorrect) + (buffs.mp ? 1 : 0);
 }
 
 // Rift Energy the teacher gets each Crimson turn, and how much may be kept for later

@@ -79,8 +79,8 @@ test('the Crimson hits back: every enemy standing attacks, and right answers blo
   assert.equal(resolveFor(3),30);
   assert.equal(siegeOf('ogre'),6); assert.equal(siegeOf('orc_vanguard'),2);
 });
-test('MP: 2 to move, +1 for every 2 right muster answers up to +2, +1 with Tailwind',()=>{
-  assert.equal(pairMP(0),2); assert.equal(pairMP(1),2); assert.equal(pairMP(3),3); assert.equal(pairMP(4),4); assert.equal(pairMP(9),4); assert.equal(pairMP(9,{mp:true}),5);
+test('AP: 1 to move, +1 for every right answer while preparing up to +3, +1 with Tailwind',()=>{
+  assert.equal(pairMP(0),1); assert.equal(pairMP(1),2); assert.equal(pairMP(3),4); assert.equal(pairMP(9),4); assert.equal(pairMP(9,{mp:true}),5);
 });
 test('jungle camps sit at dead ends off the main roads, and every camp has lore and a buff',()=>{
   for(const n of Object.keys(CAMPS)){ assert.equal(neighbours(+n).length,1,`${NODES[n].name} is a dead end`); assert.ok(CAMPS[n].lore && CAMPS[n].buffText); }

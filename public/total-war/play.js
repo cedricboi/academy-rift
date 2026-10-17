@@ -48,7 +48,7 @@ function renderLobby() {
   setHTML($('lbYou'), `You are <b>${esc(me.name)}</b>`);
   const myPair = L.pairs.find((p) => p.id === me.pairId);
   const ready = L.students.filter((s) => s.ready).length;
-  setHTML($('lobbySub'), `Choose a partner and a standard, then tap I'M READY. Anyone without a partner marches alone. <b>${ready}</b> of ${L.students.length} ready. ${esc(boss())} starts the war.`);
+  setHTML($('lobbySub'), `Choose a partner and a fighter, then tap I'M READY. Anyone without a partner marches alone. <b>${ready}</b> of ${L.students.length} ready. ${esc(boss())} starts the war.`);
   $('readyBtn').classList.toggle('on', !!me.ready);
   setHTML($('readyBtn'), me.ready ? '<span>✓ READY</span>' : '<span>◆ I\'M READY ◆</span>');
   // partner
@@ -64,11 +64,11 @@ function renderLobby() {
       return `<button type="button" class="pt ${mine ? 'mine' : ''} ${theirs ? 'theirs' : ''}" data-pid="${s.pid}">${esc(s.name)}${tag}</button>`;
     }).join('') : '<p class="lb-hint">No one else is free yet. Classmates appear here as they join.</p>');
   }
-  // standard
+  // fighter
   const char = myPair?.char || me.myChar;
   const b = char ? bannerFor(char) : null;
-  setHTML($('standardCard'), b ? `<img class="std-art" src="${cardArt(b.id)}" alt=""><div class="std-info"><div class="std-name">${esc(b.fullName)}</div><div class="std-el" style="--c:${b.color}">${esc(b.element)} · ${esc(b.role)}</div><p>Your banner carries ${esc(b.name)} across the map.</p><button class="ghost-btn" type="button" data-open="std">CHANGE STANDARD</button></div>`
-    : `<div class="std-empty">?</div><div class="std-info"><div class="std-name">NOT CHOSEN YET</div><p>If you do not pick, your banner gets a random hero.</p><button class="ghost-btn" type="button" data-open="std">CHOOSE STANDARD</button></div>`);
+  setHTML($('standardCard'), b ? `<img class="std-art" src="${cardArt(b.id)}" alt=""><div class="std-info"><div class="std-name">${esc(b.fullName)}</div><div class="std-el" style="--c:${b.color}">${esc(b.element)} · ${esc(b.role)}</div><p>${esc(b.name)} leads your banner across the map.</p><button class="ghost-btn" type="button" data-open="std">CHANGE FIGHTER</button></div>`
+    : `<div class="std-empty">?</div><div class="std-info"><div class="std-name">NOT CHOSEN YET</div><p>If you do not pick, you get a random fighter.</p><button class="ghost-btn" type="button" data-open="std">CHOOSE FIGHTER</button></div>`);
   setHTML($('standards'), BANNERS.map((x) => `<button type="button" data-char="${x.id}" class="${char === x.id ? 'on' : ''}" style="--c:${x.color}"><img src="${cardArt(x.id)}" alt=""><b>${esc(x.name)}</b><small>${esc(x.element)}</small></button>`).join(''));
   // the army so far
   const rows = L.pairs.map((p) => {
@@ -161,7 +161,7 @@ function renderActBar(band, options, myVote) {
   let step = '', sub = '';
   if (S.phase === 'crimson') { step = `${boss()} is moving the Crimson Host`; sub = 'Your move comes next.'; }
   else if (moving) {
-    if (!options.length) { step = 'No road you can take'; sub = 'Not enough MP to move from here. Tap END MOVE.'; }
+    if (!options.length) { step = 'No road you can take'; sub = 'Not enough AP to move from here. Tap END MOVE.'; }
     else if (multi) {
       step = myVote == null ? 'Vote: tap a glowing stop' : myVote === 'stay' ? 'You voted to stay here' : `You voted for ${nodeName(myVote)}`;
       sub = band.voting ? `Most votes wins. The vote closes in <b data-until="${band.voteEnds}">${gameSecondsLeft(band.voteEnds)}</b>.` : 'Every pair votes. Your warband moves one stop at a time.';
@@ -169,7 +169,7 @@ function renderActBar(band, options, myVote) {
   } else if (S.phase === 'crystal') { step = 'Finished moving'; sub = 'Waiting for the other banners to move.'; }
   else if (S.phase === 'battles') { step = 'Battles are being fought'; sub = 'The next turn starts when they end.'; }
   setHTML($('abStep'), esc(step)); setHTML($('abSub'), sub);
-  setHTML($('abMp'), moving ? `<b>${band.mp}</b><small>MP LEFT</small>` : '');
+  setHTML($('abMp'), moving ? `<b>${band.mp}</b><small>AP LEFT</small>` : '');
   const end = $('endTurnBtn');
   end.classList.toggle('hidden', !moving);
   end.textContent = multi ? (myVote === 'stay' ? 'VOTED: STAY' : 'VOTE: STAY') : 'END MOVE';
@@ -186,7 +186,7 @@ function renderInfo(band, options) {
   const box = $('infoCard');
   if (!selected || S.own || S.myBattle) { box.classList.add('hidden'); return; }
   const optAt = (n) => options.find((o) => o.node === n);
-  const voteBtn = (n, label, cls = 'cyan') => optAt(n) ? `<button class="btn ${cls}" data-vote="${n}">${label} · ${optAt(n).cost} MP</button>` : '';
+  const voteBtn = (n, label, cls = 'cyan') => optAt(n) ? `<button class="btn ${cls}" data-vote="${n}">${label} · ${optAt(n).cost} AP</button>` : '';
   const close = '<button class="x-close" data-close="1" aria-label="Close">×</button>';
   let html = '', cls = 'panel info-card';
   if (selected.startsWith('host')) {
@@ -246,14 +246,15 @@ function renderQuestion() {
   dock.classList.remove('hidden'); $('gMain').classList.add('docked');
   const battle = o.kind === 'warcry' ? S.battles.find((b) => b.id === o.battleId) : null;
   if (o.kind === 'muster') {
-    const bank = S.me.bank, plus = Math.min(2, Math.floor(bank / 2));
-    const pips = Array.from({ length: 4 }, (_, i) => `<i class="${i < Math.min(4, bank) ? 'on' : ''}"></i>`).join('');
-    setHTML($('qdHead'), `<div class="eyebrow">${S.phase === 'crimson' ? `WHILE ${esc(boss().toUpperCase())} MOVES` : 'BETWEEN MOVES'}</div><div class="qd-title">Muster for your next move</div>
-      <div class="qd-mp"><span class="pips">${pips}</span><span>Every 2 right answers in your pair: <b>+1 MP</b>. So far: <b>+${plus} MP</b>${plus >= 2 ? ' (the most)' : ''}</span></div>`);
+    const bank = S.me.bank, ap = 1 + Math.min(3, bank);
+    const pips = Array.from({ length: 3 }, (_, i) => `<i class="${i < Math.min(3, bank) ? 'on' : ''}"></i>`).join('');
+    const left = S.phase === 'crimson' ? `<b data-until="${S.phaseEndsAt}">${gameSecondsLeft(S.phaseEndsAt)}</b>s` : '';
+    setHTML($('qdHead'), `<div class="eyebrow">PREPARE ${left ? `· YOUR MOVE IN ${left}` : ''}</div><div class="qd-title">Earn action points</div>
+      <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer in your pair: <b>+1 AP</b>. Your next move: <b>${ap} AP</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
   } else setHTML($('qdHead'), `<div class="eyebrow" style="color:var(--rose)">WAR CRY</div><div class="qd-title">Back the battle${battle ? ` at ${esc(nodeName(battle.node))}` : ''}</div><div class="qd-mp"><span>Every right answer hits the enemy there.</span></div>`);
   const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? 'Correct!' : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : 'Not quite.') : '';
   card.show({
-    q: o.question, tag: o.kind === 'muster' ? 'MUSTER' : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
+    q: o.question, tag: o.kind === 'muster' ? 'PREPARE' : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
     note: o.retry ? '<b>↺ BACK AGAIN</b> You got this one wrong earlier. Read it carefully.' : '',
     result: o.result, footer, serverNow: S.serverNow, speed,
   });
@@ -292,14 +293,14 @@ function renderBattle() {
   setHTML($('bCentre'), centre);
   if (fighting) {
     const s = B.striker;
-    role = B.role === 'striker' ? '<b class="you-strike">You are the Striker!</b> Your right answer strikes the enemy. Your warband answers along with you.'
-      : `<b>${esc(s?.name || '')}${s?.pairNo ? ` (Pair ${s.pairNo})` : ''}</b> is the Striker. Answer too: right answers add hits, shield the warband, and can steal the strike if the Striker misses.`;
+    role = B.role === 'striker' ? '<b class="you-strike">YOUR TURN!</b> Answer right to attack the enemy. Your warband answers along with you.'
+      : `It is <b>${esc(s?.name || '')}${s?.pairNo ? ` (Pair ${s.pairNo})` : ''}</b>'s turn. Answer along: right answers add hits and block the counterattack. If they miss, the first right answer steals the turn.`;
   }
   setHTML($('bRole'), role);
   if (fighting) {
     if (lastBattleQ !== B.question.startedAt) { lastBattleQ = B.question.startedAt; myPick = B.question.mine?.chosen ?? null; }
     $('bCardHost').classList.remove('hidden');
-    bcard.show({ q: B.question, tag: B.role === 'striker' ? 'STRIKE' : 'SUPPORT', sub: `Question ${B.qNo} of ${B.limit}`, thumb: S.me.char ? portrait(S.me.char) : null,
+    bcard.show({ q: B.question, tag: B.role === 'striker' ? 'YOUR TURN' : 'ANSWER ALONG', sub: `Question ${B.qNo} of ${B.limit}`, thumb: S.me.char ? portrait(S.me.char) : null,
       picked: B.question.mine?.chosen ?? null, footer: B.question.mine ? 'Answer locked in. Waiting for the others…' : '', serverNow: S.serverNow, speed });
   } else { $('bCardHost').classList.add('hidden'); bcard.hide(); }
   // after each question: the answer, and how you did
@@ -333,9 +334,9 @@ setInterval(() => {
 // ------------------------------------------------------------------ how to play (shown once, and from the ? button)
 const HELP = [
   { art: "url(art/keyart.webp)", t: 'Your mission', p: () => [`Break into the <b>Crimson Fortress</b> and defeat ${esc(boss())}'s Warlord.`, `${esc(boss())} commands the Crimson Host against you. Keep the <b>Academy Ward</b> at your home safe too.`] },
-  { art: "url(monsters/orc_warchanter.png)", t: 'Turn by turn', p: () => [`First ${esc(boss())} moves the Crimson Host. While you wait, answer <b>Muster</b> questions.`, 'Every 2 right answers in your pair give <b>+1 MP</b> for your next move.'] },
-  { art: "url(portraits/S.webp)", t: 'Moving', p: () => ['On your move, <b>tap a glowing stop</b> to march there, one stop at a time.', 'Pairs on the same stop can join into a <b>warband</b> and vote on where to go. A <b>⚔</b> stop starts a battle.'] },
-  { art: "url(monsters/golem.png)", t: 'Battles', p: () => ['Each question has one <b>Striker</b>. Everyone else answers it too, to support.', 'Right answers hit the enemy and block its counterattack. Work together and the Crimson falls.'] },
+  { art: "url(monsters/orc_warchanter.png)", t: 'Turn by turn', p: () => [`First you <b>prepare</b> for 30 seconds while ${esc(boss())} moves the Crimson Host: answer questions to earn action points.`, 'Each right answer in your pair is <b>+1 action point (AP)</b>. Then it is your move: spend your AP to march.'] },
+  { art: "url(portraits/S.webp)", t: 'Moving', p: () => ['On your move, <b>tap a glowing stop</b> to march there, one stop at a time. Each road costs AP.', 'Pairs on the same stop can join into a <b>warband</b> and vote on where to go. A <b>⚔</b> stop starts a battle.'] },
+  { art: "url(monsters/golem.png)", t: 'Battles', p: () => ['Battles work like Academy Rift: each question is one student\'s <b>turn</b>, and everyone else <b>answers along</b>. A wrong answer can be <b>stolen</b>.', 'Right answers attack the enemy and block its counterattack. Work together and the Crimson falls.'] },
 ];
 let helpAt = 0;
 function showHelp(at = 0) {

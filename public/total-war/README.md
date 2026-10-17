@@ -15,11 +15,11 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 
 ## How a turn works (as in Civilization)
 
-1. **Crimson turn.** The teacher spends Rift Energy to send units out from the fortress (they appear
-   there) and moves units one road at a time, up to each unit's speed. Meanwhile every student answers
-   **muster** questions on the Academy Rift question card (4 seconds to read, 21 to answer). Every 2 right
-   answers by a pair give that pair +1 MP for its next move, up to +2.
-2. **Crystal turn.** Each pair has 2 MP plus its muster bonus. A banner moves **one stop at a time**.
+1. **Crimson turn (30 seconds by default).** The teacher moves units by hand (orders and sending units
+   out work at any time). Meanwhile every student **prepares**: they answer questions on the Academy Rift
+   question card (4 seconds to read, 21 to answer). Each right answer by a pair is +1 action point (AP)
+   for its next move, up to +3. The class moves after 30 seconds at most.
+2. **Crystal turn.** Each pair has 1 AP plus what it earned preparing. A banner moves **one stop at a time**.
    Pairs on the same stop can join into a **warband**. A warband **votes** on every step: each pair taps
    a stop, most votes wins (a tie goes to the warband's first pair), and the vote closes 15 seconds after
    the first vote. A warband moves at the speed of its slowest connected pair.
@@ -29,10 +29,10 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 
 ## Battles (as in the Arena)
 
-- Each question has one **Striker**, taken in turn so everyone strikes. Everyone else in the battle answers
-  the same question as **support**.
-- The Striker's right answer is 2 hits. If the Striker is wrong, the first supporter who was right
-  **steals** the strike at half power (1 hit). Every other right supporter adds 0.75 of a hit.
+- As in Academy Rift, each question is one student's **turn** (it rotates, so everyone gets turns).
+  Everyone else in the battle **answers along**.
+- A right answer on your turn is 2 hits. If it is wrong, the first student answering along who was right
+  **steals the turn** at half power (1 hit). Every other right answer along adds 0.75 of a hit.
 - **The Crimson hits back** after every question: every enemy still standing attacks the warband's
   **Resolve** (10 per pair). The share of the warband that answered right blocks up to 60% of it.
   Resolve at 0 loses the battle.

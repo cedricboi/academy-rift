@@ -52,7 +52,7 @@ function renderLobby() {
   setHTML($('topics'), `<div class="folder">BUILT IN</div>` + TOPICS.map((t) => `<button type="button" data-topic="${t.id}" class="${chosen.has(t.id) || (!chosen.size && t.id === 'mixed') ? 'on' : ''}">${esc(t.name)}</button>`).join('')
     + [...folders].map(([f, sets]) => `<div class="folder">${esc(f.toUpperCase())}</div>` + sets.map((s) => `<button type="button" data-topic="${s.id}" class="${chosen.has(s.id) ? 'on' : ''}">${esc(s.title)} <small>· ${s.count}</small></button>`).join('')).join(''));
   opts($('setTurns'), [8, 10, 12, 14, 16, 20].map((n) => [n, `${n} turns`]), H.settings.turns);
-  opts($('setCrimson'), [60, 90, 120, 150, 180].map((n) => [n, `${n / 60 >= 1 ? `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')}` : n + ' s'} min`]), H.settings.crimsonSeconds);
+  opts($('setCrimson'), [20, 30, 45, 60].map((n) => [n, `${n} seconds`]), H.settings.crimsonSeconds);
   opts($('setCrystal'), [90, 120, 150, 180, 240].map((n) => [n, `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')} min`]), H.settings.crystalSeconds);
   opts($('setTarget'), [15, 20, 25, 30, 40].map((n) => [n, `${n} questions`]), H.settings.target);
   $('classCount').textContent = `· ${H.students.length} JOINED`;
@@ -130,7 +130,7 @@ function render() {
   show('game');
   const mine = H.phase === 'crimson';
   $('gEyebrow').textContent = H.status === 'ended' ? 'THE WAR IS OVER' : `TURN ${H.turn} OF ${H.turns} · ${mine ? 'CRIMSON TURN' : H.phase === 'crystal' ? 'CRYSTAL TURN' : 'BATTLES'}`;
-  $('gTitle').textContent = mine ? (H.teacherEnded ? 'Waiting for the class to finish mustering' : 'Your move, Commander') : H.phase === 'crystal' ? 'The class is moving' : 'Battles are being fought';
+  $('gTitle').textContent = mine ? (H.teacherEnded ? 'Waiting for the class to finish preparing' : 'Your move, Commander') : H.phase === 'crystal' ? 'The class is moving' : 'Battles are being fought';
   $('energy').textContent = H.energy;
   $('wardTxt').textContent = `${H.ward.hp}/${H.ward.max}`;
   $('endTurnBtn').disabled = !mine || H.teacherEnded; $('autoBtn').disabled = !mine || H.teacherEnded;
@@ -139,7 +139,7 @@ function render() {
 
   const u = selUnit && H.units.find((x) => x.id === selUnit);
   if (selUnit && !u) selUnit = null;
-  if (!mine || H.teacherEnded) marchPick = false;
+  if (H.status !== 'playing') marchPick = false;
   const targets = marchPick ? NODES.map((_, n) => n).filter((n) => !CAMPS[n] && n !== selStack).map((n) => ({ node: n, target: true })) : unitOptions(u);
   const marches = H.units.filter((x) => x.order?.kind === 'march').map((x) => marchPoints(x.node, x.order.to)).filter(Boolean);
   map.render({ state: H, full: true, options: targets, marches, selected: selStack == null ? null : selStack === FORTRESS ? 'fortress' : `host${selStack}` });
@@ -167,15 +167,15 @@ function render() {
     setHTML(sp, `<button class="x-close" data-close="1" aria-label="Close">×</button><div class="eyebrow" style="color:var(--rose)">${fort ? 'CRIMSON FORTRESS' : 'CRIMSON WARBAND'}</div><h3>${esc(nodeName(selStack))}</h3>`
       + (fort ? `<div class="unit-row" style="cursor:default"><img src="${sprite(H.gate.broken ? 'warlord' : 'golem')}" alt=""><div class="nm">${H.gate.broken ? 'The Crimson Warlord' : 'Bloodstone Golem'}<small>${H.gate.broken ? (H.warlordReady ? 'Out and fighting' : 'Waiting inside') : 'Guards the gate'}</small><div class="hpbar"><i style="width:${H.gate.broken ? (H.warlord.hp / H.warlord.max) * 100 : (H.gate.hp / H.gate.max) * 100}%"></i></div></div><span class="mv">${H.gate.broken ? `${H.warlord.hp}/${H.warlord.max}` : `${H.gate.hp}/${H.gate.max}`}</span></div>` : '')
       + us.map((x) => `<button type="button" class="unit-row ${selUnit === x.id ? 'on' : ''}" data-unit="${x.id}"><img src="${sprite(x.type)}" alt=""><div class="nm">${esc(UNITS[x.type].name)}<small>${x.battle ? 'In battle' : x.order ? esc(ORDER_TEXT[x.order.kind](x.order)) : esc(UNITS[x.type].role)}${x.dugIn ? ' · dug in' : ''} · ${x.hp}/${x.max}</small></div><span class="mv">${Math.max(0, x.speed - x.moved)} move${x.speed - x.moved === 1 ? '' : 's'}</span></button>`).join('')
-      + (us.length && mine && !H.teacherEnded ? `<div class="eyebrow" style="margin-top:10px;color:var(--rose)">ORDERS · ${selUnit ? 'THIS UNIT' : 'EVERY UNIT HERE'}</div>
+      + (us.length && H.status === 'playing' ? `<div class="eyebrow" style="margin-top:10px;color:var(--rose)">ORDERS · ${selUnit ? 'THIS UNIT' : 'EVERY UNIT HERE'}</div>
         <div class="orders"><button type="button" class="btn ${marchPick ? 'crimson' : ''}" data-order="march">March to…</button><button type="button" class="btn" data-order="hold">Hold</button><button type="button" class="btn" data-order="hunt">Hunt</button><button type="button" class="btn icon" data-order="clear" title="Clear orders">✕</button></div>` : '')
-      + `<p class="hint" style="margin-top:8px">${marchPick ? 'Tap any ⚑ on the map. They march there turn after turn, and attack any banner in the way.' : mine ? (us.length ? 'Tap a unit, then a glowing stop to move it now. Or give orders: they play out when you end your turn. Holding a whole turn digs units in (25% tougher).' : 'Send units out with the cards below.') : 'You can move units and give orders in your turn.'}</p>`);
+      + `<p class="hint" style="margin-top:8px">${marchPick ? 'Tap any ⚑ on the map. They march there turn after turn, and attack any banner in the way.' : mine ? (us.length ? 'Tap a unit, then a glowing stop to move it now. Or give orders: they play out when you end your turn. Holding a whole turn digs units in (25% tougher).' : 'Send units out with the cards below.') : 'Give orders any time: they play out at the end of your next turn. Move units by hand in your turn.'}</p>`);
     sp.classList.remove('hidden');
   }
 
   // send out the Host
   setHTML($('summon'), `<div class="lead"><span class="eyebrow" style="color:var(--rose);letter-spacing:2px;font-size:10px">SEND OUT</span><small>Tap a card. It appears at your fortress.</small></div>`
-    + SUMMONABLE.map((t) => `<button type="button" data-type="${t}" ${!mine || H.teacherEnded || H.energy < UNITS[t].cost ? 'disabled' : ''} title="${esc(UNITS[t].role)}"><img src="${sprite(t)}" alt=""><span>${esc(UNITS[t].name.replace(/^(Riftborn|Emberfang|Ember|Riftweaver|Crimson|Ironhide) /, '').replace(' of the Rift', ''))}</span><i>${UNITS[t].cost}</i></button>`).join(''));
+    + SUMMONABLE.map((t) => `<button type="button" data-type="${t}" ${H.status !== 'playing' || H.energy < UNITS[t].cost ? 'disabled' : ''} title="${esc(UNITS[t].role)}"><img src="${sprite(t)}" alt=""><span>${esc(UNITS[t].name.replace(/^(Riftborn|Emberfang|Ember|Riftweaver|Crimson|Ironhide) /, '').replace(' of the Rift', ''))}</span><i>${UNITS[t].cost}</i></button>`).join(''));
 
   // the end
   const end = $('ending');

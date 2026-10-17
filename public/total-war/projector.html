@@ -96,7 +96,7 @@ function render() {
     return;
   }
   $('pPhase').textContent = `TURN ${P.turn} · ${P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? 'CRYSTAL TURN' : P.phase === 'battles' ? 'BATTLES' : 'THE END'}`;
-  $('pSub').textContent = P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. Muster!` : P.phase === 'crystal' ? 'The class is on the move' : P.phase === 'battles' ? 'The last battles of the turn' : '';
+  $('pSub').textContent = P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares!` : P.phase === 'crystal' ? 'The class is on the move' : P.phase === 'battles' ? 'The last battles of the turn' : '';
   $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
   $('gateText').textContent = P.gate.broken ? (P.warlord.out ? 'The Warlord is out!' : 'Broken') : `Unbroken · ${P.gate.hp} / ${P.gate.max}`;
   map.render({ state: P });
@@ -108,7 +108,7 @@ function render() {
     const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'THE CRIMSON WARLORD' : B.kind === 'defend' ? 'The Crimson Host attacks!' : 'The Crimson Host';
     const rd = B.round;
     const st = B.status === 'gather' ? 'Gathering. Warbands one road away can still join.'
-      : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · Striker: ${B.striker ? `${B.striker.name} (Pair ${B.striker.pairNo})` : '–'} · ${B.answered} of ${B.fighters} have answered`
+      : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · Turn: ${B.striker ? `${B.striker.name} (Pair ${B.striker.pairNo})` : '–'} · ${B.answered} of ${B.fighters} have answered`
       : B.status === 'result' && rd ? `${rd.hits} hits · the Crimson hit back for ${Math.round(rd.counterTotal * 10) / 10}${rd.guard ? ` (${Math.round(rd.guard * 100)}% blocked)` : ''}`
       : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The banners held!' : 'The Crimson Host held.') : '';
     $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff5a6e;letter-spacing:6px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(NODES[B.node].name.toUpperCase())}</div><h3>${esc(what)}</h3>`;

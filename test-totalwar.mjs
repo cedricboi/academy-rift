@@ -74,6 +74,7 @@ check(bots[0].state.lobby.pairs.some((p) => p.names.includes("S1") && p.names.in
 teacher.emit("twStart");
 while (host.status !== "playing") await sleep(20);
 check(host.turn === 1 && host.phase === "crimson", "war starts on turn 1 with the Crimson turn");
+check(host.phaseEndsAt - Date.now() <= 30000 / SPEED + 500, "the class prepares for at most 30 seconds before its move");
 check(host.bands.every((b) => b.node === HOME), "every banner starts at the Crystal Fortress");
 
 // ---------- how the bots play ----------
@@ -180,7 +181,7 @@ while (host.status === "playing") {
   if (!mpChecked && host.phase === "crystal" && host.turn === 1) {
     mpChecked = true;
     const band = host.bands.find((b) => b.pairs.length >= 1);
-    check(band.mp >= 2 && band.mp <= 6, `muster gives MP between 2 and 6 (warband has ${band.mp})`);
+    check(band.mp >= 1 && band.mp <= 5, `preparing gives between 1 and 5 AP (warband has ${band.mp})`);
   }
   if (host.turn >= 2 && host.bands.some((b) => b.pairs.length >= 3 && b.node !== HOME)) sawMultiStep = true;
   // a student drops out and comes back mid-war

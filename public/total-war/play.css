@@ -14,11 +14,11 @@
 .embers b:nth-child(10){left:82%;animation-delay:1.7s}.embers b:nth-child(11){left:90%;animation-delay:5.6s}.embers b:nth-child(12){left:97%;animation-delay:3.7s}
 @keyframes ember{0%{transform:translate(0,0);opacity:0}10%{opacity:1}100%{transform:translate(-60px,-90vh);opacity:0}}
 .join-wrap{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;padding:calc(24px + env(safe-area-inset-top)) 48px calc(24px + env(safe-area-inset-bottom));max-width:720px}
-.tw-logo-ar{width:min(260px,52vw);image-rendering:pixelated;filter:drop-shadow(0 4px 0 #000)}
-.tw-logo-row{display:flex;align-items:center;gap:12px;margin-top:10px}
+.tw-logo-ar{height:clamp(64px,9vw,92px);image-rendering:pixelated;filter:drop-shadow(0 4px 0 #000)}
+.tw-logo-row{display:flex;align-items:center;gap:10px}
 .tw-logo h1{margin:0;line-height:0}
-.tw-logo-img{height:clamp(150px,22vw,220px);image-rendering:pixelated;filter:drop-shadow(0 0 18px #ff3a4a55)}
-.tw-emblem{width:72px;height:72px;flex:0 0 72px;background:url(../assets/title/menu_war_icon.webp) 0 0/1000% 100% no-repeat;image-rendering:pixelated;animation:mbIcon 1s steps(9) infinite}
+.tw-logo-img{height:clamp(68px,9.6vw,98px);image-rendering:pixelated;filter:drop-shadow(0 0 14px #ff3a4a44)}
+.tw-emblem{width:56px;height:56px;flex:0 0 56px;background:url(../assets/title/menu_war_icon.webp) 0 0/1000% 100% no-repeat;image-rendering:pixelated;animation:mbIcon 1s steps(9) infinite}
 .tw-emblem.flip{transform:scaleX(-1)}
 @keyframes mbIcon{to{background-position:100% 0}}
 .tw-tag{margin:6px 0 0;font:600 17px "Rift Body";color:#f2e2c9;text-shadow:0 2px 6px #000}

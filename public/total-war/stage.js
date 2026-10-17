@@ -240,21 +240,21 @@ export function createStage(host, { mode = 'pair' } = {}) {
     const main = r.strike ? 2 : r.stealer ? 1 : 0;
     // 1. the strike
     if (main && who && firstAlive) {
-      say(r.stealer ? `${r.stealer.name} steals the strike!` : `${r.striker.name} strikes!`, r.stealer ? '#9fe8ff' : '#f3dca0');
+      say(r.stealer ? `${r.stealer.name} stole the turn!` : `${r.striker.name} attacks!`, r.stealer ? '#9fe8ff' : '#f3dca0');
       let h = heroes.find((x) => x.key === `p${who.pairNo}`);
       let temp = null;
       if (!h) { temp = makeHero({ key: 'tmp', char: who.char, label: who.name }, 0, 1); temp.x = -120; temp.homeX = -120; temp.row = 1; extras.push(temp); h = temp; await tween(temp, 'x', W * 0.2, 300); }
       await strike(h, firstAlive, r.mainHits ?? main, !!r.stealer);
       if (temp) { await tween(temp, 'x', -160, 280); extras = extras.filter((x) => x !== temp); }
     } else if (r.striker) {
-      say(`${r.striker.name} missed. No strike this time.`, '#c7d4d1');
+      say(`${r.striker.name} missed. No attack this time.`, '#c7d4d1');
       await later(700);
     }
     if (id !== playing) return;
     // 2. the supporters' hits and War Cries
     const extra = (r.support || 0) + (r.warcry || 0);
     if (extra > 0 && firstAlive) {
-      say(`${r.support ? `${r.support} supporter${r.support === 1 ? '' : 's'}` : ''}${r.support && r.warcry ? ' and ' : ''}${r.warcry ? `${r.warcry} War ${r.warcry === 1 ? 'Cry' : 'Cries'}` : ''} hit${extra === 1 && !r.warcry ? 's' : ''} too!`, '#9fe8ff');
+      say(`${r.support ? `${r.support} right answer${r.support === 1 ? '' : 's'} along` : ''}${r.support && r.warcry ? ' and ' : ''}${r.warcry ? `${r.warcry} War ${r.warcry === 1 ? 'Cry' : 'Cries'}` : ''} hit too!`, '#9fe8ff');
       const k = Math.min(8, extra);
       for (let i = 0; i < k; i++) {
         const t = alive()[i % Math.max(1, alive().length)] || firstAlive;
