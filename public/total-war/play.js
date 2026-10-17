@@ -155,6 +155,8 @@ function render() {
   const planning = isCouncil() && band && !band.battle;
   if (!planning || (draft && draft[0] !== band.node)) draft = null;
   if (draft && band && routeKey(band.props?.[S.me.pairId]) === routeKey(draft)) draft = null;     // sent: show it as the proposal
+  while (draft && draft.length > 1 && routeCost(draft) > band.mp) draft = draft.slice(0, -1);          // the warband's AP fell (a pair joined): keep what it can afford
+  if (draft && draft.length < 2) draft = null;
   const reach = planning ? reachableStops(band) : new Map();
   const options = [...reach].map(([node, c]) => ({ node, cost: c, reach: true, attack: blocks(node), inRoute: !!draft?.includes(node) }));
   const mineProp = band?.props?.[S.me.pairId];
