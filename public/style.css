@@ -1125,3 +1125,15 @@ input:focus{outline:none;border-color:var(--cyan);}
   image-rendering:pixelated;image-rendering:crisp-edges;animation:sprIdle var(--dur,1.1s) steps(var(--n,8)) infinite;}
 @keyframes sprIdle{to{transform:translateX(-100%);}}
 @media (prefers-reduced-motion: reduce){ .spr-frame img{animation:none;} }
+
+/* ===== Total War battles (this page in a frame over the war map): the war's backdrops have their ground lower and
+   flatter than the Arena's rooms, so every fighter stands on one floor line, at the theatre's size and spacing ===== */
+.tw-arena .lane{bottom:13%;}
+.tw-arena .arena.moving .lane{bottom:16%;}
+.tw-arena .arena.stealing .lane{bottom:22%;}
+.tw-arena .lane.lf{left:12%;}
+.tw-arena .lane.lb{left:28%;}
+.tw-arena .lane.rf{left:68%;}
+.tw-arena .lane.rb{left:86%;}
+.tw-arena .lane .tok,.tw-arena .lane.lb .tok,.tw-arena .lane.rf .tok{width:calc(290 * var(--u));}
+.tw-arena .tok.mon .spr-frame{width:150%;left:calc(50% - 150% * var(--ax,.5));}

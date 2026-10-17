@@ -8,6 +8,7 @@ import { setupShop, itemIcon } from "./shop.js";
 // events, so a Total War battle is the Arena's battle screen, with the Crimson Host's monsters on the other side.
 const TW = (() => { try { return new URLSearchParams(location.search).has("tw") && window.parent !== window ? window.parent.twArena || null : null; } catch { return null; } })();
 const socket = TW ? TW.socket : io();
+if (TW) document.documentElement.classList.add("tw-arena");
 let myId = TW ? TW.me : null;
 let room = null;
 let inputLocked = false;

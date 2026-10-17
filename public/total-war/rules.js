@@ -4,6 +4,13 @@ import { NODES, EDGES, edgeCost } from './movement.js';
 
 export const HOME = 0;                 // Crystal Fortress: where the class starts and retreats to
 export const FORTRESS = 5;             // Crimson Fortress: the gate guardian, then the Warlord
+export const QUIZ_PER_MOVE = 3;        // the class's move opens with 3 questions each (coins for right answers), then the map
+export const QUIZ_BONUS = 20;          // extra coins for getting all 3 right
+export const STRATEGY_SECONDS = 25;    // once everyone can move, the class has at least this long to plan, move and order food
+export const REST_HEAL = 3;            // HP a pair gets back each turn it rests at the Academy or a rally point it holds (otherwise only food heals)
+export const ALONG_HIT = 0.75;         // answering along: this many hits for each right answer…
+export const ALONG_CAP = 4;            // …counting at most this many (a huge warband no longer melts an enemy in one question)
+export const SYNC_PER_QUESTION = 16;   // Sync gauge per question when every fighter is right (scaled down by the share right)
 export const WATCHTOWER = 2;           // Whispering Watch: a Crystal banner standing on it shows the class the whole Crimson Host (not ambushers)
 export const TELEPORT_COST = 2;        // Rift Energy for the teacher to teleport one unit
 export const AMBUSH_HIT = 0.25;        // an ambushed warband starts the battle this much down on HP
@@ -45,7 +52,7 @@ export const UNITS = {
   ogre:           { name: 'Ironhide Ogre',         cost: 3, hp: 20, atk: 3, siege: 2, speed: 1, role: 'Siege brute' },
   wyvern:         { name: 'Crimson Wyvern',        cost: 3, hp: 16, atk: 3, speed: 3, role: 'Flying raider' },
   golem:          { name: 'Bloodstone Golem',      fixed: true, hp: 45, atk: 8, siege: 2, role: 'Guards the fortress gate' },
-  warlord:        { name: 'The Crimson Warlord',   fixed: true, hp: 70, atk: 12, role: 'Commander of the Crimson Host' },
+  warlord:        { name: 'The Crimson Warlord',   fixed: true, hp: 70, atk: 8, role: 'Commander of the Crimson Host' },
 };
 export const SUMMONABLE = Object.keys(UNITS).filter((k) => !UNITS[k].fixed);
 
