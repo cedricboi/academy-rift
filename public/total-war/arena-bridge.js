@@ -72,11 +72,46 @@ export function createArenaBridge({ socket: tw, host }) {
     wait();
   }
   function close() {
+    pip.classList.add('hidden');
     if (frame) frame.remove();
     frame = null; ready = false; queue = []; handlers = {}; cur = null;
     host.classList.add('hidden');
   }
   const busy = () => { try { return !!frame?.contentWindow?.twBusy?.(); } catch { return false; } };
+
+  // ---------------- split screen: the other pairs in this battle, fighting the same monsters, in the top right corner
+  const LABS = { jun: 'J', kuro: 'K', emi: 'E', saya: 'S', raiden: 'R', nao: 'N', taiga: 'T', hina: 'H', mina: 'M', renji: 'X' };
+  const FRAMES = { K: 10 };
+  const pip = document.createElement('div'); pip.className = 'tw-pip hidden'; pip.setAttribute('aria-hidden', 'true');
+  host.after(pip);
+  let pipAt = 0, pipIdx = 0, pipRound = 0, pipHit = null;
+  function renderPip(S, B) {
+    const live = B && (B.status === 'fight' || B.status === 'choose' || B.status === 'result');
+    const groups = new Map();
+    for (const f of B?.party || []) if (f.pairNo && f.pairNo !== S.me.pairNo) { if (!groups.has(f.pairNo)) groups.set(f.pairNo, []); groups.get(f.pairNo).push(f); }
+    if (!live || !groups.size) { pip.classList.add('hidden'); return; }
+    const list = [...groups.entries()];
+    if (Date.now() - pipAt > 4500) { pipAt = Date.now(); pipIdx = (pipIdx + 1) % list.length; }
+    const [no, fs] = list[pipIdx % list.length];
+    const L = LABS[fs[0].char] || 'K', n = FRAMES[L] || 8;
+    const foe = B.enemies.find((e) => e.wave && e.hp > 0) || B.enemies.find((e) => e.hp > 0) || B.enemies[0];
+    const r = B.round;
+    if (r && r.at !== pipRound) { pipRound = r.at; const a = r.action; if (a && fs.some((f) => f.pid === a.pid)) pipHit = { at: Date.now(), dmg: X(r.mainHits), no }; }
+    const hit = pipHit && pipHit.no === no && Date.now() - pipHit.at < 2500 ? pipHit : null;
+    const html = `<div class="pip-h">PAIR ${no} · ${fs.map((f) => esc(f.name)).join(' & ')}</div>
+      <div class="pip-stage" style="background-image:url(art/bg/${backdropFor(B.node, B.kind)}.webp)">
+        <i class="pip-hero" style="--n:${n};background-image:url(../theatre/arena/${L}.webp)"></i>
+        ${foe ? `<i class="pip-foe ${hit ? 'hurt' : ''}" style="background-image:url(monsters/anim/${foe.type}_idle.webp)"></i>` : ''}
+        ${hit ? `<b class="pip-dmg">-${hit.dmg}</b>` : ''}
+      </div>
+      ${foe ? `<div class="pip-hp"><span>${esc(enemyName(foe.type))}</span><i><b style="width:${Math.max(0, (foe.hp / foe.max) * 100)}%"></b></i></div>` : ''}
+      ${list.length > 1 ? `<div class="pip-dots">${list.map((_, i) => `<i class="${i === pipIdx % list.length ? 'on' : ''}"></i>`).join('')}</div>` : ''}`;
+    if (pip._html !== html) { pip._html = html; pip.innerHTML = html; }
+    pip.classList.remove('hidden');
+  }
+  // the corner it sits in moves down while your own question card fills the middle of the screen
+  setInterval(() => { try { const a = frame?.contentWindow?.document.getElementById('arena'); pip.classList.toggle('low', !!a && (a.classList.contains('asking') || a.classList.contains('stealing'))); } catch {} }, 300);
+  const esc = (v) => String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // ---------------- the war's battle as an Arena room
   function fighter(S, B, pid, char, name, extra = {}) {
@@ -179,6 +214,7 @@ export function createArenaBridge({ socket: tw, host }) {
     } else fire('room', room);
     if (!cur.started && live) { cur.started = true; fire('battleStart', {}); }
     host.classList.toggle('hidden', !live);
+    renderPip(S, live ? B : null);
     return live;
   }
 

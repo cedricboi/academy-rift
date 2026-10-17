@@ -67,6 +67,58 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   bag when she arrives, even in the middle of a battle.
 - Once every banner has locked in, the Crimson turn waits up to 30 seconds while students order and their food arrives.
 
+## The class's move: 3 questions, the War Council, then everyone marches
+
+1. **Prepare** (the Crimson turn): preparing questions earn action points (AP), as before.
+2. **3 questions before the move**: each right answer earns 10 coins, all 3 right earns a 20-coin bonus. Wrong
+   answers earn nothing, but everyone still moves. The map opens when the whole class is done.
+3. **The War Council** (45 s, set in the lobby; the teacher can add 15 s or launch early): no questions, the map has
+   everyone's attention. Tap a glowing stop to plan a route for the whole move: it follows the real roads, shows
+   its AP cost, what is there and how much AP is left, and a ghost banner marks the planned stop. Tap a junction to
+   change the way. A pair alone commits straight away; in a warband one pair proposes and the others tap AGREE (the
+   majority route wins when the council ends). HOLD HERE keeps a banner where it is. Other banners' routes show as
+   thin lines. Grab-Ma takes orders here too.
+4. **The march**: every committed banner sets off together and eases along the roads. Walking into an enemy (or an
+   ambush) stops the route and starts the battle; the rest of the route is not taken.
+5. **Battles** finish, then the next turn begins. Students who are free can tap **SUPPORT** to back a battle with War
+   Cries (War Cries only come to students who chose to support).
+
+Each banner shows its status beside it and on the action bar (planning, agreeing, committed, marching, enemy
+encountered, holding, recovering), and a small HP bar.
+
+## HP, food and recovery
+
+- A pair has 10 HP (shown ×100 in battle). It **does not come back after a battle**: a warband fights with the HP its
+  pairs still have, and what is left goes back to the pairs. A beaten warband limps away with 30% HP.
+- Heal by eating food from Grab-Ma (on the phone, or on your turn in battle), or by resting at the Academy or a
+  rally point you hold (+3 HP a turn).
+- After a defeat, the action bar tells the company where it withdrew to and how wounded the enemy is.
+
+## Balance (slower battles)
+
+- Sync fills by up to 16 a question (scaled by the share of fighters who were right) plus 4 for a right strike.
+- Answering along: 0.75 hits for each right answer, counting at most 4. Ultimate splash is 1.5 hits.
+- The gate guardian hits for 6, the Warlord for 8.
+
+## Seeing the battle
+
+- Battles use the Arena screen, with every fighter standing on the war backdrop's ground line at the theatre's size.
+- In a battle with more than one pair, a small window in the top right shows another pair fighting the same monster
+  (its HP falls with yours). With several pairs it takes turns showing each one, and it drops to the bottom right while
+  your own question card is open.
+
+## Scouting, warnings, the finale and the story
+
+- Tap a Crimson unit to see its role (siege units are marked as a threat to the Ward). A visible siege unit within one
+  march of the Academy raises a warning ribbon. A unit that disappears into the fog leaves a faded "last seen" marker.
+- Breaking the gate brings out the Warlord ("Assemble for the final assault"). If 80% of the class have reached the
+  "questions each" target, he starts the final battle 25% weaker. The teacher can tick "Warlord waits for the target"
+  to make the target a requirement instead.
+- The end screen tells the story of the campaign from what happened: camps beaten, attacks repelled, the watchtower
+  climbed, ambushes survived, the gate and the Warlord.
+- Teacher screen: during the War Council a bar shows the time, how many companies have agreed, +15 s and Launch now. A
+  chip counts units without orders (tap it to jump to them).
+
 ### Waves, targets, ambushes, teleports and the watchtower
 
 - **Enemies come in waves:** one at a time, with a 50% chance that the next wave is two. Answering along and an

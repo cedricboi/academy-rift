@@ -104,3 +104,12 @@
 .oa-done{margin:0;padding:8px 10px;background:#13302a;border:2px solid #2fb38c;font:700 14px "Rift Pixel";color:#bff5e0}
 .oa-grid .btn:disabled{opacity:.45}
 .orders{flex-wrap:wrap}
+.story{margin:14px auto;max-width:640px;text-align:left}
+.story ol{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.story li{padding:8px 12px;background:#0c0a12cc;border-left:3px solid var(--gold);font:500 15px "Rift Body";color:var(--ivory)}
+.story li small{display:block;font:700 10px "Rift Pixel";color:var(--gold);letter-spacing:1px}
+.guide{pointer-events:auto}
+.g-council{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#0c0a12ee;border:2px solid var(--gold);box-shadow:0 0 0 2px #000;font:500 13px "Rift Body";color:#e9e2d2}
+.g-council b{font:700 13px "Rift Pixel";color:var(--gold);letter-spacing:1px}
+.g-council .btn{min-height:34px;padding:0 10px;font-size:12px}
+.g-idle{margin-left:8px;padding:6px 10px;background:#3a2a10;border:2px solid #f2c46a;color:#ffe9b0;font:700 12px "Rift Body";cursor:pointer;box-shadow:0 0 0 2px #000}

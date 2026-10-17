@@ -53,6 +53,8 @@ function renderLobby() {
     + [...folders].map(([f, sets]) => `<div class="folder">${esc(f.toUpperCase())}</div>` + sets.map((s) => `<button type="button" data-topic="${s.id}" class="${chosen.has(s.id) ? 'on' : ''}">${esc(s.title)} <small>· ${s.count}</small></button>`).join('')).join(''));
   opts($('setTurns'), [8, 10, 12, 14, 16, 20].map((n) => [n, `${n} turns`]), H.settings.turns);
   opts($('setCrimson'), [20, 30, 45, 60].map((n) => [n, `${n} seconds`]), H.settings.crimsonSeconds);
+  opts($('setCouncil'), [30, 45, 60, 90].map((n) => [n, `${n} seconds`]), H.settings.councilSeconds);
+  $('setLock').checked = !!H.settings.warlordLock;
   opts($('setCrystal'), [90, 120, 150, 180, 240].map((n) => [n, `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')} min`]), H.settings.crystalSeconds);
   opts($('setTarget'), [15, 20, 25, 30, 40].map((n) => [n, `${n} questions`]), H.settings.target);
   $('classCount').textContent = `· ${H.students.length} JOINED`;
@@ -113,6 +115,12 @@ const map = createMap($('mapHost'), {
   },
 });
 $('autoBtn').addEventListener('click', () => socket.emit('twAuto'));
+$('guide').addEventListener('click', (e) => {
+  const c = e.target.closest('[data-council]'); if (c) socket.emit('twCouncil', c.dataset.council === 'launch' ? { launch: true } : { extend: 15 });
+  const i = e.target.closest('[data-idle]'); if (i) { selStack = +i.dataset.idle; selUnit = null; render(); }
+});
+$('setLock').addEventListener('change', (e) => socket.emit('twSettings', { warlordLock: e.target.checked }));
+$('setCouncil').addEventListener('change', (e) => socket.emit('twSettings', { councilSeconds: +e.target.value }));
 $('endTurnBtn').addEventListener('click', () => { selStack = selUnit = null; socket.emit('twEndTurn'); });
 $('releaseBtn').addEventListener('click', () => socket.emit('twRelease'));
 $('menuBtn').addEventListener('click', () => $('menu').classList.toggle('hidden'));
@@ -187,8 +195,15 @@ function render() {
   // what to do next, in one line
   const steps = [['1', 'Send out units', 'cards at the bottom'], ['2', 'Give them orders', 'march · hunt · hold'], ['3', 'End your turn', 'orders play out']];
   const stepNow = !mine || H.teacherEnded ? -1 : ask ? 1 : H.energy >= Math.min(...SUMMONABLE.map((t) => UNITS[t].cost)) ? 0 : 2;
-  setHTML($('guide'), H.settings.botCommander ? `<div class="g-bot">🤖 The Bot Commander is leading your Host. Watch, or give orders yourself.</div>` : H.status !== 'playing' ? '' : !mine
-    ? `<div class="g-wait">The class is moving. You can still send out units and give orders; they play out on your turn.</div>`
+  const agreed = H.bands.filter((b) => b.status === 'committed' || b.status === 'battle').length;
+  const idle = H.units.filter((u) => !u.order && !u.battle && u.node !== FORTRESS);
+  const idleChip = idle.length ? `<button type="button" class="g-idle" data-idle="${idle[0].node}">${idle.length} unit${idle.length > 1 ? 's' : ''} without orders</button>` : '';
+  setHTML($('guide'), H.status !== 'playing' ? '' : H.phase === 'crystal' && H.stage === 'quiz'
+    ? `<div class="g-wait">The class is answering 3 questions before the War Council: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
+    : H.phase === 'crystal' && H.stage === 'council'
+    ? `<div class="g-council"><b>WAR COUNCIL</b> <span data-until="${H.phaseEndsAt}"></span> · ${agreed} of ${H.bands.length} companies agreed <button type="button" class="btn" data-council="extend">+15 s</button><button type="button" class="btn crimson" data-council="launch">Launch now</button></div>${idleChip}`
+    : H.settings.botCommander ? `<div class="g-bot">🤖 The Bot Commander is leading your Host. Watch, or give orders yourself.</div>` : !mine
+    ? `<div class="g-wait">${H.phase === 'crystal' ? 'The banners are marching.' : 'Battles are being fought.'} You can still send out units and give orders; they play out on your turn.</div>${idleChip}`
     : steps.map(([n, t, s], i) => `<div class="g-step ${i === stepNow ? 'now' : i < stepNow ? 'done' : ''}"><i>${n}</i><span><b>${t}</b><small>${s}</small></span></div>`).join('<span class="g-arrow">›</span>'));
 
   // the class, in one chip
@@ -231,8 +246,9 @@ function render() {
     end.classList.remove('hidden');
     setHTML(end, `<div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? 'Your Warlord has fallen' : H.endedBy === 'ward' ? 'You broke the Academy Ward' : 'Your fortress stands'}</h1>
       <table><tr><th>Student</th><th>Pair</th><th>Answered</th><th>Right</th></tr>${[...H.students].sort((a, b) => b.answered - a.answered).map((s) => `<tr><td>${esc(s.name)}</td><td>${s.pairNo || ''}</td><td>${s.answered}</td><td>${s.answered ? Math.round((s.correct / s.answered) * 100) : 0}%</td></tr>`).join('')}</table>
+      ${H.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div><ol>${H.story.map((e) => `<li><small>Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
       <button class="btn crimson" type="button" onclick="localStorage.removeItem('${SAVE}');location.reload()">Start a new war</button>`);
   }
 }
 
-setInterval(() => { if (H?.status === 'playing') $('gClock').textContent = mmss(secsLeft(H.phaseEndsAt)); }, 250);
+setInterval(() => { if (H?.status === 'playing') { $('gClock').textContent = mmss(secsLeft(H.phaseEndsAt)); document.querySelectorAll('[data-until]').forEach((el) => { el.textContent = mmss(secsLeft(+el.dataset.until)); }); } }, 250);

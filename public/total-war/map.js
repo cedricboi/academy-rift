@@ -82,6 +82,22 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     g.globalCompositeOperation = 'source-over';
   }
 
+  // a Crystal banner moving one road eases along the road's curves and settles at the stop
+  function glide(el, from, to, ox, oy) {
+    const pts = routePoints([from, to]);
+    let len = 0; for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    const dur = Math.max(900, Math.min(1700, len * 6)), t0 = performance.now();
+    el._gliding = true; el.style.transition = 'none'; el.classList.add('marching');
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      const p = positionAt(pts, e * len);
+      el.style.left = `${p.x + ox * e}px`; el.style.top = `${p.y - 4 + oy * e}px`;
+      if (k < 1) requestAnimationFrame(step);
+      else { el._gliding = false; el.style.transition = ''; el.classList.remove('marching'); if (el._to) { el.style.left = `${el._to[0]}px`; el.style.top = `${el._to[1]}px`; } }
+    };
+    requestAnimationFrame(step);
+  }
+
   // banners: {key, kind:'pair'|'host'|'camp'|'fortress', node, ...}
   function placeBanners(list) {
     const seen = new Set();
@@ -91,13 +107,15 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       const n = NODES[node], off = (i - (group.length - 1) / 2) * 44;
       const x = n.x + off, y = n.y - 4;
       let el = els.get(b.key);
-      if (!el) { el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; }
+      if (!el) { el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node; }
       const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
       if (el._html !== b.html) { el.innerHTML = b.html; el._html = b.html; }
-      el.style.left = `${x}px`; el.style.top = `${y}px`;
+      if (el._node !== node && el._node != null && b.kind === 'pair' && neighbours(el._node).includes(node)) glide(el, el._node, node, x - n.x, y - n.y);
+      else if (!el._gliding) { el.style.left = `${x}px`; el.style.top = `${y}px`; }
+      el._node = node; el._to = [x, y];
       seen.add(b.key);
     });
     for (const [k, el] of els) if (!seen.has(k)) { el.remove(); els.delete(k); }
@@ -145,17 +163,19 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     cancelAnimationFrame(raf); drawRiders();
   }
 
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null }) {
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null }) {
     if (focusNode !== focus) { focus = focusNode; fit(); }
     // roads of the chosen step, and (for the teacher) where marching units are heading
     const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
     const roadHtml = (route ? `<polyline points="${pts(route)}" class="road-shadow"/><polyline points="${pts(route)}" class="road-line"/>` : '')
-      + marches.map((m) => `<polyline points="${pts(m)}" class="road-march"/>`).join('');
+      + marches.map((m) => `<polyline points="${pts(m)}" class="road-march"/>`).join('')
+      + friends.map((m) => `<polyline points="${pts(m)}" class="road-friend"/>`).join('');
     if (roads._html !== roadHtml) { roads.innerHTML = roadHtml; roads._html = roadHtml; }
     drawFog(full ? null : state.visible);
     // stops a warband can step to next
     const stopsHtml = options.map((o) => {
       const n = NODES[o.node], vc = votes[o.node] ? `<i class="vote-count">${votes[o.node]}</i>` : '';
+      if (o.reach) return `<button type="button" class="tw-stop reach ${o.attack ? 'attack' : ''} ${o.inRoute ? 'in-route' : ''}" data-stop="${o.node}" style="left:${n.x}px;top:${n.y + 26}px" aria-label="${esc(n.name)}, ${o.cost} AP${o.attack ? ', a fight' : ''}">${o.attack ? SWORDS : o.cost}</button>`;
       if (o.target) return `<button type="button" class="tw-stop target" data-stop="${o.node}" style="left:${n.x}px;top:${n.y + 26}px" aria-label="March to ${esc(n.name)}">⚑</button>`;
       return `<button type="button" class="tw-stop ${o.attack ? 'attack' : ''} ${o.mine ? 'mine' : ''}" data-stop="${o.node}" style="left:${n.x}px;top:${n.y + 26}px" aria-label="${esc(n.name)}, ${o.cost} MP${o.attack ? ', attack' : ''}">${o.attack ? SWORDS : o.cost}${vc}</button>`;
     }).join('');
@@ -195,11 +215,18 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
         html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}${badge}${us.some((u) => u.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? 'Crimson warband' : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
     }
     // Crystal banners: one per warband
+    // where the Crimson Host was last seen (it may have moved since)
+    for (const g of lastSeen) list.push({ key: `seen${g.id}`, kind: 'seen', ref: g.id, node: g.node, small: true, dim: true, label: `Last seen: ${UNITS[g.type]?.name}`,
+      html: `<span class="cloth"><img src="${sprite(g.type)}" alt=""></span><span class="pole"></span><span class="tag">Last seen · turn ${g.turn}</span>` });
+    // the proposed endpoint of your route
+    if (ghost) list.push({ key: 'ghost', kind: 'ghost', ref: 'ghost', node: ghost.node, small: true, label: 'Your planned stop',
+      html: `<span class="cloth" style="--c:${charColor(ghost.char)}"><img src="${portrait(ghost.char)}" alt=""></span><span class="pole"></span><span class="tag">Planned</span>` });
     for (const b of state.bands) {
       const lead = b.pairs[0]; if (!lead) continue;
       const isMine = mine && b.id === mine;
+      const hp = Math.min(...b.pairs.map((p) => (p.hp ?? 10) / (p.maxHp || 10)));
       list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}`, label: `Pair ${lead.no}`,
-        html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${isMine ? (b.pairs.length > 1 ? 'Your warband' : 'You') : b.pairs.length > 1 ? 'Warband' : `Pair ${lead.no}`}</span>` });
+        html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i><span class="pole"></span><span class="tag">${isMine ? (b.pairs.length > 1 ? 'Your warband' : 'You') : b.pairs.length > 1 ? 'Warband' : `Pair ${lead.no}`}</span>${isMine && status ? `<span class="status">${esc(status)}</span>` : ''}` });
     }
     placeBanners(list);
     setRiders(state.riders || [], state.serverNow, state.me?.pid || null);
