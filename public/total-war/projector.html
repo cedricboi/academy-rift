@@ -97,7 +97,7 @@
 <script type="module">
 import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, CAMPS } from './rules.js';
+import { UNITS, CAMPS, showHp } from './rules.js';
 import { createStage, enemyName } from './stage.js';
 import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
 import qrcode from '/vendor/qrcode.mjs';
@@ -133,7 +133,7 @@ function render() {
       : P.phase === 'crystal' ? (P.stage === 'quiz' ? `The class answers 3 questions${P.quiz ? `: ${P.quiz.done} of ${P.quiz.of} done` : ''}.` : P.stage === 'council' ? 'Each warband plans its route.' : 'The warbands march.')
       : P.phase === 'battles' ? 'The last battles of the turn.' : '');
   $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
-  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? `Warlord ${P.warlord.hp} / ${P.warlord.max}` : 'Broken') : `Unbroken · ${P.gate.hp} / ${P.gate.max}`;
+  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? `Warlord ${showHp(P.warlord.hp)} / ${showHp(P.warlord.max)}` : 'Broken') : `Unbroken · ${showHp(P.gate.hp)} / ${showHp(P.gate.max)}`;
   $('paused').classList.toggle('hidden', !(P.status === 'playing' && P.paused));
   if (P.paused) $('paused').innerHTML = `<div class="eyebrow">THE WAR IS PAUSED</div><h2>Paused by ${esc(P.paused.by)}</h2>`;
   const B = [...P.battles].sort((a, b) => (a.status === 'over') - (b.status === 'over') || b.bands.reduce((s, x) => s + x.pairs.length, 0) - a.bands.reduce((s, x) => s + x.pairs.length, 0))[0];
@@ -182,7 +182,7 @@ function renderEnd() {
   const points = won && P.endedBy && P.endedBy !== 'teacher';
   const Y = P.summary || {};
   const stat = (v, l, cls = '') => `<div class="e-stat ${cls}"><b>${v}</b><span>${l}</span></div>`;
-  const gate = P.gate.broken ? stat('Broken', 'The fortress gate', 'good') : stat(`${P.gate.hp} / ${P.gate.max}`, 'Gate left standing', 'bad');
+  const gate = P.gate.broken ? stat('Broken', 'The fortress gate', 'good') : stat(`${showHp(P.gate.hp)} / ${showHp(P.gate.max)}`, 'Gate left standing', 'bad');
   const lord = P.warlord.hp <= 0 ? stat('Beaten', 'The Crimson Warlord', 'good') : P.gate.broken ? stat(`${Math.round((P.warlord.hp / P.warlord.max) * 100)}%`, 'Warlord HP left', 'bad') : stat('Inside', 'The Warlord was never reached', 'bad');
   const sites = (Y.camps || 0) + (Y.rally ?? (P.rally || []).length) + (Y.tower ? 1 : 0);
   end.innerHTML = `<div class="eyebrow">${won ? 'VICTORY' : draw ? 'A DRAW' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div>

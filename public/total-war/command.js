@@ -1,7 +1,7 @@
 // Total War: the teacher's Crimson command screen. The server decides everything; this page sends orders.
 import { createMap, portrait, sprite, esc, setHTML, marchPoints } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT, TELEPORT_COST, energyPerTurn } from './rules.js';
+import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT, TELEPORT_COST, energyPerTurn, showHp } from './rules.js';
 import { TOPICS } from '../data/topics.js';
 import { FOLDER_BY_ID } from '../data/folders.js';
 import qrcode from '/vendor/qrcode.mjs';
@@ -267,7 +267,7 @@ function render() {
     const us = H.units.filter((x) => x.node === selStack);
     const fort = selStack === FORTRESS;
     setHTML(sp, `<button class="x-close" data-close="1" aria-label="Close">×</button><div class="eyebrow" style="color:var(--rose)">${fort ? 'CRIMSON FORTRESS' : 'CRIMSON WARBAND'}</div><h3>${esc(nodeName(selStack))}</h3>`
-      + (fort ? `<div class="unit-row" style="cursor:default"><img src="${sprite(H.gate.broken ? 'warlord' : 'golem')}" alt=""><div class="nm">${H.gate.broken ? 'The Crimson Warlord' : 'Bloodstone Golem'}<small>${H.gate.broken ? (H.warlordReady ? 'Out and fighting' : 'Waiting inside') : 'Guards the gate'}</small><div class="hpbar"><i style="width:${H.gate.broken ? (H.warlord.hp / H.warlord.max) * 100 : (H.gate.hp / H.gate.max) * 100}%"></i></div></div><span class="mv">${H.gate.broken ? `${H.warlord.hp}/${H.warlord.max}` : `${H.gate.hp}/${H.gate.max}`}</span></div>` : '')
+      + (fort ? `<div class="unit-row" style="cursor:default"><img src="${sprite(H.gate.broken ? 'warlord' : 'golem')}" alt=""><div class="nm">${H.gate.broken ? 'The Crimson Warlord' : 'Bloodstone Golem'}<small>${H.gate.broken ? (H.warlordReady ? 'Out and fighting' : 'Waiting inside') : 'Guards the gate'}</small><div class="hpbar"><i style="width:${H.gate.broken ? (H.warlord.hp / H.warlord.max) * 100 : (H.gate.hp / H.gate.max) * 100}%"></i></div></div><span class="mv">${H.gate.broken ? `${showHp(H.warlord.hp)}/${showHp(H.warlord.max)}` : `${showHp(H.gate.hp)}/${showHp(H.gate.max)}`}</span></div>` : '')
       + us.map((x) => `<button type="button" class="unit-row ${selUnit === x.id ? 'on' : ''}" data-unit="${x.id}"><img src="${sprite(x.type)}" alt=""><div class="nm">${esc(UNITS[x.type].name)}<small>${x.battle ? 'In battle' : x.order ? esc(ORDER_TEXT[x.order.kind](x.order)) : esc(UNITS[x.type].role)}${x.dugIn ? ' · dug in' : ''} · ${x.hp}/${x.max}</small></div><span class="mv">${Math.max(0, x.speed - x.moved)} move${x.speed - x.moved === 1 ? '' : 's'}</span></button>`).join('')
       + (us.length && H.status === 'playing' ? `<div class="eyebrow" style="margin-top:10px;color:var(--rose)">ORDERS · ${selUnit ? 'THIS UNIT' : 'EVERY UNIT HERE'}</div>
         <div class="orders"><button type="button" class="btn ${marchPick ? 'crimson' : ''}" data-order="march">March to…</button><button type="button" class="btn" data-order="hold">Hold</button><button type="button" class="btn" data-order="hunt">Hunt</button><button type="button" class="btn" data-order="ambush" title="Hide here: the class cannot see it">Ambush</button><button type="button" class="btn ${teleportPick ? 'crimson' : ''}" data-order="teleport" ${H.energy < TELEPORT_COST || !mine ? 'disabled' : ''} title="${TELEPORT_COST} Rift Energy a unit">⚡ Teleport</button><button type="button" class="btn icon" data-order="clear" title="Clear orders">✕</button></div>` : '')
