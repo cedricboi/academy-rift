@@ -1028,6 +1028,7 @@ input:focus{outline:none;border-color:var(--cyan);}
 .pr-rules:hover{color:var(--paper);}
 @media (max-width:560px){ .pr-row{flex-direction:column;text-align:center;} .pr-face{width:96px;height:96px;} }
 .home-practice{display:block;margin:10px auto 0;}
+a.home-war{text-decoration:none;text-align:center;width:max-content}
 
 /* the coach: top centre, between the two HUDs (or just under someone's question) */
 .coach{position:absolute;left:50%;top:calc(12 * var(--u));transform:translateX(-50%);z-index:46;
