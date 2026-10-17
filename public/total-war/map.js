@@ -1,6 +1,6 @@
 // The Moonveil map, drawn the same way on the student iPad, the teacher's command screen and the projector:
 // the painted map, roads, fog of war, stops you can step to, and banners (pairs, warbands, the Crimson Host, camps).
-import { NODES, routePoints } from './movement.js';
+import { NODES, routePoints, positionAt } from './movement.js';
 import { CAMPS, UNITS, FORTRESS, HOME, neighbours, cost, stepTowards } from './rules.js';
 import { bannerFor, PORTRAITS } from './banners.js';
 
@@ -19,9 +19,9 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
   host.innerHTML = `<div class="twmap"><img class="twmap-art" src="art/moonveil-map.webp" alt="" draggable="false">
     <svg class="twmap-roads" viewBox="0 0 ${W} ${H}" aria-hidden="true"></svg>
     <canvas class="twmap-fog" width="${W / 2}" height="${H / 2}" aria-hidden="true"></canvas>
-    <div class="twmap-stops"></div><div class="twmap-banners"></div></div>`;
+    <div class="twmap-stops"></div><div class="twmap-banners"></div><div class="twmap-riders"></div></div>`;
   const map = host.querySelector('.twmap'), roads = host.querySelector('.twmap-roads'), fog = host.querySelector('.twmap-fog');
-  const stops = host.querySelector('.twmap-stops'), layer = host.querySelector('.twmap-banners');
+  const stops = host.querySelector('.twmap-stops'), layer = host.querySelector('.twmap-banners'), riderLayer = host.querySelector('.twmap-riders');
   const els = new Map();       // banner key -> element, kept so banners glide when they move
   let scale = 1, panX = 0, panY = 0, focus = null, focusedOn = null, userPanned = false;
   let lastFog = null;
@@ -102,6 +102,48 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     for (const [k, el] of els) if (!seen.has(k)) { el.remove(); els.delete(k); }
   }
 
+  // Grab-Ma on her scooter, gliding along the roads between stops (the server says which road and when)
+  const rEls = new Map(), roadCache = new Map();
+  let riders = [], skew = 0, raf = 0, me = null;
+  const roadOf = (a, b) => {
+    const k = `${a},${b}`; if (roadCache.has(k)) return roadCache.get(k);
+    const pts = a === b ? [NODES[a], NODES[a]] : routePoints([a, b]);
+    let len = 0; for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    const v = { pts, len }; roadCache.set(k, v); return v;
+  };
+  function drawRiders() {
+    const now = Date.now() + skew;
+    for (const r of riders) {
+      const el = rEls.get(r.id); if (!el) continue;
+      let x = NODES[r.node].x, y = NODES[r.node].y, dx = 1;
+      if (r.status === 'cooking') { x = NODES[HOME].x + 34; y = NODES[HOME].y + 22; }
+      else if (r.status === 'riding' && r.from !== r.node) {
+        const t = Math.max(0, Math.min(1, (now - r.departAt) / Math.max(1, r.arriveAt - r.departAt)));
+        const road = roadOf(r.from, r.node), p = positionAt(road.pts, t * road.len);
+        x = p.x; y = p.y; dx = p.dx;
+      }
+      el.style.left = `${x}px`; el.style.top = `${y + 10}px`;
+      el.classList.toggle('left', dx < 0);
+    }
+    raf = riders.some((r) => r.status === 'riding') ? requestAnimationFrame(drawRiders) : 0;
+  }
+  function setRiders(list = [], serverNow = Date.now(), mine = null) {
+    skew = serverNow - Date.now(); me = mine;
+    riders = list;
+    const seen = new Set();
+    for (const r of list) {
+      let el = rEls.get(r.id);
+      if (!el) { el = document.createElement('div'); el.className = 'tw-rider'; riderLayer.appendChild(el); rEls.set(r.id, el); }
+      const isMe = r.pid === me;
+      const html = `<i class="spr" aria-hidden="true"></i><span class="tag">${r.status === 'delivered' ? 'Delivered!' : r.status === 'cooking' ? (isMe ? 'Cooking your order' : 'Cooking') : isMe ? 'Your order' : `${esc(r.name)}'s order`}</span>`;
+      if (el._html !== html) { el.innerHTML = html; el._html = html; }
+      el.classList.toggle('mine', isMe); el.classList.toggle('done', r.status === 'delivered');
+      seen.add(r.id);
+    }
+    for (const [k, el] of rEls) if (!seen.has(k)) { el.remove(); rEls.delete(k); }
+    cancelAnimationFrame(raf); drawRiders();
+  }
+
   function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null }) {
     if (focusNode !== focus) { focus = focusNode; fit(); }
     // roads of the chosen step, and (for the teacher) where marching units are heading
@@ -153,6 +195,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
         html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${isMine ? (b.pairs.length > 1 ? 'Your warband' : 'You') : b.pairs.length > 1 ? 'Warband' : `Pair ${lead.no}`}</span>` });
     }
     placeBanners(list);
+    setRiders(state.riders || [], state.serverNow, state.me?.pid || null);
   }
   return { render, fit, setBottom };
 }

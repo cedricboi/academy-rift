@@ -144,3 +144,15 @@ button:disabled{cursor:default}
 .clock{display:inline-flex;align-items:center;gap:6px;font-family:"Rift Pixel",sans-serif}
 .clock::before{content:"";width:12px;height:18px;background:url(ui/ico_time.png) center/contain no-repeat;image-rendering:pixelated}
 .topbar{border-bottom:0!important;box-shadow:0 3px 0 #6b1e28,0 6px 0 #000;background:linear-gradient(#14101a,#0b0a10)!important}
+
+/* Grab-Ma riding out to a banner */
+.twmap-riders{position:absolute;inset:0;pointer-events:none;z-index:4}
+.tw-rider{position:absolute;transform:translate(-50%,-100%) scale(max(1,calc(var(--inv,1) * 1)));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;z-index:4}
+.tw-rider .spr{width:84px;height:84px;background:url(auntie/ride.webp) 0 0/800% 100% no-repeat;image-rendering:pixelated;animation:riderWheels .7s steps(7) infinite;filter:drop-shadow(0 4px 3px #000)}
+.tw-rider.left .spr{transform:scaleX(-1)}
+@keyframes riderWheels{to{background-position:100% 0}}
+.tw-rider .tag{margin-top:-6px;padding:2px 7px;background:#00b14f;color:#fff;font:700 12px "Rift Body",sans-serif;white-space:nowrap;border:2px solid #003d1b;box-shadow:0 2px 0 #000}
+.tw-rider.mine .tag{background:#fff;color:#00873c;border-color:#00b14f}
+.tw-rider.done .tag{background:#ffd23f;color:#3a2a00;border-color:#7a5a00}
+.tw-rider.done{animation:riderBye 20s linear forwards}
+@keyframes riderBye{0%,30%{opacity:1}40%,100%{opacity:0}}

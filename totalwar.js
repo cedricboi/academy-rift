@@ -18,7 +18,7 @@ const token = (n = 18) => randomBytes(n).toString("base64url");
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const rightAnswers = (q) => (Array.isArray(q.answers) && q.answers.length ? q.answers : [q.answer]);
 const qKey = (q) => q.qid || q.q;
-const ORDER_SECONDS = 20, ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
+const ORDER_SECONDS = 30, COOK_SECONDS = 3, RIDE_STEP = 3, ACTION_SECONDS = 12, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
 
 export function setupTotalWar(deps) {
   const { io, filterQuestions, normalizeTopics, topicLabel, CHARACTERS, bank, isRoomCode = () => false } = deps;
@@ -41,7 +41,7 @@ export function setupTotalWar(deps) {
     const S = {
       code: newCode(), hostToken: token(), createdAt: Date.now(), lastActive: Date.now(),
       status: "lobby", winner: null, settings: defaultSettings(),
-      students: new Map(), pairs: new Map(), bands: new Map(), units: new Map(), battles: new Map(),
+      students: new Map(), pairs: new Map(), bands: new Map(), units: new Map(), battles: new Map(), riders: new Map(),
       camps: Object.fromEntries(Object.keys(CAMPS).map((n) => [n, { alive: true, hp: CAMPS[n].hp, returnTurn: 0 }])),
       gate: { hp: UNITS.golem.hp, max: UNITS.golem.hp, broken: false },
       warlord: { hp: UNITS.warlord.hp, max: UNITS.warlord.hp, released: false },
@@ -216,6 +216,7 @@ export function setupTotalWar(deps) {
       if (o && o.result && now >= o.result.at + ms(1.8)) { st.own = null; S.dirty = true; }
       if (!st.own) maybeGiveQuestion(S, st);
     }
+    riderTick(S, now);
     // warband votes that have waited long enough
     for (const b of S.bands.values()) if (b.voteOpenedAt && now >= b.voteOpenedAt + ms(VOTE_SECONDS)) resolveVote(S, b);
     // battles
@@ -234,7 +235,8 @@ export function setupTotalWar(deps) {
         // everyone has locked in: a short window to order from Grab-Ma before the Crimson turn
         if (!S.orderEnds) { S.orderEnds = now + ms(ORDER_SECONDS); S.dirty = true; }
         const waiting = [...S.students.values()].filter((st) => !st.bot && isConnected(st) && !st.orderDone && !bandOf(S, st.pairId)?.battle);
-        if (now >= S.orderEnds || !waiting.length) {
+        const riding = [...S.riders.values()].some((r) => r.status !== "delivered");      // food still on the way: wait for it
+        if (now >= S.orderEnds || (!waiting.length && !riding)) {
           S.orderEnds = 0;
           if (S.battles.size) { S.phase = "battles"; S.dirty = true; say(S, "The last battles of this turn are being fought."); }
           else startCrimson(S);
@@ -742,21 +744,54 @@ export function setupTotalWar(deps) {
   }
 
 
-  // ------------------------------------------------------------------ Auntie's delivery (the Arena's shop, on a scooter)
-  function buy(S, st, itemId) {
-    const it = ITEM_BY_ID[itemId]; if (!it || !it.price) return "Auntie does not sell that.";
+  // ------------------------------------------------------------------ Grab-Ma's delivery
+  // Students order on a phone. Grab-Ma cooks at the Academy, then rides out along the roads to their banner, one road
+  // every RIDE_STEP seconds (much faster than a warband), following it if it moves. The food lands in the bag when she
+  // arrives, even in the middle of a battle.
+  const cartOf = (items) => Object.entries(items || {}).map(([id, n]) => [id, Math.max(0, Math.floor(+n) || 0)]).filter(([id, n]) => n > 0 && ITEM_BY_ID[id]?.price);
+  function order(S, st, items) {
+    const cart = cartOf(items);
+    if (!cart.length) return "Your basket is empty.";
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
-    if (b?.battle) return "Grab-Ma cannot ride into a battle. Order after it.";
-    if (S.phase !== "crystal" || !b?.done) return "Grab-Ma delivers during your move. Lock in your move first, then order.";
-    if (st.orderDone) return "You have finished ordering this turn.";
+    if (S.phase !== "crystal" || !b?.done || b.battle) return "Grab-Ma delivers during your move. Lock in your move first, then order.";
+    if (st.orderDone || st.orderedTurn === S.turn) return "You have ordered this move. Order again next move.";
+    if ([...S.riders.values()].some((r) => r.pid === st.pid && r.status !== "delivered")) return "Grab-Ma is still bringing your last order.";
     st.bag ||= {};
-    const total = Object.values(st.bag).reduce((a, n) => a + n, 0);
-    if ((st.bag[itemId] || 0) >= SHOP_LIMIT.each) return `You can carry ${SHOP_LIMIT.each} of those at most.`;
-    if (total >= SHOP_LIMIT.total) return `Your bag is full (${SHOP_LIMIT.total} items).`;
-    if ((st.coins || 0) < it.price) return "Not enough coins yet. Right answers earn coins.";
-    st.coins -= it.price; st.bag[itemId] = (st.bag[itemId] || 0) + 1;
+    const have = Object.values(st.bag).reduce((a, n) => a + n, 0), adding = cart.reduce((a, [, n]) => a + n, 0);
+    for (const [id, n] of cart) if ((st.bag[id] || 0) + n > SHOP_LIMIT.each) return `You can carry ${SHOP_LIMIT.each} ${ITEM_BY_ID[id].name} at most.`;
+    if (have + adding > SHOP_LIMIT.total) return `Your bag holds ${SHOP_LIMIT.total} items. You have ${have}.`;
+    const cost = cart.reduce((a, [id, n]) => a + ITEM_BY_ID[id].price * n, 0);
+    if ((st.coins || 0) < cost) return "Not enough coins yet. Right answers earn coins.";
+    st.coins -= cost; st.orderedTurn = S.turn;                    // one order a move
+    for (const r of [...S.riders.values()]) if (r.pid === st.pid) S.riders.delete(r.id);   // an old, delivered order is cleared
+    const now = Date.now();
+    const r = { id: id(S, "g"), pid: st.pid, name: st.name, items: Object.fromEntries(cart), cost, status: "cooking", node: HOME, from: HOME,
+      orderedAt: now, departAt: now + ms(COOK_SECONDS), arriveAt: now + ms(COOK_SECONDS) };
+    S.riders.set(r.id, r);
+    S.dirty = true;
     return null;
   }
+  const buy = (S, st, itemId) => order(S, st, { [itemId]: 1 });
+  const riderTarget = (S, r) => { const p = pairOf(S, r.pid), b = p && bandOf(S, p.id); return b ? b.node : HOME; };
+  function riderTick(S, now) {
+    for (const r of [...S.riders.values()]) {
+      if (r.status === "delivered") { if (now >= r.deliveredAt + ms(20)) { S.riders.delete(r.id); S.dirty = true; } continue; }
+      if (now < r.arriveAt) continue;
+      const to = riderTarget(S, r);
+      if (r.node === to) {                                           // she has arrived: the food goes into the bag
+        const st = S.students.get(r.pid);
+        if (st) { st.bag ||= {}; for (const [k, n] of Object.entries(r.items)) st.bag[k] = (st.bag[k] || 0) + n; }
+        r.status = "delivered"; r.deliveredAt = now; S.dirty = true; continue;
+      }
+      const next = stepTowards(r.node, to) ?? to;
+      r.status = "riding"; r.from = r.node; r.node = next; r.departAt = now; r.arriveAt = now + ms(RIDE_STEP); S.dirty = true;
+    }
+  }
+  const riderView = (S, r) => {
+    const to = riderTarget(S, r), left = r.status === "delivered" ? 0 : Math.max(0, (hops(r.node).get(to) ?? 0));
+    return { id: r.id, pid: r.pid, name: r.name, status: r.status, from: r.from, node: r.node, departAt: r.departAt, arriveAt: r.arriveAt,
+      stops: left, eta: r.status === "delivered" ? 0 : Math.max(0, r.arriveAt - Date.now()) + left * ms(RIDE_STEP), items: r.items, cost: r.cost, deliveredAt: r.deliveredAt || 0 };
+  };
 
 
   // ------------------------------------------------------------------ bots: students and a commander
@@ -872,7 +907,7 @@ export function setupTotalWar(deps) {
       buffs: Object.entries(S.buffs).filter(([, until]) => until >= S.turn).map(([k, until]) => ({ key: k, until })),
       rally: [...S.rally], visible: visible ? [...visible] : null,
       battles: [...S.battles.values()].filter((B) => sees(B.node)).map((B) => battleView(S, B)),
-      log: S.log.slice(-8),
+      log: S.log.slice(-8), riders: [...S.riders.values()].map((r) => riderView(S, r)),
     };
   }
   const classVisible = (S) => visibleNodes([...S.bands.values()].map((b) => b.node), { rally: [...S.rally], sightAll: !!buffOn(S).sight });
@@ -883,7 +918,7 @@ export function setupTotalWar(deps) {
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
     v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: st.char || p?.char || null, bandId: b?.id || null, coins: st.coins || 0, bag: st.bag || {},
       partner: p ? p.members.filter((m) => m !== st.pid).map((m) => S.students.get(m)?.name) : [], bank: p?.bank || 0 };
-    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready; v.me.orderDone = !!st.orderDone;
+    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready; v.me.orderDone = !!st.orderDone; v.me.ordered = st.orderedTurn === S.turn;
     v.lobby = S.status === "lobby" ? {
       students: [...S.students.values()].map((s) => ({ pid: s.pid, name: s.name, pairId: s.pairId, want: s.want, ready: s.ready, connected: isConnected(s), bot: !!s.bot, char: s.char })),
       pairs: [...S.pairs.values()].map((x) => ({ id: x.id, no: x.no, char: x.char, names: x.members.map((m) => S.students.get(m)?.name) })),
@@ -1029,6 +1064,7 @@ export function setupTotalWar(deps) {
     }));
     socket.on("twAction", asStudent((S, st, act) => chooseAction(S, st, act)));
     socket.on("twBuy", asStudent((S, st, { item }) => buy(S, st, item)));
+    socket.on("twGrab", asStudent((S, st, { items }) => order(S, st, items)));
     socket.on("twOrderDone", asStudent((S, st) => { st.orderDone = true; }));
     socket.on("twVote", asStudent((S, st, { to }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return vote(S, p.id, to === "stay" ? "stay" : +to); }));
     socket.on("twEndMove", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return vote(S, p.id, "stay"); }));

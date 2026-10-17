@@ -8,6 +8,7 @@ import { createStage, enemyName } from './stage.js';
 import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
 import { CHARACTERS, ITEMS } from '../data/characters.js';
 import { createArenaBridge } from './arena-bridge.js';
+import { createPhone } from './phone.js';
 
 const socket = io();
 const $ = (id) => document.getElementById(id);
@@ -425,41 +426,23 @@ function maybeHelp() {
   if (!seen) showHelp(0);
 }
 
-// ------------------------------------------------------------------ Auntie's delivery: the Arena's shop on a scooter
-const shopIcon = (id) => `../assets/shop/${id}.webp`;
+// ------------------------------------------------------------------ Grab-Ma Food: the shop as a delivery app on a phone
+// Orders go in during the class's move, once your banner has locked in its move; Grab-Ma then rides out on the map.
+const canOrder = () => { const b = myBand(); return !!(S && S.status === 'playing' && S.phase === 'crystal' && b && b.done && !b.battle && !S.myBattle && !S.me.orderDone && !S.me.ordered); };
+if (params.has('debug')) window.twState = () => S;
+const phone = createPhone({ socket, host: $('phoneHost'), getS: () => S, toast, canOrder, now });
 function renderShop() {
   if (!S?.me) return;
   $('coinTxt').textContent = S.me.coins || 0;
-  if ($('shop').classList.contains('hidden')) return;
-  $('shopCoins').textContent = S.me.coins || 0;
-  const bag = S.me.bag || {}, inBattle = !!S.myBattle;
-  setHTML($('shopGrid'), ITEMS.filter((it) => it.price && !it.passive).map((it) => {
-    const have = bag[it.id] || 0, can = !inBattle && canOrder() && (S.me.coins || 0) >= it.price;
-    return `<div class="shop-item"><img src="${shopIcon(it.id)}" alt=""><div class="si-t"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>${have ? `<em>In your bag: ${have}</em>` : ''}</div>
-      <button type="button" class="gold-btn small" data-buy="${it.id}" ${can ? '' : 'disabled'}><span>${it.price} 🪙</span></button></div>`;
-  }).join(''));
+  const r = (S.riders || []).find((x) => x.pid === S.me.pid && x.status !== 'delivered');
+  $('coinChip').classList.toggle('busy', !!r);
+  phone.update();
 }
-// Grab-Ma delivers only during the class's move, once your banner has locked in its move
-const canOrder = () => { const b = myBand(); return !!(S && S.status === 'playing' && S.phase === 'crystal' && b && b.done && !b.battle && !S.myBattle && !S.me.orderDone); };
-const openShop = () => {
-  if (!canOrder()) { toast('Grab-Ma delivers during your move. Lock in your move first, then order.'); return; }
-  $('shop').classList.remove('hidden'); renderShop();
-};
-$('coinChip').addEventListener('click', openShop);
-$('abAuntie').addEventListener('click', openShop);
-$('auntieRide').addEventListener('click', openShop);
-$('shop').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-buy]'); if (b && !b.disabled) { socket.emit('twBuy', { item: b.dataset.buy }); return; }
-  if (e.target.closest('[data-orderdone]')) { socket.emit('twOrderDone'); $('shop').classList.add('hidden'); return; }
-  if (e.target.closest('[data-close]') || e.target === $('shop')) $('shop').classList.add('hidden');
-});
-// Auntie rides across the map at the start of every move
-let auntieTurn = 0;
+$('coinChip').addEventListener('click', () => phone.open());
+$('abAuntie').addEventListener('click', () => phone.open((S.riders || []).some((x) => x.pid === S.me.pid && x.status !== 'delivered') ? 'track' : 'shop'));
 function maybeAuntie() {
-  $('abAuntie').classList.toggle('hidden', !canOrder());
-  if (!canOrder() && !$('shop').classList.contains('hidden')) $('shop').classList.add('hidden');
-  if (!canOrder() || auntieTurn === S.turn) return;
-  auntieTurn = S.turn;
-  const r = $('auntieRide'); r.classList.remove('hidden', 'go'); void r.offsetWidth; r.classList.add('go');
-  setTimeout(() => r.classList.add('hidden'), 9000);
+  const r = (S.riders || []).find((x) => x.pid === S.me.pid && x.status !== 'delivered');
+  const b = $('abAuntie');
+  b.classList.toggle('hidden', !canOrder() && !r);
+  setHTML(b, r ? '<i></i>TRACK ORDER' : '<i></i>ORDER GRAB-MA');
 }

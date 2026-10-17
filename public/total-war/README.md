@@ -55,12 +55,17 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   counter; buffs and debuffs weaken the Crimson's next hits. Ultimates: damage (splash), stun (no counter),
   heal (50% Resolve) or shield (blocks the whole counter).
 
-### Grab-Ma's delivery
+### Grab-Ma Food (the shop, as a delivery app on a phone)
 
-- Auntie Mama is now Grab-Ma, a travelling merchant on a scooter (`auntie/`). Each right answer earns **10 coins**.
-- She only delivers during the class's move, **after a banner has locked in its move**: she rides across the map
-  and **ORDER GRAB-MA** appears. Once every banner has locked in, there are up to 20 seconds to order (or until
-  everyone taps DONE ORDERING) before the Crimson turn. Food goes into your bag and is used on your turn in battle.
+- Auntie Mama is now Grab-Ma. Each right answer earns **10 coins** (the MamaPay wallet).
+- The phone button in the top bar (and **ORDER GRAB-MA** on the action bar) opens Grab-Ma Food (`phone.js`): a
+  food-delivery app with the menu, prices, a basket, checkout and live order tracking.
+- Orders go in during the class's move, **once a banner has locked in its move**, one order a move. The phone buzzes
+  with a notification when ordering opens, when she sets off and when she arrives.
+- Grab-Ma cooks for 3 seconds at the Academy, then rides out along the roads, **one road every 3 seconds** (far faster
+  than a warband), following the banner if it moves. Everyone sees her scooter on the map. The food lands in the
+  bag when she arrives, even in the middle of a battle.
+- Once every banner has locked in, the Crimson turn waits up to 30 seconds while students order and their food arrives.
 
 ### Questions while the Crimson Host moves
 

@@ -264,10 +264,10 @@ async function wardWar() {
 // items bought from Auntie with coins, and that the bot teacher plays its own turns.
 async function practiceWar() {
   console.log("\n--- practice war (bot teacher, bot students, skills, Auntie) ---");
-  const s = io(URL, { transports: ["websocket"] }); let v = null; const errs = []; const kinds = new Set(); let maxBands = 0, bought = false, crimsonTurns = 0, lastTurn = 0, usedItem = false;
+  const s = io(URL, { transports: ["websocket"] }); let v = null; const errs = []; const kinds = new Set(); let maxBands = 0, rideSeen = new Set(), bought = false, crimsonTurns = 0, lastTurn = 0, usedItem = false;
   s.on("twError", (m) => errs.push(m));
   s.on("twState", (x) => {
-    v = x; if (x.status !== "playing") return; maxBands = Math.max(maxBands, x.bands?.length || 0);
+    v = x; if (x.status !== "playing") return; maxBands = Math.max(maxBands, x.bands?.length || 0); for (const r of x.riders || []) if (r.pid === x.me.pid) rideSeen.add(r.status);
     if (x.phase === "crystal" && x.turn !== lastTurn) { lastTurn = x.turn; if (x.turn > 1) crimsonTurns++; }
     const B = x.myBattle;
     if (B?.round?.action) kinds.add(B.round.action.kind);
@@ -280,7 +280,7 @@ async function practiceWar() {
     }
     const myB = x.bands?.find((b) => b.id === x.me.bandId);
     if (x.phase === "crimson" && !s.triedEarly) { s.triedEarly = true; s.emit("twBuy", { item: "bento" }); }
-    if (!B && !bought && x.me.coins >= 100 && x.phase === "crystal" && myB?.done && !myB.battle) { bought = true; s.emit("twBuy", { item: "energy" }); }
+    if (!B && !bought && x.me.coins >= 100 && x.phase === "crystal" && myB?.done && !myB.battle) { bought = true; s.emit("twGrab", { items: { energy: 1 } }); }
     const band = x.bands?.find((b) => b.id === x.me.bandId);
     if (x.phase === "crystal" && band && !band.done && !band.battle) { const key = `${x.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const to = stepTowards(band.node, FORTRESS); s.emit("twVote", { to: to ?? "stay" }); } }
   });
@@ -293,6 +293,7 @@ async function practiceWar() {
   check(crimsonTurns >= 2 || v?.status === "ended", `the Bot Commander plays its own turns (${crimsonTurns})`);
   check(kinds.has("skill"), `students can use their Academy Rift skills in battle (moves seen: ${[...kinds].join(", ")})`);
   check(bought && v.me.bag && (v.me.bag.energy > 0 || usedItem), "coins buy food from Grab-Ma's delivery");
+  check(rideSeen.has("cooking") && rideSeen.has("delivered"), `Grab-Ma cooks the order and rides it out to the banner (${[...rideSeen].join(" → ")})`);
   check(usedItem && kinds.has("item"), "an item from the bag can be used on your turn in battle");
   check(errs.some((e) => /Lock in your move first/.test(e)), "Grab-Ma only delivers once your move is locked in");
   const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle|Lock in your move/i.test(e));
