@@ -1,76 +1,104 @@
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-  <meta name="theme-color" content="#101a25"><title>Academy Rift · Total War</title>
-
-  <link rel="stylesheet" href="../fonts/fonts.css"><link rel="stylesheet" href="battlefield.css">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b141c">
+<title>Academy Rift · Total War</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="tw.css">
+<link rel="stylesheet" href="play.css">
 </head>
-
 <body>
 
-  <main id="game" aria-label="Total War battlefield">
+<!-- join -->
+<section id="join" class="screen">
+  <div class="center-screen">
+    <form id="joinForm" class="panel join-box">
+      <div class="eyebrow">ACADEMY RIFT</div>
+      <h1 class="cinzel">Total War</h1>
+      <p class="sub">Join your class's war. The code is on the board.</p>
+      <label class="field">War code<input id="joinCode" autocomplete="off" autocapitalize="characters" maxlength="4" required></label>
+      <label class="field">Your name<input id="joinName" autocomplete="off" maxlength="20" required></label>
+      <button class="btn primary" type="submit">Join the war</button>
+    </form>
+  </div>
+</section>
 
-    <canvas id="field" aria-label="Moonveil battlefield. Select a squad, then a destination." tabindex="0"></canvas>
+<!-- lobby: partner and banner -->
+<section id="lobby" class="screen hidden">
+  <div class="center-screen">
+    <div class="panel lobby-box">
+      <div class="eyebrow" id="lobbyCode">WAR</div>
+      <h1 class="cinzel" id="lobbyTitle">Find your partner</h1>
+      <p class="sub" id="lobbySub">Tap your partner's name. You march together on one banner.</p>
+      <div id="partnerList" class="partner-list"></div>
+      <div id="pairBox" class="pair-box hidden">
+        <div id="pairNames" class="pair-names"></div>
+        <button class="btn" id="leavePair" type="button">Change partner</button>
+      </div>
+      <h2 class="cinzel small-h">Choose your standard</h2>
+      <div id="standards" class="standards"></div>
+      <p class="sub" id="lobbyWait">Your teacher will start the war soon.</p>
+    </div>
+  </div>
+</section>
 
-    <header class="topbar">
+<!-- the war -->
+<section id="game" class="screen hidden">
+  <header class="topbar">
+    <div class="t-left">
+      <div><div class="eyebrow" id="phaseEyebrow">TURN 1</div><div class="t-title" id="phaseTitle">The war begins</div></div>
+      <div class="clock" id="phaseClock">0:00</div>
+    </div>
+    <div class="mission"><div class="eyebrow">YOUR MISSION</div><div>Break into the Crimson Fortress</div></div>
+    <div class="enemy-chip"><img src="monsters/warlord.png" alt=""><div><div class="eyebrow">YOUR ENEMY</div><div id="enemyName">Crimson Commander</div></div></div>
+  </header>
+  <div id="mapHost"></div>
+  <div class="ribbon" id="ribbon"></div>
+  <div class="buffs map-buffs" id="buffs"></div>
 
-      <div class="brand"><svg class="crest" aria-hidden="true" viewBox="0 0 40 48" fill="none"><path d="m20 2 16 8v20L20 46 4 30V10Z" stroke="currentColor"/><path d="m20 8 7 13-7 17-7-17Z" fill="currentColor"/><path d="M8 17 20 42 32 17M20 9v28" stroke="#263c45"/><path d="M4 12H0m40 0h-4M4 30H0m40 0h-4" stroke="currentColor"/></svg><div><span class="eyebrow">ACADEMY RIFT</span><h1>Total War</h1></div></div>
+  <section id="bandPanel" class="panel band-panel hidden">
+    <div class="bp-head">
+      <div><div class="eyebrow" id="bpWhere">YOUR WARBAND</div><div class="cinzel bp-title" id="bpTitle">Your banner</div></div>
+      <div class="bp-mp"><b id="bpMp">0</b> MP</div>
+    </div>
+    <div id="bpPairs" class="bp-pairs"></div>
+    <div id="bpVote" class="bp-vote"></div>
+    <div class="bp-actions">
+      <button class="btn" type="button" id="holdBtn">Hold here</button>
+      <button class="btn hidden" type="button" id="leaveBandBtn">Leave warband</button>
+    </div>
+  </section>
 
-      <div class="phase"><span id="phase">PLAN YOUR MARCH</span><div><i></i><span id="round">ROUND 01</span><b> / </b>MOONVEIL MARCHES</div></div>
+  <div id="endTurnWrap" class="end-turn hidden">
+    <button type="button" id="endTurnBtn">End<br>move</button>
+    <div id="endTurnNote">You still have MP</div>
+  </div>
 
-      <button id="banners" class="text-button">Banners</button><button id="bestiary" class="text-button">Bestiary</button><button id="sound" class="icon-button" aria-label="Enable ambient sound" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 5 5 9H2v6h3l5 4zM14 8q5 4 0 8M18 4q9 8 0 16"/></svg></button>
+  <section id="infoCard" class="panel info-card hidden"></section>
+  <div id="joinPrompt" class="panel red join-prompt hidden"></div>
 
-      <button id="help" class="icon-button" aria-label="How to play">?</button>
+  <div id="qWrap" class="q-wrap hidden"><div id="card"></div></div>
 
+  <section id="battle" class="battle hidden">
+    <header class="b-head">
+      <div><div class="eyebrow" id="bEyebrow">BATTLE</div><div class="cinzel b-title" id="bTitle">Battle</div></div>
+      <div class="b-status" id="bStatus"></div>
     </header>
+    <div class="b-field">
+      <div class="b-side" id="bCrystal"></div>
+      <div class="b-enemies" id="bEnemies"></div>
+    </div>
+    <div class="b-centre" id="bCentre"></div>
+    <div id="bCardHost" class="b-card"><div id="bCard"></div></div>
+  </section>
 
-    <div class="map-caption"><span>THE BORDERLANDS</span><h2>Moonveil Marches</h2><p>26 locations · 3 river crossings</p></div>
+  <section id="ending" class="ending hidden"></section>
+</section>
 
-    <div id="notice" role="status" aria-live="polite">Select a destination to chart Kuro’s march.</div>
-
-    <nav id="standards" aria-label="Standards on the field"></nav><nav id="destinations" aria-label="Battlefield destinations"></nav>
-
-    <div class="map-tools"><button id="routes" class="text-button" aria-pressed="false">Show route costs</button><span>Road 1 MP · Rough trail 2 MP</span></div><footer class="command-bar">
-
-      <section class="roster" aria-label="Your squads">
-
-        <div class="eyebrow">YOUR VANGUARD <span>02 SQUADS</span></div>
-
-        <div class="squad-list">
-
-          <button class="squad selected" data-squad="0" aria-pressed="true"><img src="portraits/K.webp" alt="Kuro"><span><strong>Kuro</strong><small>SHADOW COMPANY</small><em id="status-0">Awaiting orders</em></span><b class="squad-mark">I</b></button>
-
-          <button class="squad" data-squad="1" aria-pressed="false"><img src="portraits/J.webp" alt="Jun"><span><strong>Jun</strong><small>EMBER COMPANY</small><em id="status-1">Awaiting orders</em></span><b class="squad-mark">II</b></button>
-
-        </div>
-
-      </section>
-
-      <section class="route-readout" aria-label="Selected route"><div class="route-heading"><span class="eyebrow" id="route-title">KURO · MOVEMENT</span><button id="clear-route" aria-label="Clear route preview">Clear</button></div><div class="movement"><span id="pips"></span><strong id="budget">4 <small>/ 4 MP</small></strong></div><p id="route-detail">Tap a waypoint to inspect its route.</p><p id="site-reward">STONE 1 MP / ROUGH 2 MP</p></section>
-
-      <section class="orders"><div class="order-actions"><button id="reserve" class="quiet">Hold position</button><button id="commit" disabled>Commit route <span>→</span></button></div><button id="march" disabled>Begin simultaneous march <span id="ready">0 / 2 READY</span></button></section>
-
-    </footer>
-
-    <dialog id="guide"><button class="close" aria-label="Close instructions">×</button><span class="eyebrow">FIELD GUIDE</span><h2>Lead the advance.</h2><p>Both standards begin at your Crystal Fortress. Optional branches offer movement shrines and monster concepts.</p><ol><li><b>Select a company.</b> Tap their portrait or banner. Open Banners to choose from all ten characters while at the fortress.</li><li><b>Choose a waypoint.</b> Stone roads cost 1 MP; rough trails cost 2 MP. Turn on route costs to inspect the network. Tap another waypoint to extend the route; tap an earlier one to shorten it.</li><li><b>Commit or hold.</b> Unspent points stay in reserve for this round. You can revise orders before marching. Each new round starts with 4 MP, plus any shrine bonus earned by arriving in the previous round. Holding at a shrine does not earn another bonus.</li><li><b>Begin the march.</b> All ordered companies depart together. Start the next round when they arrive.</li></ol><p class="muted">Movement prototype · local play · no combat or network match.</p><button class="primary close">To the battlefield</button><button id="restart">Restart prototype from the fortress</button></dialog>
-
-    <dialog id="banner-gallery" class="wide-gallery"><button class="close" aria-label="Close banner gallery">×</button><span class="eyebrow">THE TEN STANDARDS</span><h2>Carry their colours.</h2><p id="banner-hint"></p><div id="banner-grid"></div><p class="muted">Original Academy Rift character artwork · elemental crests · gold-bound portrait pennants</p><a class="gallery-link" href="banners.html" target="_blank" rel="noopener">Open the complete banner collection & download individual standards</a></dialog>
-
-    <dialog id="monster-gallery" class="wide-gallery"><button class="close" aria-label="Close bestiary">×</button><span class="eyebrow">FIELD BESTIARY</span><h2>Creatures of the Moonveil</h2><p>Neutral guardians on the side branches. Defeat one to take its buff. Rewards are proposals until the rules are agreed.</p><div class="beast-grid" id="camp-grid"></div><span class="eyebrow beast-head">THE ENEMY</span><h2>The Crimson Host</h2><p>The forces your teacher sends out from the Crimson Fortress.</p><div class="beast-grid" id="host-grid"></div><a class="gallery-link" href="art/monster-concepts.png" target="_blank" rel="noopener">Open Codex's original concept sheet</a></dialog>
-
-    <div id="loading">Opening the borderlands…</div>
-
-  </main>
-
-  <script type="module" src="battlefield.js"></script>
-
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="play.js"></script>
 </body>
-
 </html>
-

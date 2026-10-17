@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Total War · Projector</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="tw.css">
+<style>
+.p-head{position:absolute;left:0;right:0;top:0;height:110px;padding:22px 40px 0;display:flex;justify-content:space-between;align-items:flex-start;background:linear-gradient(#0b141cee,#0b141c00);z-index:5;pointer-events:none}
+.p-head h1{margin:2px 0 0;font:700 34px Cinzel}
+.p-phase{text-align:center}
+.p-phase .eyebrow{font-size:15px;letter-spacing:5px}
+.p-phase div:last-child{font:400 15px "Rift Body";color:#b8c7c4;margin-top:6px}
+.gate-chip{display:flex;align-items:center;gap:12px;padding:10px 16px;border:1px solid #e0566e66;background:#2a1219cc}
+.gate-chip img{width:46px;height:46px;object-fit:contain;image-rendering:pixelated}
+.gate-chip b{display:block;font:700 18px Cinzel}
+.p-foot{position:absolute;left:0;right:0;bottom:0;padding:0 40px 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;background:linear-gradient(#0b141c00,#0b141cf2 55%);z-index:5;pointer-events:none;min-height:150px}
+.p-foot h2{margin:4px 0 0;font:700 32px Cinzel}
+.p-foot p{margin:6px 0 0;color:#c7d4d1;font-size:16px}
+.p-enemy{display:flex;align-items:center;gap:16px;padding:14px 20px;background:#2a1219e6;border:1px solid #e0566e88}
+.p-enemy img{width:64px;height:64px;object-fit:contain;image-rendering:pixelated}
+.p-enemy b{display:block;font:700 24px Cinzel}
+.p-log{position:absolute;left:40px;top:120px;width:420px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.p-log div{padding:8px 12px;background:#0b141cd9;border-left:3px solid var(--gold);font:400 15px "Rift Body"}
+.p-log .crimson{border-color:var(--crimson)}.p-log .crystal{border-color:var(--cyan)}.p-log .battle{border-color:#ff5a6e}.p-log .big{border-color:var(--gold2);font-weight:600}
+.p-battle{position:absolute;right:40px;top:130px;width:640px;padding:22px 26px;background:linear-gradient(#1d1015f5,#120a0ef5);border:1px solid var(--crimson);box-shadow:0 30px 90px #000c;z-index:6}
+.p-battle h3{margin:4px 0 0;font:700 32px Cinzel}
+.p-battle .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:16px}
+.p-battle .side{display:flex;flex-direction:column;gap:8px}
+.p-battle .side div{display:flex;align-items:center;gap:10px;font:600 15px "Rift Body"}
+.p-battle .side img{width:58px;height:44px;object-fit:cover;object-position:50% 15%;border:2px solid var(--c)}
+.p-battle .foes{display:flex;gap:6px;align-items:flex-end}
+.p-battle .foe{display:flex;flex-direction:column;align-items:center;width:120px}
+.p-battle .foe img{width:116px;height:116px;object-fit:contain;image-rendering:pixelated}
+.p-battle .foe.down img{opacity:.25;filter:grayscale(1)}
+.hpbar{height:10px;background:#2a1d23;width:110px;margin-top:4px}.hpbar i{display:block;height:100%;background:var(--crimson)}
+.p-battle .status{margin-top:14px;font:400 16px "Rift Body";color:#e6d6d9}
+.lobby{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:60px;background:radial-gradient(ellipse at 50% 20%,#1c2d3a,#0b141c 70%);z-index:20}
+.lobby .code{font:700 120px/1 "Rift Display";letter-spacing:14px}
+.lobby .qr{width:300px;height:300px;background:#fff;padding:10px}
+.lobby .qr svg{width:100%;height:100%}
+.lobby p{font:400 22px "Rift Body";color:#c7d4d1}
+.ending{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(ellipse at 50% 30%,#2a2214f2,#0b0d1af7 70%);z-index:30;text-align:center}
+.ending h1{margin:0;font:700 72px Cinzel}
+</style>
+</head>
+<body>
+<section class="screen">
+  <div id="mapHost" style="position:absolute;left:0;right:0;top:100px;bottom:120px;display:flex"></div>
+  <header class="p-head">
+    <div><div class="eyebrow">ACADEMY RIFT</div><h1>Total War</h1></div>
+    <div class="p-phase"><div class="eyebrow" id="pPhase">TURN 1</div><div id="pSub"></div></div>
+    <div class="gate-chip"><img id="gateImg" src="monsters/golem.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">CRIMSON GATE</span><b id="gateText">Unbroken</b></div></div>
+  </header>
+  <div class="p-log" id="log"></div>
+  <section class="p-battle hidden" id="battle"></section>
+  <footer class="p-foot">
+    <div><div class="eyebrow" style="font-size:13px;letter-spacing:4px">YOUR MISSION</div><h2>Break into the Crimson Fortress</h2><p>Defeat the gate guardian, then the Crimson Warlord inside.</p></div>
+    <div class="p-enemy"><img src="monsters/warlord.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">YOUR ENEMY</span><b id="enemyName">Your teacher</b><span style="color:#e6d6d9">Commander of the Crimson Host</span></div></div>
+  </footer>
+</section>
+<section class="lobby hidden" id="lobby">
+  <div><div class="eyebrow" style="font-size:18px;letter-spacing:6px">JOIN THE WAR</div><div class="code" id="lCode">----</div><p id="lUrl"></p><p id="lCount"></p></div>
+  <div class="qr" id="qr"></div>
+</section>
+<section class="ending hidden" id="ending"></section>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module">
+import { createMap, portrait, sprite, charColor, esc } from './map.js';
+import { NODES } from './movement.js';
+import { UNITS, CAMPS } from './rules.js';
+import qrcode from '/vendor/qrcode.mjs';
+const $ = (id) => document.getElementById(id);
+const code = new URLSearchParams(location.search).get('code') || '';
+const socket = io();
+const map = createMap($('mapHost'));
+let P = null, qrFor = '';
+socket.on('connect', () => socket.emit('twWatch', { code }));
+socket.on('twPublic', (v) => { P = v; render(); });
+function render() {
+  $('lobby').classList.toggle('hidden', P.status !== 'lobby');
+  $('enemyName').textContent = P.commander || 'Your teacher';
+  if (P.status === 'lobby') {
+    const url = `${location.origin}/total-war/?code=${P.code}`;
+    $('lCode').textContent = P.code; $('lUrl').textContent = url.replace(/^https?:\/\//, '');
+    $('lCount').textContent = `${P.bands.length ? '' : ''}`;
+    if (qrFor !== url) { qrFor = url; const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true, alt: 'QR code' }); }
+    return;
+  }
+  $('pPhase').textContent = `TURN ${P.turn} · ${P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? 'CRYSTAL TURN' : P.phase === 'battles' ? 'BATTLES' : 'THE END'}`;
+  $('pSub').textContent = P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. Muster!` : P.phase === 'crystal' ? 'The class is on the move' : P.phase === 'battles' ? 'The last battles of the turn' : '';
+  $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
+  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? 'The Warlord is out!' : 'Broken') : `Unbroken · ${P.gate.hp} / ${P.gate.max}`;
+  map.render({ state: P });
+  $('log').innerHTML = P.log.slice(-5).map((l) => `<div class="${l.tone}">${esc(l.text)}</div>`).join('');
+  const B = [...P.battles].sort((a, b) => b.bands.reduce((s, x) => s + x.pairs.length, 0) - a.bands.reduce((s, x) => s + x.pairs.length, 0))[0];
+  const box = $('battle');
+  if (!B) box.classList.add('hidden');
+  else {
+    const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'THE CRIMSON WARLORD' : 'The Crimson Host';
+    const st = B.status === 'gather' ? 'Gathering. Warbands one road away can still join.' : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · ${B.answered} of ${B.fighters} have answered` : B.status === 'result' && B.lastHits ? `${B.lastHits.hits} hits! ${B.lastHits.right} right answers${B.lastHits.warcry ? ` and ${B.lastHits.warcry} War Cries` : ''}.` : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? 'The Crimson Host held.' : '';
+    box.innerHTML = `<div class="eyebrow" style="color:#ff5a6e;letter-spacing:6px">BATTLE · ${esc(NODES[B.node].name.toUpperCase())}</div><h3>${esc(what)}</h3>
+      <div class="row"><div class="side">${B.bands.flatMap((b) => b.pairs).map((p) => `<div><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">Pair ${p.no}</div>`).join('')}</div>
+      <div class="foes">${B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><img src="${sprite(e.type)}" alt=""><div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div></div>
+      <div class="status">${esc(st)}${B.cheers.length ? ` · War Cries from ${B.cheers.map((c) => 'Pair ' + c.pair).join(', ')}` : ''}</div>`;
+    box.classList.remove('hidden');
+  }
+  const end = $('ending');
+  end.classList.toggle('hidden', P.status !== 'ended');
+  if (P.status === 'ended') end.innerHTML = `<div class="eyebrow" style="font-size:18px;letter-spacing:6px">${P.winner === 'crystal' ? 'VICTORY' : 'THE FORTRESS STANDS'}</div><h1>${P.winner === 'crystal' ? 'The Crimson Warlord has fallen' : 'The Crimson Host holds'}</h1>`;
+}
+</script>
+</body>
+</html>

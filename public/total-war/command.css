@@ -1,0 +1,67 @@
+/* Total War: the teacher's Crimson command screen */
+.crimson-bg{background:radial-gradient(ellipse at 50% 15%,#3a1520,#140d12 70%)}
+.setup-box{width:min(560px,100%);padding:30px;display:flex;flex-direction:column;gap:14px}
+.setup-box h1{margin:0;font-size:38px}
+.sub{margin:0;color:#e6d6d9;font-size:15px;line-height:1.55}
+.hint{margin:0;color:#c9b7ba;font-size:12px;line-height:1.5}
+.lobby-grid{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:16px;width:min(1180px,100%);align-items:start}
+.join-card{padding:22px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.big-code{font:700 64px/1 "Rift Display";letter-spacing:8px;color:var(--ivory)}
+.qr{width:200px;height:200px;background:#fff;padding:8px}
+.qr svg{width:100%;height:100%}
+.join-url{font:600 13px "Rift Body";color:var(--muted);word-break:break-all}
+.host-warn{font:400 12px "Rift Body";color:#f1cf7a}
+.join-card a.btn{display:flex;align-items:center;justify-content:center;text-decoration:none;width:100%}
+.settings-card{padding:22px;display:flex;flex-direction:column;gap:12px;max-height:calc(100vh - 48px);overflow:auto}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.topic-grid button{min-height:44px;padding:6px 10px;background:#0b161e;border:1px solid #d8bd8033;color:var(--ivory);font:600 13px "Rift Body";text-align:left}
+.topic-grid button.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:#1f2a2a}
+.topic-grid .folder{grid-column:1/-1;font:700 10px "Rift Display";letter-spacing:2px;color:var(--gold);margin-top:6px}
+.setting-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.setting-row select{font-size:15px}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+.roster .pair{padding:8px 10px;background:#0b161e;border:1px solid #d8bd8044;font:600 13px "Rift Body"}
+.roster .pair small{display:block;color:var(--muted);font-weight:400}
+.roster button.loose{min-height:40px;background:#1a0f15;border:1px dashed #e0566e66;color:#ffd0d6;font:600 13px "Rift Body";text-align:left;padding:6px 10px}
+.roster button.loose.picked{border-style:solid;border-color:var(--rose);background:#3a1820}
+
+.crimson-bar{background:#1a0f15;border-bottom-color:#e0566e55}
+.energy{display:flex;align-items:center;gap:10px}
+.energy b{font:700 28px "Rift Display"}
+.t-actions{display:flex;gap:8px}
+.t-actions .btn{display:flex;align-items:center}
+.btn.icon{width:44px;padding:0;justify-content:center;font-size:20px}
+#mapHost{flex:1;min-height:0;display:flex}
+.class-chip{position:absolute;right:14px;top:78px;z-index:6;display:flex;align-items:center;gap:10px;padding:8px 14px;background:#140d12e6;border:1px solid #e9b84f88;color:var(--ivory);font:400 13px "Rift Body"}
+.class-chip b{font:700 15px "Rift Display"}
+.class-chip .quiet{padding:3px 8px;background:#2b2210;border:1px solid #e9b84f88;color:#f1cf7a;font:600 12px "Rift Body"}
+.battle-list{position:absolute;left:14px;top:78px;z-index:6;display:flex;flex-direction:column;gap:6px;width:280px}
+.battle-list .bl{padding:8px 10px;background:#22101af2;border:1px solid var(--crimson);font:600 13px "Rift Body"}
+.battle-list .bl small{display:block;font-weight:400;color:#e6d6d9}
+.stack-panel{position:absolute;left:14px;bottom:126px;width:330px;padding:14px 16px;z-index:8}
+.stack-panel h3{margin:2px 0 8px;font:700 19px Cinzel}
+.unit-row{display:flex;align-items:center;gap:10px;width:100%;padding:6px 8px 6px 4px;margin-top:6px;background:#140a0f;border:1px solid #e0566e33;text-align:left;color:var(--ivory)}
+.unit-row.on{border-color:var(--rose);background:#3a1820}
+.unit-row img{width:48px;height:48px;object-fit:contain;image-rendering:pixelated}
+.unit-row .nm{flex:1;min-width:0;font:600 14px "Rift Body"}
+.unit-row small{display:block;font:400 11px "Rift Body";color:#c9b7ba}
+.unit-row .mv{font:700 12px "Rift Display";color:var(--rose);white-space:nowrap}
+.class-panel{position:absolute;right:14px;top:126px;width:360px;max-height:calc(100% - 260px);overflow:auto;padding:14px 16px;z-index:8}
+.class-panel .st{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border-bottom:1px solid #ffffff14;font:400 13px "Rift Body"}
+.class-panel .st.quiet{background:#2b2210;color:#f1cf7a}
+.class-panel .st.off{opacity:.5}
+.menu{position:absolute;right:14px;top:70px;z-index:30;display:flex;flex-direction:column;gap:8px;padding:12px;width:260px}
+.menu a{display:flex;align-items:center;justify-content:center;text-decoration:none}
+.summon-strip{position:absolute;left:14px;right:14px;bottom:12px;z-index:7;display:flex;gap:6px;padding:8px;background:#140d12ec;border:1px solid #e0566e55}
+.summon-strip .lead{width:96px;flex:0 0 96px;display:flex;flex-direction:column;justify-content:center;padding-left:4px}
+.summon-strip .lead small{font:400 11px "Rift Body";color:#c9b7ba;margin-top:2px}
+.summon-strip button{flex:1;min-width:0;position:relative;padding:4px 2px;background:#1a0f15;border:1px solid #e0566e33;color:var(--ivory);display:flex;flex-direction:column;align-items:center;gap:1px}
+.summon-strip button:disabled{opacity:.35}
+.summon-strip button img{width:52px;height:46px;object-fit:contain;image-rendering:pixelated}
+.summon-strip button span{font:600 10px "Rift Body";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.summon-strip button i{position:absolute;right:4px;top:3px;font:700 14px "Rift Display";font-style:normal;color:var(--rose)}
+.ending{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#0b0d1af2;text-align:center;padding:30px;overflow:auto}
+.ending h1{margin:0;font:700 48px Cinzel}
+.ending table{border-collapse:collapse;font:400 14px "Rift Body";min-width:420px}
+.ending td,.ending th{padding:6px 12px;border-bottom:1px solid #ffffff1a;text-align:left}
+@media (max-width:900px){.lobby-grid{grid-template-columns:1fr}.setting-row{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -69,8 +69,8 @@ test('battle hits go to the front enemy first and a beaten stack is reported',()
   assert.equal(questionHits({right:4,warcry:2}),5);
   assert.equal(questionHits({right:4,warcry:2},{power:true,warcry:true}),7);
 });
-test('MP: 2 to move, up to 4 more from muster, +1 with Tailwind',()=>{
-  assert.equal(pairMP(0),2); assert.equal(pairMP(3),5); assert.equal(pairMP(9),6); assert.equal(pairMP(9,{mp:true}),7);
+test('MP: 2 to move, +1 for every 2 right muster answers up to +2, +1 with Tailwind',()=>{
+  assert.equal(pairMP(0),2); assert.equal(pairMP(1),2); assert.equal(pairMP(3),3); assert.equal(pairMP(4),4); assert.equal(pairMP(9),4); assert.equal(pairMP(9,{mp:true}),5);
 });
 test('jungle camps sit at dead ends off the main roads, and every camp has lore and a buff',()=>{
   for(const n of Object.keys(CAMPS)){ assert.equal(neighbours(+n).length,1,`${NODES[n].name} is a dead end`); assert.ok(CAMPS[n].lore && CAMPS[n].buffText); }

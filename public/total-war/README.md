@@ -1,24 +1,69 @@
-# Academy Rift: Total War — portrait standards prototype
+# Academy Rift: Total War
 
-Run `npm start` and open `/total-war/`. The review server uses port 3101 because 3100 was occupied. All additions are isolated to `public/total-war/` and two tools; existing Arena, server, dependencies and character definitions remain unchanged.
+A turn-based strategy mode for a whole class, separate from the 2v2 Arena. The teacher commands the
+Crimson Host. Students, in pairs on their own iPads, march Crystal banners across the Moonveil map
+and must band together to break into the Crimson Fortress and beat the Crimson Warlord.
 
-## Play
-Two companies begin at the Crystal Fortress. Open Banners to choose from all ten original characters while at the fortress before committing orders. Each standard contains the actual Academy Rift portrait, an elemental crest and a coloured pennant. The repository names its fire character Jun Kisaragi.
+## Pages
 
-Choose waypoints to extend a route, tap an earlier point to shorten it, or clear the preview. Stone roads cost 1 MP; rough trails cost 2. The optional route overlay shows the complete network and costs. Commit each company or hold, then begin simultaneous movement. Unspent points are reserved for this round, not accumulated.
+- `/total-war/command.html`: the teacher. Start a war, choose the questions, show the join code, then
+  command the Crimson Host.
+- `/total-war/?code=WXYZ`: students join on their iPads (the QR code on the command page opens this).
+- `/total-war/projector.html?code=WXYZ`: the projector. The class's view of the map (with fog of war),
+  the biggest live battle and a feed of what is happening. Never shows answers or hidden units.
+- `/total-war/prototype.html`: Codex's original movement prototype, kept for reference.
 
-The map has 26 locations, 32 roads, three crossings and seven optional dead-end branches. Four shrines grant movement points on arrival for the following round: Moonwell +1, Windspire +2, Ancient Grove +1, Star Observatory +1. Holding at a shrine grants nothing further. Base allowance is 4 MP; maximum is 6. Monster sites are concept locations only.
+## How a turn works (as in Civilization)
 
-Six new monster concepts are available in Bestiary and `art/monster-concepts.png`: Moonhart Sentinel, Galecrest Roc, Mossback Colossus, Riftglass Basilisk, Hollow Ferryman and Crimson Broodmother. Suggested encounter rewards are proposals, not implemented combat.
+1. **Crimson turn.** The teacher spends Rift Energy to send units out from the fortress (they appear
+   there) and moves units one road at a time, up to each unit's speed. Meanwhile every student answers
+   **muster** questions on the Academy Rift question card (4 seconds to read, 21 to answer). Every 2 right
+   answers by a pair give that pair +1 MP for its next move, up to +2.
+2. **Crystal turn.** Each pair has 2 MP plus its muster bonus. A banner moves **one stop at a time**.
+   Pairs on the same stop can join into a **warband**. A warband **votes** on every step: each pair taps
+   a stop, most votes wins (a tie goes to the warband's first pair), and the vote closes 15 seconds after
+   the first vote. A warband moves at the speed of its slowest connected pair.
+3. Stepping onto the Crimson Host, a jungle camp or the fortress starts a **battle**. Warbands one road
+   away get 10 seconds to join. Everyone in the battle answers the same questions. Each right answer is a
+   hit. Pairs who have finished moving answer **War Cry** questions, which add half a hit each. Lose, and
+   the warband falls back to the nearest rally point. Damage dealt stays.
 
-## Art and rendering
-Canvas 2D renders the expanded environment, route splines, waving portrait banners, animated campfire, river highlights, mist and crystal particles. Both standards use the same departure clock and distance-based movement. Original fonts, portraits and campfire FX are reused. New environment and monster concept sheet were generated for this prototype; no replacement character art was generated.
+## Fog of war
 
-`banners.html` provides a full collection and downloads. SVGs embed original WebP portraits and are rebuilt with `node tools/build-total-war-banners.mjs`. `movement.js` supplies weighted route planning and shared render/travel geometry.
+Students see two roads around every Crystal banner, the rally points they hold, and both fortresses.
+The server never sends them units outside that range.
 
-Namespaced localStorage `academy-rift.total-war.standards.v2` preserves choices, orders, positions and earned bonuses. Reload during movement restores the pre-departure plan. Restart is in the field guide. This is browser-local play, not a network match.
+## Jungle camps (beat one and the whole class gets its buff)
 
-## Validation
-`node --test tools/test-total-war.mjs`: seven passing checks covering all-pairs connectivity, independent optimal weighted paths, budgets, optional branches, all ten portable portrait assets, reverse geometry and distance sampling.
+| Camp | Stop | Buff |
+| --- | --- | --- |
+| Moonhart Sentinel | Moonwell | War Cries count double for 2 turns |
+| Galecrest Roc | Windspire | Every pair gets +1 MP for 2 turns |
+| Mossback Colossus | Ancient Grove | Every battle lasts one more question for 2 turns |
+| Riftglass Basilisk | Riftglass Quarry | Right answers hit 25% harder for 2 turns |
+| Hollow Ferryman | Drowned Vault | The whole map is revealed for 2 turns |
+| Crimson Broodmother | Crimson Nest | The gate guardian loses 15 strength |
 
-Browser checks cover banner selection and persistence, over-budget rejection, split simultaneous march, arrival bonuses, reload, next round, all-hold without bonus farming, gallery and bestiary. Layout inspected at 1024×768, 1194×834 and 1366×1024. Waypoints have 48px targets and primary actions are at least 44px. No console errors in the checked flow. Physical iPad Safari, actual touch input and sustained device performance remain unverified.
+Camps come back 3 turns after they are beaten.
+
+## Winning
+
+The class breaks the gate (Bloodstone Golem, 45 strength) and then beats the Crimson Warlord
+(70 strength). The Warlord comes out once the gate is broken and 80% of the class have answered the
+teacher's question target (25 by default), or when the teacher releases him. If the last turn ends
+first, the Crimson Host wins.
+
+## Files
+
+- `rules.js`: every rule and number, shared by the server and the pages.
+- `../../totalwar.js`: the server (its own rooms and `tw*` socket events).
+- `map.js`, `card.js`, `tw.css`: the shared map, Academy Rift question card and look.
+- `play.js`/`play.css`, `command.js`/`command.css`, `projector.html`: the three screens.
+- `monsters/`: PixelLab sprites for the six camps and the twelve Crimson Host units.
+- `portraits/`: the character card portraits used on the banners.
+
+## Tests
+
+- `node test-totalwar.mjs [students]`: a teacher and a class of bots play a whole war.
+- `node --test tools/test-total-war.mjs`: the map and the rules.
+- `node tools/tw-demo.mjs [url] [bots] --auto-teacher`: a live demo war to join from a browser.

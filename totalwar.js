@@ -32,7 +32,7 @@ export function setupTotalWar(deps) {
     while (sessions.has(c) || isRoomCode(c));
     return c;
   }
-  const defaultSettings = () => ({ topic: null, turns: 12, crimsonSeconds: 120, crystalSeconds: 150, target: 25, warlordPct: 80 });
+  const defaultSettings = () => ({ commander: "Mr Cedric", topic: null, turns: 12, crimsonSeconds: 120, crystalSeconds: 150, target: 25, warlordPct: 80 });
 
   function createSession() {
     const S = {
@@ -506,7 +506,7 @@ export function setupTotalWar(deps) {
     return {
       code: S.code, status: S.status, winner: S.winner, turn: S.turn, turns: S.settings.turns,
       phase: S.phase, phaseEndsAt: S.phaseEndsAt, serverNow: Date.now(), speed: SPEED,
-      topic: topicLabel(S.settings.topic),
+      topic: topicLabel(S.settings.topic), commander: S.settings.commander,
       bands: [...S.bands.values()].map((b) => bandView(S, b)),
       units: [...S.units.values()].filter((u) => sees(u.node)).map(unitView),
       camps: Object.entries(S.camps).map(([n, c]) => ({ node: +n, alive: c.alive, hp: c.hp, returnTurn: c.returnTurn })),
@@ -589,6 +589,7 @@ export function setupTotalWar(deps) {
     socket.on("twSettings", asHost((S, s) => {
       if (S.status !== "lobby") return "Settings are fixed once the war starts.";
       if ("topic" in s) S.settings.topic = normalizeTopics(s.topic);
+      if ("commander" in s) S.settings.commander = String(s.commander || "").trim().slice(0, 30) || "Your teacher";
       for (const k of ["turns", "crimsonSeconds", "crystalSeconds", "target", "warlordPct"]) if (k in s) {
         const lim = { turns: [4, 30], crimsonSeconds: [45, 300], crystalSeconds: [60, 300], target: [5, 60], warlordPct: [0, 100] }[k];
         const n = Math.round(+s[k]); if (Number.isFinite(n)) S.settings[k] = Math.max(lim[0], Math.min(lim[1], n));

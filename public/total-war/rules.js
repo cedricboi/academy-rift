@@ -8,7 +8,7 @@ export const OUTPOSTS = [2, 8, 6];     // Whispering Watch, Sunken Watch, Silver
 
 export const SIGHT = 2;                // fog of war: students see this many roads beyond any of their banners
 export const BASE_MP = 2;              // every pair moves at least this far each Crystal turn
-export const MUSTER_MP_CAP = 4;        // most a pair can add from muster answers in one turn
+export const MUSTER_MP_CAP = 2;        // most a pair can add from muster answers in one turn (every 2 right answers = +1)
 export const MUSTER_PER_TURN = 3;      // muster questions each student answers in a Crimson turn
 export const READ_SECONDS = 4;         // Academy Rift's reading time before the choices appear
 export const ANSWER_SECONDS = 21;      // Academy Rift's time to answer
@@ -126,7 +126,7 @@ export function tallyVotes(votes, order) {
 
 // MP for a pair at the start of a Crystal turn
 export function pairMP(musterCorrect, buffs = {}) {
-  return BASE_MP + Math.min(MUSTER_MP_CAP, musterCorrect) + (buffs.mp ? 1 : 0);
+  return BASE_MP + Math.min(MUSTER_MP_CAP, Math.floor(musterCorrect / 2)) + (buffs.mp ? 1 : 0);
 }
 
 // Rift Energy the teacher gets each Crimson turn, and how much may be kept for later
