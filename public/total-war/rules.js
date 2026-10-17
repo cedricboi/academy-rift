@@ -18,37 +18,45 @@ export const STACK_LIMIT = 4;          // Crimson units on one stop (the fortres
 export const FORTRESS_LIMIT = 6;
 export const WARCRY_HIT = 0.5;         // a right War Cry answer, in hits
 export const CAMP_RETURN_TURNS = 3;    // a beaten camp comes back after this many turns
+// ---- battles, as in the Arena: one Striker answers each question, everyone else answers it as support ----
+export const STRIKE_HITS = 2;          // the Striker's right answer
+export const STEAL_HITS = 1;           // the Striker was wrong, and a supporter who was right steals the strike (half power)
+export const SUPPORT_HIT = 0.75;       // each supporter's right answer adds this much
+export const RESOLVE_PER_PAIR = 10;    // a warband's Resolve in battle; the Crimson hits back after every question
+export const GUARD_MAX = 0.6;          // most of a counterattack the warband can block (when every fighter was right)
+export const HOLD_BONUS = 0.25;        // a unit that holds its stop for a whole turn is dug in: this much tougher
+export const WARD_HP = 24;             // the Academy Ward at the class's own fortress: break it and the Crimson Host wins
 
 // ---- the Crimson Host. hp = right answers needed to beat it. speed = stops per Crimson turn ----
 export const UNITS = {
-  rift_hound:     { name: 'Rift Hound',            cost: 1, hp: 6,  speed: 3, role: 'Fast scout' },
-  imp_swarm:      { name: 'Ember Imp Swarm',       cost: 1, hp: 6,  speed: 3, role: 'Flying raiders' },
-  goblin_sappers: { name: 'Emberfang Goblin Sappers', cost: 1, hp: 7, speed: 2, role: 'Saboteurs' },
-  orc_vanguard:   { name: 'Riftborn Orc Vanguard', cost: 2, hp: 12, speed: 2, role: 'Holds the road' },
-  orc_warchanter: { name: 'Orc Warchanter',        cost: 2, hp: 9,  speed: 2, role: 'Makes the others on its stop 25% tougher', aura: 0.25 },
-  gargoyle:       { name: 'Crimson Gargoyle',      cost: 2, hp: 13, speed: 1, role: 'Guards a stop' },
-  warlock:        { name: 'Riftweaver Warlock',    cost: 2, hp: 10, speed: 2, role: 'Spellcaster' },
-  hollow_knight:  { name: 'Hollow Knight of the Rift', cost: 3, hp: 18, speed: 1, role: 'Elite defender' },
-  ogre:           { name: 'Ironhide Ogre',         cost: 3, hp: 20, speed: 1, role: 'Siege brute' },
-  wyvern:         { name: 'Crimson Wyvern',        cost: 3, hp: 16, speed: 3, role: 'Flying raider' },
-  golem:          { name: 'Bloodstone Golem',      fixed: true, hp: 45, role: 'Guards the fortress gate' },
-  warlord:        { name: 'The Crimson Warlord',   fixed: true, hp: 70, role: 'Commander of the Crimson Host' },
+  rift_hound:     { name: 'Rift Hound',            cost: 1, hp: 6, atk: 1,  speed: 3, role: 'Fast scout' },
+  imp_swarm:      { name: 'Ember Imp Swarm',       cost: 1, hp: 6, atk: 1,  speed: 3, role: 'Flying raiders' },
+  goblin_sappers: { name: 'Emberfang Goblin Sappers', cost: 1, hp: 7, atk: 1, siege: 2, speed: 2, role: 'Saboteurs' },
+  orc_vanguard:   { name: 'Riftborn Orc Vanguard', cost: 2, hp: 12, atk: 2, speed: 2, role: 'Holds the road' },
+  orc_warchanter: { name: 'Orc Warchanter',        cost: 2, hp: 9, atk: 1,  speed: 2, role: 'Makes the others on its stop 25% tougher', aura: 0.25 },
+  gargoyle:       { name: 'Crimson Gargoyle',      cost: 2, hp: 13, atk: 2, speed: 1, role: 'Guards a stop' },
+  warlock:        { name: 'Riftweaver Warlock',    cost: 2, hp: 10, atk: 2.5, speed: 2, role: 'Spellcaster' },
+  hollow_knight:  { name: 'Hollow Knight of the Rift', cost: 3, hp: 18, atk: 3, speed: 1, role: 'Elite defender' },
+  ogre:           { name: 'Ironhide Ogre',         cost: 3, hp: 20, atk: 3, siege: 2, speed: 1, role: 'Siege brute' },
+  wyvern:         { name: 'Crimson Wyvern',        cost: 3, hp: 16, atk: 3, speed: 3, role: 'Flying raider' },
+  golem:          { name: 'Bloodstone Golem',      fixed: true, hp: 45, atk: 8, siege: 2, role: 'Guards the fortress gate' },
+  warlord:        { name: 'The Crimson Warlord',   fixed: true, hp: 70, atk: 12, role: 'Commander of the Crimson Host' },
 };
 export const SUMMONABLE = Object.keys(UNITS).filter((k) => !UNITS[k].fixed);
 
 // ---- jungle camps: beat one and the WHOLE class gets its buff ----
 export const CAMPS = {
-  11: { id: 'moonhart',    name: 'Moonhart Sentinel',   hp: 12, buff: 'warcry', turns: 2, buffName: 'Moonlight',  buffText: 'War Cries count double for 2 turns',
+  11: { id: 'moonhart',    name: 'Moonhart Sentinel',   hp: 12, atk: 2, buff: 'warcry', turns: 2, buffName: 'Moonlight',  buffText: 'War Cries count double for 2 turns',
         lore: 'A spectral stag that has guarded the Moonwell for longer than anyone remembers. Its antlers hold the light of every moon it has seen.' },
-  13: { id: 'galecrest',   name: 'Galecrest Roc',       hp: 12, buff: 'mp',     turns: 2, buffName: 'Tailwind',   buffText: 'Every pair gets +1 MP for 2 turns',
+  13: { id: 'galecrest',   name: 'Galecrest Roc',       hp: 12, atk: 2, buff: 'mp',     turns: 2, buffName: 'Tailwind',   buffText: 'Every pair gets +1 MP for 2 turns',
         lore: 'It has nested on the Windspire since before the academy was built, and lets no one climb the peak who cannot stand against its gale.' },
-  15: { id: 'mossback',    name: 'Mossback Colossus',   hp: 14, buff: 'stand',  turns: 2, buffName: 'Rootstand',  buffText: 'Every battle lasts one more question for 2 turns',
+  15: { id: 'mossback',    name: 'Mossback Colossus',   hp: 14, atk: 3, buff: 'stand',  turns: 2, buffName: 'Rootstand',  buffText: 'Every battle lasts one more question for 2 turns',
         lore: 'Half stone and half ancient tree, it sleeps in the grove until something disturbs the roots. Then the whole forest wakes with it.' },
-  16: { id: 'riftglass',   name: 'Riftglass Basilisk',  hp: 12, buff: 'power',  turns: 2, buffName: 'Riftglass Edge', buffText: 'Right answers in battle hit 25% harder for 2 turns',
+  16: { id: 'riftglass',   name: 'Riftglass Basilisk',  hp: 12, atk: 2.5, buff: 'power',  turns: 2, buffName: 'Riftglass Edge', buffText: 'Right answers in battle hit 25% harder for 2 turns',
         lore: 'It grows its crystal fins from the rift-touched rock of the quarry. Miners left the moment its eyes began to glow.' },
-  20: { id: 'ferryman',    name: 'Hollow Ferryman',     hp: 12, buff: 'sight',  turns: 2, buffName: 'Soul Lantern', buffText: 'The whole map is revealed for 2 turns',
+  20: { id: 'ferryman',    name: 'Hollow Ferryman',     hp: 12, atk: 2, buff: 'sight',  turns: 2, buffName: 'Soul Lantern', buffText: 'The whole map is revealed for 2 turns',
         lore: 'No one has seen a face inside the bronze helmet. It still rows the drowned halls, lantern raised, looking for passengers.' },
-  24: { id: 'broodmother', name: 'Crimson Broodmother', hp: 16, buff: 'siege',  turns: 0, buffName: 'Broken Nest', buffText: 'The gate guardian loses 15 strength',
+  24: { id: 'broodmother', name: 'Crimson Broodmother', hp: 16, atk: 3, buff: 'siege',  turns: 0, buffName: 'Broken Nest', buffText: 'The gate guardian loses 15 strength',
         lore: 'She spins her webs in the shadow of the Crimson Fortress. Her brood carry its messages, so the fortress weakens when she falls.' },
 };
 
@@ -144,12 +152,24 @@ export function battleLength(kind, buffs = {}) {
   return base + (buffs.stand ? 1 : 0);
 }
 
-// Hits from one question: right answers by fighters, plus War Cries
-export function questionHits({ right = 0, warcry = 0 }, buffs = {}) {
+// Hits from one question: the Striker (or a stolen strike), right answers by supporters, plus War Cries
+export function questionHits({ strike = false, steal = false, support = 0, warcry = 0 }, buffs = {}) {
   const power = buffs.power ? 1.25 : 1;
   const cry = WARCRY_HIT * (buffs.warcry ? 2 : 1);
-  return right * power + warcry * cry;
+  const main = strike ? STRIKE_HITS : steal ? STEAL_HITS : 0;
+  return (main + support * SUPPORT_HIT) * power + warcry * cry;
 }
+
+// The Crimson hits back after every question: every enemy still standing attacks the warband's Resolve.
+// The more of the warband answered right, the more of the blow it blocks.
+export function counterAttack(enemies, rightFraction = 0) {
+  const guard = GUARD_MAX * Math.max(0, Math.min(1, rightFraction));
+  const blows = enemies.filter((e) => e.hp > 0).map((e) => ({ type: e.type, dmg: +((e.atk || 1) * (1 - guard)).toFixed(2) }));
+  return { blows, guard, total: +blows.reduce((n, b) => n + b.dmg, 0).toFixed(2) };
+}
+export const resolveFor = (pairs) => RESOLVE_PER_PAIR * Math.max(1, pairs);
+// siege damage a unit does to the Academy Ward each turn it stands at the class's fortress
+export const siegeOf = (type) => (UNITS[type]?.atk || 1) * (UNITS[type]?.siege || 1);
 
 // Deal hits to the enemies front to back. Returns a new list and how many fell.
 export function dealHits(enemies, hits) {

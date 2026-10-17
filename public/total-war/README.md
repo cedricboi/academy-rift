@@ -24,9 +24,33 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
    a stop, most votes wins (a tie goes to the warband's first pair), and the vote closes 15 seconds after
    the first vote. A warband moves at the speed of its slowest connected pair.
 3. Stepping onto the Crimson Host, a jungle camp or the fortress starts a **battle**. Warbands one road
-   away get 10 seconds to join. Everyone in the battle answers the same questions. Each right answer is a
-   hit. Pairs who have finished moving answer **War Cry** questions, which add half a hit each. Lose, and
-   the warband falls back to the nearest rally point. Damage dealt stays.
+   away get 10 seconds to join. Pairs who have finished moving answer **War Cry** questions, which add half
+   a hit each. Lose, and the warband falls back to the nearest rally point. Damage dealt stays.
+
+## Battles (as in the Arena)
+
+- Each question has one **Striker**, taken in turn so everyone strikes. Everyone else in the battle answers
+  the same question as **support**.
+- The Striker's right answer is 2 hits. If the Striker is wrong, the first supporter who was right
+  **steals** the strike at half power (1 hit). Every other right supporter adds 0.75 of a hit.
+- **The Crimson hits back** after every question: every enemy still standing attacks the warband's
+  **Resolve** (10 per pair). The share of the warband that answered right blocks up to 60% of it.
+  Resolve at 0 loses the battle.
+- Students see their own pair's fighter (the Academy Rift sprite of their standard) against the enemy,
+  plus whichever classmate strikes that question. The projector shows every pair in the battle.
+  Enemy attack and idle animations are PixelLab animations in `monsters/anim/`; the backdrops are in `art/bg/`.
+
+## The teacher's orders
+
+- Tap a Crimson stack, then a unit (or none, for every unit there). **March to…** a stop: they march
+  there turn after turn and attack any banner in the way. **Hold**: a whole turn without moving digs a unit
+  in (25% tougher). **Hunt**: they chase the nearest Crystal banner. Orders play out when the teacher ends
+  the Crimson turn. Units can still be moved by hand.
+- Moving onto a Crystal banner attacks it (a **defend** battle for the class). If the banners hold until the
+  last question, the attackers pull back.
+- **The Academy Ward** (24): Crimson units standing on the class's Academy with no banner there batter it
+  at the start of every Crimson turn (Ogres, Goblin Sappers and the Golem double). If it breaks, the
+  Crimson Host wins.
 
 ## Fog of war
 

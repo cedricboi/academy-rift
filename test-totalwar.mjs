@@ -41,9 +41,20 @@ const bots = [];
 function makeBot(i) {
   const b = { i, name: `S${i + 1}`, sock: io(URL, { transports: ["websocket"] }), state: null, me: null, errors: [], lastVote: "", answers: 0, sawAnswerKey: false };
   b.sock.on("twMe", (m) => (b.me = m));
-  b.sock.on("twState", (v) => { b.state = v; const txt = JSON.stringify(v); if (/"answer"\s*:|"answers"\s*:|"full"\s*:/.test(txt.replace(/"lastHits":\{[^}]*\}/g, ""))) b.sawAnswerKey = true; act(b); });
+  b.sock.on("twState", (v) => { b.state = v; watch(b, v); act(b); });
   b.sock.on("twError", (m) => b.errors.push(m));
   return b;
+}
+// what the bots notice: answer keys (never allowed while a question is open), their battle roles, the Crimson hitting back
+const seen = { striker: 0, support: 0, counter: 0, steal: 0, defend: 0 };
+function watch(b, v) {
+  const txt = JSON.stringify(v, (k, val) => (k === "round" ? undefined : val));      // a round is the reveal, after the question
+  if (/"answer"\s*:|"answers"\s*:|"full"\s*:/.test(txt)) b.sawAnswerKey = true;
+  const B = v.myBattle; if (!B) return;
+  if (B.status === "fight" && B.role) seen[B.role]++;
+  if (B.round?.counterTotal > 0) seen.counter++;
+  if (B.round?.stealer) seen.steal++;
+  if (B.kind === "defend") seen.defend++;
 }
 for (let i = 0; i < N; i++) bots.push(makeBot(i));
 await Promise.all(bots.map((b) => new Promise((r) => b.sock.on("connect", r))));
@@ -137,6 +148,15 @@ while (host.status === "playing") {
       check(tErrors.some((e) => /jungle camps/.test(e)), "the Host cannot walk into a jungle camp");
       teacher.emit("twMoveUnit", { unitId: o1.id, to: 19 });       // second move is over its speed? Orcs have 2 MP: fine
       await sleep(80);
+    } else if (h.turn === 2) {
+      // a Wyvern sent to hunt: it should find a Crystal banner and attack it by itself
+      teacher.emit("twSummon", { type: "wyvern" }); await sleep(80);
+      const wy = host.units.find((u) => u.type === "wyvern");
+      if (wy) teacher.emit("twOrder", { unitIds: [wy.id], order: { kind: "hunt" } });
+      const hound = host.units.find((u) => u.type === "rift_hound");
+      if (hound) teacher.emit("twOrder", { unitIds: [hound.id], order: { kind: "march", to: 21 } });
+      await sleep(80);
+      check(host.units.find((u) => u.type === "wyvern")?.order?.kind === "hunt", "the teacher can give a unit a standing order");
     } else if (h.turn % 3 === 0) teacher.emit("twAuto");
     else { if (h.energy >= 3) teacher.emit("twSummon", { type: "ogre" }); }
     await sleep(60);
@@ -188,11 +208,53 @@ check(sawGateBroken, "the class broke the gate of the Crimson Fortress");
 check(host.status === "ended", `the war ended (winner: ${host.winner})`);
 check(host.winner === "crystal", "the class beat the Crimson Warlord");
 check(bots.every((b) => !b.sawAnswerKey), "no answer key ever reached a student");
+check(seen.striker > 0 && seen.support > 0, `battles have a Striker and supporters (${seen.striker} / ${seen.support} sightings)`);
+check(seen.counter > 0, "the Crimson hits back in battle");
+check(seen.defend > 0, "the Crimson Host attacked a Crystal banner by itself (a hunt order)");
+console.log(`  stolen strikes seen: ${seen.steal}`);
 const counts = host.students.map((s) => s.answered);
 check(Math.min(...counts) >= 15, `every student answered plenty of questions (fewest ${Math.min(...counts)}, most ${Math.max(...counts)})`);
 console.log(`  battle lost at least once: ${sawLoss}`);
-const unexpected = bots.flatMap((b) => b.errors).filter((e) => !/finished moving|not your turn|Wait for your turn|too far|Too late|in a battle|already|same stop|is not here|battle is on/i.test(e));
+const unexpected = bots.flatMap((b) => b.errors).filter((e) => !/one stop at a time|battle is being fought|finished moving|not your turn|Wait for your turn|too far|Too late|in a battle|already|same stop|is not here|battle is on/i.test(e));
 check(!unexpected.length, `no unexpected errors for students${unexpected.length ? ": " + [...new Set(unexpected)].slice(0, 4).join(" | ") : ""}`);
+await wardWar();
 summary();
 done(fails.length ? 1 : 0);
+
+// A second, small war: one pair wanders off and the Crimson Host marches on the empty Academy and breaks its Ward.
+async function wardWar() {
+  const t = io(URL, { transports: ["websocket"] }); let H2 = null, hs = null;
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H2 = v));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H2) await sleep(20);
+  t.emit("twSettings", { turns: 30 });
+  const s = io(URL, { transports: ["websocket"] }); let st = null;
+  s.on("twState", (v) => { st = v;
+    const q = v.own && !v.own.result ? v.own.question : v.myBattle?.question && !v.myBattle.question.mine ? v.myBattle.question : null;
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    const band = v.bands?.find((x) => x.id === v.me.bandId);
+    if (v.phase === "crystal" && band && !band.done && !band.battle) { const key = `${v.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; s.emit("twVote", { to: band.node === HOME ? 14 : band.node === 14 ? 6 : "stay" }); } }
+  });
+  await new Promise((r) => s.on("connect", r)); s.emit("twJoin", { code: hs.code, name: "Lone" });
+  while (!st) await sleep(20);
+  s.emit("twStandard", { char: "jun" }); await sleep(100);
+  t.emit("twStart");
+  let lastT = 0, ordered = false;
+  const until = Date.now() + 150000;
+  while (H2.status !== "ended" && Date.now() < until) {
+    await sleep(40);
+    if (H2.phase === "crimson" && H2.turn !== lastT) {
+      lastT = H2.turn;
+      while (H2.energy >= 1 && H2.units.filter((u) => u.node === FORTRESS).length < 6) { const before = H2.energy; t.emit("twSummon", { type: H2.energy >= 3 ? "ogre" : "goblin_sappers" }); await sleep(60); if (H2.energy === before) break; }
+      const free = H2.units.filter((u) => !u.order).map((u) => u.id);
+      if (free.length) t.emit("twOrder", { unitIds: free, order: { kind: "march", to: HOME } });
+      ordered = ordered || free.length > 0;
+      await sleep(60); t.emit("twEndTurn");
+    }
+  }
+  check(ordered && H2.units.some((u) => u.order?.kind === "march" || u.node === HOME), "march orders move units across the map by themselves");
+  check(H2.ward.hp < H2.ward.max, `the Crimson Host battered the Academy Ward (${H2.ward.hp}/${H2.ward.max})`);
+  check(H2.status === "ended" && H2.winner === "crimson" && H2.endedBy === "ward", `breaking the Academy Ward wins the war for the Crimson Host (turn ${H2.turn})`);
+  s.disconnect(); t.disconnect();
+}
 function summary() { console.log(`\n${fails.length ? "FAILED: " + fails.length : "ALL PASSED"}`); }

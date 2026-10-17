@@ -65,6 +65,14 @@ button:disabled{cursor:default}
 .tw-banner.camp .pole{background:#4d8f86;height:8px;width:2px}
 .tw-banner.camp .tag{color:var(--cyan);font-size:11px}
 .tw-banner.dim{opacity:.45;filter:grayscale(.8)}
+.tw-banner.academy .cloth{width:38px;height:50px;--c:#7ff3e4;padding:2px;display:flex;align-items:flex-start;justify-content:center;background:linear-gradient(#123a3d,#0b2224)}
+.tw-banner.academy .cloth svg{margin-top:6px}
+.tw-banner.academy .pole{background:#4d8f86;height:8px;width:2px}
+.tw-banner.academy .tag{color:var(--cyan);font-size:11px}
+.tw-banner .order{position:absolute;left:50%;bottom:-15px;transform:translateX(-50%);padding:1px 6px;background:#1a0f15;border:1px solid #ff8a9a;color:#ffd0d6;font:700 9px "Rift Display";letter-spacing:1px;font-style:normal;white-space:nowrap;z-index:2}
+.tw-banner .order.hold{border-color:var(--gold);color:var(--gold)}
+.tw-stop.target{width:34px;height:34px;background:#3a1219cc;border-color:#ff8a9a;box-shadow:0 0 10px #ff5a6e;color:#ffd0d6;font-size:15px;animation:none}
+.twmap-roads .road-march{fill:none;stroke:#ff5a6e;stroke-width:5;stroke-dasharray:4 12;stroke-linecap:round;opacity:.8}
 
 /* ---------- panels ---------- */
 .panel{background:#0f1d27f2;border:1px solid #d8bd8066;box-shadow:0 12px 40px #000a}

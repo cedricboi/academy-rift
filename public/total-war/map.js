@@ -1,7 +1,7 @@
 // The Moonveil map, drawn the same way on the student iPad, the teacher's command screen and the projector:
 // the painted map, roads, fog of war, stops you can step to, and banners (pairs, warbands, the Crimson Host, camps).
 import { NODES, routePoints } from './movement.js';
-import { CAMPS, UNITS, FORTRESS, HOME, neighbours, cost } from './rules.js';
+import { CAMPS, UNITS, FORTRESS, HOME, neighbours, cost, stepTowards } from './rules.js';
 import { bannerFor, PORTRAITS } from './banners.js';
 
 export const W = 1440, H = 900;
@@ -10,6 +10,7 @@ export const sprite = (type) => `monsters/${type}.png`;
 export const charColor = (char) => bannerFor(char).color;
 // Replace an element's contents only when they changed, so a tap is never lost to a redraw
 export const setHTML = (el, html) => { if (el._html !== html) { el.innerHTML = html; el._html = html; } };
+export const CRYSTAL = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M12 2l6 7-6 13-6-13z" fill="#7ff3e4" stroke="#e8fffb" stroke-width="1.2"/><path d="M6 9h12M12 2v20" stroke="#2a9d93" stroke-width="1"/></svg>';
 export const SWORDS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l11 11M15 15l3-1-1 3M20 4L9 15M9 15l-3-1 1 3M6 18l-2 2M18 18l2 2"/></svg>';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -68,13 +69,17 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     for (const [k, el] of els) if (!seen.has(k)) { el.remove(); els.delete(k); }
   }
 
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {} }) {
-    // roads of the chosen step
-    roads.innerHTML = route ? `<polyline points="${route.map(([x, y]) => `${x},${y}`).join(' ')}" class="road-shadow"/><polyline points="${route.map(([x, y]) => `${x},${y}`).join(' ')}" class="road-line"/>` : '';
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [] }) {
+    // roads of the chosen step, and (for the teacher) where marching units are heading
+    const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
+    const roadHtml = (route ? `<polyline points="${pts(route)}" class="road-shadow"/><polyline points="${pts(route)}" class="road-line"/>` : '')
+      + marches.map((m) => `<polyline points="${pts(m)}" class="road-march"/>`).join('');
+    if (roads._html !== roadHtml) { roads.innerHTML = roadHtml; roads._html = roadHtml; }
     drawFog(full ? null : state.visible);
     // stops a warband can step to next
     const stopsHtml = options.map((o) => {
       const n = NODES[o.node], vc = votes[o.node] ? `<i class="vote-count">${votes[o.node]}</i>` : '';
+      if (o.target) return `<button type="button" class="tw-stop target" data-stop="${o.node}" style="left:${n.x}px;top:${n.y + 26}px" aria-label="March to ${esc(n.name)}">⚑</button>`;
       return `<button type="button" class="tw-stop ${o.attack ? 'attack' : ''} ${o.mine ? 'mine' : ''}" data-stop="${o.node}" style="left:${n.x}px;top:${n.y + 26}px" aria-label="${esc(n.name)}, ${o.cost} MP${o.attack ? ', attack' : ''}">${o.attack ? SWORDS : o.cost}${vc}</button>`;
     }).join('');
     if (stops._html !== stopsHtml) { stops.innerHTML = stopsHtml; stops._html = stopsHtml; }
@@ -90,13 +95,21 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     const gateType = state.gate.broken ? 'warlord' : 'golem';
     list.push({ key: 'fortress', kind: 'fortress', ref: 'fortress', node: FORTRESS, glow: selected === 'fortress', label: 'Crimson Fortress',
       html: `<span class="cloth"><img src="${sprite(gateType)}" alt=""></span>${fortressUnits.length ? `<i class="count">+${fortressUnits.length}</i>` : ''}<span class="pole"></span><span class="tag">${state.gate.broken ? (state.warlord?.out ? 'The Warlord' : 'Gate broken') : 'Fortress gate'}</span>` });
+    // the Crystal Academy and its Ward
+    if (state.ward) {
+      const w = state.ward, hurt = w.hp < w.max;
+      list.push({ key: 'academy', kind: 'academy', ref: 'academy', node: HOME, small: true, label: 'Academy Ward',
+        html: `<span class="cloth">${CRYSTAL}</span><span class="pole"></span><span class="tag">${hurt ? `Ward ${w.hp}/${w.max}` : 'Academy Ward'}</span>` });
+    }
     // the Crimson Host, one banner per stop
     const stacks = new Map();
     for (const u of state.units) if (u.node !== FORTRESS) { if (!stacks.has(u.node)) stacks.set(u.node, []); stacks.get(u.node).push(u); }
     for (const [node, us] of stacks) {
       const lead = [...us].sort((a, b) => (UNITS[b.type].hp - UNITS[a.type].hp))[0];
+      const ord = full ? us.map((u) => u.order?.kind).find(Boolean) : null, dug = us.some((u) => u.dugIn);
+      const badge = ord === 'march' ? '<i class="order">MARCH</i>' : ord === 'hunt' ? '<i class="order">HUNT</i>' : ord === 'hold' || dug ? `<i class="order hold">${dug ? 'DUG IN' : 'HOLD'}</i>` : '';
       list.push({ key: `host${node}`, kind: 'host', ref: node, node, glow: selected === `host${node}`, label: `${us.length} Crimson units`,
-        html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? 'Crimson warband' : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
+        html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}${badge}${us.some((u) => u.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? 'Crimson warband' : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
     }
     // Crystal banners: one per warband
     for (const b of state.bands) {
@@ -110,6 +123,13 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
   return { render, fit };
 }
 
+// The roads a marching unit will take to its target (fewest roads), as points
+export function marchPoints(from, to) {
+  const path = [from]; let at = from;
+  for (let k = 0; k < 30 && at !== to; k++) { const s = stepTowards(at, to, (n) => !CAMPS[n]); if (s == null) break; path.push(s); at = s; }
+  return path.length > 1 ? routePoints(path).map((q) => [q.x ?? q[0], q.y ?? q[1]]) : null;
+}
+
 // The road between two stops, for drawing a planned step
 export const roadPoints = (a, b) => routePoints([a, b]).map((q) => [q.x ?? q[0], q.y ?? q[1]]);
 
@@ -117,7 +137,8 @@ export const roadPoints = (a, b) => routePoints([a, b]).map((q) => [q.x ?? q[0],
 export function stepOptions(state, band) {
   if (!band || band.done || band.battle || state.phase !== 'crystal') return [];
   const occupied = (n) => state.units.some((u) => u.node === n) || state.camps.some((c) => c.node === n && c.alive) || n === FORTRESS;
-  return neighbours(band.node).filter((n) => cost(band.node, n) <= band.mp)
+  const busy = (n) => state.battles.some((B) => B.node === n && B.status !== 'gather' && B.status !== 'over');
+  return neighbours(band.node).filter((n) => cost(band.node, n) <= band.mp && !busy(n))
     .filter((n) => !(n === FORTRESS && state.gate.broken && !state.warlord?.out))
     .map((n) => ({ node: n, cost: cost(band.node, n), attack: occupied(n) }));
 }

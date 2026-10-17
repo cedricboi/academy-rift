@@ -44,7 +44,7 @@ test('distance sampler starts correctly, reaches endpoints and never overshoots'
 });
 
 // ---- the game rules (rules.js) ----
-import {tallyVotes,visibleNodes,reachable,dealHits,questionHits,pairMP,neighbours,CAMPS,UNITS,HOME,FORTRESS,SIGHT,hops,nearestRally,auraFor} from '../public/total-war/rules.js';
+import {tallyVotes,visibleNodes,reachable,dealHits,questionHits,counterAttack,resolveFor,siegeOf,pairMP,neighbours,CAMPS,UNITS,HOME,FORTRESS,SIGHT,hops,nearestRally,auraFor} from '../public/total-war/rules.js';
 test('a warband vote: majority wins, a tie goes to the leader',()=>{
   assert.equal(tallyVotes({a:1,b:2,c:2},['a','b','c']),2);
   assert.equal(tallyVotes({a:1,b:2},['a','b']),1);
@@ -66,8 +66,18 @@ test('reachable stops respect MP and stop at blockers',()=>{
 test('battle hits go to the front enemy first and a beaten stack is reported',()=>{
   const r=dealHits([{hp:3},{hp:5}],4); assert.deepEqual(r.enemies.map(e=>e.hp),[0,4]); assert.equal(r.fallen,1); assert.equal(r.beaten,false);
   assert.equal(dealHits([{hp:2}],2.5).beaten,true);
-  assert.equal(questionHits({right:4,warcry:2}),5);
-  assert.equal(questionHits({right:4,warcry:2},{power:true,warcry:true}),7);
+  // Striker 2 hits, a stolen strike 1, each supporter 0.75, each War Cry 0.5
+  assert.equal(questionHits({strike:true,support:4,warcry:2}),6);
+  assert.equal(questionHits({steal:true,support:2}),2.5);
+  assert.equal(questionHits({strike:true,warcry:2},{power:true,warcry:true}),4.5);
+});
+test('the Crimson hits back: every enemy standing attacks, and right answers block up to 60%',()=>{
+  const foes=[{type:'orc_vanguard',hp:5,atk:2},{type:'ogre',hp:0,atk:3},{type:'warlock',hp:3,atk:2.5}];
+  assert.equal(counterAttack(foes,0).total,4.5);
+  assert.equal(counterAttack(foes,1).total,1.8);
+  assert.equal(counterAttack(foes,1).blows.length,2,'a fallen enemy does not hit back');
+  assert.equal(resolveFor(3),30);
+  assert.equal(siegeOf('ogre'),6); assert.equal(siegeOf('orc_vanguard'),2);
 });
 test('MP: 2 to move, +1 for every 2 right muster answers up to +2, +1 with Tailwind',()=>{
   assert.equal(pairMP(0),2); assert.equal(pairMP(1),2); assert.equal(pairMP(3),3); assert.equal(pairMP(4),4); assert.equal(pairMP(9),4); assert.equal(pairMP(9,{mp:true}),5);

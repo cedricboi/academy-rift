@@ -24,7 +24,7 @@
 .p-log{position:absolute;left:40px;top:120px;width:420px;display:flex;flex-direction:column;gap:6px;z-index:5}
 .p-log div{padding:8px 12px;background:#0b141cd9;border-left:3px solid var(--gold);font:400 15px "Rift Body"}
 .p-log .crimson{border-color:var(--crimson)}.p-log .crystal{border-color:var(--cyan)}.p-log .battle{border-color:#ff5a6e}.p-log .big{border-color:var(--gold2);font-weight:600}
-.p-battle{position:absolute;right:40px;top:130px;width:640px;padding:22px 26px;background:linear-gradient(#1d1015f5,#120a0ef5);border:1px solid var(--crimson);box-shadow:0 30px 90px #000c;z-index:6}
+.p-battle{position:absolute;right:40px;top:130px;width:760px;padding:22px 26px;background:linear-gradient(#1d1015f5,#120a0ef5);border:1px solid var(--crimson);box-shadow:0 30px 90px #000c;z-index:6}
 .p-battle h3{margin:4px 0 0;font:700 32px Cinzel}
 .p-battle .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:16px}
 .p-battle .side{display:flex;flex-direction:column;gap:8px}
@@ -35,7 +35,11 @@
 .p-battle .foe img{width:116px;height:116px;object-fit:contain;image-rendering:pixelated}
 .p-battle .foe.down img{opacity:.25;filter:grayscale(1)}
 .hpbar{height:10px;background:#2a1d23;width:110px;margin-top:4px}.hpbar i{display:block;height:100%;background:var(--crimson)}
-.p-battle .status{margin-top:14px;font:400 16px "Rift Body";color:#e6d6d9}
+.p-battle .status{margin-top:12px;font:400 16px "Rift Body";color:#e6d6d9}
+.pb-stage{position:relative;height:300px;margin-top:12px;border:1px solid #d8bd8044}
+.pb-stage canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.pb-foes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.pb-foes div{font:700 13px Cinzel;color:#ffd8de}.pb-foes .hpbar{width:120px}
+.pb-res{display:flex;align-items:center;gap:10px;margin-top:8px;font:600 13px "Rift Display";color:#c7f5ef;letter-spacing:2px}.pb-res .rb{flex:1;height:10px;background:#10202a}.pb-res .rb i{display:block;height:100%;background:linear-gradient(90deg,#3cc9b8,#7ff3e4)}
 .lobby{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:60px;background:radial-gradient(ellipse at 50% 20%,#1c2d3a,#0b141c 70%);z-index:20}
 .lobby .code{font:700 120px/1 "Rift Display";letter-spacing:14px}
 .lobby .qr{width:300px;height:300px;background:#fff;padding:10px}
@@ -54,9 +58,9 @@
     <div class="gate-chip"><img id="gateImg" src="monsters/golem.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">CRIMSON GATE</span><b id="gateText">Unbroken</b></div></div>
   </header>
   <div class="p-log" id="log"></div>
-  <section class="p-battle hidden" id="battle"></section>
+  <section class="p-battle hidden" id="battle"><div id="pbHead"></div><div class="pb-stage" id="pbStage"></div><div id="pbFoot"></div></section>
   <footer class="p-foot">
-    <div><div class="eyebrow" style="font-size:13px;letter-spacing:4px">YOUR MISSION</div><h2>Break into the Crimson Fortress</h2><p>Defeat the gate guardian, then the Crimson Warlord inside.</p></div>
+    <div><div class="eyebrow" style="font-size:13px;letter-spacing:4px">YOUR MISSION</div><h2>Break into the Crimson Fortress</h2><p>Defeat the gate guardian, then the Crimson Warlord inside. Keep the Academy Ward safe.</p></div>
     <div class="p-enemy"><img src="monsters/warlord.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">YOUR ENEMY</span><b id="enemyName">Your teacher</b><span style="color:#e6d6d9">Commander of the Crimson Host</span></div></div>
   </footer>
 </section>
@@ -70,11 +74,14 @@
 import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
 import { UNITS, CAMPS } from './rules.js';
+import { createStage, enemyName } from './stage.js';
+let shownBattle = null, lastRound = 0, stage = null;
 import qrcode from '/vendor/qrcode.mjs';
 const $ = (id) => document.getElementById(id);
 const code = new URLSearchParams(location.search).get('code') || '';
 const socket = io();
 const map = createMap($('mapHost'));
+stage = createStage($('pbStage'), { mode: 'all' });
 let P = null, qrFor = '';
 socket.on('connect', () => socket.emit('twWatch', { code }));
 socket.on('twPublic', (v) => { P = v; render(); });
@@ -96,19 +103,27 @@ function render() {
   $('log').innerHTML = P.log.slice(-5).map((l) => `<div class="${l.tone}">${esc(l.text)}</div>`).join('');
   const B = [...P.battles].sort((a, b) => b.bands.reduce((s, x) => s + x.pairs.length, 0) - a.bands.reduce((s, x) => s + x.pairs.length, 0))[0];
   const box = $('battle');
-  if (!B) box.classList.add('hidden');
+  if (!B) { box.classList.add('hidden'); shownBattle = null; }
   else {
-    const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'THE CRIMSON WARLORD' : 'The Crimson Host';
-    const st = B.status === 'gather' ? 'Gathering. Warbands one road away can still join.' : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · ${B.answered} of ${B.fighters} have answered` : B.status === 'result' && B.lastHits ? `${B.lastHits.hits} hits! ${B.lastHits.right} right answers${B.lastHits.warcry ? ` and ${B.lastHits.warcry} War Cries` : ''}.` : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? 'The Crimson Host held.' : '';
-    box.innerHTML = `<div class="eyebrow" style="color:#ff5a6e;letter-spacing:6px">BATTLE · ${esc(NODES[B.node].name.toUpperCase())}</div><h3>${esc(what)}</h3>
-      <div class="row"><div class="side">${B.bands.flatMap((b) => b.pairs).map((p) => `<div><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">Pair ${p.no}</div>`).join('')}</div>
-      <div class="foes">${B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><img src="${sprite(e.type)}" alt=""><div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div></div>
+    const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'THE CRIMSON WARLORD' : B.kind === 'defend' ? 'The Crimson Host attacks!' : 'The Crimson Host';
+    const rd = B.round;
+    const st = B.status === 'gather' ? 'Gathering. Warbands one road away can still join.'
+      : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · Striker: ${B.striker ? `${B.striker.name} (Pair ${B.striker.pairNo})` : '–'} · ${B.answered} of ${B.fighters} have answered`
+      : B.status === 'result' && rd ? `${rd.hits} hits · the Crimson hit back for ${Math.round(rd.counterTotal * 10) / 10}${rd.guard ? ` (${Math.round(rd.guard * 100)}% blocked)` : ''}`
+      : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The banners held!' : 'The Crimson Host held.') : '';
+    $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff5a6e;letter-spacing:6px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(NODES[B.node].name.toUpperCase())}</div><h3>${esc(what)}</h3>`;
+    $('pbFoot').innerHTML = `<div class="pb-res">RESOLVE<div class="rb"><i style="width:${B.resolveMax ? Math.max(0, B.resolve / B.resolveMax) * 100 : 100}%"></i></div>${B.resolveMax ? `${Math.ceil(B.resolve)}/${B.resolveMax}` : ''}</div>
+      <div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
       <div class="status">${esc(st)}${B.cheers.length ? ` · War Cries from ${B.cheers.map((c) => 'Pair ' + c.pair).join(', ')}` : ''}</div>`;
     box.classList.remove('hidden');
+    const pairs = B.bands.flatMap((b) => b.pairs);
+    if (shownBattle !== B.id) { shownBattle = B.id; lastRound = 0; stage.skip(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); }
+    if (rd && rd.at !== lastRound) { lastRound = rd.at; stage.playRound(rd); }
+    stage.set({ node: B.node, kind: B.kind, pairs: pairs.slice(0, 8).map((p) => ({ key: `p${p.no}`, char: p.char, label: `Pair ${p.no}` })), foes: B.enemies });
   }
   const end = $('ending');
   end.classList.toggle('hidden', P.status !== 'ended');
-  if (P.status === 'ended') end.innerHTML = `<div class="eyebrow" style="font-size:18px;letter-spacing:6px">${P.winner === 'crystal' ? 'VICTORY' : 'THE FORTRESS STANDS'}</div><h1>${P.winner === 'crystal' ? 'The Crimson Warlord has fallen' : 'The Crimson Host holds'}</h1>`;
+  if (P.status === 'ended') end.innerHTML = `<div class="eyebrow" style="font-size:18px;letter-spacing:6px">${P.winner === 'crystal' ? 'VICTORY' : P.endedBy === 'ward' ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${P.winner === 'crystal' ? 'The Crimson Warlord has fallen' : P.endedBy === 'ward' ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>`;
 }
 </script>
 </body>

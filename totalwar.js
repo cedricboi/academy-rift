@@ -9,7 +9,7 @@ import {
   HOME, FORTRESS, OUTPOSTS, UNITS, SUMMONABLE, CAMPS, neighbours, isAdjacent, cost, visibleNodes,
   tallyVotes, pairMP, energyPerTurn, energyCarry, auraFor, battleLength, questionHits, dealHits,
   nearestRally, stepTowards, hops, STACK_LIMIT, FORTRESS_LIMIT, READ_SECONDS, ANSWER_SECONDS, VOTE_SECONDS,
-  JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName,
+  JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
 } from "./public/total-war/rules.js";
 
 const token = (n = 18) => randomBytes(n).toString("base64url");
@@ -42,6 +42,7 @@ export function setupTotalWar(deps) {
       camps: Object.fromEntries(Object.keys(CAMPS).map((n) => [n, { alive: true, hp: CAMPS[n].hp, returnTurn: 0 }])),
       gate: { hp: UNITS.golem.hp, max: UNITS.golem.hp, broken: false },
       warlord: { hp: UNITS.warlord.hp, max: UNITS.warlord.hp, released: false },
+      ward: { hp: WARD_HP, max: WARD_HP }, endedBy: null,
       buffs: {}, rally: new Set(), turn: 0, phase: null, phaseEndsAt: 0, phaseStartedAt: 0, teacherEnded: false,
       energy: 0, seq: 0, log: [], pool: null, timer: null, dirty: false,
     };
@@ -72,9 +73,9 @@ export function setupTotalWar(deps) {
 
   // fortress defenders: summoned units there, then the gate guardian, or the Warlord once the gate is broken
   function fortressEnemies(S) {
-    const list = unitsAt(S, FORTRESS).map((u) => ({ ref: u.id, type: u.type, hp: u.hp, max: u.max }));
-    if (!S.gate.broken) list.push({ ref: "gate", type: "golem", hp: S.gate.hp, max: S.gate.max });
-    else list.push({ ref: "warlord", type: "warlord", hp: S.warlord.hp, max: S.warlord.max });
+    const list = unitsAt(S, FORTRESS).map((u) => unitEnemy(S, u));
+    if (!S.gate.broken) list.push({ ref: "gate", type: "golem", hp: S.gate.hp, max: S.gate.max, atk: UNITS.golem.atk });
+    else list.push({ ref: "warlord", type: "warlord", hp: S.warlord.hp, max: S.warlord.max, atk: UNITS.warlord.atk });
     return list;
   }
 
@@ -164,6 +165,7 @@ export function setupTotalWar(deps) {
     S.turn++;
     if (S.turn > S.settings.turns) return endGame(S, "crimson");
     S.phase = "crimson"; S.teacherEnded = false;
+    if (siegeAcademy(S)) return;
     S.phaseStartedAt = Date.now(); S.phaseEndsAt = Date.now() + ms(S.settings.crimsonSeconds);
     S.energy = Math.min(S.energy, energyCarry) + energyPerTurn(S.pairs.size);
     for (const u of S.units.values()) u.moved = 0;
@@ -189,10 +191,10 @@ export function setupTotalWar(deps) {
     S.dirty = true;
   }
 
-  function endGame(S, winner) {
-    S.status = "ended"; S.winner = winner; S.phase = null;
+  function endGame(S, winner, how = null) {
+    S.status = "ended"; S.winner = winner; S.phase = null; S.endedBy = how;
     clearInterval(S.timer); S.timer = null;
-    say(S, winner === "crystal" ? "The Crimson Warlord has fallen. The Crystal army wins!" : "The Crimson Fortress stands. The Crimson Host wins this war.", "big");
+    say(S, winner === "crystal" ? "The Crimson Warlord has fallen. The Crystal army wins!" : how === "ward" ? "The Academy Ward is broken. The Crimson Host wins this war." : "The Crimson Fortress stands. The Crimson Host wins this war.", "big");
   }
 
   // ------------------------------------------------------------------ the clock
@@ -214,7 +216,7 @@ export function setupTotalWar(deps) {
     if (S.phase === "crimson") {
       const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st));
       const minTime = now >= S.phaseStartedAt + ms(75);
-      if ((S.teacherEnded && (musterDone || minTime)) || now >= S.phaseEndsAt) startCrystal(S);
+      if ((S.teacherEnded && (musterDone || minTime)) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
     } else if (S.phase === "crystal") {
       const allDone = [...S.bands.values()].every((b) => b.done || b.battle);
       if ((allDone && !S.battles.size) || now >= S.phaseEndsAt) {
@@ -261,6 +263,8 @@ export function setupTotalWar(deps) {
     if (!Number.isInteger(to) || !isAdjacent(b.node, to)) return "You can only move one stop at a time, along a road.";
     if (cost(b.node, to) > b.mp) return "Not enough MP for that road.";
     if (to === FORTRESS && S.gate.broken && !warlordReady(S)) return "The Warlord has not come out yet.";
+    const B = battleAt(S, to);
+    if (B && B.status !== "gather") return "A battle is being fought there. Wait for it to end.";
     return null;
   }
 
@@ -281,7 +285,10 @@ export function setupTotalWar(deps) {
     if (choice == null) return;
     if (choice === "stay" || canStep(S, b, choice)) { b.done = true; return; }
     const from = b.node;
-    b.mp -= cost(from, choice); b.node = choice;
+    b.mp -= cost(from, choice);
+    const B = battleAt(S, choice);
+    if (B) { const err = joinBattle(S, b.pairs[0], B.id); if (err) b.done = true; return; }
+    b.node = choice;
     if (OUTPOSTS.includes(choice) && !unitsAt(S, choice).length && !S.rally.has(choice)) { S.rally.add(choice); say(S, `The class has taken ${nodeName(choice)}. It is now a rally point.`, "crystal"); }
     // stepping onto the Crimson Host, a jungle camp or the fortress starts a battle
     if (choice === FORTRESS) startBattle(S, b, S.gate.broken ? "boss" : "gate");
@@ -312,23 +319,45 @@ export function setupTotalWar(deps) {
   }
 
   // ------------------------------------------------------------------ battles
-  function startBattle(S, b, kind) {
-    const n = b.node;
-    let enemies;
-    if (kind === "camp") enemies = [{ ref: "camp", type: CAMPS[n].id, hp: S.camps[n].hp, max: CAMPS[n].hp, camp: true }];
-    else if (kind === "gate" || kind === "boss") enemies = fortressEnemies(S);
-    else enemies = unitsAt(S, n).map((u) => ({ ref: u.id, type: u.type, hp: u.hp, max: u.max }));
+  // As in the Arena: each question one fighter is the Striker and answers it; everyone else in the battle
+  // answers the same question as support. A wrong Striker can have the strike stolen (at half power) by the
+  // first supporter who got it right. After every question the Crimson hits back at the warband's Resolve.
+  const battleAt = (S, n) => [...S.battles.values()].find((B) => B.node === n && B.status !== "over");
+  const enemyOf = (e) => ({ ...e, atk: e.camp ? CAMPS[e.node]?.atk ?? 2 : UNITS[e.type]?.atk ?? 1 });
+
+  function unitEnemy(S, u) {
+    const e = { ref: u.id, type: u.type, hp: u.hp, max: u.max, atk: UNITS[u.type].atk };
+    if (u.dugIn) { e.hp = Math.round(e.hp * (1 + HOLD_BONUS)); e.max = Math.round(e.max * (1 + HOLD_BONUS)); e.dug = HOLD_BONUS; }
+    return e;
+  }
+  function applyAura(enemies) {
     const aura = auraFor(enemies);
-    if (aura) for (const e of enemies) if (!UNITS[e.type]?.aura) { e.hp = Math.round(e.hp * (1 + aura)); e.max = Math.round(e.max * (1 + aura)); e.aura = aura; }
+    for (const e of enemies) if (aura && !e.aura && !UNITS[e.type]?.aura) { e.hp = Math.round(e.hp * (1 + aura)); e.max = Math.round(e.max * (1 + aura)); e.aura = aura; }
+  }
+
+  // kind: camp | host | gate | boss (the class attacks) or defend (the Crimson Host attacks a banner)
+  function startBattle(S, b, kind, attackers = null) {
+    const n = b ? b.node : attackers[0].node;
+    let enemies;
+    if (kind === "camp") enemies = [{ ref: "camp", type: CAMPS[n].id, hp: S.camps[n].hp, max: CAMPS[n].hp, atk: CAMPS[n].atk, camp: true }];
+    else if (kind === "gate" || kind === "boss") enemies = fortressEnemies(S);
+    else if (kind === "defend") enemies = attackers.map((u) => unitEnemy(S, u));
+    else enemies = unitsAt(S, n).map((u) => unitEnemy(S, u));
+    applyAura(enemies);
+    const bandIds = kind === "defend" ? bandsAt(S, n).filter((x) => !x.battle).map((x) => x.id) : [b.id];
     const B = {
-      id: id(S, "x"), node: n, kind, bands: [b.id], enemies, status: "gather", startedAt: Date.now(),
-      gatherEnds: Date.now() + ms(JOIN_SECONDS), qNo: 0, limit: battleLength(kind, buffOn(S)),
-      q: null, answers: new Map(), warcryNow: 0, cheers: new Map(), lastHits: null, resultUntil: 0, outcome: null,
+      id: id(S, "x"), node: n, kind, bands: bandIds, enemies, status: "gather", startedAt: Date.now(),
+      gatherEnds: Date.now() + ms(JOIN_SECONDS), qNo: 0, limit: battleLength(kind === "defend" ? "host" : kind, buffOn(S)),
+      q: null, striker: null, answers: new Map(), strikes: new Map(), warcryNow: 0, cheers: new Map(),
+      resolve: 0, resolveMax: 0, round: null, resultUntil: 0, outcome: null, attackers: kind === "defend" ? attackers.map((u) => u.id) : [],
     };
-    b.battle = B.id; b.done = true;
+    for (const bid of bandIds) { const x = S.bands.get(bid); x.battle = B.id; x.done = true; x.votes = {}; x.voteOpenedAt = 0; }
+    for (const e of enemies) { const u = S.units.get(e.ref); if (u) u.battle = B.id; }
     S.battles.set(B.id, B);
     const what = kind === "camp" ? CAMPS[n].name : kind === "gate" ? "the gate guardian" : kind === "boss" ? "THE CRIMSON WARLORD" : "the Crimson Host";
-    say(S, `Battle at ${nodeName(n)} against ${what}!`, kind === "boss" ? "big" : "battle");
+    if (kind === "defend") say(S, `The Crimson Host attacks the Crystal banners at ${nodeName(n)}!`, "crimson");
+    else say(S, `Battle at ${nodeName(n)} against ${what}!`, kind === "boss" ? "big" : "battle");
+    return B;
   }
 
   // warbands one road away may join while the battle gathers
@@ -344,6 +373,7 @@ export function setupTotalWar(deps) {
   }
 
   const fightersOf = (S, B) => B.bands.flatMap((bid) => { const b = S.bands.get(bid); return b ? studentsOfBand(S, b) : []; });
+  const pairsIn = (S, B) => B.bands.flatMap((bid) => S.bands.get(bid)?.pairs || []);
 
   function battleTick(S, B, now) {
     const was = B.status;
@@ -351,7 +381,11 @@ export function setupTotalWar(deps) {
     if (B.status !== was || !S.battles.has(B.id)) S.dirty = true;
   }
   function battleStep(S, B, now) {
-    if (B.status === "gather" && now >= B.gatherEnds) { B.status = "fight"; nextBattleQuestion(S, B); return; }
+    if (B.status === "gather" && now >= B.gatherEnds) {
+      if (!pairsIn(S, B).length) return finishBattle(S, B, false);
+      B.resolveMax = B.resolve = resolveFor(pairsIn(S, B).length);
+      B.status = "fight"; nextBattleQuestion(S, B); return;
+    }
     if (B.status === "fight" && B.q) {
       const fighters = fightersOf(S, B).filter((p) => isConnected(S.students.get(p)));
       const allIn = fighters.length && fighters.every((p) => B.answers.has(p));
@@ -360,11 +394,21 @@ export function setupTotalWar(deps) {
     }
     if (B.status === "result" && now >= B.resultUntil) {
       if (B.enemies.every((e) => e.hp <= 0)) return finishBattle(S, B, true);
-      if (B.qNo >= B.limit) return finishBattle(S, B, false);
+      if (B.resolve <= 0 || B.qNo >= B.limit) return finishBattle(S, B, false);
       B.status = "fight"; nextBattleQuestion(S, B);
       return;
     }
     if (B.status === "over" && now >= B.resultUntil) { S.battles.delete(B.id); S.dirty = true; }
+  }
+
+  // The next Striker: whoever (still here) has struck least in this battle, taking pairs in turn
+  function pickStriker(S, B) {
+    const order = pairsIn(S, B).flatMap((pid) => S.pairs.get(pid)?.members || []);
+    const live = order.filter((p) => isConnected(S.students.get(p)));
+    const list = live.length ? live : order;
+    let best = null;
+    for (const p of list) if (best == null || (B.strikes.get(p) || 0) < (B.strikes.get(best) || 0)) best = p;
+    return best;
   }
 
   function nextBattleQuestion(S, B) {
@@ -375,8 +419,9 @@ export function setupTotalWar(deps) {
     const q = fresh[Math.floor(Math.random() * fresh.length)];
     B.used.add(qKey(q));
     B.qNo++; B.answers = new Map(); B.warcryNow = 0;
+    B.striker = pickStriker(S, B);
+    B.strikes.set(B.striker, (B.strikes.get(B.striker) || 0) + 1);
     B.q = { ...publicQ(q, Date.now()), full: q };
-    // students supporting another way: their War Cry follows the battle's pace with their own questions
   }
 
   function battleAnswer(S, st, chosen) {
@@ -384,34 +429,81 @@ export function setupTotalWar(deps) {
     if (!B || !B.q || B.answers.has(st.pid)) return;
     if (chosen >= 0 && reading(B.q)) return;
     const ok = record(S, st, B.q.full, chosen);
-    B.answers.set(st.pid, { chosen, ok });
+    B.answers.set(st.pid, { chosen, ok, at: Date.now() });
     S.dirty = true;
   }
 
+  const who = (S, pid) => { const st = S.students.get(pid), p = st && S.pairs.get(st.pairId); return st ? { pid, name: st.name, pairNo: p?.no || null, char: p?.char || null } : null; };
+
   function resolveBattleQuestion(S, B) {
-    const right = [...B.answers.values()].filter((a) => a.ok).length;
-    for (const p of fightersOf(S, B)) if (!B.answers.has(p)) { const st = S.students.get(p); if (st && isConnected(st)) record(S, st, B.q.full, -1); }
-    const hits = questionHits({ right, warcry: B.warcryNow }, buffOn(S));
+    for (const p of fightersOf(S, B)) if (!B.answers.has(p)) { const st = S.students.get(p); if (st && isConnected(st)) { record(S, st, B.q.full, -1); B.answers.set(p, { chosen: -1, ok: false, at: Infinity }); } }
+    const strikerAns = B.answers.get(B.striker);
+    const strike = !!strikerAns?.ok;
+    const supporters = [...B.answers.entries()].filter(([p]) => p !== B.striker);
+    const rightSup = supporters.filter(([, a]) => a.ok).sort((x, y) => x[1].at - y[1].at);
+    const stealer = !strike && rightSup.length ? rightSup[0][0] : null;
+    const support = rightSup.filter(([p]) => p !== stealer).length;
+    const buffs = buffOn(S);
+    const hits = questionHits({ strike, steal: !!stealer, support, warcry: B.warcryNow }, buffs);
+    const mainHits = +questionHits({ strike, steal: !!stealer }, buffs).toFixed(2);
+    const target = Math.max(0, B.enemies.findIndex((e) => e.hp > 0));
     const res = dealHits(B.enemies, hits);
     B.enemies = res.enemies;
-    B.lastHits = { right, warcry: B.warcryNow, hits: +hits.toFixed(1), fallen: res.fallen, answer: rightAnswers(B.q.full)[0], q: B.q.q, choices: B.q.choices };
-    B.status = "result"; B.resultUntil = Date.now() + ms(2.6);
+    // the Crimson hits back, unless every enemy has fallen
+    const answered = [...B.answers.values()];
+    const frac = answered.length ? answered.filter((a) => a.ok).length / answered.length : 0;
+    const counter = res.beaten ? { blows: [], guard: 0, total: 0 } : counterAttack(B.enemies, frac);
+    B.resolve = Math.max(0, +(B.resolve - counter.total).toFixed(2));
+    B.round = {
+      qNo: B.qNo, striker: who(S, B.striker), strike, stealer: stealer ? who(S, stealer) : null,
+      support, supporters: supporters.length, warcry: B.warcryNow, hits: +hits.toFixed(1), fallen: res.fallen, mainHits, target,
+      enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
+      counter: counter.blows, guard: +counter.guard.toFixed(2), counterTotal: counter.total, resolve: B.resolve,
+      answer: rightAnswers(B.q.full)[0], q: B.q.q, choices: B.q.choices,
+      mine: Object.fromEntries([...B.answers.entries()].map(([p, a]) => [p, { chosen: a.chosen, ok: a.ok }])),
+      at: Date.now(),
+    };
+    B.status = "result"; B.resultUntil = Date.now() + ms(5.2);
     B.q = null;
     S.dirty = true;
   }
 
+  // Where a beaten warband falls back to: the nearest rally point or the Academy that the Crimson Host is not standing on
+  function fallbackFor(S, from) {
+    const d = hops(from), free = (n) => !unitsAt(S, n).length && !battleAt(S, n);
+    const spots = [HOME, ...S.rally].filter(free).sort((a, b) => (d.get(a) ?? 99) - (d.get(b) ?? 99));
+    if (spots.length) return spots[0];
+    const h = hops(HOME);
+    return [...h.keys()].filter((n) => free(n) && n !== FORTRESS && !CAMPS[n]).sort((a, b) => h.get(a) - h.get(b))[0] ?? HOME;
+  }
+
   function finishBattle(S, B, won) {
     B.status = "over"; B.outcome = won ? "won" : "lost"; B.resultUntil = Date.now() + ms(4);
-    const n = B.node, unAura = (e) => (e.aura ? e.hp / (1 + e.aura) : e.hp);
+    const n = B.node, unBoost = (e) => e.hp / (1 + (e.aura || 0)) / (1 + (e.dug || 0));
     // write damage back to whatever survives
     for (const e of B.enemies) {
-      if (e.ref === "gate") { S.gate.hp = Math.max(0, Math.round(unAura(e))); if (S.gate.hp <= 0) { S.gate.broken = true; } }
-      else if (e.ref === "warlord") S.warlord.hp = Math.max(0, Math.round(unAura(e)));
+      if (e.ref === "gate") { S.gate.hp = Math.max(0, Math.round(unBoost(e))); if (S.gate.hp <= 0) S.gate.broken = true; }
+      else if (e.ref === "warlord") S.warlord.hp = Math.max(0, Math.round(unBoost(e)));
       else if (e.ref === "camp") { /* camps heal if not beaten */ }
-      else { const u = S.units.get(e.ref); if (u) { if (e.hp <= 0) S.units.delete(u.id); else u.hp = Math.max(1, Math.round(unAura(e))); } }
+      else { const u = S.units.get(e.ref); if (u) { u.battle = null; if (e.hp <= 0) S.units.delete(u.id); else u.hp = Math.max(1, Math.round(unBoost(e))); } }
     }
     const bands = B.bands.map((x) => S.bands.get(x)).filter(Boolean);
     for (const b of bands) b.battle = null;
+    if (B.kind === "defend") {
+      const attackers = B.attackers.map((x) => S.units.get(x)).filter(Boolean);
+      if (won) say(S, `The Crystal banners at ${nodeName(n)} beat off the attack!`, "crystal");
+      else if (B.resolve <= 0 || !bands.length) {
+        const back = fallbackFor(S, n);
+        for (const b of bands) b.node = back;
+        say(S, `The Crimson Host breaks the banners at ${nodeName(n)}. They fall back to ${nodeName(back)}.`, "crimson");
+        if (S.rally.has(n)) { S.rally.delete(n); say(S, `The Crimson Host has taken ${nodeName(n)}.`, "crimson"); }
+      } else {
+        for (const u of attackers) u.node = u.from ?? u.node;      // the banners held: the attackers pull back
+        say(S, `The banners at ${nodeName(n)} hold. The Crimson Host pulls back.`, "crystal");
+      }
+      S.dirty = true;
+      return;
+    }
     if (won) {
       if (B.kind === "camp") {
         const c = CAMPS[n]; S.camps[n] = { alive: false, hp: c.hp, returnTurn: S.turn + CAMP_RETURN_TURNS };
@@ -425,11 +517,13 @@ export function setupTotalWar(deps) {
         return endGame(S, "crystal");
       } else say(S, `The Crimson Host at ${nodeName(n)} is defeated!`, "crystal");
       // the fortress itself cannot be stood in: winners at the gate fall back one road to rest
-      if (n === FORTRESS) { const back = neighbours(FORTRESS).find((m) => !unitsAt(S, m).length) ?? nearestRally(n, [...S.rally]); for (const b of bands) b.node = back; }
+      if (n === FORTRESS) { const back = neighbours(FORTRESS).find((m) => !unitsAt(S, m).length) ?? fallbackFor(S, n); for (const b of bands) b.node = back; }
+      else if (OUTPOSTS.includes(n) && !S.rally.has(n)) { S.rally.add(n); say(S, `The class has taken ${nodeName(n)}. It is now a rally point.`, "crystal"); }
     } else {
-      for (const b of bands) b.node = nearestRally(n, [...S.rally]);
+      const back = fallbackFor(S, n);
+      for (const b of bands) b.node = back;
       if (B.kind === "camp") S.camps[n].hp = CAMPS[n].hp;
-      say(S, `The battle at ${nodeName(n)} is lost. The warband falls back to ${nodeName(nearestRally(n, [...S.rally]))}.`, "crimson");
+      say(S, `The battle at ${nodeName(n)} is lost. The warband falls back to ${nodeName(back)}.`, "crimson");
     }
     S.dirty = true;
   }
@@ -441,39 +535,89 @@ export function setupTotalWar(deps) {
     if (S.energy < u.cost) return "Not enough Rift Energy.";
     if (unitsAt(S, FORTRESS).length >= FORTRESS_LIMIT) return "The fortress is full. Move some units out first.";
     S.energy -= u.cost;
-    const unit = { id: id(S, "u"), type, node: FORTRESS, hp: u.hp, max: u.hp, moved: 0 };
+    const unit = { id: id(S, "u"), type, node: FORTRESS, hp: u.hp, max: u.hp, moved: 0, order: null, dugIn: false, battle: null, from: null };
     S.units.set(unit.id, unit);
     return null;
   }
-  function moveUnit(S, unitId, to) {
+
+  // One road for one unit. Stepping onto Crystal banners is an attack.
+  function moveUnit(S, unitId, to, { auto = false } = {}) {
     if (S.phase !== "crimson") return "You can only move the Host in your turn.";
     const u = S.units.get(unitId); if (!u) return "That unit has gone.";
+    if (u.battle) return "That unit is in a battle.";
     if (!isAdjacent(u.node, to)) return "Units move one road at a time.";
     if (u.moved + cost(u.node, to) > UNITS[u.type].speed) return `${UNITS[u.type].name} has no moves left this turn.`;
-    if (crystalAt(S, to)) return "A Crystal banner holds that stop.";
     if (CAMPS[to]) return "The jungle camps belong to no one.";
+    const B = battleAt(S, to);
+    if (B && !(B.kind === "defend" && B.status === "gather")) return "A battle is being fought there.";
     if (to !== FORTRESS && unitsAt(S, to).length >= STACK_LIMIT) return `No more than ${STACK_LIMIT} units on one stop.`;
     if (to === FORTRESS && unitsAt(S, to).length >= FORTRESS_LIMIT) return "The fortress is full.";
-    u.moved += cost(u.node, to); u.node = to;
+    if (!auto && u.order?.kind !== "hold") u.order = null;       // a hand move replaces a march or hunt order
+    u.from = u.node; u.moved += cost(u.node, to); u.node = to; u.dugIn = false;
+    if (B) {                                                       // join an attack that is still gathering
+      const e = unitEnemy(S, u); B.enemies.push(e); B.attackers.push(u.id); u.battle = B.id;
+      for (const x of B.enemies) if (x.aura && !UNITS[x.type]?.aura) { x.hp = x.hp / (1 + x.aura); x.max = x.max / (1 + x.aura); x.aura = 0; }
+      applyAura(B.enemies);
+      return null;
+    }
+    if (crystalAt(S, to)) { startBattle(S, null, "defend", [u]); return null; }
     if (S.rally.has(to)) { S.rally.delete(to); say(S, `The Crimson Host has retaken ${nodeName(to)}.`, "crimson"); }
+    if (to === HOME) say(S, `The Crimson Host is at the gates of the Crystal Academy!`, "crimson");
     return null;
   }
-  // Auto: spend energy on Orc Vanguards, then every unit steps towards the nearest Crystal banner
+
+  // Standing orders: march (to a stop, turn after turn), hold (dig in), hunt (chase the nearest banner).
+  // They play out when the teacher ends the Crimson turn.
+  function setOrder(S, unitIds, order) {
+    const list = (Array.isArray(unitIds) ? unitIds : [unitIds]).map((x) => S.units.get(x)).filter(Boolean);
+    if (!list.length) return "Pick some units first.";
+    let o = null;
+    if (order?.kind === "hold") o = { kind: "hold" };
+    else if (order?.kind === "hunt") o = { kind: "hunt" };
+    else if (order?.kind === "march") { const to = +order.to; if (!Number.isInteger(to) || !NODES[to] || CAMPS[to]) return "Pick a stop on a road to march to."; o = { kind: "march", to }; }
+    for (const u of list) { u.order = o; if (!o || o.kind !== "hold") u.dugIn = false; }
+    return null;
+  }
+
+  function huntTarget(S, u) {
+    const d = hops(u.node); let best = null;
+    for (const b of S.bands.values()) if ((d.get(b.node) ?? 99) < (best == null ? 99 : d.get(best))) best = b.node;
+    return best;
+  }
+  function runOrders(S) {
+    for (const u of [...S.units.values()]) {
+      if (!S.units.has(u.id) || u.battle || !u.order || u.order.kind === "hold") continue;
+      for (let k = 0; k < 6 && !u.battle; k++) {
+        const target = u.order.kind === "march" ? u.order.to : huntTarget(S, u);
+        if (target == null || target === u.node) break;
+        const step = stepTowards(u.node, target, (n) => !CAMPS[n]);
+        if (step == null || moveUnit(S, u.id, step, { auto: true })) break;
+      }
+      if (u.order?.kind === "march" && u.node === u.order.to) u.order = null;
+    }
+    // holding a whole turn digs a unit in (tougher in its next battle)
+    for (const u of S.units.values()) u.dugIn = u.order?.kind === "hold" && u.moved === 0;
+  }
+
+  // Auto: spend energy on Orc Vanguards, and every unit without orders hunts
   function autoTurn(S) {
     if (S.phase !== "crimson") return "Auto only works in your turn.";
     while (S.energy >= 2 && unitsAt(S, FORTRESS).length < FORTRESS_LIMIT) summon(S, "orc_vanguard");
-    const targets = [...new Set([...S.bands.values()].map((b) => b.node))];
-    for (const u of S.units.values()) {
-      for (let k = 0; k < UNITS[u.type].speed; k++) {
-        const d = hops(u.node); let target = null;
-        for (const t of targets) if (target == null || (d.get(t) ?? 99) < (d.get(target) ?? 99)) target = t;
-        if (target == null) break;
-        const step = stepTowards(u.node, target, (n) => !crystalAt(S, n) && !CAMPS[n]);
-        if (step == null || step === target || moveUnit(S, u.id, step)) break;
-      }
-    }
+    for (const u of S.units.values()) if (!u.order) u.order = { kind: "hunt" };
     S.teacherEnded = true;
     return null;
+  }
+
+  // The Crimson Host besieging the Academy: at the start of each Crimson turn, units standing on it (with no
+  // Crystal banner there to fight them) wear down the Academy Ward. If it breaks, the Crimson Host wins.
+  function siegeAcademy(S) {
+    const here = unitsAt(S, HOME).filter((u) => !u.battle);
+    if (!here.length || crystalAt(S, HOME)) return false;
+    const dmg = here.reduce((n, u) => n + siegeOf(u.type), 0);
+    S.ward.hp = Math.max(0, S.ward.hp - dmg);
+    say(S, S.ward.hp > 0 ? `The Crimson Host batters the Academy Ward (${S.ward.hp} left). Drive them out!` : "The Academy Ward has broken.", "crimson");
+    if (S.ward.hp <= 0) { endGame(S, "crimson", "ward"); return true; }
+    return false;
   }
 
   // ------------------------------------------------------------------ views
@@ -482,22 +626,24 @@ export function setupTotalWar(deps) {
     voteEnds: b.voteOpenedAt ? b.voteOpenedAt + ms(VOTE_SECONDS) : 0,
     pairs: b.pairs.map((x) => { const p = S.pairs.get(x); return p ? { id: p.id, no: p.no, char: p.char, names: p.members.map((m) => S.students.get(m)?.name || "?"), vote: b.votes[x] ?? null } : null; }).filter(Boolean),
   });
-  const unitView = (u) => ({ id: u.id, type: u.type, node: u.node, hp: u.hp, max: u.max, moved: u.moved, speed: UNITS[u.type].speed });
+  const unitView = (u, full) => ({ id: u.id, type: u.type, node: u.node, hp: u.hp, max: u.max, moved: u.moved, speed: UNITS[u.type].speed,
+    atk: UNITS[u.type].atk, dugIn: !!u.dugIn, battle: u.battle || null, ...(full ? { order: u.order } : {}) });
   function battleView(S, B, forPid) {
     const fighters = fightersOf(S, B);
     const v = {
       id: B.id, node: B.node, kind: B.kind, status: B.status, qNo: B.qNo, limit: B.limit,
-      gatherEnds: B.gatherEnds, enemies: B.enemies.map((e) => ({ type: e.type, hp: +(+e.hp).toFixed(1), max: e.max })),
+      gatherEnds: B.gatherEnds, resolve: +(+B.resolve).toFixed(1), resolveMax: B.resolveMax,
+      enemies: B.enemies.map((e) => ({ type: e.type, hp: +(+e.hp).toFixed(1), max: +(+e.max).toFixed(1), atk: e.atk, dug: !!e.dug, aura: !!e.aura })),
       bands: B.bands.map((x) => S.bands.get(x)).filter(Boolean).map((b) => bandView(S, b)),
-      fighters: fighters.length, answered: B.answers.size, lastHits: B.status === "result" || B.status === "over" ? B.lastHits : null,
+      fighters: fighters.length, answered: B.answers.size,
+      striker: B.status === "fight" ? who(S, B.striker) : null,
+      round: B.status === "result" || B.status === "over" ? { ...B.round, mine: undefined } : null,
       outcome: B.outcome, cheers: [...B.cheers.entries()].map(([pid, n]) => ({ pair: S.pairs.get(pid)?.no, n })),
     };
-    if (forPid !== undefined && B.q && fighters.includes(forPid)) {
-      const mine = B.answers.get(forPid);
-      v.question = { ...B.q, full: undefined, mine: mine ? { chosen: mine.chosen } : null };
-    }
-    if (forPid !== undefined && B.lastHits && fighters.includes(forPid)) {
-      v.myLast = null;   // the student's own last answer is shown from lastHits.answer on their screen
+    if (forPid !== undefined && fighters.includes(forPid)) {
+      v.role = B.striker === forPid ? "striker" : "support";
+      if (B.q) { const mine = B.answers.get(forPid); v.question = { ...B.q, full: undefined, mine: mine ? { chosen: mine.chosen } : null }; }
+      if (v.round && B.round?.mine) v.round.my = B.round.mine[forPid] || null;
     }
     return v;
   }
@@ -508,7 +654,8 @@ export function setupTotalWar(deps) {
       phase: S.phase, phaseEndsAt: S.phaseEndsAt, serverNow: Date.now(), speed: SPEED,
       topic: topicLabel(S.settings.topic), commander: S.settings.commander,
       bands: [...S.bands.values()].map((b) => bandView(S, b)),
-      units: [...S.units.values()].filter((u) => sees(u.node)).map(unitView),
+      units: [...S.units.values()].filter((u) => sees(u.node)).map((u) => unitView(u, !visible)),
+      ward: { ...S.ward }, endedBy: S.endedBy,
       camps: Object.entries(S.camps).map(([n, c]) => ({ node: +n, alive: c.alive, hp: c.hp, returnTurn: c.returnTurn })),
       gate: { ...S.gate, defenders: unitsAt(S, FORTRESS).length },
       warlord: { hp: S.warlord.hp, max: S.warlord.max, out: S.gate.broken && warlordReady(S) },
@@ -599,6 +746,7 @@ export function setupTotalWar(deps) {
     socket.on("twStart", asHost((S) => startGame(S)));
     socket.on("twSummon", asHost((S, { type }) => summon(S, type)));
     socket.on("twMoveUnit", asHost((S, { unitId, to }) => moveUnit(S, unitId, +to)));
+    socket.on("twOrder", asHost((S, { unitIds, order }) => setOrder(S, unitIds, order)));
     socket.on("twEndTurn", asHost((S) => { if (S.phase !== "crimson") return "It is not your turn."; S.teacherEnded = true; }));
     socket.on("twAuto", asHost((S) => autoTurn(S)));
     socket.on("twRelease", asHost((S) => { S.warlord.released = true; say(S, "The Crimson Warlord steps out to fight.", "big"); }));

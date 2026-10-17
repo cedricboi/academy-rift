@@ -2,8 +2,9 @@
 import { createMap, stepOptions, roadPoints, portrait, sprite, charColor, esc, setHTML } from './map.js';
 import { createCard } from './card.js';
 import { NODES } from './movement.js';
-import { CAMPS, UNITS, FORTRESS, battleLength } from './rules.js';
+import { CAMPS, UNITS, FORTRESS, HOME, battleLength } from './rules.js';
 import { BANNERS, bannerFor } from './banners.js';
+import { createStage, enemyName } from './stage.js';
 
 const socket = io();
 const $ = (id) => document.getElementById(id);
@@ -68,10 +69,12 @@ $('standards').addEventListener('click', (e) => { const b = e.target.closest('[d
 // ------------------------------------------------------------------ the map
 const map = createMap($('mapHost'), {
   onStop: (n) => { selected = null; socket.emit('twVote', { to: n }); },
-  onBanner: (kind, ref, node) => { selected = kind === 'pair' ? `band${ref}` : kind === 'host' ? `host${node}` : kind === 'camp' ? `camp${node}` : 'fortress'; if (kind === 'pair' && ref === S?.me.bandId) selected = null; render(); },
+  onBanner: (kind, ref, node) => { selected = kind === 'pair' ? `band${ref}` : kind === 'host' ? `host${node}` : kind === 'camp' ? `camp${node}` : kind === 'academy' ? 'academy' : 'fortress'; if (kind === 'pair' && ref === S?.me.bandId) selected = null; render(); },
 });
 const card = createCard($('card'), { onPick: (i, startedAt) => socket.emit('twAnswer', { chosen: i, startedAt }) });
 const bcard = createCard($('bCard'), { onPick: (i, startedAt) => { myPick = i; socket.emit('twAnswer', { chosen: i, startedAt }); } });
+const stage = createStage($('bStage'), { mode: 'pair' });
+let lastRoundAt = 0, lastBattleId = null;
 
 $('holdBtn').addEventListener('click', () => socket.emit('twVote', { to: 'stay' }));
 $('endTurnBtn').addEventListener('click', () => socket.emit('twVote', { to: 'stay' }));
@@ -110,6 +113,7 @@ function render() {
   else if (phase === 'crystal' && band && !band.done && !band.battle) ribbon = band.pairs.length > 1 ? 'Vote for your warband\'s next stop. It moves one stop at a time.' : 'Tap a glowing stop to move there. One stop at a time.';
   else if (phase === 'crystal' && band?.done) ribbon = 'Your banner has finished moving this turn.';
   else if (phase === 'battles') ribbon = 'Battles are being fought. The next turn starts when they end.';
+  if (S.units.some((u) => u.node === HOME && !u.battle)) ribbon = `The Crimson Host is at the Academy! Drive them out before the Ward breaks (${S.ward.hp} of ${S.ward.max} left).`;
   $('ribbon').textContent = S.own ? '' : ribbon;
 
   renderBandPanel(band);
@@ -168,6 +172,13 @@ function renderInfo(band, options) {
       <p>${g.broken ? (w.out ? 'The gate is broken and the Warlord has come out to fight. Beat him to win the war.' : 'The gate is broken. The Warlord waits inside and has not come out yet.') : 'The Bloodstone Golem guards the gate. Break it to reach the Warlord. Damage you deal stays, even if you have to fall back.'}</p>
       <div class="kv"><b>${g.broken ? 'WARLORD' : 'GATE'}</b>${g.broken ? `${w.hp} of ${w.max}` : `${g.hp} of ${g.max}`}</div><div class="hpbar"><i style="width:${g.broken ? (w.hp / w.max) * 100 : (g.hp / g.max) * 100}%"></i></div>
       ${g.defenders ? `<div class="kv"><b>DEFENDERS</b>${g.defenders} more Crimson units inside</div>` : ''}<div class="actions">${voteBtn(FORTRESS, g.broken ? 'Face the Warlord' : 'Attack the gate', 'crimson')}</div>`;
+  } else if (selected === 'academy') {
+    const w = S.ward, here = S.units.filter((u) => u.node === HOME);
+    cls += ' teal';
+    html = `${close}<div class="eyebrow" style="color:var(--cyan)">YOUR HOME · ${esc(nodeName(HOME).toUpperCase())}</div><h3>The Academy Ward</h3>
+      <p>${esc(boss())} can attack your home too. If the Crimson Host stands on the Academy with no Crystal banner there to fight it, it batters the Ward every turn. If the Ward breaks, the Crimson Host wins the war. Keep an eye on home, and come back to drive them out.</p>
+      <div class="kv"><b>WARD</b>${w.hp} of ${w.max}</div><div class="hpbar teal"><i style="width:${(w.hp / w.max) * 100}%"></i></div>
+      ${here.length ? `<div class="kv" style="color:#ffb3bd"><b style="color:var(--rose)">UNDER ATTACK</b>${here.length} Crimson ${here.length === 1 ? 'unit is' : 'units are'} at the Academy</div>` : ''}<div class="actions">${voteBtn(HOME, here.length ? 'Drive them out' : 'Go home', here.length ? 'crimson' : 'cyan')}</div>`;
   } else if (selected.startsWith('band')) {
     const b = S.bands.find((x) => `band${x.id}` === selected);
     if (!b) { selected = null; box.classList.add('hidden'); return; }
@@ -206,41 +217,64 @@ function renderQuestion() {
 
 function renderBattle() {
   const B = S.myBattle;
-  if (!B) { $('battle').classList.add('hidden'); bcard.hide(); return; }
+  if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; return; }
   $('battle').classList.remove('hidden');
-  const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'The Crimson Warlord' : 'The Crimson Host';
-  $('bEyebrow').textContent = `BATTLE · ${nodeName(B.node).toUpperCase()}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}`;
+  const defend = B.kind === 'defend';
+  const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'The Crimson Warlord' : defend ? 'The Crimson Host attacks!' : 'The Crimson Host';
+  $('bEyebrow').textContent = `${defend ? 'DEFEND' : 'BATTLE'} · ${nodeName(B.node).toUpperCase()}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}`;
   $('bTitle').textContent = what;
-  setHTML($('bEnemies'), B.enemies.map((e) => {
-    const name = UNITS[e.type]?.name || Object.values(CAMPS).find((c) => c.id === e.type)?.name || e.type;
-    return `<div class="b-enemy ${e.hp <= 0 ? 'down' : ''}"><img src="${sprite(e.type)}" alt=""><b>${esc(name)}</b><div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div><small>${Math.ceil(e.hp)} / ${e.max}</small></div>`;
-  }).join(''));
-  const cheers = B.cheers.filter((c) => c.pair).map((c) => `Pair ${c.pair} ×${c.n}`).join(', ');
-  setHTML($('bCrystal'), `<div class="eyebrow">YOUR SIDE</div>` + B.bands.flatMap((b) => b.pairs).map((p) => `<div class="s-pair"><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">Pair ${p.no} · ${esc(p.names.join(' & '))}</div>`).join('') + (cheers ? `<div class="cheer">War Cries: ${esc(cheers)}</div>` : ''));
-  let centre = '', status = '';
-  if (B.status === 'gather') { centre = `<span class="big">Battle stations!</span>The battle starts in <b data-until="${B.gatherEnds}">${gameSecondsLeft(B.gatherEnds)}</b>. Warbands one road away can still join.`; status = 'Gathering'; }
-  if (B.status === 'fight') status = `${B.answered} of ${B.fighters} have answered`;
-  if (B.status === 'result' && B.lastHits) {
-    const h = B.lastHits, mine = myPick, right = h.answer;
-    const you = mine == null ? '' : mine === right ? 'You were right! ' : 'You were not right this time. ';
-    centre = `<span class="big">${h.hits} ${h.hits === 1 ? 'hit' : 'hits'}!</span>${you}${h.right} right ${h.right === 1 ? 'answer' : 'answers'}${h.warcry ? ` and ${h.warcry} War ${h.warcry === 1 ? 'Cry' : 'Cries'}` : ''}. The answer was <b>${'ABCD'[right]}. ${esc(h.choices[right])}</b>${h.fallen ? `<br>${h.fallen} ${h.fallen === 1 ? 'enemy falls' : 'enemies fall'}!` : ''}`;
+  const pairs = B.bands.flatMap((b) => b.pairs);
+  const strikerPair = B.status === 'fight' ? B.striker?.pairNo : B.round ? (B.round.stealer || B.round.striker)?.pairNo : null;
+  setHTML($('bAllies'), pairs.map((p) => `<span class="ally ${p.no === S.me.pairNo ? 'me' : ''} ${p.no === strikerPair ? 'striking' : ''}" title="Pair ${p.no}"><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}"><small>${p.no === S.me.pairNo ? 'You' : `P${p.no}`}</small></span>`).join(''));
+  const rmax = B.resolveMax || 1, r = B.resolveMax ? B.resolve : rmax;
+  $('bResolveBar').style.width = `${Math.max(0, (r / rmax) * 100)}%`;
+  $('bResolveBar').parentElement.classList.toggle('low', r / rmax < 0.34);
+  $('bResolveTxt').textContent = B.resolveMax ? `${Math.ceil(r)} / ${rmax}` : '';
+
+  // the stage: my pair's fighter against the enemy
+  if (lastBattleId !== B.id) { lastBattleId = B.id; lastRoundAt = 0; stage.skip(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); }
+  if (B.round && B.round.at !== lastRoundAt && (B.status === 'result' || B.status === 'over')) { lastRoundAt = B.round.at; stage.playRound(B.round); }
+  if (B.status === 'fight' && stage.busy) stage.skip();
+  stage.set({ node: B.node, kind: B.kind, pairs: [{ key: `p${S.me.pairNo}`, char: S.me.char, label: 'You', me: true }], foes: B.enemies });
+  setHTML($('bFoes'), B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}</span><div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div></div>`).join(''));
+
+  let centre = '', role = '';
+  const fighting = B.status === 'fight' && B.question;
+  $('battle').classList.toggle('fighting', !!fighting);
+  if (B.status === 'gather') centre = `<span class="big">${defend ? 'To arms!' : 'Battle stations!'}</span>The battle starts in <b data-until="${B.gatherEnds}">${gameSecondsLeft(B.gatherEnds)}</b>. Warbands one road away can still join.`;
+  if (B.status === 'over') centre = B.outcome === 'won'
+    ? `<span class="big">Victory!</span>${B.kind === 'camp' ? `${esc(CAMPS[B.node].buffName)}: ${esc(CAMPS[B.node].buffText)}.` : B.kind === 'gate' ? 'The gate is broken!' : defend ? 'You drove off the attack.' : 'The way is clear.'}`
+    : defend && B.resolve > 0 ? '<span class="big">You held!</span>The Crimson Host pulls back.' : `<span class="big">Driven back</span>${B.resolve <= 0 ? 'Your warband\'s Resolve ran out.' : 'The enemy held.'} You fall back to regroup. The damage you dealt stays.`;
+  setHTML($('bCentre'), centre);
+  if (fighting) {
+    const s = B.striker;
+    role = B.role === 'striker' ? '<b class="you-strike">You are the Striker!</b> Your right answer strikes the enemy. Your warband answers along with you.'
+      : `<b>${esc(s?.name || '')}${s?.pairNo ? ` (Pair ${s.pairNo})` : ''}</b> is the Striker. Answer too: right answers add hits, shield the warband, and can steal the strike if the Striker misses.`;
   }
-  if (B.status === 'over') centre = B.outcome === 'won' ? `<span class="big">Victory!</span>${B.kind === 'camp' ? `${esc(CAMPS[B.node].buffName)}: ${esc(CAMPS[B.node].buffText)}.` : B.kind === 'gate' ? 'The gate is broken!' : 'The way is clear.'}` : `<span class="big">Driven back</span>The enemy held. Your warband falls back to regroup. The damage you dealt stays.`;
-  setHTML($('bCentre'), centre); $('bStatus').textContent = status;
-  if (B.status === 'fight' && B.question) {
+  setHTML($('bRole'), role);
+  if (fighting) {
     if (lastBattleQ !== B.question.startedAt) { lastBattleQ = B.question.startedAt; myPick = B.question.mine?.chosen ?? null; }
     $('bCardHost').classList.remove('hidden');
-    bcard.show({ q: B.question, tag: 'BATTLE', sub: `Question ${B.qNo} of ${B.limit}`, thumb: S.me.char ? portrait(S.me.char) : null,
-      picked: B.question.mine?.chosen ?? null, footer: B.question.mine ? 'Answer locked in. Waiting for the others…' : 'Every right answer hits the enemy.', serverNow: S.serverNow, speed });
+    bcard.show({ q: B.question, tag: B.role === 'striker' ? 'STRIKE' : 'SUPPORT', sub: `Question ${B.qNo} of ${B.limit}`, thumb: S.me.char ? portrait(S.me.char) : null,
+      picked: B.question.mine?.chosen ?? null, footer: B.question.mine ? 'Answer locked in. Waiting for the others…' : '', serverNow: S.serverNow, speed });
   } else { $('bCardHost').classList.add('hidden'); bcard.hide(); }
+  // after each question: the answer, and how you did
+  const rd = B.status === 'result' ? B.round : null;
+  if (rd) {
+    const my = rd.my, right = rd.answer;
+    const you = !my ? '' : my.ok ? '<span class="good">You were right!</span>' : my.chosen < 0 ? '<span class="bad">Time ran out.</span>' : '<span class="bad">Not this time.</span>';
+    setHTML($('bReveal'), `${you} The answer was <b>${'ABCD'[right]}. ${esc(rd.choices[right])}</b> · <b>${rd.hits}</b> ${rd.hits === 1 ? 'hit' : 'hits'} · the Crimson hit back for <b>${Math.round(rd.counterTotal * 10) / 10}</b>`);
+    $('bReveal').classList.remove('hidden');
+  } else $('bReveal').classList.add('hidden');
 }
 
 function renderEnding() {
   const box = $('ending');
   if (S.status !== 'ended') { box.classList.add('hidden'); return; }
   const won = S.winner === 'crystal';
-  setHTML(box, `<div class="eyebrow">${won ? 'VICTORY' : 'THE FORTRESS STANDS'}</div><h1>${won ? 'The Crimson Warlord has fallen' : 'The Crimson Host holds'}</h1>
-    <p>${won ? `Your class broke the gate and beat ${esc(boss())}'s champion. Well fought, commanders.` : `${esc(boss())} held the fortress this time. Next time, march together sooner.`}</p>`);
+  const ward = S.endedBy === 'ward';
+  setHTML(box, `<div class="eyebrow">${won ? 'VICTORY' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${won ? 'The Crimson Warlord has fallen' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
+    <p>${won ? `Your class broke the gate and beat ${esc(boss())}'s champion. Well fought, commanders.` : ward ? `${esc(boss())}'s army broke into the Crystal Academy. Next time, leave defenders at home.` : `${esc(boss())} held the fortress this time. Next time, march together sooner.`}</p>`);
   box.classList.remove('hidden');
 }
 

@@ -1,7 +1,7 @@
 // Total War: the teacher's Crimson command screen. The server decides everything; this page sends orders.
-import { createMap, portrait, sprite, esc, setHTML } from './map.js';
+import { createMap, portrait, sprite, esc, setHTML, marchPoints } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, SUMMONABLE, CAMPS, FORTRESS, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT } from './rules.js';
+import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT } from './rules.js';
 import { TOPICS } from '../data/topics.js';
 import { FOLDER_BY_ID } from '../data/folders.js';
 import qrcode from '/vendor/qrcode.mjs';
@@ -10,7 +10,7 @@ const socket = io();
 const $ = (id) => document.getElementById(id);
 const nodeName = (n) => NODES[n]?.name || '?';
 const SAVE = 'tw.host';
-let H = null, hosting = null, offset = 0, speed = 1, selStack = null, selUnit = null, picked = null, toastT = 0, showClass = false;
+let H = null, hosting = null, offset = 0, speed = 1, selStack = null, selUnit = null, picked = null, toastT = 0, showClass = false, marchPick = false;
 const now = () => Date.now() + offset;
 const secsLeft = (t) => Math.max(0, Math.ceil(((t - now()) * speed) / 1000));
 const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -81,7 +81,10 @@ $('startWar').addEventListener('click', () => socket.emit('twStart'));
 // ------------------------------------------------------------------ the war
 const map = createMap($('mapHost'), {
   bottom: 96,
-  onStop: (n) => { if (selUnit) socket.emit('twMoveUnit', { unitId: selUnit, to: n }); },
+  onStop: (n) => {
+    if (marchPick) { socket.emit('twOrder', { unitIds: orderTargets(), order: { kind: 'march', to: n } }); marchPick = false; render(); return; }
+    if (selUnit) socket.emit('twMoveUnit', { unitId: selUnit, to: n });
+  },
   onBanner: (kind, ref, node) => {
     if (kind === 'host' || kind === 'fortress') { selStack = kind === 'fortress' ? FORTRESS : node; selUnit = null; }
     else { selStack = null; selUnit = null; }
@@ -97,15 +100,28 @@ $('classChip').addEventListener('click', () => { showClass = !showClass; render(
 $('summon').addEventListener('click', (e) => { const b = e.target.closest('[data-type]'); if (b) socket.emit('twSummon', { type: b.dataset.type }); });
 $('stackPanel').addEventListener('click', (e) => {
   const b = e.target.closest('[data-unit]'); if (b) { selUnit = selUnit === b.dataset.unit ? null : b.dataset.unit; render(); }
-  if (e.target.closest('[data-close]')) { selStack = selUnit = null; render(); }
+  if (e.target.closest('[data-close]')) { selStack = selUnit = null; marchPick = false; render(); }
+  const o = e.target.closest('[data-order]');
+  if (o) {
+    const kind = o.dataset.order;
+    if (kind === 'march') { marchPick = !marchPick; render(); return; }
+    socket.emit('twOrder', { unitIds: orderTargets(), order: kind === 'clear' ? null : { kind } });
+    marchPick = false;
+  }
 });
+// orders go to the chosen unit, or to every free unit on the chosen stop
+const orderTargets = () => selUnit ? [selUnit] : H.units.filter((x) => x.node === selStack && !x.battle).map((x) => x.id);
+const ORDER_TEXT = { march: (o) => `Marching to ${nodeName(o.to)}`, hold: () => 'Holding', hunt: () => 'Hunting the nearest banner' };
 
 function unitOptions(u) {
   if (!u || H.phase !== 'crimson') return [];
+  if (u.battle) return [];
+  const fighting = (n) => H.battles.find((B) => B.node === n && B.status !== 'over');
   return neighbours(u.node).filter((n) => u.moved + cost(u.node, n) <= UNITS[u.type].speed)
-    .filter((n) => !H.bands.some((b) => b.node === n) && !CAMPS[n])
+    .filter((n) => !CAMPS[n])
+    .filter((n) => { const B = fighting(n); return !B || (B.kind === 'defend' && B.status === 'gather'); })
     .filter((n) => H.units.filter((x) => x.node === n).length < (n === FORTRESS ? FORTRESS_LIMIT : STACK_LIMIT))
-    .map((n) => ({ node: n, cost: cost(u.node, n) }));
+    .map((n) => ({ node: n, cost: cost(u.node, n), attack: H.bands.some((b) => b.node === n) }));
 }
 
 function render() {
@@ -116,13 +132,17 @@ function render() {
   $('gEyebrow').textContent = H.status === 'ended' ? 'THE WAR IS OVER' : `TURN ${H.turn} OF ${H.turns} · ${mine ? 'CRIMSON TURN' : H.phase === 'crystal' ? 'CRYSTAL TURN' : 'BATTLES'}`;
   $('gTitle').textContent = mine ? (H.teacherEnded ? 'Waiting for the class to finish mustering' : 'Your move, Commander') : H.phase === 'crystal' ? 'The class is moving' : 'Battles are being fought';
   $('energy').textContent = H.energy;
+  $('wardTxt').textContent = `${H.ward.hp}/${H.ward.max}`;
   $('endTurnBtn').disabled = !mine || H.teacherEnded; $('autoBtn').disabled = !mine || H.teacherEnded;
   $('releaseBtn').classList.toggle('hidden', !(H.gate.broken && !H.warlordReady));
   $('menuProjector').href = `projector.html?code=${H.code}`;
 
   const u = selUnit && H.units.find((x) => x.id === selUnit);
   if (selUnit && !u) selUnit = null;
-  map.render({ state: H, full: true, options: unitOptions(u), selected: selStack == null ? null : selStack === FORTRESS ? 'fortress' : `host${selStack}` });
+  if (!mine || H.teacherEnded) marchPick = false;
+  const targets = marchPick ? NODES.map((_, n) => n).filter((n) => !CAMPS[n] && n !== selStack).map((n) => ({ node: n, target: true })) : unitOptions(u);
+  const marches = H.units.filter((x) => x.order?.kind === 'march').map((x) => marchPoints(x.node, x.order.to)).filter(Boolean);
+  map.render({ state: H, full: true, options: targets, marches, selected: selStack == null ? null : selStack === FORTRESS ? 'fortress' : `host${selStack}` });
 
   // the class, in one chip
   const quiet = H.students.filter((s) => s.quiet);
@@ -135,7 +155,7 @@ function render() {
   // live battles
   setHTML($('battles'), H.battles.map((B) => {
     const hp = B.enemies.reduce((a, e) => a + Math.max(0, e.hp), 0), max = B.enemies.reduce((a, e) => a + e.max, 0);
-    return `<div class="bl">Battle at ${esc(nodeName(B.node))}<small>${B.bands.reduce((a, b) => a + b.pairs.length, 0)} pairs · ${B.status === 'gather' ? 'gathering' : `question ${B.qNo} of ${B.limit}`} · enemy ${Math.ceil(hp)} / ${max}${B.outcome ? ` · ${B.outcome === 'won' ? 'the class won' : 'you held'}` : ''}</small><div class="hpbar"><i style="width:${(hp / max) * 100}%"></i></div></div>`;
+    return `<div class="bl ${B.kind === 'defend' ? 'atk' : ''}">${B.kind === 'defend' ? 'Your attack' : 'Battle'} at ${esc(nodeName(B.node))}<small>Resolve ${Math.ceil(B.resolve)}/${B.resolveMax || '–'} · ${B.bands.reduce((a, b) => a + b.pairs.length, 0)} pairs · ${B.status === 'gather' ? 'gathering' : `question ${B.qNo} of ${B.limit}`} · enemy ${Math.ceil(hp)} / ${max}${B.outcome ? ` · ${B.outcome === 'won' ? 'the class won' : 'you held'}` : ''}</small><div class="hpbar"><i style="width:${(hp / max) * 100}%"></i></div></div>`;
   }).join(''));
 
   // the selected stack
@@ -146,8 +166,10 @@ function render() {
     const fort = selStack === FORTRESS;
     setHTML(sp, `<button class="x-close" data-close="1" aria-label="Close">×</button><div class="eyebrow" style="color:var(--rose)">${fort ? 'CRIMSON FORTRESS' : 'CRIMSON WARBAND'}</div><h3>${esc(nodeName(selStack))}</h3>`
       + (fort ? `<div class="unit-row" style="cursor:default"><img src="${sprite(H.gate.broken ? 'warlord' : 'golem')}" alt=""><div class="nm">${H.gate.broken ? 'The Crimson Warlord' : 'Bloodstone Golem'}<small>${H.gate.broken ? (H.warlordReady ? 'Out and fighting' : 'Waiting inside') : 'Guards the gate'}</small><div class="hpbar"><i style="width:${H.gate.broken ? (H.warlord.hp / H.warlord.max) * 100 : (H.gate.hp / H.gate.max) * 100}%"></i></div></div><span class="mv">${H.gate.broken ? `${H.warlord.hp}/${H.warlord.max}` : `${H.gate.hp}/${H.gate.max}`}</span></div>` : '')
-      + us.map((x) => `<button type="button" class="unit-row ${selUnit === x.id ? 'on' : ''}" data-unit="${x.id}"><img src="${sprite(x.type)}" alt=""><div class="nm">${esc(UNITS[x.type].name)}<small>${esc(UNITS[x.type].role)} · ${x.hp}/${x.max}</small></div><span class="mv">${Math.max(0, x.speed - x.moved)} move${x.speed - x.moved === 1 ? '' : 's'}</span></button>`).join('')
-      + `<p class="hint" style="margin-top:8px">${mine ? (us.length ? 'Tap a unit, then a glowing stop next to it.' : 'Send units out with the cards below.') : 'You can move units in your turn.'}</p>`);
+      + us.map((x) => `<button type="button" class="unit-row ${selUnit === x.id ? 'on' : ''}" data-unit="${x.id}"><img src="${sprite(x.type)}" alt=""><div class="nm">${esc(UNITS[x.type].name)}<small>${x.battle ? 'In battle' : x.order ? esc(ORDER_TEXT[x.order.kind](x.order)) : esc(UNITS[x.type].role)}${x.dugIn ? ' · dug in' : ''} · ${x.hp}/${x.max}</small></div><span class="mv">${Math.max(0, x.speed - x.moved)} move${x.speed - x.moved === 1 ? '' : 's'}</span></button>`).join('')
+      + (us.length && mine && !H.teacherEnded ? `<div class="eyebrow" style="margin-top:10px;color:var(--rose)">ORDERS · ${selUnit ? 'THIS UNIT' : 'EVERY UNIT HERE'}</div>
+        <div class="orders"><button type="button" class="btn ${marchPick ? 'crimson' : ''}" data-order="march">March to…</button><button type="button" class="btn" data-order="hold">Hold</button><button type="button" class="btn" data-order="hunt">Hunt</button><button type="button" class="btn icon" data-order="clear" title="Clear orders">✕</button></div>` : '')
+      + `<p class="hint" style="margin-top:8px">${marchPick ? 'Tap any ⚑ on the map. They march there turn after turn, and attack any banner in the way.' : mine ? (us.length ? 'Tap a unit, then a glowing stop to move it now. Or give orders: they play out when you end your turn. Holding a whole turn digs units in (25% tougher).' : 'Send units out with the cards below.') : 'You can move units and give orders in your turn.'}</p>`);
     sp.classList.remove('hidden');
   }
 
@@ -160,7 +182,7 @@ function render() {
   if (H.status !== 'ended') end.classList.add('hidden');
   else {
     end.classList.remove('hidden');
-    setHTML(end, `<div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? 'Your Warlord has fallen' : 'Your fortress stands'}</h1>
+    setHTML(end, `<div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? 'Your Warlord has fallen' : H.endedBy === 'ward' ? 'You broke the Academy Ward' : 'Your fortress stands'}</h1>
       <table><tr><th>Student</th><th>Pair</th><th>Answered</th><th>Right</th></tr>${[...H.students].sort((a, b) => b.answered - a.answered).map((s) => `<tr><td>${esc(s.name)}</td><td>${s.pairNo || ''}</td><td>${s.answered}</td><td>${s.answered ? Math.round((s.correct / s.answered) * 100) : 0}%</td></tr>`).join('')}</table>
       <button class="btn crimson" type="button" onclick="localStorage.removeItem('${SAVE}');location.reload()">Start a new war</button>`);
   }
