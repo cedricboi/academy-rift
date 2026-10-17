@@ -3,6 +3,7 @@ import {POINTS,NODES,EDGES,shortest,validRoute,routePoints,positionAt,routeCost,
 
 
 import {BANNERS,bannerFor} from './banners.js';
+import {JUNGLE_CAMPS,CRIMSON_HOST,spriteFor} from './monsters/monsters.js';
 
 
 
@@ -254,7 +255,7 @@ $('#clear-route').onclick=()=>{preview=[];inspected=null;updateUI();notify('Rout
 
 $('#help').onclick=()=>$('#guide').showModal();document.querySelectorAll('.close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
 
-$('#banners').onclick=()=>{renderGallery();$('#banner-gallery').showModal();};$('#bestiary').onclick=()=>$('#monster-gallery').showModal();
+$('#banners').onclick=()=>{renderGallery();$('#banner-gallery').showModal();};$('#bestiary').onclick=()=>{renderBestiary();$('#monster-gallery').showModal();};
 
 $('#routes').onclick=()=>{tactical=!tactical;$('#routes').setAttribute('aria-pressed',tactical);};
 
@@ -264,3 +265,9 @@ window.addEventListener('resize',resize);document.addEventListener('visibilitych
 
 load();
 
+
+function renderBestiary(){
+  const card=(m,line,cls='')=>`<figure class="beast"><img src="${spriteFor(m.id)}" alt="${m.name}" loading="lazy"><b>${m.name}</b><small class="${cls}">${line}</small></figure>`;
+  $('#camp-grid').innerHTML=JUNGLE_CAMPS.map(m=>card(m,`${m.site}<br>${m.reward}`,'site')).join('');
+  $('#host-grid').innerHTML=CRIMSON_HOST.map(m=>card(m,m.role)).join('');
+}
