@@ -200,3 +200,5 @@ button:disabled{cursor:default}
 .tw-banner.rise .pole{animation:poleRise 1s ease-out both}
 @keyframes standardRise{0%{transform:translateY(40px) scaleY(.2);opacity:0}60%{opacity:1}100%{transform:none}}
 @keyframes poleRise{0%{transform:scaleY(0);transform-origin:bottom}100%{transform:scaleY(1);transform-origin:bottom}}
+/* in a stack of banners the one with the label sits on top, so its label is never covered */
+.tw-banner.lead{z-index:4}

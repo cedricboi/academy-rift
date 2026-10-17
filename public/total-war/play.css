@@ -528,3 +528,133 @@
   .enemy-chip{padding:4px 8px;max-width:38vw}
   .enemy-chip div div{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
+
+/* ================= polish pass: readable sizes, one frame round the question, calmer bars ================= */
+/* eyebrows and small labels on the iPad: 13px and up */
+#game .eyebrow,.lb-wrap .eyebrow,.help .eyebrow{font-size:13px;letter-spacing:2px}
+.ab-pair small,.b-allies .ally small{font-size:13px}
+.buff{font-size:13px;padding:4px 10px}
+.info-card p{font-size:15px}
+.info-card .row small,.info-card .kv{font-size:14px}
+.info-card .kv b{font-size:12px}
+.preview{font-size:15px}
+.b-foes .foe span{font-size:14px}.b-foes .foe small{font-size:13px}
+.foe-pick-h small{font-size:14px}
+.story li small{font-size:12px}
+/* the planning labels on the map stay readable when the map is drawn smaller than full size */
+#mapHost .tw-banner .tag{font-size:max(12px,calc(15px * var(--inv,1)))}
+#mapHost .tw-banner .status{font-size:max(12px,calc(13px * var(--inv,1)))}
+#mapHost .tw-banner.camp .tag,#mapHost .tw-banner.academy .tag{font-size:max(12px,calc(14.5px * var(--inv,1)))}
+#mapHost .tw-banner .count{min-width:max(24px,calc(22px * var(--inv,1)));height:max(24px,calc(22px * var(--inv,1)));border-radius:999px;font-size:max(13px,calc(14px * var(--inv,1)))}
+
+/* the question: one gold frame (the panel), a plain header strip, and the card inside without frames of its own */
+.q-dock.centre .qd-head{border:0!important;border-image:none!important;padding:2px 4px 10px;border-bottom:1px solid #d8bd8044!important}
+.q-dock.centre .qd-head .eyebrow{font-size:14px}
+.q-dock.centre .qd-title{font-size:20px}
+.q-dock.centre .qd-mp{font-size:15px}
+.q-dock.centre .tw-card{background:none;border:0;box-shadow:none;padding:4px 2px 2px;gap:10px}
+.q-dock.centre .tw-card .corner{display:none}
+.q-dock.centre .card-top{padding-bottom:8px}
+.q-dock.centre .card-tag{font-size:20px}
+.q-dock.centre .card-sub,.q-dock.centre .card-topic{font-size:14px}
+.q-dock.centre{gap:6px;padding:12px 14px}
+/* the bar along the bottom is hidden while the question is open, so nothing shows through */
+.g-main.centred .act-bar,.g-main.centred .map-buffs,.g-main.centred .ribbon{display:none}
+
+/* the act bar: one gold action (commit / propose / carry on), the rest quiet */
+.act-bar .ab-btns .btn:not(.crimson):not(.cyan){background:#0d0b12cc!important;color:#e9dfc6;font-size:14px}
+.act-bar .ab-btns .ab-auntie{font-size:14px}
+.act-bar .ab-btns .ab-join{border-color:#81e3d4!important;color:#bff5e0!important}
+.act-bar .ab-end{min-height:56px}
+.small-agree{min-height:44px;font-size:13px!important}
+
+/* battle stations: the countdown and your warband sit below the stage, never over your fighter */
+.battle.gathering .b-stagewrap{flex:1 1 auto;height:auto!important;min-height:220px}
+.battle.gathering .b-centre{display:none}
+.battle.gathering .b-role{flex:0 0 auto}
+.b-gather{display:flex;align-items:stretch;gap:18px;padding:14px 16px;text-align:left;border:14px solid transparent;border-image:url(ui/panel_gold.png) 36 fill / 24px / 10px stretch;image-rendering:pixelated}
+.bg-count{flex:0 0 132px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1a0d12;box-shadow:0 0 0 2px #000,inset 0 0 0 2px #e0566e}
+.bg-count small{font:700 13px "Rift Pixel";letter-spacing:2px;color:#ffb3bd}
+.bg-count b{font:700 64px/1 "Rift Pixel";color:var(--ivory)!important}
+.bg-text{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.bg-title{font:700 32px "Rift Pixel";color:var(--ivory)}
+.bg-text p{margin:6px 0 0;font:500 17px/1.4 "Rift Body";color:#dfe8e6}
+.bg-allies{flex:0 1 360px;min-width:0;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.bg-ally{display:flex;align-items:center;gap:10px;padding:4px 8px 4px 4px;background:#0b111acc;box-shadow:0 0 0 1px #ffffff1a}
+.bg-ally.me{box-shadow:0 0 0 2px var(--gold)}
+.bg-ally img{width:48px;height:38px;object-fit:cover;object-position:50% 15%;border:2px solid var(--c)}
+.bg-ally span{min-width:0;font:500 14px "Rift Body";color:#cfd9d6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bg-ally span b{display:block;font:700 14px "Rift Pixel";color:var(--ivory)}
+@media (max-aspect-ratio:1/1){.b-gather{flex-wrap:wrap}.bg-text{flex:1 1 calc(100% - 160px)}.bg-allies{flex:1 1 100%}}
+@media (max-width:1100px) and (min-aspect-ratio:1/1){.bg-title{font-size:26px}.bg-allies{flex-basis:300px}}
+
+/* paused by the teacher, and the answer-and-why after each battle question */
+.tw-paused{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:24px;background:#05080cd0;text-align:center}
+.tp-box{max-width:620px;padding:26px 34px;border:14px solid transparent;border-image:url(ui/panel_gold.png) 36 fill / 24px / 10px stretch;image-rendering:pixelated}
+.tp-box .eyebrow{font-size:15px;color:#ffd36b}
+.tp-box h2{margin:8px 0;font:700 34px "Rift Pixel";color:var(--ivory)}
+.tp-box p{margin:0;font:500 18px/1.45 "Rift Body";color:#e2ddd2}
+.tw-explain{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:8000;width:min(760px,calc(100vw - 24px));padding:12px 18px;background:#08101af2;border:2px solid #d8bd80;box-shadow:0 0 0 2px #000,0 10px 30px #000a;color:#f2ead6;font:500 17px/1.4 "Rift Body";pointer-events:none}
+.tw-explain .eyebrow{font-size:13px;color:#7ff3a4}
+.tw-explain b{display:block;margin-top:2px;font:700 18px "Rift Body";color:#bff5e0}
+.tw-explain p{margin:4px 0 0}
+
+/* the end of the war: scrolls when the story is long; your answers; back to Academy Rift */
+.ending{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:30px 20px calc(30px + env(safe-area-inset-bottom))}
+.end-in{margin:auto 0;width:min(720px,100%);display:flex;flex-direction:column;align-items:center;gap:12px}
+.ending h1{font-size:clamp(34px,5vw,56px)}
+.ending p{margin:0}
+.end-me{font:600 18px "Rift Body"!important;color:#f2ead6!important}.end-me b{color:var(--gold2)}
+.end-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.end-home{display:inline-flex;align-items:center;justify-content:center;min-height:60px;text-decoration:none;font-size:15px}
+.my-answers{width:100%;text-align:left;padding:14px 16px;background:#0c0a12e6;box-shadow:0 0 0 2px #000,inset 0 0 0 1px #d8bd8055}
+.my-answers ol{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.my-answers li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:#101722}
+.my-answers li i{flex:0 0 28px;height:28px;display:grid;place-items:center;font:700 16px "Rift Body";font-style:normal;color:#06200f;background:#55f28b}
+.my-answers li.no i{background:#ff5a6e;color:#fff}
+.my-answers li p{margin:0;font:600 16px/1.35 "Rift Body";color:#f2ead6}
+.my-answers li small{display:block;margin-top:2px;font:500 14px "Rift Body";color:#bfd0cc}
+.story{width:100%}
+
+/* how to play is a dialog over every screen (it opens in the lobby, before any timed question) */
+.help{position:fixed;z-index:70}
+.lb-head-btns{display:flex;gap:8px}
+
+/* touch targets: 44px or more */
+.x-close{min-width:44px;min-height:44px}
+.pick-head .x-close{width:48px;height:48px;font-size:28px}
+#lbLeave,#lbHelp{min-height:48px}
+/* the act bar's quiet buttons stack in two rows beside the one gold action */
+.act-bar .ab-btns{flex-wrap:nowrap!important;align-items:center}
+.ab-sec{display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,auto);gap:6px}
+.ab-sec:not(:has(> :not(.hidden))){display:none}
+.act-bar .ab-sec .btn{min-height:44px;height:44px;padding:0 12px;white-space:nowrap}
+.act-bar .ab-auntie i{width:28px;height:28px}
+.act-bar .ab-step{font-size:18px}
+@media (max-width:1100px) and (min-aspect-ratio:1/1){
+  .act-bar{flex-wrap:nowrap}
+  .act-bar .ab-text{flex:1 1 auto;min-width:0}
+  .act-bar .ab-btns{flex:0 0 auto}
+  .act-bar .ab-end{min-width:0;padding-left:36px!important;padding-right:36px!important}
+  .mission{display:none}
+  .topbar .eyebrow{white-space:nowrap}
+}
+@media (max-aspect-ratio:1/1){.act-bar .ab-btns{flex:1 1 100%;justify-content:flex-end}}
+@media (max-width:1100px){.enemy-chip div div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}}
+/* join and lobby: small words up to 14px, links big enough to tap */
+.back-link{display:inline-flex;align-items:center;min-height:44px;padding:0 12px}
+.jf span{font-size:14px}
+.practice-btn{font-size:14px!important}
+.lb-card h4 span{font-size:14px}
+.army-row small{font-size:14px}
+.standards small{font-size:13px}
+.partner-list .pt small{font-size:13px}
+.coin-chip{min-height:44px}
+.help-btn{width:46px;height:46px;flex:0 0 46px}
+.ab-mp small{font-size:13px;letter-spacing:1px}
+.pp-app{font-size:13px}
+.b-sync b,.b-resolve b{font-size:14px}
+.tw-pip{width:250px}
+.pip-h{font-size:13px}
+.pip-hp{font-size:12px}
+.pip-hp span{max-width:120px}

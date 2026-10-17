@@ -1,7 +1,7 @@
 // Total War is isolated from Arena. Terrain costs and geometry are shared by UI and simulation.
 export const POINTS = 4;
 export const NODES = [
-  {x:227,y:463,name:'Crystal Fortress',kind:'home',desc:'Your companies muster here. Choose their portrait standards before departure.'},
+  {x:227,y:463,name:'Academy Ward',kind:'home',desc:'Your warbands muster here and come back here to rest.'},
   {x:427,y:392,name:'Lantern Crossroads',kind:'crossroads',desc:'The central decision: climb north, follow the southern road, or brave the ford.'},
   {x:477,y:195,name:'Whispering Watch',kind:'outpost',desc:'The northern approach. Detour to the Windspire or press for Moonstone Bridge.'},
   {x:762,y:244,name:'Moonstone Bridge',kind:'bridge',desc:'Northern river crossing. A narrow approach feeds into the eastern ruins.'},

@@ -7,64 +7,85 @@
 <link rel="stylesheet" href="../fonts/fonts.css">
 <link rel="stylesheet" href="tw.css">
 <style>
-.p-head{position:absolute;left:0;right:0;top:0;height:110px;padding:22px 40px 0;display:flex;justify-content:space-between;align-items:flex-start;background:linear-gradient(#0b141cee,#0b141c00);z-index:5;pointer-events:none}
-.p-head h1{margin:2px 0 0;font:700 34px "Rift Pixel"}
-.p-phase{text-align:center}
-.p-phase .eyebrow{font-size:15px;letter-spacing:5px}
-.p-phase div:last-child{font:400 15px "Rift Body";color:#b8c7c4;margin-top:6px}
-.gate-chip{display:flex;align-items:center;gap:12px;padding:10px 16px;border:1px solid #e0566e66;background:#2a1219cc}
-.gate-chip img{width:46px;height:46px;object-fit:contain;image-rendering:pixelated}
-.gate-chip b{display:block;font:700 18px "Rift Pixel"}
-.p-foot{position:absolute;left:0;right:0;bottom:0;padding:0 40px 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;background:linear-gradient(#0b141c00,#0b141cf2 55%);z-index:5;pointer-events:none;min-height:150px}
-.p-foot h2{margin:4px 0 0;font:700 32px "Rift Pixel"}
-.p-foot p{margin:6px 0 0;color:#c7d4d1;font-size:16px}
-.p-enemy{display:flex;align-items:center;gap:16px;padding:14px 20px;background:#2a1219e6;border:1px solid #e0566e88}
-.p-enemy img{width:64px;height:64px;object-fit:contain;image-rendering:pixelated}
-.p-enemy b{display:block;font:700 24px "Rift Pixel"}
-.p-log{position:absolute;left:40px;top:120px;width:420px;display:flex;flex-direction:column;gap:6px;z-index:5}
-.p-log div{padding:8px 12px;background:#0b141cd9;border-left:3px solid var(--gold);font:400 15px "Rift Body"}
-.p-log .crimson{border-color:var(--crimson)}.p-log .crystal{border-color:var(--cyan)}.p-log .battle{border-color:#ff5a6e}.p-log .big{border-color:var(--gold2);font-weight:600}
-.p-battle{position:absolute;right:40px;top:130px;width:760px;padding:22px 26px;background:linear-gradient(#1d1015f5,#120a0ef5);border:1px solid var(--crimson);box-shadow:0 30px 90px #000c;z-index:6}
-.p-battle h3{margin:4px 0 0;font:700 32px "Rift Pixel"}
-.p-battle .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:16px}
-.p-battle .side{display:flex;flex-direction:column;gap:8px}
-.p-battle .side div{display:flex;align-items:center;gap:10px;font:600 15px "Rift Body"}
-.p-battle .side img{width:58px;height:44px;object-fit:cover;object-position:50% 15%;border:2px solid var(--c)}
-.p-battle .foes{display:flex;gap:6px;align-items:flex-end}
-.p-battle .foe{display:flex;flex-direction:column;align-items:center;width:120px}
-.p-battle .foe img{width:116px;height:116px;object-fit:contain;image-rendering:pixelated}
-.p-battle .foe.down img{opacity:.25;filter:grayscale(1)}
-.hpbar{height:10px;background:#2a1d23;width:110px;margin-top:4px}.hpbar i{display:block;height:100%;background:var(--crimson)}
-.p-battle .status{margin-top:12px;font:400 16px "Rift Body";color:#e6d6d9}
-.pb-stage{position:relative;height:300px;margin-top:12px;border:1px solid #d8bd8044}
+/* The projector at the back of a classroom: everything big, labels with a dark halo */
+.proj .twmap{transition:transform .7s ease}
+.proj .tw-banner .tag{font:700 calc(24px * var(--inv,1)) "Rift Body";text-shadow:0 0 3px #000,0 0 6px #000,0 2px 4px #000,0 0 12px #000;-webkit-text-stroke:calc(.6px * var(--inv,1)) #000;paint-order:stroke fill}
+.proj .tw-banner.camp .tag,.proj .tw-banner.academy .tag,.proj .tw-banner.rally .tag,.proj .tw-banner.won .tag,.proj .tw-banner.tower .tag{font-size:calc(22px * var(--inv,1))}
+.proj .tw-banner{width:auto;min-width:96px}
+.proj .tw-banner .tag{position:relative;z-index:3;padding:0 calc(6px * var(--inv,1));background:#0b141cb0;border-radius:calc(4px * var(--inv,1))}
+.proj .tw-banner .count{min-width:calc(30px * var(--inv,1));height:calc(30px * var(--inv,1));border-radius:calc(15px * var(--inv,1));font-size:calc(17px * var(--inv,1))}
+.proj .tw-banner .order{font-size:calc(14px * var(--inv,1));bottom:calc(-22px * var(--inv,1));padding:1px 6px}
+.proj .tw-banner .hp{height:calc(8px * var(--inv,1))}
+.p-head{position:absolute;left:0;right:0;top:0;height:120px;padding:18px 36px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;background:linear-gradient(#0b141cf5 55%,#0b141c00);z-index:5;pointer-events:none}
+.p-head .eyebrow{font-size:18px;letter-spacing:4px}
+.p-head h1{margin:2px 0 0;font:700 40px "Rift Pixel"}
+.p-mission{font:600 20px "Rift Body";color:#e9e2d2;margin-top:2px}
+.p-phase{text-align:center;flex:1}
+.p-phase .eyebrow{font-size:24px;letter-spacing:5px}
+.p-phase div:last-child{font:600 26px "Rift Body";color:#e9eef0;margin-top:6px}
+.p-phase .paused{color:#ffd36b}
+.p-chips{display:flex;gap:14px}
+.gate-chip{display:flex;align-items:center;gap:14px;padding:10px 18px;border:2px solid #e0566e88;background:#2a1219e6}
+.gate-chip img{width:58px;height:58px;object-fit:contain;image-rendering:pixelated}
+.gate-chip .eyebrow{font-size:18px;color:var(--rose);letter-spacing:3px}
+.gate-chip b{display:block;font:700 26px "Rift Pixel"}
+.p-log{position:absolute;left:28px;right:28px;bottom:16px;height:108px;display:flex;gap:12px;align-items:stretch;z-index:5}
+.p-log div{flex:1 1 0;min-width:0;display:flex;align-items:center;padding:8px 16px;background:#0b141ce8;border-left:5px solid var(--gold);font:500 22px/1.35 "Rift Body";box-shadow:0 4px 18px #000a}
+.p-log .crimson{border-color:var(--crimson)}.p-log .crystal{border-color:var(--cyan)}.p-log .battle{border-color:#ff5a6e}.p-log .big{border-color:var(--gold2);font-weight:700}
+.p-battle{position:absolute;right:28px;top:118px;max-height:calc(100vh - 134px);width:min(900px,47vw);display:flex;flex-direction:column;padding:20px 24px;background:linear-gradient(#1d1015f7,#120a0ef7);border:3px solid var(--crimson);box-shadow:0 30px 90px #000c;z-index:6}
+.p-battle .eyebrow{font-size:20px}
+.p-battle h3{margin:4px 0 0;font:700 46px "Rift Pixel"}
+.pb-stage{position:relative;flex:0 1 auto;width:100%;aspect-ratio:16/9;min-height:0;margin-top:14px;border:2px solid #d8bd8055;background:#000}
 .pb-stage canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
 .pb-theatre{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:#000}
 .pb-theatre canvas{position:static;height:100%;width:auto;max-width:100%;aspect-ratio:16/9}
-.pb-foes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.pb-foes div{font:700 13px "Rift Pixel";color:#ffd8de}.pb-foes .hpbar{width:120px}
-.pb-res{display:flex;align-items:center;gap:10px;margin-top:8px;font:600 13px "Rift Pixel";color:#c7f5ef;letter-spacing:2px}.pb-res .rb{flex:1;height:10px;background:#10202a}.pb-res .rb i{display:block;height:100%;background:linear-gradient(90deg,#3cc9b8,#7ff3e4)}
+.pb-foes{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px}.pb-foes div{font:700 20px "Rift Pixel";color:#ffd8de}
+.p-battle .hpbar{height:14px;background:#2a1d23;width:220px;margin-top:6px}.p-battle .hpbar i{display:block;height:100%;background:var(--crimson)}
+.pb-res{display:flex;align-items:center;gap:14px;margin-top:12px;font:700 20px "Rift Pixel";color:#c7f5ef;letter-spacing:2px}.pb-res .rb{flex:1;height:16px;background:#10202a}.pb-res .rb i{display:block;height:100%;background:linear-gradient(90deg,#3cc9b8,#7ff3e4)}
+.p-battle .status{margin-top:12px;font:500 24px/1.4 "Rift Body";color:#f1e6e8}
+.p-battle .status b{color:#ffe9b0}
+.p-battle .explain{margin-top:8px;font:400 22px/1.4 "Rift Body";color:#d9e6e4}
 .lobby{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:60px;background:radial-gradient(ellipse at 50% 20%,#1c2d3a,#0b141c 70%);z-index:20}
 .lobby .code{font:700 120px/1 "Rift Pixel";letter-spacing:14px}
 .lobby .qr{width:300px;height:300px;background:#fff;padding:10px}
 .lobby .qr svg{width:100%;height:100%}
-.lobby p{font:400 22px "Rift Body";color:#c7d4d1}
-.ending{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(ellipse at 50% 30%,#2a2214f2,#0b0d1af7 70%);z-index:30;text-align:center}
-.ending h1{margin:0;font:700 72px "Rift Pixel"}
+.lobby p{font:400 26px "Rift Body";color:#c7d4d1}
+.p-paused{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:25;padding:28px 48px;text-align:center;background:#0b141cf0;border:3px solid #ffd36b;box-shadow:0 0 0 4px #000,0 30px 80px #000}
+.p-paused .eyebrow{font-size:22px;color:#ffd36b}.p-paused h2{margin:8px 0 0;font:700 52px "Rift Pixel"}
+/* the end: the class's war in numbers, over a faded map */
+.ending{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px 60px;background:radial-gradient(ellipse at 50% 30%,#2a2214f0,#0b0d1af5 70%);z-index:30;text-align:center}
+.ending>.eyebrow{font-size:26px;letter-spacing:8px}
+.ending h1{margin:0;font:700 76px "Rift Pixel"}
+.ending .lead{margin:0;font:500 28px "Rift Body";color:#e6e0d2}
+.e-stats{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.e-stat{min-width:220px;padding:16px 22px;background:#0b141ce6;border:2px solid #d8bd8088;box-shadow:0 0 0 3px #000}
+.e-stat b{display:block;font:700 54px/1.1 "Rift Pixel";color:var(--ivory)}
+.e-stat span{display:block;margin-top:6px;font:600 20px "Rift Body";color:#d8cfbf}
+.e-stat.good{border-color:#7ff3e4}.e-stat.good b{color:#bff5e0}
+.e-stat.bad{border-color:#e0566e}.e-stat.bad b{color:#ffb3bd}
+.e-cols{display:flex;gap:26px;justify-content:center;align-items:flex-start;width:min(1600px,100%);margin-top:8px}
+.e-top,.e-story{flex:1 1 0;max-width:820px;min-width:0;text-align:left;padding:18px 22px;background:#0b141ce6;border:2px solid #d8bd8066}
+.e-top h3,.e-story h3{margin:0 0 10px;font:700 24px "Rift Pixel";color:var(--gold2);letter-spacing:2px}
+.e-top ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.e-top li{display:flex;align-items:center;gap:14px;font:600 28px "Rift Body"}
+.e-top li i{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;background:var(--gold);color:#1a1408;font:700 22px "Rift Pixel";font-style:normal}
+.e-top li span{flex:1}.e-top li small{font:600 22px "Rift Body";color:#bff5e0}
+.e-story ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.e-story li{font:500 21px/1.35 "Rift Body";color:#e9e2d2;padding-left:14px;border-left:4px solid var(--gold)}
+.e-story li small{display:block;font:700 15px "Rift Pixel";color:var(--gold);letter-spacing:1px}
 </style>
 </head>
-<body>
+<body class="proj">
 <section class="screen">
-  <div id="mapHost" style="position:absolute;left:0;right:0;top:100px;bottom:120px;display:flex"></div>
+  <div id="mapHost" style="position:absolute;inset:0;display:flex"></div>
   <header class="p-head">
-    <div><div class="eyebrow">ACADEMY RIFT</div><h1>Total War</h1></div>
+    <div><div class="eyebrow">ACADEMY RIFT · TOTAL WAR</div><h1>Break into the Crimson Fortress</h1><div class="p-mission" id="pMission">Commander of the Crimson Host: <b id="enemyName">Your teacher</b></div></div>
     <div class="p-phase"><div class="eyebrow" id="pPhase">TURN 1</div><div id="pSub"></div></div>
-    <div class="gate-chip"><img id="gateImg" src="monsters/golem.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">CRIMSON GATE</span><b id="gateText">Unbroken</b></div></div>
+    <div class="p-chips"><div class="gate-chip"><img id="gateImg" src="monsters/golem.png" alt=""><div><span class="eyebrow">CRIMSON GATE</span><b id="gateText">Unbroken</b></div></div></div>
   </header>
   <div class="p-log" id="log"></div>
   <section class="p-battle hidden" id="battle"><div id="pbHead"></div><div class="pb-stage" id="pbStage"><div class="pb-theatre hidden" id="pbTheatre"></div></div><div id="pbFoot"></div></section>
-  <footer class="p-foot">
-    <div><div class="eyebrow" style="font-size:13px;letter-spacing:4px">YOUR MISSION</div><h2>Break into the Crimson Fortress</h2><p>Defeat the gate guardian, then the Crimson Warlord inside. Keep the Academy Ward safe.</p></div>
-    <div class="p-enemy"><img src="monsters/warlord.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">YOUR ENEMY</span><b id="enemyName">Your teacher</b><span style="color:#e6d6d9">Commander of the Crimson Host</span></div></div>
-  </footer>
+  <div class="p-paused hidden" id="paused"></div>
 </section>
 <section class="lobby hidden" id="lobby">
   <div><div class="eyebrow" style="font-size:18px;letter-spacing:6px">JOIN THE WAR</div><div class="code" id="lCode">----</div><p id="lUrl"></p><p id="lCount"></p></div>
@@ -78,51 +99,67 @@ import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
 import { UNITS, CAMPS } from './rules.js';
 import { createStage, enemyName } from './stage.js';
-import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre } from './theatre-tw.js';
-let shownBattle = null, lastRound = 0, stage = null;
+import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
 import qrcode from '/vendor/qrcode.mjs';
+let shownBattle = null, lastRound = 0, stage = null;
 const $ = (id) => document.getElementById(id);
 const code = new URLSearchParams(location.search).get('code') || '';
 const socket = io();
-const map = createMap($('mapHost'));
+// the part of the map with stops on it fills the screen below the header (banners stand above their stop)
+const map = createMap($('mapHost'), { box: [30, 0, 1440, 790], top: 112, bottom: 132, left: 0, right: 0 });
+const panelW = () => Math.min(900, innerWidth * 0.47) + 40;
 stage = createStage($('pbStage'), { mode: 'all' });
 initTheatre($('pbTheatre'));
 let cinema = false;
 let P = null, qrFor = '';
+const X = (v) => Math.round(v * (SCALE || 1));
 socket.on('connect', () => socket.emit('twWatch', { code }));
 socket.on('twPublic', (v) => { P = v; render(); });
+const nodeName = (n) => NODES[n]?.name || '?';
 function render() {
   $('lobby').classList.toggle('hidden', P.status !== 'lobby');
   $('enemyName').textContent = P.commander || 'Your teacher';
   if (P.status === 'lobby') {
     const url = `${location.origin}/total-war/?code=${P.code}`;
     $('lCode').textContent = P.code; $('lUrl').textContent = url.replace(/^https?:\/\//, '');
-    $('lCount').textContent = `${P.bands.length ? '' : ''}`;
+    $('lCount').textContent = '';
     if (qrFor !== url) { qrFor = url; const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true, alt: 'QR code' }); }
     return;
   }
-  $('pPhase').textContent = `TURN ${P.turn} · ${P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? 'CRYSTAL TURN' : P.phase === 'battles' ? 'BATTLES' : 'THE END'}`;
-  $('pSub').textContent = P.paused ? `Paused by ${P.paused.by}. Everything waits.` : P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares!` : P.phase === 'crystal' ? 'The class is on the move' : P.phase === 'battles' ? 'The last battles of the turn' : '';
+  const stageTxt = P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? (P.stage === 'quiz' ? 'QUESTIONS' : P.stage === 'council' ? 'WAR COUNCIL' : 'MARCHING') : P.phase === 'battles' ? 'BATTLES' : 'THE END';
+  $('pPhase').textContent = `TURN ${P.turn} OF ${P.turns} · ${stageTxt}`;
+  $('pSub').innerHTML = P.paused ? `<span class="paused">Paused by ${esc(P.paused.by)}. Everything waits.</span>`
+    : esc(P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares.`
+      : P.phase === 'crystal' ? (P.stage === 'quiz' ? `The class answers 3 questions${P.quiz ? `: ${P.quiz.done} of ${P.quiz.of} done` : ''}.` : P.stage === 'council' ? 'Each warband plans its route.' : 'The warbands march.')
+      : P.phase === 'battles' ? 'The last battles of the turn.' : '');
   $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
-  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? 'The Warlord is out!' : 'Broken') : `Unbroken · ${P.gate.hp} / ${P.gate.max}`;
+  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? `Warlord ${P.warlord.hp} / ${P.warlord.max}` : 'Broken') : `Unbroken · ${P.gate.hp} / ${P.gate.max}`;
+  $('paused').classList.toggle('hidden', !(P.status === 'playing' && P.paused));
+  if (P.paused) $('paused').innerHTML = `<div class="eyebrow">THE WAR IS PAUSED</div><h2>Paused by ${esc(P.paused.by)}</h2>`;
+  const B = [...P.battles].sort((a, b) => (a.status === 'over') - (b.status === 'over') || b.bands.reduce((s, x) => s + x.pairs.length, 0) - a.bands.reduce((s, x) => s + x.pairs.length, 0))[0];
+  // a battle on: the map moves to the left so all of it stays in view beside the battle
+  const fighting = !!(B && P.status === 'playing');
+  map.setInsets({ right: fighting ? panelW() : 0 });
   map.render({ state: P });
-  $('log').innerHTML = P.log.slice(-5).map((l) => `<div class="${l.tone}">${esc(l.text)}</div>`).join('');
-  const B = [...P.battles].sort((a, b) => b.bands.reduce((s, x) => s + x.pairs.length, 0) - a.bands.reduce((s, x) => s + x.pairs.length, 0))[0];
+  $('log').innerHTML = P.log.slice(fighting ? -2 : -3).map((l) => `<div class="${l.tone}">${esc(l.text)}</div>`).join('');
+  $('log').style.right = fighting ? `${panelW() + 12}px` : '';
   const box = $('battle');
-  if (!B) { box.classList.add('hidden'); shownBattle = null; }
+  if (!B || P.status !== 'playing') { box.classList.add('hidden'); shownBattle = null; }
   else {
-    const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'THE CRIMSON WARLORD' : B.kind === 'defend' ? 'The Crimson Host attacks!' : 'The Crimson Host';
+    const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'The Crimson Warlord' : B.kind === 'defend' ? 'The Crimson Host attacks!' : 'The Crimson Host';
     const rd = B.round;
-    const st = B.status === 'gather' ? 'Gathering. Warbands one road away can still join.'
-      : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · Turn: ${B.striker ? `${B.striker.name} (Pair ${B.striker.pairNo})` : '–'} · ${B.answered} of ${B.fighters} have answered`
-      : B.status === 'result' && rd ? `The answer was ${'ABCDEF'[rd.answer]}. ${rd.choices?.[rd.answer] ?? ''} ${rd.explain || ''} · ${rd.hits} hits · the Crimson hit back for ${Math.round(rd.counterTotal * 10) / 10}${rd.guard ? ` (${Math.round(rd.guard * 100)}% blocked)` : ''}`
-      : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The banners held!' : 'The Crimson Host held.') : '';
-    $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff5a6e;letter-spacing:6px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(NODES[B.node].name.toUpperCase())}</div><h3>${esc(what)}</h3>`;
-    $('pbFoot').innerHTML = `<div class="pb-res">RESOLVE<div class="rb"><i style="width:${B.resolveMax ? Math.max(0, B.resolve / B.resolveMax) * 100 : 100}%"></i></div>${B.resolveMax ? `${Math.ceil(B.resolve)}/${B.resolveMax}` : ''}</div>
-      <div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
-      <div class="status">${esc(st)}${B.cheers.length ? ` · War Cries from ${B.cheers.map((c) => 'Pair ' + c.pair).join(', ')}` : ''}</div>`;
-    box.classList.remove('hidden');
+    const st = B.status === 'gather' ? 'Getting ready. Warbands one road away can still join.'
+      : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit}. It is <b>${esc(B.striker ? `${B.striker.name} (Pair ${B.striker.pairNo})` : 'a new')}</b>'s turn. ${B.answered} of ${B.fighters} have answered.`
+      : B.status === 'choose' ? `Question ${B.qNo} of ${B.limit}. <b>${esc(B.choose?.name || '')}</b> is picking a move.`
+      : B.status === 'result' && rd ? `The answer was <b>${'ABCDEF'[rd.answer]}. ${esc(rd.choices?.[rd.answer] ?? '')}</b> ${X(rd.hits)} damage. The Crimson hit back for ${X(rd.counterTotal)}.`
+      : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'won' ? '<b>Victory!</b>' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The warbands held!' : 'The Crimson Host held.') : '';
+    $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}</div><h3>${esc(what)}</h3>`;
     const pairs = B.bands.flatMap((b) => b.pairs);
+    $('pbFoot').innerHTML = `<div class="pb-res">WARBAND HP<div class="rb"><i style="width:${B.resolveMax ? Math.max(0, B.resolve / B.resolveMax) * 100 : 100}%"></i></div>${B.resolveMax ? `${X(Math.max(0, B.resolve))} / ${X(B.resolveMax)}` : ''}</div>
+      <div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
+      <div class="status">${st}${B.cheers.length ? ` War Cries from ${[...new Set(B.cheers.map((c) => 'Pair ' + c.pair))].join(', ')}.` : ''}</div>
+      ${B.status === 'result' && rd?.explain ? `<div class="explain">${esc(rd.explain)}</div>` : ''}`;
+    box.classList.remove('hidden');
     if (shownBattle !== B.id) { shownBattle = B.id; lastRound = 0; stage.skip(); skipTheatre(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); prepareBattle(B, [...new Set(pairs.map((p) => p.char))]); }
     if (rd && rd.at !== lastRound) {
       lastRound = rd.at;
@@ -135,11 +172,29 @@ function render() {
     if (B.status === 'fight' && cinema) skipTheatre();
     stage.set({ node: B.node, kind: B.kind, pairs: pairs.slice(0, 8).map((p) => ({ key: `p${p.no}`, char: p.char, label: `Pair ${p.no}` })), foes: B.enemies });
   }
+  renderEnd();
+}
+function renderEnd() {
   const end = $('ending');
   end.classList.toggle('hidden', P.status !== 'ended');
-  const points = P.winner === 'crystal' && P.endedBy && P.endedBy !== 'teacher';
-  if (P.status === 'ended') end.innerHTML = `<div class="eyebrow" style="font-size:18px;letter-spacing:6px">${P.winner === 'crystal' ? 'VICTORY' : P.winner === 'draw' ? 'A DRAW' : P.endedBy === 'ward' ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${P.winner === 'crystal' ? (points ? 'The class wins on points' : P.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : P.winner === 'draw' ? 'The gate is broken, the Warlord stands' : P.endedBy === 'ward' ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>${P.endedBy && P.endedBy !== 'ward' && P.endedBy !== 'teacher' ? `<p>The class got ${P.progress?.pct ?? 0}% of the way.</p>` : ''}`;
+  if (P.status !== 'ended') return;
+  const won = P.winner === 'crystal', draw = P.winner === 'draw', ward = P.endedBy === 'ward';
+  const points = won && P.endedBy && P.endedBy !== 'teacher';
+  const Y = P.summary || {};
+  const stat = (v, l, cls = '') => `<div class="e-stat ${cls}"><b>${v}</b><span>${l}</span></div>`;
+  const gate = P.gate.broken ? stat('Broken', 'The fortress gate', 'good') : stat(`${P.gate.hp} / ${P.gate.max}`, 'Gate left standing', 'bad');
+  const lord = P.warlord.hp <= 0 ? stat('Beaten', 'The Crimson Warlord', 'good') : P.gate.broken ? stat(`${Math.round((P.warlord.hp / P.warlord.max) * 100)}%`, 'Warlord HP left', 'bad') : stat('Inside', 'The Warlord was never reached', 'bad');
+  const sites = (Y.camps || 0) + (Y.rally ?? (P.rally || []).length) + (Y.tower ? 1 : 0);
+  end.innerHTML = `<div class="eyebrow">${won ? 'VICTORY' : draw ? 'A DRAW' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div>
+    <h1>${won ? (points ? 'The class wins on points' : P.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : draw ? 'The gate is broken, the Warlord stands' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
+    ${!ward && P.endedBy !== 'teacher' ? `<p class="lead">The class got ${P.progress?.pct ?? 0}% of the way to victory.</p>` : ''}
+    <div class="e-stats">${stat(Y.turns ?? P.turn, `Turn${(Y.turns ?? P.turn) === 1 ? '' : 's'} played`)}${stat(sites, 'Sites secured', sites ? 'good' : '')}${gate}${lord}${stat(`${Y.pct ?? 0}%`, `Class accuracy (${Y.correct ?? 0} of ${Y.answered ?? 0} right)`)}</div>
+    <div class="e-cols">
+      ${Y.top?.length ? `<div class="e-top"><h3>MOST RIGHT ANSWERS</h3><ol>${Y.top.map((t, i) => `<li><i>${i + 1}</i><span>${esc(t.name)}</span><small>${t.correct} right</small></li>`).join('')}</ol></div>` : ''}
+      ${P.story?.length ? `<div class="e-story"><h3>HOW THE WAR WENT</h3><ol>${P.story.slice(-6).map((e) => `<li><small>TURN ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
+    </div>`;
 }
+addEventListener('resize', () => P && render());
 </script>
 </body>
 </html>

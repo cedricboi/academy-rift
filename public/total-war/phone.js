@@ -55,7 +55,7 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
   const why = () => {
     const r = myRider();
     if (r && r.status !== 'delivered') return 'Grab-Ma is still bringing your last order.';
-    if (!canOrder()) return S()?.myBattle ? 'Grab-Ma cannot ride into a battle. Order after it.' : me().ordered ? 'You have ordered this move. Order again next move.' : 'Grab-Ma takes orders in the War Council and while banners march.';
+    if (!canOrder()) return S()?.myBattle ? 'Grab-Ma cannot ride into a battle. Order after it.' : me().ordered ? 'You have ordered this move. Order again next move.' : 'Grab-Ma takes orders in the War Council and while warbands march.';
     if (cartCost() > (me().coins || 0)) return `You need ${cartCost() - (me().coins || 0)} more coins. Right answers earn 10 each.`;
     return '';
   };
@@ -76,7 +76,7 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
     const coins = me().coins || 0, open_ = canOrder();
     return `<header class="ph-app-head">
         <button class="ph-ico" data-ph="close" aria-label="Close">${SVG.close}</button>
-        <div class="ph-deliver"><small>Deliver to</small><b>${SVG.pin} Your banner · ${esc(where())}</b></div>
+        <div class="ph-deliver"><small>Deliver to</small><b>${SVG.pin} Your warband · ${esc(where())}</b></div>
         <span class="ph-wallet" title="MamaPay wallet">${COIN}<b>${coins}</b></span>
       </header>
       <div class="ph-scroll">
@@ -115,7 +115,7 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
     const coins = me().coins || 0, total = cartCost(), w = why();
     return `<header class="ph-app-head plain"><button class="ph-ico" data-ph="shop" aria-label="Back">${SVG.back}</button><h2>Checkout</h2><span></span></header>
       <div class="ph-scroll">
-        <div class="ph-card"><div class="ph-row">${SVG.pin}<div><small>Deliver to</small><b>Your banner · ${esc(where())}</b></div></div>
+        <div class="ph-card"><div class="ph-row">${SVG.pin}<div><small>Deliver to</small><b>Your warband · ${esc(where())}</b></div></div>
           <div class="ph-row">${SVG.bike}<div><small>Rider</small><b>Grab-Ma · arrives in ${etaText()}</b></div></div></div>
         <div class="ph-card"><h3>Order summary</h3>
           ${Object.entries(cart).map(([id, n]) => { const it = MENU.find((m) => m.id === id); return `<div class="ph-line"><span class="ph-q">${n}×</span><span>${esc(it.name)}</span><b>${COIN}${it.price * n}</b></div>`; }).join('')}
@@ -195,7 +195,7 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
     if (placing && r && r.status !== 'delivered' && (!lastRider || lastRider.id !== r.id)) { cart = {}; placing = null; view = 'track'; openedTrack = true; }
     // the server answered: the order was refused (the reason arrives as a toast)
     const key = `${s.turn}`;
-    if (canOrder() && pushed !== key && !r) { pushed = key; notify('War Council open! Hungry? 🍜', "Order from Mama's Kopitiam Kitchen. Grab-Ma rides faster than any banner.", 'shop'); }
+    if (canOrder() && pushed !== key && !r) { pushed = key; notify('War Council open! Hungry? 🍜', "Order from Mama's Kopitiam Kitchen. Grab-Ma rides faster than any warband.", 'shop'); }
     if (r && lastRider?.id === r.id && lastRider.status !== r.status) {
       if (r.status === 'riding') notify('Grab-Ma is on the way 🛵', `Your food has left the Academy. ${r.stops} stops to go.`, 'track');
       if (r.status === 'delivered') { notify('Delivered! 🎉', 'Your food is in your bag. Use it on your turn in battle.', 'track'); }

@@ -15,7 +15,7 @@ export const TOWER = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidde
 export const SWORDS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l11 11M15 15l3-1-1 3M20 4L9 15M9 15l-3-1 1 3M6 18l-2 2M18 18l2 2"/></svg>';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {}) {
+export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = null, left = 0, right = 0 } = {}) {
   host.classList.add('twmap-frame');
   host.innerHTML = `<div class="twmap"><img class="twmap-art" src="art/moonveil-map.webp" alt="" draggable="false">
     <svg class="twmap-roads" viewBox="0 0 ${W} ${H}" aria-hidden="true"></svg>
@@ -27,10 +27,20 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
   let scale = 1, panX = 0, panY = 0, focus = null, focusedOn = null, userPanned = false;
   let lastFog = null;
   function setBottom(b) { if (b !== bottom) { bottom = b; fit(); } }
+  // the projector: fit the part of the map with the stops on it (box) inside the screen, less any side panels
+  function setInsets(o = {}) { let ch = false; for (const [k, v] of Object.entries(o)) { if (k === 'left' && v !== left) { left = v; ch = true; } if (k === 'right' && v !== right) { right = v; ch = true; } if (k === 'top' && v !== top) { top = v; ch = true; } if (k === 'bottom' && v !== bottom) { bottom = v; ch = true; } } if (ch) fit(); }
   // The whole map always fits, so the Crimson Fortress (the goal) is never off-screen, even on a tall iPad.
   // If a screen is ever too small for it, the map can still be dragged with a finger.
   function fit() {
     const r = host.getBoundingClientRect();
+    if (box) {
+      const bw = box[2] - box[0], bh = box[3] - box[1], aw = Math.max(100, r.width - left - right), ah = Math.max(100, r.height - top - bottom);
+      scale = Math.min(aw / bw, ah / bh) || 1;
+      const x = left + (aw - bw * scale) / 2 - box[0] * scale, y = top + (ah - bh * scale) / 2 - box[1] * scale;
+      map.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+      map.style.setProperty('--inv', String(1 / (scale || 1)));
+      return;
+    }
     const room = Math.max(100, r.height - top - bottom);           // keep space for banners above the top stops (and any bottom bar)
     const contain = Math.min(r.width / W, room / H) || 1;
     scale = contain;
@@ -55,6 +65,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     if (!drag) return;
     const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
     if (!dragged && Math.hypot(dx, dy) < 10) return;
+    if (box) return;
     dragged = true; userPanned = true; panX = drag.px + dx; panY = drag.py + dy; fit();
   });
   const endDrag = () => { drag = null; };
@@ -112,7 +123,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
         el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node;
         if (primed && b.rise) { el._rise = true; setTimeout(() => { el._rise = false; el.classList.remove('rise'); }, 1600); }      // a standard rises where the class has just won
       }
-      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${group.length > 1 && b !== top ? ' stacked' : ''}`;
+      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${group.length > 1 ? (b !== top ? ' stacked' : ' lead') : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
@@ -251,7 +262,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     el.innerHTML = `<i></i><i></i><i></i>${label ? `<b>${esc(label)}</b>` : ''}`;
     riderLayer.appendChild(el); setTimeout(() => el.remove(), 3600);
   }
-  return { render, fit, setBottom, pulse };
+  return { render, fit, setBottom, setInsets, pulse };
 }
 
 // The roads a marching unit will take to its target (fewest roads), as points

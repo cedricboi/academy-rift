@@ -35,6 +35,7 @@
         <div class="host-warn hidden" id="hostWarn"></div>
         <a class="btn" id="projectorLink" target="_blank" rel="noopener">Open the projector screen</a>
         <span data-modes></span>
+        <p class="pool-warn hidden" id="poolWarn"></p>
         <button class="btn crimson" id="startWar" type="button" style="width:100%">Start the war</button>
       </div>
       <div class="panel settings-card">
@@ -49,7 +50,6 @@
           <label class="field">Questions each<select id="setTarget"></select></label>
           <label class="field">End by<select id="setEndBy"></select></label>
         </div>
-        <p class="host-warn hidden" id="poolWarn"></p>
         <p class="hint">Breaking the gate brings out the Crimson Warlord. If 80% of the class have answered the "questions each" number by then, he starts the final battle weakened (25% less HP).</p>
         <label class="tog"><input type="checkbox" id="setLock"><span><b>Warlord waits for the target</b><small>He only comes out once 80% of the class have answered the "questions each" number. You can still release him yourself.</small></span></label>
         <div class="eyebrow" style="margin-top:6px">BOTS</div>
@@ -74,11 +74,13 @@
     </div>
     <div class="energy"><span class="eyebrow" style="color:var(--rose)">RIFT ENERGY</span><b id="energy">0</b><span class="eyebrow ward" title="Break the class's Academy Ward to win">ACADEMY WARD <b id="wardTxt"></b></span></div>
     <div class="t-actions">
+      <span class="turn-note hidden" id="turnNote"></span>
       <button class="btn hidden" id="releaseBtn" type="button">Release the Warlord</button>
-      <button class="btn" id="autoBtn" type="button">Auto</button>
-      <button class="btn crimson" id="endTurnBtn" type="button">End turn</button>
+      <button class="btn" id="autoBtn" type="button" title="Give every unit without orders a sensible order">Auto orders</button>
+      <button class="btn crimson" id="endTurnBtn" type="button">End my turn</button>
+      <button class="btn pause-btn" id="pauseBtn" type="button">Pause</button>
       <span data-modes></span>
-      <button class="btn icon" id="menuBtn" type="button" aria-label="More">⋯</button>
+      <button class="btn menu-btn" id="menuBtn" type="button" aria-haspopup="true">Menu ▾</button>
     </div>
   </header>
   <div id="mapHost"></div>
@@ -89,12 +91,15 @@
   <section id="stackPanel" class="panel red stack-panel hidden"></section>
   <section id="classPanel" class="panel class-panel hidden"></section>
   <div id="menu" class="panel menu hidden">
+    <div class="eyebrow">SCREENS</div>
     <a class="btn" id="menuProjector" target="_blank" rel="noopener">Open the projector screen</a>
-    <button class="btn" id="pauseBtn" type="button">Pause the war</button>
+    <div class="eyebrow">THIS WAR</div>
     <label class="field">Turns<select id="menuTurns"></select></label>
     <label class="field">End by<select id="menuEndBy"></select></label>
-    <button class="btn" id="endWarBtn" type="button">End the war now (result by progress)</button>
-    <button class="btn" id="endWarClassBtn" type="button">End the war: the class wins</button>
+    <div class="eyebrow" style="color:var(--rose)">END THE WAR NOW</div>
+    <button class="btn" id="endWarBtn" type="button">End by progress<small>Gate broken and Warlord at half HP or less: class wins. Gate broken only: a draw.</small></button>
+    <button class="btn" id="endWarClassBtn" type="button">End with the class as winner</button>
+    <p class="hint">The learning report and its CSV download appear when the war ends.</p>
   </div>
   <div class="summon-strip" id="summon"></div>
   <section id="ending" class="ending hidden"></section>

@@ -37,7 +37,7 @@
   <div class="lb-wrap">
     <header class="lb-head">
       <div><h2 class="lb-title"><img class="tw-logo-line" src="art/tw-logo-line.png" alt="Total War"> <span class="code-chip" id="lobbyCode">----</span></h2><div class="lb-you" id="lbYou"></div></div>
-      <button class="ghost-btn" id="lbLeave" type="button">LEAVE</button>
+      <div class="lb-head-btns"><button class="ghost-btn" id="lbHelp" type="button">HOW TO PLAY</button><button class="ghost-btn" id="lbLeave" type="button">LEAVE</button></div>
     </header>
     <div class="lb-status">
       <div><h3 id="lobbyTitle">PREPARING FOR WAR</h3><p id="lobbySub"></p></div>
@@ -89,10 +89,12 @@
         <div class="ab-text"><div class="ab-step" id="abStep"></div><div class="ab-sub" id="abSub"></div></div>
         <div class="ab-mp" id="abMp"></div>
         <div class="ab-btns">
-          <button class="btn ab-auntie hidden" type="button" id="abAuntie"><i></i>ORDER GRAB-MA</button>
-          <button class="btn ab-join hidden" type="button" id="abJoin"></button>
-          <button class="btn ab-leave hidden" type="button" id="leaveBandBtn">Leave warband</button>
-          <button class="btn ab-hold hidden" type="button" id="abHold">HOLD HERE</button>
+          <div class="ab-sec">
+            <button class="btn ab-auntie hidden" type="button" id="abAuntie"><i></i>ORDER GRAB-MA</button>
+            <button class="btn ab-join hidden" type="button" id="abJoin"></button>
+            <button class="btn ab-leave hidden" type="button" id="leaveBandBtn">Leave warband</button>
+            <button class="btn ab-hold hidden" type="button" id="abHold">HOLD HERE</button>
+          </div>
           <button class="ab-end hidden" type="button" id="endTurnBtn">COMMIT ROUTE</button>
         </div>
       </section>
@@ -123,14 +125,14 @@
 
   <section id="ending" class="ending hidden"></section>
   <section id="phoneHost" class="phone-host hidden"></section>
-  <section id="help" class="help hidden" role="dialog" aria-labelledby="helpTitle">
+</section>
+
+<section id="help" class="help hidden" role="dialog" aria-labelledby="helpTitle">
     <div class="help-box">
       <div class="help-slides" id="helpSlides"></div>
       <div class="help-foot"><div class="help-dots" id="helpDots"></div><button class="gold-btn small" id="helpNext" type="button">NEXT</button></div>
     </div>
   </section>
-</section>
-
 <div id="secured" class="secured hidden" role="status"></div>
   <div id="arenaHost" class="arena-host hidden"></div>
   <div id="toast" class="toast hidden" role="status"></div>

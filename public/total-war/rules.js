@@ -2,7 +2,7 @@
 // and the pages (which only draw what the server sends). No DOM, no timers, no randomness.
 import { NODES, EDGES, edgeCost } from './movement.js';
 
-export const HOME = 0;                 // Crystal Fortress: where the class starts and retreats to
+export const HOME = 0;                 // Academy Ward: where the class starts and retreats to
 export const FORTRESS = 5;             // Crimson Fortress: the gate guardian, then the Warlord
 export const QUIZ_PER_MOVE = 3;        // the class's move opens with 3 questions each (coins for right answers), then the map
 export const QUIZ_BONUS = 20;          // extra coins for getting all 3 right

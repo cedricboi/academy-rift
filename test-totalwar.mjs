@@ -102,7 +102,7 @@ teacher.emit("twStart");
 while (host.status !== "playing") await sleep(20);
 check(host.turn === 1 && host.phase === "crimson", "war starts on turn 1 with the Crimson turn");
 check(host.phaseEndsAt - Date.now() <= 30000 / SPEED + 500, "the class prepares for at most 30 seconds before its move");
-check(host.bands.every((b) => b.node === HOME), "every banner starts at the Crystal Fortress");
+check(host.bands.every((b) => b.node === HOME), "every banner starts at the Academy Ward");
 
 // ---------- how the bots play ----------
 // Group plan: pairs 1-4 form one warband and march for the fortress through the ford.
