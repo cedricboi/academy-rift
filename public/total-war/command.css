@@ -101,3 +101,6 @@
 .g-wait,.g-bot{padding:6px 12px;background:#0c0a12e6;border:2px solid #3a3a46;box-shadow:0 0 0 2px #000;font:500 13px "Rift Body";color:#d8cfbf}
 @keyframes pulse{to{background:#5a1724}}
 @media (max-width:820px){.g-step small{display:none}.oa-grid{grid-template-columns:1fr}}
+.oa-done{margin:0;padding:8px 10px;background:#13302a;border:2px solid #2fb38c;font:700 14px "Rift Pixel";color:#bff5e0}
+.oa-grid .btn:disabled{opacity:.45}
+.orders{flex-wrap:wrap}

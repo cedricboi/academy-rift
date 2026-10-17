@@ -67,10 +67,25 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   bag when she arrives, even in the middle of a battle.
 - Once every banner has locked in, the Crimson turn waits up to 30 seconds while students order and their food arrives.
 
-### Questions while the Crimson Host moves
+### Waves, targets, ambushes, teleports and the watchtower
 
-- During the Crimson turn (prepare), the question sits in the middle of the screen, as in Academy Rift.
-  During the class's move it docks beside the map, so the map is never covered while students move.
+- **Enemies come in waves:** one at a time, with a 50% chance that the next wave is two. Answering along and an
+  Ultimate's splash only hit the wave in front, so a big warband cannot wipe a whole stack in one question.
+- **Pick a target:** while a battle gathers, each pair taps the enemy it wants. The most-picked enemy comes out
+  first, and a pair's move goes for its own pick when that enemy is in the wave.
+- **Teleport (teacher):** in the Crimson turn, a unit can appear on any free stop (not on a Crystal banner or a
+  camp) for 2 Rift Energy. From the new-unit prompt, or the ⚡ Teleport button on a stack.
+- **Ambush (teacher):** a unit ordered to Ambush hides on its stop. The class cannot see it (not even through the
+  watchtower or on the projector). A banner that walks in starts the battle 25% down on HP. Moving the unit
+  gives the ambush away.
+- **The watchtower** (Whispering Watch): while a Crystal banner stands on it, the whole class sees every Crimson
+  unit beyond the fog, except ambushers.
+
+### Questions
+
+- Questions always sit in the middle of the screen, as in Academy Rift. There are no questions while the class
+  moves: preparing questions come in the Crimson turn, and War Cries only once your move is locked in and a battle
+  is on.
 
 ### Bots and practice
 

@@ -1,7 +1,7 @@
 // Total War: the teacher's Crimson command screen. The server decides everything; this page sends orders.
 import { createMap, portrait, sprite, esc, setHTML, marchPoints } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT } from './rules.js';
+import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT, TELEPORT_COST } from './rules.js';
 import { TOPICS } from '../data/topics.js';
 import { FOLDER_BY_ID } from '../data/folders.js';
 import qrcode from '/vendor/qrcode.mjs';
@@ -10,7 +10,7 @@ const socket = io();
 const $ = (id) => document.getElementById(id);
 const nodeName = (n) => NODES[n]?.name || '?';
 const SAVE = 'tw.host';
-let ask = null, H = null, hosting = null, offset = 0, speed = 1, selStack = null, selUnit = null, picked = null, toastT = 0, showClass = false, marchPick = false;
+let teleportPick = false, ask = null, H = null, hosting = null, offset = 0, speed = 1, selStack = null, selUnit = null, picked = null, toastT = 0, showClass = false, marchPick = false;
 const now = () => Date.now() + offset;
 const secsLeft = (t) => Math.max(0, Math.ceil(((t - now()) * speed) / 1000));
 const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -88,7 +88,9 @@ socket.on('twSummoned', ({ unitId, type }) => { ask = { unitId, type, march: fal
 $('orderAsk').addEventListener('click', (e) => {
   const o = e.target.closest('[data-ask]'); if (!o || !ask) return;
   const k = o.dataset.ask;
-  if (k === 'march') { ask.march = !ask.march; render(); return; }
+  if (k === 'march') { ask.march = !ask.march; ask.teleport = false; render(); return; }
+  if (k === 'teleport') { ask.teleport = !ask.teleport; ask.march = false; render(); return; }
+  if (k === 'ambush') socket.emit('twOrder', { unitIds: [ask.unitId], order: { kind: 'ambush' } });
   if (k === 'hold' || k === 'hunt') socket.emit('twOrder', { unitIds: [ask.unitId], order: { kind: k } });
   if (k === 'fortress') socket.emit('twOrder', { unitIds: [ask.unitId], order: { kind: 'march', to: FORTRESS } });
   ask = null; render();
@@ -98,7 +100,9 @@ $('orderAsk').addEventListener('click', (e) => {
 const map = createMap($('mapHost'), {
   bottom: 96,
   onStop: (n) => {
+    if (ask?.teleport) { socket.emit('twTeleport', { unitId: ask.unitId, to: n }); ask.teleport = false; ask.moved = n; render(); return; }
     if (ask?.march) { socket.emit('twOrder', { unitIds: [ask.unitId], order: { kind: 'march', to: n } }); ask = null; render(); return; }
+    if (teleportPick) { for (const id of orderTargets()) socket.emit('twTeleport', { unitId: id, to: n }); teleportPick = false; selStack = n; selUnit = null; render(); return; }
     if (marchPick) { socket.emit('twOrder', { unitIds: orderTargets(), order: { kind: 'march', to: n } }); marchPick = false; render(); return; }
     if (selUnit) socket.emit('twMoveUnit', { unitId: selUnit, to: n });
   },
@@ -121,14 +125,15 @@ $('stackPanel').addEventListener('click', (e) => {
   const o = e.target.closest('[data-order]');
   if (o) {
     const kind = o.dataset.order;
-    if (kind === 'march') { marchPick = !marchPick; render(); return; }
+    if (kind === 'march') { marchPick = !marchPick; teleportPick = false; render(); return; }
+    if (kind === 'teleport') { teleportPick = !teleportPick; marchPick = false; render(); return; }
     socket.emit('twOrder', { unitIds: orderTargets(), order: kind === 'clear' ? null : { kind } });
     marchPick = false;
   }
 });
 // orders go to the chosen unit, or to every free unit on the chosen stop
 const orderTargets = () => selUnit ? [selUnit] : H.units.filter((x) => x.node === selStack && !x.battle).map((x) => x.id);
-const ORDER_TEXT = { march: (o) => `Marching to ${nodeName(o.to)}`, hold: () => 'Holding', hunt: () => 'Hunting the nearest banner' };
+const ORDER_TEXT = { march: (o) => `Marching to ${nodeName(o.to)}`, hold: () => 'Holding', hunt: () => 'Hunting the nearest banner', ambush: () => 'Hiding in ambush (the class cannot see it)' };
 
 function unitOptions(u) {
   if (!u || H.phase !== 'crimson') return [];
@@ -156,9 +161,12 @@ function render() {
 
   const u = selUnit && H.units.find((x) => x.id === selUnit);
   if (selUnit && !u) selUnit = null;
-  if (H.status !== 'playing') marchPick = false;
+  if (H.status !== 'playing') marchPick = teleportPick = false;
   if (ask) { const here = H.units.some((x) => x.id === ask.unitId); if (here) ask.seen = true; else if (ask.seen) ask = null; }   // twSummoned can arrive before the state that has the unit
-  const targets = (marchPick || ask?.march) ? NODES.map((_, n) => n).filter((n) => !CAMPS[n] && n !== selStack).map((n) => ({ node: n, target: true })) : unitOptions(u);
+  const teleporting = teleportPick || ask?.teleport;
+  const bandNodes = new Set(H.bands.map((b) => b.node));
+  const targets = teleporting ? NODES.map((_, n) => n).filter((n) => !CAMPS[n] && !bandNodes.has(n) && n !== (ask ? H.units.find((x) => x.id === ask.unitId)?.node : selStack)).map((n) => ({ node: n, target: true }))
+    : (marchPick || ask?.march) ? NODES.map((_, n) => n).filter((n) => !CAMPS[n] && n !== selStack).map((n) => ({ node: n, target: true })) : unitOptions(u);
   const marches = H.units.filter((x) => x.order?.kind === 'march').map((x) => marchPoints(x.node, x.order.to)).filter(Boolean);
   map.render({ state: H, full: true, options: targets, marches, selected: selStack == null ? null : selStack === FORTRESS ? 'fortress' : `host${selStack}` });
 
@@ -166,11 +174,13 @@ function render() {
   const oa = $('orderAsk');
   oa.classList.toggle('hidden', !ask);
   if (ask) setHTML(oa, `<div class="oa-top"><img src="${sprite(ask.type)}" alt=""><div><div class="eyebrow" style="color:var(--rose)">NEW UNIT AT YOUR FORTRESS</div><h3>${esc(UNITS[ask.type].name)}</h3><p>What should it do? It keeps this order every turn until you change it.</p></div></div>
-    ${ask.march ? `<p class="oa-pick">Tap any ⚑ on the map to send it there.</p>` : ''}
+    ${ask.march ? `<p class="oa-pick">Tap any ⚑ on the map to send it there.</p>` : ask.teleport ? `<p class="oa-pick">Tap any ⚑ on the map: it appears there now (${TELEPORT_COST} Rift Energy).</p>` : ask.moved != null ? `<p class="oa-done">Teleported to ${esc(nodeName(ask.moved))}. Now hide it in ambush, or give it an order.</p>` : ''}
     <div class="oa-grid">
       <button type="button" class="btn ${ask.march ? 'crimson' : ''}" data-ask="march"><b>⚑ March to…</b><small>Walk to a stop you pick, fighting anyone on the way</small></button>
       <button type="button" class="btn" data-ask="hunt"><b>⚔ Hunt</b><small>Chase the nearest student banner</small></button>
-      <button type="button" class="btn" data-ask="hold"><b>⛨ Hold here</b><small>Guard the fortress, dig in, 25% tougher</small></button>
+      <button type="button" class="btn" data-ask="hold"><b>⛨ Hold here</b><small>Guard ${ask.moved != null ? 'this stop' : 'the fortress'}, dig in, 25% tougher</small></button>
+      <button type="button" class="btn ${ask.teleport ? 'crimson' : ''}" data-ask="teleport" ${H.energy < TELEPORT_COST || H.phase !== 'crimson' ? 'disabled' : ''}><b>⚡ Teleport…</b><small>Appear on any free stop now · ${TELEPORT_COST} energy</small></button>
+      ${ask.moved != null ? `<button type="button" class="btn" data-ask="ambush"><b>👁 Ambush here</b><small>Hidden from the class. Whoever walks in is caught (starts hurt)</small></button>` : ''}
       <button type="button" class="btn ghost" data-ask="later"><b>Decide later</b><small>Tap its warband on the map any time</small></button>
     </div>`);
 
@@ -205,8 +215,8 @@ function render() {
       + (fort ? `<div class="unit-row" style="cursor:default"><img src="${sprite(H.gate.broken ? 'warlord' : 'golem')}" alt=""><div class="nm">${H.gate.broken ? 'The Crimson Warlord' : 'Bloodstone Golem'}<small>${H.gate.broken ? (H.warlordReady ? 'Out and fighting' : 'Waiting inside') : 'Guards the gate'}</small><div class="hpbar"><i style="width:${H.gate.broken ? (H.warlord.hp / H.warlord.max) * 100 : (H.gate.hp / H.gate.max) * 100}%"></i></div></div><span class="mv">${H.gate.broken ? `${H.warlord.hp}/${H.warlord.max}` : `${H.gate.hp}/${H.gate.max}`}</span></div>` : '')
       + us.map((x) => `<button type="button" class="unit-row ${selUnit === x.id ? 'on' : ''}" data-unit="${x.id}"><img src="${sprite(x.type)}" alt=""><div class="nm">${esc(UNITS[x.type].name)}<small>${x.battle ? 'In battle' : x.order ? esc(ORDER_TEXT[x.order.kind](x.order)) : esc(UNITS[x.type].role)}${x.dugIn ? ' · dug in' : ''} · ${x.hp}/${x.max}</small></div><span class="mv">${Math.max(0, x.speed - x.moved)} move${x.speed - x.moved === 1 ? '' : 's'}</span></button>`).join('')
       + (us.length && H.status === 'playing' ? `<div class="eyebrow" style="margin-top:10px;color:var(--rose)">ORDERS · ${selUnit ? 'THIS UNIT' : 'EVERY UNIT HERE'}</div>
-        <div class="orders"><button type="button" class="btn ${marchPick ? 'crimson' : ''}" data-order="march">March to…</button><button type="button" class="btn" data-order="hold">Hold</button><button type="button" class="btn" data-order="hunt">Hunt</button><button type="button" class="btn icon" data-order="clear" title="Clear orders">✕</button></div>` : '')
-      + `<p class="hint" style="margin-top:8px">${marchPick ? 'Tap any ⚑ on the map. They march there turn after turn, and attack any banner in the way.' : mine ? (us.length ? 'Tap a unit, then a glowing stop to move it now. Or give orders: they play out when you end your turn. Holding a whole turn digs units in (25% tougher).' : 'Send units out with the cards below.') : 'Give orders any time: they play out at the end of your next turn. Move units by hand in your turn.'}</p>`);
+        <div class="orders"><button type="button" class="btn ${marchPick ? 'crimson' : ''}" data-order="march">March to…</button><button type="button" class="btn" data-order="hold">Hold</button><button type="button" class="btn" data-order="hunt">Hunt</button><button type="button" class="btn" data-order="ambush" title="Hide here: the class cannot see it">Ambush</button><button type="button" class="btn ${teleportPick ? 'crimson' : ''}" data-order="teleport" ${H.energy < TELEPORT_COST || !mine ? 'disabled' : ''} title="${TELEPORT_COST} Rift Energy a unit">⚡ Teleport</button><button type="button" class="btn icon" data-order="clear" title="Clear orders">✕</button></div>` : '')
+      + `<p class="hint" style="margin-top:8px">${teleportPick ? `Tap any ⚑ on the map: ${selUnit ? 'this unit appears' : 'every free unit here appears'} there now, for ${TELEPORT_COST} Rift Energy each.` : marchPick ? 'Tap any ⚑ on the map. They march there turn after turn, and attack any banner in the way.' : mine ? (us.length ? 'Tap a unit, then a glowing stop to move it now. Or give orders: they play out when you end your turn. Holding a whole turn digs units in (25% tougher).' : 'Send units out with the cards below.') : 'Give orders any time: they play out at the end of your next turn. Move units by hand in your turn.'}</p>`);
     sp.classList.remove('hidden');
   }
 

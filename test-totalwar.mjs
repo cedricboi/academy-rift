@@ -220,6 +220,7 @@ const unexpected = bots.flatMap((b) => b.errors).filter((e) => !/one stop at a t
 check(!unexpected.length, `no unexpected errors for students${unexpected.length ? ": " + [...new Set(unexpected)].slice(0, 4).join(" | ") : ""}`);
 await wardWar();
 await practiceWar();
+await featureWar();
 summary();
 done(fails.length ? 1 : 0);
 
@@ -282,7 +283,7 @@ async function practiceWar() {
     if (x.phase === "crimson" && !s.triedEarly) { s.triedEarly = true; s.emit("twBuy", { item: "bento" }); }
     if (!B && !bought && x.me.coins >= 100 && x.phase === "crystal" && myB?.done && !myB.battle) { bought = true; s.emit("twGrab", { items: { energy: 1 } }); }
     const band = x.bands?.find((b) => b.id === x.me.bandId);
-    if (x.phase === "crystal" && band && !band.done && !band.battle) { const key = `${x.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const to = stepTowards(band.node, FORTRESS); s.emit("twVote", { to: to ?? "stay" }); } }
+    if (x.phase === "crystal" && band && !band.done && !band.battle) { const key = `${x.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const to = stepTowards(band.node, FORTRESS); s.emit("twVote", { to: bought ? to ?? "stay" : "stay" }); } }
   });
   await new Promise((r) => s.on("connect", r));
   s.emit("twPractice", { name: "Solo", char: "jun" });
@@ -292,6 +293,7 @@ async function practiceWar() {
   check(maxBands >= 3, `the practice war fills up with bot pairs (${maxBands} banners)`);
   check(crimsonTurns >= 2 || v?.status === "ended", `the Bot Commander plays its own turns (${crimsonTurns})`);
   check(kinds.has("skill"), `students can use their Academy Rift skills in battle (moves seen: ${[...kinds].join(", ")})`);
+  console.log(`  coins at the end: ${v.me.coins}, turn ${v.turn}, status ${v.status}`);
   check(bought && v.me.bag && (v.me.bag.energy > 0 || usedItem), "coins buy food from Grab-Ma's delivery");
   check(rideSeen.has("cooking") && rideSeen.has("delivered"), `Grab-Ma cooks the order and rides it out to the banner (${[...rideSeen].join(" → ")})`);
   check(usedItem && kinds.has("item"), "an item from the bag can be used on your turn in battle");
@@ -299,5 +301,71 @@ async function practiceWar() {
   const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle|Lock in your move/i.test(e));
   check(!odd.length, `no unexpected errors in the practice war${odd.length ? ": " + odd.slice(0, 3).join(" | ") : ""}`);
   s.disconnect();
+}
+// Teleport, ambush, the watchtower, enemy waves and picking a target while the battle gathers.
+async function featureWar() {
+  console.log("\n--- teleport, ambush, watchtower, waves, targets ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v)); t.on("twError", (m) => terr.push(m));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: false, turns: 6 });
+  const mk = (name, char, plan) => {
+    const s = io(URL, { transports: ["websocket"] }); s.v = null; s.errs = [];
+    s.on("twError", (m) => s.errs.push(m));
+    s.on("twState", (v) => {
+      s.v = v; if (v.status !== "playing") return;
+      const B = v.myBattle;
+      const q = v.own && !v.own.result ? v.own.question : B?.question && !B.question.mine ? B.question : null;
+      if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+      if (B?.status === "gather" && B.me?.target == null && !s.picked) { s.picked = true; s.emit("twTarget", { index: 0 }); }
+      if (B?.moves && s.lastMove !== B.choose?.endsAt) { s.lastMove = B.choose?.endsAt; s.emit("twAction", { kind: "strike" }); }
+      const band = v.bands?.find((b) => b.id === v.me.bandId);
+      if (v.phase === "crystal" && band && !band.done && !band.battle) {
+        const key = `${v.turn}:${band.node}`; if (s.lastKey === key) return; s.lastKey = key;
+        const to = plan[band.node]; s.emit("twVote", { to: to ?? "stay" });
+      }
+      if (v.phase === "crystal" && band?.done && !v.me.orderDone && s.od !== v.turn) { s.od = v.turn; s.emit("twOrderDone"); }
+    });
+    return s;
+  };
+  const ana = mk("Ana", "jun", { 0: 1, 1: 10, 10: 2 }), ben = mk("Ben", "saya", { 0: 14 });
+  await Promise.all([ana, ben].map((s) => new Promise((r) => s.on("connect", r))));
+  ana.emit("twJoin", { code: hs.code, name: "Ana" }); ben.emit("twJoin", { code: hs.code, name: "Ben" });
+  while (!ana.v || !ben.v) await sleep(20);
+  ana.emit("twStandard", { char: "jun" }); ben.emit("twStandard", { char: "saya" }); await sleep(150);
+  t.emit("twStart");
+  while (H.status !== "playing" || H.phase !== "crimson") await sleep(20);
+  // a Rift Hound teleported next to the Academy and hidden in ambush; another sent east, out of sight
+  t.emit("twSummon", { type: "rift_hound" }); await sleep(100);
+  const a = H.units.at(-1);
+  t.emit("twTeleport", { unitId: a.id, to: 14 }); await sleep(100);
+  t.emit("twOrder", { unitIds: [a.id], order: { kind: "ambush" } }); await sleep(100);
+  t.emit("twSummon", { type: "rift_hound" }); await sleep(100);
+  const b = H.units.find((u) => u.id !== a.id && u.type === "rift_hound");
+  t.emit("twMoveUnit", { unitId: b.id, to: 9 }); await sleep(100);
+  const A = H.units.find((u) => u.id === a.id);
+  check(A?.node === 14 && A.ambush, `the teacher teleports a unit and hides it in ambush (at ${NODES[A?.node]?.name}, energy left ${H.energy})`);
+  await sleep(150);
+  check(!ana.v.units.some((u) => u.id === a.id), "an ambush cannot be seen by the class, even next to the Academy");
+  check(!ana.v.units.some((u) => u.id === b.id), "a unit far away is hidden by the fog");
+  t.emit("twEndTurn");
+  // Ben walks into the ambush; Ana climbs to the watchtower
+  const until = Date.now() + 90000;
+  let sawAmbush = false, sawTarget = false, sawWave = false, sawTower = false, maxWave = 0;
+  while (Date.now() < until && !(sawAmbush && sawTower && sawWave)) {
+    await sleep(40);
+    const B = ben.v?.myBattle;
+    if (B?.ambush && B.status !== "gather" && B.resolve < B.resolveMax) sawAmbush = true;
+    if (B?.me?.target === 0) sawTarget = true;
+    if (B && B.status !== "gather") { const w = B.enemies.filter((e) => e.wave).length; maxWave = Math.max(maxWave, w); if (w >= 1) sawWave = true; }
+    if (ana.v?.tower?.held && ana.v.units.some((u) => u.id === b.id)) sawTower = true;
+  }
+  check(sawAmbush, "walking into an ambush starts a battle with the warband already hurt");
+  check(sawTarget, "a pair picks which enemy to target while the battle gathers");
+  check(sawWave && maxWave <= 2, `enemies come in waves of one or two (largest wave ${maxWave})`);
+  check(sawTower, "holding the watchtower shows the class the Crimson Host beyond the fog");
+  check(!terr.length, `no errors for the teacher${terr.length ? ": " + terr.slice(0, 3).join(" | ") : ""}`);
+  for (const s of [ana, ben, t]) s.disconnect();
 }
 function summary() { console.log(`\n${fails.length ? "FAILED: " + fails.length : "ALL PASSED"}`); }

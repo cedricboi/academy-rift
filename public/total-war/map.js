@@ -11,6 +11,7 @@ export const charColor = (char) => bannerFor(char).color;
 // Replace an element's contents only when they changed, so a tap is never lost to a redraw
 export const setHTML = (el, html) => { if (el._html !== html) { el.innerHTML = html; el._html = html; } };
 export const CRYSTAL = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M12 2l6 7-6 13-6-13z" fill="#7ff3e4" stroke="#e8fffb" stroke-width="1.2"/><path d="M6 9h12M12 2v20" stroke="#2a9d93" stroke-width="1"/></svg>';
+export const TOWER = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M8 22l1.5-12h5L16 22z" fill="#c9b27a" stroke="#3a2a10" stroke-width="1.2"/><path d="M7 10h10l-1-3H8z" fill="#8a6a3a" stroke="#3a2a10" stroke-width="1.2"/><path d="M9 7l3-5 3 5z" fill="#d94b5c" stroke="#3a2a10" stroke-width="1.2"/><rect x="10.8" y="13" width="2.4" height="3" fill="#ffe28a"/></svg>';
 export const SWORDS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l11 11M15 15l3-1-1 3M20 4L9 15M9 15l-3-1 1 3M6 18l-2 2M18 18l2 2"/></svg>';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -177,13 +178,19 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       list.push({ key: 'academy', kind: 'academy', ref: 'academy', node: HOME, small: true, label: 'Academy Ward',
         html: `<span class="cloth">${CRYSTAL}</span><span class="pole"></span><span class="tag">${hurt ? `Ward ${w.hp}/${w.max}` : 'Academy Ward'}</span>` });
     }
+    // the watchtower: a Crystal banner on it shows the class the Crimson Host beyond the fog
+    if (state.tower) {
+      const t = state.tower;
+      list.push({ key: 'tower', kind: 'tower', ref: 'tower', node: t.node, small: true, glow: selected === 'tower', label: 'Watchtower',
+        html: `<span class="cloth tower-cloth ${t.held ? 'held' : ''}">${TOWER}</span><span class="pole"></span><span class="tag">${t.held ? 'Watchtower · held' : 'Watchtower'}</span>` });
+    }
     // the Crimson Host, one banner per stop
     const stacks = new Map();
     for (const u of state.units) if (u.node !== FORTRESS) { if (!stacks.has(u.node)) stacks.set(u.node, []); stacks.get(u.node).push(u); }
     for (const [node, us] of stacks) {
       const lead = [...us].sort((a, b) => (UNITS[b.type].hp - UNITS[a.type].hp))[0];
       const ord = full ? us.map((u) => u.order?.kind).find(Boolean) : null, dug = us.some((u) => u.dugIn);
-      const badge = ord === 'march' ? '<i class="order">MARCH</i>' : ord === 'hunt' ? '<i class="order">HUNT</i>' : ord === 'hold' || dug ? `<i class="order hold">${dug ? 'DUG IN' : 'HOLD'}</i>` : '';
+      const badge = ord === 'ambush' ? '<i class="order amb">AMBUSH</i>' : ord === 'march' ? '<i class="order">MARCH</i>' : ord === 'hunt' ? '<i class="order">HUNT</i>' : ord === 'hold' || dug ? `<i class="order hold">${dug ? 'DUG IN' : 'HOLD'}</i>` : '';
       list.push({ key: `host${node}`, kind: 'host', ref: node, node, glow: selected === `host${node}`, label: `${us.length} Crimson units`,
         html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}${badge}${us.some((u) => u.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? 'Crimson warband' : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
     }

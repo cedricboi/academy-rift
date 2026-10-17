@@ -104,7 +104,7 @@ $('stdPick').addEventListener('click', (e) => {
 // ------------------------------------------------------------------ the map
 const map = createMap($('mapHost'), {
   onStop: (n) => { selected = null; socket.emit('twVote', { to: n }); },
-  onBanner: (kind, ref, node) => { selected = kind === 'pair' ? `band${ref}` : kind === 'host' ? `host${node}` : kind === 'camp' ? `camp${node}` : kind === 'academy' ? 'academy' : 'fortress'; if (kind === 'pair' && ref === S?.me.bandId) selected = null; render(); },
+  onBanner: (kind, ref, node) => { selected = kind === 'pair' ? `band${ref}` : kind === 'host' ? `host${node}` : kind === 'camp' ? `camp${node}` : kind === 'academy' ? 'academy' : kind === 'tower' ? 'tower' : 'fortress'; if (kind === 'pair' && ref === S?.me.bandId) selected = null; render(); },
 });
 const card = createCard($('card'), { onPick: (i, startedAt) => socket.emit('twAnswer', { chosen: i, startedAt }) });
 const bcard = createCard($('bCard'), { onPick: (i, startedAt) => { myPick = i; socket.emit('twAnswer', { chosen: i, startedAt }); } });
@@ -126,6 +126,7 @@ $('infoCard').addEventListener('click', (e) => {
   if (b.dataset.vote) { socket.emit('twVote', { to: +b.dataset.vote }); selected = null; }
   if (b.dataset.joinband) { socket.emit('twJoinBand', { bandId: b.dataset.joinband }); selected = null; }
 });
+$('bFoes').addEventListener('click', (e) => { const b = e.target.closest('[data-target]'); if (b) socket.emit('twTarget', { index: +b.dataset.target }); });
 $('joinPrompt').addEventListener('click', (e) => { const b = e.target.closest('[data-battle]'); if (b) socket.emit('twJoinBattle', { battleId: b.dataset.battle }); });
 
 function render() {
@@ -231,6 +232,11 @@ function renderInfo(band, options) {
       <p>${g.broken ? (w.out ? 'The gate is broken and the Warlord has come out to fight. Beat him to win the war.' : 'The gate is broken. The Warlord waits inside and has not come out yet.') : 'The Bloodstone Golem guards the gate. Break it to reach the Warlord. Damage you deal stays, even if you have to fall back.'}</p>
       <div class="kv"><b>${g.broken ? 'WARLORD' : 'GATE'}</b>${g.broken ? `${w.hp} of ${w.max}` : `${g.hp} of ${g.max}`}</div><div class="hpbar"><i style="width:${g.broken ? (w.hp / w.max) * 100 : (g.hp / g.max) * 100}%"></i></div>
       ${g.defenders ? `<div class="kv"><b>DEFENDERS</b>${g.defenders} more Crimson units inside</div>` : ''}<div class="actions">${voteBtn(FORTRESS, g.broken ? 'Face the Warlord' : 'Attack the gate', 'crimson')}</div>`;
+  } else if (selected === 'tower') {
+    const t = S.tower; cls += ' teal';
+    html = `${close}<div class="eyebrow" style="color:var(--cyan)">WATCHTOWER · ${esc(nodeName(t.node).toUpperCase())}</div><h3>${t.held ? 'Your class holds the watchtower' : 'The Watchtower'}</h3>
+      <p>While a Crystal banner stands on the watchtower, the whole class can see where the Crimson Host is, even beyond the fog. Ambushes stay hidden: ${esc(boss())} can still hide units in your path.</p>
+      <div class="kv"><b>STATUS</b>${t.held ? 'Held. You can see the Crimson Host.' : 'Not held. Send a pair to stand on it.'}</div><div class="actions">${voteBtn(t.node, 'Go to the watchtower')}</div>`;
   } else if (selected === 'academy') {
     const w = S.ward, here = S.units.filter((u) => u.node === HOME);
     cls += ' teal';
@@ -263,7 +269,7 @@ function renderQuestion() {
   const dock = $('qDock');
   if (!o || S.myBattle) { dock.classList.add('hidden'); $('gMain').classList.remove('docked', 'centred'); dock.classList.remove('centre'); card.hide(); return; }
   // while the Crimson Host moves, the question sits in the middle (as in Academy Rift); during your move it docks beside the map
-  const centre = S.phase !== 'crystal';
+  const centre = true;                    // questions always sit in the middle, as in Academy Rift (none come while you move)
   dock.classList.remove('hidden'); dock.classList.toggle('centre', centre);
   $('gMain').classList.toggle('docked', !centre); $('gMain').classList.toggle('centred', centre);
   const battle = o.kind === 'warcry' ? S.battles.find((b) => b.id === o.battleId) : null;
@@ -317,13 +323,19 @@ function renderBattle() {
   }
   if ((B.status === 'fight' || B.status === 'choose') && cinema) { skipTheatre(); }
   stage.set({ node: B.node, kind: B.kind, pairs: [{ key: `p${S.me.pairNo}`, char: myChar, label: 'You', me: true }], foes: B.enemies });
-  setHTML($('bFoes'), B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}</span><div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div><small>${X(Math.max(0, e.hp))} / ${X(e.max)}</small></div>`).join(''));
+  // while the battle gathers, each pair picks the enemy to go for first (the most-picked comes out first)
+  const gathering = B.status === 'gather', mine = B.me?.target;
+  setHTML($('bFoes'), (gathering ? `<div class="foe-pick-h">PICK YOUR TARGET <small>Enemies come out one at a time, sometimes two. The one most pairs pick comes first.</small></div>` : '')
+    + B.enemies.map((e, i) => `<div class="foe ${e.hp <= 0 ? 'down' : ''} ${gathering ? 'pickable' : ''} ${mine === i ? 'mine' : ''} ${e.wave ? 'wave' : ''}">
+      ${gathering ? `<img src="${sprite(e.type)}" alt="">` : ''}<span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}${!gathering && e.wave ? ' <em class="front">FIGHTING</em>' : ''}</span>
+      <div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div><small>${X(Math.max(0, e.hp))} / ${X(e.max)}</small>
+      ${gathering ? `<button type="button" class="btn ${mine === i ? 'crimson' : ''}" data-target="${i}">${mine === i ? '✓ YOUR TARGET' : 'TARGET'}</button>${e.picks ? `<b class="picks">${e.picks} pair${e.picks > 1 ? 's' : ''}</b>` : ''}` : ''}</div>`).join(''));
 
   let centre = '', role = '';
   const fighting = B.status === 'fight' && B.question;
   const choosing = B.status === 'choose';
   $('battle').classList.toggle('fighting', !!(fighting || choosing));
-  if (B.status === 'gather') centre = `<span class="big">${defend ? 'To arms!' : 'Battle stations!'}</span>The battle starts in <b data-until="${B.gatherEnds}">${gameSecondsLeft(B.gatherEnds)}</b>. Warbands one road away can still join.`;
+  if (B.status === 'gather') centre = `<span class="big">${B.ambush ? 'AMBUSH!' : defend ? 'To arms!' : 'Battle stations!'}</span>${B.ambush ? 'The Crimson Host was hiding here. Your warband starts the battle hurt. ' : ''}The battle starts in <b data-until="${B.gatherEnds}">${gameSecondsLeft(B.gatherEnds)}</b>. Warbands one road away can still join.`;
   if (B.status === 'over') centre = B.outcome === 'won'
     ? `<span class="big">Victory!</span>${B.kind === 'camp' ? `${esc(CAMPS[B.node].buffName)}: ${esc(CAMPS[B.node].buffText)}.` : B.kind === 'gate' ? 'The gate is broken!' : defend ? 'You drove off the attack.' : 'The way is clear.'}`
     : defend && B.resolve > 0 ? '<span class="big">You held!</span>The Crimson Host pulls back.' : `<span class="big">Driven back</span>${B.resolve <= 0 ? 'Your warband ran out of HP.' : 'The enemy held.'} You fall back to regroup. The damage you dealt stays.`;

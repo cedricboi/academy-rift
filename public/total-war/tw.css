@@ -156,3 +156,7 @@ button:disabled{cursor:default}
 .tw-rider.done .tag{background:#ffd23f;color:#3a2a00;border-color:#7a5a00}
 .tw-rider.done{animation:riderBye 20s linear forwards}
 @keyframes riderBye{0%,30%{opacity:1}40%,100%{opacity:0}}
+
+.tw-banner.tower .tower-cloth{--c:#6b5a3a;display:grid;place-items:center;background:#2a2318}
+.tw-banner.tower .tower-cloth.held{background:#1d5d58;box-shadow:0 0 14px #7ff3e4}
+.tw-banner .order.amb{background:#3b1e5a;color:#e9d6ff;border-color:#a77bff}

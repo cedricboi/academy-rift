@@ -89,8 +89,10 @@ export function createArenaBridge({ socket: tw, host }) {
   }
   function foes(B) {
     const idx = B.enemies.map((e, i) => i);
+    // the wave in front of the warband (one enemy, sometimes two); the rest wait their turn off stage
+    const wave = idx.filter((i) => B.enemies[i].wave && B.enemies[i].hp > 0);
     const alive = idx.filter((i) => B.enemies[i].hp > 0), dead = idx.filter((i) => B.enemies[i].hp <= 0);
-    return [...alive, ...dead].slice(0, 2).map((i) => {
+    return (wave.length ? wave : [...alive, ...dead].slice(0, 1)).slice(0, 2).map((i) => {
       const e = B.enemies[i];
       return { uid: `e${i}`, team: 1, charId: `m:${e.type}`, monster: true, name: 'Crimson Host', charName: enemyName(e.type), element: 'Dark',
         hp: X(Math.max(0, e.hp)), maxHp: X(e.max), sp: 0, maxSp: 1, alive: e.hp > 0, skills: [], cooldowns: {}, items: {} };

@@ -4,6 +4,10 @@ import { NODES, EDGES, edgeCost } from './movement.js';
 
 export const HOME = 0;                 // Crystal Fortress: where the class starts and retreats to
 export const FORTRESS = 5;             // Crimson Fortress: the gate guardian, then the Warlord
+export const WATCHTOWER = 2;           // Whispering Watch: a Crystal banner standing on it shows the class the whole Crimson Host (not ambushers)
+export const TELEPORT_COST = 2;        // Rift Energy for the teacher to teleport one unit
+export const AMBUSH_HIT = 0.25;        // an ambushed warband starts the battle this much down on HP
+export const PAIR_WAVE = 0.5;          // chance that the next enemy wave in a battle is two enemies, not one
 export const OUTPOSTS = [2, 8, 6];     // Whispering Watch, Sunken Watch, Silverwood Camp: rally points once the class holds them
 
 export const SIGHT = 2;                // fog of war: students see this many roads beyond any of their banners
