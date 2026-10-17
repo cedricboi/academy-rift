@@ -115,6 +115,11 @@ body{font-family:"Rift Body",system-ui,sans-serif;color:var(--paper);background:
 .enter-btn:hover{background:#d4143a;}
 .enter-btn:hover span{animation:none;}
 .enter-btn:active{transform:translate(-50%,var(--tpx));}
+.enter-btn{width:calc(120 * var(--tpx));box-sizing:border-box;text-align:center;}
+.enter-btn.war-btn{top:calc(122 * var(--tpx));text-decoration:none;border-color:#e9c46a;color:#ffe9b0;box-shadow:0 0 0 var(--tpx) #16060a,0 calc(2 * var(--tpx)) 0 var(--tpx) rgba(0,0,0,.6),0 0 calc(10 * var(--tpx)) rgba(233,196,106,.4);animation-delay:1.8s;}
+.enter-btn.war-btn::before{border-left-color:#e9c46a;}.enter-btn.war-btn::after{border-right-color:#e9c46a;}
+.enter-btn.war-btn:hover{background:#7a5a1c;}
+@media (max-width:520px){.enter-btn{font-size:calc(6.5 * var(--tpx));width:calc(100 * var(--tpx));max-width:calc(100vw - 20px);}}
 .gfx-smooth .ts-embers,.gfx-smooth .ts-rift{display:none;}
 .gfx-smooth .ts-bg{animation:none;}
 
@@ -1028,7 +1033,6 @@ input:focus{outline:none;border-color:var(--cyan);}
 .pr-rules:hover{color:var(--paper);}
 @media (max-width:560px){ .pr-row{flex-direction:column;text-align:center;} .pr-face{width:96px;height:96px;} }
 .home-practice{display:block;margin:10px auto 0;}
-a.home-war{text-decoration:none;text-align:center;width:max-content}
 
 /* the coach: top centre, between the two HUDs (or just under someone's question) */
 .coach{position:absolute;left:50%;top:calc(12 * var(--u));transform:translateX(-50%);z-index:46;
