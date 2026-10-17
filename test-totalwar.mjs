@@ -11,7 +11,7 @@ import { NODES } from "./public/total-war/movement.js";
 import { FORTRESS, HOME, stepTowards, visibleNodes, UNITS } from "./public/total-war/rules.js";
 
 const N = Number(process.argv[2]) || 12;
-const SPEED = 20, PORT = 3207, URL = `http://localhost:${PORT}`;
+const SPEED = 20, PORT = 3215, URL = `http://localhost:${PORT}`;
 const ANSWER = new Map(QUESTIONS.map((q) => [q.q, q.answer]));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const fails = [];
