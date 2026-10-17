@@ -58,13 +58,17 @@ function setBattleDim(on) {
 }
 const ASSETS = {
   portraits: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/${NAME[c.id]}.webp`])),
+  // 280 px copies for the picker and the small portraits (about 20 KB each instead of 150 KB; tools/make-thumbs.py)
+  thumbs: Object.fromEntries(CHARACTERS.map((c) => [c.id, `assets/Character Profile Art/thumb/${NAME[c.id]}.webp`])),
   idle:   (id) => `assets/Chracter Art Transparent background/${IDLE_NUM[id]}.webp`,
-  attack: (id) => `assets/Attack Costume/${COSTUME_NUM[id]}.webp`,
+  attack: (id) => `assets/Attack Costume/cut/${COSTUME_NUM[id]}.webp`,        // already cut out and shrunk to 540 px (tools/cut-costumes.py)
+  attackRaw: (id) => `assets/Attack Costume/${COSTUME_NUM[id]}.webp`,     // the 1080 px original on black, only if the cut file is missing
   card:   (id) => `assets/Player cards/${CARD_NUM[id]}.webp`,
   bigcard:  (id) => `assets/Character Card/${id}.webp`,
   cardinfo: (id) => `assets/Chracter Card Information/${id}.webp`,
   skillSheet: (id) => `assets/Skill Menu Art/${SKILL_SHEET_NUM[id] || 1}.webp`,
   ult:    (id) => `${ULT_DIR} (${ATK_NUM[id]}).webp`,
+  ultThumb: (id) => `${ULT_DIR.replace("Ultimate Scene/", "Ultimate Scene/thumb/")} (${ATK_NUM[id]}).webp`,   // 240 px, for the small HUD faces
   bg: { castle: "assets/CASTLE BACKGROUND.webp", opening: "assets/Opening Scene.webp", shop: null, lobby: null },
   // battle backdrops: six places, each in five damage levels. The server picks the place per battle (battle.stage)
   // and every Ultimate breaks it one level further (battle.stageLevel), so all four players see the same scene.
@@ -102,7 +106,10 @@ const GFX_AUTO_KEY = "riftGfxAuto";
 let gfxAuto = (() => { try { return localStorage.getItem(GFX_AUTO_KEY) === "smooth" ? "smooth" : "balanced"; } catch { return "balanced"; } })();
 const gfxLevel = () => (settings.graphics === "auto" ? gfxAuto : ["smooth", "balanced", "quality"].includes(settings.graphics) ? settings.graphics : "balanced");
 const SOUND = { music: settings.music / 100, sfx: settings.sfx / 100 };   // what is playing now, after the teacher's class setting
-const lobbyBGM = new Audio("assets/Intro Theme.mp3");
+const lobbyBGM = new Audio();
+lobbyBGM.preload = "none";
+// the lobby theme never plays inside a Total War battle frame or on the projector's watch view, so it is not even fetched there
+if (!TW && !new URLSearchParams(location.search).has("watch")) lobbyBGM.src = "assets/Intro Theme.mp3";
 lobbyBGM.loop = true;
 lobbyBGM.volume = 0.55;
 lobbyBGM.playsInline = true;
@@ -131,6 +138,7 @@ function showScreen(id) {
   const was = SCREENS.find((s) => $(s).classList.contains("active"));
   SCREENS.forEach((s) => $(s).classList.toggle("active", s === id));
   if (id !== "tourney" && shop?.isOpen()) shop.close("battle");   // a battle is starting
+  if (!TW && !WATCH && (id === "home" || id === "room" || id === "tourney")) preloadThumbs();
   if (id === was || WATCH) return;                // same screen re-render → don't touch music
   if (TW && id !== "battle") { lobbyBGM.pause(); battleBGM.pause(); return; }
   // music: battle screen uses battleBGM, all others use lobbyBGM. Only (re)start a
@@ -142,6 +150,13 @@ function showScreen(id) {
     if (!battleBGM.paused) { battleBGM.pause(); battleBGM.currentTime = 0; }
     if (lobbyBGM.paused) lobbyBGM.play().catch(() => {});
   }
+}
+
+// the fighter picker's small portraits are fetched on the lobby screens, before the picker opens
+let thumbsAsked = false;
+function preloadThumbs() {
+  if (thumbsAsked) return; thumbsAsked = true;
+  for (const src of Object.values(ASSETS.thumbs)) { const im = new Image(); im.decoding = "async"; im.src = encodeURI(src); }
 }
 
 // ---- profile ----
@@ -179,8 +194,9 @@ window.addEventListener("keydown", startLobbyMusicOnce, true);
 // Portrait: full body art — used in roster cards and HP cards
 function portrait(charId) {
   const c = CHAR_BY_ID[charId]; if (!c) return "";
-  const src = ASSETS.portraits[charId];
-  if (src) return `<img src="${src}" alt="${c.name}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
+  const src = ASSETS.thumbs[charId];
+  // the silhouette behind the picture shows until it arrives, so a tile is never an empty frame
+  if (src) return `<span class="port-sil"></span><img src="${encodeURI(src)}" alt="${c.name}" decoding="async" onload="this.previousElementSibling?.remove()" onerror="this.onerror=null;this.src='${encodeURI(ASSETS.portraits[charId])}'" style="position:relative;width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
   return placeholderDiv(c, ELEMENT_COLORS[c.element]);
 }
 
@@ -285,7 +301,7 @@ function preloadArt(ids) {
   const jobs = [];
   [...new Set(ids)].forEach((id) => {
     if (isMon(id)) return;
-    if (!ARENA[spriteId(id)]) jobs.push(transparentize(ASSETS.idle(id)), blackKnockout(ASSETS.attack(id)));
+    if (!ARENA[spriteId(id)]) jobs.push(transparentize(ASSETS.idle(id)), costumeArt(id));
     const im = new Image(); im.src = encodeURI(ASSETS.ult(id));   // warm cut-in art
   });
   return Promise.all(jobs);
@@ -293,6 +309,17 @@ function preloadArt(ids) {
 
 const idleSrc   = (id) => artCache[ASSETS.idle(id)]   || encodeURI(ASSETS.idle(id));
 const attackSrc = (id) => artCache[ASSETS.attack(id)] || encodeURI(ASSETS.attack(id));
+// The cut-out costume is used as it is. Only if it fails to load is the old black-background original keyed out here.
+function costumeArt(id) {
+  const url = ASSETS.attack(id);
+  if (artCache[url] !== undefined) return Promise.resolve(artCache[url]);
+  return new Promise((res) => {
+    const im = new Image();
+    im.onload = () => { artCache[url] = encodeURI(url); res(artCache[url]); };
+    im.onerror = () => blackKnockout(ASSETS.attackRaw(id)).then((src) => { artCache[url] = src; res(src); });
+    im.src = encodeURI(url);
+  });
+}
 
 // Costume state: uids currently wearing their ATTACK costume (set on a correct
 // answer, held through the action, cleared when the attack resolves). Render is
@@ -345,7 +372,7 @@ function clearAttackPose(uid) {
 function thumb(charId) {
   if (isMon(charId)) return `<img src="${TW.face(charId.slice(2))}" alt="" style="width:100%;height:100%;object-fit:contain;image-rendering:pixelated;background:#1a0b10;" />`;
   const c = CHAR_BY_ID[charId]; if (!c) return "";
-  return `<img src="${encodeURI(ASSETS.ult(charId))}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
+  return `<img src="${encodeURI(ASSETS.ultThumb(charId))}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />`;
 }
 
 function placeholderDiv(c, col) {
@@ -1109,6 +1136,18 @@ let counterOn = false;
 if (TW) {
   socket.on("twCounter", (o) => { theatreDone = theatreDone.then(() => playCounter(o)); });
   window.twBusy = () => theatreOn || counterOn;
+  // Total War keeps this frame between battles (hidden), so nothing from the last battle may carry into the next one
+  window.twReset = () => {
+    try { if (TH && TH.playing) TH.skip(); } catch {}
+    theatreOn = counterOn = false; heldRoom = null; theatreDone = Promise.resolve();
+    room = null; preppedKey = ""; attackPosed.clear(); angelUids.clear(); focusPose = { uid: null, start: 0 };
+    myAnswerCorrect = false; inputLocked = false; mySelected = -1; stealMeta = null; lastReveal = null; actedKey = "";
+    along = { key: "", choice: null, told: "" }; moveSel = null; movePicking = false; moveKey = "";
+    try { hideMoves(); closeSkillSheet(); } catch {}
+    $("arena").classList.remove("theatre-on", "asking", "stealing");
+    showScreen("title");   // pauses the music; the next battleStart switches back to the battle screen
+    battleBGM.currentTime = 0;
+  };
   window.twDebug = () => ({ theatreOn, counterOn, held: !!heldRoom, phase: room?.battle?.phase, label: room?.battle?.label, cls: $("arena").className, screen: SCREENS.find((x) => $(x).classList.contains("active")) });
 }
 function playCounter(o) {
@@ -1157,8 +1196,15 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
     ? (draw ? "Time up. Both teams had the same HP and the same number of correct answers."
             : won ? "Time up. Your team had more HP left." : "Time up. The other team had more HP left.")
     : "";
+  // the team's result and the student's own learning are told apart: a lost battle with every answer right is still good work
+  const acc = answered ? gotRight / answered : null;
+  const mine = acc == null ? "" : gotRight === answered ? `you answered all ${answered} right` : `you answered ${gotRight} of ${answered} right`;
+  const team = draw ? "Neither team won this battle" : won ? "Your team won the battle" : "Your team lost the battle";
+  const outcome = acc == null ? `${team}.`
+    : acc >= 0.6 ? `${team}${won || draw ? ", and" : ", but"} ${mine}.`
+    : `${team}. You ${mine.slice(4)}. Study the questions below before your next battle.`;
   const lines = [
-    `<div class="reward-line"><span>${draw ? "🤝 Neither team could win this one." : won ? "🏆 Your team won the Rift!" : "Study hard and try again!"}</span></div>`,
+    `<div class="reward-line"><span>${draw ? "🤝" : won ? "🏆" : "⚔"} ${outcome}</span></div>`,
     ...(timeLine ? [`<div class="reward-line"><span>⏱ ${timeLine}</span></div>`] : []),
     ...(answered ? [`<div class="reward-line"><span>✅ You answered</span><span>${gotRight} / ${answered} correct</span></div>`] : []),
     ...(r?.along?.answered ? [`<div class="reward-line"><span>👥 Answering along</span><span>${r.along.right} / ${r.along.answered} correct</span></div>`] : []),
@@ -1177,7 +1223,7 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
         const chosen = x.chosen >= 0 ? `${"ABCD"[x.chosen]}. ${esc(x.choices[x.chosen])}` : "No answer (timed out)";
         const rights = (x.answers || [x.answer]).map((k) => `✓ ${"ABCD"[k]}. ${esc(x.choices[k])}`).join("<br>");
         const bm = BLOOM_META[x.bloom];
-        const badge = bm ? `<span class="review-bloom" style="color:${bm.color};border-color:${bm.color}">${bm.icon} ${x.bloom}</span>` : "";
+        const badge = bm && WATCH ? `<span class="review-bloom" style="color:${bm.color};border-color:${bm.color}">${bm.icon} ${x.bloom}</span>` : "";
         return `<div class="review-item ${x.fixed ? "fixed" : ""}">
           <div class="review-q"><span class="review-topic">${esc(x.topic)}</span>${badge}${x.fixed ? `<span class="review-fixed">✓ Put right later</span>` : x.wrong > 1 ? `<span class="review-fixed bad">Wrong ${x.wrong} times</span>` : ""}<span class="review-qtext">${esc(x.q)}</span></div>
           ${x.lo && x.lo !== x.topic ? `<div class="review-lo">Learning objective: ${esc(x.lo)}</div>` : ""}
@@ -1188,7 +1234,7 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
         </div>`;
       }).join("") + `</div>`;
   } else if (answered) {
-    recap = `<div class="review-block"><h3 class="review-head good">🌟 Perfect — you answered every question correctly!</h3></div>`;
+    recap = `<div class="review-block"><h3 class="review-head good">🌟 Perfect. You answered every question correctly.</h3></div>`;
   }
 
   $("resultBody").innerHTML = lines.join("") + recap + reportHTML(r?.report, !!tournament);
@@ -1354,7 +1400,11 @@ function renderTopicSelect(isHost) {
     ...(fid === DEFAULT_FOLDER ? TOPICS.map((t) => ({ id: t.id, icon: t.icon, name: t.name, blurb: t.blurb })) : []),
   ];
   const inFolder = (fid) => items(fid).filter((t) => chosen.has(t.id)).length;
-  if (!topicFolder || !FOLDERS.some((f) => f.id === topicFolder)) topicFolder = (FOLDERS.find((f) => inFolder(f.id)) || FOLDERS[0]).id;
+  // opens on the level last used on this iPad, or Sec 1 (the old built-in topics sit in the last folder)
+  if (!topicFolder || !FOLDERS.some((f) => f.id === topicFolder)) {
+    let last = null; try { last = localStorage.getItem("riftTopicFolder"); } catch {}
+    topicFolder = (FOLDERS.find((f) => f.id === last) || FOLDERS.find((f) => f.id === "sec1") || FOLDERS[0]).id;
+  }
   const tabs = FOLDERS.map((f) => { const n = inFolder(f.id);
     return `<button class="topic-folder ${f.id === topicFolder ? "on" : ""}" data-folder="${f.id}" role="tab" aria-selected="${f.id === topicFolder}">
       <span class="tf-name">${esc(f.name)}</span>${n ? `<span class="tf-n">${n} ticked</span>` : ""}</button>`; }).join("");
@@ -1368,9 +1418,10 @@ function renderTopicSelect(isHost) {
   wrap.innerHTML =
     `<p class="pick-sub">${isHost ? "Open a folder and tap one or more. The battle mixes questions from everything you choose, across folders." : "The host chooses the topics for this room."}</p>
      <div class="topic-folders" role="tablist">${tabs}</div>
+     ${chosen.has("mixed") ? `<p class="topic-mixed-note">Mixed is ticked. It already covers every built-in topic, so it replaces any single built-in topic. Question sets you tick are added to it.</p>` : ""}
      <div class="topic-chips">${chips}</div>
      <p class="topic-bloom-note">Each topic mixes Bloom's levels — 📗 Remember · 📘 Understand · 📙 Apply · 📕 Analyse · 📓 Evaluate</p>`;
-  wrap.querySelectorAll("[data-folder]").forEach((b) => b.addEventListener("click", () => { topicFolder = b.dataset.folder; SFX.play("select"); renderTopicSelect(isHost); }));
+  wrap.querySelectorAll("[data-folder]").forEach((b) => b.addEventListener("click", () => { topicFolder = b.dataset.folder; try { localStorage.setItem("riftTopicFolder", topicFolder); } catch {} SFX.play("select"); renderTopicSelect(isHost); }));
   if (isHost) wrap.querySelectorAll("[data-topic]").forEach((b) => b.addEventListener("click", () => {
     const v = b.dataset.topic;
     let next = new Set(chosen);
@@ -1400,7 +1451,8 @@ function setMcqPic(src) {
 function setBloomChip(bloom) {
   const el = $("mcqBloom"); if (!el) return;
   const m = BLOOM_META[bloom];
-  if (!m) { el.classList.add("hidden"); return; }
+  // the level names (Apply, Analyse...) are for teachers: students do not see them, the projector's watch view does
+  if (!m || !WATCH) { el.classList.add("hidden"); return; }
   el.textContent = `${m.icon} ${bloom}`;
   el.style.color = m.color; el.style.borderColor = m.color;
   el.title = m.tip;
@@ -1419,8 +1471,12 @@ function openCharDetail(charId, onPick) {
   $("cdMeta").innerHTML = `<span style="color:${ELEMENT_COLORS[c.element]}">${c.element}</span> · ${c.role}`;
   $("cdPick").onclick = () => { if (onPick) onPick(charId); else socket.emit("pickCharacter", { charId }); closeCharDetail(); };
   ov.classList.add("show");
+  document.body.classList.add("cd-open");   // the picker's own close button hides, so only one close button shows
+  // a cue at the foot of the sheet while there is more to read below
+  const sc = $("cdSheet").querySelector(".cs-scroll"), more = () => $("cdSheet").classList.toggle("more", sc.scrollHeight - sc.scrollTop - sc.clientHeight > 6);
+  sc.scrollTop = 0; sc.addEventListener("scroll", more, { passive: true }); requestAnimationFrame(more);
 }
-function closeCharDetail() { $("charDetail").classList.remove("show"); }
+function closeCharDetail() { $("charDetail").classList.remove("show"); document.body.classList.remove("cd-open"); }
 
 // The skills sheet beside the card art, written from the game data so it always matches what the moves do.
 // Skill icons come from assets/Skill Icons/<id>.webp (five icons in a row) when that file exists; until then each icon is an element gem.
@@ -1445,7 +1501,7 @@ function skillSheetHTML(c) {
     <ul class="cs-list"><li class="cs-sk ult"><i class="sk-ico" style="${icons};--i:4"></i><div class="cs-body">
       <div class="cs-name"><b>${esc(u.name)}</b><span class="cs-tag">Power ${u.power}</span><span class="cs-tag">Team Sync 100</span></div>
       <p class="cs-desc">${ULT_TXT[u.archetype] || ""}.</p></div></li></ul>
-  </div>`;
+  </div><div class="cs-more" aria-hidden="true">Scroll for more ▾</div>`;
 }
 
 // ============================================================
@@ -1473,8 +1529,9 @@ function hudRowHTML(c, side, acting) {
     <div class="hud-face">${thumb(c.charId)}</div>
     <div class="hud-info">
       <div class="hud-line">
-        <span class="hud-char">${esc(c.charName.split(" ")[0])}</span>
-        <span class="hud-player ${me ? "me" : ""}">${esc(c.name)}${me ? " · you" : ""}</span>
+        ${isMon(c.charId) ? `<span class="hud-char mon">${esc(c.charName)}</span>`   // a Total War monster: its own name, not "Crimson Host"
+          : `<span class="hud-char">${esc(c.charName.split(" ")[0])}</span>
+        <span class="hud-player ${me ? "me" : ""}">${esc(c.name)}${me ? " · you" : ""}</span>`}
         <span class="hud-hp">${rnd(c.hp)}</span>
       </div>
       <div class="hud-bar hp"><i class="${hp <= 30 ? "low" : ""}" style="width:${hp}%"></i></div>
@@ -1495,7 +1552,7 @@ function tokenHTML(c, facing, acting, side) {
     <div class="tok-spot"></div>
     <div class="tok-aura"></div>
     ${chibiImg(c.charId, c.uid)}
-    <div class="tok-tag">${esc(c.charName.split(" ")[0])}</div>
+    <div class="tok-tag">${esc(isMon(c.charId) ? c.charName : c.charName.split(" ")[0])}</div>
     <div class="tok-flag"></div>
   </div>`;
 }
@@ -2090,8 +2147,8 @@ function buildMovePanel(me, b, halfPower = false) {
 
 // What each ultimate does, in a few words.
 function ultEffect(ult) {
-  return { stun: "Hits both enemies; the next one misses a turn", heal: "Heals your team, hits both enemies",
-           shield: "Shields your team, hits both enemies" }[ult?.archetype] || "Big hit on both enemies";
+  return { stun: "Hits both enemies. The one you aim at misses a turn.", heal: "Heals your team and hits both enemies.",
+           shield: "Shields your team and hits both enemies." }[ult?.archetype] || "A big hit on both enemies.";
 }
 
 // ---- skill cards: the character's skill art, each card tappable ----
@@ -2663,7 +2720,7 @@ function updateCoach() {
     box.classList.add("hidden"); coachSpotFn = null; applyCoachSpot(); coachShown = ""; return;
   }
   const msg = coachMessage(p, b);
-  if (!$("coachFace").firstChild) $("coachFace").innerHTML = `<img src="${encodeURI(ASSETS.portraits.emi)}" alt="Emi" />`;
+  if (!$("coachFace").firstChild) $("coachFace").innerHTML = `<img src="${encodeURI(ASSETS.thumbs.emi)}" alt="Emi" />`;
   const key = msg.tag + "|" + msg.text;
   if (key !== coachShown) {
     $("coachTag").textContent = msg.tag;

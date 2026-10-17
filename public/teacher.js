@@ -81,7 +81,7 @@ const studentsById = () => Object.fromEntries((state?.students || []).map((s) =>
 const fighterThumb = (charId) => {
   const c = CHAR_BY_ID[charId];
   if (!c) return `<span class="t-fig none" title="No fighter chosen yet">?</span>`;
-  return `<span class="t-fig"><img src="${encodeURI(`assets/Character Profile Art/${c.name.split(" ")[0]}.webp`)}" alt="${esc(c.name)}" loading="lazy"></span>`;
+  return `<span class="t-fig"><img src="${encodeURI(`assets/Character Profile Art/thumb/${c.name.split(" ")[0]}.webp`)}" alt="${esc(c.name)}" loading="lazy"></span>`;
 };
 const optLabel = (key) => SETTINGS.find((s) => s.key === key)?.options.find((o) => o.value === state.settings[key])?.label ?? "";
 const fmtClock = (ms) => { const t = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };

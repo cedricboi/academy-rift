@@ -9,6 +9,8 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import os from "os";
+import { readFileSync, statSync } from "fs";
+import { createHash } from "crypto";
 import { CHAR_BY_ID, CHARACTERS, ITEM_BY_ID } from "./public/data/characters.js";
 import { SYNC_CORRECT, SYNC_TEAM, makeCombatant, resolveAction, addSync, enemiesOf, alliesOf, decStatuses } from "./combat.js";
 import { TOPIC_BY_ID } from "./public/data/topics.js";
@@ -29,6 +31,71 @@ const io = new Server(httpServer, { perMessageDeflate: { threshold: 1024 } });
 process.on("uncaughtException", (e) => console.error("Uncaught error (server kept running):", e));
 process.on("unhandledRejection", (e) => console.error("Unhandled rejection (server kept running):", e));
 if (process.env.RENDER) app.set("trust proxy", 1);   // real visitor addresses behind Render's proxy
+
+// ---------- versioned code: every page names its scripts and styles with a content hash ----------
+// Pages are always revalidated (no-cache). The scripts and styles they name carry ?v=<hash of the file and of every module
+// it imports>, and are kept by the browser for a year: after a deploy the page names new hashes, so a student can never run
+// stale code next to new code, and between deploys an iPad does not ask about thirty files on every page or battle frame.
+// Modules served with ?v= have their own imports rewritten to versioned URLs too. Plain URLs still work (served no-cache).
+const PUBLIC = join(__dirname, "public");
+const fileMemo = new Map();   // abs path -> { key: mtime+size, text, deps }
+const IMPORT_RE = /(\bimport\s*(?:[\w$*{}\s,]+?\s*from\s*)?|\bexport\s*[\w$*{}\s,]*?\s*from\s*|\bimport\s*\(\s*)(["'])([^"'\n]+?\.m?js)\2/g;
+const CSS_IMPORT_RE = /(@import\s+url\(\s*)(["']?)([^"')]+?\.css)\2(\s*\))/g;
+function publicPath(url, fromAbs) {   // a URL in a page or module -> its file under public/, or null for anything else
+  if (/^(?:[a-z]+:)?\/\//i.test(url) || url.startsWith("data:")) return null;
+  const clean = url.split(/[?#]/)[0];
+  const abs = clean.startsWith("/") ? join(PUBLIC, decodeURI(clean)) : join(dirname(fromAbs), decodeURI(clean));
+  return abs.startsWith(PUBLIC) ? abs : null;
+}
+function readMemo(abs) {
+  let st; try { st = statSync(abs); } catch { return null; }
+  if (!st.isFile()) return null;
+  const key = `${st.mtimeMs}:${st.size}`, old = fileMemo.get(abs);
+  if (old && old.key === key) return old;
+  const text = readFileSync(abs, "utf8"), deps = [];
+  const re = abs.endsWith(".css") ? CSS_IMPORT_RE : IMPORT_RE;
+  for (const m of text.matchAll(re)) { const d = publicPath(m[3], abs); if (d) deps.push(d); }
+  const rec = { key, text, deps, hash: createHash("sha1").update(text).digest("hex").slice(0, 10) };
+  fileMemo.set(abs, rec); return rec;
+}
+// the version of a file: a hash over it and everything it imports, so a change anywhere below gives a new URL
+function versionOf(abs) {
+  const seen = new Set(), stack = [abs], parts = [];
+  while (stack.length) { const f = stack.pop(); if (seen.has(f)) continue; seen.add(f); const r = readMemo(f); if (!r) continue; parts.push(f + r.hash); stack.push(...r.deps); }
+  if (!parts.length) return null;
+  return createHash("sha1").update(parts.sort().join("|")).digest("hex").slice(0, 10);
+}
+const withVersion = (url, fromAbs) => { const f = publicPath(url, fromAbs), v = f && versionOf(f); return v ? `${url.split("?")[0]}?v=${v}` : url; };
+function rewriteImports(text, abs) {
+  return abs.endsWith(".css") ? text.replace(CSS_IMPORT_RE, (m, a, q, u, b) => `${a}${q}${withVersion(u, abs)}${q}${b}`)
+    : text.replace(IMPORT_RE, (m, a, q, u) => `${a}${q}${withVersion(u, abs)}${q}`);
+}
+function renderPage(abs) {
+  const r = readMemo(abs); if (!r) return null;
+  return r.text
+    .replace(/\/socket\.io\/socket\.io\.js/g, "/socket.io/socket.io.min.js")   // the minified client (about half the size)
+    .replace(/(<(?:script|link)\b[^>]*?\b(?:src|href)=)(["'])([^"']+?\.(?:m?js|css))\2/gi, (m, a, q, u) => `${a}${q}${withVersion(u, abs)}${q}`)
+    .replace(/(<script\b[^>]*type=["']module["'][^>]*>)([\s\S]*?)(<\/script>)/gi, (m, a, body, b) => a + rewriteImports(body, abs) + b);
+}
+const PAGE_ROUTES = { "/teacher": "teacher.html", "/report": "report.html", "/hub": "hub.html" };
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  let p; try { p = decodeURIComponent(req.path); } catch { return next(); }
+  let file = PAGE_ROUTES[p] ? join(PUBLIC, PAGE_ROUTES[p]) : p.endsWith("/") ? join(PUBLIC, p, "index.html") : /\.html$/.test(p) ? join(PUBLIC, p) : null;
+  if (file) {
+    if (!file.startsWith(PUBLIC)) return next();
+    const html = renderPage(file); if (html == null) return next();
+    res.setHeader("Cache-Control", "no-cache");
+    return res.type("html").send(html);   // express adds an ETag, so a revalidation is a 304
+  }
+  if (req.query.v && /\.(m?js|css)$/.test(p)) {
+    const abs = join(PUBLIC, p); if (!abs.startsWith(PUBLIC)) return next();
+    const r = readMemo(abs); if (!r) return next();
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    return res.type(p.endsWith(".css") ? "css" : "application/javascript").send(rewriteImports(r.text, abs));
+  }
+  next();
+});
 
 // Question hub (/hub): the teacher's own question sets, with pictures.
 const bank = createBank({ builtIn: QUESTIONS, builtInTitle: "Sec 1 Cells (built-in)" });
@@ -104,8 +171,10 @@ app.use(express.static(join(__dirname, "public"), {
   etag: true,
   lastModified: true,
   setHeaders(res, filePath) {
-    if (/\.(png|jpe?g|webp|gif|svg|mp3|wav|ogg|woff2?|ttf)$/i.test(filePath))
-      res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+    if (/\.(woff2?|ttf)$/i.test(filePath))
+      res.setHeader("Cache-Control", "public, max-age=2592000");   // fonts never change
+    else if (/\.(png|jpe?g|webp|gif|svg|mp3|wav|ogg)$/i.test(filePath))
+      res.setHeader("Cache-Control", "public, max-age=604800, stale-while-revalidate=2592000");
     else
       res.setHeader("Cache-Control", "no-cache");
   },

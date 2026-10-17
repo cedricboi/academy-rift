@@ -105,6 +105,13 @@ let stageImgI = 0;
 rep("function stageLayer(k, filter) { const L = layers[k], key = stageI + filter;", "function stageLayer(k, filter) { const L = layers[k], key = stageImgI + '|' + filter;")
 js = js.replace("L.g.drawImage(img.stages[stageI], 0, 0, W + 40, H + 24)", "L.g.drawImage(img.stages[stageImgI], 0, 0, W + 40, H + 24)")
 assert "img.stages[stageImgI]" in js
+# effect sheets load per battle (only the ones its fighters use first), so a sheet that is not here yet is skipped, never an error
+rep("  if (f.age < 0) return; const F = AS.FX[f.kind], im = img.fx[f.kind];",
+    "  if (f.age < 0) return; const F = AS.FX[f.kind], im = img.fx[f.kind]; if (!F || (!im && !(f.el && img.fxT && img.fxT[f.kind + '|' + f.el]))) return;")
+rep("const F = AS.FX[s.kind || 'sigil'], im = img.fx[s.kind || 'sigil'], sz = F.w * s.s;",
+    "const F = AS.FX[s.kind || 'sigil'], im = img.fx[s.kind || 'sigil']; if (!F || !im) continue; const sz = F.w * s.s;")
+# the lab's own animation loop: the theatre runs its own loop (see loop() in theatre_api.js)
+rep("function frame(now) { const dt = Math.min(50, now - (last || now)); last = now; musicStep(dt); step(dt); draw(); requestAnimationFrame(frame); }\n", "")
 # drop the lab's controls and asset loader; the API takes their place
 js = js[:js.index('/* ---------- controls ---------- */')] + API
 open(OUT, 'w').write("// Academy Rift battle theatre: the Skill Lab engine, played for every strike, skill and ultimate.\n// Built from the Skill Lab by build_theatre.py; edit the lab and rebuild rather than editing this file.\n(function () {\n" + js + "\n})();\n")

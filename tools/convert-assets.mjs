@@ -23,7 +23,7 @@ const FOLDERS = {
   "Skill Menu Art": "lossy",
 };
 // loose background files (display only)
-const LOOSE = ["Landing Page.png", "Opening Scene.png", "CASTLE BACKGROUND.png", "Question.png"];
+const LOOSE = ["Opening Scene.png", "CASTLE BACKGROUND.png", "Question.png"];
 
 const enc = (img, mode) =>
   mode === "lossless"

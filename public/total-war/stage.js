@@ -27,7 +27,8 @@ const ATK_HIT = 5;                       // the frame of a monster's attack wher
 const H = 360;                           // logical height; the width follows the screen
 
 let MAN = null;
-const manifest = () => MAN || (MAN = fetch(ROOT + 'theatre/manifest.json').then((r) => r.json()).catch(() => null));
+// the battle theatre fetches manifest.json too: both share its one copy rather than asking the server twice
+const manifest = () => MAN || (MAN = (window.Theatre?.manifest ? window.Theatre.manifest(ROOT) : fetch(ROOT + 'theatre/manifest.json').then((r) => r.json())).catch(() => null));
 const IMG = new Map();
 function img(src) {
   if (!IMG.has(src)) { const i = new Image(); i.decoding = 'async'; i.src = src; IMG.set(src, i); }

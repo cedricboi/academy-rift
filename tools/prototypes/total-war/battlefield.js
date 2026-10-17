@@ -1,9 +1,9 @@
-import {POINTS,NODES,EDGES,shortest,validRoute,routePoints,positionAt,routeCost,edgeCost,road} from './movement.js';
+import {POINTS,NODES,EDGES,shortest,validRoute,routePoints,positionAt,routeCost,edgeCost,road} from '../../../public/total-war/movement.js';
 
 
 
-import {BANNERS,bannerFor} from './banners.js';
-import {JUNGLE_CAMPS,CRIMSON_HOST,spriteFor} from './monsters/monsters.js';
+import {BANNERS,bannerFor} from '../../../public/total-war/banners.js';
+import {JUNGLE_CAMPS,CRIMSON_HOST,spriteFor} from '../../../public/total-war/monsters/monsters.js';
 
 
 
@@ -231,9 +231,9 @@ async function load(){
 
   try{
 
-    manifest=await fetch('../theatre/manifest.json').then(r=>{if(!r.ok)throw Error('Effect manifest unavailable');return r.json();});
+    manifest=await fetch('../../../public/theatre/manifest.json').then(r=>{if(!r.ok)throw Error('Effect manifest unavailable');return r.json();});
 
-    const sources=[['landscape','art/moonveil-branches.png'],[manifest.FX.bfire1.src,'../'+manifest.FX.bfire1.src],...BANNERS.map(b=>[b.src,b.src])];
+    const sources=[['landscape','art/moonveil-branches.png'],[manifest.FX.bfire1.src,'../../../public/'+manifest.FX.bfire1.src],...BANNERS.map(b=>[b.src,b.src])];
 
     await Promise.all(sources.map(([key,src])=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{assets[key]=img;resolve();};img.onerror=()=>reject(Error('Could not load '+src));img.src=src;})));
 

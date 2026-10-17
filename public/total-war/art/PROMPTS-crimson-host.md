@@ -1,8 +1,8 @@
 # Crimson Host concept sheets — prompts
 
-Two sheets, six creatures each, made to sit beside `monster-concepts.png`
+Two sheets, six creatures each, made to sit beside `tools/prototypes/total-war/art/monster-concepts.png`
 ("Creatures of the Moonveil"). Generate each prompt separately. Attach
-`monster-concepts.png` and `moonveil-branches.png` as style references so the
+`tools/prototypes/total-war/art/monster-concepts.png` and `tools/prototypes/total-war/art/moonveil-branches.png` as style references so the
 pixel density, lighting and lettering match.
 
 Save the results as:
@@ -14,7 +14,7 @@ Check list for every result before keeping it:
 - Each creature's name is spelled exactly as given, in small light-gold serif capitals beneath it, and no other text except the title and subtitle.
 - Crimson, black and rose-gold are the main colours, so the host reads as the enemy army against the teal and blue student side.
 - No humans, no student characters, no blood, no gore, no weapons pointed at the viewer.
-- Same pixel density and finish as `monster-concepts.png`.
+- Same pixel density and finish as `tools/prototypes/total-war/art/monster-concepts.png`.
 
 ---
 

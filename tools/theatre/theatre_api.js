@@ -81,7 +81,7 @@ function finishPlay() {
   later(wait, () => endPlay());
 }
 function endPlay() {
-  const P = PLAY; if (!P) return; PLAY = null; clearTimeout(safety); busy = false;
+  const P = PLAY; if (!P) return; PLAY = null; clearTimeout(safety); busy = false; loadRestLater();
   if (MUSIC.el) MUSIC.el.volume = MUSIC.vol;
   P.res({ angel: hero.cid === 'EA' });
 }
@@ -91,21 +91,47 @@ const STAGE_URLS = [];
 let MAN = null, initP = null, coreP = null; const charP = {}, stageP = {};
 // decoded before it is handed over, so the first frame that draws a sheet does not stop to decode it
 const loadImg = src => new Promise(r => { const i = new Image(); i.decoding = 'async'; i.onload = () => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()).then(() => r(i)); i.onerror = () => r(null); i.src = BASE + src; });
+// manifest.json is fetched once per page: the Total War map stage asks for the same copy (Theatre.manifest)
+let manP = null;
+function fetchManifest(base) {
+  if (!manP) try { const P = window.parent !== window && window.parent.Theatre;   // a battle frame inside Total War: the war page already has it
+    if (P && P.manifest) manP = P.manifest(location.origin + '/').then(m => JSON.parse(JSON.stringify(m))).catch(() => { manP = null; return fetchManifest(base); }); } catch (e) {}
+  return manP || (manP = fetch((base == null ? BASE : base) + 'theatre/manifest.json').then(r => { if (!r.ok) throw new Error('manifest ' + r.status); return r.json(); }).catch(e => { manP = null; throw e; })); }
 function init(o = {}) {
   if (initP) return initP; BASE = o.base || ''; if (o.stages) STAGE_URLS.push(...o.stages);
-  initP = fetch(BASE + 'theatre/manifest.json').then(r => r.json()).then(m => { MAN = m;
+  initP = fetchManifest(BASE).then(m => { MAN = m;
     for (const [k, v] of Object.entries(m.FX)) AS.FX[k] = v;
     for (const [cid, anims] of Object.entries(m.chars)) AS[cid] = anims;
     for (const [id, sh] of Object.entries(MONS)) MAN.chars[id] = sh;          // monsters registered before the manifest arrived
-    Object.assign(SND.src, m.sfx); Object.assign(SND.loud, m.loud); img.fx = {}; img.stages = []; });
+    Object.assign(SND.src, m.sfx); Object.assign(SND.loud, m.loud); img.fx = {}; img.fxG = {}; img.fxT = {}; img.stages = []; if (m.GS) AS.GS = m.GS; });
   return initP;
 }
-function loadCore() { return coreP || (coreP = init().then(() => { img.fxG = {}; img.fxT = {}; if (MAN.GS) AS.GS = MAN.GS;
-  return Promise.all([...Object.entries(MAN.FX).map(([k, v]) => loadImg(v.src).then(i => { img.fx[k] = i; })),
-    ...Object.entries(MAN.FXG || {}).map(([k, u]) => loadImg(u).then(i => { if (i) img.fxG[k] = i; }))]); })); }
-const tintP = {};
-function loadTints(el) { return tintP[el] || (tintP[el] = loadCore().then(() => Promise.all(Object.entries(MAN.FXT || {}).filter(([k]) => k.endsWith('|' + el))
-  .map(([k, [a, b]]) => Promise.all([loadImg(a), loadImg(b)]).then(([x, y]) => { if (x && y) img.fxT[k] = [x, y]; }))))); }
+// Effect sheets: a battle loads only the sheets its fighters' moves use (manifest NEED, from tools/theatre/trace_fx.py),
+// before its first move. The rest follow one at a time in the background after the first move has played.
+const fxP = {}, tintP = {};
+function loadFx(k) { return fxP[k] || (fxP[k] = init().then(() => Promise.all([
+  MAN.FX[k] ? loadImg(MAN.FX[k].src).then(i => { if (i) img.fx[k] = i; }) : null,
+  MAN.FXG && MAN.FXG[k] ? loadImg(MAN.FXG[k]).then(i => { if (i) img.fxG[k] = i; }) : null]))); }
+function loadTint(key) { return tintP[key] || (tintP[key] = init().then(() => MAN.FXT && MAN.FXT[key]
+  ? Promise.all(MAN.FXT[key].map(u => loadImg(u))).then(([x, y]) => { if (x && y) img.fxT[key] = [x, y]; else return loadFx(key.split('|')[0]); })
+  : loadFx(key.split('|')[0]))); }
+const loadKey = k => k.includes('|') ? loadTint(k) : loadFx(k);
+function loadCore() { return coreP || (coreP = init().then(() => Promise.all(Object.keys(MAN.FX).map(loadFx)))); }
+// what these fighters' moves (and a monster hitting back) draw; null when the table does not cover them, which means everything
+function needOf(cids) {
+  if (!MAN || !MAN.NEED) return null;
+  const s = new Set(MAN.NEED._counter || []);
+  for (const c of cids) { if (!c || MONS[c] || (CH[c] && CH[c].monster)) continue; const L = MAN.NEED[c]; if (!L) return null; for (const k of L) s.add(k); }
+  return s;
+}
+const keyReady = k => k.includes('|') ? !!(img.fxT[k] || (!(MAN.FXT && MAN.FXT[k]) && img.fx[k.split('|')[0]])) : !!img.fx[k];
+let restAsked = false;
+function loadRestLater() {
+  if (restAsked || !MAN) return; restAsked = true;
+  const keys = Object.keys(MAN.FX).filter(k => !fxP[k]);
+  const next = () => { if (PLAY) return setTimeout(next, 1500); const k = keys.shift(); if (!k) return; loadFx(k).then(() => setTimeout(next, 120)); };
+  setTimeout(next, 2500);
+}
 // stages are scaled once to the size they are drawn at, so grading them (in JS on iPads) touches as few pixels as possible
 function loadStage(i) { return stageP[i] || (stageP[i] = init().then(() => loadImg(STAGE_URLS[i % STAGE_URLS.length] || STAGE_URLS[0]).then(im => {
   if (!im) return; const c = document.createElement('canvas'); c.width = W + 40; c.height = H + 24; const g = c.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high'; g.drawImage(im, 0, 0, c.width, c.height); img.stages[i] = c; }))); }
@@ -128,12 +154,14 @@ function prepare(cids, stage = 0) {
   const all = [...new Set(cids.filter(Boolean).flatMap(c => c === 'E' ? ['E', 'EA'] : [c]))];
   const fonts = document.fonts ? Promise.all(['italic 900 40px Cinzel', '700 22px Cinzel', '600 14px "Rift Body"'].map(f => document.fonts.load(f).catch(() => {}))) : null;
   const els = [...new Set(all.map(c => CH[c] && CH[c].el).filter(Boolean))];
-  return Promise.all([loadCore(), loadStage(stage), fonts, ...all.map(loadChar), ...els.map(loadTints)]).then(() => {
+  const fx = init().then(() => { const need = needOf(all); return need ? Promise.all([...need].map(loadKey)) : loadCore().then(() => Promise.all(els.flatMap(el => Object.keys(MAN.FXT || {}).filter(k => k.endsWith('|' + el)).map(loadTint)))); });
+  return Promise.all([fx, loadStage(stage), fonts, ...all.map(loadChar)]).then(() => {
     warm(all);
     if (!PLAY) { stageI = Math.floor(stage / 5) % STAGES.length; stageImgI = stage; resetWorld(); try { drawStageBack(); drawStageFront(); } catch (e) {} }   // grade this stage's layers now, not on the first hit
   });
 }
-const readyFor = (cids, stage) => !!(MAN && img.fx && Object.keys(AS.FX).every(k => img.fx[k]) && img.stages[stage] && cids.filter(Boolean).every(c => img[c] && Object.keys(MAN.chars[c]).every(k => img[c][k])));
+const readyFor = (cids, stage) => { if (!(MAN && img.fx && img.stages[stage])) return false; const need = needOf(cids.filter(Boolean));
+  return (need ? [...need].every(keyReady) : Object.keys(AS.FX).every(k => img.fx[k])) && cids.filter(Boolean).every(c => img[c] && Object.keys(MAN.chars[c]).every(k => img[c][k])); };
 
 // o: { actor, ally, target: lab ids (J K E S R N T H M X), angel: { actor, ally, target } booleans for Emi's awakened form,
 //      kind: 'strike' | 'skill' | 'ult', index, stage, mirror, dmg, crit, weak, resist, miss, ko, heals: [..] }
@@ -203,7 +231,7 @@ function playCounter(o) {
 }
 
 window.Theatre = {
-  canvas: cv, init, prepare, readyFor: (cids, stage = 0) => readyFor([...new Set(cids.filter(Boolean).flatMap(c => c === 'E' ? ['E', 'EA'] : [c]))], stage),
+  canvas: cv, init, prepare, manifest: (base) => fetchManifest(base), readyFor: (cids, stage = 0) => readyFor([...new Set(cids.filter(Boolean).flatMap(c => c === 'E' ? ['E', 'EA'] : [c]))], stage),
   play: playAction, counter: playCounter, registerMonster, skip() { if (PLAY) endPlay(); },
   get playing() { return !!PLAY; },
   unlock() { audio(); },

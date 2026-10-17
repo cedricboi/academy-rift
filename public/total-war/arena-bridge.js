@@ -18,6 +18,7 @@ export function createArenaBridge({ socket: tw, host }) {
   let frame = null, ready = false, queue = [], handlers = {}, me = null;
   let cur = null;           // the battle being shown: { id, q, qKey, told: {}, roundAt, status }
   let speed = 1;
+  let lastRoom = '';        // the last room sent to the Arena (without the clock), so an unchanged war update sends nothing
 
   const fire = (name, data) => {
     if (!ready) { queue.push([name, data]); return; }
@@ -71,10 +72,12 @@ export function createArenaBridge({ socket: tw, host }) {
     };
     wait();
   }
+  // Between battles the frame stays loaded and hidden (the Arena page is parsed and its pictures decoded once per war,
+  // not once per battle). Its battle state is cleared here; the next battle's room and battleStart set it up again.
   function close() {
-    pip.classList.add('hidden');
-    if (frame) frame.remove();
-    frame = null; ready = false; queue = []; handlers = {}; cur = null;
+    pip.classList.add('hidden'); pip.style.visibility = '';
+    try { frame?.contentWindow?.twReset?.(); } catch {}
+    cur = null; lastRoom = '';
     host.classList.add('hidden');
   }
   const busy = () => { try { return !!frame?.contentWindow?.twBusy?.(); } catch { return false; } };
@@ -107,10 +110,30 @@ export function createArenaBridge({ socket: tw, host }) {
       ${foe ? `<div class="pip-hp"><span>${esc(enemyName(foe.type))}</span><i><b style="width:${Math.max(0, (foe.hp / foe.max) * 100)}%"></b></i></div>` : ''}
       ${list.length > 1 ? `<div class="pip-dots">${list.map((_, i) => `<i class="${i === pipIdx % list.length ? 'on' : ''}"></i>`).join('')}</div>` : ''}`;
     if (pip._html !== html) { pip._html = html; pip.innerHTML = html; }
-    pip.classList.remove('hidden');
+    const was = pip.classList.contains('hidden'); pip.classList.remove('hidden'); if (was) { pip.style.visibility = 'hidden'; placePip(); }
   }
-  // the corner it sits in moves down while your own question card fills the middle of the screen
-  setInterval(() => { try { const a = frame?.contentWindow?.document.getElementById('arena'); pip.classList.toggle('low', !!a && (a.classList.contains('asking') || a.classList.contains('stealing'))); } catch {} }, 300);
+  // The split screen must never cover a question or its choices. While a question panel shows, it tries the top-right
+  // corner under the HUD, then the bottom-right corner; if both would overlap, the question panels are narrowed to leave
+  // the right edge free (pip-squeeze, style.css); if it would still overlap, the split screen hides until the panel closes.
+  const PANELS = ['mcq', 'qStrip', 'commands', 'skillSheet'];
+  function placePip() {
+    if (!frame) return;
+    let doc, fr; try { doc = frame.contentWindow.document; fr = frame.getBoundingClientRect(); } catch { return; }
+    if (!doc || !doc.documentElement || !doc.getElementById('arena')) return;   // the battle page is still loading
+    if (pip.classList.contains('hidden')) { doc.documentElement.classList.remove('pip-squeeze'); return; }
+    const boxes = PANELS.map((id) => doc.getElementById(id)).filter((e) => e && !e.classList.contains('hidden') && e.offsetParent !== null)
+      .map((e) => { const r = e.getBoundingClientRect(); return { l: r.left + fr.left - 8, t: r.top + fr.top - 8, r: r.right + fr.left + 8, b: r.bottom + fr.top + 8 }; });
+    const ph = pip.offsetHeight || 170, pw = pip.offsetWidth || 220, W = innerWidth, H = innerHeight;
+    const hit = (top) => boxes.some((b) => !(W - 10 - pw > b.r || W - 10 < b.l || top + ph < b.t || top > b.b));
+    const html = doc.documentElement, squeezed = html.classList.contains('pip-squeeze');
+    const spots = [150, H - 12 - ph];
+    let top = spots.find((t) => !hit(t));
+    if (top == null && !squeezed && boxes.length) { html.classList.add('pip-squeeze'); return; }   // measured again on the next tick
+    if (!boxes.length && squeezed) html.classList.remove('pip-squeeze');
+    pip.style.top = `${top ?? 150}px`; pip.style.bottom = 'auto';
+    pip.style.visibility = top == null ? 'hidden' : '';
+  }
+  setInterval(placePip, 250);
   const esc = (v) => String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // ---------------- the war's battle as an Arena room
@@ -161,6 +184,8 @@ export function createArenaBridge({ socket: tw, host }) {
     return { code: S.code, status: 'battle', serverNow: S.serverNow, players, battle };
   }
 
+  const roomKey = (room) => JSON.stringify({ ...room, serverNow: 0 });
+
   // ---------------- each war update
   function feed(S) {
     const B = S?.myBattle;
@@ -209,9 +234,9 @@ export function createArenaBridge({ socket: tw, host }) {
         if (r.stunned) events.push({ kind: 'stun', target: tgt });
         fire('actionResult', { actor: a.pid, action: KIND[a.kind] || 'strike', name: a.name, events });
       }
-      fire('room', room);
+      fire('room', room); lastRoom = roomKey(room);
       if (r.counterTotal > 0 || r.stunned) fire('twCounter', { actor: a?.pid || me, from: tgt, dmg: X(r.counterTotal), blocked: Math.round((r.guard || 0) * 100), stunned: !!r.stunned });
-    } else fire('room', room);
+    } else { const k = roomKey(room); if (k !== lastRoom) { lastRoom = k; fire('room', room); } }
     if (!cur.started && live) { cur.started = true; fire('battleStart', {}); }
     host.classList.toggle('hidden', !live);
     renderPip(S, live ? B : null);

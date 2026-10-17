@@ -54,6 +54,7 @@ function toast(m) { const t = $('toast'); t.textContent = m; t.classList.remove(
 
 // ------------------------------------------------------------------ lobby (as in the class tournament)
 const cardArt = (id) => `../assets/Character Card/${id}.webp`;
+const cardThumb = (id) => `../assets/Character Card/thumb/${id}.webp`;     // small picker images (about 20 KB each)
 function renderLobby() {
   show('lobby');
   const L = S.lobby, me = S.me;
@@ -82,7 +83,7 @@ function renderLobby() {
   const b = char ? bannerFor(char) : null;
   setHTML($('standardCard'), b ? `<img class="std-art" src="${cardArt(b.id)}" alt=""><div class="std-info"><div class="std-name">${esc(b.fullName)}</div><div class="std-el" style="--c:${b.color}">${esc(b.element)} · ${esc(b.role)}</div><p>${esc(b.name)} leads your pair across the map.</p><button class="ghost-btn" type="button" data-open="std">CHANGE FIGHTER</button></div>`
     : `<div class="std-empty">?</div><div class="std-info"><div class="std-name">NOT CHOSEN YET</div><p>If you do not pick, you get a random fighter.</p><button class="ghost-btn" type="button" data-open="std">CHOOSE FIGHTER</button></div>`);
-  setHTML($('standards'), BANNERS.map((x) => `<button type="button" data-char="${x.id}" class="${char === x.id ? 'on' : ''}" style="--c:${x.color}"><img src="${cardArt(x.id)}" alt=""><b>${esc(x.name)}</b><small>${esc(x.element)}</small></button>`).join(''));
+  setHTML($('standards'), BANNERS.map((x) => `<button type="button" data-char="${x.id}" class="${char === x.id ? 'on' : ''}" style="--c:${x.color}"><img src="${cardThumb(x.id)}" alt=""><b>${esc(x.name)}</b><small>${esc(x.element)}</small></button>`).join(''));
   // the army so far
   const rows = L.pairs.map((p) => {
     const st = p.names.map((n) => L.students.find((s) => s.name === n));
