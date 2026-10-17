@@ -194,7 +194,7 @@ function renderInfo(band, options) {
     if (!us.length) { selected = null; box.classList.add('hidden'); return; }
     cls += ' red';
     const hp = us.reduce((a, u) => a + u.hp, 0), fighters = (band?.pairs.length || 1) * 2;
-    const reach = fighters * 0.7 * battleLength('host');
+    const reach = (0.8 * 2 + 0.75 * 0.7 * Math.max(0, fighters - 1)) * battleLength('host');   // likely hits: your turn plus answering along
     const verdict = reach >= hp * 1.25 ? 'Your warband should win this.' : reach >= hp * 0.9 ? 'A close fight. One more pair would make it safer.' : 'Too strong for your warband. Bring more pairs.';
     html = `${close}<div class="eyebrow" style="color:var(--rose)">${us.length > 1 ? 'CRIMSON WARBAND' : 'CRIMSON UNIT'}</div><h3>${esc(nodeName(n))}</h3>
       ${us.map((u) => `<div class="row"><img src="${sprite(u.type)}" alt=""><div class="nm">${esc(UNITS[u.type].name)}<small>${esc(UNITS[u.type].role)}</small><div class="hpbar"><i style="width:${(u.hp / u.max) * 100}%"></i></div></div></div>`).join('')}

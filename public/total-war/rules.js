@@ -147,9 +147,9 @@ export function auraFor(units) {
   return units.some((u) => UNITS[u.type]?.aura) ? UNITS.orc_warchanter.aura : 0;
 }
 
-// Questions a battle lasts
+// Questions a battle lasts (8, 10 at the gate, 12 against the Warlord)
 export function battleLength(kind, buffs = {}) {
-  const base = kind === 'boss' ? 10 : kind === 'gate' ? 8 : 6;
+  const base = kind === 'boss' ? 12 : kind === 'gate' ? 10 : 8;   // two more questions than at first, to make up for the 30-second prepare
   return base + (buffs.stand ? 1 : 0);
 }
 

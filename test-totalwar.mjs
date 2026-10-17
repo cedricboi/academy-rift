@@ -234,7 +234,7 @@ async function wardWar() {
     const q = v.own && !v.own.result ? v.own.question : v.myBattle?.question && !v.myBattle.question.mine ? v.myBattle.question : null;
     if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
     const band = v.bands?.find((x) => x.id === v.me.bandId);
-    if (v.phase === "crystal" && band && !band.done && !band.battle) { const key = `${v.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; s.emit("twVote", { to: band.node === HOME ? 14 : band.node === 14 ? 6 : "stay" }); } }
+    if (v.phase === "crystal" && band && !band.done && !band.battle) { const key = `${v.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; s.emit("twVote", { to: ({ [HOME]: 1, 1: 10, 10: 12 })[band.node] ?? "stay" }); } }
   });
   await new Promise((r) => s.on("connect", r)); s.emit("twJoin", { code: hs.code, name: "Lone" });
   while (!st) await sleep(20);
