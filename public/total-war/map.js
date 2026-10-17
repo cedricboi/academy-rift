@@ -111,7 +111,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
         el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node;
         if (primed && b.rise) { el._rise = true; setTimeout(() => { el._rise = false; el.classList.remove('rise'); }, 1600); }      // a standard rises where the class has just won
       }
-      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' secured' : ''}${el._rise ? ' rise' : ''}`;
+      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
