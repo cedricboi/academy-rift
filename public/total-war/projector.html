@@ -38,6 +38,8 @@
 .p-battle .status{margin-top:12px;font:400 16px "Rift Body";color:#e6d6d9}
 .pb-stage{position:relative;height:300px;margin-top:12px;border:1px solid #d8bd8044}
 .pb-stage canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.pb-theatre{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:#000}
+.pb-theatre canvas{position:static;height:100%;width:auto;max-width:100%;aspect-ratio:16/9}
 .pb-foes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.pb-foes div{font:700 13px "Rift Pixel";color:#ffd8de}.pb-foes .hpbar{width:120px}
 .pb-res{display:flex;align-items:center;gap:10px;margin-top:8px;font:600 13px "Rift Pixel";color:#c7f5ef;letter-spacing:2px}.pb-res .rb{flex:1;height:10px;background:#10202a}.pb-res .rb i{display:block;height:100%;background:linear-gradient(90deg,#3cc9b8,#7ff3e4)}
 .lobby{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:60px;background:radial-gradient(ellipse at 50% 20%,#1c2d3a,#0b141c 70%);z-index:20}
@@ -58,7 +60,7 @@
     <div class="gate-chip"><img id="gateImg" src="monsters/golem.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">CRIMSON GATE</span><b id="gateText">Unbroken</b></div></div>
   </header>
   <div class="p-log" id="log"></div>
-  <section class="p-battle hidden" id="battle"><div id="pbHead"></div><div class="pb-stage" id="pbStage"></div><div id="pbFoot"></div></section>
+  <section class="p-battle hidden" id="battle"><div id="pbHead"></div><div class="pb-stage" id="pbStage"><div class="pb-theatre hidden" id="pbTheatre"></div></div><div id="pbFoot"></div></section>
   <footer class="p-foot">
     <div><div class="eyebrow" style="font-size:13px;letter-spacing:4px">YOUR MISSION</div><h2>Break into the Crimson Fortress</h2><p>Defeat the gate guardian, then the Crimson Warlord inside. Keep the Academy Ward safe.</p></div>
     <div class="p-enemy"><img src="monsters/warlord.png" alt=""><div><span class="eyebrow" style="color:var(--rose);letter-spacing:3px">YOUR ENEMY</span><b id="enemyName">Your teacher</b><span style="color:#e6d6d9">Commander of the Crimson Host</span></div></div>
@@ -69,12 +71,14 @@
   <div class="qr" id="qr"></div>
 </section>
 <section class="ending hidden" id="ending"></section>
+<script src="../theatre/engine.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script type="module">
 import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
 import { UNITS, CAMPS } from './rules.js';
 import { createStage, enemyName } from './stage.js';
+import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre } from './theatre-tw.js';
 let shownBattle = null, lastRound = 0, stage = null;
 import qrcode from '/vendor/qrcode.mjs';
 const $ = (id) => document.getElementById(id);
@@ -82,6 +86,8 @@ const code = new URLSearchParams(location.search).get('code') || '';
 const socket = io();
 const map = createMap($('mapHost'));
 stage = createStage($('pbStage'), { mode: 'all' });
+initTheatre($('pbTheatre'));
+let cinema = false;
 let P = null, qrFor = '';
 socket.on('connect', () => socket.emit('twWatch', { code }));
 socket.on('twPublic', (v) => { P = v; render(); });
@@ -117,8 +123,16 @@ function render() {
       <div class="status">${esc(st)}${B.cheers.length ? ` · War Cries from ${B.cheers.map((c) => 'Pair ' + c.pair).join(', ')}` : ''}</div>`;
     box.classList.remove('hidden');
     const pairs = B.bands.flatMap((b) => b.pairs);
-    if (shownBattle !== B.id) { shownBattle = B.id; lastRound = 0; stage.skip(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); }
-    if (rd && rd.at !== lastRound) { lastRound = rd.at; stage.playRound(rd); }
+    if (shownBattle !== B.id) { shownBattle = B.id; lastRound = 0; stage.skip(); skipTheatre(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); prepareBattle(B, [...new Set(pairs.map((p) => p.char))]); }
+    if (rd && rd.at !== lastRound) {
+      lastRound = rd.at;
+      // the class sees every move as the full cinematic, the same as the iPads; the plain stage is the fallback
+      if (hasTheatre()) {
+        cinema = true; $('pbTheatre').classList.remove('hidden');
+        playRound(B, rd, pairs[0]?.char).catch(() => {}).finally(() => { cinema = false; $('pbTheatre').classList.add('hidden'); });
+      } else stage.playRound(rd);
+    }
+    if (B.status === 'fight' && cinema) skipTheatre();
     stage.set({ node: B.node, kind: B.kind, pairs: pairs.slice(0, 8).map((p) => ({ key: `p${p.no}`, char: p.char, label: `Pair ${p.no}` })), foes: B.enemies });
   }
   const end = $('ending');

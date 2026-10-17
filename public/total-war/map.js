@@ -107,8 +107,11 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       const n = NODES[node], off = (i - (group.length - 1) / 2) * 44;
       const x = n.x + off, y = n.y - 4;
       let el = els.get(b.key);
-      if (!el) { el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node; }
-      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}`;
+      if (!el) {
+        el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node;
+        if (primed && b.rise) { el._rise = true; setTimeout(() => { el._rise = false; el.classList.remove('rise'); }, 1600); }      // a standard rises where the class has just won
+      }
+      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' secured' : ''}${el._rise ? ' rise' : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
@@ -119,7 +122,9 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       seen.add(b.key);
     });
     for (const [k, el] of els) if (!seen.has(k)) { el.remove(); els.delete(k); }
+    primed = true;
   }
+  let primed = false;
 
   // Grab-Ma on her scooter, gliding along the roads between stops (the server says which road and when)
   const rEls = new Map(), roadCache = new Map();
@@ -184,8 +189,10 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     // jungle camps (neutral landmarks: always shown)
     for (const c of state.camps) {
       const info = CAMPS[c.node];
-      list.push({ key: `camp${c.node}`, kind: 'camp', ref: c.node, node: c.node, small: true, dim: !c.alive, glow: selected === `camp${c.node}`, label: info.name,
-        html: `<span class="cloth"><img src="${sprite(info.id)}" alt=""></span><span class="pole"></span><span class="tag">${esc(info.name.split(' ')[0])}${c.alive ? '' : ' · beaten'}</span>` });
+      if (c.alive) list.push({ key: `camp${c.node}`, kind: 'camp', ref: c.node, node: c.node, small: true, glow: selected === `camp${c.node}`, label: info.name,
+        html: `<span class="cloth"><img src="${sprite(info.id)}" alt=""></span><span class="pole"></span><span class="tag">${esc(info.name.split(' ')[0])}</span>` });
+      else list.push({ key: `campwon${c.node}`, kind: 'camp', ref: c.node, node: c.node, small: true, secured: true, rise: true, glow: selected === `camp${c.node}`, label: `${info.name}: secured`,
+        html: `<span class="cloth crystal-std">${CRYSTAL}</span><span class="pole"></span><span class="tag">${esc(info.name.split(' ')[0])} · secured${c.returnTurn ? ` to turn ${c.returnTurn}` : ''}</span>` });
     }
     // the Crimson Fortress gate / Warlord
     const fortressUnits = state.units.filter((u) => u.node === FORTRESS);
@@ -216,7 +223,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     }
     // Crystal banners: one per warband
     // stops the class has secured: its standard flies there
-    for (const n of state.rally || []) list.push({ key: `rally${n}`, kind: 'rally', ref: n, node: n, small: true, label: `${NODES[n].name}: rally point`,
+    for (const n of state.rally || []) list.push({ key: `rally${n}`, kind: 'rally', ref: n, node: n, small: true, secured: true, rise: true, label: `${NODES[n].name}: rally point`,
       html: `<span class="cloth crystal-std">${CRYSTAL}</span><span class="pole"></span><span class="tag">Secured</span>` });
     // the enemy your company lost to, and how wounded it still is
     if (wounded) list.push({ key: 'wounded', kind: 'wounded', ref: 'wounded', node: wounded.node, small: true, label: 'Wounded enemy',

@@ -105,7 +105,7 @@ $('stdPick').addEventListener('click', (e) => {
 // ------------------------------------------------------------------ the map
 const map = createMap($('mapHost'), {
   onStop: (n) => { selected = null; planTap(n); },
-  onBanner: (kind, ref, node) => { selected = kind === 'pair' ? `band${ref}` : kind === 'host' ? `host${node}` : kind === 'camp' ? `camp${node}` : kind === 'academy' ? 'academy' : kind === 'tower' ? 'tower' : kind === 'seen' ? `seen${ref}` : 'fortress'; if (kind === 'pair' && ref === S?.me.bandId) selected = null; render(); },
+  onBanner: (kind, ref, node) => { selected = kind === 'pair' ? `band${ref}` : kind === 'host' ? `host${node}` : kind === 'camp' ? `camp${node}` : kind === 'academy' ? 'academy' : kind === 'tower' ? 'tower' : kind === 'seen' ? `seen${ref}` : kind === 'fortress' ? 'fortress' : null; if (kind === 'pair' && ref === S?.me.bandId) selected = null; render(); },
 });
 const card = createCard($('card'), { onPick: (i, startedAt) => socket.emit('twAnswer', { chosen: i, startedAt }) });
 const bcard = createCard($('bCard'), { onPick: (i, startedAt) => { myPick = i; socket.emit('twAnswer', { chosen: i, startedAt }); } });
@@ -172,6 +172,9 @@ function render() {
     wounded: planning && band.lastDefeatAt ? band.lastDefeatAt : null,
     highlight: planning && band.lastDefeatAt ? S.bands.filter((b) => b.id !== band.id && reach.has(b.node)).map((b) => b.id) : [] });
   announceBuffs();
+  // a stop newly secured as a rally point pulses once
+  for (const n of S.rally || []) { if (!knownRally.has(n)) { if (rallyPrimed) map.pulse(n, `${nodeName(n)} secured`); knownRally.add(n); } }
+  rallyPrimed = true;
 
   // ribbon: only for alarms (the Academy under attack, or a siege unit you can see within one march of it)
   const siege = S.units.some((u) => u.node === HOME && !u.battle);
@@ -321,7 +324,7 @@ const STATUS_TXT = (b) => ({
   arrived: `Arrived at ${nodeName(b.node)}`, resume: 'Won · carry on or stay?', battle: 'In battle', quiz: 'Answering questions', recovering: 'Recovering at a rally point', waiting: 'Waiting',
 })[b.status] || '';
 // a jungle camp beaten: its location pulses, and a short message says what changed and who did it
-const knownBuffs = new Set(); let buffsPrimed = false;
+const knownBuffs = new Set(); let buffsPrimed = false; const knownRally = new Set(); let rallyPrimed = false;
 function announceBuffs() {
   for (const b of S.buffs || []) {
     const key = `${b.key}:${b.at || 0}`;

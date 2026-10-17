@@ -189,3 +189,13 @@ button:disabled{cursor:default}
 @keyframes pulseOut{0%{transform:scale(.4);opacity:1}100%{transform:scale(4.5);opacity:0}}
 .tw-pulse b{position:absolute;left:50%;top:-64px;transform:translateX(-50%);padding:4px 10px;background:#0b1a1fee;border:2px solid #7ff3e4;color:#bff5e0;font:700 14px "Rift Pixel";white-space:nowrap;animation:pulseTag 3.6s ease forwards}
 @keyframes pulseTag{0%{opacity:0;transform:translate(-50%,8px)}10%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+
+/* secured stops: a glowing ring on the ground, and the class's standard, which rises when the stop is first won */
+.tw-banner.secured::after{content:"";position:absolute;left:50%;bottom:-10px;width:70px;height:20px;margin-left:-35px;border-radius:50%;border:2px solid #7ff3e4;box-shadow:0 0 14px #7ff3e4,inset 0 0 10px #7ff3e466;z-index:-1;animation:securedGlow 2.4s ease-in-out infinite alternate}
+@keyframes securedGlow{from{opacity:.55}to{opacity:1}}
+.tw-banner.secured .crystal-std{background:#1d5d58;display:grid;place-items:center}
+.tw-banner.secured .tag{color:#bff5e0;font-size:10px}
+.tw-banner.rise .cloth{animation:standardRise 1.4s cubic-bezier(.2,.9,.3,1.2) both}
+.tw-banner.rise .pole{animation:poleRise 1s ease-out both}
+@keyframes standardRise{0%{transform:translateY(40px) scaleY(.2);opacity:0}60%{opacity:1}100%{transform:none}}
+@keyframes poleRise{0%{transform:scaleY(0);transform-origin:bottom}100%{transform:scaleY(1);transform-origin:bottom}}

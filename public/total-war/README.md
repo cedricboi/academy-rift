@@ -37,7 +37,9 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   **Resolve** (10 per pair). The share of the warband that answered right blocks up to 60% of it.
   Resolve at 0 loses the battle.
 - Students see their own pair's fighter (the Academy Rift sprite of their standard) against the enemy,
-  plus whichever classmate strikes that question. The projector shows every pair in the battle.
+  plus whichever classmate strikes that question. The projector shows every pair in the battle,
+  and plays each move as the same full cinematic as the iPads (the theatre), with the plain stage as the fallback.
+  Captured camps fly a Crystal standard ("secured to turn N") and secured stops raise one with a short animation.
   Enemy attack and idle animations are PixelLab animations in `monsters/anim/`; the backdrops are in `art/bg/`.
 
 ### Skills, Ultimates and items (the same as the Arena)

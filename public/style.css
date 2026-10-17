@@ -1126,14 +1126,15 @@ input:focus{outline:none;border-color:var(--cyan);}
 @keyframes sprIdle{to{transform:translateX(-100%);}}
 @media (prefers-reduced-motion: reduce){ .spr-frame img{animation:none;} }
 
-/* ===== Total War battles (this page in a frame over the war map): the war's backdrops have their ground lower and
-   flatter than the Arena's rooms, so every fighter stands on one floor line, at the theatre's size and spacing ===== */
-.tw-arena .lane{bottom:13%;}
-.tw-arena .arena.moving .lane{bottom:16%;}
-.tw-arena .arena.stealing .lane{bottom:22%;}
-.tw-arena .lane.lf{left:12%;}
-.tw-arena .lane.lb{left:28%;}
-.tw-arena .lane.rf{left:68%;}
-.tw-arena .lane.rb{left:86%;}
-.tw-arena .lane .tok,.tw-arena .lane.lb .tok,.tw-arena .lane.rf .tok{width:calc(290 * var(--u));}
-.tw-arena .tok.mon .spr-frame{width:150%;left:calc(50% - 150% * var(--ax,.5));}
+/* ===== Total War battles (this page in a frame over the war map): the stage matches the cinematic exactly. The war
+   backdrops are 16:9 and the theatre shows them whole (letterboxed), so the stage does too; every fighter stands on
+   the theatre's floor line (83% down the backdrop), at the theatre's size (a 192 px frame drawn 30% of the screen wide)
+   and at its spacing (ally 13%, actor 27%, enemy 79% across). ===== */
+.tw-arena .arena{background-size:100% auto;background-position:center;background-color:#05030a;}
+.tw-arena .lane,.tw-arena .lane.lb,.tw-arena .lane.rf,.tw-arena .arena.moving .lane,.tw-arena .arena.stealing .lane{top:auto;bottom:calc(50% - 20.7vw);}
+.tw-arena .lane.lf{left:13%;}
+.tw-arena .lane.lb{left:27%;}
+.tw-arena .lane.rf{left:75%;}
+.tw-arena .lane.rb{left:89%;}
+.tw-arena .lane .tok,.tw-arena .lane.lb .tok,.tw-arena .lane.rf .tok{width:21.4vw;}
+.tw-arena .stage-bg{inset:0;background-size:100% auto;background-position:center;background-color:#05030a;animation:none!important;}
