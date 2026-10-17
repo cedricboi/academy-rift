@@ -33,6 +33,7 @@ export function createCard(root, { onPick } = {}) {
       const n = Math.max(1, Math.ceil(((readEnd - t) * speed) / 1000));
       if (cover) cover.querySelector('span').textContent = `Think of the answer. The choices appear in ${n}`;
     } else if (cover) { cover.remove(); root.querySelector('.card-choices').classList.remove('reading'); }
+    if (q.untimed) { $('.card-clock').textContent = ''; $('.card-bar i').style.width = '0%'; return; }     // the training turn: no clock
     const left = Math.max(0, (end - t) * speed / 1000);
     $('.card-clock').textContent = current.result ? '' : `00:${String(Math.ceil(Math.min(left, q.seconds))).padStart(2, '0')}`;
     $('.card-bar i').style.width = `${current.result ? 0 : Math.min(100, (left / q.seconds) * 100)}%`;
@@ -42,6 +43,7 @@ export function createCard(root, { onPick } = {}) {
     if (serverNow) offset = serverNow - Date.now();
     speed = sp || 1;
     const same = current && current.q.startedAt === q.startedAt && current.q.q === q.q;
+    root.classList.toggle('untimed', !!q.untimed);
     root.classList.remove('hidden');
     $('.card-tag').textContent = tag;
     $('.card-topic').textContent = topicLabel || q.topic || '';

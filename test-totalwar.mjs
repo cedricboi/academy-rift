@@ -275,6 +275,8 @@ await practiceWar();
 await featureWar();
 await mechanicsWar();
 await restoreWar();
+await tutorialWar();
+await draftWar();
 summary();
 done(fails.length ? 1 : 0);
 
@@ -319,6 +321,7 @@ async function wardWar() {
 // items bought from Auntie with coins, and that the bot teacher plays its own turns.
 async function practiceWar() {
   console.log("\n--- practice war (bot teacher, bot students, skills, Auntie) ---");
+  const asked = new Set(), rightOnes = new Set(), repeats = [];
   const s = io(URL, { transports: ["websocket"] }); let v = null; const errs = []; const kinds = new Set(); let maxBands = 0, rideSeen = new Set(), bought = false, crimsonTurns = 0, lastTurn = 0, usedItem = false;
   s.on("twError", (m) => errs.push(m));
   s.on("twState", (x) => {
@@ -327,7 +330,9 @@ async function practiceWar() {
     const B = x.myBattle;
     if (B?.round?.action) kinds.add(B.round.action.kind);
     const q = x.own && !x.own.result ? x.own.question : B?.question && !B.question.mine ? B.question : null;
-    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; if (asked.has(q.q) && rightOnes.has(q.q)) repeats.push(q.q); asked.add(q.q); setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (x.own?.result?.ok) rightOnes.add(x.own.question.q);
+    if (B?.round?.my?.ok && B.round.q) rightOnes.add(B.round.q);
     if (B?.moves && s.lastMove !== B.choose?.endsAt) {
       s.lastMove = B.choose?.endsAt; const M = B.moves, ok = M.skills.filter((k) => k.ok);
       const act = M.items.length && !usedItem ? (usedItem = true, { kind: "item", item: M.items[0].id }) : M.ult.ready ? { kind: "ult" } : ok.length ? { kind: "skill", index: ok[0].i } : { kind: "strike" };
@@ -352,6 +357,7 @@ async function practiceWar() {
   check(rideSeen.has("cooking") && rideSeen.has("delivered"), `Grab-Ma cooks the order and rides it out to the banner (${[...rideSeen].join(" → ")})`);
   check(usedItem && kinds.has("item"), "an item from the bag can be used on your turn in battle");
   check(errs.some((e) => /takes orders during your move/.test(e)), "Grab-Ma only takes orders during the move, once the War Council opens");
+  check(!repeats.length, `a question the student got right is not asked again (${asked.size} different questions${repeats.length ? `, repeated: ${repeats.slice(0, 2).join(" | ")}` : ""})`);
   const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle|Lock in your move|Answer your 3|takes orders|War Council|You would have to fight|can travel/i.test(e));
   check(!odd.length, `no unexpected errors in the practice war${odd.length ? ": " + odd.slice(0, 3).join(" | ") : ""}`);
   s.disconnect();
@@ -501,6 +507,9 @@ async function mechanicsWar() {
   ana.emit("twJoinBand", { bandId: bC.id }); await sleep(150);
   const joint = H.bands.find((b) => b.pairs.length === 2);
   check(joint && joint.mp === want, `a warband's AP is the average of its pairs (${bA.mp} and ${bC.mp} make ${joint?.mp}, expected ${want})`);
+  await sleep(100);
+  check((cy.v.me.notes || []).some((n) => n.kind === "join" && /asked to march with you/.test(n.text) && n.leave), "joining a warband is never silent: the pair joined is told, with a Leave button");
+  check((ana.v.me.notes || []).some((n) => n.kind === "join" && /You joined Pair/.test(n.text)), "the pair that joined is told whose warband it is in");
   ana.emit("twLeaveBand"); await sleep(100);
   ana.route = () => "hold"; cy.route = () => "hold";
   ana.lastKey = cy.lastKey = null;
@@ -581,5 +590,57 @@ async function restoreWar() {
   const u3 = Date.now() + 15000; while (Date.now() < u3 && !(H2.phase === "crystal")) await sleep(20);
   check(H2.phase === "crystal" && !H2.paused, "once resumed, the war carries on");
   for (const x of [t2, s2]) x.disconnect();
+}
+// The practice tutorial: turn 1 has no timers (a question waits for the student), an enemy scout waits next to the
+// Academy, and Skip tutorial starts every clock again.
+async function tutorialWar() {
+  console.log("\n--- the practice tutorial: no timers, skippable ---");
+  const s = io(URL, { transports: ["websocket"] }); let v = null; const errs = [];
+  s.on("twState", (x) => (v = x)); s.on("twError", (m) => errs.push(m));
+  await new Promise((r) => s.on("connect", r));
+  s.emit("twPractice", { name: "New", char: "emi", tutorial: true });
+  const u1 = Date.now() + 5000; while (!(v?.own?.question) && Date.now() < u1) await sleep(20);
+  check(v?.training && v.tutorial, "a first practice war starts with the coached training turn");
+  check(!!v?.own?.question?.untimed, "in the training turn a question has no timer");
+  check(v?.units?.some((u) => u.node === 1), "an enemy scout waits next to the Academy for the first battle");
+  const started = v.own.question.startedAt;
+  await sleep(2500);                                                         // 50 game seconds: far past a question's time
+  check(v.own && v.own.question.startedAt === started && !v.own.result && v.phase === "crimson", "an untimed question waits for the student (nothing ran out)");
+  s.emit("twTutorial", { done: true });
+  const u2 = Date.now() + 3000; while (v.training && Date.now() < u2) await sleep(20);
+  check(!v.training && !v.tutorial, "Skip tutorial ends the training turn");
+  check(v.own && !v.own.question.untimed, "after skipping, the question has its timer again");
+  const u3 = Date.now() + 8000; while (!(v.own?.result || v.own?.question.startedAt !== started) && Date.now() < u3) await sleep(20);
+  check(!!(v.own?.result || v.own?.question.startedAt !== started), "after skipping, an unanswered question runs out as usual");
+  check(!errs.length, `no errors in the tutorial${errs.length ? ": " + errs.slice(0, 3).join(" | ") : ""}`);
+  s.disconnect();
+}
+// A route drawn on the map but never sent is sent for the student when the planning time ends, and every student is
+// told where their warband is going ("Route sent", "Time's up: you stayed").
+async function draftWar() {
+  console.log("\n--- a drafted route is sent when the planning time ends ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null;
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (x) => (H = x));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: false, councilSeconds: 30 });
+  const mk = (name) => { const s = io(URL, { transports: ["websocket"] }); s.v = null; s.on("twState", (x) => { s.v = x; const q = x.own && !x.own.result ? x.own.question : null; if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); } }); return s; };
+  const a = mk("Dru"), b = mk("Eli");
+  await Promise.all([a, b].map((s) => new Promise((r) => s.on("connect", r))));
+  a.emit("twJoin", { code: hs.code, name: "Dru" }); b.emit("twJoin", { code: hs.code, name: "Eli" });
+  while (!a.v || !b.v) await sleep(20);
+  t.emit("twStart");
+  while (H.status !== "playing") await sleep(20);
+  t.emit("twEndTurn");
+  const u = Date.now() + 30000; while (!(H.phase === "crystal" && H.stage === "council") && Date.now() < u) await sleep(20);
+  await sleep(80);
+  a.emit("twDraft", { route: [HOME, 1] });                                  // drawn, never sent
+  const u2 = Date.now() + 15000; while (!(H.phase === "crystal" && H.stage === "march") && H.phase === "crystal" && Date.now() < u2) await sleep(20);
+  await sleep(300);
+  const bandA = H.bands.find((x) => x.pairs.some((p) => p.names.includes("Dru"))), bandB = H.bands.find((x) => x.pairs.some((p) => p.names.includes("Eli")));
+  check(bandA && (bandA.node === 1 || (bandA.path || []).includes(1) || (Array.isArray(bandA.plan) && bandA.plan.at(-1) === 1)), `a drafted route is sent by itself when the time runs out (Dru's warband at ${NODES[bandA?.node]?.name})`);
+  check((a.v.me.notes || []).some((n) => /route you planned was sent/.test(n.text)), `the student is told their route was sent (${(a.v.me.notes || []).map((n) => n.text).join(" | ")})`);
+  check((b.v.me.notes || []).some((n) => /Time's up: you stayed at/.test(n.text)), "a student who planned nothing is told they stayed");
+  for (const s of [a, b, t]) s.disconnect();
 }
 function summary() { console.log(`\n${fails.length ? "FAILED: " + fails.length : "ALL PASSED"}`); }

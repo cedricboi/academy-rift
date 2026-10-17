@@ -13,6 +13,28 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
   the biggest live battle and a feed of what is happening. Never shows answers or hidden units.
 - `tools/prototypes/total-war/prototype.html`: Codex's original movement prototype, kept for reference (not served).
 
+## A first-time student (the coach, tips and plain words)
+
+- **Practice tutorial.** A student's first practice war starts with a coached turn 1 with no timers: Emi says one thing
+  at a time, the thing to tap glows and the other buttons dim. It covers earning steps, coins, the map and steps, planning
+  and sending a route, the march, a short first battle (your turn and the move menu, answering along, a stolen turn,
+  the enemy hitting back), then HP and Grab-Ma food. A Rift Hound waits one road from the Academy for that battle.
+  **Skip tutorial** (or the last NEXT) starts every clock (`twTutorial`). Done once per iPad (`tw.tutorialDone`).
+- **Training turn (class wars).** The teacher can turn on *Training turn* in the lobby: turn 1 has no timers, each stage
+  waits until everyone is done, and **Continue** moves the class on (`twContinue`, `twEndTraining`).
+- **Tips.** In every other war, the first time a student sees each stage a one-line tip is pinned above the bar along the
+  bottom (or in the corner of a battle). It can be closed, and does not come back once that stage is over.
+- **One clock at a time.** The top clock hides while a question card, the Grab-Ma phone or a battle has its own timer.
+- **Words.** Action points are *steps*, the War Council is *Plan your move*, routes are *sent* (alone) or *suggested*
+  (in a warband), rally points are *safe camps*. HP is on one scale everywhere: a pair has 100 HP on the phone, the map
+  and the battle screen, and a strike shows as 20. Food says exactly what it heals.
+- **Planning.** A route drawn on the map but not sent is sent by itself when planning ends (`twDraft`). Every pair is
+  told where its warband went ("Route sent: you march to X", "Time's up: you stayed at X"), and when another pair joins
+  its warband (with a Leave button). While the phone is open it shows the time left, and closes itself at 10 seconds.
+- **Questions.** A student gets unseen questions from the whole pool first; only a question they got wrong comes back
+  ("Back again"). The end screen counts only questions the student really answered (their own, and the battle questions
+  they answered along with), and says how far the class got and what it won.
+
 ## How a turn works (as in Civilization)
 
 1. **Crimson turn (30 seconds by default).** The teacher moves units by hand (orders and sending units

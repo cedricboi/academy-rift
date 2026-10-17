@@ -10,7 +10,7 @@ const BGS = ['forest', 'bridge', 'ruins', 'lair', 'gate', 'academy'];
 const CH = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
 const FLIP = new Set(['moonhart', 'riftglass']);          // drawn facing right
 const SIZE = { golem: 1.3, warlord: 1.4, ogre: 1.15, wyvern: 1.15, broodmother: 1.2, moonhart: 1.15, galecrest: 1.15, ferryman: 1.1, mossback: 1.15 };
-const SCALE = 100;                                         // war battles count in hits; the Arena shows about 200 a strike
+const SCALE = 10;                                          // one HP scale on every screen: a pair's 10 HP shows as 100, a strike (2 hits) as 20
 const X = (v) => Math.max(0, Math.round((v || 0) * SCALE));
 const KIND = { strike: 'strike', skill: 'spell', ult: 'ultimate', item: 'item' };
 
@@ -137,9 +137,11 @@ export function createArenaBridge({ socket: tw, host }) {
   const esc = (v) => String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // ---------------- the war's battle as an Arena room
+  // each fighter shows their own pair's HP (its share of the warband's HP), the same number as the phone and the map
   function fighter(S, B, pid, char, name, extra = {}) {
     const c = CH[char] || CH.kuro, f = (B.party || []).find((x) => x.pid === pid);
-    const hp = X(B.resolveMax ? B.resolve : 1), maxHp = X(B.resolveMax || 1);
+    const no = pid === me ? S.me.pairNo : f?.pairNo, ph = B.pairHp?.[no];
+    const hp = ph ? X(ph.hp) : X(B.resolveMax ? B.resolve : 1), maxHp = ph ? X(ph.max) : X(B.resolveMax || 1);
     return {
       uid: pid, team: 0, charId: c.id, name: name || '?', charName: c.name, element: c.element,
       hp, maxHp, sp: f?.sp ?? 0, maxSp: f?.maxSp ?? 100, alive: hp > 0, skills: c.skills, ultimate: c.ultimate, cooldowns: {}, items: {}, ...extra,
@@ -164,13 +166,20 @@ export function createArenaBridge({ socket: tw, host }) {
       items: Object.fromEntries(Object.entries(S.me.bag || {}).filter(([id, n]) => n > 0 && id !== 'notes')),
       ...(moves ? { sp: moves.sp, maxSp: moves.maxSp } : {}),
     });
-    // beside you: whoever has the turn, else your partner, else another fighter in the battle
+    // beside you on the stage: whoever has the turn, else your partner, else another fighter in the battle.
+    // The HUD always shows your own pair (pair: true); a classmate from another pair whose turn it is is named in the
+    // label at the top instead ("Turn: Bot Dev, Pair 2").
     const turn = B.choose?.pid || B.striker?.pid || null;
     const party = B.party || [];
-    const pick = (turn && turn !== me && party.find((f) => f.pid === turn))
-      || party.find((f) => f.pid !== me && f.pairNo === S.me.pairNo) || party.find((f) => f.pid !== me) || null;
+    const partner = party.find((f) => f.pid !== me && f.pairNo === S.me.pairNo) || null;
+    const other = turn && turn !== me ? party.find((f) => f.pid === turn && f.pairNo !== S.me.pairNo) : null;
+    const pick = other || partner || party.find((f) => f.pid !== me) || null;
+    meC.pair = true;
     const allies = [meC];
-    if (pick) allies.push(fighter(S, B, pick.pid, pick.char, pick.name));
+    if (pick) allies.push(fighter(S, B, pick.pid, pick.char, pick.name, { pair: pick === partner }));
+    if (partner && pick !== partner) allies.push(fighter(S, B, partner.pid, partner.char, partner.name, { pair: true, offstage: true }));
+    const turnF = party.find((f) => f.pid === turn);
+    const turnLabel = !turnF ? '' : turn === me ? 'YOUR TURN' : `TURN: ${turnF.name.toUpperCase()}${turnF.pairNo !== S.me.pairNo ? ` (PAIR ${turnF.pairNo})` : ' (YOUR PARTNER)'}`;
     const phase = B.status === 'fight' && B.question ? 'question'
       : B.status === 'choose' ? (B.choose.half ? 'steal-action' : 'action') : 'done';
     const battle = {
@@ -178,7 +187,9 @@ export function createArenaBridge({ socket: tw, host }) {
       stealActor: phase === 'steal-action' ? B.choose.pid : null, stealOf: phase === 'steal-action' ? B.choose.striker?.pid : null,
       question: cur?.q || null, sync: [B.sync || 0, 0], msLeft: null,
       stage: Math.max(0, BGS.indexOf(backdropFor(B.node, B.kind))), stageLevel: 1,
-      label: B.qNo ? `QUESTION ${B.qNo} OF ${B.limit}` : '',
+      label: B.qNo ? `QUESTION ${B.qNo} OF ${B.limit}` : '', turnLabel,
+      // the move menu's clock: the war's own (6 s), or none in the training turn
+      moveEndsAt: B.choose ? (B.choose.untimed ? Infinity : B.choose.endsAt - (S.serverNow - Date.now())) : null,
     };
     const players = [{ id: me, team: 0, name: S.me.name, character: myChar }, ...party.filter((f) => f.pid !== me).map((f) => ({ id: f.pid, team: 0, name: f.name, character: f.char }))];
     return { code: S.code, status: 'battle', serverNow: S.serverNow, players, battle };
@@ -201,7 +212,7 @@ export function createArenaBridge({ socket: tw, host }) {
         const q = B.question;
         cur.qKey = key; cur.told = {};
         if (q.cheat != null) window.__cheat = q.cheat;
-        cur.q = { q: q.q, choices: q.choices, topic: q.topic, image: q.image, startedAt: q.startedAt, recall: q.recall / speed, seconds: (q.recall + q.seconds) / speed };
+        cur.q = { q: q.q, choices: q.choices, topic: q.topic, image: q.image, startedAt: q.startedAt, recall: q.recall / speed, seconds: (q.recall + q.seconds) / speed, untimed: !!q.untimed };
       }
     }
     // the question is over: who was right, and the right answer, before the turn moves on (as in the Arena)
@@ -220,11 +231,11 @@ export function createArenaBridge({ socket: tw, host }) {
     // a move was played: the cinematic, then the Crimson hitting back
     if (B.round && B.round.at !== cur.roundAt && (B.status === 'result' || B.status === 'over')) {
       cur.roundAt = B.round.at;
-      const r = B.round, a = r.action, tgt = `e${r.target ?? 0}`;
+      const r = B.round, a = r.action, tgt = `e${r.target ?? 0}`, npairs = Math.max(1, Object.keys(B.pairHp || {}).length);
       if (a) {
         const events = [];
         if (r.mainHits > 0) events.push({ target: tgt, dmg: X(r.mainHits), ko: (r.enemiesAfter?.[r.target]?.hp ?? 1) <= 0 });
-        if (r.heal > 0) events.push({ target: a.pid, heal: X(r.heal) });
+        if (r.heal > 0) events.push({ target: a.pid, heal: X(r.heal / npairs) });
         if (a.kind === 'skill') {
           const sk = CH[a.char]?.skills[a.index];
           if (sk?.kind === 'guard') events.push({ kind: 'guard', target: a.pid });
@@ -235,7 +246,7 @@ export function createArenaBridge({ socket: tw, host }) {
         fire('actionResult', { actor: a.pid, action: KIND[a.kind] || 'strike', name: a.name, events });
       }
       fire('room', room); lastRoom = roomKey(room);
-      if (r.counterTotal > 0 || r.stunned) fire('twCounter', { actor: a?.pid || me, from: tgt, dmg: X(r.counterTotal), blocked: Math.round((r.guard || 0) * 100), stunned: !!r.stunned });
+      if (r.counterTotal > 0 || r.stunned) fire('twCounter', { actor: a?.pid || me, from: tgt, dmg: X(r.counterTotal / npairs), blocked: Math.round((r.guard || 0) * 100), stunned: !!r.stunned });
     } else { const k = roomKey(room); if (k !== lastRoom) { lastRoom = k; fire('room', room); } }
     if (!cur.started && live) { cur.started = true; fire('battleStart', {}); }
     host.classList.toggle('hidden', !live);

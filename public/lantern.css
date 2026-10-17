@@ -806,6 +806,9 @@ body.cd-open .pick-head .cd-close{visibility:hidden;}
 /* Total War: while the split-screen window shows in the top-right corner, question panels leave the right edge free */
 .tw-arena.pip-squeeze .qstrip,.tw-arena.pip-squeeze .mcq{left:calc(50% - 125px);max-width:calc(100% - 280px);}
 .tw-arena.pip-squeeze .mcq{top:calc(146 * var(--u));}
+/* Total War: the coach (or a first-time tip) sits in the top-right corner of a battle; the question panels leave it room */
+.tw-arena.coach-squeeze .qstrip,.tw-arena.coach-squeeze .mcq{left:calc(50% - 175px);max-width:calc(100% - 370px);}
+@media (max-aspect-ratio:1/1){.tw-arena.coach-squeeze .qstrip,.tw-arena.coach-squeeze .mcq{left:50%;max-width:none;}}
 .topic-mixed-note{margin:6px 0 8px;padding:8px 12px;border-left:3px solid var(--ln-gold,#e2b865);background:rgba(226,184,101,.08);font-size:.95rem;line-height:1.4;color:var(--ln-text,#eee);}
 
 /* readable numbers and comfortable touch targets on iPads */

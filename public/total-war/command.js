@@ -59,7 +59,8 @@ function renderLobby() {
     + [...folders].map(([f, sets]) => `<div class="folder">${esc(f.toUpperCase())}</div>` + sets.map((s) => `<button type="button" data-topic="${s.id}" class="${chosen.has(s.id) ? 'on' : ''}">${esc(s.title)} <small>· ${s.count}</small></button>`).join('')).join(''));
   opts($('setTurns'), [8, 10, 12, 14, 16, 20].map((n) => [n, `${n} turns`]), H.settings.turns);
   opts($('setCrimson'), [20, 30, 45, 60].map((n) => [n, `${n} seconds`]), H.settings.crimsonSeconds);
-  opts($('setCouncil'), [30, 45, 60, 90].map((n) => [n, `${n} seconds`]), H.settings.councilSeconds);
+  opts($('setCouncil'), [30, 45, 60, 90, 120].map((n) => [n, `${n} seconds`]), H.settings.councilSeconds);
+  $('setTraining').checked = !!H.settings.trainingTurn;
   $('setLock').checked = !!H.settings.warlordLock;
   opts($('setCrystal'), [90, 120, 150, 180, 240].map((n) => [n, `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')} min`]), H.settings.crystalSeconds);
   opts($('setTarget'), [15, 20, 25, 30, 40].map((n) => [n, `${n} questions`]), H.settings.target);
@@ -92,6 +93,7 @@ $('roster').addEventListener('click', (e) => {
 $('startWar').addEventListener('click', () => socket.emit('twStart'));
 $('setBotCmd').addEventListener('change', (e) => socket.emit('twSettings', { botCommander: e.target.checked }));
 $('setBotPartners').addEventListener('change', (e) => socket.emit('twSettings', { botPartners: e.target.checked }));
+$('setTraining').addEventListener('change', (e) => socket.emit('twSettings', { trainingTurn: e.target.checked }));
 $('addBots').addEventListener('click', () => socket.emit('twAddBots', { pairs: 1 }));
 $('removeBots').addEventListener('click', () => socket.emit('twRemoveBots'));
 
@@ -127,6 +129,7 @@ const map = createMap($('mapHost'), {
 $('autoBtn').addEventListener('click', () => socket.emit('twAuto'));
 $('guide').addEventListener('click', (e) => {
   const c = e.target.closest('[data-council]'); if (c) socket.emit('twCouncil', c.dataset.council === 'launch' ? { launch: true } : { extend: 15 });
+  const tr = e.target.closest('[data-train]'); if (tr) socket.emit(tr.dataset.train === 'go' ? 'twContinue' : 'twEndTraining');
   const i = e.target.closest('[data-idle]'); if (i) { selStack = +i.dataset.idle; selUnit = null; render(); }
 });
 $('setLock').addEventListener('change', (e) => socket.emit('twSettings', { warlordLock: e.target.checked }));
@@ -225,9 +228,13 @@ function render() {
   const stuck = (H.stuck || []).length ? `<span class="g-idle">${H.stuck.map((p) => `Pair ${p.no}`).join(', ')} ${H.stuck.length > 1 ? 'have' : 'has'} not moved for 3 turns. Check in with them.</span>` : '';
   const left = H.endAt ? Math.max(0, Math.ceil((H.endAt - now()) / 60000)) : null;
   idleChipExtra = stuck + (left != null ? `<span class="g-idle">War ends in about ${left} min</span>` : '');
-  setHTML($('guide'), H.status !== 'playing' ? '' : H.paused ? `<div class="g-wait"><b>PAUSED</b> ${H.paused.restored ? 'The server restarted and the war is back at the start of this turn. Resume when the class has rejoined.' : 'Every clock has stopped. Students see "Paused by ' + esc(H.settings.commander) + '".'} <button type="button" class="btn crimson" data-resume="1">Resume</button></div>`
+  // the training turn: nothing is timed, the teacher moves the class on with Continue
+  const training = H.status === 'playing' && H.training && !H.paused
+    ? `<div class="g-council"><b>TRAINING TURN</b> No timers. ${H.phase === 'crimson' ? 'Students are answering questions to earn steps.' : H.stage === 'quiz' ? `Students are answering 3 questions: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.` : H.stage === 'council' ? `Students are planning their moves: ${agreed} of ${H.bands.length} warbands have chosen a route.` : 'The warbands are moving and fighting.'} <button type="button" class="btn crimson" data-train="go">Continue</button><button type="button" class="btn" data-train="end">End training (start the timers)</button></div>` : '';
+  if (training) { setHTML($('guide'), training); }
+  else setHTML($('guide'), H.status !== 'playing' ? '' : H.paused ? `<div class="g-wait"><b>PAUSED</b> ${H.paused.restored ? 'The server restarted and the war is back at the start of this turn. Resume when the class has rejoined.' : 'Every clock has stopped. Students see "Paused by ' + esc(H.settings.commander) + '".'} <button type="button" class="btn crimson" data-resume="1">Resume</button></div>`
     : (H.phase === 'crystal' && H.stage === 'quiz'
-    ? `<div class="g-wait">The class is answering 3 questions before the War Council: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
+    ? `<div class="g-wait">The class is answering 3 questions before planning its move: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
     : H.phase === 'crystal' && H.stage === 'council'
     ? `<div class="g-council"><b>WAR COUNCIL</b> <span data-until="${H.phaseEndsAt}"></span> left. ${agreed} of ${H.bands.length} warband${H.bands.length === 1 ? ' has' : 's have'} chosen a route. <button type="button" class="btn" data-council="extend">+15 s</button><button type="button" class="btn crimson" data-council="launch">Launch now</button></div>${idleChip}`
     : H.settings.botCommander ? `<div class="g-bot">🤖 The Bot Commander is leading your Host. Watch, or give orders yourself.</div>` : !mine

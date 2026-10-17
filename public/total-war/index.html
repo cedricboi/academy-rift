@@ -25,7 +25,7 @@
       <label class="jf"><span>WAR CODE</span><input id="joinCode" class="code-in" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="4" placeholder="W···" required inputmode="text"></label>
       <label class="jf"><span>YOUR NAME</span><input id="joinName" autocomplete="off" spellcheck="false" maxlength="20" placeholder="Your name" required></label>
       <button class="war-btn" type="submit"><span>⚔ MARCH TO WAR</span></button>
-      <button class="ghost-btn practice-btn" id="practiceBtn" type="button">⚔ PRACTICE WAR · YOU AND BOTS AGAINST THE BOT COMMANDER</button>
+      <button class="ghost-btn practice-btn" id="practiceBtn" type="button">⚔ PRACTICE WAR · YOU AND BOTS AGAINST A COMPUTER ENEMY</button>
       <a class="back-link" href="/">← Back to Academy Rift</a>
     </form>
   </div>
@@ -93,9 +93,9 @@
             <button class="btn ab-auntie hidden" type="button" id="abAuntie"><i></i>ORDER GRAB-MA</button>
             <button class="btn ab-join hidden" type="button" id="abJoin"></button>
             <button class="btn ab-leave hidden" type="button" id="leaveBandBtn">Leave warband</button>
-            <button class="btn ab-hold hidden" type="button" id="abHold">HOLD HERE</button>
+            <button class="btn ab-hold hidden" type="button" id="abHold">STAY HERE</button>
           </div>
-          <button class="ab-end hidden" type="button" id="endTurnBtn">COMMIT ROUTE</button>
+          <button class="ab-end hidden" type="button" id="endTurnBtn">SEND ROUTE</button>
         </div>
       </section>
     </div>
@@ -134,6 +134,9 @@
     </div>
   </section>
 <div id="secured" class="secured hidden" role="status"></div>
+  <div id="notice" class="notice hidden" role="status"></div>
+  <div id="coach" class="coach hidden" role="status" aria-live="polite"></div>
+  <div id="coachRing" class="coach-ring hidden" aria-hidden="true"></div>
   <div id="arenaHost" class="arena-host hidden"></div>
   <div id="toast" class="toast hidden" role="status"></div>
 <script src="../theatre/engine.js"></script>

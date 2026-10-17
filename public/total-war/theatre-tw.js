@@ -6,7 +6,7 @@ import { backdropFor } from './stage.js';
 const TH = window.Theatre || null;
 const LAB = { jun: 'J', kuro: 'K', emi: 'E', saya: 'S', raiden: 'R', nao: 'N', taiga: 'T', hina: 'H', mina: 'M', renji: 'X' };
 const BGS = ['forest', 'bridge', 'ruins', 'lair', 'gate', 'academy'];
-export const SCALE = 100;            // battles count in hits; they are shown at Arena scale (a strike is about 200)
+export const SCALE = 10;             // one HP scale on every screen: a pair's 10 HP shows as 100, a strike (2 hits) as 20
 let ready = null, gen = 0;
 const registered = new Set();
 

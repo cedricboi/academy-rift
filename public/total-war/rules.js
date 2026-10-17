@@ -7,9 +7,9 @@ export const FORTRESS = 5;             // Crimson Fortress: the gate guardian, t
 export const QUIZ_PER_MOVE = 3;        // the class's move opens with 3 questions each (coins for right answers), then the map
 export const QUIZ_BONUS = 20;          // extra coins for getting all 3 right
 export const STRATEGY_SECONDS = 25;    // the War Council: at least this long to plan routes and order food before banners can march
-export const COUNCIL_SECONDS = 45;     // the longest a War Council lasts unless the teacher extends it
+export const COUNCIL_SECONDS = 60;     // the longest a War Council ("Plan your move") lasts unless the teacher extends it
 export const MARCH_STEP = 1.6;         // seconds a marching banner takes for each road
-export const REST_HEAL = 3;            // HP a pair gets back each turn it rests at the Academy or a rally point it holds (otherwise only food heals)
+export const REST_HEAL = 3;            // HP a pair gets back each turn it rests at the Academy or a safe camp (a rally point) it holds (otherwise only food heals)
 export const ALONG_HIT = 0.75;         // answering along: this many hits for each right answer…
 export const ALONG_CAP = 4;            // …counting at most this many in a battle of one or two pairs (a huge warband no longer melts an enemy in one question)
 // the cap grows with the warband, so a bigger warband always helps (1.5 more right answers count for each pair after the first two)
@@ -47,6 +47,10 @@ export const RESOLVE_PER_PAIR = 10;    // a warband's Resolve in battle; the Cri
 export const GUARD_MAX = 0.6;          // most of a counterattack the warband can block (when every fighter was right)
 export const HOLD_BONUS = 0.25;        // a unit that holds its stop for a whole turn is dug in: this much tougher
 export const WARD_HP = 24;             // the Academy Ward at the class's own fortress: break it and the Crimson Host wins
+// One HP scale on every student screen: a pair has 10 HP inside the game and is shown as 100 (the phone, the map, the
+// battle HUD, food). Damage to enemies is shown on the same scale, so a strike (2 hits) shows as 20.
+export const HP_SHOW = 10;
+export const showHp = (v) => Math.max(0, Math.round((+v || 0) * HP_SHOW));
 
 // ---- the Crimson Host. hp = right answers needed to beat it. speed = stops per Crimson turn ----
 export const UNITS = {
@@ -215,14 +219,15 @@ export function dealHits(enemies, hits) {
 export const nodeName = (n) => NODES[n]?.name || '?';
 
 // ---- Grab-Ma's food in Total War: what each item does here (the Arena's own text is in data/characters.js) ----
-// heal and resolve are in battle hits (shown x100); eat is HP for your pair when eaten between battles
+// heal and eat are in pair HP (10 inside the game, shown x10). In battle a warband shares one HP pool, so food heals
+// every pair in the warband by the same amount (the server multiplies by the number of pairs).
 export const TW_ITEMS = {
-  bento:   { price: 120, eat: 4, desc: 'In battle it heals your warband 300. Between battles it heals your pair 400.' },
-  energy:  { price: 100, desc: 'In battle it gives you 150 SP, so you can use more skills.' },
-  revive:  { price: 250, eat: 'full', desc: 'Brings your pair back to full HP. In battle it heals your warband by half.' },
-  shield:  { price: 150, desc: 'In battle the next counterattack on your warband does half damage.' },
-  crystal: { price: 220, desc: 'In battle it adds 30 to your warband\'s Sync gauge.' },
-  tonic:   { price: 140, eat: 3, desc: 'In battle it heals 200 and the enemy hits back weaker for 2 questions. Between battles it heals your pair 300.' },
-  chilli:  { price: 160, desc: 'Use it as your move in battle: a strike that does 50% more damage.' },
-  durian:  { price: 180, desc: 'Use it as your move in battle: 400 damage to your target and 100 to the enemy beside it.' },
+  bento:   { price: 120, eat: 4, heal: 4, desc: 'Heals your pair 40 HP, in a battle or between battles.' },
+  energy:  { price: 100, desc: 'In battle it gives you 150 SP (energy for skills), so you can use more skills.' },
+  revive:  { price: 250, eat: 'full', heal: 5, desc: 'Between battles it brings your pair back to 100 HP. In a battle it heals your pair 50 HP.' },
+  shield:  { price: 150, desc: 'In battle the next time the enemy hits back, it does half damage.' },
+  crystal: { price: 220, desc: 'In battle it fills your warband\'s Sync bar by 30. A full Sync bar unlocks your Ultimate.' },
+  tonic:   { price: 140, eat: 3, heal: 3, desc: 'Heals your pair 30 HP. In a battle the enemy also hits back weaker for 2 questions.' },
+  chilli:  { price: 160, desc: 'Use it as your move in battle: a strike that does 50% more damage (30 instead of 20).' },
+  durian:  { price: 180, desc: 'Use it as your move in battle: 40 damage to your target and 10 to the enemy beside it.' },
 };

@@ -3,7 +3,7 @@
 // Orders go in during the class's move, once the banner has locked in its move (the server checks this too).
 import { ITEMS } from '../data/characters.js';
 import { NODES } from './movement.js';
-import { hops, TW_ITEMS } from './rules.js';
+import { hops, TW_ITEMS, showHp } from './rules.js';
 const fromHome = hops(0);
 const hopsFromHome = (n) => fromHome.get(n) ?? 4;
 
@@ -36,6 +36,9 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
       <div class="ph-home"></div>
     </div>`;
   const screen = host.querySelector('.ph-screen');
+  // while planning, a small strip on the phone says how long is left (the top clock is hidden while the phone is open)
+  const strip = document.createElement('div'); strip.className = 'ph-council hidden'; host.querySelector('.phone').prepend(strip);
+  function setStrip(text, low = false) { strip.classList.toggle('hidden', !text || !open); strip.classList.toggle('low', !!low); if (text && strip.textContent !== text) strip.textContent = text; }
   const push = document.createElement('button');
   push.type = 'button'; push.className = 'ph-push hidden';
   document.body.appendChild(push);
@@ -55,20 +58,21 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
   const why = () => {
     const r = myRider();
     if (r && r.status !== 'delivered') return 'Grab-Ma is still bringing your last order.';
-    if (!canOrder()) return S()?.myBattle ? 'Grab-Ma cannot ride into a battle. Order after it.' : me().ordered ? 'You have ordered this move. Order again next move.' : 'Grab-Ma takes orders in the War Council and while warbands march.';
+    if (!canOrder()) return S()?.myBattle ? 'Grab-Ma cannot ride into a battle. Order after it.' : me().ordered ? 'You have ordered this move. Order again next move.' : 'Grab-Ma takes orders while you plan your move and while warbands march.';
     if (cartCost() > (me().coins || 0)) return `You need ${cartCost() - (me().coins || 0)} more coins. Right answers earn 10 each.`;
     return '';
   };
 
   // your pair's HP (it does not come back by itself) and the food in your bag: eat it here, or use it on your turn in battle
-  const EAT = { bento: 4, revive: 10, tonic: 2 };
+  // one HP scale everywhere: the same numbers as the map and the battle screen (a pair has 100)
+  const EAT = Object.fromEntries(Object.entries(TW_ITEMS).filter(([, t]) => t.eat).map(([id, t]) => [id, t.eat === 'full' ? 'full' : showHp(t.eat)]));
   function bagView() {
     const hp = me().hp ?? 10, max = me().maxHp ?? 10, items = Object.entries(bag()).filter(([, n]) => n > 0);
     const pct = Math.round((hp / max) * 100), inBattle = !!S()?.myBattle;
-    return `<div class="ph-bag"><div class="ph-hp"><b>Your pair's HP</b><span>${hp} / ${max}</span><i class="${pct < 34 ? 'low' : ''}"><em style="width:${pct}%"></em></i>
-        <small>HP does not come back after a battle. Eat food, or rest at the Academy or a rally point.</small></div>
+    return `<div class="ph-bag"><div class="ph-hp"><b>Your pair's HP</b><span>${showHp(hp)} / ${showHp(max)}</span><i class="${pct < 34 ? 'low' : ''}"><em style="width:${pct}%"></em></i>
+        <small>HP does not come back by itself after a battle. Eat food, or rest at the Academy or a safe camp.</small></div>
       ${items.length ? `<div class="ph-bag-items">${items.map(([id, n]) => { const it = MENU.find((m) => m.id === id); const heal = EAT[id];
-        return `<div class="ph-bag-item"><img src="${ICON(id)}" alt=""><span><b>${esc(it?.name || id)} ×${n}</b><small>${heal ? `Eat now: +${heal} HP` : 'Use it on your turn in battle'}</small></span>
+        return `<div class="ph-bag-item"><img src="${ICON(id)}" alt=""><span><b>${esc(it?.name || id)} ×${n}</b><small>${heal ? (heal === 'full' ? 'Eat now: back to full HP' : `Eat now: +${heal} HP`) : 'Use it on your turn in battle'}</small></span>
           ${heal ? `<button type="button" data-ph="eat" data-id="${id}" ${inBattle || hp >= max ? 'disabled' : ''}>EAT</button>` : ''}</div>`; }).join('')}</div>` : ''}</div>`;
   }
 
@@ -195,7 +199,7 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
     if (placing && r && r.status !== 'delivered' && (!lastRider || lastRider.id !== r.id)) { cart = {}; placing = null; view = 'track'; openedTrack = true; }
     // the server answered: the order was refused (the reason arrives as a toast)
     const key = `${s.turn}`;
-    if (canOrder() && pushed !== key && !r) { pushed = key; notify('War Council open! Hungry? 🍜', "Order from Mama's Kopitiam Kitchen. Grab-Ma rides faster than any warband.", 'shop'); }
+    if (canOrder() && pushed !== key && !r) { pushed = key; notify('Time to plan your move. Hungry? 🍜', "Order from Mama's Kopitiam Kitchen. Grab-Ma rides faster than any warband.", 'shop'); }
     if (r && lastRider?.id === r.id && lastRider.status !== r.status) {
       if (r.status === 'riding') notify('Grab-Ma is on the way 🛵', `Your food has left the Academy. ${r.stops} stops to go.`, 'track');
       if (r.status === 'delivered') { notify('Delivered! 🎉', 'Your food is in your bag. Use it on your turn in battle.', 'track'); }
@@ -205,5 +209,5 @@ export function createPhone({ socket, host, getS, toast, canOrder, now }) {
   }
   setInterval(() => { const el = screen.querySelector('[data-eta]'); const r = myRider(); if (el && r) el.textContent = `${left(r)} s`; }, 250);
 
-  return { open: openPhone, update, get isOpen() { return open; } };
+  return { open: openPhone, update, setStrip, close() { if (open) { open = false; render(); } }, get isOpen() { return open; } };
 }

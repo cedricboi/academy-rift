@@ -1189,7 +1189,8 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
   const gotRight = review.filter((x) => x.correct).length;
   // one entry per question, newest attempt last, and whether it was put right later in the battle
   const seen = new Map();
-  for (const x of review) { const k = x.qid || x.q; const e = seen.get(k) || { ...x, wrong: 0, fixed: false }; if (x.correct) { if (e.wrong) e.fixed = true; } else { e.wrong++; e.chosen = x.chosen; } seen.set(k, e); }
+  // every try at a re-asked question is kept, in order, so the review lists them one per line
+  for (const x of review) { const k = x.qid || x.q; const e = seen.get(k) || { ...x, wrong: 0, fixed: false, tries: [] }; e.tries.push({ chosen: x.chosen, correct: !!x.correct }); if (x.correct) { if (e.wrong) e.fixed = true; } else { e.wrong++; e.chosen = x.chosen; } seen.set(k, e); }
   const missed   = [...seen.values()].filter((x) => x.wrong > 0).sort((a, b) => a.fixed - b.fixed);
 
   const timeLine = reason === "time"
@@ -1220,15 +1221,19 @@ function battleEnded({ winnerTeam, reason, rewards, tournament, practice }) {
     recap = `<div class="review-block">
       <h3 class="review-head">📖 ${missed.length > 1 ? `Review these ${missed.length} questions` : "Review this question"}</h3>` +
       missed.map((x) => {
-        const chosen = x.chosen >= 0 ? `${"ABCD"[x.chosen]}. ${esc(x.choices[x.chosen])}` : "No answer (timed out)";
+        const said = (c) => (c >= 0 ? `${"ABCD"[c]}. ${esc(x.choices[c])}` : "no answer (time ran out)");
+        const ORD = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth"];
+        const tryLines = x.tries.length > 1
+          ? x.tries.map((t, i) => `<div class="review-your">${ORD[i] || "Next"} try: ${said(t.chosen)} (${t.correct ? "right" : "wrong"}).</div>`).join("")
+          : `<div class="review-your">Your answer: ${said(x.tries[0]?.chosen ?? x.chosen)}${(x.tries[0]?.chosen ?? x.chosen) >= 0 ? " (wrong)." : "."}</div>`;
         const rights = (x.answers || [x.answer]).map((k) => `✓ ${"ABCD"[k]}. ${esc(x.choices[k])}`).join("<br>");
         const bm = BLOOM_META[x.bloom];
         const badge = bm && WATCH ? `<span class="review-bloom" style="color:${bm.color};border-color:${bm.color}">${bm.icon} ${x.bloom}</span>` : "";
         return `<div class="review-item ${x.fixed ? "fixed" : ""}">
-          <div class="review-q"><span class="review-topic">${esc(x.topic)}</span>${badge}${x.fixed ? `<span class="review-fixed">✓ Put right later</span>` : x.wrong > 1 ? `<span class="review-fixed bad">Wrong ${x.wrong} times</span>` : ""}<span class="review-qtext">${esc(x.q)}</span></div>
+          <div class="review-q"><span class="review-topic">${esc(x.topic)}</span>${badge}${x.fixed ? `<span class="review-fixed">✓ Put right later</span>` : x.wrong > 1 ? `<span class="review-fixed bad">Asked ${x.tries.length} times</span>` : ""}<span class="review-qtext">${esc(x.q)}</span></div>
           ${x.lo && x.lo !== x.topic ? `<div class="review-lo">Learning objective: ${esc(x.lo)}</div>` : ""}
           ${x.image ? `<img class="review-pic" src="${esc(x.image)}" alt="Picture for this question" loading="lazy" />` : ""}
-          <div class="review-your">Your answer: ${chosen}</div>
+          ${tryLines}
           <div class="review-correct">${rights}</div>
           ${x.explain ? `<div class="review-explain">${esc(x.explain)}</div>` : ""}
         </div>`;
@@ -1574,7 +1579,10 @@ function renderBattle() {
   const b = room.battle; if (!b) return;
   const myTeam  = room.players.find((p) => p.id === myId)?.team ?? 0;
   const enmTeam = myTeam === 0 ? 1 : 0;
-  const allies  = b.combatants.filter((c) => c.team === myTeam);
+  // Total War: a fighter can be in the HUD without standing on the stage (your partner, while a classmate from another
+  // pair takes the turn beside you), so the HUD always shows your own pair
+  const allies  = b.combatants.filter((c) => c.team === myTeam && !c.offstage);
+  const hudAllies = TW ? b.combatants.filter((c) => c.team === myTeam && c.pair) : allies;
   const foes    = b.combatants.filter((c) => c.team === enmTeam);
   // on a stolen turn the stealer is the one acting
   const actor = b.phase === "steal-action" && b.stealActor ? b.stealActor : b.current;
@@ -1590,7 +1598,7 @@ function renderBattle() {
     if (el.dataset.k === key) continue;
     el.dataset.k = key; el.innerHTML = c ? tokenHTML(c, facing, act(c), side) : "";
   }
-  putHTML($("hudMineRows"), allies.map((c) => hudRowHTML(c, "mine", act(c))).join(""));
+  putHTML($("hudMineRows"), hudAllies.map((c) => hudRowHTML(c, "mine", act(c))).join(""));
   putHTML($("hudFoeRows"), foes.map((c) => hudRowHTML(c, "foe", act(c))).join(""));
   $("arena").classList.toggle("spectating", !!spectating);
   $("arena").classList.toggle("practice", !!room.practice);
@@ -1598,7 +1606,7 @@ function renderBattle() {
   setSyncMine(b.sync[myTeam]); setSyncFoe(b.sync[enmTeam]);
   setMatchClock(b.msLeft);
   const rounds = tView?.settings?.rounds, round = tView?.round;
-  $("hudRound").textContent = TW ? (b.label || "") : room.tournament && !spectating && round && rounds ? `ROUND ${round} OF ${rounds}` : "";
+  $("hudRound").textContent = TW ? [b.label, b.turnLabel].filter(Boolean).join(" · ") : room.tournament && !spectating && round && rounds ? `ROUND ${round} OF ${rounds}` : "";
 
   const cur    = b.combatants.find((c) => c.uid === b.current);
   const myTurn = b.current === myId;
@@ -1672,12 +1680,13 @@ function alongState(q, meC, open) {
   }
   if (along.choice == null || !right) return null;
   const ok = right.includes(along.choice);
-  if (along.told !== key) { along.told = key; if (ok) toast("✓ You answered along correctly: +2 Sync for your team."); }
+  if (along.told !== key) { along.told = key; if (ok) toast(TW ? "✓ You answered along correctly: +1 hit for your warband, and the Sync bar fills." : "✓ You answered along correctly: +2 Sync for your team."); }
   return { mode: "result", ok, picked: q.choices[along.choice] };
 }
 function alongHTML(a, q) {
   if (!a) return "";
-  if (a.mode === "result") return `<div class="qs-along ${a.ok ? "ok" : "bad"}"><span class="qa-tag">${a.ok ? "✓ You were right" : `✗ You picked ${esc(a.picked)}`}</span></div>`;
+  // Total War says what the answer did: a right one is a hit and more Sync, a wrong one gives nothing this time
+  if (a.mode === "result") return `<div class="qs-along ${a.ok ? "ok" : "bad"}"><span class="qa-tag">${a.ok ? (TW ? "✓ You were right: +1 hit and more Sync" : "✓ You were right") : TW ? `✗ You picked ${esc(a.picked)}. No bonus this time.` : `✗ You picked ${esc(a.picked)}`}</span></div>`;
   if (a.mode === "recall") return `<div class="qs-along"><span class="qa-tag">ANSWER ALONG</span><span class="qa-think">Read the question and think of the answer. The choices appear in a moment.</span></div>`;
   return `<div class="qs-along"><span class="qa-tag">${a.mode === "locked" ? "LOCKED IN" : "ANSWER ALONG"}</span>${q.choices.map((c, i) =>
     `<button type="button" class="qa-btn ${a.choice === i ? "picked" : ""}" data-along="${i}" ${a.mode === "locked" ? "disabled" : ""}><b>${"ABCD"[i]}</b>${esc(c)}</button>`).join("")}</div>`;
@@ -1710,7 +1719,9 @@ function renderStrip(s) {
 // every countdown on the stage reads its own deadline
 function tickDeadlines() {
   document.querySelectorAll("#arena [data-deadline]").forEach((el) => {
-    const left = Math.max(0, Math.ceil((Number(el.dataset.deadline) - Date.now()) / 1000));
+    const d = Number(el.dataset.deadline);
+    if (!Number.isFinite(d)) { setText(el, ""); return; }          // no clock (Total War's training turn)
+    const left = Math.max(0, Math.ceil((d - Date.now()) / 1000));
     setText(el, `0:${String(left).padStart(2, "0")}`);
   });
 }
@@ -1885,7 +1896,7 @@ function renderDock(b, cur, myTurn, stealActorC) {
   } else if (b.phase === "action") {
     hideQuestionCard();
     if (myTurn && !spectating) {
-      if (myAnswerCorrect) { mode = "moving"; keepMoves = true; buildMovePanel(cur, b); }
+      if (myAnswerCorrect || TW) { mode = "moving"; keepMoves = true; buildMovePanel(cur, b); }
       else wait = "Guarding…";
     } else flag(cur, `${who(cur)} IS CHOOSING A MOVE`);
 
@@ -2040,7 +2051,7 @@ function buildMovePanel(me, b, halfPower = false) {
   const fresh = key !== moveKey;                 // slide the strip in only when it first appears
   if (key !== moveKey) {                         // a new turn: fresh strip and timer
     moveKey = key; moveSel = null; itemsOpen = false;
-    moveDeadline = Date.now() + MOVE_SECONDS * 1000;
+    moveDeadline = TW && b.moveEndsAt ? b.moveEndsAt : Date.now() + MOVE_SECONDS * 1000;
   }
   if (!moveTimerInt) moveTimerInt = setInterval(tickMoveTimer, 250);
   buildMovePanel._half = halfPower;
@@ -2170,7 +2181,7 @@ function openSkillSheet(me, b, halfPower) {
         <img class="ss-img" src="${encodeURI(ASSETS.skillSheet(me.charId))}" alt="${esc(me.charName)}'s four skills" decoding="async" />
         <div class="ss-grid">${me.skills.map((sk, i) => {
           const cd = cds[i] || 0;
-          const why = cd > 0 ? `Ready in ${cd} turn${cd > 1 ? "s" : ""}` : me.sp < sk.sp ? `Needs ${sk.sp} SP` : "";
+          const why = cd > 0 ? `Cooldown: wait ${cd} turn${cd > 1 ? "s" : ""}` : me.sp < sk.sp ? `Needs ${sk.sp} SP` : "";
           return `<button class="ss-card ${why ? "locked" : ""}" data-sk="${i}" ${why ? "disabled" : ""}
               aria-label="${esc(sk.name)}: ${esc(sk.desc || skillEffect(sk))} Costs ${sk.sp} SP.${why ? " " + why + "." : ""}">
             ${why ? `<span class="ss-lock">${why}</span>` : ""}</button>`;
@@ -2179,7 +2190,7 @@ function openSkillSheet(me, b, halfPower) {
     </div>
     <div class="ss-foot">
       <span class="ss-sp">Your SP <b>${rnd(me.sp)}</b> / ${me.maxSp}</span>
-      <span class="ss-key">SP = cost · CD = turns before you can use it again</span>
+      <span class="ss-key">SP is your energy for skills. Cooldown: turns to wait before you can use a skill again.</span>
       <button class="ss-back" data-ss="back">← BACK</button>
     </div>`;
   $("arena").appendChild(el);
@@ -2202,6 +2213,7 @@ function closeSkillSheet() {
 function tickMoveTimer() {
   const el = $("mpTimer");
   if (!el) return;
+  if (!Number.isFinite(moveDeadline)) { setText(el, ""); return; }     // Total War's training turn: no clock
   const left = Math.max(0, Math.ceil((moveDeadline - Date.now()) / 1000));
   setText(el, `0:${String(left).padStart(2, "0")}`);
   el.classList.toggle("low", left <= 4);
