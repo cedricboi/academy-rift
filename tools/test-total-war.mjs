@@ -42,3 +42,38 @@ test('distance sampler starts correctly, reaches endpoints and never overshoots'
   assert.equal(end.x,NODES[4].x);assert.equal(end.y,NODES[4].y);assert.ok(end.done);
   let prev=start;for(let d=1;d<400;d++){const next=positionAt(p,d);assert.ok(Math.hypot(next.x-prev.x,next.y-prev.y)<=1.001);prev=next;}
 });
+
+// ---- the game rules (rules.js) ----
+import {tallyVotes,visibleNodes,reachable,dealHits,questionHits,pairMP,neighbours,CAMPS,UNITS,HOME,FORTRESS,SIGHT,hops,nearestRally,auraFor} from '../public/total-war/rules.js';
+test('a warband vote: majority wins, a tie goes to the leader',()=>{
+  assert.equal(tallyVotes({a:1,b:2,c:2},['a','b','c']),2);
+  assert.equal(tallyVotes({a:1,b:2},['a','b']),1);
+  assert.equal(tallyVotes({b:2,c:'stay'},['a','b','c']),2);
+  assert.equal(tallyVotes({},['a']),null);
+  assert.equal(tallyVotes({a:'stay',b:'stay',c:3},['a','b','c']),'stay');
+});
+test('fog of war: the class sees two roads around each banner, plus both fortresses',()=>{
+  const v=visibleNodes([HOME]);
+  for(const [n,d] of hops(HOME)) assert.equal(v.has(n), d<=SIGHT || n===FORTRESS, `stop ${n} at ${d} roads`);
+  assert.equal(visibleNodes([],{sightAll:true}).size,NODES.length);
+});
+test('reachable stops respect MP and stop at blockers',()=>{
+  const r=reachable(1,4,(n)=>n===3);
+  assert.ok(r.has(3)); assert.ok(!r.has(4),'cannot walk past the Crimson Host on Moonstone Bridge');
+  for(const [n,c] of r) assert.ok(c<=4);
+  assert.equal(reachable(0,0).size,0);
+});
+test('battle hits go to the front enemy first and a beaten stack is reported',()=>{
+  const r=dealHits([{hp:3},{hp:5}],4); assert.deepEqual(r.enemies.map(e=>e.hp),[0,4]); assert.equal(r.fallen,1); assert.equal(r.beaten,false);
+  assert.equal(dealHits([{hp:2}],2.5).beaten,true);
+  assert.equal(questionHits({right:4,warcry:2}),5);
+  assert.equal(questionHits({right:4,warcry:2},{power:true,warcry:true}),7);
+});
+test('MP: 2 to move, up to 4 more from muster, +1 with Tailwind',()=>{
+  assert.equal(pairMP(0),2); assert.equal(pairMP(3),5); assert.equal(pairMP(9),6); assert.equal(pairMP(9,{mp:true}),7);
+});
+test('jungle camps sit at dead ends off the main roads, and every camp has lore and a buff',()=>{
+  for(const n of Object.keys(CAMPS)){ assert.equal(neighbours(+n).length,1,`${NODES[n].name} is a dead end`); assert.ok(CAMPS[n].lore && CAMPS[n].buffText); }
+  assert.ok(nearestRally(3,[2])===2); assert.equal(nearestRally(3,[]),HOME);
+  assert.equal(auraFor([{type:'orc_vanguard'}]),0); assert.equal(auraFor([{type:'orc_warchanter'},{type:'ogre'}]),0.25);
+});

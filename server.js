@@ -14,6 +14,7 @@ import { SYNC_CORRECT, SYNC_TEAM, makeCombatant, resolveAction, addSync, enemies
 import { TOPIC_BY_ID } from "./public/data/topics.js";
 import { QUESTIONS } from "./questions.js";
 import { setupTournaments } from "./tournament.js";
+import { setupTotalWar } from "./totalwar.js";
 import { createBank, mountHub } from "./bank.js";
 import { ANIM_MS } from "./public/data/animTimes.js";
 import { PRACTICE_TEAM, PRACTICE_HP, newPractice, nextLesson, practiceQuestion, botPlan, botMove } from "./practice.js";
@@ -315,6 +316,13 @@ const Tour = setupTournaments({
   later, SPEED,
 });
 
+// ---------- Total War (strategy mode, separate from the Arena) ----------
+const TW = setupTotalWar({
+  io, bank, CHARACTERS, normalizeTopics, topicLabel, filterQuestions,
+  isRoomCode: (c) => rooms.has(c) || Tour.has(c),
+  SPEED,
+});
+
 // A socket's player id: tournament students keep one id across reconnects;
 // everyone else is known by their socket id.
 const pidOf = (socket) => socket.data.pid || socket.id;
@@ -322,6 +330,7 @@ const pidOf = (socket) => socket.data.pid || socket.id;
 // ---------- lobby ----------
 io.on("connection", (socket) => {
   Tour.bind(socket);
+  TW.bind(socket);
 
   // ---- the practice fight: one student, three bots, a coach on screen ----
   socket.on("startPractice", ({ name } = {}) => {
