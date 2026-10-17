@@ -424,10 +424,11 @@
 .ph-rider b{font-size:16px}.ph-rider small{display:flex;align-items:center;gap:3px;font-size:12px;color:var(--mute)}
 
 /* the phone buzzing at the top of the screen */
-.ph-push{position:fixed;left:50%;top:10px;z-index:58;width:min(420px,92vw);display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border:0;border-radius:18px;
-  background:#f7f7f7f2;color:#111;text-align:left;font:400 14px -apple-system,"Helvetica Neue","Rift Body",sans-serif;box-shadow:0 10px 30px #000a;cursor:pointer;transform:translate(-50%,-140%)}
-.ph-push.in{animation:pushIn 6.5s ease forwards}
-@keyframes pushIn{0%{transform:translate(-50%,-140%)}6%,88%{transform:translate(-50%,0)}100%{transform:translate(-50%,-140%)}}
+.ph-push{position:fixed;left:50%;top:74px;z-index:58;width:min(420px,92vw);display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border:0;border-radius:18px;
+  background:#f7f7f7f2;color:#111;text-align:left;font:400 14px -apple-system,"Helvetica Neue","Rift Body",sans-serif;box-shadow:0 10px 30px #000a;cursor:pointer;transform:translate(-50%,calc(-100% - 90px))}
+/* drops in below the header (never over the clock, coins or mission) and slides away after about 3 seconds */
+.ph-push.in{animation:pushIn 3.6s ease forwards}
+@keyframes pushIn{0%{transform:translate(-50%,calc(-100% - 90px))}9%,85%{transform:translate(-50%,0)}100%{transform:translate(-50%,calc(-100% - 90px))}}
 .ph-push b{font-size:15px}
 .pp-app{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.4px;color:#666}
 .pp-app i{width:18px;height:18px;border-radius:5px;background:#00b14f url(auntie/bust.png) center 15%/cover;image-rendering:pixelated}
@@ -507,3 +508,23 @@
 @keyframes storyPin{to{transform:translate(-50%,-50%) scale(1)}}
 .story li{opacity:0;animation:storyLine .5s ease-out forwards}
 @keyframes storyLine{from{opacity:0;transform:translateX(-8px)}to{opacity:1}}
+
+/* ---- layout fixes for smaller and tall iPads ---- */
+/* gold buttons: the words keep clear of the diamond ornaments at each end */
+.gold-btn,.ab-end{padding-left:44px!important;padding-right:44px!important}
+/* 1024 x 768 and other narrow landscape iPads: buttons go on their own row, so the plan reads in two lines
+   and the bottom row of stops stays visible */
+@media (max-width:1100px) and (min-aspect-ratio:1/1){
+  .act-bar{flex-wrap:wrap;gap:8px 12px;padding:8px 12px;min-height:0}
+  .act-bar .ab-text{flex:1 1 calc(100% - 220px)}
+  .act-bar .ab-step{font-size:17px}.act-bar .ab-sub{font-size:13px}.act-bar .ab-mp{display:none}
+  .act-bar .ab-btns{flex:1 1 100%}
+  .act-bar .ab-btns .btn,.act-bar .gold-btn,.act-bar .ab-end{min-height:44px;height:48px}
+}
+/* tall iPads: the header keeps every chip readable */
+@media (max-aspect-ratio:1/1){
+  .topbar{gap:10px;padding-left:12px;padding-right:12px}
+  .topbar .t-title{font-size:16px}
+  .enemy-chip{padding:4px 8px;max-width:38vw}
+  .enemy-chip div div{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}

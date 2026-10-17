@@ -27,14 +27,13 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
   let scale = 1, panX = 0, panY = 0, focus = null, focusedOn = null, userPanned = false;
   let lastFog = null;
   function setBottom(b) { if (b !== bottom) { bottom = b; fit(); } }
-  // Landscape: the whole map fits. Portrait (a tall iPad): the map fills the height and slides sideways,
-  // following your banner, and can be dragged with a finger.
+  // The whole map always fits, so the Crimson Fortress (the goal) is never off-screen, even on a tall iPad.
+  // If a screen is ever too small for it, the map can still be dragged with a finger.
   function fit() {
     const r = host.getBoundingClientRect();
     const room = Math.max(100, r.height - top - bottom);           // keep space for banners above the top stops (and any bottom bar)
     const contain = Math.min(r.width / W, room / H) || 1;
-    const tall = r.height > r.width * 1.05;
-    scale = tall ? Math.min(Math.max(contain, (room / H) * 0.92), 1.2) : contain;
+    scale = contain;
     const mw = W * scale, mh = H * scale;
     let x, y;
     if (mw <= r.width) x = (r.width - mw) / 2;
@@ -103,7 +102,9 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     const seen = new Set();
     const byNode = new Map();
     for (const b of list) { if (!byNode.has(b.node)) byNode.set(b.node, []); byNode.get(b.node).push(b); }
-    for (const [node, group] of byNode) group.forEach((b, i) => {
+    // several banners on one stop: one label for the stack (yours if you are there), so the words never pile up
+    const lead = (group) => group.find((b) => b.glow && b.kind === 'pair') || group.find((b) => b.kind === 'pair') || group[0];
+    for (const [node, group] of byNode) { const top = lead(group); group.forEach((b, i) => {
       const n = NODES[node], off = (i - (group.length - 1) / 2) * 44;
       const x = n.x + off, y = n.y - 4;
       let el = els.get(b.key);
@@ -111,7 +112,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
         el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node;
         if (primed && b.rise) { el._rise = true; setTimeout(() => { el._rise = false; el.classList.remove('rise'); }, 1600); }      // a standard rises where the class has just won
       }
-      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}`;
+      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${group.length > 1 && b !== top ? ' stacked' : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
@@ -120,7 +121,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       else if (!el._gliding) { el.style.left = `${x}px`; el.style.top = `${y}px`; }
       el._node = node; el._to = [x, y];
       seen.add(b.key);
-    });
+    }); }
     for (const [k, el] of els) if (!seen.has(k)) { el.remove(); els.delete(k); }
     primed = true;
   }
@@ -190,9 +191,9 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
     for (const c of state.camps) {
       const info = CAMPS[c.node];
       if (c.alive) list.push({ key: `camp${c.node}`, kind: 'camp', ref: c.node, node: c.node, small: true, glow: selected === `camp${c.node}`, label: info.name,
-        html: `<span class="cloth"><img src="${sprite(info.id)}" alt=""></span><span class="pole"></span><span class="tag">${esc(info.name.split(' ')[0])}</span>` });
+        html: `<span class="cloth"><img src="${sprite(info.id)}" alt=""></span><span class="pole"></span><span class="tag">${esc(NODES[c.node].name)}</span>` });
       else list.push({ key: `campwon${c.node}`, kind: 'camp', ref: c.node, node: c.node, small: true, secured: true, rise: true, glow: selected === `camp${c.node}`, label: `${info.name}: secured`,
-        html: `<span class="cloth crystal-std">${CRYSTAL}</span><span class="pole"></span><span class="tag">${esc(info.name.split(' ')[0])} · secured${c.returnTurn ? ` to turn ${c.returnTurn}` : ''}</span>` });
+        html: `<span class="cloth crystal-std">${CRYSTAL}</span><span class="pole"></span><span class="tag">${esc(NODES[c.node].name)} · secured${c.returnTurn ? ` to turn ${c.returnTurn}` : ''}</span>` });
     }
     // the Crimson Fortress gate / Warlord
     const fortressUnits = state.units.filter((u) => u.node === FORTRESS);
@@ -219,7 +220,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0 } = {})
       const ord = full ? us.map((u) => u.order?.kind).find(Boolean) : null, dug = us.some((u) => u.dugIn);
       const badge = ord === 'ambush' ? '<i class="order amb">AMBUSH</i>' : ord === 'march' ? '<i class="order">MARCH</i>' : ord === 'hunt' ? '<i class="order">HUNT</i>' : ord === 'hold' || dug ? `<i class="order hold">${dug ? 'DUG IN' : 'HOLD'}</i>` : '';
       list.push({ key: `host${node}`, kind: 'host', ref: node, node, glow: selected === `host${node}`, label: `${us.length} Crimson units`,
-        html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}${badge}${us.some((u) => u.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? 'Crimson warband' : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
+        html: `<span class="cloth"><img src="${sprite(lead.type)}" alt=""></span>${us.length > 1 ? `<i class="count">×${us.length}</i>` : ''}${badge}${us.some((u) => u.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<span class="pole"></span><span class="tag">${us.length > 1 ? `Crimson Host ×${us.length}` : esc(UNITS[lead.type].name.split(' ').slice(-1)[0])}</span>` });
     }
     // Crystal banners: one per warband
     // stops the class has secured: its standard flies there
