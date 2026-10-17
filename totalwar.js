@@ -150,7 +150,7 @@ export function setupTotalWar(deps) {
   }
   function placePair(S, p) {
     if (!p.char) p.char = [...CHAR_IDS][p.no % CHAR_IDS.size];
-    const b = { id: id(S, "b"), pairs: [p.id], node: HOME, mp: S.phase === "crystal" ? pairMP(0, buffOn(S)) : 0, done: S.phase !== "crystal", votes: {}, voteOpenedAt: 0, battle: null };
+    const b = { id: id(S, "b"), pairs: [p.id], node: HOME, mp: S.phase === "crystal" ? pairMP(0, buffOn(S)) : 0, done: S.phase !== "crystal", votes: {}, props: {}, plan: null, voteOpenedAt: 0, battle: null };
     S.bands.set(b.id, b);
   }
 
@@ -219,11 +219,12 @@ export function setupTotalWar(deps) {
   const routeKey = (r) => (Array.isArray(r) ? r.join(">") : String(r));
   const activePairs = (S, b) => { const a = b.pairs.filter((x) => S.pairs.get(x)?.members.some((m) => isConnected(S.students.get(m)))); return a.length ? a : b.pairs; };
   function agreedPlan(S, b) {
-    const act = activePairs(S, b), keys = act.map((x) => (b.props[x] !== undefined ? routeKey(b.props[x]) : null));
+    b.props ||= {}; const act = activePairs(S, b), keys = act.map((x) => (b.props[x] !== undefined ? routeKey(b.props[x]) : null));
     return keys.every((k) => k && k === keys[0]) ? b.props[act[0]] : null;
   }
   function majorityPlan(S, b) {
     const byKey = {}, votes = {};
+    b.props ||= {};
     for (const x of b.pairs) if (b.props[x] !== undefined) { const k = routeKey(b.props[x]); byKey[k] = b.props[x]; votes[x] = k; }
     const k = tallyVotes(votes, b.pairs);
     return k == null ? "hold" : byKey[k];
@@ -252,7 +253,7 @@ export function setupTotalWar(deps) {
     if (S.phase !== "crystal" || S.stage !== "council") return S.stage === "quiz" ? "Answer your 3 questions first. The War Council opens when everyone is done." : "Routes are planned in the War Council.";
     if (b.battle) return "Your warband is in a battle.";
     const err = routeError(S, b, route); if (err) return err;
-    b.props[pairId] = route === "hold" ? "hold" : route.slice();
+    (b.props ||= {})[pairId] = route === "hold" ? "hold" : route.slice();
     b.plan = agreedPlan(S, b);
     S.dirty = true;
     return null;
@@ -477,7 +478,7 @@ export function setupTotalWar(deps) {
     const b = bandOf(S, pairId); if (!b || b.pairs.length < 2) return "You are not in a warband.";
     if (b.battle) return "Not while a battle is on.";
     b.pairs = b.pairs.filter((x) => x !== pairId); delete b.votes[pairId];
-    S.bands.set(id(S, "b"), { id: `b${S.seq}`, pairs: [pairId], node: b.node, mp: b.mp, done: b.done, votes: {}, voteOpenedAt: 0, battle: null });
+    S.bands.set(id(S, "b"), { id: `b${S.seq}`, pairs: [pairId], node: b.node, mp: b.mp, done: b.done, votes: {}, props: {}, plan: null, voteOpenedAt: 0, battle: null });
     return null;
   }
 
@@ -1194,9 +1195,11 @@ export function setupTotalWar(deps) {
   function bind(socket) {
     const fail = (m) => socket.emit("twError", m);
     const hostS = () => { const S = sessions.get(socket.data.twHost); return S; };
-    const asHost = (fn) => (arg = {}) => { const S = hostS(); if (!S) return fail("This war is not running any more."); const err = fn(S, arg); if (err) fail(err); touch(S); };
+    // one bad message must never take the whole server (and every class on it) down
+    const safe = (fn) => { try { return fn(); } catch (e) { console.error("Total War handler error:", e); return "Something went wrong. Try again."; } };
+    const asHost = (fn) => (arg = {}) => { const S = hostS(); if (!S) return fail("This war is not running any more."); const err = safe(() => fn(S, arg || {})); if (err) fail(err); touch(S); };
     const me = () => { const S = sessions.get(socket.data.twCode); const st = S?.students.get(socket.data.twPid); return S && st ? { S, st } : null; };
-    const asStudent = (fn) => (arg = {}) => { const m = me(); if (!m) return fail("Join the war again with its code."); const err = fn(m.S, m.st, arg); if (err) fail(err); touch(m.S); };
+    const asStudent = (fn) => (arg = {}) => { const m = me(); if (!m) return fail("Join the war again with its code."); const err = safe(() => fn(m.S, m.st, arg || {})); if (err) fail(err); touch(m.S); };
 
     // teacher
     socket.on("twCreate", () => {

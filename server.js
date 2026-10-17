@@ -25,6 +25,9 @@ app.use(compression({ threshold: 1024 }));   // code, styles and data go out gzi
 const httpServer = createServer(app);
 // battle updates are JSON of a few kB; deflating them cuts what a class of 30 pulls over the school Wi-Fi to about a fifth
 const io = new Server(httpServer, { perMessageDeflate: { threshold: 1024 } });
+// a last line of defence: log a stray error instead of letting it end every game on the server
+process.on("uncaughtException", (e) => console.error("Uncaught error (server kept running):", e));
+process.on("unhandledRejection", (e) => console.error("Unhandled rejection (server kept running):", e));
 if (process.env.RENDER) app.set("trust proxy", 1);   // real visitor addresses behind Render's proxy
 
 // Question hub (/hub): the teacher's own question sets, with pictures.
