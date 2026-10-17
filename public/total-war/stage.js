@@ -22,6 +22,7 @@ const HERO = {
 };
 const SCALE = { goblin_sappers: 0.85, rift_hound: 0.9, imp_swarm: 0.9, ogre: 1.3, wyvern: 1.3, golem: 1.4, warlord: 1.4,
   hollow_knight: 1.1, warlock: 1.05, moonhart: 1.15, galecrest: 1.15, mossback: 1.3, riftglass: 1.1, ferryman: 1.1, broodmother: 1.2 };
+const FLIP = new Set(['moonhart', 'riftglass']);   // drawn facing right: mirrored so every enemy faces the class
 const ATK_HIT = 5;                       // the frame of a monster's attack where the blow lands
 const H = 360;                           // logical height; the width follows the screen
 
@@ -160,8 +161,9 @@ export function createStage(host, { mode = 'pair' } = {}) {
     g.save(); g.globalAlpha = 0.35 * a.alpha; g.fillStyle = '#000'; g.beginPath(); g.ellipse(a.x, floorY(a) + 2, 46 * a.s, 9 * a.s, 0, 0, Math.PI * 2); g.fill(); g.restore();
     if (a.kind === 'mon') {
       const sh = monSheet(a.type, a.anim);
-      if (ok(sh.im)) sprite(sh.im, (a.f % sh.n) * 192, 192, 192, a.x, y + 6, a.s, false, a.alpha, a.flash);
-      else if (ok(sh.still)) sprite(sh.still, 0, 192, 192, a.x, y + 6, a.s, false, a.alpha, a.flash);
+      const fl = FLIP.has(a.type);
+      if (ok(sh.im)) sprite(sh.im, (a.f % sh.n) * 192, 192, 192, a.x, y + 6, a.s, fl, a.alpha, a.flash);
+      else if (ok(sh.still)) sprite(sh.still, 0, 192, 192, a.x, y + 6, a.s, fl, a.alpha, a.flash);
       return;
     }
     const sh = sheetFor(a.L, a.anim) || sheetFor(a.L, 'idle');
