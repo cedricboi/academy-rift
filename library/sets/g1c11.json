@@ -16,7 +16,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Fitness means being able to do physical activities well without getting tired too quickly.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -34,7 +34,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Health means being free from disease and illness.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Blood brings oxygen and glucose to our cells. The cells use them in respiration to release energy.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -70,7 +70,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Blood takes carbon dioxide and other wastes away from our cells.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -88,7 +88,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Red blood cells carry oxygen around the body.",
    "hint": "",
    "image": "ea245d59e8a818689e61.webp",
    "lo": "Fitness and Cardiac Health",
@@ -106,7 +106,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Platelets help blood to clot. A clot seals a cut and stops the bleeding.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -124,7 +124,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "White blood cells destroy bacteria and other germs. They help the body fight infection.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -142,7 +142,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Plasma is the liquid part of blood. It carries dissolved food substances and carbon dioxide.",
    "hint": "",
    "image": "84b601e3108fcda481e4.webp",
    "lo": "Fitness and Cardiac Health",
@@ -160,7 +160,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Platelets help blood to clot. If there are too few platelets, a cut keeps bleeding for a long time.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -178,7 +178,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "White blood cells fight germs. A big rise in white blood cells is a sign that the body is fighting an infection.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -196,7 +196,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Blood low in oxygen returns from the body along veins into the right side of the heart.",
    "hint": "",
    "image": "1671cfa50bf98cc6e0cf.webp",
    "lo": "Fitness and Cardiac Health",
@@ -214,7 +214,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The right side of the heart pumps blood low in oxygen to the lungs, where it picks up oxygen.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -232,7 +232,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Blood that has picked up oxygen in the lungs flows back to the left side of the heart.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -250,7 +250,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The left side of the heart pumps blood rich in oxygen to the rest of the body.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -268,7 +268,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Blood enters the left side of the heart from the lungs, after it has picked up oxygen there.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -286,7 +286,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Arteries carry blood pumped out of the heart at high pressure. Their thick, muscular walls can cope with this high pressure.",
    "hint": "",
    "image": "150cb957554006b2d7af.webp",
    "lo": "Fitness and Cardiac Health",
@@ -304,7 +304,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Blood in veins flows slowly at low pressure. Valves stop the blood from flowing backwards.",
    "hint": "",
    "image": "f08a63051bd2be3bd927.webp",
    "lo": "Fitness and Cardiac Health",
@@ -322,7 +322,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The wall of a capillary is only one cell thick. This lets substances pass easily between the blood and the cells.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -340,7 +340,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Arteries carry blood away from the heart. Veins carry blood back to the heart.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -358,7 +358,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Veins carry blood back to the heart. Arteries carry blood away from the heart.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -376,7 +376,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Substances pass between the blood and body cells through capillaries. Their walls are only one cell thick.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -394,7 +394,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cholesterol builds up inside arteries as fatty deposits called plaques. Plaques make the arteries narrower.",
    "hint": "",
    "image": "d5ce0fc3a2e0dbdec639.webp",
    "lo": "Fitness and Cardiac Health",
@@ -412,7 +412,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The heart muscle gets oxygen from the blood in its own arteries. If one is blocked, part of the heart muscle gets less oxygen and is damaged. This is a heart attack.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -430,7 +430,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A blocked artery to the brain stops oxygen reaching part of the brain. This is a stroke.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -448,7 +448,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Each heart beat makes one pulse in the arteries. So the pulse rate is the same as the heart rate.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -466,7 +466,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Each heart beat pushes a surge of blood along the arteries. This surge is felt as a pulse.",
    "hint": "",
    "image": "8aed23acd602fe8e3575.webp",
    "lo": "Fitness and Cardiac Health",
@@ -484,7 +484,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "During exercise the muscles need more oxygen and glucose for respiration. The heart beats faster to deliver them, so the pulse rate goes up.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -502,7 +502,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Average pulse rate = total ÷ number of readings = 210 ÷ 3 = 70 beats/min.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -520,7 +520,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Total = average × number of readings = 60 × 3 = 180 beats/min.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -538,7 +538,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A fitter heart pumps more blood with each beat, so it needs to beat less often at rest. The lowest resting pulse rate, 60 beats/min, shows the fittest student.",
    "hint": "",
    "image": "629fcf9674132f16bf87.webp",
    "lo": "Fitness and Cardiac Health",
@@ -556,7 +556,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A fitter person's heart recovers more quickly after exercise. So their pulse rate returns to resting first.",
    "hint": "",
    "image": "c21e42c123df301e0250.webp",
    "lo": "Fitness and Cardiac Health",
@@ -574,7 +574,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A ligament joins bone to bone at a joint.",
    "hint": "",
    "image": "1340b24eb43106a6acf9.webp",
    "lo": "Fitness and Cardiac Health",
@@ -592,7 +592,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A tendon joins muscle to bone. When the muscle pulls, the tendon pulls the bone.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -610,7 +610,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Cartilage covers the ends of the bones in a joint. It absorbs shock and stops the bones rubbing together.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -628,7 +628,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "When the bones in a joint are forced out of their places, the joint is dislocated. This is a dislocation.",
    "hint": "",
    "image": "b9cac08f72365fc2680d.webp",
    "lo": "Fitness and Cardiac Health",
@@ -646,7 +646,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A sprain is when a ligament is stretched too far or torn.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -664,7 +664,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Osteoporosis is a condition in which bones become weak and break easily.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -682,7 +682,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In arthritis the joints become swollen and painful, and they are hard to move.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",
@@ -700,7 +700,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Bones need calcium to stay strong, and vitamin D helps the body absorb calcium. A lack of both can cause osteoporosis.",
    "hint": "",
    "image": null,
    "lo": "Fitness and Cardiac Health",

@@ -16,7 +16,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Getting enough sleep rests the body and the mind. Long computer use, loud music and daily fast food all harm our health.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -34,7 +34,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A balanced diet gives us all the nutrients and energy we need, in the right amounts.",
    "hint": "",
    "image": "971bb5905941f2c366e5.webp",
    "lo": "Staying Healthy",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Listening to loud music for long hours damages the ear and can cause deafness.",
    "hint": "",
    "image": "e591a0996dbc96b3b6ba.webp",
    "lo": "Staying Healthy",
@@ -70,7 +70,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Looking at a screen for hours without breaks strains the eyes and can damage eyesight.",
    "hint": "",
    "image": "e6db2a1db3edfe8e54d9.webp",
    "lo": "Staying Healthy",
@@ -88,7 +88,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Convenience foods, such as fast food and instant noodles, often contain a lot of salt, sugar and saturated fats.",
    "hint": "",
    "image": "0665cbedd4e81088cd35.webp",
    "lo": "Staying Healthy",
@@ -106,7 +106,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Convenience food often has a lot of salt and fat. Eating it often can lead to high blood pressure.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -124,7 +124,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Sitting at a computer for a long time without breaks, often with poor posture, strains the shoulders and back.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -142,7 +142,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "BMI is the mass in kilograms divided by the height in metres squared. So BMI = mass ÷ (height × height).",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -160,7 +160,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "BMI is mass in kg divided by height squared in m². So its unit is kg/m².",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -178,7 +178,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "BMI = mass ÷ (height × height) = 80 kg ÷ 4 m² = 20 kg/m².",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -196,7 +196,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "BMI = mass ÷ (height × height) = 44 kg ÷ 2 m² = 22 kg/m².",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -214,7 +214,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Mass = BMI × (height × height) = 20 kg/m² × 2 m² = 40 kg.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -232,7 +232,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A BMI below 18.5 is underweight.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -250,7 +250,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A BMI of 30 or more is obese. So a BMI of 32 is obese.",
    "hint": "",
    "image": "6d198e36162a165e5d61.webp",
    "lo": "Staying Healthy",
@@ -268,7 +268,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A BMI from 18.5 to below 25 is a healthy weight. So a BMI of 20 is a healthy weight.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -286,7 +286,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Exercising far too much does not give the body time to recover. This can injure the muscles and joints.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -304,7 +304,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Eating far too little means the body does not get the nutrients it needs. This is malnutrition.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -322,7 +322,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The safe way to lose weight is to eat balanced meals and exercise regularly. Skipping meals or eating only one food can cause malnutrition.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -340,7 +340,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Influenza (flu) is caused by viruses. It spreads from person to person through the air.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -358,7 +358,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Tuberculosis is caused by bacteria. It mainly attacks the lungs.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -376,7 +376,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Thalassemia is a hereditary disease. It is passed on through the genes from the parents.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -394,7 +394,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "SARS is caused by a virus.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -412,7 +412,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "AIDS is caused by a virus called HIV. Syphilis and tuberculosis are caused by bacteria, and colour blindness is hereditary.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -430,7 +430,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Colour blindness is passed on from parents through their genes, so it is hereditary. SARS, influenza and tuberculosis are caused by germs.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -448,7 +448,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A disinfectant is a strong chemical that kills germs on objects and surfaces, such as floors. It is too harsh to use on skin.",
    "hint": "",
    "image": "0a94be9136fee1a0c6f5.webp",
    "lo": "Staying Healthy",
@@ -466,7 +466,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An antiseptic is a mild chemical that kills germs on the skin. It is safe to wash our hands with.",
    "hint": "",
    "image": "637808c7c83b7fc41ca8.webp",
    "lo": "Staying Healthy",
@@ -484,7 +484,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An antibiotic is a medicine that kills bacteria inside the body.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -502,7 +502,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Disinfectants are used on objects and surfaces such as a kitchen table. They are too harsh for skin or for use inside the body.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -520,7 +520,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Antibiotics kill bacteria. They do not work against viruses.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -538,7 +538,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Antiseptic soap kills germs as well as washing them off. So it removes the most bacteria.",
    "hint": "",
    "image": "c21d15c8ad7ecc38e989.webp",
    "lo": "Staying Healthy",
@@ -556,7 +556,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A vaccination prepares the body to fight a particular disease before we catch it. It protects us from certain diseases, such as those caused by some viruses, but not from all diseases.",
    "hint": "",
    "image": "349a21a4e4811c62b690.webp",
    "lo": "Staying Healthy",
@@ -574,7 +574,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Vaccination protects us from certain viruses. Antibiotics kill bacteria, and disinfectants and antiseptics kill germs outside the body.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -592,7 +592,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Stopping antibiotics early can leave some bacteria alive. These bacteria can multiply and make the person sick again.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -610,7 +610,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "If the antibiotics are stopped too early, some bacteria may survive and multiply. The boy may fall sick again.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -628,7 +628,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A hereditary disease is passed on from parents to children through their genes.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -646,7 +646,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In thalassemia, a faulty gene makes the red blood cells weak, and they are destroyed. The person does not have enough red blood cells.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -664,7 +664,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Thalassemia is a hereditary disease. The faulty gene can be passed on from the mother to her children.",
    "hint": "",
    "image": "7ef6921136eadd3668f3.webp",
    "lo": "Staying Healthy",
@@ -682,7 +682,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Kidney dialysis does the work of the kidneys. It removes wastes from the blood.",
    "hint": "",
    "image": "204ca8799950a676ac62.webp",
    "lo": "Staying Healthy",
@@ -700,7 +700,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Dialysis does not cure kidney failure. It is not permanent, so the patient must have it again and again.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",
@@ -718,7 +718,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The body may attack a new kidney as something foreign. Long-term medicine stops the body from rejecting it.",
    "hint": "",
    "image": null,
    "lo": "Staying Healthy",

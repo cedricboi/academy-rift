@@ -5,6 +5,9 @@
 //   node test-totalwar.mjs          (12 students)
 //   node test-totalwar.mjs 30
 import { spawn } from "child_process";
+import { mkdtempSync, rmSync } from "fs";
+import { tmpdir } from "os";
+import { join } from "path";
 import { io } from "socket.io-client";
 import { QUESTIONS } from "./questions.js";
 import { NODES } from "./public/total-war/movement.js";
@@ -32,11 +35,18 @@ function routeFrom(v, band, next) {
 const fails = [];
 const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log("  ✗ " + msg); } else console.log("  ✓ " + msg); };
 
-const server = spawn(process.execPath, ["server.js"], { env: { ...process.env, PORT: String(PORT), RIFT_SPEED: String(SPEED), RIFT_TEST_CHEAT: "1" }, stdio: ["ignore", "pipe", "inherit"] });
-const done = (code) => { server.kill(); process.exit(code); };
-setTimeout(() => { console.log("TIMEOUT"); summary(); done(1); }, 420000);
+// war snapshots go to a folder of their own, so a restart can be tested (and nothing is left behind)
+const SAVES = mkdtempSync(join(tmpdir(), "tw-saves-"));
+function startServer() {
+  const sv = spawn(process.execPath, ["server.js"], { env: { ...process.env, PORT: String(PORT), RIFT_SPEED: String(SPEED), RIFT_TEST_CHEAT: "1", TW_SAVE_DIR: SAVES }, stdio: ["ignore", "pipe", "inherit"] });
+  sv.ready = new Promise((res) => sv.stdout.on("data", (d) => { if (String(d).includes("running")) res(); }));
+  return sv;
+}
+let server = startServer();
+const done = (code) => { server.kill(); try { rmSync(SAVES, { recursive: true, force: true }); } catch {} process.exit(code); };
+setTimeout(() => { console.log("TIMEOUT"); summary(); done(1); }, 600000);
 process.on("uncaughtException", (e) => { console.log("ERROR", e); done(1); });
-await new Promise((res) => server.stdout.on("data", (d) => { if (String(d).includes("running")) res(); }));
+await server.ready;
 
 // ---------- teacher ----------
 const teacher = io(URL, { transports: ["websocket"] });
@@ -49,7 +59,9 @@ teacher.emit("twCreate");
 while (!hosting || !host) await sleep(20);
 const code = hosting.code;
 check(/^W[A-Z]{3}$/.test(code), `war created with code ${code}`);
-teacher.emit("twSettings", { turns: 14 });
+teacher.emit("twSettings", { turns: 8 });              // the default length now: a war has to fit a lesson
+await sleep(100);
+check(host.poolSize > 0, `the teacher sees how many questions are in the pool (${host.poolSize}${host.poolLow ? ", with a warning: fewer than 80" : ""})`);
 
 // ---------- students ----------
 const bots = [];
@@ -120,7 +132,7 @@ function act(b) {
   const q = v.own && !v.own.result ? v.own.question : v.myBattle?.question && !v.myBattle.question.mine ? v.myBattle.question : null;
   if (q && b.lastQ !== q.startedAt + q.q) {
     b.lastQ = q.startedAt + q.q;
-    const right = ANSWER.get(q.q) ?? q.cheat;
+    const right = q.cheat ?? ANSWER.get(q.q);
     const pick = Math.random() < 0.82 && right != null ? right : Math.floor(Math.random() * q.choices.length);
     setTimeout(() => { b.sock.emit("twAnswer", { chosen: pick, startedAt: q.startedAt }); b.answers++; }, (q.recall * 1000) / SPEED + 40 + Math.random() * 120);
   }
@@ -159,9 +171,13 @@ function act(b) {
 let sawMarching = false, lastTurnPlayed = 0, sawFogHide = false, sawVoteWait = false, sawWarcry = false, sawCampBuff = false, sawGateBroken = false, sawLoss = false;
 let reconnectDone = false, mpChecked = false, sawMultiStep = false;
 const turnLog = [];
+const phaseTime = {}; let lastPhase = null, lastPhaseAt = Date.now(); const warStart = Date.now();
 while (host.status === "playing") {
   await sleep(40);
   const h = host;
+  // how long each phase lasts, in game seconds (the same as real seconds at RIFT_SPEED=1)
+  const ph = h.phase === "crystal" ? `crystal:${h.stage}` : h.phase;
+  if (ph !== lastPhase) { if (lastPhase) phaseTime[lastPhase] = (phaseTime[lastPhase] || 0) + (Date.now() - lastPhaseAt) * SPEED / 1000; lastPhase = ph; lastPhaseAt = Date.now(); }
   if (h.phase === "crimson" && h.turn !== lastTurnPlayed) {
     lastTurnPlayed = h.turn;
     if (h.turn === 1) {
@@ -224,8 +240,9 @@ while (host.status === "playing") {
     check(back.me.name === "S4" && back.me.pairNo === 2, "a student who drops out rejoins their pair");
     b.sock = s2; b.paused = false; s2.on("twState", (v) => { b.state = v; act(b); }); s2.on("twError", (m) => b.errors.push(m));
   }
-  if (host.turn > 14) break;
+  if (host.turn > 8) break;
 }
+const warSeconds = (Date.now() - warStart) * SPEED / 1000;
 
 // ---------- results ----------
 console.log("\n" + turnLog.join("\n"));
@@ -236,7 +253,11 @@ check(sawMultiStep, "the warband marched off from the fortress one stop at a tim
 check(sawWarcry, "the pair at home sent War Cries into a battle");
 if (N >= 10) check(sawCampBuff, "beating the Moonhart Sentinel gave the whole class its buff");
 check(sawGateBroken, "the class broke the gate of the Crimson Fortress");
-check(host.status === "ended", `the war ended (winner: ${host.winner})`);
+check(host.status === "ended", `the war ended (winner: ${host.winner}, ${host.endedBy || "the Warlord fell"}, turn ${host.turn})`);
+check(host.gate.broken && (host.winner === "crystal" || host.warlord.hp < host.warlord.max), `the class reached the Warlord within 8 turns (Warlord ${host.warlord.hp}/${host.warlord.max})`);
+console.log(`  war length: ${Math.round(warSeconds / 60)} game minutes over ${host.turn} turns (bots answer in about 5 s; a class takes longer)`);
+console.log("  time in each phase (game seconds): " + Object.entries(phaseTime).map(([k, v]) => `${k} ${Math.round(v)}`).join(", "));
+check(!!host.report?.csv && host.report.students.length === N, `the teacher gets a learning report at the end (${host.report?.objectives?.length} objectives, ${host.report?.missed?.length} most missed)`);
 // battles are slower now (HP lasts, waves, capped damage): the test class must break the gate; beating the Warlord too is a bonus
 console.log(`  the Warlord ${host.winner === "crystal" ? "was beaten" : `has ${host.warlord.hp} of ${host.warlord.max} HP left`}`);
 check(bots.every((b) => !b.sawAnswerKey), "no answer key ever reached a student");
@@ -252,6 +273,8 @@ check(!unexpected.length, `no unexpected errors for students${unexpected.length 
 await wardWar();
 await practiceWar();
 await featureWar();
+await mechanicsWar();
+await restoreWar();
 summary();
 done(fails.length ? 1 : 0);
 
@@ -265,7 +288,7 @@ async function wardWar() {
   const s = io(URL, { transports: ["websocket"] }); let st = null;
   s.on("twState", (v) => { st = v;
     const q = v.own && !v.own.result ? v.own.question : v.myBattle?.question && !v.myBattle.question.mine ? v.myBattle.question : null;
-    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
     const band = v.bands?.find((x) => x.id === v.me.bandId);
     if (v.phase === "crystal" && band?.done && !v.me.orderDone && s.ordered !== v.turn) { s.ordered = v.turn; s.emit("twOrderDone"); }
     if (v.phase === "crystal" && v.stage === "council" && band && !band.battle) { const key = `${v.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const route = routeFrom(v, band, (at) => ({ [HOME]: 1, 1: 10, 10: 12 })[at]); s.emit("twRoute", route.length > 1 ? { route } : { hold: true }); } }
@@ -304,7 +327,7 @@ async function practiceWar() {
     const B = x.myBattle;
     if (B?.round?.action) kinds.add(B.round.action.kind);
     const q = x.own && !x.own.result ? x.own.question : B?.question && !B.question.mine ? B.question : null;
-    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: ANSWER.get(q.q) ?? q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+    if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? ANSWER.get(q.q) ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
     if (B?.moves && s.lastMove !== B.choose?.endsAt) {
       s.lastMove = B.choose?.endsAt; const M = B.moves, ok = M.skills.filter((k) => k.ok);
       const act = M.items.length && !usedItem ? (usedItem = true, { kind: "item", item: M.items[0].id }) : M.ult.ready ? { kind: "ult" } : ok.length ? { kind: "skill", index: ok[0].i } : { kind: "strike" };
@@ -398,5 +421,165 @@ async function featureWar() {
   check(sawTower, "holding the watchtower shows the class the Crimson Host beyond the fog");
   check(!terr.length, `no errors for the teacher${terr.length ? ": " + terr.slice(0, 3).join(" | ") : ""}`);
   for (const s of [ana, ben, t]) s.disconnect();
+}
+// Shuffled choices, explanations, pause, ending a battle, a warband's AP, War Cries by themselves, a beaten pair back at
+// full HP, the teacher declaring the class the winner, and the learning report.
+async function mechanicsWar() {
+  console.log("\n--- shuffled choices, explanations, pause, end a battle, AP, revive, class wins, report ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v)); t.on("twError", (m) => terr.push(m));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: false, turns: 8 });
+  const byQ = new Map(QUESTIONS.map((q) => [q.q, q]));
+  const stats = { own: 0, mapped: 0, shuffled: 0, explained: 0, resultOk: 0, cries: 0, battleMapped: 0, battleQs: 0 };
+  const mk = (name, char, wrongInBattle) => {
+    const s = io(URL, { transports: ["websocket"] }); s.v = null; s.errs = []; s.hold = true;
+    s.on("twError", (m) => s.errs.push(m));
+    s.on("twState", (v) => {
+      s.v = v; if (v.status !== "playing" || v.paused) return;
+      const B = v.myBattle;
+      if (v.own?.kind === "warcry") stats.cries++;
+      // an own question: the cheat index is in this student's order, and must point at the right answer
+      if (v.own && !v.own.result && s.lastQ !== v.own.question.startedAt) {
+        const q = v.own.question; s.lastQ = q.startedAt; stats.own++;
+        const Q = byQ.get(q.q);
+        if (Q) { if (q.choices[q.cheat] === Q.choices[Q.answer]) stats.mapped++; if (q.choices.join("|") !== Q.choices.join("|")) stats.shuffled++; }
+        s.pending = { startedAt: q.startedAt, cheat: q.cheat, explain: Q?.explain };
+        setTimeout(() => s.emit("twAnswer", { chosen: q.cheat, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30);
+      }
+      if (v.own?.result && s.pending && v.own.question.startedAt === s.pending.startedAt) {
+        if (v.own.result.ok && v.own.result.right === s.pending.cheat) stats.resultOk++;
+        if (v.own.result.explain && v.own.result.explain === s.pending.explain) stats.explained++;
+        s.pending = null;
+      }
+      const bq = B?.question;
+      if (bq && !bq.mine && s.lastBQ !== bq.startedAt) {
+        s.lastBQ = bq.startedAt; stats.battleQs++;
+        const Q = byQ.get(bq.q); if (Q && bq.choices[bq.cheat] === Q.choices[Q.answer]) stats.battleMapped++;
+        const pick = wrongInBattle ? (bq.cheat + 1) % bq.choices.length : bq.cheat;
+        setTimeout(() => s.emit("twAnswer", { chosen: pick, startedAt: bq.startedAt }), (bq.recall * 1000) / SPEED + 30);
+      }
+      if (B?.moves && s.lastMove !== B.choose?.endsAt) { s.lastMove = B.choose?.endsAt; s.emit("twAction", { kind: "strike" }); }
+      const band = v.bands?.find((b) => b.id === v.me.bandId);
+      if (v.phase === "crystal" && v.stage === "council" && band && !band.battle && s.route) {
+        const key = `${v.turn}:${band.node}:${band.pairs.length}`; if (s.lastKey === key) return; s.lastKey = key;
+        const r = s.route(v, band); if (r) s.emit("twRoute", r === "hold" ? { hold: true } : { route: r });
+      }
+    });
+    return s;
+  };
+  const ana = mk("Ana", "jun", false), cy = mk("Cy", "saya", true);
+  await Promise.all([ana, cy].map((s) => new Promise((r) => s.on("connect", r))));
+  ana.emit("twJoin", { code: hs.code, name: "Ana" }); cy.emit("twJoin", { code: hs.code, name: "Cy" });
+  while (!ana.v || !cy.v) await sleep(20);
+  t.emit("twStart");
+  while (H.status !== "playing" || H.phase !== "crimson") await sleep(20);
+  // pause: the clocks stop, students cannot act, and no time is lost
+  await sleep(150);
+  t.emit("twPause", { paused: true });
+  while (!H.paused) await sleep(20);
+  const left = H.phaseEndsAt - H.serverNow;
+  await sleep(100);
+  check(ana.v.paused?.by === H.settings.commander, `students see "Paused by ${ana.v.paused?.by}"`);
+  ana.emit("twAnswer", { chosen: 0, startedAt: ana.v.own?.question?.startedAt || 0 }); await sleep(100);
+  check(ana.errs.some((e) => /Paused by/.test(e)), "a student cannot answer while the war is paused");
+  await sleep(700);                                                           // 14 game seconds
+  check(H.phase === "crimson" && H.turn === 1, "nothing moves on while the war is paused");
+  t.emit("twPause", { paused: false });
+  while (H.paused) await sleep(20);
+  const left2 = H.phaseEndsAt - H.serverNow;
+  check(left2 > left - 400, `the clocks pick up where they stopped (${Math.round(left)} ms left before, ${Math.round(left2)} after)`);
+  t.emit("twSummon", { type: "hollow_knight" }); await sleep(100);
+  const knight = H.units.find((u) => u.type === "hollow_knight");
+  t.emit("twEndTurn");
+  // turn 1 council: Ana joins Cy's warband (AP is the average), then leaves again
+  while (!(H.phase === "crystal" && H.stage === "council")) await sleep(20);
+  await sleep(60);
+  const bA = H.bands.find((b) => b.pairs.some((p) => p.names.includes("Ana"))), bC = H.bands.find((b) => b.pairs.some((p) => p.names.includes("Cy")));
+  const want = Math.round((bA.mp + bC.mp) / 2);
+  ana.emit("twJoinBand", { bandId: bC.id }); await sleep(150);
+  const joint = H.bands.find((b) => b.pairs.length === 2);
+  check(joint && joint.mp === want, `a warband's AP is the average of its pairs (${bA.mp} and ${bC.mp} make ${joint?.mp}, expected ${want})`);
+  ana.emit("twLeaveBand"); await sleep(100);
+  ana.route = () => "hold"; cy.route = () => "hold";
+  ana.lastKey = cy.lastKey = null;
+  // turn 2: the knight is teleported next to the Academy, and Cy (always wrong in battle) attacks it alone
+  while (!(H.phase === "crimson" && H.turn === 2)) await sleep(20);
+  t.emit("twTeleport", { unitId: knight.id, to: 1 }); await sleep(100);
+  check(H.units.find((u) => u.id === knight.id)?.node === 1, "the knight waits next to the Academy");
+  t.emit("twEndTurn");
+  cy.route = (v, band) => (v.turn === 2 && band.node === HOME ? [HOME, 1] : "hold");
+  let sawRevive = false, lost = false, untilT = Date.now() + 60000;
+  while (Date.now() < untilT && !(H.turn === 3 && H.phase === "crimson")) {
+    await sleep(30);
+    if (cy.v?.me?.revive) sawRevive = true;
+    if (H.battles.some((B) => B.outcome === "lost") || H.log.some((l) => /is lost/.test(l.text))) lost = true;
+  }
+  check(lost, "Cy lost the battle against the knight");
+  check(sawRevive, "a beaten pair is marked to come back at full HP");
+  await sleep(100);
+  check(cy.v.me.hp === cy.v.me.maxHp, `at the start of the next turn the beaten pair is back to full HP (${cy.v.me.hp}/${cy.v.me.maxHp})`);
+  check(stats.cries > 0, "War Cries came to Ana by themselves while Cy fought (no SUPPORT tap)");
+  check(stats.own >= 4 && stats.mapped === stats.own, `own questions: the answer index matches each student's order (${stats.mapped} of ${stats.own})`);
+  check(stats.shuffled > 0, `choices are shuffled for each student (${stats.shuffled} of ${stats.own} in a new order)`);
+  check(stats.resultOk > 0 && stats.explained > 0, `after an answer the student sees the right choice and the explanation (${stats.resultOk} results, ${stats.explained} explanations)`);
+  check(stats.battleQs > 0 && stats.battleMapped === stats.battleQs, `battle questions map each student's order too (${stats.battleMapped} of ${stats.battleQs})`);
+  // turn 3: the knight attacks the Academy, and the teacher ends that battle early
+  const kn = H.units.find((u) => u.id === knight.id);
+  if (kn) t.emit("twMoveUnit", { unitId: kn.id, to: HOME });
+  untilT = Date.now() + 20000;
+  while (Date.now() < untilT && !H.battles.some((B) => B.kind === "defend" && B.status !== "gather")) await sleep(20);
+  const DB = H.battles.find((B) => B.kind === "defend");
+  if (DB) t.emit("twEndBattle", { battleId: DB.id });
+  await sleep(200);
+  check(!!DB && H.log.some((l) => /ended the battle/.test(l.text)), "the teacher can end a battle now");
+  check(H.units.find((u) => u.id === knight.id)?.node === 1, "after an ended defence, the attackers pull back and the damage stays");
+  t.emit("twEndGame", { result: "crystal" });
+  while (H.status !== "ended") await sleep(20);
+  check(H.winner === "crystal" && H.endedBy === "teacher", "the teacher can end the war with the class as the winner");
+  const R = H.report;
+  check(R && R.students.length === 2 && R.objectives.length > 0 && /Student/.test(R.csv), `the learning report has students, objectives and a CSV (${R?.students.map((x) => `${x.name} ${x.pct}%`).join(", ")})`);
+  check(ana.v.status === "ended" && ana.v.winner === "crystal", "students see the class won");
+  const odd = [...ana.errs, ...cy.errs].filter((e) => !/Paused by|not your turn|in a battle/i.test(e));
+  check(!odd.length && !terr.length, `no unexpected errors${odd.length || terr.length ? ": " + [...odd, ...terr].slice(0, 3).join(" | ") : ""}`);
+  for (const s of [ana, cy, t]) s.disconnect();
+}
+
+// The server restarts in the middle of a war: the war comes back at the start of its turn, paused, with the same code,
+// pairs and coins. The teacher's page reconnects with its saved token, a student rejoins with the code and their name.
+async function restoreWar() {
+  console.log("\n--- the server restarts mid-war ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null;
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: true, turns: 8 });
+  const s = io(URL, { transports: ["websocket"] }); let v = null;
+  s.on("twState", (x) => { v = x; const q = x.own && !x.own.result ? x.own.question : null; if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); } });
+  await new Promise((r) => s.on("connect", r)); s.emit("twJoin", { code: hs.code, name: "Dee" });
+  while (!v) await sleep(20);
+  t.emit("twStart");
+  while (!(H.turn === 2 && H.phase === "crimson")) await sleep(20);
+  await sleep(300);                                                          // the snapshot is written as the turn starts
+  const before = { turn: H.turn, pairNo: v.me.pairNo, partner: v.me.partner.join(), pairs: H.pairs.length };
+  t.disconnect(); s.disconnect();
+  server.kill(); await new Promise((r) => server.once("exit", r));
+  server = startServer(); await server.ready;
+  const t2 = io(URL, { transports: ["websocket"] }); let H2 = null, gone = false;
+  t2.on("twHost", (x) => (H2 = x)); t2.on("twGone", () => (gone = true));
+  await new Promise((r) => t2.on("connect", r)); t2.emit("twResume", { code: hs.code, hostToken: hs.hostToken });
+  const until = Date.now() + 8000; while (!H2 && !gone && Date.now() < until) await sleep(20);
+  check(!!H2 && H2.status === "playing" && H2.turn === before.turn, `after a restart the war is back, at turn ${H2?.turn} (it was turn ${before.turn})`);
+  check(!!H2?.paused, "a restored war waits, paused, until the teacher resumes it");
+  check(H2?.pairs.length === before.pairs, "the pairs are kept");
+  const s2 = io(URL, { transports: ["websocket"] }); let v2 = null; s2.on("twState", (x) => (v2 = x));
+  await new Promise((r) => s2.on("connect", r)); s2.emit("twJoin", { code: hs.code, name: "dee" });
+  const u2 = Date.now() + 5000; while (!v2 && Date.now() < u2) await sleep(20);
+  check(v2?.me.pairNo === before.pairNo && v2.me.partner.join() === before.partner, "a student rejoins their pair with the code and their name");
+  t2.emit("twPause", { paused: false });
+  const u3 = Date.now() + 15000; while (Date.now() < u3 && !(H2.phase === "crystal")) await sleep(20);
+  check(H2.phase === "crystal" && !H2.paused, "once resumed, the war carries on");
+  for (const x of [t2, s2]) x.disconnect();
 }
 function summary() { console.log(`\n${fails.length ? "FAILED: " + fails.length : "ALL PASSED"}`); }

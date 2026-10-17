@@ -87,3 +87,32 @@ test('jungle camps sit at dead ends off the main roads, and every camp has lore 
   assert.ok(nearestRally(3,[2])===2); assert.equal(nearestRally(3,[]),HOME);
   assert.equal(auraFor([{type:'orc_vanguard'}]),0); assert.equal(auraFor([{type:'orc_warchanter'},{type:'ogre'}]),0.25);
 });
+import {alongCap,ALONG_CAP,battleLength,progressResult,TW_ITEMS,FORTRESS_GUARDS,WARCRY_CAP,PREP_AP_EACH,MUSTER_MP_CAP} from '../public/total-war/rules.js';
+import {ITEMS} from '../public/data/characters.js';
+test('a war fits a lesson: battles of 5, 7 at the gate and 8 against the Warlord',()=>{
+  assert.equal(battleLength('host'),5); assert.equal(battleLength('camp'),5); assert.equal(battleLength('gate'),7); assert.equal(battleLength('boss'),8);
+  assert.equal(battleLength('host',{stand:true}),6);
+});
+test('answering along: the cap grows with the pairs in the battle, so a bigger warband always helps',()=>{
+  assert.equal(alongCap(1),ALONG_CAP); assert.equal(alongCap(2),ALONG_CAP);
+  for(let p=2;p<10;p++) assert.ok(alongCap(p+1)>alongCap(p),`${p+1} pairs count more than ${p}`);
+  assert.ok(alongCap(4)>=7,'four pairs: every supporter counts');
+  assert.equal(FORTRESS_GUARDS,2); assert.ok(WARCRY_CAP>=1); assert.ok(PREP_AP_EACH<MUSTER_MP_CAP,'one partner alone cannot fill the pair\'s AP');
+});
+test('a war that ends early is judged on how far the class got',()=>{
+  const r=(o)=>progressResult({gateHp:45,gateMax:45,broken:false,warlordHp:70,warlordMax:70,...o});
+  assert.equal(r({}).winner,'crimson'); assert.equal(r({}).pct,0);
+  assert.equal(r({gateHp:20}).winner,'crimson');
+  assert.equal(r({gateHp:0,broken:true}).winner,'draw'); assert.equal(r({gateHp:0,broken:true}).pct,50);
+  assert.equal(r({gateHp:0,broken:true,warlordHp:36}).winner,'draw');
+  assert.equal(r({gateHp:0,broken:true,warlordHp:35}).winner,'crystal');
+  assert.equal(r({gateHp:0,broken:true,warlordHp:0}).pct,100);
+});
+test('every food Grab-Ma sells does something in Total War, and says what in plain sentences',()=>{
+  for(const it of ITEMS.filter((x)=>x.price&&!x.passive)){
+    const t=TW_ITEMS[it.id]; assert.ok(t,`${it.id} has Total War text`);
+    assert.ok(t.price>0); assert.ok(/\.$/.test(t.desc)&&!/;|—/.test(t.desc),`${it.id}: full sentences, no semicolons or dashes`);
+  }
+  assert.equal(TW_ITEMS.revive.eat,'full','the Phoenix Kueh brings a pair back to full HP');
+  assert.ok(TW_ITEMS.durian.price<ITEMS.find((x)=>x.id==='durian').price,'the Durian Bomb is cheaper in Total War');
+});

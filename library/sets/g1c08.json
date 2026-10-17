@@ -16,7 +16,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A balanced diet contains all the nutrients in the right amounts. It is not equal amounts of each nutrient, because we need more of some than others.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -34,7 +34,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Proteins are needed for growth and for repairing damaged tissues. Carbohydrates are the main source of energy.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Iron is needed to make red blood cells, which carry oxygen in the blood. Too little iron causes anaemia.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -70,7 +70,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Vitamin C keeps the gums healthy and stops them from bleeding. A lack of vitamin C causes scurvy.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -88,7 +88,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Vitamin D helps the body absorb calcium. Calcium is then used to build strong bones and teeth.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -106,7 +106,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Dietary fibre adds bulk to food so it moves easily through the gut. This helps to prevent constipation.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -124,7 +124,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Rice is rich in starch, which is a carbohydrate. Fish and eggs are rich in protein, and butter is rich in fat.",
    "hint": "",
    "image": "a6e765487a8dfed7828e.webp",
    "lo": "Food Health and Safety",
@@ -142,7 +142,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Fish is rich in protein. Potatoes and bread are rich in carbohydrates, and cooking oil is fat.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -160,7 +160,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Greasy foods are rich in fats. Chicken skin is mostly fat.",
    "hint": "",
    "image": "758232880ac387cc5b97.webp",
    "lo": "Food Health and Safety",
@@ -178,7 +178,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Milk is a good source of calcium. Oranges are rich in vitamin C, rice in carbohydrates and oil in fat.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -196,7 +196,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "On My Healthy Plate, half the plate is fruits and vegetables. A quarter is whole grains and a quarter is meat and other proteins.",
    "hint": "",
    "image": "e8f37bcb51d55e26eac6.webp",
    "lo": "Food Health and Safety",
@@ -214,7 +214,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "My Healthy Plate is half fruits and vegetables, a quarter whole grains, and a quarter meat and other proteins.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -232,7 +232,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Each serving has 200 Calories. Two servings have 2 × 200 = 400 Calories.",
    "hint": "",
    "image": "b4edd5bdfcfada0067a7.webp",
    "lo": "Food Health and Safety",
@@ -250,7 +250,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Each serving has 5 g of protein. Four servings have 4 × 5 g = 20 g of protein.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -268,7 +268,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Number of cups = 500 Calories ÷ 200 Calories per cup = 2.5 cups.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -286,7 +286,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "%DV = 240 mg ÷ 2400 mg × 100% = 10%.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -304,7 +304,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "10% of 65 g = 65 g ÷ 10 = 6.5 g.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -322,7 +322,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A %DV of 20% or more is high. A %DV of 5% or less is low.",
    "hint": "",
    "image": "f0f744c83da7fe96f05f.webp",
    "lo": "Food Health and Safety",
@@ -340,7 +340,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A diet high in salt can lead to high blood pressure. Calcium, protein and fibre do not cause it.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -358,7 +358,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Fat that builds up inside blood vessels makes them narrower. The heart must then pump harder, which leads to high blood pressure.",
    "hint": "",
    "image": "f216b15d88a04fc7a252.webp",
    "lo": "Food Health and Safety",
@@ -376,7 +376,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A diet high in sugar can lead to diabetes. In diabetes the body cannot control the amount of sugar in the blood.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -394,7 +394,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Fibre and water help food move easily through the gut. Without enough of them, the faeces become hard, which is constipation.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -412,7 +412,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In diabetes the body cannot control the amount of glucose, a sugar, in the blood.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -430,7 +430,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The iodine test detects starch. The biuret test detects protein and the oil blot test detects oil.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -448,7 +448,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Biuret solution turns from blue to violet when protein is present.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -466,7 +466,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Iodine solution turns from brown to blue-black when starch is present.",
    "hint": "",
    "image": "01ed9082498d0fa17ef3.webp",
    "lo": "Food Health and Safety",
@@ -484,7 +484,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Biuret solution turns from blue to violet when protein is present.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -502,7 +502,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Oil leaves a translucent mark on paper that light can pass through. This is the oil blot test.",
    "hint": "",
    "image": "1846556a7b5cba1cab94.webp",
    "lo": "Food Health and Safety",
@@ -520,7 +520,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Microbes are living things too small to see with our eyes alone. Some are harmful, but many are useful.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -538,7 +538,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Food poisoning is an illness caused by eating food that contains harmful microbes or their poisons.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -556,7 +556,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A fluffy green or black growth on old bread is mould. Mould is a fungus.",
    "hint": "",
    "image": "28972190382d1170201b.webp",
    "lo": "Food Health and Safety",
@@ -574,7 +574,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Vinegar is an acid, so pickling lowers the pH of the food. Most microbes cannot grow in such acidic conditions.",
    "hint": "",
    "image": "dabecde4568aff16dd40.webp",
    "lo": "Food Health and Safety",
@@ -592,7 +592,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Microbes need water to grow. Drying the food lowers its water content, so microbes cannot grow.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -610,7 +610,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Sealing food in airtight bottles cuts off the supply of oxygen. Many microbes need oxygen to grow.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -628,7 +628,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Sterilisation heats food to a high temperature. The heat kills the microbes in the food.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -646,7 +646,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Pickling keeps food in vinegar, which is acidic. This lowers the pH of the food.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -664,7 +664,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Vitamins and mineral salts are added to make food more nutritious. These additives are nutrient supplements.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",
@@ -682,7 +682,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Food colourings change how food looks. They are texture and appearance modifiers.",
    "hint": "",
    "image": "6930eae687324c3f50aa.webp",
    "lo": "Food Health and Safety",
@@ -700,7 +700,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Too much sulfur dioxide can cause allergic reactions in some people, such as breathing problems for people with asthma.",
    "hint": "",
    "image": null,
    "lo": "Food Health and Safety",

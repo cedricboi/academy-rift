@@ -16,7 +16,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Plants take in carbon dioxide from the air through their leaves. They use it with water to make sugar in photosynthesis.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -34,7 +34,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Plants use light energy from sunlight to make food. Chlorophyll in the leaves absorbs the light.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Good soil contains the nutrients plants need, such as nitrogen and phosphorus. It also has a suitable pH, close to neutral for most plants.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -70,7 +70,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In photosynthesis, carbon dioxide and water are changed into sugar and oxygen. The plant uses the sugar as food and gives out the oxygen.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -88,7 +88,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Chlorophyll absorbs light energy. The plant uses this energy to make food by photosynthesis.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -106,7 +106,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Universal indicator is green in a neutral solution, at pH 7. So the soil is neutral.",
    "hint": "",
    "image": "77f6a908e43f1ba19eb9.webp",
    "lo": "Sources of Food",
@@ -124,7 +124,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Universal indicator turns red in an acidic solution. So the soil is acidic.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -142,7 +142,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "An alkali turns red litmus paper blue. So the soil is alkaline.",
    "hint": "",
    "image": "4bd061d7b174e3908417.webp",
    "lo": "Sources of Food",
@@ -160,7 +160,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A pH below 7 means the solution is acidic. A reading of 5 shows the soil is acidic.",
    "hint": "",
    "image": "2628b21a0c311ce8120c.webp",
    "lo": "Sources of Food",
@@ -178,7 +178,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Universal indicator turns blue or purple in an alkaline solution. So it turns blue.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -196,7 +196,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A neutral solution has a pH of 7. Below 7 is acidic and above 7 is alkaline.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -214,7 +214,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Fertilisers add nutrients to the soil. With more nutrients, plants grow faster and bigger.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -232,7 +232,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Chemical fertilisers are rich in nitrogen and phosphorus. Plants need these nutrients to grow well.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -250,7 +250,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The fertiliser adds nutrients to the pond water. Algae use these nutrients and grow very quickly. This is called an algal bloom.",
    "hint": "",
    "image": "bd62ff483f16aa3c5d73.webp",
    "lo": "Sources of Food",
@@ -268,7 +268,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A thick layer of algae blocks sunlight from reaching the plants below. When the algae die and rot, the water also loses oxygen, so fish and other pond life suffer.",
    "hint": "",
    "image": "61db4a81d97ce242bef5.webp",
    "lo": "Sources of Food",
@@ -286,7 +286,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The fertiliser chemicals dissolve in the groundwater. This pollutes the water we use for drinking.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -304,7 +304,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Burning the trees leaves ashes. The ashes add nutrients to the soil for the crops. The other choices are problems, not benefits.",
    "hint": "",
    "image": "9efa599ad86fb347c350.webp",
    "lo": "Sources of Food",
@@ -322,7 +322,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "With the trees gone, nothing holds the soil in place. Rain washes the soil away, which is called soil erosion.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -340,7 +340,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Haze is smoke and fine dust in the air. Breathing it in can cause breathing difficulties.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -358,7 +358,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Earthworms take in the pesticide from the soil. Birds that eat many earthworms build up the poison in their bodies and are harmed.",
    "hint": "",
    "image": "941dd3f6cd23f67ad338.webp",
    "lo": "Sources of Food",
@@ -376,7 +376,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Pesticides are poisons. When rain carries them into a river, they harm the plants and animals that live in the river.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -394,7 +394,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Biological control uses living natural enemies instead of chemicals. So no chemicals end up in the crops.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -412,7 +412,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Adding a natural enemy to an area can upset the food chain. It may also eat other animals or grow too many in number.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -430,7 +430,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The number of people in the world keeps growing, but the space for farms is limited. So more food has to be grown on the same land.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -448,7 +448,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Good seedlings come from healthy plants with useful features. They grow into crops that are bigger and better.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -466,7 +466,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Hydroponics needs tanks, pumps, nutrient solutions and lighting. These are expensive to set up.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -484,7 +484,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Plant hormones control how plants grow. Farmers use some of them to make fruits ripen.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -502,7 +502,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "These hormone weedkillers are chosen to kill the weeds but not the crops. So they can be sprayed on a field of crops.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -520,7 +520,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Growing plants in a nutrient solution with no soil is called hydroponics.",
    "hint": "",
    "image": "920422ece5b549f0da2a.webp",
    "lo": "Sources of Food",
@@ -538,7 +538,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Growing plants with their roots hanging in the air and sprayed with a nutrient mist is called aeroponics.",
    "hint": "",
    "image": "a82ca4c0798a5115bc6a.webp",
    "lo": "Sources of Food",
@@ -556,7 +556,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Using the natural enemies of pests to kill the pests is called biological control.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -574,7 +574,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Cutting down trees and burning them to clear land is called slash-and-burn.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -592,7 +592,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A chemical that kills weeds is a herbicide. A pesticide kills pests, and a fertiliser adds nutrients.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -610,7 +610,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Rotted plant matter is called compost. It adds nutrients to the soil naturally.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",
@@ -628,7 +628,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In biological control the farmer brings in natural enemies of the pests, such as ladybirds that eat aphids. The enemies kill the pests.",
    "hint": "",
    "image": null,
    "lo": "Sources of Food",

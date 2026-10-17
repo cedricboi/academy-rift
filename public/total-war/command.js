@@ -10,6 +10,7 @@ const socket = io();
 const $ = (id) => document.getElementById(id);
 const nodeName = (n) => NODES[n]?.name || '?';
 const SAVE = 'tw.host';
+let idleChipExtra = '';
 let teleportPick = false, ask = null, H = null, hosting = null, offset = 0, speed = 1, selStack = null, selUnit = null, picked = null, toastT = 0, showClass = false, marchPick = false;
 const now = () => Date.now() + offset;
 const secsLeft = (t) => Math.max(0, Math.ceil(((t - now()) * speed) / 1000));
@@ -28,6 +29,10 @@ socket.on('twHosting', (h) => { hosting = h; localStorage.setItem(SAVE, JSON.str
 socket.on('twGone', () => { localStorage.removeItem(SAVE); hosting = null; $('resumeWar').classList.add('hidden'); show('setup'); toast('That war is no longer running. Start a new one.'); });
 socket.on('twError', (m) => toast(m));
 socket.on('twHost', (v) => { H = v; offset = v.serverNow - Date.now(); speed = v.speed || 1; render(); });
+// the question sets come only when they change, not with every update
+let SETS = [];
+socket.on('twSets', (s) => { SETS = Array.isArray(s) ? s : []; if (H) render(); });
+const END_BY = [[0, 'No time limit'], ...[35, 40, 45, 50, 55, 60].map((n) => [n, `${n} minutes`])];
 
 // ------------------------------------------------------------------ lobby
 let joinBase = location.origin;
@@ -36,7 +41,8 @@ let joinBase = location.origin;
   try { const r = await (await fetch('/api/addresses')).json(); if (r.lan?.[0]) joinBase = `http://${r.lan[0]}:${r.port}`; else { $('hostWarn').textContent = 'This page is open as "localhost", so students cannot reach it. Put the game online first.'; $('hostWarn').classList.remove('hidden'); } } catch {}
 })();
 let qrFor = '';
-const opts = (el, list, value) => { setHTML(el, list.map(([v, l]) => `<option value="${v}" ${v === value ? 'selected' : ''}>${l}</option>`).join('')); };
+// a dropdown the teacher has open is left alone (updates come several times a second during the war)
+const opts = (el, list, value) => { if (document.activeElement === el) return; setHTML(el, list.map(([v, l]) => `<option value="${v}" ${v === value ? 'selected' : ''}>${l}</option>`).join('')); };
 
 function renderLobby() {
   show('lobby');
@@ -48,7 +54,7 @@ function renderLobby() {
   if (document.activeElement !== $('setCommander')) $('setCommander').value = H.settings.commander;
   const chosen = new Set((H.settings.topic || '').split(',').filter(Boolean));
   const folders = new Map();
-  for (const s of H.sets || []) { const f = FOLDER_BY_ID[s.folder]?.name || 'Question sets'; if (!folders.has(f)) folders.set(f, []); folders.get(f).push(s); }
+  for (const s of SETS) { const f = FOLDER_BY_ID[s.folder]?.name || 'Question sets'; if (!folders.has(f)) folders.set(f, []); folders.get(f).push(s); }
   setHTML($('topics'), `<div class="folder">BUILT IN</div>` + TOPICS.map((t) => `<button type="button" data-topic="${t.id}" class="${chosen.has(t.id) || (!chosen.size && t.id === 'mixed') ? 'on' : ''}">${esc(t.name)}</button>`).join('')
     + [...folders].map(([f, sets]) => `<div class="folder">${esc(f.toUpperCase())}</div>` + sets.map((s) => `<button type="button" data-topic="${s.id}" class="${chosen.has(s.id) ? 'on' : ''}">${esc(s.title)} <small>· ${s.count}</small></button>`).join('')).join(''));
   opts($('setTurns'), [8, 10, 12, 14, 16, 20].map((n) => [n, `${n} turns`]), H.settings.turns);
@@ -57,6 +63,10 @@ function renderLobby() {
   $('setLock').checked = !!H.settings.warlordLock;
   opts($('setCrystal'), [90, 120, 150, 180, 240].map((n) => [n, `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')} min`]), H.settings.crystalSeconds);
   opts($('setTarget'), [15, 20, 25, 30, 40].map((n) => [n, `${n} questions`]), H.settings.target);
+  opts($('setEndBy'), END_BY, H.settings.endMinutes || 0);
+  // a small pool means students see the same questions again and again
+  $('poolWarn').classList.toggle('hidden', !H.poolLow);
+  $('poolWarn').textContent = H.poolLow ? `Only ${H.poolSize} questions are chosen. Students will see repeats. Choose more sets for 80 or more.` : '';
   $('classCount').textContent = `· ${H.students.length} JOINED`;
   const paired = H.pairs.map((p) => `<div class="pair ${p.bots ? 'botty' : ''}">Pair ${p.no}${p.bots ? ' <em class="bot-tag">BOT</em>' : ''}<small>${esc(p.names.join(' & '))}</small></div>`).join('');
   $('setBotCmd').checked = !!H.settings.botCommander; $('setBotPartners').checked = H.settings.botPartners !== false;
@@ -72,7 +82,7 @@ $('topics').addEventListener('click', (e) => {
   socket.emit('twSettings', { topic: [...set].join(',') || null });
 });
 $('setCommander').addEventListener('change', (e) => socket.emit('twSettings', { commander: e.target.value }));
-for (const [id, key] of [['setTurns', 'turns'], ['setCrimson', 'crimsonSeconds'], ['setCrystal', 'crystalSeconds'], ['setTarget', 'target']]) $(id).addEventListener('change', (e) => socket.emit('twSettings', { [key]: +e.target.value }));
+for (const [id, key] of [['setTurns', 'turns'], ['setCrimson', 'crimsonSeconds'], ['setCrystal', 'crystalSeconds'], ['setTarget', 'target'], ['setEndBy', 'endMinutes'], ['menuTurns', 'turns'], ['menuEndBy', 'endMinutes']]) $(id).addEventListener('change', (e) => socket.emit('twSettings', { [key]: +e.target.value }));
 $('roster').addEventListener('click', (e) => {
   const b = e.target.closest('[data-pid]'); if (!b) return;
   if (!picked) { picked = b.dataset.pid; render(); return; }
@@ -124,7 +134,11 @@ $('setCouncil').addEventListener('change', (e) => socket.emit('twSettings', { co
 $('endTurnBtn').addEventListener('click', () => { selStack = selUnit = null; socket.emit('twEndTurn'); });
 $('releaseBtn').addEventListener('click', () => socket.emit('twRelease'));
 $('menuBtn').addEventListener('click', () => $('menu').classList.toggle('hidden'));
-$('endWarBtn').addEventListener('click', () => { if (confirm('End the war now? The Crimson Host will be declared the winner.')) socket.emit('twEndGame'); $('menu').classList.add('hidden'); });
+$('endWarBtn').addEventListener('click', () => { if (confirm('End the war now? The result goes by how far the class got: the gate broken and the Warlord at half strength or less is a class win, the gate broken alone is a draw.')) socket.emit('twEndGame', { result: 'progress' }); $('menu').classList.add('hidden'); });
+$('endWarClassBtn').addEventListener('click', () => { if (confirm('End the war now and declare the class the winner?')) socket.emit('twEndGame', { result: 'crystal' }); $('menu').classList.add('hidden'); });
+$('pauseBtn').addEventListener('click', () => { socket.emit('twPause', { paused: !H?.paused }); $('menu').classList.add('hidden'); });
+$('battles').addEventListener('click', (e) => { const b = e.target.closest('[data-endbattle]'); if (b && confirm('End this battle now? The damage dealt stays, and the class steps back a road.')) socket.emit('twEndBattle', { battleId: b.dataset.endbattle }); });
+$('guide').addEventListener('click', (e) => { if (e.target.closest('[data-resume]')) socket.emit('twPause', { paused: false }); });
 $('classChip').addEventListener('click', () => { showClass = !showClass; render(); });
 $('summon').addEventListener('click', (e) => { const b = e.target.closest('[data-type]'); if (b) socket.emit('twSummon', { type: b.dataset.type }); });
 $('stackPanel').addEventListener('click', (e) => {
@@ -166,6 +180,9 @@ function render() {
   $('endTurnBtn').disabled = !mine || H.teacherEnded; $('autoBtn').disabled = !mine || H.teacherEnded;
   $('releaseBtn').classList.toggle('hidden', !(H.gate.broken && !H.warlordReady));
   $('menuProjector').href = `projector.html?code=${H.code}`;
+  $('pauseBtn').textContent = H.paused ? 'Resume the war' : 'Pause the war';
+  opts($('menuTurns'), [...new Set([8, 10, 12, 14, 16, 20, H.settings.turns])].filter((n) => n >= H.turn).sort((a, b) => a - b).map((n) => [n, `${n} turns`]), H.settings.turns);
+  opts($('menuEndBy'), END_BY, H.settings.endMinutes || 0);
 
   const u = selUnit && H.units.find((x) => x.id === selUnit);
   if (selUnit && !u) selUnit = null;
@@ -198,13 +215,17 @@ function render() {
   const agreed = H.bands.filter((b) => b.status === 'committed' || b.status === 'battle').length;
   const idle = H.units.filter((u) => !u.order && !u.battle && u.node !== FORTRESS);
   const idleChip = idle.length ? `<button type="button" class="g-idle" data-idle="${idle[0].node}">${idle.length} unit${idle.length > 1 ? 's' : ''} without orders</button>` : '';
-  setHTML($('guide'), H.status !== 'playing' ? '' : H.phase === 'crystal' && H.stage === 'quiz'
+  const stuck = (H.stuck || []).length ? `<span class="g-idle">${H.stuck.map((p) => `Pair ${p.no}`).join(', ')} ${H.stuck.length > 1 ? 'have' : 'has'} not moved for 3 turns. Check in with them.</span>` : '';
+  const left = H.endAt ? Math.max(0, Math.ceil((H.endAt - now()) / 60000)) : null;
+  idleChipExtra = stuck + (left != null ? `<span class="g-idle">War ends in about ${left} min</span>` : '');
+  setHTML($('guide'), H.status !== 'playing' ? '' : H.paused ? `<div class="g-wait"><b>PAUSED</b> ${H.paused.restored ? 'The server restarted and the war is back at the start of this turn. Resume when the class has rejoined.' : 'Every clock has stopped. Students see "Paused by ' + esc(H.settings.commander) + '".'} <button type="button" class="btn crimson" data-resume="1">Resume</button></div>`
+    : (H.phase === 'crystal' && H.stage === 'quiz'
     ? `<div class="g-wait">The class is answering 3 questions before the War Council: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
     : H.phase === 'crystal' && H.stage === 'council'
     ? `<div class="g-council"><b>WAR COUNCIL</b> <span data-until="${H.phaseEndsAt}"></span> · ${agreed} of ${H.bands.length} companies agreed <button type="button" class="btn" data-council="extend">+15 s</button><button type="button" class="btn crimson" data-council="launch">Launch now</button></div>${idleChip}`
     : H.settings.botCommander ? `<div class="g-bot">🤖 The Bot Commander is leading your Host. Watch, or give orders yourself.</div>` : !mine
     ? `<div class="g-wait">${H.phase === 'crystal' ? 'The banners are marching.' : 'Battles are being fought.'} You can still send out units and give orders; they play out on your turn.</div>${idleChip}`
-    : steps.map(([n, t, s], i) => `<div class="g-step ${i === stepNow ? 'now' : i < stepNow ? 'done' : ''}"><i>${n}</i><span><b>${t}</b><small>${s}</small></span></div>`).join('<span class="g-arrow">›</span>'));
+    : steps.map(([n, t, s], i) => `<div class="g-step ${i === stepNow ? 'now' : i < stepNow ? 'done' : ''}"><i>${n}</i><span><b>${t}</b><small>${s}</small></span></div>`).join('<span class="g-arrow">›</span>')) + idleChipExtra);
 
   // the class, in one chip
   const quiet = H.students.filter((s) => s.quiet && !s.bot);
@@ -217,7 +238,7 @@ function render() {
   // live battles
   setHTML($('battles'), H.battles.map((B) => {
     const hp = B.enemies.reduce((a, e) => a + Math.max(0, e.hp), 0), max = B.enemies.reduce((a, e) => a + e.max, 0);
-    return `<div class="bl ${B.kind === 'defend' ? 'atk' : ''}">${B.kind === 'defend' ? 'Your attack' : 'Battle'} at ${esc(nodeName(B.node))}<small>Resolve ${Math.ceil(B.resolve)}/${B.resolveMax || '–'} · ${B.bands.reduce((a, b) => a + b.pairs.length, 0)} pairs · ${B.status === 'gather' ? 'gathering' : `question ${B.qNo} of ${B.limit}`} · enemy ${Math.ceil(hp)} / ${max}${B.outcome ? ` · ${B.outcome === 'won' ? 'the class won' : 'you held'}` : ''}</small><div class="hpbar"><i style="width:${(hp / max) * 100}%"></i></div></div>`;
+    return `<div class="bl ${B.kind === 'defend' ? 'atk' : ''}">${B.kind === 'defend' ? 'Your attack' : 'Battle'} at ${esc(nodeName(B.node))}<small>Resolve ${Math.ceil(B.resolve)}/${B.resolveMax || '–'} · ${B.bands.reduce((a, b) => a + b.pairs.length, 0)} pairs · ${B.status === 'gather' ? 'gathering' : `question ${B.qNo} of ${B.limit}`} · enemy ${Math.ceil(hp)} / ${max}${B.outcome ? ` · ${B.outcome === 'won' ? 'the class won' : B.outcome === 'stopped' ? 'ended by you' : 'you held'}` : ''}</small><div class="hpbar"><i style="width:${(hp / max) * 100}%"></i></div>${B.status !== 'over' && H.status === 'playing' ? `<button type="button" class="btn" data-endbattle="${B.id}">End this battle now</button>` : ''}</div>`;
   }).join(''));
 
   // the selected stack
@@ -244,11 +265,25 @@ function render() {
   if (H.status !== 'ended') end.classList.add('hidden');
   else {
     end.classList.remove('hidden');
-    setHTML(end, `<div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? 'Your Warlord has fallen' : H.endedBy === 'ward' ? 'You broke the Academy Ward' : 'Your fortress stands'}</h1>
+    const R = H.report;
+    setHTML(end, `<div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : H.winner === 'draw' ? 'A DRAW' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? (H.endedBy && H.endedBy !== 'teacher' ? 'The class wins on points' : H.endedBy === 'teacher' ? 'You declared the class the winner' : 'Your Warlord has fallen') : H.winner === 'draw' ? 'The gate is broken, your Warlord stands' : H.endedBy === 'ward' ? 'You broke the Academy Ward' : 'Your fortress stands'}</h1>
+      ${H.endedBy && !['ward', 'teacher'].includes(H.endedBy) ? `<p>The class got ${H.progress?.pct ?? 0}% of the way.</p>` : ''}
+      ${R ? `<div class="report"><div class="eyebrow">LEARNING REPORT</div><button class="btn" type="button" data-csv="1">Download the report (CSV)</button>
+        <h3>By learning objective</h3><table><tr><th>Learning objective</th><th>Answers</th><th>Right</th></tr>${R.objectives.map((o) => `<tr><td>${esc(o.lo)}</td><td>${o.asked}</td><td>${o.pct}%</td></tr>`).join('')}</table>
+        <h3>Most missed questions</h3><table><tr><th>Question</th><th>Right</th><th>Correct answer</th><th>Most common wrong answer</th></tr>${R.missed.map((q) => `<tr><td>${esc(q.text)}</td><td>${q.right} of ${q.asked}</td><td>${esc(q.answer)}</td><td>${esc(q.commonWrong)}</td></tr>`).join('')}</table>
+        <h3>Students</h3></div>` : ''}
       <table><tr><th>Student</th><th>Pair</th><th>Answered</th><th>Right</th></tr>${[...H.students].sort((a, b) => b.answered - a.answered).map((s) => `<tr><td>${esc(s.name)}</td><td>${s.pairNo || ''}</td><td>${s.answered}</td><td>${s.answered ? Math.round((s.correct / s.answered) * 100) : 0}%</td></tr>`).join('')}</table>
       ${H.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div><div class="story-map"><img src="art/moonveil-map.webp" alt="">${H.story.map((e, i) => e.node == null ? '' : `<i style="left:${(NODES[e.node].x / 14.4).toFixed(2)}%;top:${(NODES[e.node].y / 9).toFixed(2)}%">${i + 1}</i>`).join('')}</div><ol>${H.story.map((e) => `<li><small>Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
-      <button class="btn crimson" type="button" onclick="localStorage.removeItem('${SAVE}');location.reload()">Start a new war</button>`);
+      <button class="btn crimson" type="button" data-newwar="1">Start a new war</button>`);
   }
 }
 
-setInterval(() => { if (H?.status === 'playing') { $('gClock').textContent = mmss(secsLeft(H.phaseEndsAt)); document.querySelectorAll('[data-until]').forEach((el) => { el.textContent = mmss(secsLeft(+el.dataset.until)); }); } }, 250);
+// the report stays until a new war starts, and starting one asks first
+$('ending').addEventListener('click', (e) => {
+  if (e.target.closest('[data-csv]') && H?.report) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + H.report.csv], { type: 'text/csv' }));
+    a.download = `total-war-${H.code}-report.csv`; document.body.appendChild(a); a.click(); a.remove();
+  }
+  if (e.target.closest('[data-newwar]') && confirm('Start a new war? This war\'s learning report closes. Download it first if you need it.')) { localStorage.removeItem(SAVE); location.reload(); }
+});
+setInterval(() => { if (H?.status === 'playing' && !H.paused) { $('gClock').textContent = mmss(secsLeft(H.phaseEndsAt)); document.querySelectorAll('[data-until]').forEach((el) => { el.textContent = mmss(secsLeft(+el.dataset.until)); }); } }, 250);

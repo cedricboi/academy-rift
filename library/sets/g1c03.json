@@ -16,7 +16,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Squeezing the sponge makes it flatter. This shows that a force can change the shape of an object.",
    "hint": "",
    "image": "673e93f1219f94582675.webp",
    "lo": "Effects of Forces",
@@ -34,7 +34,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The ball was still before the kick and moving after it. This shows that a force can make a still object start moving.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -52,7 +52,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The ball was already moving, and the hit sends it off to one side. This shows that a force can change the direction of a moving object.",
    "hint": "",
    "image": "b715aa63bdb54bf02199.webp",
    "lo": "Effects of Forces",
@@ -70,7 +70,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The goalkeeper's hands push against the moving ball until it stops. This shows that a force can stop a moving object.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -88,7 +88,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The brakes make the bicycle go slower. This shows that a force can change the speed of a moving object.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -106,7 +106,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The hinges act as a pivot, and the push makes the door turn about them. This shows that a force can turn an object about a pivot.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -124,7 +124,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Pressing a lump of clay squashes it into a new shape. Pushing a door turns it, braking slows a bicycle, and catching stops a ball.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -142,7 +142,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The turning effect of a force is called a moment. The pivot is the point that the object turns about.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -160,7 +160,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Moment = force × perpendicular distance from the pivot. So the moment depends on the size of the force and its perpendicular distance from the pivot.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -178,7 +178,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Moment = force × perpendicular distance from the pivot. The force is the same but the distance is larger, so the moment increases.",
    "hint": "",
    "image": "3da17b7dd15fc3406d15.webp",
    "lo": "Effects of Forces",
@@ -196,7 +196,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "One kilometre is 1000 metres. So 3 km = 3 × 1000 m = 3000 m.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -214,7 +214,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "One hour is 60 minutes. So 30 min = 30 ÷ 60 h = 0.5 h.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -232,7 +232,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "One hour is 60 minutes. So 2 h = 2 × 60 min = 120 min.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -250,7 +250,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "One kilometre is 1000 metres. So 2500 m = 2500 ÷ 1000 km = 2.5 km.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -268,7 +268,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Speed is the distance travelled per unit time. So speed = distance ÷ time.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -286,7 +286,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Rearranging speed = distance ÷ time gives time = distance ÷ speed.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -304,7 +304,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Average speed = distance ÷ time = 300 km ÷ 2 h = 150 km/h.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -322,7 +322,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Average speed = distance ÷ time = 100 m ÷ 20 s = 5 m/s.",
    "hint": "",
    "image": "c7affb25ca5c0017b996.webp",
    "lo": "Effects of Forces",
@@ -340,7 +340,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Distance = speed × time = 2 m/s × 50 s = 100 m.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -358,7 +358,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Time = distance ÷ speed = 45 km ÷ 15 km/h = 3 h.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -376,7 +376,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Acceleration is the rate of change of speed. It tells us how much the speed changes every second.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -394,7 +394,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Acceleration is the change in speed (m/s) per second, so its SI unit is metres per second squared (m/s²).",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -412,7 +412,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Acceleration = change in speed ÷ time = 6 m/s ÷ 3 s = 2 m/s².",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -430,7 +430,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Acceleration = change in speed ÷ time = (20 - 0) m/s ÷ 5 s = 4 m/s².",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -448,7 +448,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The speed falls by 8 m/s in 2 s. Deceleration = 8 m/s ÷ 2 s = 4 m/s².",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -466,7 +466,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Time = change in speed ÷ acceleration = 10 m/s ÷ 2 m/s² = 5 s.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -484,7 +484,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A horizontal line means the distance does not change as time passes. So the object is not moving.",
    "hint": "",
    "image": "2c6fd4a90c742aaf89f7.webp",
    "lo": "Effects of Forces",
@@ -502,7 +502,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A straight sloping line means the distance increases by the same amount every second. So the object moves at a constant speed.",
    "hint": "",
    "image": "9f9dc7e5a443b252f5bb.webp",
    "lo": "Effects of Forces",
@@ -520,7 +520,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The gradient of a distance-time graph shows the speed. A steeper line means more distance in each second, which is a higher speed.",
    "hint": "",
    "image": "60cd0e74b401a6f77d28.webp",
    "lo": "Effects of Forces",
@@ -538,7 +538,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An object that is not moving stays at the same distance, so its distance-time graph is a horizontal line.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -556,7 +556,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Average speed = distance ÷ time = 20 m ÷ 4 s = 5 m/s.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -574,7 +574,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Distance = speed × time = 2 m/s × 3 s = 6 m.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -592,7 +592,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The stone pushes the water up by its own volume. Volume of stone = 26 cm³ - 18 cm³ = 8 cm³.",
    "hint": "",
    "image": "a76db3cdbc4f11044851.webp",
    "lo": "Effects of Forces",
@@ -610,7 +610,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The rise in temperature is the final reading minus the first reading. Rise = 40 °C - 25 °C = 15 °C.",
    "hint": "",
    "image": null,
    "lo": "Effects of Forces",
@@ -628,7 +628,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "One minute is 60 seconds. So 1 min 6 s = 60 s + 6 s = 66 s.",
    "hint": "",
    "image": "70e97940f87dbc86c383.webp",
    "lo": "Effects of Forces",
@@ -646,7 +646,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The 5 identical blocks share the height equally. Height of one block = 20 cm ÷ 5 = 4 cm.",
    "hint": "",
    "image": "55b32e2045b48e833200.webp",
    "lo": "Effects of Forces",

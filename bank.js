@@ -112,6 +112,11 @@ class FolderStore {
   async deleteSet(id) { await fs.rm(join(this.dir, "sets", `${id}.json`), { force: true }); }
   async putImage(name, buf) { const p = this.imagePath(name); if (!existsSync(p)) await writeAtomic(p, buf); }
   imagePath(name) { return join(this.dir, "images", name); }
+  // small documents the game keeps for itself (Total War snapshots), in a folder of their own
+  async saveDoc(path, text) { const f = join(this.dir, path); await fs.mkdir(dirname(f), { recursive: true }); await writeAtomic(f, Buffer.from(text)); }
+  async listDocs(prefix) { try { return (await fs.readdir(join(this.dir, prefix))).filter((f) => f.endsWith(".json")).map((f) => `${prefix}/${f}`); } catch { return []; } }
+  async readDoc(path) { try { return await fs.readFile(join(this.dir, path), "utf8"); } catch { return null; } }
+  async removeDoc(path) { await fs.rm(join(this.dir, path), { force: true }); }
 }
 
 // ---------------------------------------------------------------- storage: GitHub
@@ -218,6 +223,15 @@ class GitHubStore {
     if (!this.shas.has(`images/${name}`)) await this.write(`images/${name}`, buf, "Add a picture");
   }
   imagePath(name) { return join(this.cacheDir, name); }
+  // small documents the game keeps for itself (Total War snapshots), on the same branch as the question sets
+  saveDoc(path, text) { return this.write(path, Buffer.from(text), `Save ${path}`); }
+  async listDocs(prefix) { return [...this.shas.keys()].filter((p) => p.startsWith(prefix + "/") && p.endsWith(".json")); }
+  async readDoc(path) {
+    const r = await this.call("GET", `/contents/${path}?ref=${encodeURIComponent(this.branch)}`, null, "application/vnd.github.raw");
+    if (!r.ok) return null;
+    return Buffer.from(await r.arrayBuffer()).toString("utf8");
+  }
+  removeDoc(path) { return this.remove(path, `Remove ${path}`); }
   async readImage(name) {
     const r = await this.call("GET", `/contents/images/${name}?ref=${encodeURIComponent(this.branch)}`, null, "application/vnd.github.raw");
     if (r.status === 404) return null;
@@ -238,6 +252,9 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
   else store = new FolderStore(dir);
 
   const sets = new Map();
+  // the list of playable sets is asked for on every lobby update: work it out once, again only when a set changes
+  let playableCache = null;
+  const changed = () => { playableCache = null; };
   let state = { ok: false, loading: true, error: setupError, at: 0 };
   let loading = null;
   function load() {
@@ -248,6 +265,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
         const list = await store.init();
         sets.clear();
         for (const raw of list) { const s = cleanSet(raw); sets.set(s.id, s); }
+        changed();
         state = { ok: true, loading: false, error: null, at: Date.now() };
         console.log(`[bank] ${sets.size} question set${sets.size === 1 ? "" : "s"} loaded (${store.kind === "github" ? `GitHub ${repo}, branch ${branch}` : dir})`);
       } catch (e) {
@@ -315,7 +333,7 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
     async create(input) {
       await ensure();
       const set = cleanSet({ ...input, id: undefined, createdAt: undefined, updatedAt: undefined });
-      await store.saveSet(set); sets.set(set.id, set); return set;
+      await store.saveSet(set); sets.set(set.id, set); changed(); return set;
     },
     async update(id, input, version) {
       await ensure();
@@ -325,9 +343,9 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
       let stamp = new Date().toISOString();
       if (stamp <= cur.updatedAt) stamp = new Date(Date.parse(cur.updatedAt) + 1).toISOString();
       const set = cleanSet({ ...input, updatedAt: stamp }, { id, createdAt: cur.createdAt });
-      await store.saveSet(set); sets.set(id, set); return set;
+      await store.saveSet(set); sets.set(id, set); changed(); return set;
     },
-    async remove(id) { await ensure(); if (!sets.has(id)) return; await store.deleteSet(id); sets.delete(id); },
+    async remove(id) { await ensure(); if (!sets.has(id)) return; await store.deleteSet(id); sets.delete(id); changed(); },
     async addImage(buf) {
       await ensure();
       const ext = imageExt(buf);
@@ -358,11 +376,26 @@ export function createBank({ builtIn = [], builtInTitle = "Built-in questions" }
     // ---- for the game ----
     // Sets that can be played, for the lobby and tournament pickers.
     // The chapter sets first (in chapter order), then the teacher's own, each with its folder.
+    // The same array comes back until a set changes, so callers can tell when to send it again.
     playableSets() {
+      if (playableCache) return playableCache;
       const row = (s) => ({ id: "set:" + s.id, title: s.title, count: s.questions.filter(playable).length, folder: folderOf(s.folder), library: !!s.library, chapter: s.chapter || 0 });
       const own = [...sets.values()].map(row).filter((s) => s.count > 0).sort((a, b) => a.title.localeCompare(b.title));
-      return [...libSorted().map(row).filter((s) => s.count > 0), ...own].sort((a, b) => folderRank(a.folder) - folderRank(b.folder));
+      return (playableCache = [...libSorted().map(row).filter((s) => s.count > 0), ...own].sort((a, b) => folderRank(a.folder) - folderRank(b.folder)));
     },
+    // Documents the game keeps for itself (Total War snapshots): in the bank's folder, or on its GitHub branch, so
+    // a war survives a Render restart when GitHub is set up. TW_SAVE_DIR keeps them in a folder of its own instead.
+    docs: (() => {
+      const own = process.env.TW_SAVE_DIR ? new FolderStore(process.env.TW_SAVE_DIR) : null, local = new FolderStore(dir);
+      const use = async () => { if (own) return own; await ready; return state.ok && store ? store : local; };   // GitHub not working: the folder
+      return {
+        async save(path, text) { const s = await use(); if (s) await s.saveDoc(path, text); },
+        async list(prefix) { const s = await use(); return s ? s.listDocs(prefix) : []; },
+        async read(path) { const s = await use(); return s ? s.readDoc(path) : null; },
+        async remove(path) { const s = await use(); if (s) await s.removeDoc(path); },
+        kind: () => (own || !state.ok || !store ? "folder" : store.kind),
+      };
+    })(),
     libraryQuestions() {
       const out = [];
       for (const s of library.values()) for (const q of s.questions) out.push({ qid: `${s.id}:${q.id}`, q: q.q, choices: q.choices, correct: q.correct.slice(), explain: q.explain || "", folder: s.folder, lo: q.lo });

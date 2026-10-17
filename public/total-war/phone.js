@@ -3,12 +3,13 @@
 // Orders go in during the class's move, once the banner has locked in its move (the server checks this too).
 import { ITEMS } from '../data/characters.js';
 import { NODES } from './movement.js';
-import { hops } from './rules.js';
+import { hops, TW_ITEMS } from './rules.js';
 const fromHome = hops(0);
 const hopsFromHome = (n) => fromHome.get(n) ?? 4;
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const MENU = ITEMS.filter((it) => it.price && !it.passive);
+// what each food does, and costs, in Total War (rules.js)
+const MENU = ITEMS.filter((it) => it.price && !it.passive).map((it) => ({ ...it, ...(TW_ITEMS[it.id] ? { price: TW_ITEMS[it.id].price, desc: TW_ITEMS[it.id].desc } : {}) }));
 const ICON = (id) => `../assets/shop/${id}.webp`;
 const LIMIT = { each: 2, total: 6 };
 const COIN = '<i class="ph-coin" aria-hidden="true"></i>';

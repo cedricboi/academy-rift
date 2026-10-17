@@ -47,7 +47,9 @@
           <label class="field">War Council<select id="setCouncil"></select></label>
           <label class="field">Marching time<select id="setCrystal"></select></label>
           <label class="field">Questions each<select id="setTarget"></select></label>
+          <label class="field">End by<select id="setEndBy"></select></label>
         </div>
+        <p class="host-warn hidden" id="poolWarn"></p>
         <p class="hint">Breaking the gate brings out the Crimson Warlord. If 80% of the class have answered the "questions each" number by then, he starts the final battle weakened (25% less HP).</p>
         <label class="tog"><input type="checkbox" id="setLock"><span><b>Warlord waits for the target</b><small>He only comes out once 80% of the class have answered the "questions each" number. You can still release him yourself.</small></span></label>
         <div class="eyebrow" style="margin-top:6px">BOTS</div>
@@ -88,7 +90,11 @@
   <section id="classPanel" class="panel class-panel hidden"></section>
   <div id="menu" class="panel menu hidden">
     <a class="btn" id="menuProjector" target="_blank" rel="noopener">Open the projector screen</a>
-    <button class="btn" id="endWarBtn" type="button">End the war now</button>
+    <button class="btn" id="pauseBtn" type="button">Pause the war</button>
+    <label class="field">Turns<select id="menuTurns"></select></label>
+    <label class="field">End by<select id="menuEndBy"></select></label>
+    <button class="btn" id="endWarBtn" type="button">End the war now (result by progress)</button>
+    <button class="btn" id="endWarClassBtn" type="button">End the war: the class wins</button>
   </div>
   <div class="summon-strip" id="summon"></div>
   <section id="ending" class="ending hidden"></section>

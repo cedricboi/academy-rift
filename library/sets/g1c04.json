@@ -16,7 +16,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Electric current is the rate of flow of electric charge. It is measured in amperes (A).",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -34,7 +34,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of resistance is the ohm (Ω). The ampere is the unit of current and the volt is the unit of voltage.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -52,7 +52,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Resistance opposes the flow of current. With the same voltage, a larger resistance lets less current flow, so the current decreases.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -70,7 +70,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Current is measured with an ammeter. The ammeter is connected in series so that the same current flows through it and the bulb.",
    "hint": "",
    "image": "2553a5e6035cbf3f7723.webp",
    "lo": "Electricity",
@@ -88,7 +88,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Voltage is measured with a voltmeter. The voltmeter is connected in parallel across the bulb.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -106,7 +106,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Resistance is the voltage across a component divided by the current through it. So R = V ÷ I.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -124,7 +124,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Voltage = current × resistance = 2 A × 10 Ω = 20 V.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -142,7 +142,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Current = voltage ÷ resistance = 12 V ÷ 4 Ω = 3 A.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -160,7 +160,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Resistance = voltage ÷ current = 12 V ÷ 2 A = 6 Ω.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -178,7 +178,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Resistance = voltage ÷ current = 20 V ÷ 4 A = 5 Ω.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -196,7 +196,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a series circuit there is only one path, so the current is the same everywhere. Y reads the same as X, which is 2 A.",
    "hint": "",
    "image": "9ab88fcf06f055eaab03.webp",
    "lo": "Electricity",
@@ -214,7 +214,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In series the supply voltage is shared between the bulbs. Two identical bulbs share 6 V equally, so each has 3 V.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -232,7 +232,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Each branch of a parallel circuit is connected across the battery. So each bulb has the full 6 V across it.",
    "hint": "",
    "image": "5a1c6a41e7585d29fcfd.webp",
    "lo": "Electricity",
@@ -250,7 +250,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In parallel the total current splits between the branches. Two identical bulbs share 4 A equally, so each takes 2 A.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -268,7 +268,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "In series the voltages across the bulbs add up to the supply voltage. Supply voltage = 3 V + 3 V = 6 V.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -286,7 +286,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Resistances in series add up. Effective resistance = 10 Ω + 10 Ω = 20 Ω.",
    "hint": "",
    "image": "1767b50f1f12f9f51b74.webp",
    "lo": "Electricity",
@@ -304,7 +304,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Two equal resistors in parallel give half the resistance of one of them. Effective resistance = 10 Ω ÷ 2 = 5 Ω.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -322,7 +322,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Resistances in series add up. Each resistor added makes the effective resistance larger.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -340,7 +340,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A series circuit has only one path for the current. If one bulb breaks, the whole circuit stops working.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -358,7 +358,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The cells, switch and bulb are joined one after another in a single loop. This is a series circuit.",
    "hint": "",
    "image": "104fe48a34ef618a5799.webp",
    "lo": "Electricity",
@@ -376,7 +376,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In a parallel circuit each bulb is on its own branch. Each bulb can have its own switch, so it can be switched on and off separately.",
    "hint": "",
    "image": "d8b2b938355b83448b94.webp",
    "lo": "Electricity",
@@ -394,7 +394,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Many appliances on one socket draw a large total current. The large current heats the cables, and overheating can start a fire.",
    "hint": "",
    "image": "14ff91b33334097b9736.webp",
    "lo": "Electricity",
@@ -412,7 +412,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Water conducts electricity. With wet hands, current can flow through the girl's body and give her an electric shock.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -430,7 +430,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A fuse has a thin wire that melts when the current is too large. This breaks the circuit and stops the current.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -448,7 +448,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Electrical power is voltage multiplied by current. So P = V × I.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -466,7 +466,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Power = voltage × current = 9 V × 2 A = 18 W.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -484,7 +484,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Current = power ÷ voltage = 12 W ÷ 6 V = 2 A.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -502,7 +502,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Voltage = power ÷ current = 100 W ÷ 5 A = 20 V.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -520,7 +520,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "One kilowatt is 1000 watts. So 1 kW = 1000 W.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -538,7 +538,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Energy = power × time = 100 W × 20 s = 2000 J.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -556,7 +556,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Electrical energy for homes is sold in kilowatt-hours (kWh). One kWh is the energy used by a 1 kW appliance in 1 hour.",
    "hint": "",
    "image": "f7d0824cf28951fbd0b8.webp",
    "lo": "Electricity",
@@ -574,7 +574,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "One kilowatt is 1000 watts. So 500 W = 500 ÷ 1000 kW = 0.5 kW.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -592,7 +592,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Energy in kWh = power in kW × time in hours = 2 kW × 8 h = 16 kWh.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -610,7 +610,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Cost = energy used × cost per kWh = 5 kWh × 20 cents = 100 cents.",
    "hint": "",
    "image": null,
    "lo": "Electricity",
@@ -628,7 +628,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Time = energy ÷ power = 6 kWh ÷ 2 kW = 3 h.",
    "hint": "",
    "image": null,
    "lo": "Electricity",

@@ -75,7 +75,10 @@ export function createCard(root, { onPick } = {}) {
         x.classList.toggle('wrong', i === result.chosen && i !== result.right);
       });
       fb.className = `card-feedback ${result.ok ? 'good' : 'bad'}`;
-      fb.textContent = footer || (result.ok ? 'Correct!' : result.chosen < 0 ? "Time's up." : 'Not quite.');
+      // the right answer and why, after every answer
+      const head = footer || (result.ok ? 'Correct!' : result.chosen < 0 ? "Time's up." : 'Not quite.');
+      const key = Number.isInteger(result.right) && result.right >= 0 ? `The answer is ${'ABCDEF'[result.right]}. ` : '';
+      fb.innerHTML = `<b>${esc(head)}</b>${result.ok ? '' : ` <span class="card-key">${esc(key)}</span>`}${result.explain ? `<span class="card-explain" style="display:block;margin-top:6px;font-weight:400">${esc(result.explain)}</span>` : ''}`;
     } else { fb.className = `card-feedback${footer ? ' info' : ' hidden'}`; fb.textContent = footer; }
     clearInterval(timer); timer = setInterval(tick, 200); tick();
   }

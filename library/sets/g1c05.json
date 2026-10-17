@@ -16,7 +16,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A nuclear power station uses uranium as its fuel. Coal, oil and natural gas are fossil fuels.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -34,7 +34,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Singapore's power stations burn natural gas, with a few burning oil. Singapore has no coal-fired or nuclear power stations.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -52,7 +52,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A leak from a nuclear power station can harm people's health for many years. Singapore is small and crowded, so a leak would affect many people.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -70,7 +70,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Fossil fuels store chemical potential energy. It is released as heat when the fuel is burnt.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -88,7 +88,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The fuel is burnt in the furnace. The heat from the furnace then boils water in the boiler.",
    "hint": "",
    "image": "706bd667d7c9576ad037.webp",
    "lo": "Sources of Electricity",
@@ -106,7 +106,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Burning fuel releases its chemical potential energy as heat energy. This heat is used to boil water into steam.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -124,7 +124,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The turbine has blades that are pushed round by moving steam. It changes the energy of the steam into kinetic energy.",
    "hint": "",
    "image": "2610a461fbf110972fea.webp",
    "lo": "Sources of Electricity",
@@ -142,7 +142,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The generator is turned by the turbine. It changes this kinetic energy into electrical energy.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -160,7 +160,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The fuel burns in the furnace, the heat boils water in the boiler, the steam spins the turbine, and the turbine turns the generator.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -178,7 +178,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The boiler uses heat from the furnace to boil water. The steam it makes then turns the turbine.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -196,7 +196,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "An electricity grid is a network of cables and substations. It carries electricity from power stations to homes and other buildings.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -214,7 +214,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "As electricity leaves the power station, a step-up transformer raises its voltage. It is then sent along the long cables of the grid.",
    "hint": "",
    "image": "44f1ac25253ebc0731a4.webp",
    "lo": "Sources of Electricity",
@@ -232,7 +232,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The voltage is stepped down at substations near homes. This makes it safe for use in homes.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -250,7 +250,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Just before electricity reaches homes, a step-down transformer lowers its voltage. So it is the last device it passes through.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -268,7 +268,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A step-up transformer raises the voltage at the power station, the cables carry it across the country, and a step-down transformer lowers it near homes.",
    "hint": "",
    "image": "1a01a277b9420115ea6b.webp",
    "lo": "Sources of Electricity",
@@ -286,7 +286,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "At high voltage the current in the cables is small. A smaller current heats the cables less, so less energy is lost on the way.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -304,7 +304,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "When a transformer steps up the voltage, the current is stepped down. So the current in the long cables decreases.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -322,7 +322,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A simple transformer has two coils of wire wound on an iron core. The iron core links the two coils.",
    "hint": "",
    "image": "13e6eb69b9b28b07d600.webp",
    "lo": "Sources of Electricity",
@@ -340,7 +340,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The coil connected to the input voltage is the primary coil. The coil that gives the output voltage is the secondary coil.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -358,7 +358,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Transformers only work with alternating current (a.c.). Batteries give direct current (d.c.), which a transformer cannot change.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -376,7 +376,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The device raises the voltage from 25 kV to 400 kV. A device that raises voltage is a step-up transformer.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -394,7 +394,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A laptop adapter lowers the mains voltage to the small voltage the laptop needs. So it acts as a step-down transformer.",
    "hint": "",
    "image": "799c1b9e09e20d8f3b49.webp",
    "lo": "Sources of Electricity",
@@ -412,7 +412,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The mains voltage is about 230 V, which is far more than a laptop needs. Plugging it in directly would damage the laptop.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -430,7 +430,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Step-up transformers are used at power stations. They raise the voltage before the electricity is sent along the long cables.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -448,7 +448,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Batteries are small and light and can be carried around. They let us use electricity where there is no mains supply.",
    "hint": "",
    "image": "1dc1af9ea93055d3fdea.webp",
    "lo": "Sources of Electricity",
@@ -466,7 +466,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A battery converts its stored chemical potential energy into electrical energy.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",
@@ -484,7 +484,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A rechargeable battery can be charged and used again many times. This saves money and makes less waste.",
    "hint": "",
    "image": null,
    "lo": "Sources of Electricity",

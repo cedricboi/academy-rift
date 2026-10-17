@@ -16,7 +16,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Respiration is the process in our cells that breaks down food with oxygen to release energy. Breathing only moves air in and out of the lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -34,7 +34,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Our cells need oxygen for respiration. Breathing takes in the oxygen and gets rid of carbon dioxide.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In respiration glucose reacts with oxygen to give carbon dioxide, water and energy.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -70,7 +70,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Respiration needs glucose and oxygen. Carbon dioxide and water are its products.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -88,7 +88,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Air goes from the nose into the windpipe. The gullet carries food, not air.",
    "hint": "",
    "image": "5778b10f1cae2f5ce951.webp",
    "lo": "Breathing",
@@ -106,7 +106,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The windpipe splits into two bronchi, one going to each lung.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -124,7 +124,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The bronchi lead into smaller tubes that end in tiny air sacs in the lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -142,7 +142,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Oxygen passes from the air sacs into the blood. The blood carries it to all the cells.",
    "hint": "",
    "image": "4719cfa616b03369ee38.webp",
    "lo": "Breathing",
@@ -160,7 +160,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Air passes through the windpipe before it reaches the bronchi. So it has just left the windpipe.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -178,7 +178,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The nose traps dirt and germs in the air with its hairs and mucus. It also warms and moistens the air.",
    "hint": "",
    "image": "ddff8fd0dfdd9c3cb85d.webp",
    "lo": "Breathing",
@@ -196,7 +196,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Cells in the windpipe make sticky mucus. The mucus traps dust and germs before they reach the lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -214,7 +214,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The windpipe splits into two tubes called bronchi. One goes to each lung.",
    "hint": "",
    "image": "be377afa9e2bd0fec281.webp",
    "lo": "Breathing",
@@ -232,7 +232,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The ribcage is a cage of bones around the chest. It protects the lungs and the heart.",
    "hint": "",
    "image": "e49dd4add7fa562386ab.webp",
    "lo": "Breathing",
@@ -250,7 +250,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The diaphragm is a sheet of muscle under the lungs. It separates the chest from the belly and helps us breathe.",
    "hint": "",
    "image": "415ac2703471f7094d54.webp",
    "lo": "Breathing",
@@ -268,7 +268,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Choking happens when food goes down the windpipe instead of the gullet and blocks the airway.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -286,7 +286,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Swallowed food goes down the gullet to the stomach. The windpipe carries air to the lungs.",
    "hint": "",
    "image": "b1aff888738bcf916b96.webp",
    "lo": "Breathing",
@@ -304,7 +304,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "When we inhale, the rib muscles pull the ribcage upwards and outwards. This makes the chest bigger, so air rushes into the lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -322,7 +322,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "When we inhale, the diaphragm contracts and flattens, so it moves down. This makes the chest bigger and air flows into the lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -340,7 +340,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "When we exhale, the ribcage moves downwards and inwards. This makes the chest smaller and pushes air out of the lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -358,7 +358,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "When we exhale, the diaphragm relaxes and moves up into a dome shape. This makes the chest smaller and pushes air out.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -376,7 +376,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The diaphragm contracts and moves down when we breathe in. This makes the chest bigger, so air flows into the lungs.",
    "hint": "",
    "image": "6e2b8ecd13ece095b9e6.webp",
    "lo": "Breathing",
@@ -394,7 +394,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The ribcage moves downwards and inwards when we breathe out. This makes the chest smaller, so air is pushed out.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -412,7 +412,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Respiration makes carbon dioxide and water. So breathed-out air has more carbon dioxide and more water vapour than breathed-in air.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -430,7 +430,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Breathed-in air is about 21% oxygen. Most of the rest is nitrogen, at about 78%.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -448,7 +448,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Breathed-out air is about 16% oxygen. Some of the oxygen breathed in was taken into the blood for respiration.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -466,7 +466,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Breathed-out air is about 4% carbon dioxide. Breathed-in air has only about 0.04%.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -484,7 +484,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Oxygen is about 21% of breathed-in air and about 16% of breathed-out air. The body uses some of it for respiration.",
    "hint": "",
    "image": "7bfe1dbd29567860839e.webp",
    "lo": "Breathing",
@@ -502,7 +502,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Nitrogen is about 78% of the air. Our body does not use it, so the amount is the same in breathed-in and breathed-out air.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -520,7 +520,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Difference = 21% - 16% = 5%.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -538,7 +538,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Some of the oxygen breathed in passes into the blood. Our cells use it in respiration, so less oxygen is left in the air we breathe out.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -556,7 +556,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Limewater is used to test for carbon dioxide. It turns chalky (milky) when carbon dioxide is bubbled through it.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -574,7 +574,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Dry cobalt chloride paper is blue. It turns pink when it touches water, so it is used to test for water.",
    "hint": "",
    "image": "a2ea319631564603015c.webp",
    "lo": "Breathing",
@@ -592,7 +592,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Breathed-out air has much more carbon dioxide than breathed-in air. So it turns limewater milky faster.",
    "hint": "",
    "image": "8d7d7e6860f7d8e8646a.webp",
    "lo": "Breathing",
@@ -610,7 +610,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Nicotine is the substance in cigarette smoke that makes smokers addicted.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -628,7 +628,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Tar is a sticky substance in cigarette smoke. It collects in the lungs and can cause lung cancer.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -646,7 +646,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Tar is sticky. It makes the tiny hairs in the windpipe stick together so they cannot sweep out dust and mucus.",
    "hint": "",
    "image": "f7c2694ebf152a831a93.webp",
    "lo": "Breathing",
@@ -664,7 +664,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Chemicals in cigarette smoke can narrow and block blood vessels. Blocked blood vessels to the heart cause heart disease.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -682,7 +682,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Bronchitis is when the bronchi become swollen and sore. Smoking is a common cause.",
    "hint": "",
    "image": null,
    "lo": "Breathing",
@@ -700,7 +700,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Passive smokers breathe in other people's cigarette smoke. So the harmful substances in the smoke still reach their lungs.",
    "hint": "",
    "image": null,
    "lo": "Breathing",

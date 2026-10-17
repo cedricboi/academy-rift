@@ -16,7 +16,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A mixture is made of substances that are not chemically combined. They can be separated by physical methods, such as evaporating salt water.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -34,7 +34,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The strainer lets the liquid tea through and holds back the solid tea leaves. This is filtration.",
    "hint": "",
    "image": "1fdc66f4248c77735282.webp",
    "lo": "Food Chemistry",
@@ -52,7 +52,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Heating the salt water drives off the water as steam and leaves the salt behind. This is evaporation.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -70,7 +70,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Paper chromatography separates a mixture of dyes. Each dye travels a different distance up the paper.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -88,7 +88,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Salt dissolves in water but sand does not. Filtering holds back the sand and lets the salt solution through.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -106,7 +106,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Distillation boils the seawater and cools the steam back into a liquid. The liquid collected is pure water. The salt stays behind.",
    "hint": "",
    "image": "e497b5627586f2c10abb.webp",
    "lo": "Food Chemistry",
@@ -124,7 +124,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The water dissolves the sugar, so the water is the solvent. The sugar is the solute.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -142,7 +142,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The solid left on the filter paper is called the residue. Here the residue is sand.",
    "hint": "",
    "image": "a6e4a0d13aab5b18ce18.webp",
    "lo": "Food Chemistry",
@@ -160,7 +160,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The liquid that passes through the filter paper is called the filtrate. Here the filtrate is water.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -178,7 +178,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Each spot on the chromatogram is a different dye. Three spots show the food colouring is a mixture of three dyes.",
    "hint": "",
    "image": "da9e9100449e9d29fe0e.webp",
    "lo": "Food Chemistry",
@@ -196,7 +196,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A pure substance contains only one dye. So it gives only one spot on the chromatogram.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -214,7 +214,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A dye that dissolves well in the solvent is carried furthest up the paper. So the most soluble dye moves furthest.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -232,7 +232,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A spot at the same height as a known dye is that dye. So food M contains banned dye A.",
    "hint": "",
    "image": "94fc9e1e2c13eba653c3.webp",
    "lo": "Food Chemistry",
@@ -250,7 +250,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "In a chemical reaction new products are formed. Cooking and burning both make new substances.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -268,7 +268,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Iron rusts only when both water and oxygen are present. Without either one, the nail does not rust.",
    "hint": "",
    "image": "6dc4d2f7ba8a7b5d954a.webp",
    "lo": "Food Chemistry",
@@ -286,7 +286,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Acids turn blue litmus paper red. Alkalis turn red litmus paper blue.",
    "hint": "",
    "image": "a323dff194efa3e963e0.webp",
    "lo": "Food Chemistry",
@@ -304,7 +304,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Alkalis turn red litmus paper blue and have a pH above 7. Acids taste sour and turn blue litmus red.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -322,7 +322,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A neutral solution has a pH of exactly 7. Pure water is neutral.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -340,7 +340,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Lemon juice tastes sour because it is acidic. Acids have a pH less than 7.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -358,7 +358,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The lower the pH, the more acidic the solution. pH 2 is the lowest, so it is the most acidic.",
    "hint": "",
    "image": "caf7f3f12893223593c6.webp",
    "lo": "Food Chemistry",
@@ -376,7 +376,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A pH above 7 means the solution is alkaline. So a pH of 12 is alkaline.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -394,7 +394,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Universal indicator turns red in a strong acid. Dilute sulphuric acid is an acid. Ammonia and sodium hydroxide are alkalis, and distilled water is neutral.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -412,7 +412,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An acid reacts with a metal to give a salt and hydrogen gas. The hydrogen can be seen as bubbles.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -430,7 +430,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An acid reacts with a carbonate to give a salt, carbon dioxide and water. The carbon dioxide can be seen as bubbles.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -448,7 +448,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Lemon juice is acidic. An acid reacts with a metal such as magnesium to give a salt and hydrogen gas.",
    "hint": "",
    "image": "73fb6a89f7b571dfd39b.webp",
    "lo": "Food Chemistry",
@@ -466,7 +466,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Vinegar is an acid. An acid reacts with a carbonate to give a salt, water and carbon dioxide gas.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -484,7 +484,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Hydrogen puts out a lighted splint with a 'pop' sound. This is the test for hydrogen.",
    "hint": "",
    "image": "6066a4b7290d0e21fdaf.webp",
    "lo": "Food Chemistry",
@@ -502,7 +502,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Carbon dioxide turns limewater chalky (milky). This is the test for carbon dioxide.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -520,7 +520,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "An acid reacts with a metal to give a salt and hydrogen. An acid and a carbonate give carbon dioxide instead, and an acid and a base give water.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -538,7 +538,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In neutralisation an acid reacts with a base to give a salt and water.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -556,7 +556,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Antacids contain a base. The base neutralises the extra stomach acid and eases the indigestion.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -574,7 +574,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Toothpaste contains a mild base. It neutralises the acid that bacteria make on our teeth.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -592,7 +592,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Fabric softener contains a mild acid. The acid neutralises the alkaline detergent left in the laundry.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -610,7 +610,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Calcium hydroxide is a base. It neutralises the acid in the soil so that crops can grow well.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -628,7 +628,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Calcium hydroxide is a base and the soil is acidic. A base reacting with an acid is neutralisation.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -646,7 +646,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Phosphates are nutrients for algae. When they wash into rivers, algae grow very quickly and cause an algal bloom.",
    "hint": "",
    "image": "42e3aebc63989d864148.webp",
    "lo": "Food Chemistry",
@@ -664,7 +664,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The algae block sunlight, so water plants below cannot photosynthesise. When the algae die, bacteria rot them and use up oxygen. So the oxygen level decreases.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",
@@ -682,7 +682,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Bacteria break down the waste in waste water. They are used at water treatment plants.",
    "hint": "",
    "image": null,
    "lo": "Food Chemistry",

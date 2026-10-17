@@ -16,7 +16,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Digestion breaks large, insoluble food molecules into small, soluble molecules. Small, soluble molecules can be absorbed into the blood.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -34,7 +34,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Only small, soluble molecules can pass into the blood. So food must be digested before the body can absorb and use it.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Cutting food into smaller pieces does not change the food into new substances. This is physical digestion.",
    "hint": "",
    "image": "256b3de9e247606950d6.webp",
    "lo": "Digestion",
@@ -70,7 +70,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Enzymes break food down into simpler substances, which changes what the food is made of. This is chemical digestion.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -88,7 +88,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Bile breaks big fat droplets into many small droplets. This gives enzymes a larger surface to work on. Bile does not digest fat itself.",
    "hint": "",
    "image": "86dfba056fd8b2a4722e.webp",
    "lo": "Digestion",
@@ -106,7 +106,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Food enters the alimentary canal at the mouth.",
    "hint": "",
    "image": "873565bb4ff4511ddc27.webp",
    "lo": "Digestion",
@@ -124,7 +124,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The muscles in the wall of the gullet contract and relax in waves. This squeezes and pushes the food down to the stomach.",
    "hint": "",
    "image": "db028470575fd00329af.webp",
    "lo": "Digestion",
@@ -142,7 +142,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The acid in the stomach kills most bacteria in the food. It also gives the stomach enzymes the acidic conditions they work best in.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -160,7 +160,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Food leaves the stomach and enters the small intestine.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -178,7 +178,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Digested food is absorbed into the blood in the small intestine.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -196,7 +196,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The large intestine absorbs water and mineral salts from the undigested food. Digested food is absorbed in the small intestine, and faeces are stored in the rectum.",
    "hint": "",
    "image": "10f8366242972b1835fc.webp",
    "lo": "Digestion",
@@ -214,7 +214,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Faeces are stored in the rectum. They leave the body through the anus.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -232,7 +232,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Bile is made in the liver. It is stored in the gall bladder.",
    "hint": "",
    "image": "891e0c28aa2e068c2443.webp",
    "lo": "Digestion",
@@ -250,7 +250,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The gall bladder stores bile. The bile is made in the liver.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -268,7 +268,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The liver breaks down alcohol into harmless substances.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -286,7 +286,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The liver stores extra glucose (as glycogen). It releases it again when the body needs it.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -304,7 +304,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The pancreas makes insulin. Insulin controls the amount of glucose in the blood.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -322,7 +322,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Protease is the enzyme that digests proteins. Lipase digests fats and carbohydrase digests carbohydrates.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -340,7 +340,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Lipase is the enzyme that digests fats. Bile breaks fats into droplets but is not an enzyme.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -358,7 +358,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Carbohydrase digests carbohydrates, such as starch, into sugars.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -376,7 +376,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Saliva contains carbohydrase. It starts to digest starch in the mouth.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -394,7 +394,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The stomach makes a digestive juice with protease, which starts to digest proteins.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -412,7 +412,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The pancreas makes a juice with all three enzymes, carbohydrase, protease and lipase. The juice flows into the small intestine.",
    "hint": "",
    "image": "28e3e9411410aadce686.webp",
    "lo": "Digestion",
@@ -430,7 +430,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Enzymes in our body work best at body temperature, which is about 37 °C.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -448,7 +448,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A high temperature such as 80 °C destroys the enzyme. It cannot work again, even when cooled.",
    "hint": "",
    "image": "befddc6ecd49faf2e11b.webp",
    "lo": "Digestion",
@@ -466,7 +466,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "At a low temperature the enzyme becomes inactive and works very slowly. It is not destroyed and works again when warmed.",
    "hint": "",
    "image": "f7d4391280e8c8644880.webp",
    "lo": "Digestion",
@@ -484,7 +484,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The optimum temperature is the temperature at which an enzyme works best. This enzyme digests food fastest at 35 °C, so that is its optimum temperature.",
    "hint": "",
    "image": "b81af08d3151284ef604.webp",
    "lo": "Digestion",
@@ -502,7 +502,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The stomach is acidic. Stomach enzymes work best at about pH 2.",
    "hint": "",
    "image": "46ae4ee48b02d1936c95.webp",
    "lo": "Digestion",
@@ -520,7 +520,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The small intestine is slightly alkaline. Its enzymes work best at about pH 8.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -538,7 +538,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Saliva is about neutral. Enzymes in the mouth work best at about pH 7.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -556,7 +556,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "pH 2 is acidic. The stomach is the acidic part of the alimentary canal, so the enzyme works there.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -574,7 +574,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "pH 8 is slightly alkaline. The small intestine is slightly alkaline, so the enzyme works there.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -592,7 +592,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Drinking too much alcohol for many years damages the liver. It can cause liver cancer.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -610,7 +610,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Fibre and water help food move through the gut. Without enough of them, the faeces become hard and constipation results.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -628,7 +628,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "In diabetes the body cannot control the amount of glucose in the blood.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -646,7 +646,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Diabetes is a problem with controlling blood sugar. So the doctor measures the sugar (glucose) level in the blood.",
    "hint": "",
    "image": null,
    "lo": "Digestion",
@@ -664,7 +664,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A diet high in fat and sugar can lead to obesity and diabetes.",
    "hint": "",
    "image": null,
    "lo": "Digestion",

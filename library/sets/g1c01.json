@@ -16,7 +16,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Energy is the capacity to do work. The rate of energy conversion is power, and a push or a pull is a force.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -34,7 +34,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The SI unit of energy is the joule (J). The watt is the unit of power and the newton is the unit of force.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -52,7 +52,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Any moving object has kinetic energy. The rolling ball is moving, so it has kinetic energy.",
    "hint": "",
    "image": "623e1a145b5880d5b3fa.webp",
    "lo": "Energy and its Uses",
@@ -70,7 +70,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Kinetic energy increases with speed. These balls are identical, so the fastest ball, at 8 m/s, has the most kinetic energy.",
    "hint": "",
    "image": "5086a82f2b78098936b1.webp",
    "lo": "Energy and its Uses",
@@ -88,7 +88,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A stretched or squashed elastic object stores elastic potential energy. The stretched rubber band stores this energy until it is let go.",
    "hint": "",
    "image": "db278cbe30ffe93257d9.webp",
    "lo": "Energy and its Uses",
@@ -106,7 +106,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Food and fuels store chemical potential energy. This energy is released when food is digested or a fuel is burnt.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -124,7 +124,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "An object raised above the ground has gravitational potential energy. The higher the object, the more gravitational potential energy it has.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -142,7 +142,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A compressed spring is squashed out of its normal shape, so it stores elastic potential energy. Rice and a battery store chemical potential energy, and a moving car has kinetic energy.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -160,7 +160,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Gravitational potential energy increases with height. The lift is highest at the top floor, so it has the most gravitational potential energy there.",
    "hint": "",
    "image": "3657e67bcf83e40d7a66.webp",
    "lo": "Energy and its Uses",
@@ -178,7 +178,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Thermal energy depends on temperature. A hotter object has more thermal energy than the same object when it is cooler.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -196,7 +196,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Thermal energy always moves from a hotter region to a cooler region. It does not depend on the size or mass of the objects.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -214,7 +214,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The hot milk is hotter than the cold water, so thermal energy moves from the milk to the water. The milk loses thermal energy and cools down. Cold is not something that moves.",
    "hint": "",
    "image": "5b7e9422f6e748819fe1.webp",
    "lo": "Energy and its Uses",
@@ -232,7 +232,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The Principle of the Conservation of Energy states that energy cannot be created or destroyed. It can only change from one form to another.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -250,7 +250,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Energy cannot be created or destroyed. When energy changes form, the total amount of energy stays the same as before.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -268,7 +268,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A television uses electrical energy. Its screen gives out light energy and its speakers give out sound energy.",
    "hint": "",
    "image": "a702f03dd993cc6fe370.webp",
    "lo": "Energy and its Uses",
@@ -286,7 +286,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Candle wax stores chemical potential energy. When the candle burns, this energy changes into heat and light.",
    "hint": "",
    "image": "3a6859f4221d5bfa8773.webp",
    "lo": "Energy and its Uses",
@@ -304,7 +304,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A battery stores chemical potential energy. When it is used, the battery changes this energy into electrical energy for the torch.",
    "hint": "",
    "image": "95e61829d9813fa61f2a.webp",
    "lo": "Energy and its Uses",
@@ -322,7 +322,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A microphone takes in sound energy and changes it into electrical energy. A loudspeaker does the opposite change.",
    "hint": "",
    "image": "cb42fa00387d81dccaa0.webp",
    "lo": "Energy and its Uses",
@@ -340,7 +340,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A generator is turned by a spinning turbine. It changes this kinetic energy into electrical energy.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -358,7 +358,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Charging a phone battery stores the electrical energy as chemical potential energy in the battery. Burning charcoal and roasting change energy into heat, and a fan changes electrical energy into kinetic energy.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -376,7 +376,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Energy is conserved, so the energy out equals the energy in. Sound energy = 200 J - 50 J = 150 J.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -394,7 +394,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Energy is conserved, so the energy supplied equals all the energy given out. Energy supplied = 300 J + 700 J = 1000 J.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -412,7 +412,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "As the ball rises, its kinetic energy changes into gravitational potential energy. At the top it stops for a moment, so all 100 J has become potential energy.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -430,7 +430,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "At its highest point the swing has the most gravitational potential energy. As it falls to its lowest point, this changes into kinetic energy.",
    "hint": "",
    "image": "6416f7f3b41abc68aad1.webp",
    "lo": "Energy and its Uses",
@@ -448,7 +448,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "The swing is lowest and fastest at the bottom of its path. All its gravitational potential energy has changed into kinetic energy there, so its kinetic energy is greatest at the lowest point.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -466,7 +466,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Power is the rate of energy conversion. It tells us how much energy is converted every second.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -484,7 +484,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of power is the watt (W). One watt is one joule of energy converted every second.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -502,7 +502,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Power is the energy converted divided by the time taken. So power = energy ÷ time.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -520,7 +520,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Rearranging P = E ÷ t gives t = E ÷ P. Time is the energy divided by the power.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -538,7 +538,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Power = energy ÷ time = 800 J ÷ 4 s = 200 W.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -556,7 +556,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Power = energy ÷ time = 900 J ÷ 3 s = 300 W.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -574,7 +574,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "One minute is 60 seconds. So 2 minutes = 2 × 60 s = 120 s.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -592,7 +592,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "One kilowatt is 1000 watts. So 2 kW = 2 × 1000 W = 2000 W.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -610,7 +610,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Energy = power × time = 200 W × 10 s = 2000 J.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",
@@ -628,7 +628,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Time = energy ÷ power = 1000 J ÷ 50 W = 20 s.",
    "hint": "",
    "image": null,
    "lo": "Energy and its Uses",

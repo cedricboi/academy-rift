@@ -16,7 +16,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "A wave carries energy from one place to another. The rope itself does not travel along with the wave.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -34,7 +34,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A water wave carries energy across the pond, but the water does not travel with it. The cork only bobs up and down as the wave passes.",
    "hint": "",
    "image": "a392ec80af2f2aedfee8.webp",
    "lo": "Energy Transfer Through Waves",
@@ -52,7 +52,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Light can power a calculator through its solar cell. This shows that light carries energy that can be changed into electrical energy.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -70,7 +70,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Perpendicular means at right angles. A wave that vibrates perpendicular to the direction it travels is a transverse wave.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -88,7 +88,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Parallel means along the same line. A wave that vibrates parallel to the direction it travels is a longitudinal wave.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -106,7 +106,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Shaking a slinky up and down makes a transverse wave. Water waves and light waves are transverse waves. Sound waves are longitudinal.",
    "hint": "",
    "image": "a30f3e135243aa88e512.webp",
    "lo": "Energy Transfer Through Waves",
@@ -124,7 +124,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Pushing a slinky back and forth makes a longitudinal wave. Sound waves are longitudinal waves. Water, light and radio waves are transverse.",
    "hint": "",
    "image": "b9cb77e978e6552ad630.webp",
    "lo": "Energy Transfer Through Waves",
@@ -142,7 +142,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "The highest point of a wave is called the crest. The lowest point is called the trough.",
    "hint": "",
    "image": "f77d9962648f74828710.webp",
    "lo": "Energy Transfer Through Waves",
@@ -160,7 +160,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "The lowest point of a wave is called the trough. The highest point is called the crest.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -178,7 +178,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The amplitude is the height of a wave from its rest position to a crest. It is not measured from a crest to a trough.",
    "hint": "",
    "image": "cc08c24dca1070bde70f.webp",
    "lo": "Energy Transfer Through Waves",
@@ -196,7 +196,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Wavelength is the distance between two neighbouring crests. It can also be measured between two neighbouring troughs.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -214,7 +214,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Wavelength is a distance, so its SI unit is the metre (m). The hertz is the unit of frequency.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -232,7 +232,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Three complete waves fill 12 cm. One wavelength = 12 cm ÷ 3 = 4 cm.",
    "hint": "",
    "image": "7707cf11e577d6f4e9ae.webp",
    "lo": "Energy Transfer Through Waves",
@@ -250,7 +250,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Each wave is 5 cm long. Number of waves = 20 cm ÷ 5 cm = 4.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -268,7 +268,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The amplitude of a wave shows how much energy it carries. A wave that carries more energy has a larger amplitude.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -286,7 +286,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A loud sound carries more energy than a soft sound. More energy means a larger amplitude.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -304,7 +304,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Frequency is the number of complete waves produced per second. It is measured in hertz (Hz).",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -322,7 +322,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "The SI unit of frequency is the hertz (Hz). One hertz is one complete wave every second.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -340,7 +340,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Frequency = number of waves ÷ time = 10 ÷ 2 s = 5 Hz.",
    "hint": "",
    "image": "2228c87ab67bbda0a14b.webp",
    "lo": "Energy Transfer Through Waves",
@@ -358,7 +358,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Frequency = number of waves ÷ time = 8 ÷ 2 s = 4 Hz.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -376,7 +376,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Frequency = number of waves ÷ time = 30 ÷ 5 s = 6 Hz.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -394,7 +394,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "A 2 Hz wave makes 2 complete waves every second. In 10 s it makes 2 × 10 = 20 waves.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -412,7 +412,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "A 5 Hz wave makes 5 waves every second. Time = 20 ÷ 5 = 4 s.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -430,7 +430,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Radio waves are at the long-wavelength end of the electromagnetic spectrum. Gamma rays have the shortest wavelength.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -448,7 +448,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "Gamma rays are at the high-frequency end of the electromagnetic spectrum. Radio waves have the lowest frequency.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -466,7 +466,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "In order of decreasing wavelength the spectrum goes radio waves, microwaves, infrared, visible light, ultraviolet, X-rays and gamma rays. Of these four, microwaves have the longest wavelength.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -484,7 +484,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Radio waves have the lowest frequency, visible light is in the middle, and X-rays have a much higher frequency. So the order is radio, visible light, X-rays.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -502,7 +502,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "X-rays have the shortest wavelength of the three, visible light is in the middle, and radio waves have the longest. So the order is X-rays, visible light, radio.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -520,7 +520,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "A TV remote control sends signals to the TV using infrared waves. We cannot see infrared with our eyes.",
    "hint": "",
    "image": "a9c177dd33a72ce1675f.webp",
    "lo": "Energy Transfer Through Waves",
@@ -538,7 +538,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Real banknotes have special marks that glow under ultraviolet light. Fake banknotes do not show these marks.",
    "hint": "",
    "image": "be78337f5b391bebd7f1.webp",
    "lo": "Energy Transfer Through Waves",
@@ -556,7 +556,7 @@
    "correct": [
     3
    ],
-   "explain": "",
+   "explain": "X-rays pass through soft materials such as cloth but are stopped by dense materials such as metal. This lets airport staff see what is inside a bag.",
    "hint": "",
    "image": "6eb51cd4c6f579e59e3b.webp",
    "lo": "Energy Transfer Through Waves",
@@ -574,7 +574,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Microwaves pass easily through the atmosphere, so they are used to send signals to and from satellites.",
    "hint": "",
    "image": "5da02b4c3bf78586aeed.webp",
    "lo": "Energy Transfer Through Waves",
@@ -592,7 +592,7 @@
    "correct": [
     0
    ],
-   "explain": "",
+   "explain": "Optical fibres carry data as pulses of visible light (or infrared) that travel along the glass thread.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -610,7 +610,7 @@
    "correct": [
     1
    ],
-   "explain": "",
+   "explain": "Infrared waves are given out by all warm objects and are felt as heat. This is why they are called heat waves.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",
@@ -628,7 +628,7 @@
    "correct": [
     2
    ],
-   "explain": "",
+   "explain": "Gamma rays carry a lot of energy and can kill cells. Carefully aimed gamma rays are used to kill cancer cells.",
    "hint": "",
    "image": null,
    "lo": "Energy Transfer Through Waves",

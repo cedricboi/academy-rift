@@ -11,27 +11,32 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 - `/total-war/?code=WXYZ`: students join on their iPads (the QR code on the command page opens this).
 - `/total-war/projector.html?code=WXYZ`: the projector. The class's view of the map (with fog of war),
   the biggest live battle and a feed of what is happening. Never shows answers or hidden units.
-- `/total-war/prototype.html`: Codex's original movement prototype, kept for reference.
+- `tools/prototypes/total-war/prototype.html`: Codex's original movement prototype, kept for reference (not served).
 
 ## How a turn works (as in Civilization)
 
 1. **Crimson turn (30 seconds by default).** The teacher moves units by hand (orders and sending units
    out work at any time). Meanwhile every student **prepares**: they answer questions on the Academy Rift
    question card (4 seconds to read, 21 to answer). Each right answer by a pair is +1 action point (AP)
-   for its next move, up to +3. The class moves after 30 seconds at most.
+   for its next move, up to +3, and each partner adds at most 2 (a student alone, up to 3), so both partners
+   count. No new preparing question starts in the last 10 seconds, and a question still open when the time ends
+   may finish before the class moves.
 2. **Crystal turn.** Each pair has 1 AP plus what it earned preparing. A banner moves **one stop at a time**.
    Pairs on the same stop can join into a **warband**. A warband **votes** on every step: each pair taps
    a stop, most votes wins (a tie goes to the warband's first pair), and the vote closes 15 seconds after
-   the first vote. A warband moves at the speed of its slowest connected pair.
+   the first vote. A warband travels with the average AP of its connected pairs (rounded).
 3. Stepping onto the Crimson Host, a jungle camp or the fortress starts a **battle**. Warbands one road
-   away get 10 seconds to join. Pairs who have finished moving answer **War Cry** questions, which add half
-   a hit each. Lose, and the warband falls back to the nearest rally point. Damage dealt stays.
+   away get 10 seconds to join. Everyone not in a battle gets **War Cry** questions by themselves while a
+   battle is on (no button to tap). Each right one adds half a hit, at most 4 count for each battle question,
+   and a wrong one means an 8-second wait for the next. Lose, and the warband falls back to the nearest rally
+   point. Damage dealt stays, and the beaten pairs are back to full HP at the start of the next turn.
 
 ## Battles (as in the Arena)
 
 - As in Academy Rift, each question is one student's **turn** (it rotates, so everyone gets turns).
   Everyone else in the battle **answers along**.
-- A right answer on your turn is 2 hits. If it is wrong, the first student answering along who was right
+- Turns go pair by pair: every pair of a big warband strikes once before any pair strikes twice.
+- A right answer on your turn is 2 hits. If it is wrong, a random student answering along who was right
   **steals the turn** at half power (1 hit). Every other right answer along adds 0.75 of a hit.
 - **The Crimson hits back** after every question: every enemy still standing attacks the warband's
   **Resolve** (10 per pair). The share of the warband that answered right blocks up to 60% of it.
@@ -45,7 +50,7 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 ### Skills, Ultimates and items (the same as the Arena)
 
 - Every student fights as **their own fighter** (the one they picked in the lobby), with that fighter's
-  Academy Rift skills. After a right answer on your turn (or a steal), you have 12 seconds to pick a move:
+  Academy Rift skills. After a right answer on your turn (or a steal), you have 6 seconds to pick a move:
   **Strike**, a **Skill** (costs SP, has cooldowns), the **Ultimate** (when the team's Sync gauge is full) or an
   **Item** from your bag. If time runs out, you strike.
 - The fight itself is the **Arena's own battle screen**: `arena-bridge.js` opens the Arena page (`/?tw=1`) in a
@@ -62,8 +67,13 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 - Auntie Mama is now Grab-Ma. Each right answer earns **10 coins** (the MamaPay wallet).
 - The phone button in the top bar (and **ORDER GRAB-MA** on the action bar) opens Grab-Ma Food (`phone.js`): a
   food-delivery app with the menu, prices, a basket, checkout and live order tracking.
-- Orders go in during the class's move, **once a banner has locked in its move**, one order a move. The phone buzzes
-  with a notification when ordering opens, when she sets off and when she arrives.
+- Orders go in from the War Council to the end of the battles (march and battles phases too, not while your own
+  warband is fighting), one order a move. The phone buzzes when ordering opens, when she sets off and when she arrives.
+- What each food does in Total War, and its Total War price, is in `TW_ITEMS` in `rules.js` (the phone shows that
+  text). Kaya Toast heals, Malt Dino gives SP, Phoenix Kueh brings a pair back to full HP (half the warband's HP in a
+  battle), Iron Tingkat halves the next counterattack, Ice Gems add Sync, Teh Halia heals and weakens the enemy's next
+  hits, Chilli Padi is a strike with 50% more damage, and the Durian Bomb (now cheaper) hits for 4 and splashes the
+  enemy beside the target.
 - Grab-Ma cooks for 3 seconds at the Academy, then rides out along the roads, **one road every 3 seconds** (far faster
   than a warband), following the banner if it moves. Everyone sees her scooter on the map. The food lands in the
   bag when she arrives, even in the middle of a battle.
@@ -73,7 +83,8 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 
 1. **Prepare** (the Crimson turn): preparing questions earn action points (AP), as before.
 2. **3 questions before the move**: each right answer earns 10 coins, all 3 right earns a 20-coin bonus. Wrong
-   answers earn nothing, but everyone still moves. The map opens when the whole class is done.
+   answers earn nothing, but everyone still moves. A student who finishes early gets **bonus questions** (10 coins
+   each) until the class is done. The map opens when the whole class is done.
 3. **The War Council** (45 s, set in the lobby; the teacher can add 15 s or launch early): no questions, the map has
    everyone's attention. Tap a glowing stop to plan a route for the whole move: it follows the real roads, shows
    its AP cost, what is there and how much AP is left, and a ghost banner marks the planned stop. Tap a junction to
@@ -82,8 +93,8 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
    thin lines. Grab-Ma takes orders here too.
 4. **The march**: every committed banner sets off together and eases along the roads. Walking into an enemy (or an
    ambush) stops the route and starts the battle; the rest of the route is not taken.
-5. **Battles** finish, then the next turn begins. Students who are free can tap **SUPPORT** to back a battle with War
-   Cries (War Cries only come to students who chose to support).
+5. **Battles** finish, then the next turn begins. Students who are free get War Cries by themselves. SUPPORT only
+   picks which battle they go to (otherwise the one with the most enemy strength left).
 
 Each banner shows its status beside it and on the action bar (planning, agreeing, committed, marching, enemy
 encountered, holding, recovering), and a small HP bar.
@@ -106,8 +117,9 @@ encountered, holding, recovering), and a small HP bar.
 
 ## HP, food and recovery
 
-- A pair has 10 HP (shown ×100 in battle). It **does not come back after a battle**: a warband fights with the HP its
-  pairs still have, and what is left goes back to the pairs. A beaten warband limps away with 30% HP.
+- A pair has 10 HP (shown ×100 in battle). It does not come back after a won battle: a warband fights with the HP its
+  pairs still have, and what is left goes back to the pairs. A beaten warband limps away with 30% HP, and is back to
+  **full HP at the start of the next turn** at its rally point. Losing costs ground, not HP.
 - Heal by eating food from Grab-Ma (on the phone, or on your turn in battle), or by resting at the Academy or a
   rally point you hold (+3 HP a turn).
 - After a defeat, the action bar tells the company where it withdrew to and how wounded the enemy is.
@@ -115,8 +127,20 @@ encountered, holding, recovering), and a small HP bar.
 ## Balance (slower battles)
 
 - Sync fills by up to 16 a question (scaled by the share of fighters who were right) plus 4 for a right strike.
-- Answering along: 0.75 hits for each right answer, counting at most 4. Ultimate splash is 1.5 hits.
+- Answering along: 0.75 hits for each right answer. The cap grows with the pairs in the battle (`alongCap`: 4 for one
+  or two pairs, then 1.5 more for each extra pair, so 7 for four pairs). Ultimate splash is 1.5 hits.
+- At the fortress at most **2 Crimson units** (the strongest) fight in front of the gate or the Warlord, and damage the
+  defenders in front cannot take carries on to the gate (or the Warlord). Beating the Warlord wins, even with guards
+  left standing.
+- Battles last 5 questions (7 at the gate, 8 against the Warlord). The result screen after a move is 4.5 seconds (7
+  after an Ultimate, 5 when nobody struck, so the answer and its explanation can be read).
+- Auto and the Bot Commander spend only half their Rift Energy when the class is behind (the gate still stands after
+  half the turns).
 - The gate guardian hits for 6, the Warlord for 8.
+- With the bot class (12 students) in `test-totalwar.mjs`, the gate breaks around turn 5 and the Warlord falls by
+  turn 8. Phase times at RIFT_SPEED=1 with bots: prepare 30 s, 3 questions about 33 s, War Council about 25 s, march a
+  few seconds, battles about 95 s a turn, so a turn is about 3 to 4 minutes and an 8-turn war about 25 minutes. A real
+  class answers more slowly (about 6 s more a question), which makes a war about 32 to 40 minutes.
 
 ## Seeing the battle
 
@@ -153,9 +177,18 @@ encountered, holding, recovering), and a small HP bar.
 
 ### Questions
 
-- Questions always sit in the middle of the screen, as in Academy Rift. There are no questions while the class
-  moves: preparing questions come in the Crimson turn, and War Cries only once your move is locked in and a battle
-  is on.
+- Questions always sit in the middle of the screen, as in Academy Rift. There are no questions in the War Council:
+  preparing questions come in the Crimson turn, and War Cries while a battle is on.
+- **Choices are shuffled** for each student and each question (except questions whose choices point at others by
+  position, such as "all of the above"). The server maps each student's button back to the question's own answer.
+- After **every** answer the student sees the right choice and its explanation (`explain`, else `why.right`) for at
+  least 5 seconds. In battles the explanation shows over the Arena screen, and the projector shows it too.
+- One "seen" list per student is shared by every kind of question (preparing, the 3 questions, War Cries and
+  battles), and battle questions are picked from those the fighters have seen least.
+- "BACK AGAIN" only shows for a question the student really answered wrong earlier in this war (not one that
+  timed out unseen).
+- The lobby warns the teacher when the chosen sets hold fewer than 80 questions.
+- The G1 chapter sets (`library/sets/g1c01` to `g1c12`) now have an explanation for every question.
 
 ### Bots and practice
 
@@ -166,6 +199,18 @@ encountered, holding, recovering), and a small HP bar.
 ### The teacher's screen
 
 - A step guide at the top: send out units → give them orders → end your turn.
+- **Pause / Resume** (the ⋯ menu): every clock stops, and students see "Paused by" the teacher's name. Nobody loses
+  time: every timer moves on by the length of the pause.
+- **End this battle now** (on each battle in the list): the damage dealt stays, nobody is beaten, and the class steps
+  back one road (an attack on the class pulls back).
+- **End the war now (result by progress)** or **End the war: the class wins**.
+- **Turns** and **End by** (35 to 60 minutes after the start, pauses not counted) can be changed during the war.
+  When the time is up the war ends at the next War Council or turn, judged on progress (see Winning).
+- A chip names any pair that has not moved for 3 turns, and the quiet flag only marks a student who has let two
+  questions in a row run out and not answered for a minute.
+- **The learning report** at the end: accuracy per learning objective, the most-missed questions (with the right
+  answer and the most common wrong one), and each student's answers and % right, with a CSV download. It stays until
+  the teacher starts a new war, which asks first.
 - Sending out a unit asks straight away what it should do: **March to…**, **Hunt**, **Hold**, or decide later.
 
 ## The teacher's orders
@@ -201,9 +246,28 @@ Camps come back 3 turns after they are beaten.
 ## Winning
 
 The class breaks the gate (Bloodstone Golem, 45 strength) and then beats the Crimson Warlord
-(70 strength). The Warlord comes out once the gate is broken and 80% of the class have answered the
-teacher's question target (25 by default), or when the teacher releases him. If the last turn ends
-first, the Crimson Host wins.
+(70 strength). The war has 8 turns by default. If the last turn ends first (or the "End by" time, or the
+teacher ends it by progress), the result goes by how far the class got (`progressResult` in `rules.js`):
+the gate broken and the Warlord at half strength or less is a **class win on points**, the gate broken
+alone is a **draw**, and otherwise the Crimson Host wins.
+
+## Saving and resuming (a restart mid-lesson)
+
+At the start of every turn (and when the war ends) the server writes a snapshot of each war to
+`wars/CODE.json`: on the question bank's GitHub branch when GitHub is set up (so it survives a Render
+restart or redeploy), else in the question bank folder (`TW_SAVE_DIR` puts it in a folder of its own,
+which the tests use). After a restart the war comes back at the start of that turn, **paused**, with the
+same code, map, units, pairs, HP, coins and question history. The teacher's page reconnects by itself and
+presses Resume. Students rejoin with the code and their own name (or by themselves from their iPad's saved
+place) and are back in their pair. Battles in progress are not saved: the turn starts again. Food still on
+its way is put straight into the bag. Snapshots older than 12 hours are deleted. Practice wars are not saved.
+
+## Server load
+
+Actions only mark the war as changed. One update goes out about 80 ms later (or on the next tick), however
+many actions came in, and errors go only to whoever caused them. The fog and the class view are worked
+out once per update for everyone. The teacher gets the list of question sets only when it changes (the
+bank keeps it worked out until a set changes).
 
 ## Files
 
@@ -216,6 +280,8 @@ first, the Crimson Host wins.
 
 ## Tests
 
-- `node test-totalwar.mjs [students]`: a teacher and a class of bots play a whole war.
+- `node test-totalwar.mjs [students]`: a teacher and a class of bots play a whole 8-turn war (and print the time
+  each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled
+  choices, explanations, AP, a beaten pair's full HP, and a server restart with the war restored.
 - `node --test tools/test-total-war.mjs`: the map and the rules.
 - `node tools/tw-demo.mjs [url] [bots] --auto-teacher`: a live demo war to join from a browser.

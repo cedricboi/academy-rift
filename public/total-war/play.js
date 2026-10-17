@@ -192,7 +192,37 @@ function render() {
   maybeHelp();
   renderShop();
   maybeAuntie();
+  renderPaused();
+  renderExplain();
 }
+
+// Paused by the teacher: one message over everything (the server holds every clock still)
+const pausedBox = document.createElement('div');
+pausedBox.className = 'tw-paused hidden';
+pausedBox.style.cssText = 'position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:rgba(5,8,12,.78);color:#fff;text-align:center;font-size:28px;padding:24px';
+document.body.appendChild(pausedBox);
+function renderPaused() {
+  const on = S.status === 'playing' && !!S.paused;
+  pausedBox.classList.toggle('hidden', !on); pausedBox.style.display = on ? 'flex' : 'none';
+  if (on) setHTML(pausedBox, `<div><div class="eyebrow">THE WAR IS PAUSED</div><h2>Paused by ${esc(S.paused.by || boss())}</h2><p>${S.paused.restored ? 'The game is back after a restart. ' : ''}Everything waits. The war goes on when ${esc(S.paused.by || boss())} resumes it.</p></div>`);
+}
+// After every battle question: the right answer and why, over the Arena's battle screen too
+const explainBox = document.createElement('div');
+explainBox.className = 'tw-explain hidden';
+explainBox.style.cssText = 'position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:8000;max-width:min(720px,92vw);background:rgba(8,14,20,.92);color:#fff;border:1px solid #d8bd8066;border-radius:12px;padding:10px 16px;font-size:16px;line-height:1.35;display:none';
+document.body.appendChild(explainBox);
+function renderExplain() {
+  const B = S.myBattle;
+  const r = B?.status === 'choose' ? B.choose : B?.status === 'result' ? B.round : null;
+  const right = r?.right?.[0] ?? (B?.status === 'result' ? B.round?.answer : null);
+  const choices = B?.status === 'result' ? B.round?.choices : lastChoices;
+  if (B?.status === 'fight' && B.question) lastChoices = B.question.choices;
+  const text = r?.explain || '';
+  const on = !!(r && Number.isInteger(right) && right >= 0 && S.status === 'playing');
+  explainBox.style.display = on ? 'block' : 'none';
+  if (on) setHTML(explainBox, `<b>The answer is ${'ABCDEF'[right]}${choices?.[right] != null ? `. ${esc(choices[right])}` : ''}</b>${text ? `<br>${esc(text)}` : ''}`);
+}
+let lastChoices = null;
 
 // The bar along the bottom of the map: the company's one clear status, and its one main action
 function renderActBar(band) {
@@ -240,7 +270,8 @@ function renderActBar(band) {
     step = STATUS_TXT(band); sub = band.status === 'marching' ? `Next stop ${nodeName(band.path[0])}.` : band.status === 'interrupted' ? 'Enemy encountered. The route is paused.' : 'Waiting for the other banners to arrive.';
   } else { step = fight ? 'Battles are being fought' : 'The turn is ending'; sub = 'The next turn starts when they end.'; }
   // a free company can choose to back a battle with War Cries
-  if (!isCouncil() && S.stage !== 'quiz' && fight && S.me.supporting !== fight.id && S.phase !== 'crimson') { act = ['support', `SUPPORT ${nodeName(fight.node).toUpperCase()}`]; end.dataset.battle = fight.id; sub += ' Answer War Cries to hit the enemy there.'; }
+  // War Cries come by themselves while a battle is on; SUPPORT picks which battle they go to
+  if (!isCouncil() && S.stage !== 'quiz' && fight && S.me.supporting !== fight.id && S.phase !== 'crimson') { act = ['support', `SUPPORT ${nodeName(fight.node).toUpperCase()}`]; end.dataset.battle = fight.id; sub += ' War Cries come to you by themselves. Right answers hit the enemy.'; }
   else if (S.me.supporting && fight) sub = `You are backing the battle at ${nodeName(fight.node)} with War Cries.`;
   setHTML($('abStep'), esc(step)); setHTML($('abSub'), sub); setHTML($('abMp'), mp);
   end.classList.toggle('hidden', !act);
@@ -435,18 +466,21 @@ function renderQuestion() {
   dock.classList.remove('hidden'); dock.classList.toggle('centre', centre);
   $('gMain').classList.toggle('docked', !centre); $('gMain').classList.toggle('centred', centre);
   const battle = o.kind === 'warcry' ? S.battles.find((b) => b.id === o.battleId) : null;
-  if (o.kind === 'quiz') {
+  if (o.kind === 'quiz' && o.bonus) {
+    setHTML($('qdHead'), `<div class="eyebrow">BONUS QUESTION</div><div class="qd-title">Earn more coins while the class finishes</div>
+      <div class="qd-mp"><span>Each right answer: <b>+10 coins</b>. The War Council opens when the class is ready: <b>${S.quiz?.done ?? 0} of ${S.quiz?.of ?? 0}</b> done.</span></div>`);
+  } else if (o.kind === 'quiz') {
     const n = (S.me.quiz || 0) + 1, pips = Array.from({ length: 3 }, (_, i) => `<i class="${i < (S.me.quizRight || 0) ? 'on' : ''}"></i>`).join('');
     setHTML($('qdHead'), `<div class="eyebrow">BEFORE YOU MOVE · QUESTION ${Math.min(3, n)} OF 3</div><div class="qd-title">Earn coins for Grab-Ma</div>
       <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer: <b>+10 coins</b>. All 3 right: <b>+20 bonus</b>. Then the War Council opens.</span></div>`);
   } else if (o.kind === 'muster') {
-    const bank = S.me.bank, ap = 1 + Math.min(3, bank);
+    const bank = S.me.bank, ap = 1 + Math.min(3, bank);   // each partner adds up to 2 AP, so both answers count
     const pips = Array.from({ length: 3 }, (_, i) => `<i class="${i < Math.min(3, bank) ? 'on' : ''}"></i>`).join('');
     const left = S.phase === 'crimson' ? `<b data-until="${S.phaseEndsAt}">${gameSecondsLeft(S.phaseEndsAt)}</b>s` : '';
     setHTML($('qdHead'), `<div class="eyebrow">PREPARE ${left ? `· YOUR MOVE IN ${left}` : ''}</div><div class="qd-title">Earn action points</div>
-      <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer in your pair: <b>+1 AP</b>. Your next move: <b>${ap} AP</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
+      <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer in your pair: <b>+1 AP</b> (up to 2 from each of you). Your next move: <b>${ap} AP</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
   } else setHTML($('qdHead'), `<div class="eyebrow" style="color:var(--rose)">WAR CRY</div><div class="qd-title">Back the battle${battle ? ` at ${esc(nodeName(battle.node))}` : ''}</div><div class="qd-mp"><span>Every right answer hits the enemy there.</span></div>`);
-  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? 'Correct!' : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : 'Not quite.') : '';
+  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? 'Correct!' : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
   card.show({
     q: o.question, tag: o.kind === 'muster' ? 'PREPARE' : o.kind === 'quiz' ? 'BEFORE YOU MOVE' : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
     note: o.retry ? '<b>↺ BACK AGAIN</b> You got this one wrong earlier. Read it carefully.' : '',
@@ -504,7 +538,8 @@ function renderBattle() {
   if (B.status === 'gather') centre = `<span class="big">${B.ambush ? 'AMBUSH!' : defend ? 'To arms!' : 'Battle stations!'}</span>${B.ambush ? 'The Crimson Host was hiding here. Your warband starts the battle hurt. ' : ''}The battle starts in <b data-until="${B.gatherEnds}">${gameSecondsLeft(B.gatherEnds)}</b>. Warbands one road away can still join.`;
   if (B.status === 'over') centre = B.outcome === 'won'
     ? `<span class="big">Victory!</span>${B.kind === 'camp' ? `${esc(CAMPS[B.node].buffName)}: ${esc(CAMPS[B.node].buffText)}.` : B.kind === 'gate' ? 'The gate is broken!' : defend ? 'You drove off the attack.' : 'The way is clear.'}`
-    : defend && B.resolve > 0 ? '<span class="big">You held!</span>The Crimson Host pulls back.' : `<span class="big">Driven back</span>${B.resolve <= 0 ? 'Your warband ran out of HP.' : 'The enemy held.'} You fall back to regroup. The damage you dealt stays.`;
+    : B.outcome === 'stopped' ? `<span class="big">Battle ended</span>${esc(boss())} ended this battle. The damage you dealt stays.`
+    : defend && B.resolve > 0 ? '<span class="big">You held!</span>The Crimson Host pulls back.' : `<span class="big">Driven back</span>${B.resolve <= 0 ? 'Your warband ran out of HP.' : 'The enemy held.'} You fall back to regroup. The damage you dealt stays, and your pair is back to full HP next turn.`;
   if (choosing && !B.moves) centre = `<span class="big">${esc(B.choose.name)}${B.choose.half ? ' stole the turn' : '\'s turn'}</span>${B.choose.bot ? 'The bot is' : 'They are'} picking a move…`;
   setHTML($('bCentre'), cinema ? '' : centre);
   if (fighting) {
@@ -526,7 +561,7 @@ function renderBattle() {
     const my = rd.my, right = rd.answer;
     const you = !my ? '' : my.ok ? '<span class="good">You were right!</span>' : my.chosen < 0 ? '<span class="bad">Time ran out.</span>' : '<span class="bad">Not this time.</span>';
     const act = rd.action ? `${esc((rd.stealer || rd.striker)?.name || '')} used <b>${esc(rd.action.name)}</b>${rd.note ? ` · ${esc(rd.note)}` : ''} · ` : '';
-    setHTML($('bReveal'), `${you} The answer was <b>${'ABCD'[right]}. ${esc(rd.choices[right])}</b><br>${act}<b>${X(rd.hits)}</b> damage · the Crimson hit back for <b>${X(rd.counterTotal)}</b>`);
+    setHTML($('bReveal'), `${you} The answer was <b>${'ABCD'[right]}. ${esc(rd.choices[right])}</b>${rd.explain ? `<br>${esc(rd.explain)}` : ''}<br>${act}<b>${X(rd.hits)}</b> damage · the Crimson hit back for <b>${X(rd.counterTotal)}</b>`);
     $('bReveal').classList.remove('hidden');
   } else $('bReveal').classList.add('hidden');
 }
@@ -564,10 +599,12 @@ $('bMoves').addEventListener('click', (e) => {
 function renderEnding() {
   const box = $('ending');
   if (S.status !== 'ended') { box.classList.add('hidden'); return; }
-  const won = S.winner === 'crystal';
-  const ward = S.endedBy === 'ward';
-  setHTML(box, `<div class="eyebrow">${won ? 'VICTORY' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${won ? 'The Crimson Warlord has fallen' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
-    <p>${won ? `Your class broke the gate and beat ${esc(boss())}'s champion. Well fought, commanders.` : ward ? `${esc(boss())}'s army broke into the Crystal Academy. Next time, leave defenders at home.` : `${esc(boss())} held the fortress this time. Next time, march together sooner.`}</p>
+  const won = S.winner === 'crystal', draw = S.winner === 'draw';
+  const ward = S.endedBy === 'ward', points = won && S.endedBy && S.endedBy !== 'teacher';
+  setHTML(box, `<div class="eyebrow">${won ? 'VICTORY' : draw ? 'A DRAW' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${won ? (points ? 'The class wins on points' : S.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : draw ? 'The gate is broken, the Warlord stands' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
+    <p>${won ? (points ? `The war ended with the gate broken and the Warlord badly hurt. Your class got ${S.progress?.pct ?? 0}% of the way.` : S.endedBy === 'teacher' ? `${esc(boss())} declared your class the winner. Well fought, commanders.` : `Your class broke the gate and beat ${esc(boss())}'s champion. Well fought, commanders.`)
+      : draw ? `Your class broke the gate but the Warlord still stands. You got ${S.progress?.pct ?? 0}% of the way.`
+      : ward ? `${esc(boss())}'s army broke into the Crystal Academy. Next time, leave defenders at home.` : `${esc(boss())} held the fortress this time. Your class got ${S.progress?.pct ?? 0}% of the way. Next time, march together sooner.`}</p>
     ${S.story?.length ? `<div class="story"><div class="eyebrow">HOW THE CAMPAIGN WENT</div>
       <div class="story-map"><img src="art/moonveil-map.webp" alt="">${S.story.map((e, i) => e.node == null ? '' : `<i style="left:${(NODES[e.node].x / 14.4).toFixed(2)}%;top:${(NODES[e.node].y / 9).toFixed(2)}%;animation-delay:${0.5 + i * 0.7}s">${i + 1}</i>`).join('')}</div>
       <ol>${S.story.map((e, i) => `<li style="animation-delay:${0.5 + i * 0.7}s"><small>${e.node == null ? '' : `${i + 1} · `}Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}`);
@@ -576,7 +613,7 @@ function renderEnding() {
 
 // clocks
 setInterval(() => {
-  if (!S || S.status !== 'playing') return;
+  if (!S || S.status !== 'playing' || S.paused) return;     // paused: the clocks stand still
   $('phaseClock').textContent = mmss(gameSecondsLeft(S.phaseEndsAt));
   document.querySelectorAll('[data-until]').forEach((el) => { el.textContent = gameSecondsLeft(+el.dataset.until); });
   const band = myBand();
@@ -587,7 +624,7 @@ const HELP = [
   { art: "url(art/keyart.webp)", t: 'Your mission', p: () => [`Break into the <b>Crimson Fortress</b> and defeat ${esc(boss())}'s Warlord.`, `${esc(boss())} commands the Crimson Host against you. Keep the <b>Academy Ward</b> at your home safe too.`] },
   { art: "url(monsters/orc_warchanter.png)", t: 'Turn by turn', p: () => [`First you <b>prepare</b> while ${esc(boss())} moves the Crimson Host: each right answer in your pair is <b>+1 action point (AP)</b>.`, 'Then <b>3 questions</b> before your move: right answers earn <b>coins</b> for Grab-Ma. Then the <b>War Council</b> opens.'] },
   { art: "url(portraits/S.webp)", t: 'The War Council', p: () => ['Look at the map with your class and <b>tap a stop</b> to plan your route. Tap a junction to change the way. Each road costs AP.', 'In a warband, one pair <b>proposes</b> and the others <b>agree</b>. When the council ends, every banner <b>marches together</b>. A <b>⚔</b> stop is a fight.'] },
-  { art: "url(auntie/bust.png)", t: 'HP and food', p: () => ['Your pair\'s <b>HP does not come back</b> after a battle. Order food from <b>Grab-Ma</b> on your phone and eat it, or rest at the Academy or a rally point.', 'Free while others fight? Tap <b>SUPPORT</b> to back their battle with War Cries.'] },
+  { art: "url(auntie/bust.png)", t: 'HP and food', p: () => ['Your pair\'s <b>HP does not come back</b> after a battle. Order food from <b>Grab-Ma</b> on your phone and eat it, or rest at the Academy or a rally point.', 'Free while others fight? <b>War Cries</b> come to you by themselves: each right answer hits the enemy in their battle.'] },
   { art: "url(monsters/golem.png)", t: 'Battles', p: () => ['Battles work like Academy Rift: each question is one student\'s <b>turn</b>, and everyone else <b>answers along</b>. A wrong answer can be <b>stolen</b>.', 'Right answers attack the enemy and block its counterattack. Work together and the Crimson falls.'] },
 ];
 let helpAt = 0;
@@ -610,7 +647,7 @@ function maybeHelp() {
 
 // ------------------------------------------------------------------ Grab-Ma Food: the shop as a delivery app on a phone
 // Orders go in during the class's move, once your banner has locked in its move; Grab-Ma then rides out on the map.
-const canOrder = () => { const b = myBand(); return !!(S && S.status === 'playing' && S.phase === 'crystal' && S.stage !== 'quiz' && b && !b.battle && !S.myBattle && !S.me.ordered); };
+const canOrder = () => { const b = myBand(); return !!(S && S.status === 'playing' && !S.paused && ((S.phase === 'crystal' && S.stage !== 'quiz') || S.phase === 'battles') && b && !b.battle && !S.myBattle && !S.me.ordered); };
 if (params.has('debug')) window.twState = () => S;
 const phone = createPhone({ socket, host: $('phoneHost'), getS: () => S, toast, canOrder, now });
 function renderShop() {

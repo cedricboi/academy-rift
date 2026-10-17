@@ -11,7 +11,13 @@ export const COUNCIL_SECONDS = 45;     // the longest a War Council lasts unless
 export const MARCH_STEP = 1.6;         // seconds a marching banner takes for each road
 export const REST_HEAL = 3;            // HP a pair gets back each turn it rests at the Academy or a rally point it holds (otherwise only food heals)
 export const ALONG_HIT = 0.75;         // answering along: this many hits for each right answer…
-export const ALONG_CAP = 4;            // …counting at most this many (a huge warband no longer melts an enemy in one question)
+export const ALONG_CAP = 4;            // …counting at most this many in a battle of one or two pairs (a huge warband no longer melts an enemy in one question)
+// the cap grows with the warband, so a bigger warband always helps (1.5 more right answers count for each pair after the first two)
+export const alongCap = (pairs = 1) => Math.max(ALONG_CAP, Math.round(ALONG_CAP + 1.5 * (pairs - 2)));
+export const FORTRESS_GUARDS = 2;      // at most this many Crimson units from the fortress fight in front of the gate or the Warlord
+export const WARCRY_CAP = 4;           // at most this many right War Cries count towards one battle question
+export const WARCRY_COOLDOWN = 8;      // seconds a student waits for their next War Cry after a wrong one, so guessing does not pay
+export const PREP_AP_EACH = 2;         // each student in a pair adds at most this much AP by preparing (a student alone: MUSTER_MP_CAP)
 export const SYNC_PER_QUESTION = 16;   // Sync gauge per question when every fighter is right (scaled down by the share right)
 export const WATCHTOWER = 2;           // Whispering Watch: a Crystal banner standing on it shows the class the whole Crimson Host (not ambushers)
 export const TELEPORT_COST = 2;        // Rift Energy for the teacher to teleport one unit
@@ -23,6 +29,7 @@ export const SIGHT = 2;                // fog of war: students see this many roa
 export const BASE_MP = 1;              // action points (AP) every pair gets each move, before answering anything
 export const MUSTER_MP_CAP = 3;        // most AP a pair can add by preparing: each right answer in the pair is +1 AP
 export const PREPARE_SECONDS = 30;     // how long the class prepares (answers questions) while the teacher moves
+export const LATE_PREP_SECONDS = 10;   // no new preparing question starts in the last seconds of the prepare time (an open one may finish)
 export const MUSTER_PER_TURN = 3;      // muster questions each student answers in a Crimson turn
 export const READ_SECONDS = 4;         // Academy Rift's reading time before the choices appear
 export const ANSWER_SECONDS = 21;      // Academy Rift's time to answer
@@ -160,9 +167,9 @@ export function auraFor(units) {
   return units.some((u) => UNITS[u.type]?.aura) ? UNITS.orc_warchanter.aura : 0;
 }
 
-// Questions a battle lasts (8, 10 at the gate, 12 against the Warlord)
+// Questions a battle lasts (5, 7 at the gate, 8 against the Warlord), so a whole war fits a lesson
 export function battleLength(kind, buffs = {}) {
-  const base = kind === 'boss' ? 12 : kind === 'gate' ? 10 : 8;   // two more questions than at first, to make up for the 30-second prepare
+  const base = kind === 'boss' ? 8 : kind === 'gate' ? 7 : 5;
   return base + (buffs.stand ? 1 : 0);
 }
 
@@ -180,6 +187,13 @@ export function counterAttack(enemies, rightFraction = 0) {
   const guard = GUARD_MAX * Math.max(0, Math.min(1, rightFraction));
   const blows = enemies.filter((e) => e.hp > 0).map((e) => ({ type: e.type, dmg: +((e.atk || 1) * (1 - guard)).toFixed(2) }));
   return { blows, guard, total: +blows.reduce((n, b) => n + b.dmg, 0).toFixed(2) };
+}
+// How far the class got, for a war that ends on time or on turns: 'crystal' when the gate is broken and the Warlord
+// is at half strength or less, 'draw' when only the gate is broken, else 'crimson'. pct is the share of the way (0-100).
+export function progressResult({ gateHp, gateMax, broken, warlordHp, warlordMax }) {
+  const g = broken ? 1 : 1 - gateHp / (gateMax || 1), w = broken ? 1 - warlordHp / (warlordMax || 1) : 0;
+  const pct = Math.round(50 * g + 50 * w);
+  return { winner: broken && warlordHp <= warlordMax / 2 ? 'crystal' : broken ? 'draw' : 'crimson', pct };
 }
 export const resolveFor = (pairs) => RESOLVE_PER_PAIR * Math.max(1, pairs);
 // siege damage a unit does to the Academy Ward each turn it stands at the class's fortress
@@ -199,3 +213,16 @@ export function dealHits(enemies, hits) {
 }
 
 export const nodeName = (n) => NODES[n]?.name || '?';
+
+// ---- Grab-Ma's food in Total War: what each item does here (the Arena's own text is in data/characters.js) ----
+// heal and resolve are in battle hits (shown x100); eat is HP for your pair when eaten between battles
+export const TW_ITEMS = {
+  bento:   { price: 120, eat: 4, desc: 'In battle it heals your warband 300. Between battles it heals your pair 400.' },
+  energy:  { price: 100, desc: 'In battle it gives you 150 SP, so you can use more skills.' },
+  revive:  { price: 250, eat: 'full', desc: 'Brings your pair back to full HP. In battle it heals your warband by half.' },
+  shield:  { price: 150, desc: 'In battle the next counterattack on your warband does half damage.' },
+  crystal: { price: 220, desc: 'In battle it adds 30 to your warband\'s Sync gauge.' },
+  tonic:   { price: 140, eat: 3, desc: 'In battle it heals 200 and the enemy hits back weaker for 2 questions. Between battles it heals your pair 300.' },
+  chilli:  { price: 160, desc: 'Use it as your move in battle: a strike that does 50% more damage.' },
+  durian:  { price: 180, desc: 'Use it as your move in battle: 400 damage to your target and 100 to the enemy beside it.' },
+};

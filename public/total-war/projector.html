@@ -102,7 +102,7 @@ function render() {
     return;
   }
   $('pPhase').textContent = `TURN ${P.turn} · ${P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? 'CRYSTAL TURN' : P.phase === 'battles' ? 'BATTLES' : 'THE END'}`;
-  $('pSub').textContent = P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares!` : P.phase === 'crystal' ? 'The class is on the move' : P.phase === 'battles' ? 'The last battles of the turn' : '';
+  $('pSub').textContent = P.paused ? `Paused by ${P.paused.by}. Everything waits.` : P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares!` : P.phase === 'crystal' ? 'The class is on the move' : P.phase === 'battles' ? 'The last battles of the turn' : '';
   $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
   $('gateText').textContent = P.gate.broken ? (P.warlord.out ? 'The Warlord is out!' : 'Broken') : `Unbroken · ${P.gate.hp} / ${P.gate.max}`;
   map.render({ state: P });
@@ -115,8 +115,8 @@ function render() {
     const rd = B.round;
     const st = B.status === 'gather' ? 'Gathering. Warbands one road away can still join.'
       : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit} · Turn: ${B.striker ? `${B.striker.name} (Pair ${B.striker.pairNo})` : '–'} · ${B.answered} of ${B.fighters} have answered`
-      : B.status === 'result' && rd ? `${rd.hits} hits · the Crimson hit back for ${Math.round(rd.counterTotal * 10) / 10}${rd.guard ? ` (${Math.round(rd.guard * 100)}% blocked)` : ''}`
-      : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The banners held!' : 'The Crimson Host held.') : '';
+      : B.status === 'result' && rd ? `The answer was ${'ABCDEF'[rd.answer]}. ${rd.choices?.[rd.answer] ?? ''} ${rd.explain || ''} · ${rd.hits} hits · the Crimson hit back for ${Math.round(rd.counterTotal * 10) / 10}${rd.guard ? ` (${Math.round(rd.guard * 100)}% blocked)` : ''}`
+      : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'won' ? 'Victory!' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The banners held!' : 'The Crimson Host held.') : '';
     $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff5a6e;letter-spacing:6px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(NODES[B.node].name.toUpperCase())}</div><h3>${esc(what)}</h3>`;
     $('pbFoot').innerHTML = `<div class="pb-res">RESOLVE<div class="rb"><i style="width:${B.resolveMax ? Math.max(0, B.resolve / B.resolveMax) * 100 : 100}%"></i></div>${B.resolveMax ? `${Math.ceil(B.resolve)}/${B.resolveMax}` : ''}</div>
       <div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
@@ -137,7 +137,8 @@ function render() {
   }
   const end = $('ending');
   end.classList.toggle('hidden', P.status !== 'ended');
-  if (P.status === 'ended') end.innerHTML = `<div class="eyebrow" style="font-size:18px;letter-spacing:6px">${P.winner === 'crystal' ? 'VICTORY' : P.endedBy === 'ward' ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${P.winner === 'crystal' ? 'The Crimson Warlord has fallen' : P.endedBy === 'ward' ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>`;
+  const points = P.winner === 'crystal' && P.endedBy && P.endedBy !== 'teacher';
+  if (P.status === 'ended') end.innerHTML = `<div class="eyebrow" style="font-size:18px;letter-spacing:6px">${P.winner === 'crystal' ? 'VICTORY' : P.winner === 'draw' ? 'A DRAW' : P.endedBy === 'ward' ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div><h1>${P.winner === 'crystal' ? (points ? 'The class wins on points' : P.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : P.winner === 'draw' ? 'The gate is broken, the Warlord stands' : P.endedBy === 'ward' ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>${P.endedBy && P.endedBy !== 'ward' && P.endedBy !== 'teacher' ? `<p>The class got ${P.progress?.pct ?? 0}% of the way.</p>` : ''}`;
 }
 </script>
 </body>
