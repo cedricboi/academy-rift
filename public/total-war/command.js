@@ -227,7 +227,10 @@ function render() {
   const idleChip = idle.length ? `<button type="button" class="g-idle" data-idle="${idle[0].node}">${idle.length} unit${idle.length > 1 ? 's' : ''} without orders</button>` : '';
   const stuck = (H.stuck || []).length ? `<span class="g-idle">${H.stuck.map((p) => `Pair ${p.no}`).join(', ')} ${H.stuck.length > 1 ? 'have' : 'has'} not moved for 3 turns. Check in with them.</span>` : '';
   const left = H.endAt ? Math.max(0, Math.ceil((H.endAt - now()) / 60000)) : null;
-  idleChipExtra = stuck + (left != null ? `<span class="g-idle">War ends in about ${left} min</span>` : '');
+  // a battle that runs on does not hold the class up: say where it is while the class carries on
+  const longFights = H.phase !== 'battles' && H.status === 'playing' ? H.battles.filter((B) => B.status !== 'over' && B.status !== 'gather') : [];
+  const goingOn = longFights.length ? `<span class="g-idle g-going">${longFights.map((B) => `Battle at ${esc(nodeName(B.node))}: question ${B.qNo} of ${B.limit}`).join(' · ')}. It goes on while the class carries on.</span>` : '';
+  idleChipExtra = goingOn + stuck + (left != null ? `<span class="g-idle">War ends in about ${left} min</span>` : '');
   // the training turn: nothing is timed, the teacher moves the class on with Continue
   const training = H.status === 'playing' && H.training && !H.paused
     ? `<div class="g-council"><b>TRAINING TURN</b> No timers. ${H.phase === 'crimson' ? 'Students are answering questions to earn steps.' : H.stage === 'quiz' ? `Students are finishing their 3 preparing questions: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.` : H.stage === 'council' ? `Students are planning their moves: ${agreed} of ${H.bands.length} warbands have chosen a route.` : 'The warbands are moving and fighting.'} <button type="button" class="btn crimson" data-train="go">Continue</button><button type="button" class="btn" data-train="end">End training (start the timers)</button></div>` : '';
@@ -238,7 +241,7 @@ function render() {
     : H.phase === 'crystal' && H.stage === 'council'
     ? `<div class="g-council"><b>WAR COUNCIL</b> <span data-until="${H.phaseEndsAt}"></span> left. ${agreed} of ${H.bands.length} warband${H.bands.length === 1 ? ' has' : 's have'} chosen a route. <button type="button" class="btn" data-council="extend">+15 s</button><button type="button" class="btn crimson" data-council="launch">Launch now</button></div>${idleChip}`
     : H.settings.botCommander ? `<div class="g-bot">🤖 The Bot Commander is leading your Host. Watch, or give orders yourself.</div>` : !mine
-    ? `<div class="g-wait">${H.phase === 'crystal' ? 'The warbands are marching.' : 'Battles are being fought.'} You can still send out units and give orders. They play out in your turn.</div>${idleChip}`
+    ? `<div class="g-wait">${H.phase === 'crystal' ? 'The warbands are marching.' : `Battles are being fought.${H.phaseEndsAt > now() ? ' If one runs long, the class carries on with the next turn in <span data-until="' + H.phaseEndsAt + '"></span> and it goes on.' : ''}`} You can still send out units and give orders. They play out in your turn.</div>${idleChip}`
     : steps.map(([n, t, s], i) => `<div class="g-step ${i === stepNow ? 'now' : i < stepNow ? 'done' : ''}"><i>${n}</i><span><b>${t}</b><small>${s}</small></span></div>`).join('<span class="g-arrow">›</span>')) + idleChipExtra);
 
   // the class, in one chip
@@ -255,7 +258,7 @@ function render() {
     const pairs = B.bands.reduce((a, b) => a + b.pairs.length, 0);
     const where = B.status === 'gather' ? 'Getting ready' : B.status === 'over' ? (B.outcome === 'won' ? 'The class won' : B.outcome === 'stopped' ? 'You ended it' : 'Your Host held') : `Question ${B.qNo} of ${B.limit}`;
     return `<div class="bl ${B.kind === 'defend' ? 'atk' : ''}"><div class="bl-h">${B.kind === 'defend' ? 'Your attack' : 'Battle'} at ${esc(nodeName(B.node))}<em>${where}</em></div>
-      <div class="bl-row"><span>${pairs} pair${pairs === 1 ? '' : 's'} fighting</span><span>Class HP ${B.resolveMax ? `${Math.max(0, Math.ceil(B.resolve))} of ${B.resolveMax}` : 'full'}</span></div>
+      <div class="bl-row"><span>${pairs} pair${pairs === 1 ? '' : 's'} fighting${B.reinforce ? ` (Pair${B.reinforce.pairs.length > 1 ? 's' : ''} ${B.reinforce.pairs.join(', ')} joined to help)` : ''}</span><span>Class HP ${B.resolveMax ? `${Math.max(0, Math.ceil(B.resolve))} of ${B.resolveMax}` : 'full'}</span></div>
       <div class="bl-row"><span>Your units</span><span>${Math.ceil(hp)} of ${Math.round(max)} HP</span></div><div class="hpbar"><i style="width:${max ? (hp / max) * 100 : 0}%"></i></div>
       ${B.status !== 'gather' && B.status !== 'over' ? B.enemies.map((e, i) => (e.wave && e.hp > 0 ? `<div class="bl-row bl-foe"><span><img src="${sprite(e.type)}" alt="">${esc(UNITS[e.type]?.name || Object.values(CAMPS).find((c) => c.id === e.type)?.name || e.type)}</span><span>${e.on?.length ? `Pair${e.on.length > 1 ? 's' : ''} ${e.on.join(', ')}` : 'Nobody'}</span></div>` : '')).join('') : ''}
       ${B.status !== 'over' && H.status === 'playing' ? `<button type="button" class="btn" data-endbattle="${B.id}">End this battle now</button>` : ''}</div>`;

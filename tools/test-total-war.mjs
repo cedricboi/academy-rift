@@ -156,3 +156,12 @@ test('the movement phase is short: quick top-up, quick planning, fast march',()=
   // the longest stretch from the end of the enemy's turn to the battles, for a 3-road march with no teacher extension
   assert.ok(TOPUP_SECONDS+COUNCIL_SECONDS+0.3+3*MARCH_STEP<=60);
 });
+test('reinforcements: each joined pair that answers right adds attack and cuts damage taken, up to a cap',async()=>{
+  const R=await import('../public/total-war/rules.js');
+  assert.deepEqual(R.reinforceBonus(0),{pairs:0,atk:0,guard:0});
+  const one=R.reinforceBonus(1);assert.equal(one.atk,R.REINFORCE_ATK);assert.equal(one.guard,R.REINFORCE_GUARD);
+  const many=R.reinforceBonus(9);assert.equal(many.atk,R.REINFORCE_ATK_CAP);assert.equal(many.guard,R.REINFORCE_GUARD_CAP);
+  assert.ok(R.REINFORCE_MAX>=1&&R.REINFORCE_SECONDS>=15);
+  // a pair whose battle ran on while the class prepared still gets a real move; one planning late has time to plan
+  assert.ok(R.LATE_STEPS>R.BASE_MP&&R.LATE_PLAN_SECONDS>=10&&R.REGROUP_STEPS>=2);
+});

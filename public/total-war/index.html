@@ -84,6 +84,8 @@
       <div class="buffs map-buffs" id="buffs"></div>
       <section id="infoCard" class="panel info-card hidden"></section>
       <div id="joinPrompt" class="panel red join-prompt hidden"></div>
+      <section id="bandSheet" class="panel band-sheet hidden" aria-label="Warbands"></section>
+      <section id="afterBox" class="panel after-box hidden" role="dialog" aria-label="Your battle is over"></section>
       <section id="actBar" class="act-bar hidden">
         <div class="ab-band" id="abBand"></div>
         <div class="ab-text"><div class="ab-step" id="abStep"></div><div class="ab-sub" id="abSub"></div></div>
@@ -134,8 +136,8 @@
     </div>
   </section>
 <div id="secured" class="secured hidden" role="status"></div>
-  <div id="notice" class="notice hidden" role="status"></div>
-  <div id="coach" class="coach hidden" role="status" aria-live="polite"></div>
+  <div id="msgStack" class="msg-stack"><div id="notice" class="notice hidden" role="status"></div>
+  <div id="coach" class="coach hidden" role="status" aria-live="polite"></div></div>
   <div id="coachRing" class="coach-ring hidden" aria-hidden="true"></div>
   <div id="arenaHost" class="arena-host hidden"></div>
   <div id="toast" class="toast hidden" role="status"></div>

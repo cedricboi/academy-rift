@@ -130,6 +130,7 @@ const X = (v) => showHp(v);                  // one HP scale on every screen: a 
 $('endTurnBtn').addEventListener('click', (e) => {
   const a = e.currentTarget.dataset.act;
   if (a === 'propose' && draft?.length > 1) socket.emit('twRoute', { route: draft });
+  else if (a === 'agreeMate') { draft = null; socket.emit('twAgree', { partner: e.currentTarget.dataset.mate }); }
   else if (a === 'hold') { draft = null; socket.emit('twRoute', { hold: true }); }
   else if (a === 'support') socket.emit('twSupport', { battleId: e.currentTarget.dataset.battle });
   else if (a === 'resume') socket.emit('twResume', { go: true });
@@ -138,12 +139,14 @@ $('endTurnBtn').addEventListener('click', (e) => {
 $('abHold').addEventListener('click', () => { draft = null; if (myBand()?.status === 'resume') socket.emit('twResume', { go: false }); else socket.emit('twRoute', { hold: true }); render(); });
 $('abSub').addEventListener('click', (e) => { const b = e.target.closest('[data-agree]'); if (b) { draft = null; socket.emit('twAgree', { pairId: b.dataset.agree }); } });
 $('leaveBandBtn').addEventListener('click', () => socket.emit('twLeaveBand'));
-$('abJoin').addEventListener('click', (e) => { const id = e.currentTarget.dataset.band; if (id) socket.emit('twJoinBand', { bandId: id }); });
+$('abJoin').addEventListener('click', () => { bandsOpen = !bandsOpen; render(); });
 $('infoCard').addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.close) { selected = null; render(); }
   if (b.dataset.vote) { planTap(+b.dataset.vote); selected = null; render(); }
-  if (b.dataset.joinband) { socket.emit('twJoinBand', { bandId: b.dataset.joinband }); selected = null; }
+  if (b.dataset.joinband || b.dataset.join) { joinBand(b.dataset.joinband || b.dataset.join); selected = null; render(); }
+  if (b.dataset.unjoin) socket.emit('twJoinBand', { bandId: null });
+  if (b.dataset.leaveband) { socket.emit('twLeaveBand'); selected = null; render(); }
 });
 $('bFoes').addEventListener('click', (e) => { const b = e.target.closest('[data-target]'); if (b) socket.emit('twTarget', { index: +b.dataset.target }); });
 $('joinPrompt').addEventListener('click', (e) => { const b = e.target.closest('[data-battle]'); if (b) socket.emit('twJoinBattle', { battleId: b.dataset.battle }); });
@@ -161,23 +164,27 @@ function render() {
   $('phaseClock').classList.toggle('red', phase === 'crimson');
   clockOn = showClock();
   $('phaseClock').classList.toggle('hidden', !clockOn);
-  if (clockOn) $('phaseClock').textContent = mmss(gameSecondsLeft(S.phaseEndsAt));
+  if (clockOn) $('phaseClock').textContent = mmss(gameSecondsLeft(clockEnds()));
   $('enemyName').textContent = `${boss()}, Crimson Commander`;
   setHTML($('buffs'), S.buffs.map((b) => { const c = Object.values(CAMPS).find((x) => x.buff === b.key); return c ? `<span class="buff">${esc(c.buffName)}: ${esc(c.buffText)} · ${b.left} turn${b.left === 1 ? '' : 's'}</span>` : ''; }).join(''));
 
   // map: in the War Council, the stops your warband can reach this move, your route, and your classmates' routes
-  const planning = isCouncil() && band && !band.battle;
+  const planning = isPlanning() && band && !band.battle;
   if (!planning || (draft && draft[0] !== band.node)) draft = null;
-  if (draft && band && routeKey(band.props?.[S.me.pairId]) === routeKey(draft)) draft = null;     // sent: show it as the proposal
+  if (draft && band && (routeKey(band.props?.[S.me.pairId]) === routeKey(draft) || routeKey(S.me.picks?.mine) === routeKey(draft))) draft = null;     // sent: show it as the proposal
   while (draft && draft.length > 1 && routeCost(draft) > band.mp) draft = draft.slice(0, -1);          // the warband's AP fell (a pair joined): keep what it can afford
   if (draft && draft.length < 2) draft = null;
   syncDraft();
   const reach = planning ? reachableStops(band) : new Map();
   const options = [...reach].map(([node, c]) => ({ node, cost: c, reach: true, attack: blocks(node), inRoute: !!draft?.includes(node) }));
   const mineProp = band?.props?.[S.me.pairId];
-  const shown = draft || (Array.isArray(band?.plan) ? band.plan : Array.isArray(mineProp) ? mineProp : null) || (band?.path?.length ? [band.node, ...band.path] : null);
+  // your partner's route (while you two have not agreed yet) shows as your route if you have not drawn one
+  const myPick = S.me.picks?.mine, matePick = (S.me.picks?.partners || []).find((x) => Array.isArray(x.route))?.route;
+  const shown = draft || (Array.isArray(band?.plan) ? band.plan : Array.isArray(mineProp) ? mineProp : null) || (planning && Array.isArray(myPick) ? myPick : null)
+    || (planning && Array.isArray(matePick) ? matePick : null) || (band?.path?.length ? [band.node, ...band.path] : null);
   const friends = S.bands.filter((b) => b.id !== band?.id).map((b) => (Array.isArray(b.plan) ? b.plan : b.path?.length ? [b.node, ...b.path] : Object.values(b.props || {}).find(Array.isArray))).filter((r) => r?.length > 1).map(lineOf);
   if (band) for (const [pid, r] of Object.entries(band.props || {})) if (pid !== S.me.pairId && Array.isArray(r) && r.length > 1) friends.push(lineOf(r));
+  if (planning && Array.isArray(matePick) && shown !== matePick && matePick.length > 1) friends.push(lineOf(matePick));
   trackLastSeen();
   map.render({ state: S, mine: band?.id, focusNode: band?.node ?? null, options, selected, route: shown?.length > 1 ? lineOf(shown) : null,
     friends, ghost: shown?.length > 1 && band?.status !== 'marching' ? { node: shown.at(-1), char: S.me.char } : null,
@@ -200,6 +207,8 @@ function render() {
   renderActBar(band);
   renderInfo(band, options);
   renderJoin();
+  renderAfter(band);
+  renderBands(band);
   renderQuestion();
   renderBattle();
   renderEnding();
@@ -216,9 +225,10 @@ function render() {
 function headline(band) {
   if (S.status === 'ended') return 'The war is over';
   if (S.myBattle) return 'Battle!';
+  if (isPlanning()) return 'Plan your move';
   if (S.phase === 'crimson') return S.own ? 'Answer questions to earn steps' : 'The enemy is moving';
   if (S.phase === 'crystal' && S.stage === 'quiz') return 'Finish your questions';
-  if (S.phase === 'crystal' && S.stage === 'council') return 'Plan your move';
+  if (isPlanning()) return 'Plan your move';
   if (S.own?.kind === 'warcry') return 'Cheer on a battle';
   if (band?.status === 'resume') return 'You won! Carry on?';
   if (S.phase === 'crystal') return band?.path?.length ? 'Your warband is marching' : 'Warbands are marching';
@@ -230,8 +240,10 @@ let clockOn = false;
 function showClock() {
   if (S.status !== 'playing' || S.training || S.myBattle || phone?.isOpen) return false;
   if (S.own) return false;                                   // the question has its own timer
-  return S.phase === 'crimson' || (S.phase === 'crystal' && S.stage === 'council');
+  return S.phase === 'crimson' || isPlanning() || (S.phase === 'battles' && S.phaseEndsAt > now());
 }
+// the clock at the top: a warband planning late has its own time
+const clockEnds = () => (!isCouncil() && S.me?.lateUntil && now() < S.me.lateUntil ? S.me.lateUntil : S.phaseEndsAt);
 
 // Paused by the teacher: one message over everything (the server holds every clock still)
 const pausedBox = document.createElement('div');
@@ -257,6 +269,9 @@ function renderExplain() {
   // never covers a move
   const on = !!(r && Number.isInteger(right) && right >= 0 && S.status === 'playing' && !(B?.status === 'choose' && B.moves));
   explainBox.classList.toggle('hidden', !on);
+  // the battle strip's one-line messages sit above the WHY box while it is up
+  document.body.classList.toggle('why-on', on);
+  requestAnimationFrame(() => document.body.style.setProperty('--whyH', `${on ? explainBox.offsetHeight + 8 : 0}px`));
   if (on) setHTML(explainBox, `<div class="eyebrow">WHY</div><b>The answer is ${'ABCDEF'[right]}${choices?.[right] != null ? `. ${esc(choices[right])}` : ''}</b>${text ? `<p>${esc(text)}</p>` : ''}`);
 }
 let lastChoices = null;
@@ -270,32 +285,56 @@ function renderActBar(band) {
   const multi = band.pairs.length > 1;
   const hpPct = (p) => Math.round(((p.hp ?? 10) / (p.maxHp || 10)) * 100);
   setHTML($('abBand'), band.pairs.map((p) => `<span class="ab-pair ${p.id === S.me.pairId ? 'me' : ''}" title="Pair ${p.no} · HP ${showHp(p.hp)} of ${showHp(p.maxHp)}"><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">
-      ${multi && band.props?.[p.id] !== undefined && isCouncil() ? '<i class="v">✓</i>' : ''}<i class="ab-hp ${hpPct(p) < 34 ? 'low' : ''}"><b style="width:${hpPct(p)}%"></b></i><small>${p.id === S.me.pairId ? `YOU · ${showHp(p.hp)} HP` : 'P' + p.no}</small></span>`).join(''));
+      ${multi && band.props?.[p.id] !== undefined && isPlanning() ? '<i class="v">✓</i>' : ''}<i class="ab-hp ${hpPct(p) < 34 ? 'low' : ''}"><b style="width:${hpPct(p)}%"></b></i><small>${p.id === S.me.pairId ? `YOU · ${showHp(p.hp)} HP` : 'P' + p.no}</small></span>`).join(''));
   const end = $('endTurnBtn'), hold = $('abHold');
   let step = '', sub = '', act = null, holdOn = false, mp = '';
   const fight = (S.battles || []).find((B) => B.status === 'fight' || B.status === 'choose' || B.status === 'result');
   const steps = (n) => `${n} step${n === 1 ? '' : 's'}`;
-  if (S.phase === 'crimson') { step = S.own ? 'Answer questions to earn steps' : 'The enemy is moving its army'; sub = S.own ? 'Each right answer gives your pair a step for its move.' : 'Your move comes next.'; }
-  else if (S.stage === 'quiz') { step = 'Finishing the questions'; sub = 'Planning opens in a few seconds, when everyone has answered 3 questions.'; }
-  else if (isCouncil()) {
+  const routeTxt = (r) => (r === 'hold' ? 'to stay here' : `${nodeName(r.at(-1))} (${steps(routeCost(r))})`);
+  if (S.phase === 'crimson' && !isPlanning()) { step = S.own ? 'Answer questions to earn steps' : 'The enemy is moving its army'; sub = S.own ? 'Each right answer gives your pair a step for its move.' : 'Your move comes next.'; }
+  else if (S.stage === 'quiz' && !isPlanning()) { step = 'Finishing the questions'; sub = 'Planning opens in a few seconds, when everyone has answered 3 questions.'; }
+  else if (isPlanning()) {
+    const late = !isCouncil();
     mp = `<b>${band.mp}</b><small>STEP${band.mp === 1 ? '' : 'S'} THIS MOVE</small>`;
     const plan = band.plan, mineProp = band.props?.[S.me.pairId];
     const others = Object.entries(band.props || {}).filter(([pid]) => pid !== S.me.pairId);
+    // both partners agree the pair's route: each taps it (a bot partner, or one who is not here, agrees by itself)
+    const pk = S.me.picks || { mine: null, partners: [], need: 1 };
+    const mate = pk.need > 1 ? pk.partners.find((x) => !x.bot && !x.away) : null;
+    const myPick = pk.mine ?? null, matePick = mate?.route ?? null;
+    const lateLine = late ? 'Your battle ran long, so you missed planning with the class. Plan your own move now. ' : '';
     if (draft?.length > 1) {
       const c = routeCost(draft), to = draft.at(-1);
       step = `${nodeName(to)} · ${steps(c)}${draft.length > 2 ? ` via ${nodeName(draft[1])}` : ''}`;
-      sub = `${benefitOf(to)} ${band.mp - c > 0 ? `${steps(band.mp - c)} left over.` : ''} ${multi ? 'Tap SUGGEST THIS ROUTE so your warband can agree.' : 'Tap SEND ROUTE to send it.'}`;
+      sub = `${lateLine}${benefitOf(to)} ${band.mp - c > 0 ? `${steps(band.mp - c)} left over.` : ''} ${mate ? `Tap ${multi ? 'SUGGEST THIS ROUTE' : 'SEND ROUTE'}. ${esc(mate.name)} must tap the same route too.` : multi ? 'Tap SUGGEST THIS ROUTE so your warband can agree.' : 'Tap SEND ROUTE to send it.'}`;
       act = ['propose', multi ? 'SUGGEST THIS ROUTE' : 'SEND ROUTE']; holdOn = false;
     } else if (plan) {
       step = plan === 'hold' ? 'You chose to stay here' : `Route sent: to ${nodeName(plan.at(-1))} · ${steps(routeCost(plan))}`;
-      sub = 'Your warband marches when planning ends. Tap a stop to change it.';
+      sub = late ? 'Your warband sets off now, by itself.' : 'Your warband marches when planning ends. Tap a stop to change it.';
+    } else if (mate && mineProp === undefined && (myPick != null || matePick != null)) {
+      if (myPick != null && matePick != null && routeKey(myPick) !== routeKey(matePick)) {
+        step = `You and ${mate.name} chose different routes`;
+        sub = `${esc(mate.name)} chose ${esc(routeTxt(matePick))}. You chose ${esc(routeTxt(myPick))}. Tap AGREE to take ${esc(mate.name)}'s route, or tap a stop to plan another one.`;
+        act = ['agreeMate', 'AGREE'];
+      } else if (myPick != null) {
+        step = 'Waiting for your partner to agree';
+        sub = `You chose ${esc(routeTxt(myPick))}. ${esc(mate.name)} needs to tap the same route. If time runs out, the route drawn first is sent.`;
+      } else {
+        step = `${mate.name} chose ${matePick === 'hold' ? 'to stay here' : nodeName(matePick.at(-1))}: tap to agree`;
+        sub = `${lateLine}Tap AGREE to send it${multi ? ' to your warband' : ''}, or tap a stop to plan another route.`;
+        act = ['agreeMate', 'AGREE']; holdOn = true;
+      }
+      if (act) end.dataset.mate = mate.pid;
     } else if (mineProp !== undefined) {
       const agree = band.pairs.filter((p) => routeKey(band.props?.[p.id]) === routeKey(mineProp)).length;
       step = mineProp === 'hold' ? `Stay here · ${agree} of ${band.pairs.length} pairs agree` : `Route to ${nodeName(mineProp.at(-1))} · ${agree} of ${band.pairs.length} pairs agree`;
       sub = others.length ? others.filter(([, r]) => routeKey(r) !== routeKey(mineProp)).map(([pid, r]) => proposalBtn(band, pid, r)).join(' ') || 'Waiting for the other pairs to agree.' : 'Waiting for the other pairs to agree.';
     } else {
-      step = band.lastDefeat ? `Your warband fell back to ${nodeName(band.node)}` : 'Plan your move: tap a glowing stop';
-      sub = (band.lastDefeat ? `${esc(band.lastDefeat)} Try again, or join your allies. ` : '') + (others.length ? others.map(([pid, r]) => proposalBtn(band, pid, r)).join(' ') : 'The number on each glowing stop is how many steps it costs. Or tap STAY HERE.');
+      const ji = S.me.joinIntent;
+      const stuck = !reachableStops(band).size;
+      step = stuck ? 'Every road from here is blocked by a battle' : late ? 'Your battle ran long: plan your own move' : band.lastDefeat ? `Your warband fell back to ${nodeName(band.node)}` : ji ? `Setting off to join Pair ${ji.no}'s warband` : 'Plan your move: tap a glowing stop';
+      sub = lateLine + (band.lastDefeat ? `${esc(band.lastDefeat)} Try again, or join your allies. ` : '') + (ji ? `They are at ${esc(nodeName(ji.node))}. Tap their stop, then SEND ROUTE. ` : '')
+        + (others.length ? others.map(([pid, r]) => proposalBtn(band, pid, r)).join(' ') : stuck ? 'Tap STAY HERE. You can move again when the battle ends.' : `The number on each glowing stop is how many steps it costs. Or tap STAY HERE.${mate ? ' You and your partner both tap the route.' : ''}`);
       holdOn = true;
     }
   } else if (band.status === 'resume' && band.rest?.length) {
@@ -306,26 +345,32 @@ function renderActBar(band) {
     step = STATUS_TXT(band);
     sub = band.status === 'marching' ? (band.path?.length > 1 ? `Heading for ${nodeName(band.path.at(-1))}, ${band.path.length} stops to go.` : 'This is the last stop of your route.')
       : band.status === 'interrupted' ? 'Your route stopped because the enemy is in the way.' : 'Waiting for the other warbands to arrive.';
-  } else { step = fight ? 'Battles are being fought' : 'The turn is ending'; sub = 'The next turn starts when they end.'; }
+  } else { step = fight ? 'Battles are being fought' : 'The turn is ending'; sub = S.phaseEndsAt > now() ? 'The next turn starts when they end. If a battle runs long, the class carries on without it.' : 'The next turn starts when they end.'; }
+  // a battle still being fought elsewhere does not hold the class up
+  if (!S.myBattle && (S.phase === 'crimson' || S.stage === 'quiz') && fight && !S.own) sub += ` The battle at ${nodeName(fight.node)} goes on. The class does not wait for it.`;
   // War Cries come by themselves while a battle is on; SUPPORT picks which battle they go to
-  if (!isCouncil() && S.stage !== 'quiz' && fight && S.me.supporting !== fight.id && S.phase !== 'crimson') { act = ['support', `CHEER ON ${nodeName(fight.node).toUpperCase()}`]; end.dataset.battle = fight.id; sub += ' War Cry questions come to you by themselves. Right answers hit the enemy.'; }
+  if (!isPlanning() && S.stage !== 'quiz' && fight && S.me.supporting !== fight.id && S.phase !== 'crimson') { act = ['support', `CHEER ON ${nodeName(fight.node).toUpperCase()}`]; end.dataset.battle = fight.id; sub += ' War Cry questions come to you by themselves. Right answers hit the enemy.'; }
   else if (S.me.supporting && fight) sub = `You are cheering on the battle at ${nodeName(fight.node)} with War Cries.`;
   setHTML($('abStep'), esc(step)); setHTML($('abSub'), sub); setHTML($('abMp'), mp);
   end.classList.toggle('hidden', !act);
   if (act) { end.dataset.act = act[0]; end.textContent = act[1]; }
-  hold.classList.toggle('hidden', !holdOn || !(isCouncil() || band.status === 'resume'));
+  hold.classList.toggle('hidden', !holdOn || !(isPlanning() || band.status === 'resume'));
   hold.textContent = 'STAY HERE';
-  // another banner on this stop: join them as a warband
-  const other = S.bands.find((b) => b.id !== band.id && b.node === band.node && !b.battle);
+  // WARBANDS: who is in which warband, where, and a big JOIN button for each (glows when one is on your stop)
+  const here = (S.regroup || []).filter((x) => x.here && x.reach).length;
   const join = $('abJoin');
-  join.classList.toggle('hidden', !other || !!band.battle || S.phase === null);
-  if (other) { join.dataset.band = other.id; join.textContent = `March with Pair ${other.pairs[0].no}`; join.title = 'A warband is pairs moving together. You plan one route and march together.'; }
-  $('leaveBandBtn').classList.toggle('hidden', !multi || !!band.battle);
+  join.classList.toggle('hidden', !!band.battle || S.phase === null);
+  join.classList.toggle('glow', here > 0);
+  setHTML(join, `<i class="ab-wb" aria-hidden="true"></i>WARBANDS${here ? `<em>${here} here</em>` : ''}`);
+  join.title = 'A warband is pairs moving and fighting together.';
+  $('leaveBandBtn').classList.add('hidden');
 }
 
 // ------------------------------------------------------------------ War Council: planning one route for the whole move
 let draft = null;
 const isCouncil = () => S?.phase === 'crystal' && S.stage === 'council';
+// planning a route: in the War Council, or a warband whose battle ran past it (it plans while the others march)
+const isPlanning = () => isCouncil() || !!(S?.me?.lateUntil && now() < S.me.lateUntil);
 const routeKey = (r) => (Array.isArray(r) ? r.join('>') : String(r ?? ''));
 const routeCost = (r) => r.slice(1).reduce((a, n, i) => a + roadCost(r[i], n), 0);
 const lineOf = (r) => routePoints(r).map((q) => [q.x, q.y]);
@@ -360,7 +405,7 @@ function pathTo(band, to) {
   return r;
 }
 function planTap(n) {
-  const band = myBand(); if (!isCouncil() || !band || band.battle) return;
+  const band = myBand(); if (!isPlanning() || !band || band.battle) return;
   if (document.body.classList.contains('coach-focus') && !$('mapHost').querySelector(`[data-stop="${n}"].coach-target`)) { toast('For this practice, tap the glowing stop with crossed swords.'); return; }
   if (!draft || draft[0] !== band.node) draft = [band.node];
   const i = draft.indexOf(n);
@@ -469,11 +514,11 @@ function renderInfo(band, options) {
   } else if (selected.startsWith('band')) {
     const b = S.bands.find((x) => `band${x.id}` === selected);
     if (!b) { selected = null; box.classList.add('hidden'); return; }
-    const canJoin = band && band.id !== b.id && band.node === b.node && !band.battle && !b.battle;
+    const o = (S.regroup || []).find((x) => x.id === b.id), mine = band && band.id === b.id;
     html = `${close}<div class="eyebrow">${b.pairs.length > 1 ? 'CRYSTAL WARBAND' : `PAIR ${b.pairs[0]?.no ?? ''}`} · ${esc(nodeName(b.node).toUpperCase())}</div>
+      <p class="wb-what">A warband is pairs moving and fighting together.</p>
       ${b.pairs.map((p) => `<div class="row" style="background:#0b161e;border-color:#d8bd8033"><img src="${portrait(p.char)}" alt="" style="object-fit:cover"><div class="nm">Pair ${p.no}<small>${esc(p.names.join(' & '))}</small></div></div>`).join('')}
-      <div class="actions">${canJoin ? `<button class="btn primary" data-joinband="${b.id}">Join this warband</button>` : ''}</div>
-      ${!canJoin && band && band.node !== b.node ? '<p>Move to the same stop to join them as a warband.</p>' : ''}`;
+      ${mine || !band ? '' : bandCard(b, o, true)}`;
   }
   box.className = cls; setHTML(box, html); box.classList.remove('hidden');
 }
@@ -485,6 +530,90 @@ function renderJoin() {
   setHTML(box, `<span>A battle has started at <b>${esc(nodeName(j.node))}</b>! Your warband is close enough to help.</span><button class="btn crimson" data-battle="${j.id}">Join the fight · <span data-until="${j.gatherEnds}">${gameSecondsLeft(j.gatherEnds)}</span></button>`);
   box.classList.remove('hidden');
 }
+
+// ------------------------------------------------------------------ warbands: who is in which, where, and joining one
+// A warband is pairs moving and fighting together. On the same stop a pair joins at once; a warband a few steps away can
+// be joined by marching to it (the route goes there, and the pairs become one warband when they meet).
+let bandsOpen = false, afterSeen = '';
+function joinBand(id) {
+  const band = myBand(), o = (S.regroup || []).find((x) => x.id === id), t = S.bands.find((b) => b.id === id);
+  socket.emit('twJoinBand', { bandId: id });
+  // planning now: the route to them is drawn for you (tap SEND ROUTE to send it)
+  if (band && o && !o.here && t && isPlanning()) { const p = pathTo(band, t.node); if (p) { draft = p; toast(`Your route to Pair ${t.pairs[0]?.no}'s warband is drawn. Tap SEND ROUTE.`); } }
+  bandsOpen = false;
+}
+const bandName = (b) => (b.pairs.length > 1 ? `Pair ${b.pairs[0].no}'s warband` : `Pair ${b.pairs[0]?.no}`);
+function bandCard(b, o, compact = false) {
+  const where = b.battle ? `In a battle at ${nodeName(b.node)}` : o?.here ? `On your stop, ${nodeName(b.node)}` : o?.cost != null ? `${nodeName(b.node)} · ${o.cost} step${o.cost === 1 ? '' : 's'} away` : `${nodeName(b.node)} · too far to reach now`;
+  const bots = (p) => p.names.every((n) => /^Bot /.test(n));
+  const intent = S.me.joinIntent?.bandId === b.id;
+  const btn = intent ? `<button type="button" class="btn wb-go on" data-unjoin="1">✓ ON THE WAY · CANCEL</button>`
+    : o?.reach ? `<button type="button" class="btn primary wb-go" data-join="${b.id}">${o.here ? 'JOIN NOW' : `MARCH TO JOIN · ${o.cost} STEP${o.cost === 1 ? '' : 'S'}`}</button>`
+    : `<button type="button" class="btn wb-go" disabled>${b.battle ? 'IN A BATTLE' : 'TOO FAR'}</button>`;
+  return `<div class="wb-card ${o?.here ? 'here' : ''} ${intent ? 'intent' : ''}" data-show="${b.id}"><div class="wb-faces">${b.pairs.map((p) => `<img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">`).join('')}</div>
+    <div class="wb-info"><b>${esc(bandName(b))}</b><small class="wb-where">${esc(where)}</small>${compact ? '' : `<small class="wb-who">${b.pairs.map((p) => `Pair ${p.no}: ${esc(bots(p) ? 'bots' : p.names.join(' & '))}`).join(' · ')}</small>`}</div>${btn}</div>`;
+}
+function renderBands(band) {
+  const box = $('bandSheet');
+  const on = bandsOpen && band && S.status === 'playing' && !S.myBattle && !band.battle;
+  box.classList.toggle('hidden', !on);
+  if (!on) { if (!band || band.battle || S.myBattle) bandsOpen = false; return; }
+  const opts = new Map((S.regroup || []).map((x) => [x.id, x]));
+  const others = S.bands.filter((b) => b.id !== band.id).sort((a, b) => (+!!opts.get(b.id)?.reach - +!!opts.get(a.id)?.reach) || ((opts.get(a.id)?.cost ?? 99) - (opts.get(b.id)?.cost ?? 99)));
+  const multi = band.pairs.length > 1;
+  setHTML(box, `<button class="x-close" data-close="1" aria-label="Close">×</button><div class="eyebrow">WARBANDS</div><h3>Join a warband</h3>
+    <p class="wb-what">A warband is pairs moving and fighting together. You plan one route, march together and fight the same battles.</p>
+    <div class="wb-mine"><div class="wb-faces">${band.pairs.map((p) => `<img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">`).join('')}</div>
+      <div class="wb-info"><b>${multi ? `Your warband · ${band.pairs.length} pairs` : 'Your pair moves on its own'}</b><small>${multi ? band.pairs.map((p) => (p.id === S.me.pairId ? 'You' : `Pair ${p.no}`)).join(', ') : `At ${esc(nodeName(band.node))}`}</small></div>
+      ${multi ? '<button type="button" class="btn crimson wb-go" data-leave="1">LEAVE WARBAND</button>' : ''}</div>
+    ${S.me.joinIntent ? `<p class="wb-intent">You are on your way to join Pair ${S.me.joinIntent.no}'s warband at ${esc(nodeName(S.me.joinIntent.node))}. You become one warband when you get there.</p>` : ''}
+    <div class="wb-list">${others.length ? others.map((b) => bandCard(b, opts.get(b.id))).join('') : '<p class="wb-what">There are no other warbands yet.</p>'}</div>
+    <p class="wb-foot">On your stop you join at once. A warband up to 3 steps away: you march to it, and you join when you get there.</p>`);
+}
+$('bandSheet').addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (b?.dataset.close) { bandsOpen = false; render(); return; }
+  if (b?.dataset.join) { joinBand(b.dataset.join); render(); return; }
+  if (b?.dataset.unjoin) { socket.emit('twJoinBand', { bandId: null }); return; }
+  if (b?.dataset.leave) { socket.emit('twLeaveBand'); return; }
+  const c = e.target.closest('[data-show]'); if (c && !b) { selected = `band${c.dataset.show}`; bandsOpen = false; render(); }
+});
+
+// Just after your battle: join a battle that is still being fought (you fight from where you stand), or a warband
+function renderAfter(band) {
+  const box = $('afterBox'), A = S.after;
+  const key = A ? `${A.until}` : '';
+  const on = !!A && S.status === 'playing' && !S.myBattle && !S.own && band && !band.battle && afterSeen !== key && now() < A.until && (A.battles.length || (S.regroup || []).some((x) => x.reach));
+  box.classList.toggle('hidden', !on);
+  if (!on) return;
+  const opts = new Map((S.regroup || []).map((x) => [x.id, x]));
+  const near = S.bands.filter((b) => b.id !== band.id && opts.get(b.id)?.reach);
+  const next = band.late || S.me.lateUntil ? 'You missed planning with the class. Plan your own move now, after this.'
+    : isCouncil() ? 'Plan your move with the class now.'
+    : S.phase === 'crystal' && S.stage === 'march' ? 'The class is marching. You plan your next move with the class.'
+    : 'You plan your next move with the class. If your battle ran long, you get at least 2 steps.';
+  const what = (B) => B.kind === 'camp' ? CAMPS[B.node]?.name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'The Crimson Warlord' : B.kind === 'defend' ? 'Defending against the Crimson Host' : 'The Crimson Host';
+  setHTML(box, `<div class="eyebrow">YOUR BATTLE IS OVER</div><h3>${A.won ? 'Victory! What next?' : 'What next?'}</h3>
+    ${A.battles.length ? `<div class="af-sec"><div class="af-h">JOIN A BATTLE THAT IS STILL ON <small>Ends in <b data-until="${A.until}">${gameSecondsLeft(A.until)}</b>s</small></div>
+      <p class="af-what">You fight from where you stand, and your banner stays here. While your pair answers right, their warband hits harder and takes less damage.</p>
+      ${A.battles.map((B) => { const hp = B.enemies.reduce((a, e) => a + Math.max(0, e.hp), 0), max = B.enemies.reduce((a, e) => a + e.max, 0) || 1;
+        return `<div class="af-battle"><img class="af-foe" src="${sprite(B.enemies.find((e) => e.hp > 0)?.type || B.enemies[0].type)}" alt="">
+        <div class="af-info"><b>${esc(what(B))} · ${esc(nodeName(B.node))}</b><small>${B.status === 'gather' ? 'Getting ready' : `Question ${B.qNo} of ${B.limit}`} · ${B.pairs.length} pair${B.pairs.length === 1 ? '' : 's'} fighting${B.helpers ? ` · ${B.helpers} joined` : ''}</small>
+          <div class="af-faces">${B.pairs.map((p) => `<img src="${portrait(p.char)}" alt="" title="Pair ${p.no}" style="--c:${charColor(p.char)}">`).join('')}</div>
+          <div class="hpbar"><i style="width:${(hp / max) * 100}%"></i></div></div>
+        <button type="button" class="btn crimson af-go" data-reinforce="${B.id}">JOIN BATTLE</button></div>`; }).join('')}</div>` : ''}
+    ${near.length ? `<div class="af-sec"><div class="af-h">OR JOIN A WARBAND <small>A warband is pairs moving and fighting together.</small></div>${near.map((b) => bandCard(b, opts.get(b.id), true)).join('')}</div>` : ''}
+    <p class="af-next">${esc(next)}</p>
+    <div class="af-btns"><button type="button" class="btn" data-after="close">NOT NOW</button></div>`);
+}
+$('afterBox').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.reinforce) socket.emit('twJoinBattle', { battleId: b.dataset.reinforce });
+  else if (b.dataset.join) joinBand(b.dataset.join);
+  else if (b.dataset.unjoin) { socket.emit('twJoinBand', { bandId: null }); return; }
+  else if (b.dataset.after) socket.emit('twAfterDone');
+  afterSeen = S.after ? `${S.after.until}` : ''; render();
+});
 
 function renderQuestion() {
   const o = S.own;
@@ -519,7 +648,7 @@ function renderQuestion() {
     setHTML($('qdHead'), `<div class="eyebrow">${S.stage === 'quiz' ? 'LAST QUESTIONS BEFORE YOUR MOVE' : 'WHILE THE ENEMY MOVES'} · QUESTION ${n} OF 3</div><div class="qd-title">Earn steps and coins</div>
       <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer gives your pair <b>1 step</b> (up to 2 from each of you) and you <b>20 coins</b>. All 3 right: <b>+20 bonus</b>. Your next move: <b>${ap} step${ap === 1 ? '' : 's'}</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
   } else setHTML($('qdHead'), `<div class="eyebrow" style="color:var(--rose)">WAR CRY</div><div class="qd-title">Cheer on the battle${battle ? ` at ${esc(nodeName(battle.node))}` : ''}</div><div class="qd-mp"><span>Every right answer hits the enemy there.</span></div>`);
-  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? `Correct! A step for your pair and +20 coins${o.result.bonus ? `, plus +${o.result.bonus} bonus` : ''}.` : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
+  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? `Correct! A step for your pair and +20 coins${o.result.bonus ? `, plus +${o.result.bonus} bonus` : ''}.${o.result.cheer != null ? ` It also cheered on the battle at ${nodeName(o.result.cheer)}.` : ''}` : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
   card.show({
     q: o.question, tag: o.kind === 'muster' ? 'EARN STEPS' : o.kind === 'quiz' ? (o.bonus ? 'BONUS' : 'BEFORE YOU MOVE') : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
     note: o.retry ? '<b>↺ BACK AGAIN</b> You got this one wrong earlier. Read it carefully.' : '',
@@ -529,8 +658,8 @@ function renderQuestion() {
 
 function renderBattle() {
   const B = S.status === 'ended' ? null : S.myBattle;
-  if (arena.feed(S.status === 'ended' ? { ...S, myBattle: null } : S)) { $('battle').classList.add('hidden'); bcard.hide(); return; }    // the fight itself is on the Arena's battle screen
-  if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; if (cinema) { skipTheatre(); cinema = false; } return; }
+  if (arena.feed(S.status === 'ended' ? { ...S, myBattle: null } : S)) { $('battle').classList.add('hidden'); bcard.hide(); placeGatherStack(false); return; }    // the fight itself is on the Arena's battle screen
+  if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; placeGatherStack(false); if (cinema) { skipTheatre(); cinema = false; } return; }
   $('battle').classList.remove('hidden');
   const defend = B.kind === 'defend';
   const what = B.kind === 'camp' ? CAMPS[B.node].name : B.kind === 'gate' ? 'The gate guardian' : B.kind === 'boss' ? 'The Crimson Warlord' : defend ? 'The Crimson Host attacks!' : 'The Crimson Host';
@@ -565,6 +694,7 @@ function renderBattle() {
   // while the battle gathers, each pair picks the monster it will fight (with one monster there is nothing to pick)
   const gathering = B.status === 'gather', mine = B.me?.target, pick = gathering && B.enemies.filter((e) => e.hp > 0).length > 1;
   $('battle').classList.toggle('gathering', gathering);
+  placeGatherStack(gathering);
   setHTML($('bFoes'), (pick ? `<div class="foe-pick-h">PICK YOUR MONSTER <small>Each pair fights one monster. If you do not pick, you are given the one with the fewest pairs.</small></div>` : '')
     + B.enemies.map((e, i) => `<div class="foe ${e.hp <= 0 ? 'down' : ''} ${pick ? 'pickable' : ''} ${mine === i ? 'mine' : ''} ${e.wave ? 'wave' : ''}">
       ${pick ? `<img src="${sprite(e.type)}" alt="">` : ''}<span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}${!gathering && e.wave ? ' <em class="front">FIGHTING</em>' : ''}</span>
@@ -611,6 +741,18 @@ function renderBattle() {
     setHTML($('bReveal'), `${you} The answer was <b>${'ABCD'[right]}. ${esc(rd.choices[right])}</b>${rd.explain ? `<br>${esc(rd.explain)}` : ''}<br>${act}<b>${X(rd.hits)}</b> damage · the Crimson hit back for <b>${X(rd.counterTotal)}</b>`);
     $('bReveal').classList.remove('hidden');
   } else $('bReveal').classList.add('hidden');
+}
+
+// While a battle gathers, the messages (a warband join, a tip) stack in one column over the left of the stage, clear of
+// the PICK YOUR MONSTER panel on the right
+function placeGatherStack(on) {
+  document.body.classList.toggle('b-gathering', !!on);
+  if (!on) return;
+  const st = $('bStage').getBoundingClientRect(), foes = $('bFoes').getBoundingClientRect();
+  const right = foes.width ? foes.left - 16 : st.right - 16;
+  document.body.style.setProperty('--gTop', `${Math.round(st.top + 10)}px`);
+  document.body.style.setProperty('--gLeft', `${Math.round(st.left + 10)}px`);
+  document.body.style.setProperty('--gW', `${Math.max(240, Math.round(Math.min(560, right - st.left - 20)))}px`);
 }
 
 // The move menu, as in the Arena: STRIKE, SKILLS, ULTIMATE and ITEMS, after a right answer on your turn
@@ -690,7 +832,7 @@ $('ending').addEventListener('click', (e) => {
 setInterval(() => {
   if (!S || S.status !== 'playing' || S.paused) return;     // paused: the clocks stand still
   if (showClock() !== clockOn) render();
-  $('phaseClock').textContent = mmss(gameSecondsLeft(S.phaseEndsAt));
+  $('phaseClock').textContent = mmss(gameSecondsLeft(clockEnds()));
   document.querySelectorAll('[data-until]').forEach((el) => { el.textContent = gameSecondsLeft(+el.dataset.until); });
   councilWatch();
 }, 250);
@@ -835,8 +977,9 @@ function stageTip() {
   }
   if (S.phase === 'crimson' && S.own) return t('t-prep', 'Answer questions while the enemy moves. Each right answer gives your pair a step for its move and earns you 20 coins.');
   if (S.stage === 'quiz') return t('t-quiz', 'Finish your 3 questions. Planning opens in a few seconds.');
-  if (isCouncil() && band?.pairs.length > 1) return t('t-band', 'A warband is pairs moving together. One pair suggests a route and the others agree.');
-  if (isCouncil()) return t('t-council', 'Tap a glowing stop to plan a route. The number is how many steps it costs. Then tap SEND ROUTE.');
+  if (isPlanning() && band?.pairs.length > 1) return t('t-band', 'A warband is pairs moving and fighting together. One pair suggests a route and the others agree.');
+  if (isPlanning() && (S.me.picks?.need || 1) > 1) return t('t-council2', 'Tap a glowing stop to plan a route, then SEND ROUTE. Your partner taps the same route to agree. If time runs out, the route drawn first is sent.');
+  if (isPlanning()) return t('t-council', 'Tap a glowing stop to plan a route. The number is how many steps it costs. Then tap SEND ROUTE. If time runs out, the route you drew is sent.');
   if (S.own?.kind === 'warcry') return t('t-cry', 'While others fight, War Cry questions come to you. Right answers hit the enemy in their battle.');
   if (band?.status === 'resume') return t('t-resume', 'You won! Carry on along your route, or stay here.');
   if (S.phase === 'crystal' && S.stage === 'march') return t('t-march', 'Your warband walks its route one stop at a time. Walking onto an enemy starts a battle.');
@@ -870,6 +1013,9 @@ function renderCoach() {
   } else { coachBox.className = 'coach hidden'; coachKey = ''; coachSpot = null; }
   // a tip is shown for the first time a stage appears only: once that stage is over, it does not come back
   if (!tip && tipShown) { tipsSeen.add(tipShown); saveTips(); tipShown = ''; }
+  // in the Arena's battle screen the coach sits just under the enemy HP list at the top right, never over it
+  const hudFoe = battleOpen && coachBox.classList.contains('in-battle') ? inFrame('#hudFoe')() : null;
+  coachBox.style.top = hudFoe && innerWidth > innerHeight ? `${Math.round(hudFoe.top + hudFoe.height + 10)}px` : '';
   // in a battle the question panels make room for the coach in the corner
   try { frameDoc()?.documentElement.classList.toggle('coach-squeeze', !coachBox.classList.contains('hidden') && coachBox.classList.contains('in-battle')); } catch {}
   placeRing();
@@ -906,7 +1052,13 @@ const notesSeen = new Set(); let notesPrimed = false, noteT = 0;
 function renderNotes() {
   const list = S.status === 'playing' ? S.me.notes || [] : [], box = $('notice');
   if (S.status !== 'playing') { box.classList.add('hidden'); return; }
+  // one thing at a time: the YOUR BATTLE IS OVER choice comes first, and the message waits until it is closed
+  if (!$('afterBox').classList.contains('hidden')) { box.classList.add('hidden'); box.dataset.id = ''; return; }
   if (!notesPrimed) { for (const n of list) if (Date.now() + offset - n.at > 15000) notesSeen.add(n.id); notesPrimed = true; }
+  // where a route went is old news after a while (a pair that was in a battle meanwhile does not see it a turn late)
+  for (const x of list) if (x.kind === 'route' && now() - x.at > 12000 / speed) notesSeen.add(x.id);
+  // a join announced in the battle's own strip is not shown again here
+  if (arena.open || (S.myBattle && S.myBattle.status !== 'gather')) for (const x of list) if (x.kind === 'reinforce') notesSeen.add(x.id);
   const n = list.find((x) => !notesSeen.has(x.id));
   if (!n) { if (!box.dataset.id || !list.some((x) => String(x.id) === box.dataset.id)) box.classList.add('hidden'); return; }
   if (box.dataset.id === String(n.id) && !box.classList.contains('hidden')) return;
@@ -928,7 +1080,7 @@ $('notice').addEventListener('click', (e) => {
 // (sent for the student if the time runs out), the phone shows the time left and closes itself near the end
 let draftSent = '';
 function syncDraft() {
-  if (!isCouncil()) { draftSent = ''; return; }
+  if (!isPlanning()) { draftSent = ''; return; }
   const k = routeKey(draft || []);
   if (k === draftSent) return;
   draftSent = k; socket.emit('twDraft', { route: draft || [] });

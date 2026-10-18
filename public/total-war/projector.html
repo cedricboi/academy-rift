@@ -136,7 +136,7 @@ function render() {
   $('pSub').innerHTML = P.paused ? `<span class="paused">Paused by ${esc(P.paused.by)}. Everything waits.</span>`
     : esc(P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares.`
       : P.phase === 'crystal' ? (P.stage === 'quiz' ? `The class finishes its questions${P.quiz ? `: ${P.quiz.done} of ${P.quiz.of} done` : ''}.` : P.stage === 'council' ? 'Each warband plans its route.' : 'The warbands march.')
-      : P.phase === 'battles' ? 'The last battles of the turn.' : '');
+      : P.phase === 'battles' ? 'The battles of this turn are being fought.' : '');
   $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
   $('gateText').textContent = P.gate.broken ? (P.warlord.out ? `Warlord ${showHp(P.warlord.hp)} / ${showHp(P.warlord.max)}` : 'Broken') : `Unbroken · ${showHp(P.gate.hp)} / ${showHp(P.gate.max)}`;
   $('paused').classList.toggle('hidden', !(P.status === 'playing' && P.paused));
@@ -158,7 +158,7 @@ function render() {
       : B.status === 'choose' ? `Question ${B.qNo} of ${B.limit}. <b>${esc(B.choose?.name || '')}</b> is picking a move.`
       : B.status === 'result' && rd ? `The answer was <b>${'ABCDEF'[rd.answer]}. ${esc(rd.choices?.[rd.answer] ?? '')}</b> ${X(rd.hits)} damage. The Crimson hit back for ${X(rd.counterTotal)}.`
       : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'won' ? '<b>Victory!</b>' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The warbands held!' : 'The Crimson Host held.') : '';
-    $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}</div><h3>${esc(what)}</h3>`;
+    $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}</div><h3>${esc(what)}</h3>${P.phase !== 'battles' && B.status !== 'over' && B.status !== 'gather' ? '<div style="font:600 17px \'Rift Body\',sans-serif;color:#ffd0d6;margin-top:2px">This battle goes on while the class carries on with its turn.</div>' : ''}`;
     const pairs = B.bands.flatMap((b) => b.pairs);
     const stripOn = strip.render(B, null, { delay: 1600 });
     box.classList.toggle('with-strip', stripOn);
@@ -166,7 +166,7 @@ function render() {
     const later = B.enemies.filter((e) => !e.wave && e.hp > 0);
     $('pbFoot').innerHTML = `<div class="pb-res">WARBAND HP<div class="rb"><i style="width:${B.resolveMax ? Math.max(0, B.resolve / B.resolveMax) * 100 : 100}%"></i></div>${B.resolveMax ? `${X(Math.max(0, B.resolve))} / ${X(B.resolveMax)}` : ''}</div>
       ${stripOn ? '' : `<div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>`}
-      <div class="status">${st}${stripOn && later.length ? ` Still to come: ${esc(later.map((e) => enemyName(e.type)).join(', '))}.` : ''}${B.cheers.length ? ` War Cries from ${[...new Set(B.cheers.map((c) => 'Pair ' + c.pair))].join(', ')}.` : ''}</div>
+      <div class="status">${st}${B.reinforce && !stripOn ? ` Pair${B.reinforce.pairs.length > 1 ? 's' : ''} ${B.reinforce.pairs.join(', ')} joined to help.` : ''}${stripOn && later.length ? ` Still to come: ${esc(later.map((e) => enemyName(e.type)).join(', '))}.` : ''}${B.cheers.length ? ` War Cries from ${[...new Set(B.cheers.map((c) => 'Pair ' + c.pair))].join(', ')}.` : ''}</div>
       ${B.status === 'result' && rd?.explain ? `<div class="explain">${esc(rd.explain)}</div>` : ''}`;
     box.classList.remove('hidden');
     if (shownBattle !== B.id) { shownBattle = B.id; lastRound = 0; stage.skip(); skipTheatre(); stage.preload(pairs.map((p) => p.char), B.enemies.map((e) => e.type)); prepareBattle(B, [...new Set(pairs.map((p) => p.char))]); }

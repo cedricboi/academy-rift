@@ -18,10 +18,10 @@ const short = (type) => { const n = enemyName(type).replace(/^(The |Crimson |Rif
 export function createPairStrip(host, { onPick = null, projector = false } = {}) {
   const el = document.createElement('div');
   el.className = `tws hidden${projector ? ' proj' : ''}`;
-  el.innerHTML = '<div class="tws-foes"></div><div class="tws-pairs"></div><div class="tws-pops" aria-hidden="true"></div><div class="tws-note hidden" role="status"></div>';
+  el.innerHTML = '<div class="tws-rf hidden"></div><div class="tws-foes"></div><div class="tws-pairs"></div><div class="tws-pops" aria-hidden="true"></div><div class="tws-note hidden" role="status"></div>';
   host.appendChild(el);
-  const foesEl = el.querySelector('.tws-foes'), pairsEl = el.querySelector('.tws-pairs'), popsEl = el.querySelector('.tws-pops'), noteEl = el.querySelector('.tws-note');
-  let lastRound = 0, battleId = null, noteKey = '', noteT = 0, htmlF = '', htmlP = '';
+  const rfEl = el.querySelector('.tws-rf'), foesEl = el.querySelector('.tws-foes'), pairsEl = el.querySelector('.tws-pairs'), popsEl = el.querySelector('.tws-pops'), noteEl = el.querySelector('.tws-note');
+  let lastRound = 0, battleId = null, noteKey = '', noteT = 0, htmlF = '', htmlP = '', htmlR = '', joinSeen = 0;
   el.addEventListener('click', (e) => { const b = e.target.closest('[data-engage]'); if (b && onPick && !b.disabled) onPick(+b.dataset.engage); });
 
   function pop(no, n) {
@@ -44,7 +44,17 @@ export function createPairStrip(host, { onPick = null, projector = false } = {})
     const on = !!B && Array.isArray(B.pairs) && B.pairs.length > 0 && B.status !== 'gather';
     el.classList.toggle('hidden', !on);
     if (!on) { battleId = null; return false; }
-    if (battleId !== B.id) { battleId = B.id; lastRound = B.round?.at || 0; noteKey = ''; popsEl.innerHTML = ''; }
+    if (battleId !== B.id) { battleId = B.id; lastRound = B.round?.at || 0; noteKey = ''; popsEl.innerHTML = ''; joinSeen = Math.max(0, ...(B.reinforce?.joins || []).map((j) => j.at)); }
+    // pairs that joined from elsewhere (reinforcements): the bonus their right answers gave on the last question
+    const R = B.reinforce;
+    const hr = R ? `<b>REINFORCED</b>${R.last?.pairs ? `<span>+${Math.round(R.last.atk * 100)}% attack</span><span>−${Math.round(R.last.guard * 100)}% damage taken</span>`
+      : `<span>${R.pairs.map((n) => `Pair ${n}`).join(', ')} joined</span><small>Their right answers: more attack, less damage taken</small>`}` : '';
+    if (hr !== htmlR) { htmlR = hr; rfEl.innerHTML = hr; }
+    rfEl.classList.toggle('hidden', !R);
+    rfEl.classList.toggle('on', !!R?.last?.pairs);
+    // a pair joined the battle: say so once, to everyone in it
+    const fresh = (R?.joins || []).filter((j) => j.at > joinSeen);
+    if (fresh.length) { joinSeen = Math.max(...fresh.map((j) => j.at)); const j = fresh.at(-1); note(j.no === meNo ? 'You joined this battle! Your right answers make the warband hit harder and take less damage.' : `Pair ${j.no} joined your battle! While they answer right, you hit harder and take less damage.`, `join:${j.at}`); }
     const field = (B.targetable || []).filter((i) => B.enemies[i]?.hp > 0);
     const mine = B.pairs.find((p) => p.no === meNo);
     const pick = !projector && field.length > 1 && B.status !== 'over';
@@ -67,10 +77,10 @@ export function createPairStrip(host, { onPick = null, projector = false } = {})
     const hp2 = list.map((p) => {
       const me = p.no === meNo, [ic, word] = me && p.state === 'turn' ? ['★', B.striker?.pid === mePid ? 'Your turn' : 'Partner\'s turn'] : STATE[p.state] || STATE.ready;
       const foe = Number.isInteger(p.target) ? B.enemies[p.target] : null;
-      return `<div class="tws-card ${me ? 'me' : ''} st-${p.state} ${p.hp <= 0 ? 'ko' : ''}" data-no="${p.no}" title="Pair ${p.no}: ${esc(p.names.join(' & '))}">
+      return `<div class="tws-card ${me ? 'me' : ''} ${p.guest ? 'guest' : ''} st-${p.state} ${p.hp <= 0 ? 'ko' : ''}" data-no="${p.no}" title="Pair ${p.no}: ${esc(p.names.join(' & '))}${p.guest ? ' (joined to help)' : ''}">
         <img class="tws-face" src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">
         <div class="tws-body">
-          <div class="tws-top"><b>${me ? 'YOU' : `P${p.no}`}</b><span class="tws-st" title="${word}">${ic ? `<i>${ic}</i>` : ''}<span class="w">${word}</span></span></div>
+          <div class="tws-top"><b>${me ? 'YOU' : `P${p.no}`}${p.guest ? '<em class="tws-g" title="Joined this battle to help">JOINED</em>' : ''}</b><span class="tws-st" title="${word}">${ic ? `<i>${ic}</i>` : ''}<span class="w">${word}</span></span></div>
           <div class="tws-hp ${hp(p) < 34 ? 'low' : ''}"><i><b style="width:${hp(p)}%"></b></i><em>${X(p.hp)}</em></div>
           <div class="tws-bot">${foe ? `<img class="tws-mon" src="${face(foe.type)}" alt="" title="${esc(enemyName(foe.type))}"><span class="tws-mn">${esc(short(foe.type))}</span>` : '<span class="tws-mn">-</span>'}<span class="tws-dmg" title="Damage dealt this battle">⚔ ${X(p.dealt)}</span></div>
         </div></div>`;
@@ -83,8 +93,8 @@ export function createPairStrip(host, { onPick = null, projector = false } = {})
       const hits = Object.entries(r.dealt || {}).map(([no, d]) => [+no, X(d)]).filter(([, n]) => n > 0);
       setTimeout(() => { for (const [no, n] of hits) pop(no, n); }, delay);
     }
-    // your monster fell (or you were given one): say so once
-    if (mine?.moved && !projector) note(mine.moved.text, `${B.id}:${mine.moved.at}`);
+    // your monster fell (or you were given one): say so once (a join just announced is shown first)
+    if (mine?.moved && !projector && !fresh.length && Date.now() - joinSeen > 4500) note(mine.moved.text, `${B.id}:${mine.moved.at}`);
     return true;
   }
   return { el, render, hide: () => { el.classList.add('hidden'); battleId = null; }, get height() { return el.classList.contains('hidden') ? 0 : el.offsetHeight; } };

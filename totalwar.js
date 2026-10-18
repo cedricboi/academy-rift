@@ -14,6 +14,7 @@ import {
   JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, PREPARE_SECONDS, WARCRY_HIT, SUPPORT_HIT, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
   alongCap, FORTRESS_GUARDS, WARCRY_CAP, WARCRY_COOLDOWN, PREP_AP_EACH, MUSTER_MP_CAP, LATE_PREP_SECONDS, progressResult, TW_ITEMS, showHp,
   TOPUP_SECONDS, LATE_TOPUP_SECONDS, RESUME_SECONDS, assignTargets, splitCounter, PREP_COINS,
+  REINFORCE_SECONDS, REINFORCE_MAX, reinforceBonus, REGROUP_STEPS, LATE_STEPS, LATE_PLAN_SECONDS, reachable, BATTLE_WAIT_SECONDS,
 } from "./public/total-war/rules.js";
 
 const token = (n = 18) => randomBytes(n).toString("base64url");
@@ -251,7 +252,7 @@ export function setupTotalWar(deps) {
     for (const u of S.units.values()) { u.moved = 0; if (S.turn > 1) u.tutorial = false; }
     for (const [n, c] of Object.entries(S.camps)) if (!c.alive && c.returnTurn <= S.turn) { c.alive = true; c.hp = CAMPS[n].hp; say(S, `${CAMPS[n].name} has returned to ${nodeName(+n)}.`); }
     for (const st of S.students.values()) { st.musterThisTurn = 0; st.prepRight = 0; st.prep = 0; if (!st.own || st.own.kind !== "muster") st.own = null; }
-    for (const p of S.pairs.values()) p.bank = 0;
+    for (const p of S.pairs.values()) { p.bank = 0; if (p.joinIntent && S.turn > (p.intentTurn || 0) + 1) p.joinIntent = null; }
     for (const b of S.bands.values()) { b.done = true; b.votes = {}; }
     say(S, `Turn ${S.turn}. The Crimson Host moves.`, "crimson");
     S.dirty = true;
@@ -273,7 +274,11 @@ export function setupTotalWar(deps) {
   // the steps (AP) each pair and warband has for this move, from the right answers while preparing
   function setMoveAP(S) {
     const buffs = buffOn(S);
-    for (const p of S.pairs.values()) { p.mp = pairMP(p.bank || 0, buffs); p.bank = 0; }
+    for (const p of S.pairs.values()) {
+      p.mp = pairMP(p.bank || 0, buffs); p.bank = 0;
+      // its battle ran on while the class answered its preparing questions: it could not earn steps, so it gets the default
+      if (p.missedPrep === S.turn) p.mp = Math.max(p.mp, LATE_STEPS + (buffs.mp ? 1 : 0));
+    }
     for (const st of S.students.values()) st.prep = 0;
     for (const b of S.bands.values()) {
       // a warband travels with the average AP of its pairs (rounded), so one slow pair does not hold everyone back
@@ -291,7 +296,9 @@ export function setupTotalWar(deps) {
     // a preparing question still open when the top-up ends is put away (not counted)
     for (const st of S.students.values()) if (st.own?.kind === "quiz" || (st.own?.kind === "muster" && !st.own.result)) st.own = null;
     setMoveAP(S);
-    for (const b of S.bands.values()) { b.props = {}; b.drafts = {}; b.plan = null; b.path = null; b.interrupted = false; b.arrived = false; b.held = false; }
+    for (const b of S.bands.values()) { b.props = {}; b.drafts = {}; b.plan = null; b.path = null; b.interrupted = false; b.arrived = false; b.held = false; b.lateUntil = 0; }
+    for (const p of S.pairs.values()) { p.picks = {}; p.drafts = {}; }
+    for (const b of [...S.bands.values()]) if (S.bands.has(b.id)) joinIntents(S, b);
     say(S, "Plan your move! Agree your routes, order food, then march together.", "crystal");
     S.dirty = true;
   }
@@ -328,9 +335,13 @@ export function setupTotalWar(deps) {
     if (spent > b.mp) return `Your warband can travel ${b.mp} step${b.mp === 1 ? "" : "s"} this move.`;
     return null;
   }
+  // routes can be planned in the War Council, and by a warband whose battle ran past it (while the others march)
+  const planOpen = (S, b) => (S.phase === "crystal" && S.stage === "council") || (!!b?.lateUntil && Date.now() < b.lateUntil);
+  const planError = (S, b) => (b.battle ? "Your warband is in a battle." : planOpen(S, b) ? null
+    : S.phase === "crystal" && S.stage === "quiz" ? "Finish your preparing questions first. Planning opens in a few seconds." : "Routes are planned in Plan your move (the War Council).");
   function proposeRoute(S, pairId, route) {
     const b = bandOf(S, pairId); if (!b) return "You are not on the map yet.";
-    if (S.phase !== "crystal" || S.stage !== "council") return S.stage === "quiz" ? "Finish your preparing questions first. Planning opens in a few seconds." : "Routes are planned in Plan your move (the War Council).";
+    if (!planOpen(S, b)) return planError(S, b);
     if (b.battle) return "Your warband is in a battle.";
     const err = routeError(S, b, route); if (err) return err;
     (b.props ||= {})[pairId] = route === "hold" ? "hold" : route.slice();
@@ -339,13 +350,47 @@ export function setupTotalWar(deps) {
     return null;
   }
   // a route a pair has drawn on the map but not sent yet (sent for them if the planning time runs out)
-  function draftRoute(S, pairId, route) {
-    const b = bandOf(S, pairId); if (!b || S.phase !== "crystal" || S.stage !== "council" || b.battle) return null;
-    b.drafts ||= {};
-    if (!Array.isArray(route) || route.length < 2) { delete b.drafts[pairId]; return null; }
+  // Each partner's drawn route is kept with the time it was first drawn: if the partners never agree, the one drawn first
+  // is sent when planning ends.
+  function draftRoute(S, st, route) {
+    const p = pairOf(S, st.pid), b = p && bandOf(S, p.id); if (!b || !planOpen(S, b) || b.battle) return null;
+    p.drafts ||= {};
+    if (!Array.isArray(route) || route.length < 2) { delete p.drafts[st.pid]; return null; }
     const r = route.map((n) => Math.round(+n));
     if (routeError(S, b, r)) return null;                          // a draft that cannot be marched is simply not kept
-    b.drafts[pairId] = r; return null;
+    p.drafts[st.pid] = { route: r, at: p.drafts[st.pid]?.at || Date.now() }; return null;
+  }
+  // Both partners agree the pair's route: each taps it. The pair's route goes to its warband (or is sent, for a pair
+  // alone) once every partner still playing has tapped the same one. A bot partner agrees by itself, and a partner who
+  // is not connected does not hold the pair up.
+  const humansOf = (S, p) => p.members.filter((m) => { const s = S.students.get(m); return s && !s.bot && isConnected(s); });
+  function pickRoute(S, st, route) {
+    const p = pairOf(S, st.pid); if (!p) return "Join a pair first.";
+    const b = bandOf(S, p.id); if (!b) return "You are not on the map yet.";
+    const perr = planError(S, b); if (perr) return perr;
+    if (route !== "hold") { if (!Array.isArray(route)) return "Pick a route that starts at your banner."; route = route.map((n) => Math.round(+n)); }
+    const err = routeError(S, b, route); if (err) return err;
+    p.picks ||= {};
+    const drawn = p.drafts?.[st.pid], prev = p.picks[st.pid];
+    const at = prev && routeKey(prev.route) === routeKey(route) ? prev.at : drawn && routeKey(drawn.route) === routeKey(route) ? drawn.at : Date.now();
+    p.picks[st.pid] = { route: route === "hold" ? "hold" : route.slice(), at };
+    const need = humansOf(S, p);
+    const keys = need.map((m) => (p.picks[m] ? routeKey(p.picks[m].route) : null));
+    if (need.length <= 1 || keys.every((k) => k && k === keys[0])) return proposeRoute(S, p.id, route);
+    // the partners have not agreed (yet): the pair's route is not sent until they do
+    if (b.props?.[p.id] !== undefined) { delete b.props[p.id]; b.plan = agreedPlan(S, b); }
+    S.dirty = true; return null;
+  }
+  // what a pair sends when planning ends without the partners agreeing: the route drawn first (tapped or only drawn)
+  function pairFallback(S, b, x) {
+    const p = S.pairs.get(x); if (!p) return null;
+    const ok = (r) => r === "hold" || (Array.isArray(r) && r.length > 1 && r[0] === b.node && !routeError(S, b, r));
+    const list = [...Object.values(p.picks || {}), ...Object.values(p.drafts || {})].filter((c) => ok(c.route)).sort((a, c) => a.at - c.at);
+    if (list.length) return list[0].route === "hold" ? "hold" : list[0].route.slice();
+    // a pair that set off to join a warband marches towards it
+    const t = intentBand(S, p);
+    if (t && t.node !== b.node) { const r = routeTowards(S, b, t.node); if (r.length > 1 && !routeError(S, b, r)) return r; }
+    return null;
   }
   // the longest affordable route towards a stop along the fewest roads, ending at anything that must be fought
   function routeTowards(S, b, target) {
@@ -363,28 +408,37 @@ export function setupTotalWar(deps) {
   function startMarch(S) {
     S.stage = "march"; S.phaseEndsAt = Date.now() + ms(S.settings.crystalSeconds);
     S.marchStartedAt = Date.now();
-    const now = Date.now(); let k = 0;
+    let k = 0;
     for (const b of S.bands.values()) {
-      if (b.battle) continue;
-      // a route a pair drew on the map but did not send yet is sent for them when the planning time ends
-      let drafted = false;
-      if (!b.plan) for (const x of b.pairs) {
-        const d = b.drafts?.[x];
-        if (b.props?.[x] === undefined && Array.isArray(d) && d.length > 1 && !routeError(S, b, d)) { (b.props ||= {})[x] = d.slice(); drafted = true; }
-      }
-      const agreed = !!b.plan, sent = Object.keys(b.props || {}).length > 0;
-      const plan = b.plan || agreedPlan(S, b) || majorityPlan(S, b);
-      b.plan = plan; b.held = plan === "hold"; b.lastDefeat = null; b.lastDefeatAt = null; b.rest = null; b.resumeUntil = 0;
-      b.path = plan === "hold" || routeError(S, b, plan) ? [] : plan.slice(1);
-      b.nextAt = now + ms(0.3 + 0.1 * k++); b.done = !b.path.length;
-      const to = b.path.length ? nodeName(b.path.at(-1)) : null, here = nodeName(b.node);
-      const text = to ? (drafted && !agreed ? `Time's up, so the route you planned was sent. You march to ${to}.` : `Route sent: you march to ${to}.`)
-        : sent && plan === "hold" ? `You chose to stay at ${here}.` : `Time's up: you stayed at ${here}.`;
-      for (const x of b.pairs) note(S, x, text, { kind: "route", go: !!to });
-      if (b.held) say(S, `${b.pairs.map((x) => pairLabel(S, S.pairs.get(x))).join(", ")} ${b.pairs.length > 1 ? "hold" : "holds"} at ${nodeName(b.node)}.`, "crystal");
+      if (!b.battle) { launchBand(S, b, k++); continue; }
+      // still fighting: this move is owed to it, and it plans it by itself when its battle ends
+      for (const x of b.pairs) { const p = S.pairs.get(x); if (p) p.owed = true; }
     }
     say(S, "The warbands march!", "crystal");
     S.dirty = true;
+  }
+  // a warband sets off on the route it agreed (or, if time ran out, the route drawn first, else the majority)
+  function launchBand(S, b, k = 0) {
+    const now = Date.now();
+    b.lateUntil = 0;
+    // a route a pair drew on the map but did not send yet is sent for them when the planning time ends
+    let drafted = false;
+    if (!b.plan) for (const x of b.pairs) {
+      if (b.props?.[x] !== undefined) continue;
+      const r = pairFallback(S, b, x);
+      if (r) { (b.props ||= {})[x] = r; drafted = true; }
+    }
+    const agreed = !!b.plan, sent = Object.keys(b.props || {}).length > 0;
+    const plan = b.plan || agreedPlan(S, b) || majorityPlan(S, b);
+    b.plan = plan; b.held = plan === "hold"; b.lastDefeat = null; b.lastDefeatAt = null; b.rest = null; b.resumeUntil = 0;
+    b.path = plan === "hold" || routeError(S, b, plan) ? [] : plan.slice(1);
+    b.nextAt = now + ms(0.3 + 0.1 * k); b.done = !b.path.length;
+    const to = b.path.length ? nodeName(b.path.at(-1)) : null, here = nodeName(b.node);
+    const text = to ? (drafted && !agreed ? `Time's up, so the route you planned was sent. You march to ${to}.` : `Route sent: you march to ${to}.`)
+      : sent && plan === "hold" ? `You chose to stay at ${here}.` : `Time's up: you stayed at ${here}.`;
+    for (const x of b.pairs) note(S, x, text, { kind: "route", go: !!to });
+    if (b.held) say(S, `${b.pairs.map((x) => pairLabel(S, S.pairs.get(x))).join(", ")} ${b.pairs.length > 1 ? "hold" : "holds"} at ${nodeName(b.node)}.`, "crystal");
+    for (const x of b.pairs) { const p = S.pairs.get(x); if (p) { p.picks = {}; p.drafts = {}; p.owed = false; } }
   }
   // one road for one marching banner; returns true when the march stops (a battle, or the route is done)
   function stepTo(S, b, to) {
@@ -393,6 +447,7 @@ export function setupTotalWar(deps) {
     const B = battleAt(S, to);
     if (B) { joinBattle(S, b.pairs[0], B.id); return true; }
     b.node = to; S.dirty = true; reached(S, to);
+    if (joinIntents(S, b)) return true;
     if (OUTPOSTS.includes(to) && !unitsAt(S, to).length && !S.rally.has(to)) { S.rally.add(to); say(S, `The class has taken ${nodeName(to)}. It is now a safe camp.`, "crystal"); }
     if (to === WATCHTOWER && !unitsAt(S, to).length && !S.towerTaken) { S.towerTaken = true; story(S, `${company(S, b)} climbed the watchtower and scouted the Crimson Host.`, to); }
     if (to === FORTRESS) { startBattle(S, b, S.gate.broken ? "boss" : "gate"); return true; }
@@ -425,6 +480,7 @@ export function setupTotalWar(deps) {
   function bandStatus(S, b) {
     if (!b.battle && b.resumeUntil && Date.now() < b.resumeUntil) return "resume";
     if (b.battle) return "battle";
+    if (b.lateUntil && Date.now() < b.lateUntil) return b.plan ? "committed" : Object.keys(b.props || {}).length ? "agreeing" : "planning";
     if (S.phase === "crystal" && S.stage === "quiz") return "quiz";
     if (S.phase === "crystal" && S.stage === "council") return b.plan ? "committed" : Object.keys(b.props || {}).length ? "agreeing" : "planning";
     if (S.phase === "crystal" && S.stage === "march") return b.path?.length ? "marching" : b.interrupted ? "interrupted" : b.held ? "holding" : "arrived";
@@ -434,7 +490,10 @@ export function setupTotalWar(deps) {
   }
   // the top-up is done when every student still playing has answered their 3 preparing questions and is not on one
   const prepDone = (S, st) => (st.musterThisTurn || 0) >= QUIZ_PER_MOVE && !(st.own?.kind === "muster" && !st.own.result);
-  const quizDone = (S) => [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st) || !!bandOf(S, st.pairId)?.battle);
+  const fightingNow = (S, st) => !!bandOf(S, st.pairId)?.battle;
+  const planningLate = (S, st) => (bandOf(S, st.pairId)?.lateUntil || 0) > Date.now();
+  const quizDone = (S) => [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
+  const liveBattles = (S) => [...S.battles.values()].filter((B) => B.status !== "over");
 
   // how: null (the Warlord fell) | ward | turns | time | progress (the teacher ended it) | teacher (the teacher declared the class the winner)
   function endGame(S, winner, how = null) {
@@ -451,7 +510,12 @@ export function setupTotalWar(deps) {
   }
   // a war that ends before the Warlord falls is judged on how far the class got (see progressResult in rules.js)
   const progressOf = (S) => progressResult({ gateHp: S.gate.hp, gateMax: S.gate.max, broken: S.gate.broken, warlordHp: S.warlord.hp, warlordMax: S.warlord.max });
-  function endByProgress(S, how) { endGame(S, progressOf(S).winner, how); }
+  function endByProgress(S, how) {
+    // a battle still being fought when the war ends: the damage it has dealt so far counts (nobody is beaten)
+    for (const B of liveBattles(S)) { if (S.status !== "playing") break; if (B.status === "choose" && B.pending) applyRound(S, B, { kind: "strike" }); finishBattle(S, B, B.enemies.every((e) => e.hp <= 0), true); }
+    if (S.status !== "playing") return;
+    endGame(S, progressOf(S).winner, how);
+  }
 
   // ------------------------------------------------------------------ the clock
   function tick(S) {
@@ -468,21 +532,30 @@ export function setupTotalWar(deps) {
     riderTick(S, now);
     // warband votes that have waited long enough
     for (const b of S.bands.values()) if (b.voteOpenedAt && now >= b.voteOpenedAt + ms(VOTE_SECONDS)) resolveVote(S, b);
-    // battles
-    for (const B of S.battles.values()) battleTick(S, B, now);
+    // battles (they go on through every stage of the turn; nobody waits for them)
+    for (const B of [...S.battles.values()]) battleTick(S, B, now);
+    if (S.status !== "playing") return flush(S);
+    // a pair still fighting while the class prepares cannot earn steps (it gets the default); one still fighting all
+    // through "Plan your move" plans its own move when its battle ends
+    const prep = S.phase === "crimson" || (S.phase === "crystal" && S.stage === "quiz");
+    if (prep) for (const b of S.bands.values()) if (b.battle) for (const x of b.pairs) { const p = S.pairs.get(x); if (p) p.missedPrep = S.turn; }
+    // a warband planning its own move (its battle ran past "Plan your move") sets off once it has agreed a route (or its
+    // time is up), and marches by itself whatever the class is doing
+    for (const b of [...S.bands.values()]) if (b.lateUntil && !b.battle && (b.plan || now >= b.lateUntil)) launchBand(S, b);
+    if (!(S.phase === "crystal" && S.stage === "march") && S.phase !== "battles") marchTick(S, now);
     botTick(S, now);
     // phase ends (in the training turn nothing ends by time: each stage waits until everyone is done, or Continue)
     const free = untimed(S), go = !!S.advance; S.advance = false;
     if (S.phase === "crimson") {
       if (free) {
-        const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st));
+        const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
         const open = [...S.students.values()].some((st) => st.own?.kind === "muster" && !st.own.result && isConnected(st));
         if (go || (S.teacherEnded && musterDone && !open)) { dropOpen(S); runOrders(S); startCrystal(S); }
         return flush(S);
       }
       // the class prepares for at most crimsonSeconds (30 s); it ends sooner once the teacher has ended the turn
       // and everyone has answered their preparing questions. A question still open carries on into the short top-up.
-      const musterDone = [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st));
+      const musterDone = [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
       if ((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
     } else if (S.phase === "crystal" && S.stage === "quiz") {
       if (quizDone(S) || go || (!free && now >= S.phaseEndsAt)) { dropOpen(S); openMoves(S); if (S.status !== "playing") return flush(S); }
@@ -492,18 +565,29 @@ export function setupTotalWar(deps) {
       if (S.launch || go || (!free && now >= S.phaseEndsAt) || (agreed && (free || now >= S.moveStartedAt + ms(STRATEGY_SECONDS)))) startMarch(S);
     } else if (S.phase === "crystal") {
       marchTick(S, now);
-      const marching = [...S.bands.values()].some((b) => (b.path?.length && !b.battle) || (b.resumeUntil && now < b.resumeUntil));
+      const marching = [...S.bands.values()].some((b) => (b.path?.length && !b.battle) || (b.resumeUntil && now < b.resumeUntil) || (b.lateUntil && now < b.lateUntil));
       // Grab-Ma is not waited for: the food lands in the bag whenever she arrives (even in a battle)
       if (!marching || now >= S.phaseEndsAt) {
-        for (const b of S.bands.values()) { if (!b.battle) b.done = true; if (!b.resumeUntil || now >= b.resumeUntil) b.path = null; }
-        if (S.battles.size) { S.phase = "battles"; S.phaseStartedAt = now; S.dirty = true; say(S, "The last battles of this turn are being fought."); }
+        for (const b of S.bands.values()) { if (!b.battle) b.done = true; if (!b.resumeUntil || now >= b.resumeUntil) b.path = null; b.lateUntil = 0; }
+        // The class waits for its battles for at most BATTLE_WAIT_SECONDS (War Cries come meanwhile). A battle that runs
+        // longer does not hold the class up: the next turn starts and it goes on (its pairs stay in it). The last turn
+        // (the war ends after it), the training turn and the tutorial wait for every battle.
+        const all = S.turn >= S.settings.turns || untimed(S) || tutorialHolds(S);
+        if (S.battles.size) {
+          S.phase = "battles"; S.phaseStartedAt = now; S.battlesUntil = all ? 0 : now + ms(BATTLE_WAIT_SECONDS); S.phaseEndsAt = S.battlesUntil || now; S.dirty = true;
+          say(S, S.turn >= S.settings.turns ? "The last battles of the war are being fought." : "The battles of this turn are being fought.");
+        }
         else if (!tutorialHolds(S)) startCrimson(S);
-        else if (S.phase !== "battles") { S.phase = "battles"; S.phaseStartedAt = now; S.dirty = true; }
+        else if (S.phase !== "battles") { S.phase = "battles"; S.phaseStartedAt = now; S.battlesUntil = 0; S.dirty = true; }
       }
     } else if (S.phase === "battles") {
       marchTick(S, now);
       const busy = [...S.bands.values()].some((b) => (b.path?.length && !b.battle) || (b.resumeUntil && now < b.resumeUntil));
-      if (!S.battles.size && !busy && !tutorialHolds(S)) startCrimson(S);
+      // a battle running long: the class carries on with the next turn while it is fought
+      const longOnes = S.battlesUntil && now >= S.battlesUntil && liveBattles(S).length;
+      if (longOnes && !busy && !tutorialHolds(S)) say(S, `The battle at ${liveBattles(S).map((B) => nodeName(B.node)).join(" and ")} goes on. The class carries on with the next turn.`, "battle");
+      // (a battle just over keeps its result on screen a moment before the next turn)
+      if ((!S.battles.size || longOnes) && !busy && !tutorialHolds(S)) startCrimson(S);
     }
     flush(S);
   }
@@ -535,7 +619,17 @@ export function setupTotalWar(deps) {
     const b = bandOf(S, p.id); if (!b) return;
     if (b.battle) return;                                         // fighters answer the battle's own questions
     const now = Date.now();
+    // just after its battle the pair chooses what to do next (join a battle still on, or a warband), or plans its own
+    // move: no new question yet
+    if (p.afterUntil > now && afterOptions(S, p)) return;
+    if (b.lateUntil > now) return;
     if (S.phase === "crimson") {
+      // a battle still being fought: once a student has their 3 preparing questions, War Cries help it
+      if (st.musterThisTurn >= MUSTER_PER_TURN && !untimed(S) && !S.teacherEnded && now >= (st.cryUntil || 0) && now < S.phaseEndsAt - ms(LATE_PREP_SECONDS)) {
+        let B = st.supporting && S.battles.get(st.supporting);
+        if (!B || B.status === "over" || B.status === "gather") B = warcryTarget(S);
+        if (B) return giveOwnQuestion(S, st, "warcry", B.id);
+      }
       if ((S.teacherEnded || untimed(S)) && st.musterThisTurn >= MUSTER_PER_TURN) return;
       // once a student has their 3, no new question starts near the end (an unfinished one would hold up the class)
       if (!untimed(S) && st.musterThisTurn >= MUSTER_PER_TURN && now >= S.phaseEndsAt - ms(LATE_PREP_SECONDS)) return;
@@ -575,6 +669,12 @@ export function setupTotalWar(deps) {
       if (ok) st.coins = (st.coins || 0) + PREP_COINS - COINS_PER_RIGHT;
       if (ok && st.musterThisTurn <= QUIZ_PER_MOVE) st.prepRight = (st.prepRight || 0) + 1;
       if (st.musterThisTurn === QUIZ_PER_MOVE && st.prepRight >= QUIZ_PER_MOVE) { st.coins = (st.coins || 0) + QUIZ_BONUS; o.result.bonus = QUIZ_BONUS; }
+      // a battle is being fought while the class prepares: every right preparing answer also cheers it on (a War Cry)
+      if (ok) {
+        let B = st.supporting && S.battles.get(st.supporting);
+        if (!B || B.status === "over" || B.status === "gather") B = warcryTarget(S);
+        if (B) { B.warcryNow++; B.cheers.set(st.pairId, (B.cheers.get(st.pairId) || 0) + 1); o.result.cheer = B.node; }
+      }
       // each student adds up to PREP_AP_EACH (a student alone, up to the pair's cap), so both partners count
       const p = pairOf(S, st.pid);
       if (ok && p) {
@@ -652,11 +752,52 @@ export function setupTotalWar(deps) {
     say(S, `${pairLabel(S, jp)} joined a warband at ${nodeName(target.node)}.`, "crystal");
     return null;
   }
-  function leaveBand(S, pairId) {
+  // The warbands a pair could join: on the same stop (join now) or within REGROUP_STEPS steps (set off to join it)
+  function regroupFor(S, b) {
+    const dist = reachable(b.node, REGROUP_STEPS, (n) => seenBlock(S, n) || !!battleAt(S, n));
+    return [...S.bands.values()].filter((x) => x.id !== b.id).map((x) => {
+      const here = x.node === b.node, d = here ? 0 : dist.get(x.node);
+      return { id: x.id, node: x.node, cost: d ?? null, here, reach: !x.battle && (here || d != null), battle: !!x.battle };
+    });
+  }
+  // the warband a pair has set off to join (by its lead pair, since warbands change as pairs join and leave)
+  const intentBand = (S, p) => { const t = p?.joinIntent && bandOf(S, p.joinIntent); return t && !bandOf(S, p.id)?.pairs.includes(p.joinIntent) ? t : null; };
+  // a pair taps JOIN on a warband: on the same stop it joins now; within reach it sets off to join it (its route is
+  // planned towards it, and it joins on arrival)
+  function wantBand(S, pairId, targetId) {
+    const p = S.pairs.get(pairId), mine = bandOf(S, pairId), target = S.bands.get(targetId);
+    if (!p || !mine) return "You are not on the map yet.";
+    if (!targetId) { p.joinIntent = null; S.dirty = true; return null; }
+    if (!target || mine === target) return "That warband is not here.";
+    if (mine.battle || target.battle) return "Not while a battle is on.";
+    if (mine.node === target.node) { p.joinIntent = null; return joinBand(S, pairId, targetId); }
+    const opt = regroupFor(S, mine).find((x) => x.id === targetId);
+    if (!opt?.reach) return `That warband is too far away. You can set off to join a warband up to ${REGROUP_STEPS} steps away.`;
+    p.joinIntent = target.pairs[0]; p.intentTurn = S.turn;
+    const lead = S.pairs.get(target.pairs[0]);
+    for (const x of mine.pairs) note(S, x, `${x === pairId ? "You are" : `Pair ${p.no} is`} setting off to join Pair ${lead?.no}'s warband at ${nodeName(target.node)}. ${planOpen(S, mine) ? "Send the route there to march now." : "Your route goes there when you plan your move."}`, { kind: "join" });
+    S.dirty = true; return null;
+  }
+  // a warband standing where the warband one of its pairs set off to join stands: they become one warband
+  function joinIntents(S, b) {
+    if (b.battle) return false;
+    for (const x of [...b.pairs]) {
+      const p = S.pairs.get(x), t = intentBand(S, p);
+      if (!t || t.battle || t.node !== b.node || t === b) continue;
+      for (const y of [...b.pairs]) { joinBand(S, y, t.id); const q = S.pairs.get(y); if (q) q.joinIntent = null; }
+      return !S.bands.has(b.id);
+    }
+    return false;
+  }
+  // forHelp: the pair is leaving for a while to help another battle (it comes back afterwards)
+  function leaveBand(S, pairId, forHelp = false) {
     const b = bandOf(S, pairId); if (!b || b.pairs.length < 2) return "You are not in a warband.";
     if (b.battle) return "Not while a battle is on.";
     b.pairs = b.pairs.filter((x) => x !== pairId); delete b.votes[pairId]; if (b.props) delete b.props[pairId]; if (b.drafts) delete b.drafts[pairId];
-    for (const x of b.pairs) note(S, x, `Pair ${S.pairs.get(pairId)?.no} left your warband.`, { kind: "leave" });
+    b.plan = agreedPlan(S, b);
+    if (!forHelp) { const p = S.pairs.get(pairId); if (p) p.homeLead = null; }
+    for (const x of b.pairs) note(S, x, forHelp ? `Pair ${S.pairs.get(pairId)?.no} went to help another battle. They come back to your warband after it.` : `Pair ${S.pairs.get(pairId)?.no} left your warband.`, { kind: "leave" });
+    if (!forHelp) note(S, pairId, "You left the warband. Your pair now plans and moves on its own.", { kind: "leave" });
     S.bands.set(id(S, "b"), { id: `b${S.seq}`, pairs: [pairId], node: b.node, mp: b.mp, done: b.done, votes: {}, props: {}, plan: null, voteOpenedAt: 0, battle: null });
     return null;
   }
@@ -722,6 +863,67 @@ export function setupTotalWar(deps) {
     B.bands.push(b.id);
     say(S, `${b.pairs.map((x) => pairLabel(S, S.pairs.get(x))).join(", ")} joined the battle at ${nodeName(B.node)}.`, "crystal");
     return null;
+  }
+
+  // ---- reinforcements: a pair whose battle has just ended joins another battle still being fought ----
+  // Any battle of the class, anywhere on the map: the pair fights from where it stands (its banner does not move), with
+  // its own HP, answers along and takes strike turns. While joined pairs answer right, the battle hits harder and the
+  // warband takes less damage (reinforceBonus in rules.js).
+  const canReinforce = (S, p, B) => !!p && p.afterUntil > Date.now() && B.id !== p.afterFrom && B.status !== "over" && B.qNo < B.limit
+    && (B.guests || []).length < REINFORCE_MAX && !pairsIn(S, B).includes(p.id);
+  function reinforce(S, pairId, battleId) {
+    const p = S.pairs.get(pairId), B = S.battles.get(battleId);
+    let b = bandOf(S, pairId);
+    if (!p || !b) return "You are not on the map yet.";
+    if (!B || B.status === "over") return "That battle is over.";
+    if (b.battle) return "Your warband is in a battle.";
+    if (!(p.afterUntil > Date.now())) return "You can join a battle that is still on just after your own battle ends.";
+    if ((B.guests || []).length >= REINFORCE_MAX) return `That battle already has ${REINFORCE_MAX} pairs helping it.`;
+    if (B.qNo >= B.limit) return "That battle is about to end.";
+    if (!canReinforce(S, p, B)) return "You cannot join that battle.";
+    // the pair leaves its warband for this (the others stay where they are) and fights from its own stop; it goes back
+    // to its warband when the battle ends
+    p.homeLead = null;
+    if (b.pairs.length > 1) { p.homeLead = b.pairs.find((x) => x !== pairId) || null; leaveBand(S, pairId, true); b = bandOf(S, pairId); }
+    b.battle = B.id; b.guestOf = B.id; b.done = true; b.votes = {}; b.voteOpenedAt = 0; b.path = null; b.rest = null; b.resumeUntil = 0; b.lateUntil = 0; b.plan = null;
+    B.bands.push(b.id); (B.guests ||= []).push(b.id);
+    p.afterUntil = 0; p.joinIntent = null;
+    if (B.status !== "gather") {                         // the fight is on: the pair comes in with its own HP and a monster
+      B.php[p.id] = Math.max(0.05, +(p.hp ?? RESOLVE_PER_PAIR));
+      B.startHp[p.id] = p.hp ?? RESOLVE_PER_PAIR;
+      B.resolveMax += p.maxHp || RESOLVE_PER_PAIR;
+      syncResolve(B);
+      for (const m of p.members) fighterOf(S, B, m);
+      retarget(S, B);
+    }
+    (B.joins ||= []).push({ no: p.no, at: Date.now() });
+    for (const x of pairsIn(S, B)) if (x !== pairId) note(S, x, `Pair ${p.no} joined your battle! While they answer right, your warband hits harder and takes less damage.`, { kind: "reinforce" });
+    note(S, pairId, `You joined the battle at ${nodeName(B.node)}. You fight from ${nodeName(b.node)}, and your banner stays there.`, { kind: "reinforce" });
+    say(S, `Pair ${p.no} joined the battle at ${nodeName(B.node)} to help.`, "crystal");
+    S.dirty = true;
+    return null;
+  }
+  // a battle it could join (the choice only lasts a short while, so no new question comes until it has chosen)
+  const afterOptions = (S, p) => liveBattles(S).some((B) => canReinforce(S, p, B));
+  // after a battle: each of its pairs may join another battle still being fought (for a short while) or set off to join a
+  // warband. A warband whose battle ran on into "Plan your move" plans now; one whose battle ran past it plans its own
+  // move while the others march.
+  function afterBattle(S, B, all, won) {
+    const now = Date.now();
+    for (const b of all) for (const x of b.pairs) { const p = S.pairs.get(x); if (p) Object.assign(p, { afterUntil: now + ms(REINFORCE_SECONDS), afterFrom: B.id, afterWon: !!won, afterNode: B.node }); }
+    if (S.status !== "playing") return;
+    for (const b of all) {
+      const ps = b.pairs.map((x) => S.pairs.get(x)).filter(Boolean);
+      const council = S.phase === "crystal" && S.stage === "council";
+      const late = !council && ps.some((p) => p.owed);
+      if (!council && !late) continue;
+      b.props = {}; b.plan = null; b.path = null; b.done = false; b.held = false; b.rest = null; b.resumeUntil = 0;
+      for (const p of ps) { p.picks = {}; p.drafts = {}; }
+      b.mp = Math.max(b.mp || 0, ps.some((p) => p.missedPrep === S.turn) || late ? LATE_STEPS : 0);
+      if (late) b.lateUntil = now + ms(LATE_PLAN_SECONDS);
+      for (const p of ps) note(S, p.id, late ? `Your battle ran long, so you missed planning with the class. Plan your own move now: you have ${b.mp} step${b.mp === 1 ? "" : "s"}.`
+        : `Your battle is over. Plan your move with the class: you have ${b.mp} step${b.mp === 1 ? "" : "s"}.`, { kind: "late" });
+    }
   }
 
   const fightersOf = (S, B) => B.bands.flatMap((bid) => { const b = S.bands.get(bid); return b ? studentsOfBand(S, b) : []; });
@@ -863,7 +1065,11 @@ export function setupTotalWar(deps) {
     const right = answered.filter((a) => a.ok).length;
     B.sync = Math.min(100, B.sync + Math.round(SYNC_PER_QUESTION * (answered.length ? right / answered.length : 0)) + (strike ? 4 : 0));   // the warband's Sync gauge
     for (const F of Object.values(B.fighters)) F.sp = Math.min(F.maxSp, F.sp + SP_REGEN);
+    // joined pairs (reinforcements) that answered right this question
+    const guestPairs = (B.guests || []).flatMap((bid) => S.bands.get(bid)?.pairs || []);
+    const rightGuests = guestPairs.filter((x) => S.pairs.get(x)?.members.some((m) => B.answers.get(m)?.ok)).length;
     B.pending = {
+      reinf: guestPairs.length ? reinforceBonus(rightGuests) : null,
       strike, stealer, support: rightAlong.filter(([p]) => p !== stealer).length, supporters: rightAlong.filter(([p]) => p !== stealer).map(([p]) => p), along: along.length, warcry: Math.min(WARCRY_CAP, B.warcryNow),
       frac: answered.length ? right / answered.length : 0,
       answer: rightAnswers(B.q.full)[0], right: rightAnswers(B.q.full), q: B.q.full.q, choices: B.q.full.choices, explain: explainOf(B.q.full),
@@ -968,11 +1174,14 @@ export function setupTotalWar(deps) {
       else if (act.item === "chilli") { main = 2; extra = 1.5; note = "A fiery strike: 50% more damage"; }
       else if (act.item === "durian") { main = 4; splash = 1; note = "It splashes the enemy beside the target"; }
     }
-    main = main * half * power * extra * (B.mod.atkUp > 0 ? 1.25 : 1);
+    // reinforcements: while joined pairs answer right, the warband hits harder and takes less damage
+    const rf = P.reinf || { atk: 0, guard: 0, pairs: 0 }, boost = 1 + (rf.atk || 0);
+    if (P.reinf) B.reinf = { ...P.reinf, at: Date.now() };
+    main = main * half * power * extra * (B.mod.atkUp > 0 ? 1.25 : 1) * boost;
     // right answers along help, up to a cap that grows with the number of pairs in the battle. Each right answer hits
     // the monster that student's pair is engaging.
     const sup = P.supporters || [], w = sup.length ? Math.min(1, alongCap(pairsIn(S, B).length) / sup.length) : 0;
-    const along = ALONG_HIT * w * sup.length * power + P.warcry * cry;
+    const along = ALONG_HIT * w * sup.length * power * boost + P.warcry * cry;
     // the move hits its target; an Ultimate's splash hits every other enemy on the field
     let enemies = B.enemies.map((e) => ({ ...e })), fallen = 0;
     const spill = [], dealt = {};
@@ -983,7 +1192,7 @@ export function setupTotalWar(deps) {
     // answering along: each pair's right answers hit its own monster; what it cannot take goes to the other monster on
     // the field (only the wave in front: the next wave is still on its way)
     const byPair = {};
-    for (const x of sup) { const pp = S.students.get(x)?.pairId; if (pp) byPair[pp] = (byPair[pp] || 0) + ALONG_HIT * w * power; }
+    for (const x of sup) { const pp = S.students.get(x)?.pairId; if (pp) byPair[pp] = (byPair[pp] || 0) + ALONG_HIT * w * power * boost; }
     for (const [pp, h] of Object.entries(byPair)) {
       let left = hurt(inWave(B.targets[pp]) ? B.targets[pp] : front(), h, pp);
       for (const i of B.wave) if (left > 1e-9) left = hurt(i, left, pp);
@@ -1005,7 +1214,7 @@ export function setupTotalWar(deps) {
     if (!beaten && !stun) {
       const standing = waveDown ? [] : B.wave.filter((i) => B.enemies[i].hp > 0);
       counter = counterAttack(standing.map((i) => B.enemies[i]), P.frac);
-      const k = (B.mod.atkDown > 0 ? 0.75 : 1) * (1 - B.mod.guard);
+      const k = (B.mod.atkDown > 0 ? 0.75 : 1) * (1 - B.mod.guard) * (1 - (rf.guard || 0));
       counter.blows = counter.blows.map((x, j) => ({ ...x, index: standing[j], dmg: +(x.dmg * k).toFixed(2) }));
       counter.total = +(counter.total * k).toFixed(2);
       blocked = Math.round((1 - (1 - counter.guard) * k) * 100);
@@ -1022,7 +1231,7 @@ export function setupTotalWar(deps) {
     B.round = {
       qNo: B.qNo, striker: who(S, B.striker), strike: P.strike, stealer: P.stealer ? who(S, P.stealer) : null,
       support: P.support, supporters: P.along, warcry: P.warcry, hits: +(main + along + splash * Math.max(0, B.enemies.length - 1)).toFixed(1), fallen,
-      mainHits: +main.toFixed(1), target, heal, note, stunned: stun,
+      mainHits: +main.toFixed(1), target, heal, note, stunned: stun, reinf: P.reinf || null,
       action: act ? { kind, index, name, pid, char: F.char, ally: allyPid ? B.fighters[allyPid].char : null, archetype: kind === "ult" ? base.ultimate.archetype : null } : null,
       enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
       // what each pair did and took this question (by pair number): the strip's "+N" pops and HP
@@ -1063,8 +1272,20 @@ export function setupTotalWar(deps) {
       else if (e.ref === "camp") { /* camps heal if not beaten */ }
       else { const u = S.units.get(e.ref); if (u) { u.battle = null; if (e.hp <= 0) S.units.delete(u.id); else u.hp = Math.max(1, Math.round(unBoost(e))); } }
     }
-    const bands = B.bands.map((x) => S.bands.get(x)).filter(Boolean);
-    for (const b of bands) b.battle = null;
+    // pairs that joined from elsewhere (reinforcements) fought from their own stop: they do not move with the warband
+    const guestIds = new Set(B.guests || []);
+    const all = B.bands.map((x) => S.bands.get(x)).filter(Boolean), bands = all.filter((b) => !guestIds.has(b.id)), guests = all.filter((b) => guestIds.has(b.id));
+    for (const b of all) { b.battle = null; b.guestOf = null; }
+    // a pair that left its warband to help goes back to it: at once on the same stop, else it sets off to rejoin it
+    for (const g of guests) for (const x of [...g.pairs]) {
+      const p = S.pairs.get(x), lead = p?.homeLead; if (!p || !lead) continue;
+      p.homeLead = null;
+      const t = bandOf(S, lead); if (!t || t === g || t.battle) continue;
+      if (t.node === g.node && S.bands.has(g.id)) { joinBand(S, x, t.id); continue; }
+      p.joinIntent = lead; p.intentTurn = S.turn;
+      note(S, x, `The battle is over. Your warband is at ${nodeName(t.node)}: your route goes there when you plan your move, and you join them when you meet.`, { kind: "join" });
+    }
+    afterBattle(S, B, all.filter((b) => S.bands.has(b.id)), won);
     if (stopped && !won) {
       if (B.kind === "defend") for (const u of B.attackers.map((x) => S.units.get(x)).filter(Boolean)) u.node = u.from ?? u.node;
       else {
@@ -1078,7 +1299,7 @@ export function setupTotalWar(deps) {
       return;
     }
     // a beaten pair is back to full HP at the start of the next turn (it still loses its ground)
-    if (!won && (B.kind !== "defend" || B.resolve <= 0)) for (const b of bands) for (const x of b.pairs) { const p = S.pairs.get(x); if (p) p.revive = true; }
+    if (!won && (B.kind !== "defend" || B.resolve <= 0)) for (const b of all) for (const x of b.pairs) { const p = S.pairs.get(x); if (p) p.revive = true; }
     if (B.kind === "defend") {
       const attackers = B.attackers.map((x) => S.units.get(x)).filter(Boolean);
       if (won) { S.wins = (S.wins || 0) + 1; say(S, `${companies(S, bands)} drove off the attack at ${nodeName(n)}!${n === HOME ? " The Academy is safe." : ""}`, "crystal"); story(S, `${companies(S, bands)} drove the enemy away from ${n === HOME ? "the Academy" : nodeName(n)}.`, n); }
@@ -1111,8 +1332,9 @@ export function setupTotalWar(deps) {
         return endGame(S, "crystal");
       } else { say(S, `The Crimson Host at ${nodeName(n)} is defeated!`, "crystal"); if (B.ambush) story(S, `${company(S, bands[0])} survived an ambush at ${nodeName(n)} and won.`, n); }
       for (const b of bands) { b.lastDefeat = null; b.lastDefeatAt = null; }
-      // a march that a fight interrupted can carry on, if the company chooses to (never by itself)
-      for (const b of bands) if (b.rest?.length && S.phase !== "crimson") { const r = [b.node, ...b.rest]; b.rest = routeError(S, b, r) ? null : b.rest; if (b.rest) b.resumeUntil = Date.now() + ms(RESUME_SECONDS); }
+      // a march that a fight interrupted can carry on, if the company chooses to (never by itself), while the class is
+      // still marching
+      for (const b of bands) if (b.rest?.length && ((S.phase === "crystal" && S.stage === "march") || S.phase === "battles")) { const r = [b.node, ...b.rest]; b.rest = routeError(S, b, r) ? null : b.rest; if (b.rest) b.resumeUntil = Date.now() + ms(RESUME_SECONDS); }
       // the fortress itself cannot be stood in: winners at the gate fall back one road to rest
       if (n === FORTRESS) { const back = neighbours(FORTRESS).find((m) => !unitsAt(S, m).length) ?? fallbackFor(S, n); for (const b of bands) b.node = back; }
       else if (OUTPOSTS.includes(n) && !S.rally.has(n)) { S.rally.add(n); say(S, `The class has taken ${nodeName(n)}. It is now a safe camp.`, "crystal"); }
@@ -1121,8 +1343,8 @@ export function setupTotalWar(deps) {
       for (const b of bands) b.node = back;
       if (B.kind === "camp") S.camps[n].hp = CAMPS[n].hp;
       say(S, `The battle at ${nodeName(n)} is lost. The warband falls back to ${nodeName(back)}.`, "crimson");
-      const left = B.enemies.reduce((a, e) => a + Math.max(0, e.hp), 0), all = B.enemies.reduce((a, e) => a + e.max, 0) || 1;
-      for (const b of bands) { b.lastDefeat = `The enemy at ${nodeName(n)} is wounded: ${Math.round((left / all) * 100)}% of its strength is left.`; b.lastDefeatAt = { node: n, pct: Math.round((left / all) * 100) }; b.rest = null; }
+      const left = B.enemies.reduce((a, e) => a + Math.max(0, e.hp), 0), full = B.enemies.reduce((a, e) => a + e.max, 0) || 1;
+      for (const b of bands) { b.lastDefeat = `The enemy at ${nodeName(n)} is wounded: ${Math.round((left / full) * 100)}% of its strength is left.`; b.lastDefeatAt = { node: n, pct: Math.round((left / full) * 100) }; b.rest = null; }
     }
     S.dirty = true;
   }
@@ -1149,6 +1371,7 @@ export function setupTotalWar(deps) {
     if (CAMPS[to]) return "The jungle camps belong to no one.";
     const B = battleAt(S, to);
     if (B && !(B.kind === "defend" && B.status === "gather")) return "A battle is being fought there.";
+    if (!B && bandsAt(S, to).some((x) => x.battle)) return "The Crystal banner there is fighting a battle. Wait for it to end.";
     if (to !== FORTRESS && unitsAt(S, to).length >= STACK_LIMIT) return `No more than ${STACK_LIMIT} units on one stop.`;
     if (to === FORTRESS && unitsAt(S, to).length >= FORTRESS_LIMIT) return "The fortress is full.";
     if (!auto && u.order?.kind !== "hold") u.order = null;       // a hand move replaces a march or hunt order
@@ -1353,6 +1576,14 @@ export function setupTotalWar(deps) {
         if (opts.length) { B.targets[x] = rand(opts); S.dirty = true; }
       }
     }
+    // a bot pair whose battle has just ended joins a battle still being fought (the one with the most enemy strength left),
+    // as a helpful classmate would; otherwise it carries on
+    for (const p of S.pairs.values()) {
+      if (!(p.afterUntil > now) || now < p.afterUntil - ms(REINFORCE_SECONDS) + ms(2) || !p.members.every((m) => S.students.get(m)?.bot)) continue;
+      const left = (B) => B.enemies.reduce((n, e) => n + Math.max(0, e.hp), 0);
+      const B = liveBattles(S).filter((x) => canReinforce(S, p, x) && x.status !== "gather").sort((a, c) => left(c) - left(a))[0];
+      if (B) reinforce(S, p.id, B.id); else p.afterUntil = 0;
+    }
     // bot pairs march with the class: they follow a human warband, join it, and copy its vote
     // (in the practice tutorial's first turn they guard the Academy, so the student learns with their own pair)
     const guard = S.practice && S.tutorial && !S.tutorialDone && S.turn === 1;
@@ -1398,7 +1629,7 @@ export function setupTotalWar(deps) {
   const bandView = (S, b) => ({
     id: b.id, node: b.node, mp: b.mp, done: b.done, battle: b.battle, voting: !!b.voteOpenedAt,
     voteEnds: b.voteOpenedAt ? b.voteOpenedAt + ms(VOTE_SECONDS) : 0,
-    status: bandStatus(S, b), lastDefeat: b.lastDefeat || null, lastDefeatAt: b.lastDefeatAt || null, rest: b.resumeUntil ? b.rest : null, resumeUntil: b.resumeUntil || 0, plan: b.plan || null, props: b.props || {}, path: b.path || null, interrupted: !!b.interrupted,
+    status: bandStatus(S, b), guestOf: b.guestOf ? (S.battles.get(b.guestOf)?.node ?? null) : null, late: b.lateUntil && Date.now() < b.lateUntil ? b.lateUntil : 0, lastDefeat: b.lastDefeat || null, lastDefeatAt: b.lastDefeatAt || null, rest: b.resumeUntil ? b.rest : null, resumeUntil: b.resumeUntil || 0, plan: b.plan || null, props: b.props || {}, path: b.path || null, interrupted: !!b.interrupted,
     pairs: b.pairs.map((x) => { const p = S.pairs.get(x); return p ? { id: p.id, no: p.no, char: p.char, names: p.members.map((m) => S.students.get(m)?.name || "?"), vote: b.votes[x] ?? null, hp: +(+(p.hp ?? RESOLVE_PER_PAIR)).toFixed(1), maxHp: p.maxHp || RESOLVE_PER_PAIR } : null; }).filter(Boolean),
   });
   const unitView = (u, full) => ({ id: u.id, type: u.type, node: u.node, hp: u.hp, max: u.max, moved: u.moved, speed: UNITS[u.type].speed,
@@ -1411,6 +1642,7 @@ export function setupTotalWar(deps) {
   // What each pair in a battle is doing this question: answering | answered | turn (it is their question) | right |
   // wrong | striking | stole (the turn) | struck (its move just landed) | ready (the battle is gathering)
   function pairStats(S, B) {
+    const guestPairs = new Set((B.guests || []).flatMap((bid) => S.bands.get(bid)?.pairs || []));
     const r = B.status === "result" || B.status === "over" ? B.round : null;
     const mine = B.status === "choose" ? B.pending?.mine : r?.mine;
     return pairsIn(S, B).map((x) => S.pairs.get(x)).filter(Boolean).map((p) => {
@@ -1423,7 +1655,7 @@ export function setupTotalWar(deps) {
       return { id: p.id, no: p.no, char: p.char, names: ms.map((m) => S.students.get(m)?.name || "?"), bots: ms.every((m) => S.students.get(m)?.bot),
         hp: +(+(B.php?.[p.id] ?? p.hp ?? RESOLVE_PER_PAIR)).toFixed(2), max: p.maxHp || RESOLVE_PER_PAIR,
         target: Number.isInteger(t) ? t : null, targetType: Number.isInteger(t) ? B.enemies[t]?.type || null : null,
-        dealt: +(B.dealt?.[p.id] || 0).toFixed(2), state, moved: B.moved?.[p.id] || null };
+        dealt: +(B.dealt?.[p.id] || 0).toFixed(2), state, moved: B.moved?.[p.id] || null, guest: guestPairs.has(p.id) };
     });
   }
   function battleView(S, B, forPid) {
@@ -1452,6 +1684,9 @@ export function setupTotalWar(deps) {
       pairs: pairStats(S, B),
       targetable: B.status === "gather" ? B.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0) : B.status === "over" ? [] : fieldOf(B),
       outcome: B.outcome, cheers: [...B.cheers.entries()].map(([pid, n]) => ({ pair: S.pairs.get(pid)?.no, n })),
+      // pairs that joined from elsewhere, the bonus they gave on the last question, and when each joined
+      reinforce: (B.guests || []).length ? { pairs: (B.guests || []).flatMap((bid) => S.bands.get(bid)?.pairs || []).map((x) => S.pairs.get(x)?.no).filter(Boolean),
+        last: B.reinf || null, joins: (B.joins || []).slice(-4) } : null,
     };
     if (forPid !== undefined && fighters.includes(forPid)) {
       v.role = B.striker === forPid ? "striker" : "support";
@@ -1538,6 +1773,24 @@ export function setupTotalWar(deps) {
         list: st.history.filter((h) => h.chosen >= 0).slice(-60).map((h) => { const q = S.qInfo.get(h.key) || {}; return { text: q.text || "", ok: h.ok, along: !!h.along, key: q.choices?.[q.right] ?? "", chose: q.choices?.[h.chosen] ?? "" }; }) };
     }
     if (b?.battle) { const B = S.battles.get(b.battle); if (B) v.myBattle = battleView(S, B, st.pid); }
+    if (p && b) {
+      // what each partner has tapped in "Plan your move" (the pair's route is sent once they agree)
+      const need = humansOf(S, p);
+      v.me.picks = { mine: p.picks?.[st.pid]?.route ?? null, need: need.length,
+        partners: p.members.filter((m) => m !== st.pid).map((m) => { const o = S.students.get(m); return { pid: m, name: o?.name || "?", bot: !!o?.bot, away: !!o && !o.bot && !isConnected(o), route: p.picks?.[m]?.route ?? null }; }) };
+      // the warbands this pair could join (same stop: now; in reach: set off to join it), and the one it set off to join
+      v.regroup = regroupFor(S, b);
+      const t = intentBand(S, p); v.me.joinIntent = t ? { bandId: t.id, node: t.node, no: S.pairs.get(t.pairs[0])?.no } : null;
+      if (b.lateUntil && Date.now() < b.lateUntil) v.me.lateUntil = b.lateUntil;
+      if (b.guestOf) v.me.guestOf = b.guestOf;
+      // just after its battle: the battles still being fought that it can join, for a short while
+      if (!b.battle && p.afterUntil > Date.now() && S.status === "playing") {
+        v.after = { until: p.afterUntil, won: !!p.afterWon, node: p.afterNode ?? null,
+          battles: liveBattles(S).filter((B) => canReinforce(S, p, B) && (!base.visible || base.visible.includes(B.node))).map((B) => ({ id: B.id, node: B.node, kind: B.kind, qNo: B.qNo, limit: B.limit, status: B.status,
+            enemies: B.enemies.map((e) => ({ type: e.type, hp: +(+e.hp).toFixed(1), max: +(+e.max).toFixed(1) })),
+            pairs: pairsIn(S, B).map((x) => S.pairs.get(x)).filter(Boolean).map((q) => ({ no: q.no, char: q.char })), helpers: (B.guests || []).length })) };
+      }
+    }
     // battles this warband could still join
     if (b && !b.battle) v.joinable = [...S.battles.values()].filter((B) => canJoinBattle(S, b, B)).map((B) => ({ id: B.id, node: B.node, kind: B.kind, gatherEnds: B.gatherEnds }));
     return v;
@@ -1617,7 +1870,7 @@ export function setupTotalWar(deps) {
   // every clock moves on by the time the war stood still, so nobody loses time to a pause
   function shiftTimes(S, d) {
     const sh = (o, ...keys) => { if (o) for (const k of keys) if (o[k]) o[k] += d; };
-    sh(S, "phaseEndsAt", "phaseStartedAt", "moveStartedAt", "orderEnds", "startedAt");
+    sh(S, "phaseEndsAt", "phaseStartedAt", "moveStartedAt", "orderEnds", "startedAt", "battlesUntil");
     for (const st of S.students.values()) { sh(st, "cryUntil", "lastRealAt", "lastAnswerAt"); if (st.own) { sh(st.own, "startedAt", "_bot"); sh(st.own.result, "at"); } }
     for (const b of S.bands.values()) sh(b, "nextAt", "voteOpenedAt", "resumeUntil");
     for (const B of S.battles.values()) {
@@ -1857,18 +2110,32 @@ export function setupTotalWar(deps) {
     socket.on("twEat", asStudent((S, st, { item }) => eat(S, st, item)));
     socket.on("twGrab", asStudent((S, st, { items }) => order(S, st, items)));
     socket.on("twOrderDone", asStudent((S, st) => { st.orderDone = true; }));
-    socket.on("twVote", asStudent((S, st, { to }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; const b = bandOf(S, p.id); return proposeRoute(S, p.id, to === "stay" ? "hold" : [b?.node, +to]); }));
-    socket.on("twDraft", asStudent((S, st, { route }) => { const p = pairOf(S, st.pid); if (!p) return; return draftRoute(S, p.id, route); }));
+    socket.on("twVote", asStudent((S, st, { to }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; const b = bandOf(S, p.id); return pickRoute(S, st, to === "stay" ? "hold" : [b?.node, +to]); }));
+    socket.on("twDraft", asStudent((S, st, { route }) => draftRoute(S, st, route)));
     // the practice tutorial: done, or skipped (every clock starts again)
     socket.on("twTutorial", asStudent((S, st, { done } = {}) => { if (!S.practice) return; if (done) { S.tutorialDone = true; endTraining(S); S.dirty = true; } }));
-    socket.on("twRoute", asStudent((S, st, { route, hold }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return proposeRoute(S, p.id, hold ? "hold" : (Array.isArray(route) ? route.map((n) => Math.round(+n)) : null)); }));
-    socket.on("twAgree", asStudent((S, st, { pairId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; const b = bandOf(S, p.id); const r = b?.props?.[pairId]; if (r === undefined) return "That route is no longer on the table."; return proposeRoute(S, p.id, r); }));
+    // a partner taps a route: the pair's route is sent (or suggested to its warband) once both partners have tapped it
+    socket.on("twRoute", asStudent((S, st, { route, hold }) => pickRoute(S, st, hold ? "hold" : (Array.isArray(route) ? route : null))));
+    socket.on("twAgree", asStudent((S, st, { pairId, partner }) => {
+      const p = pairOf(S, st.pid); if (!p) return "Join a pair first.";
+      // agreeing with your partner's route, or with another pair's route in your warband
+      const r = partner ? p.picks?.[partner]?.route : bandOf(S, p.id)?.props?.[pairId];
+      if (r === undefined || r === null) return "That route is no longer on the table.";
+      return pickRoute(S, st, r);
+    }));
     socket.on("twResume", asStudent((S, st, { go }) => { const p = pairOf(S, st.pid); if (!p) return; return resumeRoute(S, p.id, !!go); }));
     socket.on("twSupport", asStudent((S, st, { battleId }) => { const B = S.battles.get(battleId); if (!B || B.status === "over") return "That battle is over."; if (bandOf(S, st.pairId)?.battle) return "You are in a battle yourself."; st.supporting = battleId; S.dirty = true; }));
-    socket.on("twEndMove", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return proposeRoute(S, p.id, "hold"); }));
-    socket.on("twJoinBand", asStudent((S, st, { bandId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return joinBand(S, p.id, bandId); }));
+    socket.on("twEndMove", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return pickRoute(S, st, "hold"); }));
+    socket.on("twJoinBand", asStudent((S, st, { bandId }) => { const p = pairOf(S, st.pid); if (!p) return "Join a pair first."; return wantBand(S, p.id, bandId || null); }));
     socket.on("twLeaveBand", asStudent((S, st) => { const p = pairOf(S, st.pid); if (!p) return; return leaveBand(S, p.id); }));
-    socket.on("twJoinBattle", asStudent((S, st, { battleId }) => { const p = pairOf(S, st.pid); if (!p) return; return joinBattle(S, p.id, battleId); }));
+    // a battle gathering one road away is joined by the whole warband (it steps in); a battle still being fought elsewhere
+    // is joined by a pair whose own battle has just ended (it fights from where it stands)
+    socket.on("twJoinBattle", asStudent((S, st, { battleId }) => {
+      const p = pairOf(S, st.pid); if (!p) return;
+      const b = bandOf(S, p.id), B = S.battles.get(battleId);
+      return b && B && canJoinBattle(S, b, B) ? joinBattle(S, p.id, battleId) : reinforce(S, p.id, battleId);
+    }));
+    socket.on("twAfterDone", asStudent((S, st) => { const p = pairOf(S, st.pid); if (p) { p.afterUntil = 0; S.dirty = true; } }));
 
     // projector
     socket.on("twWatch", ({ code } = {}) => {

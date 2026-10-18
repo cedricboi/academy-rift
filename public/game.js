@@ -1144,11 +1144,24 @@ if (TW) {
     myAnswerCorrect = false; inputLocked = false; mySelected = -1; stealMeta = null; lastReveal = null; actedKey = "";
     along = { key: "", choice: null, told: "" }; moveSel = null; movePicking = false; moveKey = "";
     try { hideMoves(); closeSkillSheet(); } catch {}
+    try { twTemp = 0; twStatus(""); } catch {}
     $("arena").classList.remove("theatre-on", "asking", "stealing");
     showScreen("title");   // pauses the music; the next battleStart switches back to the battle screen
     battleBGM.currentTime = 0;
   };
   window.twDebug = () => ({ theatreOn, counterOn, held: !!heldRoom, phase: room?.battle?.phase, label: room?.battle?.label, cls: $("arena").className, screen: SCREENS.find((x) => $(x).classList.contains("active")) });
+}
+// Total War: the one status line (who is answering, who is picking a move, who stole the turn)
+let twBase = { html: "", cls: "" }, twTemp = 0;
+function twStatus(html, cls = "", temp = false) {
+  // a passing message (the enemy hitting back) shows for a moment, then the current status comes back
+  if (!temp) { twBase = { html, cls }; if (Date.now() < twTemp) return; }
+  else { twTemp = Date.now() + 2600; setTimeout(() => { twTemp = 0; twStatus(twBase.html, twBase.cls); }, 2650); }
+  let el = $("twStatus");
+  if (!el) { el = document.createElement("div"); el.id = "twStatus"; el.setAttribute("role", "status"); $("hudRound")?.parentElement?.appendChild(el); }
+  if (!el) return;
+  el.className = `tw-status ${html ? "on" : ""} ${cls}`;
+  if (el.innerHTML !== html) el.innerHTML = html;
 }
 function playCounter(o) {
   const b = room?.battle; if (!b) return;
@@ -1165,7 +1178,7 @@ function playCounter(o) {
   const tf = tokenEl(foe.uid); if (tf) { tf.classList.add("attackL"); setTimeout(() => tf.classList.remove("attackL"), 500); }
   for (const c of [me, mate]) if (c) { const t = tokenEl(c.uid); if (t) { t.classList.add("hurt"); setTimeout(() => t.classList.remove("hurt"), 420); } }
   if (o.stunned) floatAt(foe.uid, "STUNNED", "weakpop");
-  else { floatAt(me.uid, `-${o.dmg}`, "dmg"); if (o.blocked) floatAt(me.uid, `BLOCKED ${o.blocked}%`, "heal"); SFX.play("hit"); }
+  else { floatAt(me.uid, `-${o.dmg}`, "dmg"); if (o.blocked) twStatus(`The enemy hit back for ${o.dmg}. Your warband blocked ${o.blocked}%.`, "good", true); SFX.play("hit"); }
   updateBars();
   return new Promise((r) => setTimeout(r, 900));
 }
@@ -1909,6 +1922,13 @@ function renderDock(b, cur, myTurn, stealActorC) {
   }
 
   if (strip && !strip.along && b.phase !== "question") strip.along = alongState(q, meC, false);   // how their answer-along went
+  // Total War: one status line under the label at the top, instead of flags over the fighters (several flags, the last
+  // move's recap and the new question used to pile up over the stage). The recap goes once the next question is up.
+  if (TW) {
+    const f = [...baseFlags.values()].filter((x) => x.cls !== "you").at(-1);
+    baseFlags.clear(); twStatus(f ? f.html : "", f?.cls || "");
+    if (b.phase === "question") { clearTimeout(showActionLog._t); $("actionLog").classList.remove("show"); }
+  }
   if (!keepMoves) hideMoves();
   updateHintButton(q, meC, mode === "asking" && b.phase === "question");
   setStage(mode); renderStrip(strip); showWait(wait);

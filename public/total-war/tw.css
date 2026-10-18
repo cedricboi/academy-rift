@@ -275,3 +275,15 @@ button:disabled{cursor:default}
 .tws.proj .tws-top b{font-size:14px}.tws.proj .tws-st,.tws.proj .tws-mn,.tws.proj .tws-hp em{font-size:14px}.tws.proj .tws-dmg{font-size:15px}
 .tws.proj .tws-foe{min-width:150px}.tws.proj .tws-foe .tf-n{font-size:15px}.tws.proj .tws-foe small{font-size:14px}
 .tws.proj .tws-pop{font-size:28px}
+/* reinforcements: pairs that joined the battle from elsewhere, and the bonus their right answers gave */
+.tws-rf{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;gap:1px;max-width:150px;padding:4px 10px;background:#0c1d22;border:2px solid #7ff3e4aa;font:600 12px/1.25 "Rift Body";color:#e8fffb}
+.tws-rf.hidden{display:none}
+.tws-rf b{font:700 11px "Rift Pixel";letter-spacing:1px;color:#7ff3e4}
+.tws-rf small{font:500 11px/1.25 "Rift Body";color:#b9d8d2}
+.tws-rf.on{border-color:#7ff3e4;box-shadow:0 0 14px #7ff3e466}
+.tws-rf.on span{font-weight:700;color:#fff}
+.tws-card.guest{border-color:#7ff3e488}
+.tws-g{font-style:normal;margin-left:4px;padding:0 4px;background:#7ff3e4;color:#0b1a1e;font:700 9px "Rift Pixel";letter-spacing:1px;vertical-align:1px}
+@media (max-aspect-ratio:1/1){.tws-rf{max-width:none;flex-direction:row;flex-wrap:wrap;gap:4px 10px;align-items:baseline}}
+/* a one-line message in the battle strip moves above the WHY box while it is up */
+body.why-on .tws-note{bottom:calc(100% + 8px + var(--whyH,0px))}

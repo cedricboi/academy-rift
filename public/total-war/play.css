@@ -706,3 +706,61 @@ body:has(.coach:not(.hidden):not(.in-bar):not(.in-battle)) .notice{top:calc(178p
   .coach-face{flex-basis:48px;width:48px;height:48px}
   .coach{flex-wrap:wrap}.coach-btns{flex-direction:row;width:100%;justify-content:flex-end}
 }
+
+/* ---- warbands: who is in which, where, and one big JOIN button each (play.js renderBands) ---- */
+.ab-join{position:relative;display:inline-flex;align-items:center;gap:8px}
+.ab-join em{font-style:normal;padding:2px 7px;background:var(--gold);color:#13202a;font:700 11px "Rift Pixel";letter-spacing:1px}
+.ab-join.glow{border-color:var(--gold);color:#ffe9b0;box-shadow:0 0 0 1px var(--gold),0 0 18px #f2c46a77;animation:pulse 1.4s ease-in-out infinite}
+.ab-wb{width:18px;height:14px;display:inline-block;background:radial-gradient(circle at 25% 40%,currentColor 3px,transparent 3.5px),radial-gradient(circle at 75% 40%,currentColor 3px,transparent 3.5px),radial-gradient(ellipse at 50% 120%,currentColor 7px,transparent 7.5px)}
+.band-sheet{position:absolute;right:12px;top:12px;width:min(480px,calc(100% - 24px));max-height:calc(100% - 130px);overflow:auto;padding:16px 18px;z-index:10;box-sizing:border-box}
+.band-sheet h3,.after-box h3{margin:2px 0 4px;font:700 21px "Rift Pixel";color:var(--ivory)}
+.wb-what{margin:0 0 10px;font:500 15px/1.45 "Rift Body";color:#d7e3e0}
+.wb-mine,.wb-card{display:flex;align-items:center;gap:12px;padding:10px 12px;margin-top:8px;background:#0b161e;border:2px solid #d8bd8044}
+.wb-mine{border-color:#7ff3e4aa;background:#0b1a1f}
+.wb-card.here{border-color:var(--gold)}
+.wb-card.intent{border-color:#7ff3e4}
+.wb-card[data-show]{cursor:pointer}
+.wb-faces{display:flex;flex:0 0 auto}
+.wb-faces img{width:44px;height:44px;object-fit:cover;border:2px solid var(--c,#555);background:#14202a;margin-left:-10px;box-shadow:0 0 0 2px #000}
+.wb-faces img:first-child{margin-left:0}
+.wb-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.wb-info b{font:700 15px "Rift Body";color:var(--ivory)}
+.wb-info small{font:500 13px/1.35 "Rift Body";color:#c7d4d1}
+.wb-info .wb-where{color:#ffe9b0}
+.wb-go{flex:0 0 auto;min-height:52px!important;padding:0 14px;white-space:normal;max-width:190px}
+.wb-go:disabled{opacity:.5}
+.wb-go.on{border-color:#7ff3e4;color:#7ff3e4}
+.wb-intent{margin:10px 0 0;padding:8px 10px;background:#0b1a1f;border-left:3px solid #7ff3e4;font:500 14px/1.4 "Rift Body";color:#e8fffb}
+.wb-foot{margin:12px 0 0;font:500 13px/1.4 "Rift Body";color:#a9b7b4}
+
+/* ---- just after a battle: join a battle that is still on, or a warband (play.js renderAfter) ---- */
+.after-box{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:12;width:min(640px,calc(100% - 32px));max-height:calc(100% - 40px);overflow:auto;padding:18px 20px;box-sizing:border-box;border:2px solid var(--gold);box-shadow:0 0 0 2px #000,0 20px 60px #000c}
+.g-mapcol:has(.after-box:not(.hidden))::after{content:"";position:absolute;inset:0;z-index:11;background:#05040a99}
+.af-sec{margin-top:12px}
+.af-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;font:700 13px "Rift Pixel";letter-spacing:1px;color:var(--gold)}
+.af-h small{font:500 13px "Rift Body";letter-spacing:0;color:#c7d4d1}
+.af-what{margin:6px 0 4px;font:500 14px/1.45 "Rift Body";color:#d7e3e0}
+.af-battle{display:flex;align-items:center;gap:12px;padding:10px 12px;margin-top:8px;background:#1a0b10;border:2px solid #ff5a6e88}
+.af-foe{width:64px;height:64px;flex:0 0 64px;object-fit:contain;image-rendering:pixelated}
+.af-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.af-info b{font:700 15px "Rift Body";color:#ffe0e4}
+.af-info small{font:500 13px "Rift Body";color:#e3c9cd}
+.af-faces{display:flex;gap:4px}
+.af-faces img{width:30px;height:30px;object-fit:cover;border:2px solid var(--c,#555);background:#14202a}
+.af-go{min-height:56px;padding:0 16px;flex:0 0 auto}
+.af-next{margin:14px 0 0;padding-top:10px;border-top:1px solid #d8bd8044;font:500 14px/1.4 "Rift Body";color:#e8fffb}
+.af-btns{display:flex;justify-content:flex-end;margin-top:10px}
+.af-btns .btn{min-height:48px}
+@media (max-aspect-ratio:1/1){
+  .band-sheet{left:12px;right:12px;width:auto}
+  .wb-mine,.wb-card,.af-battle{flex-wrap:wrap}
+  .wb-go,.af-go{flex:1 1 100%;max-width:none}
+}
+
+/* messages (a notice, a tip) stack in one column; while a battle gathers they sit over the left of the stage, clear of the
+   PICK YOUR MONSTER panel */
+.msg-stack{display:contents}
+body.b-gathering .msg-stack{position:fixed;left:var(--gLeft,28px);top:var(--gTop,186px);width:var(--gW,480px);z-index:70;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+body.b-gathering .msg-stack>*{pointer-events:auto}
+body.b-gathering .msg-stack>.notice,body.b-gathering .msg-stack>.coach{position:static;transform:none;width:auto;left:auto;right:auto;top:auto;bottom:auto;margin:0}
+body.b-gathering .msg-stack>.coach.tip{font-size:14px}

@@ -263,6 +263,29 @@ export function dealHits(enemies, hits) {
 
 export const nodeName = (n) => NODES[n]?.name || '?';
 
+// ---- joining a battle that is still being fought (reinforcements), regrouping, and battles that run long ----
+// A pair whose battle has just ended (won or lost) may join any other battle the class is still fighting, anywhere on
+// the map. It fights from where it stands (its banner does not move), with its own HP, and takes strike turns.
+export const REINFORCE_SECONDS = 30;   // how long after its battle ends a pair may still join another battle
+export const REINFORCE_MAX = 3;        // at most this many pairs can join one battle this way
+export const REINFORCE_ATK = 0.15;     // each joined pair with a right answer this question: the battle hits this much harder…
+export const REINFORCE_GUARD = 0.10;   // …and the damage the warband takes is this much lower
+export const REINFORCE_ATK_CAP = 0.30, REINFORCE_GUARD_CAP = 0.20;
+// The reinforcement bonus for one question, from how many joined pairs answered it right
+export function reinforceBonus(rightPairs = 0) {
+  const k = Math.max(0, Math.floor(+rightPairs || 0));
+  return { pairs: k, atk: +Math.min(REINFORCE_ATK_CAP, k * REINFORCE_ATK).toFixed(2), guard: +Math.min(REINFORCE_GUARD_CAP, k * REINFORCE_GUARD).toFixed(2) };
+}
+export const REGROUP_STEPS = 3;        // after a battle (or any time) a pair can set off to join a warband this many steps away
+// After the march the class waits for its battles (and answers War Cries for them) for at most BATTLE_WAIT_SECONDS. A
+// battle that runs longer no longer holds up the class: the rest of the class carries on with the next turn.
+export const BATTLE_WAIT_SECONDS = 60;
+// A pair whose battle ran on while the class answered its preparing questions gets at least LATE_STEPS for its move. A
+// pair whose battle ran past the whole of "Plan your move" plans its own move as soon as the battle ends
+// (LATE_PLAN_SECONDS, whatever the class is doing) and marches by itself.
+export const LATE_STEPS = 2;
+export const LATE_PLAN_SECONDS = 15;
+
 // ---- Grab-Ma's food in Total War: what each item does here (the Arena's own text is in data/characters.js) ----
 // heal and eat are in pair HP (10 inside the game, shown x10). In battle a warband shares one HP pool, so food heals
 // every pair in the warband by the same amount (the server multiplies by the number of pairs).

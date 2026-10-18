@@ -120,8 +120,23 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 4. **The march**: every committed banner sets off together and eases along the roads, 0.8 s a road (`MARCH_STEP`).
    Walking into an enemy (or an ambush) stops the route and starts the battle; the rest of the route is not taken.
    The march does not wait for Grab-Ma: food lands in the bag whenever she arrives (even in a battle).
-5. **Battles** finish, then the next turn begins. Students who are free get War Cries by themselves. SUPPORT only
-   picks which battle they go to (otherwise the one with the most enemy strength left).
+5. **Battles, but a long battle does not hold the class up.** After the march the class waits for its battles for at
+   most `BATTLE_WAIT_SECONDS` (60 s, a clock shows it), answering War Cries for them. A battle still going after that
+   goes on while the class carries on with the next turn (the Crimson turn, the questions, planning and the march):
+   "The battle at X goes on. The class carries on with the next turn". The pairs in a battle stay locked in it, the Crimson
+   units fighting it cannot be moved or teleported, and a banner that is in a battle (or helping one elsewhere) cannot
+   be attacked or planned for. When a battle ends, everything that happens after a battle still happens (story, camp
+   buff, gate damage, falling back, HP). Only the last turn, the training turn and the tutorial wait for battles. A war
+   that ends while a battle is on (time up, or the teacher ends it) keeps the damage that battle has dealt.
+   - A pair still in a battle while the class prepares cannot earn steps, so its next move has at least
+     **`LATE_STEPS` (2) steps**.
+   - A pair whose battle ends during "Plan your move" plans with the class.
+   - A pair whose battle ran past "Plan your move" is owed that move: when its battle ends (whatever the class is doing)
+     it **plans its own move** straight away (`LATE_PLAN_SECONDS`, 15 s, no questions meanwhile) and marches by itself.
+     The bar says "Your battle ran long, so you missed planning with the class. Plan your own move now."
+   - While a battle is on, every right preparing answer also cheers it on (a War Cry for it: the card says "It also
+     cheered on the battle at X"). Students who are free in the march get War Cry questions as before. SUPPORT only
+     picks which battle they go to (otherwise the one with the most enemy strength left).
 
 Timing with a class of server bots (measured with RIFT_SPEED=10, shown as real seconds), from the end of the Crimson turn
 to the end of the march: **before** about 78 s (3 questions 48 s, waiting for the slowest bot, War Council 25 s, march
@@ -130,6 +145,47 @@ whole stretch is capped at about 53 s (20 + 30 + the march) unless the teacher a
 
 Each banner shows its status beside it and on the action bar (planning, agreeing, committed, marching, enemy
 encountered, holding, recovering), and a small HP bar.
+
+## Both partners agree their pair's route
+
+- In "Plan your move" each partner taps the route (SEND ROUTE, or AGREE). The pair's route is only sent (or suggested to
+  its warband) when **both partners have tapped the same route** (`pickRoute`). The iPad that tapped first says
+  "Waiting for your partner to agree"; the other says "Dee chose Lantern Crossroads: tap to agree" (its route shows on
+  the map, with AGREE). Two different routes say so on both iPads.
+- A bot partner agrees by itself, and a partner who is not connected does not hold the pair up.
+- If time runs out, the route drawn first (tapped or only drawn, by either partner) is sent, so nobody is stuck. The
+  first-time tip says this.
+- Warband agreement (pairs in a warband agreeing one route) works on top of this: a pair's route counts once both
+  partners agree it.
+
+## Joining a battle that is still on (reinforcements)
+
+- When a pair's battle ends (won or lost) and other battles are still being fought, it gets a **YOUR BATTLE IS OVER**
+  panel for `REINFORCE_SECONDS` (30 s): every battle still on (where, the enemy and its HP, the pairs fighting, which
+  question) with a big **JOIN BATTLE** button, the warbands it could join, and NOT NOW. No new question comes while it
+  chooses.
+- **Rule:** a pair whose own battle has just ended may join **any** battle the class is still fighting, anywhere on the
+  map, at most `REINFORCE_MAX` (3) joined pairs a battle, not in its last question. It fights from where it stands: its
+  banner does not move (so joining cannot be used to jump across the map). It brings its own HP and keeps what is left
+  afterwards (at least 30%, back to full next turn if the battle is lost), answers along, takes strike turns and picks a
+  monster like everyone else. A pair that left its warband to help goes back to it when the battle ends (at once on the
+  same stop, else it marches to rejoin it).
+- The pairs already fighting are told in the battle: "Pair 3 joined your battle! While they answer right, you hit
+  harder and take less damage." Their cards in the strip are marked JOINED.
+- **Bonus:** each joined pair that answers a question right gives `REINFORCE_ATK` (+15%) to all the warband's damage
+  that question and cuts the damage the warband takes by `REINFORCE_GUARD` (10%), up to +30% and 20% (`reinforceBonus`
+  in `rules.js`). The strip shows it ("REINFORCED +30% attack, -20% damage taken"), and so do the projector and the
+  teacher's battle list. Server bot pairs join a battle still on when theirs ends.
+
+## Warbands: joining and leaving
+
+- The **WARBANDS** button on the bar (it glows when a warband stands on your stop) opens one panel: "A warband is pairs
+  moving and fighting together", your own warband (with a big LEAVE WARBAND), and every other warband with its pairs,
+  where it is and how far ("On your stop", "2 steps away", "too far", "in a battle") and one big button: **JOIN NOW** on
+  the same stop, **MARCH TO JOIN** within `REGROUP_STEPS` (3) steps (the route there is drawn, and the pairs become one
+  warband when they meet), or a greyed-out reason. Tapping a banner on the map shows the same card.
+- Joining on the same stop works as before (`joinBand`, and both sides are told). Joining from a distance only sets
+  off: the pair marches there, and joins on arrival.
 
 ## After a fight on the march
 
@@ -169,8 +225,11 @@ encountered, holding, recovering), and a small HP bar.
 - Auto and the Bot Commander spend only half their Rift Energy when the class is behind (the gate still stands after
   half the turns).
 - The gate guardian hits for 6, the Warlord for 8.
-- With the bot class (12 students) in `test-totalwar.mjs`, the gate breaks around turn 5 and the Warlord falls by
-  turn 8. Phase times at RIFT_SPEED=1 with the test's bots (which answer in
+- With the bot class (12 students) in `test-totalwar.mjs`, the gate breaks around turn 6 and the Warlord falls in turn 7
+  or 8. The test's bots play as a sensible class: they pick their moves at once, join battles still being fought, go
+  back to their warband afterwards, eat when hurt, and once the gate is broken every pair regroups for the final
+  assault. A long battle no longer holds the class up (at most 60 s of waiting after the march), which makes a test war
+  about 13 game minutes (16 before), and each bot student answers about 44 to 56 questions. Phase times at RIFT_SPEED=1 with the test's bots (which answer in
   about 5 s): prepare 30 s, the top-up about 3 s, the War Council about 4 s, the march about 1.5 s, battles about 80 s a
   turn, so a turn is about 2 minutes and an 8 or 9-turn war about 17 minutes (it was about 22 with the old 3-question
   stage and the 25-second planning minimum). A real class answers and plans more slowly, which makes a war about 25 to
@@ -337,6 +396,12 @@ bank keeps it worked out until a set changes).
 - `node test-totalwar.mjs [students]`: a teacher and a class of bots play a whole 8-turn war (and print the time
   each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled
   choices, explanations, AP, a beaten pair's full HP, and a server restart with the war restored.
+- `test-totalwar.mjs` also plays a war where a pair joins a battle still being fought (the offer, the notice to the
+  pairs there, the bonus, the banner staying put), a long battle runs on into the next turn (default steps, a band in a
+  battle cannot plan, its units cannot be moved, a helping banner cannot be attacked, planning its own move while the
+  others march), and a war where two partners agree their route (waiting, different routes, agreeing, a bot partner and
+  an absent partner not holding the pair up, the route drawn first sent at time-out). `TW_ONLY=reinforce,partner` runs
+  just the named smaller wars.
 - `node --test tools/test-total-war.mjs`: the map and the rules (also per-pair targets: the spread when nobody picks,
   moving on when a monster falls, the counterattack split, and the short movement phase).
 - `test-totalwar.mjs` also plays a battle where two pairs pick a monster and one does not (auto-assigned, moved on when

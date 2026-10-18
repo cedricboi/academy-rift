@@ -862,3 +862,9 @@ body.cd-open .pick-head .cd-close{visibility:hidden;}
 .tw-arena .tok.mon.engaged .tok-spot{border:calc(3 * var(--u)) solid #ffd36b;background:none;width:66%;height:11%;bottom:4%;border-radius:50%;box-shadow:0 0 14px #ffd36b88;}
 .tw-arena .tok.mon.engaged .tok-tag{color:#2a1606;background:#ffd36b;opacity:1;}
 .tw-arena .tok.mon{cursor:pointer;}
+/* Total War: one status line under the label at the top (who is answering, who is picking a move), readable over the stage */
+.tw-arena .tw-status{display:none;margin-top:calc(4 * var(--u));padding:calc(5 * var(--u)) calc(14 * var(--u));max-width:calc(100vw - 624 * var(--u));box-sizing:border-box;background:rgba(8,8,18,.88);border:1px solid var(--ln-gold,#d8bd80);
+  font:700 max(13px,calc(17 * var(--u)))/1.25 "Rift Body",sans-serif;letter-spacing:.5px;color:#fff3d6;text-align:center;white-space:normal;box-shadow:0 2px 10px #000a}
+.tw-arena .tw-status.on{display:block}
+.tw-arena .tw-status.good{border-color:#4fe39a;color:#dfffee}.tw-arena .tw-status.bad{border-color:#ff8a9a;color:#ffe0e4}.tw-arena .tw-status.steal{border-color:#ffd84d;color:#fff3c4}
+.tw-arena .arena.asking .tw-status,.tw-arena .arena.theatre-on .tw-status{display:none}

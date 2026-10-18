@@ -11,7 +11,7 @@ import { join } from "path";
 import { io } from "socket.io-client";
 import { QUESTIONS } from "./questions.js";
 import { NODES } from "./public/total-war/movement.js";
-import { FORTRESS, HOME, stepTowards, visibleNodes, UNITS } from "./public/total-war/rules.js";
+import { FORTRESS, HOME, stepTowards, visibleNodes, UNITS, neighbours } from "./public/total-war/rules.js";
 
 const N = Number(process.argv[2]) || 12;
 const SPEED = 20, PORT = 3215, URL = `http://localhost:${PORT}`;
@@ -47,6 +47,12 @@ const done = (code) => { server.kill(); try { rmSync(SAVES, { recursive: true, f
 setTimeout(() => { console.log("TIMEOUT"); summary(); done(1); }, 600000);
 process.on("uncaughtException", (e) => { console.log("ERROR", e); done(1); });
 await server.ready;
+// TW_ONLY=reinforce,partner node test-totalwar.mjs: only the named smaller wars (quicker while working on them)
+if (process.env.TW_ONLY) {
+  const wars = { ward: wardWar, practice: practiceWar, feature: featureWar, target: targetWar, mechanics: mechanicsWar, restore: restoreWar, tutorial: tutorialWar, draft: draftWar, reinforce: reinforceWar, partner: partnerWar };
+  for (const n of process.env.TW_ONLY.split(",")) await wars[n.trim()]();
+  summary(); done(fails.length ? 1 : 0);
+}
 
 // ---------- teacher ----------
 const teacher = io(URL, { transports: ["websocket"] });
@@ -115,6 +121,8 @@ const isLead = (b) => b.i % 2 === 0;
 function wanted(b, band) {
   const pi = pairIndex(b);
   const lastPair = Math.ceil(N / 2) - 1;
+  // the gate is broken: "Assemble for the final assault!" Every pair heads for the Warlord, as a class would
+  if (b.state?.gate?.broken) return band.node === FORTRESS ? "stay" : stepTowards(band.node, FORTRESS, () => true) ?? "stay";
   if (pi === lastPair && lastPair >= 2) return "stay";
   if (pi === 4 && !b.campDone) {
     const at = band.node; const k = [HOME, ...CAMP_PATH].indexOf(at);
@@ -136,6 +144,14 @@ function act(b) {
     const pick = Math.random() < 0.82 && right != null ? right : Math.floor(Math.random() * q.choices.length);
     setTimeout(() => { b.sock.emit("twAnswer", { chosen: pick, startedAt: q.startedAt }); b.answers++; }, (q.recall * 1000) / SPEED + 40 + Math.random() * 120);
   }
+  // on its turn after a right answer, a bot picks its move straight away (the Ultimate when it is ready, often a skill)
+  const M = v.myBattle?.moves;
+  if (M && b.lastMove !== v.myBattle.choose?.endsAt) {
+    b.lastMove = v.myBattle.choose?.endsAt;
+    const okSk = M.skills.filter((k) => k.ok && (k.kind === "atk" || k.kind === "heavy"));
+    const move = M.ult.ready ? { kind: "ult" } : okSk.length && Math.random() < 0.6 ? { kind: "skill", index: okSk[0].i } : { kind: "strike" };
+    delay(() => b.sock.emit("twAction", move));
+  }
   // hurt: order food from Grab-Ma when the map opens, then eat it
   if (v.me.hp != null && v.me.hp < v.me.maxHp * 0.6 && !v.myBattle) {
     if ((v.me.bag?.bento || 0) > 0 && b.ate !== v.turn) { b.ate = v.turn; delay(() => b.sock.emit("twEat", { item: "bento" })); }
@@ -149,27 +165,41 @@ function act(b) {
   // the pair at home supports battles with War Cries
   const fight = v.battles?.find((B) => B.status === "fight");
   if (fight && !v.myBattle && v.me.supporting !== fight.id && b.supKey !== fight.id) { b.supKey = fight.id; delay(() => b.sock.emit("twSupport", { battleId: fight.id })); }
+  // just after its battle: join a battle that is still being fought (as a helpful class would)
+  if (v.after?.battles?.length && b.reinforced !== v.after.until && pairIndex(b) !== Math.ceil(N / 2) - 1) { b.reinforced = v.after.until; delay(() => b.sock.emit("twJoinBattle", { battleId: v.after.battles[0].id })); }
+  // both partners agree the pair's route: the partner who did not plan it taps AGREE
+  const mate = v.me.picks?.partners?.find((p) => p.route != null);
+  if ((v.stage === "council" || v.me.lateUntil) && mate && JSON.stringify(mate.route) !== JSON.stringify(v.me.picks.mine) && b.agreed !== JSON.stringify(mate.route) + v.turn) {
+    b.agreed = JSON.stringify(mate.route) + v.turn; delay(() => b.sock.emit("twAgree", { partner: mate.pid }));
+  }
   // routes: only the lead student of each pair proposes, once per position, in the War Council
-  if (v.phase !== "crystal" || v.stage !== "council" || !isLead(b)) return;
+  // (a warband whose battle ran past the War Council plans its own move while the others march)
+  if (!((v.phase === "crystal" && v.stage === "council") || (v.me.lateUntil && Date.now() < v.me.lateUntil)) || !isLead(b)) return;
   const band = v.bands.find((x) => x.id === v.me.bandId); if (!band || band.battle) return;
-  // pairs 2-4 merge into pair 1's warband while at home
+  // pairs 2-4 merge into pair 1's warband while at home; once the gate is broken every pair regroups with it (on the
+  // same stop at once, else it marches to join it when it is within reach)
   const pi = pairIndex(b);
-  if (pi >= 1 && pi <= 3 && band.pairs.length === 1) {
-    const lead = v.bands.find((x) => x.pairs.some((p) => p.no === 1) && x.node === band.node && !x.battle);
-    if (lead) return delay(() => b.sock.emit("twJoinBand", { bandId: lead.id }));
+  if ((pi >= 1 && pi <= 3 || v.gate.broken) && pi !== 0 && band.pairs.length === 1 && !band.pairs.some((p) => p.no === 1)) {
+    const lead = v.bands.find((x) => x.pairs.some((p) => p.no === 1) && !x.battle);
+    const opt = lead && v.regroup?.find((o) => o.id === lead.id);
+    if (lead && lead.node === band.node) return delay(() => b.sock.emit("twJoinBand", { bandId: lead.id }));
+    if (opt?.reach && v.gate.broken && v.me.joinIntent?.bandId !== lead.id && b.wantKey !== v.turn) { b.wantKey = v.turn; delay(() => b.sock.emit("twJoinBand", { bandId: lead.id })); }
   }
   const key = `${v.turn}:${band.node}:${band.mp}:${band.pairs.length}`;
   if (b.lastVote === key) return;
   b.lastVote = key;
   // a hurt warband rests (and eats) before it attacks again, as a class would
   const hurt = band.pairs.some((p) => p.hp < p.maxHp * 0.5);
-  const route = hurt ? [band.node] : routeFrom(v, band, (at) => wanted(b, { ...band, node: at }));
+  // a pair that helped another battle marches back to rejoin its warband
+  const ji = v.me.joinIntent;
+  const route = ji ? routeFrom(v, band, (at) => (at === ji.node ? null : stepTowards(at, ji.node, () => true)))
+    : hurt ? [band.node] : routeFrom(v, band, (at) => wanted(b, { ...band, node: at }));
   delay(() => b.sock.emit("twRoute", route.length > 1 ? { route } : { hold: true }));
 }
 
 // ---------- how the teacher plays: a few units on the class's road, Auto on some turns ----------
 let sawMarching = false, lastTurnPlayed = 0, sawFogHide = false, sawVoteWait = false, sawWarcry = false, sawCampBuff = false, sawGateBroken = false, sawLoss = false;
-let reconnectDone = false, mpChecked = false, sawMultiStep = false;
+let reconnectDone = false, mpChecked = false, sawMultiStep = false, dbgKey = '';
 const turnLog = [];
 const phaseTime = {}; let lastPhase = null, lastPhaseAt = Date.now(); const warStart = Date.now();
 while (host.status === "playing") {
@@ -217,7 +247,7 @@ while (host.status === "playing") {
     if (host.units.length > v.units.length) sawFogHide = true;
   }
   const v0 = bots[0].state;
-  if (v0?.bands?.some((b) => b.status === "committed" && b.pairs.length > 1)) sawVoteWait = true;
+  if (v0?.bands?.some((b) => b.pairs.length > 1 && (b.status === "committed" || (b.status === "marching" && Array.isArray(b.plan))))) sawVoteWait = true;
   if (v0?.bands?.some((b) => b.status === "marching")) sawMarching = true;
   if (host.battles?.some((B) => B.cheers?.length)) sawWarcry = true;
   if (host.buffs?.some((x) => x.key === "warcry")) sawCampBuff = true;
@@ -229,6 +259,7 @@ while (host.status === "playing") {
     check(band.mp >= 1 && band.mp <= 5, `preparing gives between 1 and 5 AP (warband has ${band.mp})`);
   }
   if (host.turn >= 2 && host.bands.some((b) => b.pairs.length >= 3 && b.node !== HOME)) sawMultiStep = true;
+  if (process.env.TWDBG) { const k = `${h.turn}:${h.phase}:${h.stage}:${h.bands.map((b) => b.node + (b.battle ? "*" : "") + (b.late ? "L" : "")).join(",")}:${h.battles.map((B) => B.node + B.status[0] + B.qNo).join(",")}`; if (k !== dbgKey) { dbgKey = k; console.log("DBG", k, h.bands.map((b) => b.mp).join("/")); } }
   // a student drops out and comes back mid-war
   if (!reconnectDone && host.turn === 3 && host.phase === "crystal") {
     reconnectDone = true;
@@ -272,7 +303,7 @@ console.log(`  stolen strikes seen: ${seen.steal}`);
 const counts = host.students.map((s) => s.answered);
 check(Math.min(...counts) >= 15, `every student answered plenty of questions (fewest ${Math.min(...counts)}, most ${Math.max(...counts)})`);
 console.log(`  battle lost at least once: ${sawLoss}`);
-const unexpected = bots.flatMap((b) => b.errors).filter((e) => !/one stop at a time|battle is being fought|finished moving|not your turn|Wait for your turn|too far|Too late|in a battle|already|same stop|is not here|battle is on|Answer your 3|full HP|Grab-Ma|You do not have|War Council|You would have to fight|can travel|being fought|over/i.test(e));
+const unexpected = bots.flatMap((b) => b.errors).filter((e) => !/one stop at a time|battle is being fought|finished moving|not your turn|Wait for your turn|too far|Too late|in a battle|already|same stop|is not here|battle is on|Answer your 3|full HP|Grab-Ma|You do not have|War Council|You would have to fight|can travel|being fought|over|no longer on the table|Plan your move|missed planning/i.test(e));
 check(!unexpected.length, `no unexpected errors for students${unexpected.length ? ": " + [...new Set(unexpected)].slice(0, 4).join(" | ") : ""}`);
 await wardWar();
 await practiceWar();
@@ -282,6 +313,8 @@ await mechanicsWar();
 await restoreWar();
 await tutorialWar();
 await draftWar();
+await reinforceWar();
+await partnerWar();
 summary();
 done(fails.length ? 1 : 0);
 
@@ -522,6 +555,7 @@ async function mechanicsWar() {
       s.v = v; if (v.status !== "playing" || v.paused) return;
       const B = v.myBattle;
       if (v.own?.kind === "warcry") stats.cries++;
+      if (v.own?.result?.cheer != null && s.cheerAt !== v.own.question.startedAt) { s.cheerAt = v.own.question.startedAt; stats.cheered = (stats.cheered || 0) + 1; }
       // an own question: the cheat index is in this student's order, and must point at the right answer
       if (v.own && !v.own.result && s.lastQ !== v.own.question.startedAt) {
         const q = v.own.question; s.lastQ = q.startedAt; stats.own++;
@@ -595,17 +629,19 @@ async function mechanicsWar() {
   check(H.units.find((u) => u.id === knight.id)?.node === 1, "the knight waits next to the Academy");
   t.emit("twEndTurn");
   cy.route = (v, band) => (v.turn === 2 && band.node === HOME ? [HOME, 1] : "hold");
-  let sawRevive = false, lost = false, untilT = Date.now() + 60000;
-  while (Date.now() < untilT && !(H.turn === 3 && H.phase === "crimson")) {
+  // the class does not wait for a battle: the battle may end in a later turn. Wait for it, then for the next turn.
+  let sawRevive = false, lost = false, lostTurn = 0, untilT = Date.now() + 60000;
+  while (Date.now() < untilT) {
     await sleep(30);
     if (cy.v?.me?.revive) sawRevive = true;
-    if (H.battles.some((B) => B.outcome === "lost") || H.log.some((l) => /is lost/.test(l.text))) lost = true;
+    if (!lost && (H.battles.some((B) => B.outcome === "lost") || H.log.some((l) => /is lost/.test(l.text)))) { lost = true; lostTurn = H.turn; }
+    if (lost && H.phase === "crimson" && H.turn > lostTurn) break;
   }
   check(lost, "Cy lost the battle against the knight");
   check(sawRevive, "a beaten pair is marked to come back at full HP");
   await sleep(100);
   check(cy.v.me.hp === cy.v.me.maxHp, `at the start of the next turn the beaten pair is back to full HP (${cy.v.me.hp}/${cy.v.me.maxHp})`);
-  check(stats.cries > 0, "War Cries came to Ana by themselves while Cy fought (no SUPPORT tap)");
+  check(stats.cries > 0 || stats.cheered > 0, `War Cries came from Ana by themselves while Cy fought, no SUPPORT tap (${stats.cries} War Cry questions, ${stats.cheered || 0} preparing answers that cheered)`);
   check(stats.own >= 4 && stats.mapped === stats.own, `own questions: the answer index matches each student's order (${stats.mapped} of ${stats.own})`);
   check(stats.shuffled > 0, `choices are shuffled for each student (${stats.shuffled} of ${stats.own} in a new order)`);
   check(stats.resultOk > 0 && stats.explained > 0, `after an answer the student sees the right choice and the explanation (${stats.resultOk} results, ${stats.explained} explanations)`);
@@ -718,5 +754,158 @@ async function draftWar() {
   check((a.v.me.notes || []).some((n) => /route you planned was sent/.test(n.text)), `the student is told their route was sent (${(a.v.me.notes || []).map((n) => n.text).join(" | ")})`);
   check((b.v.me.notes || []).some((n) => /Time's up: you stayed at/.test(n.text)), "a student who planned nothing is told they stayed");
   for (const s of [a, b, t]) s.disconnect();
+}
+// A pair whose battle ends joins another battle still being fought (the pairs there are told, and the warband gets the
+// reinforcement bonus), a long battle does not hold up the class (the next turn goes on, its pair gets the default steps,
+// and one that runs past "Plan your move" plans its own move while the others march), and the war stays consistent.
+async function reinforceWar() {
+  console.log("\n--- joining a battle that is still on, and battles that run long ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (x) => (H = x)); t.on("twError", (m) => terr.push(m));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: false, turns: 8 });
+  // quiet: never answers its battle questions (so its battle runs long); route: what it plans in each council
+  const mk = (name, route, quiet = false) => {
+    const s = io(URL, { transports: ["websocket"] }); s.v = null; s.errs = []; s.rounds = []; s.name = name;
+    s.on("twError", (m) => s.errs.push(m));
+    s.on("twState", (v) => {
+      s.v = v; if (v.status !== "playing") return;
+      const B = v.myBattle;
+      const q = v.own && !v.own.result ? v.own.question : B?.question && !B.question.mine && !quiet ? B.question : null;
+      if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+      if (B?.moves && s.lastMove !== B.choose?.endsAt) { s.lastMove = B.choose?.endsAt; s.emit("twAction", { kind: "strike" }); }
+      if (B?.round && s.rounds.at(-1)?.at !== B.round.at) s.rounds.push(B.round);
+      if (B) s.lastB = B;
+      const band = v.bands?.find((b) => b.id === v.me.bandId);
+      if (v.phase === "crystal" && v.stage === "council" && band && !band.battle && !s.manual) {
+        const key = `${v.turn}:${band.node}`; if (s.lastKey === key) return; s.lastKey = key;
+        const r = route(v, band); s.emit("twRoute", r ? { route: r } : { hold: true });
+      }
+    });
+    return s;
+  };
+  // Ana takes on a weak scout; Ben a tough pair of Gargoyles (his battle runs long: he does not answer); Cy marches far
+  const ana = mk("Ana", (v, b) => (b.node === HOME && v.turn === 1 ? [HOME, 1] : null));
+  const ben = mk("Ben", (v, b) => (b.node === HOME && v.turn === 1 ? [HOME, 14] : null), true);
+  const cy = mk("Cy", (v, b) => (v.turn === 1 ? null : b.node === HOME ? [HOME, 1, 10, 2].slice(0, 1 + b.mp) : b.node === 2 ? [2, 10, 1, HOME].slice(0, 1 + b.mp) : null));
+  await Promise.all([ana, ben, cy].map((s) => new Promise((r) => s.on("connect", r))));
+  for (const s of [ana, ben, cy]) s.emit("twJoin", { code: hs.code, name: s.name });
+  while (!ana.v || !ben.v || !cy.v) await sleep(20);
+  t.emit("twStart");
+  while (H.status !== "playing" || H.phase !== "crimson") await sleep(20);
+  t.emit("twTestSpawn", { types: ["rift_hound"], node: 1 }); t.emit("twTestSpawn", { types: ["gargoyle", "gargoyle"], node: 14 }); await sleep(100);
+  t.emit("twEndTurn");
+  const no = (s) => s.v.me.pairNo, bandOfS = (s) => H.bands.find((b) => b.pairs.some((p) => p.no === no(s)));
+  let offered = false, carriedOn = false, defaultSteps = null, lockedRoute = false, guestSafe = null, endedInMarch = false, moveTried = false, guardTried = false;
+  const until = Date.now() + 90000;
+  while (Date.now() < until) {
+    await sleep(10);
+    if (H.phase === "crimson" && !H.teacherEnded && H.turn > 1) t.emit("twEndTurn");
+    const bBen = bandOfS(ben), BB = H.battles.find((B) => B.status !== "over" && B.bands.some((b) => b.pairs.some((p) => p.no === no(ben))));
+    // Ana's battle is over: she is offered Ben's battle, and joins it
+    if (!offered && BB && ana.v.after?.battles?.some((x) => x.id === BB.id)) { offered = true; ana.emit("twJoinBattle", { battleId: BB.id }); }
+    // the class carries on: a new turn starts while Ben is still fighting
+    if (BB && H.turn >= 2 && H.phase !== "battles") carriedOn = true;
+    // Ben's band is still in a battle at a council: it cannot plan, and it gets the default steps for its move
+    if (BB && H.phase === "crystal" && H.stage === "council" && bBen?.battle) {
+      if (defaultSteps == null) defaultSteps = bBen.mp;
+      if (!lockedRoute) { lockedRoute = true; ben.emit("twRoute", { route: [bBen.node, 0] }); }
+    }
+    // the teacher cannot move a Crimson unit that is in a battle, nor attack a banner that is fighting elsewhere
+    if (BB && H.phase === "crimson" && !moveTried) { const u = H.units.find((x) => x.battle === BB.id); if (u) { moveTried = true; t.emit("twMoveUnit", { unitId: u.id, to: 0 }); } }
+    const bAna = bandOfS(ana);
+    if (BB && H.phase === "crimson" && bAna?.battle === BB.id && bAna.node === 1 && !guardTried) {
+      guardTried = true; t.emit("twTestSpawn", { types: ["imp_swarm"], node: 10 }); await sleep(80);
+      const imp = H.units.find((u) => u.type === "imp_swarm" && !u.battle);
+      if (imp) { t.emit("twMoveUnit", { unitId: imp.id, to: 1 }); await sleep(80); guestSafe = terr.some((e) => /fighting a battle/.test(e)) && !H.battles.some((B) => B.kind === "defend" && B.node === 1); }
+    }
+    // once a council has passed with Ben still fighting, the teacher ends his battle while the class marches
+    if (BB && H.phase === "crystal" && H.stage === "march" && defaultSteps != null && ben.rounds.some((r) => r.reinf?.pairs)) {
+      t.emit("twEndBattle", { battleId: BB.id }); endedInMarch = true; await sleep(40);
+      break;
+    }
+  }
+  // Ben plans his own move while the class marches
+  let late = false, lateMoved = false, from = null;
+  const u2 = Date.now() + 8000;
+  while (Date.now() < u2) {
+    await sleep(10);
+    const v = ben.v, band = v.bands?.find((b) => b.id === v.me.bandId);
+    if (!late && v.me.lateUntil && band && !band.battle) { late = true; from = band.node; ben.manual = true; ben.emit("twRoute", { route: [band.node, band.node === HOME ? 1 : HOME] }); }
+    if (late && band && band.node !== from) { lateMoved = true; break; }
+  }
+  const rb = ben.rounds.filter((r) => r.reinf);
+  check(offered, "a pair whose battle ended is offered a battle still being fought, and joins it");
+  check((ben.v.me.notes || []).some((n) => n.kind === "reinforce" && /joined your battle/.test(n.text)) && (ben.lastB?.reinforce?.joins || []).some((j) => j.no === no(ana)), "the pairs already fighting are told: \"Pair N joined your battle!\"");
+  check(rb.some((r) => r.reinf.atk > 0 && r.reinf.guard > 0), `while the joined pair answers right, the warband hits harder and takes less damage (${rb.map((r) => `+${Math.round(r.reinf.atk * 100)}% / -${Math.round(r.reinf.guard * 100)}%`).join(", ") || "none"})`);
+  check(ana.v.bands.find((b) => b.id === ana.v.me.bandId)?.node === 1, "the joined pair fought from its own stop: its banner did not move");
+  check(carriedOn, "a long battle does not hold up the class: the next turn goes on while it is fought");
+  check(defaultSteps === 2, `a pair still fighting while the class prepares gets the default steps for its move (${defaultSteps})`);
+  check(ben.errs.some((e) => /in a battle/.test(e)), "a warband in a battle cannot plan a route");
+  check(terr.some((e) => /unit is in a battle/.test(e)), "the teacher cannot move a Crimson unit that is in a battle");
+  check(guestSafe !== false, `a banner helping a battle elsewhere cannot be attacked meanwhile${guestSafe == null ? " (not staged this run)" : ""}`);
+  check(endedInMarch && late, "a battle that ran past \"Plan your move\" lets its pair plan its own move while the others march");
+  check(lateMoved, "that pair marches on its own once it has sent its route");
+  const odd = terr.filter((e) => !/unit is in a battle|fighting a battle/.test(e));
+  check(!odd.length, `no unexpected errors for the teacher${odd.length ? ": " + [...new Set(odd)].join(" | ") : ""}`);
+  for (const s of [ana, ben, cy, t]) s.disconnect();
+}
+
+// Both partners agree their pair's route: one taps it, the other must tap the same route (both iPads say so). A bot
+// partner, or a partner who is not connected, does not hold the pair up. If time runs out, the route drawn first is sent.
+async function partnerWar() {
+  console.log("\n--- both partners agree the pair's route ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null;
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (x) => (H = x));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: true, councilSeconds: 30 });
+  const mk = (name) => {
+    const s = io(URL, { transports: ["websocket"] }); s.v = null; s.errs = []; s.name = name;
+    s.on("twError", (m) => s.errs.push(m)); s.on("twMe", (m) => (s.me = m));
+    s.on("twState", (x) => { s.v = x; const q = x.own && !x.own.result ? x.own.question : null; if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); } });
+    return s;
+  };
+  const fa = mk("Fay"), gu = mk("Gus"), hal = mk("Hal"), iv = mk("Ivy"), jo = mk("Jo");
+  const all = [fa, gu, hal, iv, jo];
+  await Promise.all(all.map((s) => new Promise((r) => s.on("connect", r))));
+  for (const s of all) s.emit("twJoin", { code: hs.code, name: s.name });
+  while (all.some((s) => !s.v || !s.me)) await sleep(20);
+  // Fay + Gus are a pair; Ivy + Jo are a pair (Jo drops out); Hal is alone and gets a bot partner
+  fa.emit("twPartner", { pid: gu.me.pid }); await sleep(40); gu.emit("twPartner", { pid: fa.me.pid }); await sleep(40);
+  iv.emit("twPartner", { pid: jo.me.pid }); await sleep(40); jo.emit("twPartner", { pid: iv.me.pid }); await sleep(60);
+  t.emit("twStart");
+  while (H.status !== "playing") await sleep(20);
+  const band = (s) => s.v.bands.find((b) => b.id === s.v.me.bandId);
+  const council = async () => { const u = Date.now() + 30000; while (!(H.phase === "crystal" && H.stage === "council") && Date.now() < u) { if (H.phase === "crimson" && !H.teacherEnded) t.emit("twEndTurn"); await sleep(25); } await sleep(120); };
+  await council();
+  jo.disconnect(); await sleep(150);
+  // Fay taps a route: it is not sent yet; Gus sees it and is asked to agree
+  fa.emit("twRoute", { route: [HOME, 1] }); await sleep(150);
+  check(fa.v.me.picks?.mine && band(fa).props[fa.v.me.pairId] === undefined && !band(fa).plan, "one partner's route is not sent until the other partner agrees (\"Waiting for your partner to agree\")");
+  check((gu.v.me.picks?.partners || []).some((p) => p.name === "Fay" && Array.isArray(p.route) && p.route.at(-1) === 1), "the other partner sees the route their partner chose (\"Fay chose ...: tap to agree\")");
+  gu.emit("twRoute", { route: [HOME, 14] }); await sleep(150);
+  check(!band(gu).plan && band(gu).props[gu.v.me.pairId] === undefined, "two different routes: still not sent");
+  gu.emit("twAgree", { partner: fa.me.pid }); await sleep(150);
+  check(Array.isArray(band(fa).plan) && band(fa).plan.at(-1) === 1, "when both partners tap the same route, it is sent");
+  // Hal (a bot partner) and Ivy (her partner dropped out) are not held up
+  hal.emit("twRoute", { route: [HOME, 14] }); iv.emit("twRoute", { hold: true }); await sleep(150);
+  check(Array.isArray(band(hal).plan), "a pair with a bot partner sends its route at once (the bot agrees)");
+  check(band(iv).plan === "hold", "a partner who is not connected does not hold the pair up");
+  // the next move: the partners draw different routes and never agree; when time runs out, the route drawn first is sent
+  const turn = H.turn;
+  const u = Date.now() + 30000; while (H.turn === turn && Date.now() < u) await sleep(25);
+  await council();
+  const at = band(fa).node;
+  const nb = neighbours(at).filter((n) => !H.units.some((x) => x.node === n) && n !== FORTRESS);
+  gu.emit("twDraft", { route: [at, nb[0]] }); await sleep(120);
+  fa.emit("twDraft", { route: [at, nb[1] ?? nb[0]] }); await sleep(60);
+  const u3 = Date.now() + 15000; while (H.stage === "council" && Date.now() < u3) await sleep(25);
+  await sleep(250);
+  const bf = H.bands.find((b) => b.pairs.some((p) => p.names.includes("Fay")));
+  const went = bf && (bf.node === nb[0] || (bf.path || []).includes(nb[0]) || (Array.isArray(bf.plan) && bf.plan.at(-1) === nb[0]));
+  check(went, `the partners never agreed, so the route drawn first (Gus's, to ${NODES[nb[0]]?.name}) was sent when time ran out`);
+  for (const s of [...all, t]) s.disconnect();
 }
 function summary() { console.log(`\n${fails.length ? "FAILED: " + fails.length : "ALL PASSED"}`); }
