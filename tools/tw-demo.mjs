@@ -70,6 +70,17 @@ function act(b) {
     const right = ANSWER.get(q.q), pick = Math.random() < 0.75 && right != null ? right : Math.floor(Math.random() * q.choices.length);
     setTimeout(() => b.sock.emit("twAnswer", { chosen: pick, startedAt: q.startedAt }), ((q.recall + 3 + Math.random() * 8) * 1000) / (v.speed || 1));
   }
+  // each pair picks the monster it fights while a battle gathers (the one with the fewest pairs on it), and now and
+  // then switches to another monster on the field between questions
+  const GB = v.myBattle;
+  if (GB?.status === "gather" && GB.me?.target == null && b.i % 2 === 0 && b.aimed !== GB.id && GB.enemies.filter((e) => e.hp > 0).length > 1) {
+    b.aimed = GB.id; const live = GB.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0);
+    const pick = live.sort((x, y) => GB.enemies[x].picks - GB.enemies[y].picks)[0];
+    setTimeout(() => b.sock.emit("twTarget", { index: pick }), 800 + Math.random() * 1500);
+  }
+  if (GB?.status === "result" && b.i % 2 === 0 && (GB.targetable || []).length > 1 && Math.random() < 0.1 && b.switched !== GB.qNo) {
+    b.switched = GB.qNo; const other = GB.targetable.find((i) => i !== GB.me?.target); if (other != null) b.sock.emit("twTarget", { index: other });
+  }
   if (v.joinable?.length && Math.random() < 0.6) setTimeout(() => b.sock.emit("twJoinBattle", { battleId: v.joinable[0].id }), 1500);
   if (v.phase !== "crystal" || b.i % 2) return;
   const band = v.bands.find((x) => x.id === v.me.bandId); if (!band || band.done || band.battle) return;

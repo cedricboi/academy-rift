@@ -41,8 +41,10 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
    out work at any time). Meanwhile every student **prepares**: they answer questions on the Academy Rift
    question card (4 seconds to read, 21 to answer). Each right answer by a pair is +1 action point (AP)
    for its next move, up to +3, and each partner adds at most 2 (a student alone, up to 3), so both partners
-   count. No new preparing question starts in the last 10 seconds, and a question still open when the time ends
-   may finish before the class moves.
+   count. Each right preparing answer also earns **20 coins**, and the first 3 of a turn all right earn a
+   **20-coin bonus** (these used to be a separate stage of 3 questions after the Crimson turn). A student who already
+   has 3 gets no new question in the last 10 seconds. The Crimson turn ends on time without waiting: a question still
+   open carries on into the short top-up (see below).
 2. **Crystal turn.** Each pair has 1 AP plus what it earned preparing. A banner moves **one stop at a time**.
    Pairs on the same stop can join into a **warband**. A warband **votes** on every step: each pair taps
    a stop, most votes wins (a tie goes to the warband's first pair), and the vote closes 15 seconds after
@@ -99,24 +101,32 @@ and must band together to break into the Crimson Fortress and beat the Crimson W
 - Grab-Ma cooks for 3 seconds at the Academy, then rides out along the roads, **one road every 3 seconds** (far faster
   than a warband), following the banner if it moves. Everyone sees her scooter on the map. The food lands in the
   bag when she arrives, even in the middle of a battle.
-- Once every banner has locked in, the Crimson turn waits up to 30 seconds while students order and their food arrives.
+- Nothing waits for Grab-Ma: the march and the next turn go on, and the food lands in the bag when she arrives.
 
-## The class's move: 3 questions, the War Council, then everyone marches
+## The class's move: a short top-up, the War Council, then everyone marches (about 45 to 60 seconds)
 
-1. **Prepare** (the Crimson turn): preparing questions earn action points (AP), as before.
-2. **3 questions before the move**: each right answer earns 10 coins, all 3 right earns a 20-coin bonus. Wrong
-   answers earn nothing, but everyone still moves. A student who finishes early gets **bonus questions** (10 coins
-   each) until the class is done. The map opens when the whole class is done.
-3. **The War Council** (45 s, set in the lobby; the teacher can add 15 s or launch early): no questions, the map has
-   everyone's attention. Tap a glowing stop to plan a route for the whole move: it follows the real roads, shows
-   its AP cost, what is there and how much AP is left, and a ghost banner marks the planned stop. Tap a junction to
-   change the way. A pair alone commits straight away; in a warband one pair proposes and the others tap AGREE (the
-   majority route wins when the council ends). HOLD HERE keeps a banner where it is. Other banners' routes show as
-   thin lines. Grab-Ma takes orders here too.
-4. **The march**: every committed banner sets off together and eases along the roads. Walking into an enemy (or an
-   ambush) stops the route and starts the battle; the rest of the route is not taken.
+1. **Prepare** (the Crimson turn): preparing questions earn action points (AP) and coins, as above.
+2. **Top-up** (at most 20 s, `TOPUP_SECONDS`): only a student who has not answered 3 preparing questions yet (or is
+   still on one) gets a question. Everyone else sees "Planning opens in a few seconds" and how many are ready. It ends
+   the moment everyone has 3, and no new top-up question starts in its last 8 seconds. A question still open when it
+   ends is put away (not counted). The AP for the move is worked out when the map opens.
+3. **The War Council** (30 s, `COUNCIL_SECONDS`, set in the lobby from 15 s; the teacher can add 15 s or launch early):
+   no questions, the map has everyone's attention. Tap a glowing stop to plan a route for the whole move: it follows
+   the real roads, shows its AP cost, what is there and how much AP is left, and a ghost banner marks the planned stop.
+   Tap a junction to change the way. A pair alone commits straight away; in a warband one pair proposes and the others
+   tap AGREE (the majority route wins when the council ends). HOLD HERE keeps a banner where it is. Other banners'
+   routes show as thin lines. Grab-Ma takes orders here too. **It ends as soon as every warband has sent or agreed a
+   route** (after at least 5 seconds, `STRATEGY_SECONDS`).
+4. **The march**: every committed banner sets off together and eases along the roads, 0.8 s a road (`MARCH_STEP`).
+   Walking into an enemy (or an ambush) stops the route and starts the battle; the rest of the route is not taken.
+   The march does not wait for Grab-Ma: food lands in the bag whenever she arrives (even in a battle).
 5. **Battles** finish, then the next turn begins. Students who are free get War Cries by themselves. SUPPORT only
    picks which battle they go to (otherwise the one with the most enemy strength left).
+
+Timing with a class of server bots (measured with RIFT_SPEED=10, shown as real seconds), from the end of the Crimson turn
+to the end of the march: **before** about 78 s (3 questions 48 s, waiting for the slowest bot, War Council 25 s, march
+4.6 s); **now** about 20 s (top-up 13 to 16 s, War Council 5 s, march 2.4 s). A real class takes longer to plan, but the
+whole stretch is capped at about 53 s (20 + 30 + the march) unless the teacher adds time.
 
 Each banner shows its status beside it and on the action bar (planning, agreeing, committed, marching, enemy
 encountered, holding, recovering), and a small HP bar.
@@ -125,7 +135,7 @@ encountered, holding, recovering), and a small HP bar.
 
 - When an enemy (or an ambush) interrupts a route and the company wins, it gets 15 seconds to choose: **CARRY ON**
   along the rest of its route (with the AP it has left) or **STAY HERE**. It never carries on by itself, and the turn
-  waits for that choice.
+  waits up to 8 seconds (`RESUME_SECONDS`) for that choice.
 - After a defeat, the next War Council marks the wounded enemy on the map ("Wounded · 40% left") and makes the
   friendly companies the beaten company could reach and join glow.
 
@@ -160,16 +170,26 @@ encountered, holding, recovering), and a small HP bar.
   half the turns).
 - The gate guardian hits for 6, the Warlord for 8.
 - With the bot class (12 students) in `test-totalwar.mjs`, the gate breaks around turn 5 and the Warlord falls by
-  turn 8. Phase times at RIFT_SPEED=1 with bots: prepare 30 s, 3 questions about 33 s, War Council about 25 s, march a
-  few seconds, battles about 95 s a turn, so a turn is about 3 to 4 minutes and an 8-turn war about 25 minutes. A real
-  class answers more slowly (about 6 s more a question), which makes a war about 32 to 40 minutes.
+  turn 8. Phase times at RIFT_SPEED=1 with the test's bots (which answer in
+  about 5 s): prepare 30 s, the top-up about 3 s, the War Council about 4 s, the march about 1.5 s, battles about 80 s a
+  turn, so a turn is about 2 minutes and an 8 or 9-turn war about 17 minutes (it was about 22 with the old 3-question
+  stage and the 25-second planning minimum). A real class answers and plans more slowly, which makes a war about 25 to
+  32 minutes. The test bot class now answers about 56 to 74 questions each in a war (69 to 87 before): a little fewer
+  questions in all, in a shorter war.
 
 ## Seeing the battle
 
 - Battles use the Arena screen, with every fighter standing on the war backdrop's ground line at the theatre's size.
-- In a battle with more than one pair, a small window in the top right shows another pair fighting the same monster
-  (its HP falls with yours). With several pairs it takes turns showing each one, and it drops to the bottom right while
-  your own question card is open.
+- **The pair strip** (`pair-strip.js`) runs along the bottom of every battle, on the iPads (over the Arena frame) and in
+  the projector's battle panel: one card per pair in the fight with its portrait, its number ("YOU" for your own pair),
+  its HP on the 100-HP scale, a small icon of the monster it is engaging, what it is doing this question (answering,
+  locked in, their turn, right, wrong, striking, stole the turn, hit) and the damage it has dealt this battle. When a
+  pair's hit lands a "+N" pops up over its card. On its left are the monsters on the field with who fights each; with
+  two on the field the student taps one to engage it ("YOURS" marks their own). The Arena's panels along the bottom (the
+  move menu, the move recap, a stolen question) and the WHY box sit just above it (`tw-strip-on` in `lantern.css`).
+  It never covers the question or its choices, which sit at the top. Up to about 5 pairs fit in one row; more pairs
+  make the cards narrower and the row scrolls. In portrait the cards wrap onto rows of three.
+- The teacher's battle list shows which pairs fight which monster.
 
 ## Scouting, warnings, the finale and the story
 
@@ -185,10 +205,22 @@ encountered, holding, recovering), and a small HP bar.
 
 ### Waves, targets, ambushes, teleports and the watchtower
 
-- **Enemies come in waves:** one at a time, with a 50% chance that the next wave is two. Answering along and an
+- **Enemies come in waves:** one at a time, or two (always two when two pairs or more fight, so pairs can choose; else a 50% chance). Answering along and an
   Ultimate's splash only hit the wave in front, so a big warband cannot wipe a whole stack in one question.
-- **Pick a target:** while a battle gathers, each pair taps the enemy it wants. The most-picked enemy comes out
-  first, and a pair's move goes for its own pick when that enemy is in the wave.
+- **Each pair picks its monster.** While a battle gathers, each pair taps the monster it wants to fight (PICK YOUR
+  MONSTER). The most-picked come out first, and when two pairs or more fight, two monsters come out together (else
+  sometimes two). **Every pair is always engaged with one monster on the field** (the request "one pair must engage
+  with at least one monster" is read as this): a pair that did not pick, or whose pick is still to come, is given the
+  monster with the fewest pairs on it when the fight starts. When its monster falls the pair is moved to another one and
+  told ("Your monster is down. You now fight X."). Between questions (or any time in the fight) a pair can switch by
+  tapping a monster on the stage or in the strip. With only one monster on the field there is nothing to pick.
+- **Your monster takes your hits:** the striker's move and each right answer along hit the monster that student's pair
+  is engaging (what it cannot take goes to the other monster on the field). On your turn a strike goes straight to your
+  monster, with no extra tap. War Cries hit the field front to back.
+- **Each monster hits back mainly at the pairs engaging it:** 75% of its blow (`ENGAGED_SHARE`) lands on those pairs, the
+  rest on the whole warband. Each pair has its own HP in the battle (what it keeps afterwards, at least 30%), and the
+  warband's HP is their total: the battle is lost when it reaches 0. A pair at 0 HP still answers, and the blows meant
+  for it go to the others. Bots pick the monster with the fewest picks.
 - **Teleport (teacher):** in the Crimson turn, a unit can appear on any free stop (not on a Crystal banner or a
   camp) for 2 Rift Energy. From the new-unit prompt, or the ⚡ Teleport button on a stack.
 - **Ambush (teacher):** a unit ordered to Ambush hides on its stop. The class cannot see it (not even through the
@@ -205,7 +237,7 @@ encountered, holding, recovering), and a small HP bar.
   position, such as "all of the above"). The server maps each student's button back to the question's own answer.
 - After **every** answer the student sees the right choice and its explanation (`explain`, else `why.right`) for at
   least 5 seconds. In battles the explanation shows over the Arena screen, and the projector shows it too.
-- One "seen" list per student is shared by every kind of question (preparing, the 3 questions, War Cries and
+- One "seen" list per student is shared by every kind of question (preparing, War Cries and
   battles), and battle questions are picked from those the fighters have seen least.
 - "BACK AGAIN" only shows for a question the student really answered wrong earlier in this war (not one that
   timed out unseen).
@@ -305,5 +337,8 @@ bank keeps it worked out until a set changes).
 - `node test-totalwar.mjs [students]`: a teacher and a class of bots play a whole 8-turn war (and print the time
   each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled
   choices, explanations, AP, a beaten pair's full HP, and a server restart with the war restored.
-- `node --test tools/test-total-war.mjs`: the map and the rules.
+- `node --test tools/test-total-war.mjs`: the map and the rules (also per-pair targets: the spread when nobody picks,
+  moving on when a monster falls, the counterattack split, and the short movement phase).
+- `test-totalwar.mjs` also plays a battle where two pairs pick a monster and one does not (auto-assigned, moved on when
+  its monster falls, the counter split), and checks the movement phase is at most 60 game seconds a turn.
 - `node tools/tw-demo.mjs [url] [bots] --auto-teacher`: a live demo war to join from a browser.

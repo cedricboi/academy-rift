@@ -177,8 +177,8 @@ function render() {
   if (H.status === 'lobby') return renderLobby();
   show('game');
   const mine = H.phase === 'crimson';
-  $('gEyebrow').textContent = H.status === 'ended' ? 'THE WAR IS OVER' : `TURN ${H.turn} OF ${H.turns} · ${mine ? 'YOUR TURN' : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'CLASS QUESTIONS' : H.stage === 'council' ? 'WAR COUNCIL' : 'CLASS MARCHING') : 'BATTLES'}`;
-  $('gTitle').textContent = H.status === 'ended' ? 'The war is over' : mine ? (H.teacherEnded ? 'Waiting for the class to finish preparing' : 'Your move, Commander') : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'The class is answering questions' : H.stage === 'council' ? 'The class is planning routes' : 'The class is marching') : 'Battles are being fought';
+  $('gEyebrow').textContent = H.status === 'ended' ? 'THE WAR IS OVER' : `TURN ${H.turn} OF ${H.turns} · ${mine ? 'YOUR TURN' : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'LAST QUESTIONS' : H.stage === 'council' ? 'WAR COUNCIL' : 'CLASS MARCHING') : 'BATTLES'}`;
+  $('gTitle').textContent = H.status === 'ended' ? 'The war is over' : mine ? (H.teacherEnded ? 'Waiting for the class to finish preparing' : 'Your move, Commander') : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'The class is finishing its questions' : H.stage === 'council' ? 'The class is planning routes' : 'The class is marching') : 'Battles are being fought';
   $('energy').textContent = H.energy;
   $('wardTxt').textContent = `${H.ward.hp}/${H.ward.max}`;
   // Auto and End my turn only show in the teacher's own turn; otherwise one line says what is happening
@@ -230,11 +230,11 @@ function render() {
   idleChipExtra = stuck + (left != null ? `<span class="g-idle">War ends in about ${left} min</span>` : '');
   // the training turn: nothing is timed, the teacher moves the class on with Continue
   const training = H.status === 'playing' && H.training && !H.paused
-    ? `<div class="g-council"><b>TRAINING TURN</b> No timers. ${H.phase === 'crimson' ? 'Students are answering questions to earn steps.' : H.stage === 'quiz' ? `Students are answering 3 questions: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.` : H.stage === 'council' ? `Students are planning their moves: ${agreed} of ${H.bands.length} warbands have chosen a route.` : 'The warbands are moving and fighting.'} <button type="button" class="btn crimson" data-train="go">Continue</button><button type="button" class="btn" data-train="end">End training (start the timers)</button></div>` : '';
+    ? `<div class="g-council"><b>TRAINING TURN</b> No timers. ${H.phase === 'crimson' ? 'Students are answering questions to earn steps.' : H.stage === 'quiz' ? `Students are finishing their 3 preparing questions: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.` : H.stage === 'council' ? `Students are planning their moves: ${agreed} of ${H.bands.length} warbands have chosen a route.` : 'The warbands are moving and fighting.'} <button type="button" class="btn crimson" data-train="go">Continue</button><button type="button" class="btn" data-train="end">End training (start the timers)</button></div>` : '';
   if (training) { setHTML($('guide'), training); }
   else setHTML($('guide'), H.status !== 'playing' ? '' : H.paused ? `<div class="g-wait"><b>PAUSED</b> ${H.paused.restored ? 'The server restarted and the war is back at the start of this turn. Resume when the class has rejoined.' : 'Every clock has stopped. Students see "Paused by ' + esc(H.settings.commander) + '".'} <button type="button" class="btn crimson" data-resume="1">Resume</button></div>`
     : (H.phase === 'crystal' && H.stage === 'quiz'
-    ? `<div class="g-wait">The class is answering 3 questions before planning its move: <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
+    ? `<div class="g-wait">A few students are finishing their 3 preparing questions (at most ${H.topupSeconds || 20} seconds): <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
     : H.phase === 'crystal' && H.stage === 'council'
     ? `<div class="g-council"><b>WAR COUNCIL</b> <span data-until="${H.phaseEndsAt}"></span> left. ${agreed} of ${H.bands.length} warband${H.bands.length === 1 ? ' has' : 's have'} chosen a route. <button type="button" class="btn" data-council="extend">+15 s</button><button type="button" class="btn crimson" data-council="launch">Launch now</button></div>${idleChip}`
     : H.settings.botCommander ? `<div class="g-bot">🤖 The Bot Commander is leading your Host. Watch, or give orders yourself.</div>` : !mine
@@ -257,6 +257,7 @@ function render() {
     return `<div class="bl ${B.kind === 'defend' ? 'atk' : ''}"><div class="bl-h">${B.kind === 'defend' ? 'Your attack' : 'Battle'} at ${esc(nodeName(B.node))}<em>${where}</em></div>
       <div class="bl-row"><span>${pairs} pair${pairs === 1 ? '' : 's'} fighting</span><span>Class HP ${B.resolveMax ? `${Math.max(0, Math.ceil(B.resolve))} of ${B.resolveMax}` : 'full'}</span></div>
       <div class="bl-row"><span>Your units</span><span>${Math.ceil(hp)} of ${Math.round(max)} HP</span></div><div class="hpbar"><i style="width:${max ? (hp / max) * 100 : 0}%"></i></div>
+      ${B.status !== 'gather' && B.status !== 'over' ? B.enemies.map((e, i) => (e.wave && e.hp > 0 ? `<div class="bl-row bl-foe"><span><img src="${sprite(e.type)}" alt="">${esc(UNITS[e.type]?.name || Object.values(CAMPS).find((c) => c.id === e.type)?.name || e.type)}</span><span>${e.on?.length ? `Pair${e.on.length > 1 ? 's' : ''} ${e.on.join(', ')}` : 'Nobody'}</span></div>` : '')).join('') : ''}
       ${B.status !== 'over' && H.status === 'playing' ? `<button type="button" class="btn" data-endbattle="${B.id}">End this battle now</button>` : ''}</div>`;
   }).join(''));
 

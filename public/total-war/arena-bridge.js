@@ -5,6 +5,7 @@
 // question card, answer-along strip, move menu, skill cards, Ultimate cut-ins and cinematics.
 import { CHARACTERS } from '../data/characters.js';
 import { backdropFor, enemyName } from './stage.js';
+import { createPairStrip } from './pair-strip.js';
 
 const BGS = ['forest', 'bridge', 'ruins', 'lair', 'gate', 'academy'];
 const CH = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
@@ -67,7 +68,16 @@ export function createArenaBridge({ socket: tw, host }) {
     const wait = () => {
       if (!frame) return;
       const w = frame.contentWindow;
-      if (w && w.twBusy && handlers.room) { ready = true; const q = queue; queue = []; for (const [n, d] of q) fire(n, d); return; }
+      if (w && w.twBusy && handlers.room) {
+        ready = true; const q = queue; queue = []; for (const [n, d] of q) fire(n, d);
+        // tap a monster on the stage (when not aiming a move) to engage it
+        w.document.addEventListener('click', (e) => {
+          const t = e.target.closest?.('#arena .tok.mon'); if (!t || t.classList.contains('target-pick')) return;
+          const uid = t.dataset.uid || ''; if (uid.startsWith('e')) tw.emit('twTarget', { index: +uid.slice(1) });
+        });
+        stripH = -1; placeStrip();
+        return;
+      }
       setTimeout(wait, 80);
     };
     wait();
@@ -75,65 +85,28 @@ export function createArenaBridge({ socket: tw, host }) {
   // Between battles the frame stays loaded and hidden (the Arena page is parsed and its pictures decoded once per war,
   // not once per battle). Its battle state is cleared here; the next battle's room and battleStart set it up again.
   function close() {
-    pip.classList.add('hidden'); pip.style.visibility = '';
+    strip.hide(); placeStrip();
     try { frame?.contentWindow?.twReset?.(); } catch {}
     cur = null; lastRoom = '';
     host.classList.add('hidden');
   }
   const busy = () => { try { return !!frame?.contentWindow?.twBusy?.(); } catch { return false; } };
 
-  // ---------------- split screen: the other pairs in this battle, fighting the same monsters, in the top right corner
-  const LABS = { jun: 'J', kuro: 'K', emi: 'E', saya: 'S', raiden: 'R', nao: 'N', taiga: 'T', hina: 'H', mina: 'M', renji: 'X' };
-  const FRAMES = { K: 10 };
-  const pip = document.createElement('div'); pip.className = 'tw-pip hidden'; pip.setAttribute('aria-hidden', 'true');
-  host.after(pip);
-  let pipAt = 0, pipIdx = 0, pipRound = 0, pipHit = null;
-  function renderPip(S, B) {
-    const live = B && (B.status === 'fight' || B.status === 'choose' || B.status === 'result');
-    const groups = new Map();
-    for (const f of B?.party || []) if (f.pairNo && f.pairNo !== S.me.pairNo) { if (!groups.has(f.pairNo)) groups.set(f.pairNo, []); groups.get(f.pairNo).push(f); }
-    if (!live || !groups.size) { pip.classList.add('hidden'); return; }
-    const list = [...groups.entries()];
-    if (Date.now() - pipAt > 4500) { pipAt = Date.now(); pipIdx = (pipIdx + 1) % list.length; }
-    const [no, fs] = list[pipIdx % list.length];
-    const L = LABS[fs[0].char] || 'K', n = FRAMES[L] || 8;
-    const foe = B.enemies.find((e) => e.wave && e.hp > 0) || B.enemies.find((e) => e.hp > 0) || B.enemies[0];
-    const r = B.round;
-    if (r && r.at !== pipRound) { pipRound = r.at; const a = r.action; if (a && fs.some((f) => f.pid === a.pid)) pipHit = { at: Date.now(), dmg: X(r.mainHits), no }; }
-    const hit = pipHit && pipHit.no === no && Date.now() - pipHit.at < 2500 ? pipHit : null;
-    const html = `<div class="pip-h">PAIR ${no} · ${fs.map((f) => esc(f.name)).join(' & ')}</div>
-      <div class="pip-stage" style="background-image:url(art/bg/${backdropFor(B.node, B.kind)}.webp)">
-        <i class="pip-hero" style="--n:${n};background-image:url(../theatre/arena/${L}.webp)"></i>
-        ${foe ? `<i class="pip-foe ${hit ? 'hurt' : ''}" style="background-image:url(monsters/anim/${foe.type}_idle.webp)"></i>` : ''}
-        ${hit ? `<b class="pip-dmg">-${hit.dmg}</b>` : ''}
-      </div>
-      ${foe ? `<div class="pip-hp"><span>${esc(enemyName(foe.type))}</span><i><b style="width:${Math.max(0, (foe.hp / foe.max) * 100)}%"></b></i></div>` : ''}
-      ${list.length > 1 ? `<div class="pip-dots">${list.map((_, i) => `<i class="${i === pipIdx % list.length ? 'on' : ''}"></i>`).join('')}</div>` : ''}`;
-    if (pip._html !== html) { pip._html = html; pip.innerHTML = html; }
-    const was = pip.classList.contains('hidden'); pip.classList.remove('hidden'); if (was) { pip.style.visibility = 'hidden'; placePip(); }
+  // ---------------- the pair strip along the bottom: every pair in this battle, its HP, its monster, what it is doing and
+  // the damage it has dealt. The Arena's own panels along the bottom (the move menu, the move recap) sit above it.
+  const strip = createPairStrip(document.body, { onPick: (index) => tw.emit('twTarget', { index }) });
+  let stripH = -1;
+  function placeStrip() {
+    const h = strip.height;
+    document.body.classList.toggle('tws-on', h > 0);
+    document.documentElement.style.setProperty('--tws', `${h}px`);
+    let doc; try { doc = frame?.contentWindow?.document; } catch { return; }
+    if (!doc?.documentElement || h === stripH && doc.documentElement.classList.contains('tw-strip-on') === h > 0) return;
+    stripH = h;
+    doc.documentElement.classList.toggle('tw-strip-on', h > 0);
+    doc.documentElement.style.setProperty('--tws', `${h}px`);
   }
-  // The split screen must never cover a question or its choices. While a question panel shows, it tries the top-right
-  // corner under the HUD, then the bottom-right corner; if both would overlap, the question panels are narrowed to leave
-  // the right edge free (pip-squeeze, style.css); if it would still overlap, the split screen hides until the panel closes.
-  const PANELS = ['mcq', 'qStrip', 'commands', 'skillSheet'];
-  function placePip() {
-    if (!frame) return;
-    let doc, fr; try { doc = frame.contentWindow.document; fr = frame.getBoundingClientRect(); } catch { return; }
-    if (!doc || !doc.documentElement || !doc.getElementById('arena')) return;   // the battle page is still loading
-    if (pip.classList.contains('hidden')) { doc.documentElement.classList.remove('pip-squeeze'); return; }
-    const boxes = PANELS.map((id) => doc.getElementById(id)).filter((e) => e && !e.classList.contains('hidden') && e.offsetParent !== null)
-      .map((e) => { const r = e.getBoundingClientRect(); return { l: r.left + fr.left - 8, t: r.top + fr.top - 8, r: r.right + fr.left + 8, b: r.bottom + fr.top + 8 }; });
-    const ph = pip.offsetHeight || 170, pw = pip.offsetWidth || 220, W = innerWidth, H = innerHeight;
-    const hit = (top) => boxes.some((b) => !(W - 10 - pw > b.r || W - 10 < b.l || top + ph < b.t || top > b.b));
-    const html = doc.documentElement, squeezed = html.classList.contains('pip-squeeze');
-    const spots = [150, H - 12 - ph];
-    let top = spots.find((t) => !hit(t));
-    if (top == null && !squeezed && boxes.length) { html.classList.add('pip-squeeze'); return; }   // measured again on the next tick
-    if (!boxes.length && squeezed) html.classList.remove('pip-squeeze');
-    pip.style.top = `${top ?? 150}px`; pip.style.bottom = 'auto';
-    pip.style.visibility = top == null ? 'hidden' : '';
-  }
-  setInterval(placePip, 250);
+  setInterval(placeStrip, 400);
   const esc = (v) => String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // ---------------- the war's battle as an Arena room
@@ -155,7 +128,8 @@ export function createArenaBridge({ socket: tw, host }) {
     return (wave.length ? wave : [...alive, ...dead].slice(0, 1)).slice(0, 2).map((i) => {
       const e = B.enemies[i];
       return { uid: `e${i}`, team: 1, charId: `m:${e.type}`, monster: true, name: 'Crimson Host', charName: enemyName(e.type), element: 'Dark',
-        hp: X(Math.max(0, e.hp)), maxHp: X(e.max), sp: 0, maxSp: 1, alive: e.hp > 0, skills: [], cooldowns: {}, items: {} };
+        hp: X(Math.max(0, e.hp)), maxHp: X(e.max), sp: 0, maxSp: 1, alive: e.hp > 0, skills: [], cooldowns: {}, items: {},
+        engaged: B.me?.target === i, pairsOn: e.on || [] };
     });
   }
   function roomOf(S, B) {
@@ -246,11 +220,15 @@ export function createArenaBridge({ socket: tw, host }) {
         fire('actionResult', { actor: a.pid, action: KIND[a.kind] || 'strike', name: a.name, events });
       }
       fire('room', room); lastRoom = roomKey(room);
-      if (r.counterTotal > 0 || r.stunned) fire('twCounter', { actor: a?.pid || me, from: tgt, dmg: X(r.counterTotal / npairs), blocked: Math.round((r.guard || 0) * 100), stunned: !!r.stunned });
+      // what the monster did to your own pair (each monster hits back mainly at the pairs engaging it)
+      const mineHurt = r.hurt && S.me.pairNo in r.hurt ? r.hurt[S.me.pairNo] : r.counterTotal / npairs;
+      const from = Number.isInteger(B.me?.target) && B.enemies[B.me.target]?.wave ? `e${B.me.target}` : tgt;
+      if (r.counterTotal > 0 || r.stunned) fire('twCounter', { actor: a?.pid || me, from, dmg: X(mineHurt), blocked: Math.round((r.guard || 0) * 100), stunned: !!r.stunned });
     } else { const k = roomKey(room); if (k !== lastRoom) { lastRoom = k; fire('room', room); } }
     if (!cur.started && live) { cur.started = true; fire('battleStart', {}); }
     host.classList.toggle('hidden', !live);
-    renderPip(S, live ? B : null);
+    strip.render(live ? B : null, S.me.pairNo, { mePid: S.me.pid });
+    placeStrip();
     return live;
   }
 

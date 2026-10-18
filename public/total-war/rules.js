@@ -4,11 +4,15 @@ import { NODES, EDGES, edgeCost } from './movement.js';
 
 export const HOME = 0;                 // Academy Ward: where the class starts and retreats to
 export const FORTRESS = 5;             // Crimson Fortress: the gate guardian, then the Warlord
-export const QUIZ_PER_MOVE = 3;        // the class's move opens with 3 questions each (coins for right answers), then the map
-export const QUIZ_BONUS = 20;          // extra coins for getting all 3 right
-export const STRATEGY_SECONDS = 25;    // the War Council: at least this long to plan routes and order food before banners can march
-export const COUNCIL_SECONDS = 60;     // the longest a War Council ("Plan your move") lasts unless the teacher extends it
-export const MARCH_STEP = 1.6;         // seconds a marching banner takes for each road
+export const QUIZ_PER_MOVE = 3;        // preparing questions each student answers for a move (steps and coins), most of them while the enemy moves
+export const QUIZ_BONUS = 20;          // extra coins for getting the first 3 preparing questions of a turn all right
+export const PREP_COINS = 20;          // coins for each right preparing answer (the 3 questions before the move used to be separate)
+export const TOPUP_SECONDS = 20;       // after the enemy's turn, a short top-up (at most this long) for students who have not answered their 3 yet
+export const LATE_TOPUP_SECONDS = 8;   // no new top-up question starts in its last seconds
+export const STRATEGY_SECONDS = 5;     // "Plan your move" ends this soon at the earliest once every warband has sent or agreed a route
+export const COUNCIL_SECONDS = 30;     // the longest "Plan your move" (the War Council) lasts unless the teacher extends it
+export const MARCH_STEP = 0.8;         // seconds a marching banner takes for each road
+export const RESUME_SECONDS = 8;       // after winning a fight on the march, the time to choose CARRY ON or STAY HERE
 export const REST_HEAL = 3;            // HP a pair gets back each turn it rests at the Academy or a safe camp (a rally point) it holds (otherwise only food heals)
 export const ALONG_HIT = 0.75;         // answering along: this many hits for each right answer…
 export const ALONG_CAP = 4;            // …counting at most this many in a battle of one or two pairs (a huge warband no longer melts an enemy in one question)
@@ -22,7 +26,8 @@ export const SYNC_PER_QUESTION = 16;   // Sync gauge per question when every fig
 export const WATCHTOWER = 2;           // Whispering Watch: a Crystal banner standing on it shows the class the whole Crimson Host (not ambushers)
 export const TELEPORT_COST = 2;        // Rift Energy for the teacher to teleport one unit
 export const AMBUSH_HIT = 0.25;        // an ambushed warband starts the battle this much down on HP
-export const PAIR_WAVE = 0.5;          // chance that the next enemy wave in a battle is two enemies, not one
+export const PAIR_WAVE = 0.5;          // chance that the next enemy wave in a battle is two enemies, not one (always two when two pairs or more fight)
+export const ENGAGED_SHARE = 0.75;     // a monster's counterattack: this share lands on the pairs engaging it, the rest on the whole warband
 export const OUTPOSTS = [2, 8, 6];     // Whispering Watch, Sunken Watch, Silverwood Camp: rally points once the class holds them
 
 export const SIGHT = 2;                // fog of war: students see this many roads beyond any of their banners
@@ -202,6 +207,46 @@ export function progressResult({ gateHp, gateMax, broken, warlordHp, warlordMax 
 export const resolveFor = (pairs) => RESOLVE_PER_PAIR * Math.max(1, pairs);
 // siege damage a unit does to the Academy Ward each turn it stands at the class's fortress
 export const siegeOf = (type) => (UNITS[type]?.atk || 1) * (UNITS[type]?.siege || 1);
+
+// Each pair in a battle engages one monster on the field. A pair with no target (or whose monster fell) goes to the
+// monster the fewest pairs are engaging (ties: the one listed first). targets: { pairId: index }. Returns the new map.
+export function assignTargets(pairIds, field, targets = {}, alive = () => true) {
+  const live = field.filter(alive), out = {};
+  if (!live.length) return { ...targets };
+  const load = new Map(live.map((i) => [i, 0]));
+  for (const p of pairIds) if (load.has(targets[p])) { out[p] = targets[p]; load.set(targets[p], load.get(targets[p]) + 1); }
+  for (const p of pairIds) if (out[p] === undefined) {
+    let best = live[0];
+    for (const i of live) if (load.get(i) < load.get(best)) best = i;
+    out[p] = best; load.set(best, load.get(best) + 1);
+  }
+  return out;
+}
+// A monster's counterattack split over the pairs: ENGAGED_SHARE of each blow on the pairs engaging that monster, the
+// rest on every pair still standing. Damage a pair cannot take (it is at 0 HP) goes on to the others, so the warband
+// as a whole always takes the full blow. blows: [{ index, dmg }]; hp: { pairId: hp }. Returns { pairId: damage }.
+export function splitCounter(blows, targets, hp) {
+  const taken = Object.fromEntries(Object.keys(hp).map((p) => [p, 0]));
+  const add = (amount, pairs) => {
+    let left = amount, list = pairs.filter((p) => hp[p] - taken[p] > 1e-9);
+    for (let k = 0; k < 8 && left > 1e-9 && list.length; k++) {
+      const each = left / list.length; left = 0;
+      for (const p of list) { const room = hp[p] - taken[p], d = Math.min(room, each); taken[p] += d; left += each - d; }
+      list = list.filter((p) => hp[p] - taken[p] > 1e-9);
+      if (!list.length && left > 1e-9) list = Object.keys(hp).filter((p) => hp[p] - taken[p] > 1e-9);
+    }
+    return left;
+  };
+  const all = Object.keys(hp);
+  for (const b of blows) {
+    const on = all.filter((p) => targets[p] === b.index && hp[p] - taken[p] > 1e-9);
+    const main = on.length ? b.dmg * ENGAGED_SHARE : 0;
+    const rest = add(main, on);
+    add(b.dmg - main + rest, all);
+  }
+  for (const p of all) taken[p] = +taken[p].toFixed(2);
+  return taken;
+}
 
 // Deal hits to the enemies front to back. Returns a new list and how many fell.
 export function dealHits(enemies, hits) {

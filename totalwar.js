@@ -13,13 +13,14 @@ import {
   nearestRally, stepTowards, hops, STACK_LIMIT, FORTRESS_LIMIT, READ_SECONDS, ANSWER_SECONDS, VOTE_SECONDS,
   JOIN_SECONDS, MUSTER_PER_TURN, CAMP_RETURN_TURNS, nodeName, PREPARE_SECONDS, WARCRY_HIT, SUPPORT_HIT, counterAttack, resolveFor, siegeOf, HOLD_BONUS, WARD_HP,
   alongCap, FORTRESS_GUARDS, WARCRY_CAP, WARCRY_COOLDOWN, PREP_AP_EACH, MUSTER_MP_CAP, LATE_PREP_SECONDS, progressResult, TW_ITEMS, showHp,
+  TOPUP_SECONDS, LATE_TOPUP_SECONDS, RESUME_SECONDS, assignTargets, splitCounter, PREP_COINS,
 } from "./public/total-war/rules.js";
 
 const token = (n = 18) => randomBytes(n).toString("base64url");
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const rightAnswers = (q) => (Array.isArray(q.answers) && q.answers.length ? q.answers : [q.answer]);
 const qKey = (q) => q.qid || q.q;
-const RESUME_SECONDS = 15, QUIZ_SECONDS = 90, ORDER_SECONDS = 30, COOK_SECONDS = 3, RIDE_STEP = 3, ACTION_SECONDS = 6, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
+const ORDER_SECONDS = 30, COOK_SECONDS = 3, RIDE_STEP = 3, ACTION_SECONDS = 6, SYNC_GAIN = 12, SP_REGEN = 10, COINS_PER_RIGHT = 10;
 const FEEDBACK_SECONDS = 5;                       // the right answer and its explanation stay up at least this long after every answer
 const SAVE_DIR = "wars", SAVE_HOURS = 12;         // war snapshots (one a turn), and how long an old one is worth restoring
 // Choices are shuffled for each student, except when a choice points at the others by position ("all of the above", "A and B")
@@ -249,31 +250,37 @@ export function setupTotalWar(deps) {
     S.energy = Math.min(S.energy, energyCarry) + energyPerTurn(S.pairs.size);
     for (const u of S.units.values()) { u.moved = 0; if (S.turn > 1) u.tutorial = false; }
     for (const [n, c] of Object.entries(S.camps)) if (!c.alive && c.returnTurn <= S.turn) { c.alive = true; c.hp = CAMPS[n].hp; say(S, `${CAMPS[n].name} has returned to ${nodeName(+n)}.`); }
-    for (const st of S.students.values()) { st.musterThisTurn = 0; if (!st.own || st.own.kind !== "muster") st.own = null; }
+    for (const st of S.students.values()) { st.musterThisTurn = 0; st.prepRight = 0; st.prep = 0; if (!st.own || st.own.kind !== "muster") st.own = null; }
+    for (const p of S.pairs.values()) p.bank = 0;
     for (const b of S.bands.values()) { b.done = true; b.votes = {}; }
     say(S, `Turn ${S.turn}. The Crimson Host moves.`, "crimson");
     S.dirty = true;
   }
 
-  // The class's move: first 3 questions each (coins for right answers), then, once everyone is done, the map opens
-  // for everyone at once, with time to plan, move and order food.
+  // The class's move. The 3 preparing questions are answered while the enemy moves (the Crimson turn). A student who
+  // has not finished them (or is still on one) gets a short top-up of at most TOPUP_SECONDS; everyone else waits
+  // a moment. Then the map opens for everyone at once, with time to plan, move and order food.
   function startCrystal(S) {
     S.phase = "crystal"; S.stage = "quiz"; S.orderEnds = 0;
-    for (const st of S.students.values()) { st.orderDone = false; st.quiz = 0; st.quizRight = 0; st.own = null; st.prep = 0; }
-    S.phaseStartedAt = Date.now(); S.phaseEndsAt = Date.now() + ms(QUIZ_SECONDS);
+    for (const st of S.students.values()) { st.orderDone = false; if (st.own && st.own.kind !== "muster") st.own = null; }
+    S.phaseStartedAt = Date.now(); S.phaseEndsAt = Date.now() + ms(TOPUP_SECONDS);
     // resting at the Academy or a rally point heals a little; everywhere else only food heals
     for (const b of S.bands.values()) if ((b.node === HOME || S.rally.has(b.node)) && !b.battle) for (const x of b.pairs) { const p = S.pairs.get(x); if (p && p.hp < p.maxHp) p.hp = Math.min(p.maxHp, p.hp + REST_HEAL); }
+    for (const b of S.bands.values()) { b.done = false; b.votes = {}; b.voteOpenedAt = 0; }
+    if (!quizDone(S)) say(S, `Turn ${S.turn}. Finish your questions, then plan your move.`, "crystal");
+    S.dirty = true;
+  }
+  // the steps (AP) each pair and warband has for this move, from the right answers while preparing
+  function setMoveAP(S) {
     const buffs = buffOn(S);
-    for (const p of S.pairs.values()) { p.mp = pairMP(p.bank, buffs); p.bank = 0; }
+    for (const p of S.pairs.values()) { p.mp = pairMP(p.bank || 0, buffs); p.bank = 0; }
+    for (const st of S.students.values()) st.prep = 0;
     for (const b of S.bands.values()) {
       // a warband travels with the average AP of its pairs (rounded), so one slow pair does not hold everyone back
       const active = b.pairs.map((x) => S.pairs.get(x)).filter((p) => p && p.members.some((m) => isConnected(S.students.get(m))));
       const list = (active.length ? active : b.pairs.map((x) => S.pairs.get(x)).filter(Boolean)).map((p) => p.mp);
       b.mp = list.length ? Math.round(list.reduce((a, n) => a + n, 0) / list.length) : 0;
-      b.done = false; b.votes = {}; b.voteOpenedAt = 0;
     }
-    say(S, `Turn ${S.turn}. Answer 3 questions, then plan your move.`, "crystal");
-    S.dirty = true;
   }
   // The War Council: the map opens for everyone at once. Each warband agrees ONE route for the whole move (a pair
   // proposes, the others agree or propose another), then every banner marches together.
@@ -281,7 +288,9 @@ export function setupTotalWar(deps) {
     if (timeUp(S)) return endByProgress(S, "time");
     S.stage = "council"; S.moveStartedAt = Date.now(); S.launch = false;
     S.phaseEndsAt = Date.now() + ms(S.settings.councilSeconds || COUNCIL_SECONDS);
-    for (const st of S.students.values()) if (st.own?.kind === "quiz") st.own = null;
+    // a preparing question still open when the top-up ends is put away (not counted)
+    for (const st of S.students.values()) if (st.own?.kind === "quiz" || (st.own?.kind === "muster" && !st.own.result)) st.own = null;
+    setMoveAP(S);
     for (const b of S.bands.values()) { b.props = {}; b.drafts = {}; b.plan = null; b.path = null; b.interrupted = false; b.arrived = false; b.held = false; }
     say(S, "Plan your move! Agree your routes, order food, then march together.", "crystal");
     S.dirty = true;
@@ -321,7 +330,7 @@ export function setupTotalWar(deps) {
   }
   function proposeRoute(S, pairId, route) {
     const b = bandOf(S, pairId); if (!b) return "You are not on the map yet.";
-    if (S.phase !== "crystal" || S.stage !== "council") return S.stage === "quiz" ? "Answer your 3 questions first. Planning opens when everyone is done." : "Routes are planned in Plan your move (the War Council).";
+    if (S.phase !== "crystal" || S.stage !== "council") return S.stage === "quiz" ? "Finish your preparing questions first. Planning opens in a few seconds." : "Routes are planned in Plan your move (the War Council).";
     if (b.battle) return "Your warband is in a battle.";
     const err = routeError(S, b, route); if (err) return err;
     (b.props ||= {})[pairId] = route === "hold" ? "hold" : route.slice();
@@ -353,6 +362,7 @@ export function setupTotalWar(deps) {
   }
   function startMarch(S) {
     S.stage = "march"; S.phaseEndsAt = Date.now() + ms(S.settings.crystalSeconds);
+    S.marchStartedAt = Date.now();
     const now = Date.now(); let k = 0;
     for (const b of S.bands.values()) {
       if (b.battle) continue;
@@ -366,7 +376,7 @@ export function setupTotalWar(deps) {
       const plan = b.plan || agreedPlan(S, b) || majorityPlan(S, b);
       b.plan = plan; b.held = plan === "hold"; b.lastDefeat = null; b.lastDefeatAt = null; b.rest = null; b.resumeUntil = 0;
       b.path = plan === "hold" || routeError(S, b, plan) ? [] : plan.slice(1);
-      b.nextAt = now + ms(0.5 + 0.15 * k++); b.done = !b.path.length;
+      b.nextAt = now + ms(0.3 + 0.1 * k++); b.done = !b.path.length;
       const to = b.path.length ? nodeName(b.path.at(-1)) : null, here = nodeName(b.node);
       const text = to ? (drafted && !agreed ? `Time's up, so the route you planned was sent. You march to ${to}.` : `Route sent: you march to ${to}.`)
         : sent && plan === "hold" ? `You chose to stay at ${here}.` : `Time's up: you stayed at ${here}.`;
@@ -408,7 +418,7 @@ export function setupTotalWar(deps) {
     b.resumeUntil = 0;
     if (!go) { b.rest = null; b.interrupted = false; b.held = true; S.dirty = true; return null; }
     const err = routeError(S, b, [b.node, ...b.rest]); if (err) { b.rest = null; return err; }
-    b.path = b.rest; b.rest = null; b.interrupted = false; b.nextAt = Date.now() + ms(0.4); b.done = false;
+    b.path = b.rest; b.rest = null; b.interrupted = false; b.nextAt = Date.now() + ms(0.3); b.done = false;
     say(S, `${company(S, b)} carries on towards ${nodeName(b.path.at(-1))}.`, "crystal");
     S.dirty = true; return null;
   }
@@ -422,7 +432,9 @@ export function setupTotalWar(deps) {
     if ((b.node === HOME || S.rally.has(b.node)) && p && p.hp < p.maxHp) return "recovering";
     return "waiting";
   }
-  const quizDone = (S) => [...S.students.values()].every((st) => st.quiz >= QUIZ_PER_MOVE || !isConnected(st) || !!bandOf(S, st.pairId)?.battle);
+  // the top-up is done when every student still playing has answered their 3 preparing questions and is not on one
+  const prepDone = (S, st) => (st.musterThisTurn || 0) >= QUIZ_PER_MOVE && !(st.own?.kind === "muster" && !st.own.result);
+  const quizDone = (S) => [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st) || !!bandOf(S, st.pairId)?.battle);
 
   // how: null (the Warlord fell) | ward | turns | time | progress (the teacher ended it) | teacher (the teacher declared the class the winner)
   function endGame(S, winner, how = null) {
@@ -469,14 +481,11 @@ export function setupTotalWar(deps) {
         return flush(S);
       }
       // the class prepares for at most crimsonSeconds (30 s); it ends sooner once the teacher has ended the turn
-      // and everyone has answered their preparing questions
-      const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st));
-      // a preparing question still open when the time ends may finish (no new ones start near the end)
-      const open = [...S.students.values()].some((st) => st.own?.kind === "muster" && !st.own.result && isConnected(st));
-      const hardEnd = S.phaseEndsAt + ms(READ_SECONDS + ANSWER_SECONDS + 1);
-      if ((((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) && !open) || now >= hardEnd) { runOrders(S); startCrystal(S); }
+      // and everyone has answered their preparing questions. A question still open carries on into the short top-up.
+      const musterDone = [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st));
+      if ((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
     } else if (S.phase === "crystal" && S.stage === "quiz") {
-      if (quizDone(S) || go || (!free && now >= S.phaseEndsAt)) { dropOpen(S); openMoves(S); }
+      if (quizDone(S) || go || (!free && now >= S.phaseEndsAt)) { dropOpen(S); openMoves(S); if (S.status !== "playing") return flush(S); }
     } else if (S.phase === "crystal" && S.stage === "council") {
       // the council ends when time is up, the teacher launches, or every warband has agreed and the planning time has passed
       const agreed = [...S.bands.values()].every((b) => b.battle || b.plan);
@@ -484,8 +493,8 @@ export function setupTotalWar(deps) {
     } else if (S.phase === "crystal") {
       marchTick(S, now);
       const marching = [...S.bands.values()].some((b) => (b.path?.length && !b.battle) || (b.resumeUntil && now < b.resumeUntil));
-      const riding = [...S.riders.values()].some((r) => r.status !== "delivered");
-      if ((!marching && !riding) || now >= S.phaseEndsAt) {
+      // Grab-Ma is not waited for: the food lands in the bag whenever she arrives (even in a battle)
+      if (!marching || now >= S.phaseEndsAt) {
         for (const b of S.bands.values()) { if (!b.battle) b.done = true; if (!b.resumeUntil || now >= b.resumeUntil) b.path = null; }
         if (S.battles.size) { S.phase = "battles"; S.phaseStartedAt = now; S.dirty = true; say(S, "The last battles of this turn are being fought."); }
         else if (!tutorialHolds(S)) startCrimson(S);
@@ -509,7 +518,7 @@ export function setupTotalWar(deps) {
     S.training = false; S.tutorialDone = true;
     const now = Date.now();
     if (S.phase === "crimson") S.phaseEndsAt = now + ms(S.settings.crimsonSeconds);
-    else if (S.phase === "crystal" && S.stage === "quiz") S.phaseEndsAt = now + ms(QUIZ_SECONDS);
+    else if (S.phase === "crystal" && S.stage === "quiz") S.phaseEndsAt = now + ms(TOPUP_SECONDS);
     else if (S.phase === "crystal" && S.stage === "council") { S.phaseEndsAt = now + ms(S.settings.councilSeconds || COUNCIL_SECONDS); S.moveStartedAt = now; }
     for (const st of S.students.values()) if (st.own?.untimed) { st.own.untimed = false; if (!st.own.result) st.own.startedAt = now; }
     for (const B of S.battles.values()) {
@@ -528,11 +537,16 @@ export function setupTotalWar(deps) {
     const now = Date.now();
     if (S.phase === "crimson") {
       if ((S.teacherEnded || untimed(S)) && st.musterThisTurn >= MUSTER_PER_TURN) return;
-      if (!untimed(S) && now >= S.phaseEndsAt - ms(LATE_PREP_SECONDS)) return;   // too late to start one: the class is about to move
+      // once a student has their 3, no new question starts near the end (an unfinished one would hold up the class)
+      if (!untimed(S) && st.musterThisTurn >= MUSTER_PER_TURN && now >= S.phaseEndsAt - ms(LATE_PREP_SECONDS)) return;
       return giveOwnQuestion(S, st, "muster");
     }
-    // the 3 questions before the move; a student who is done early gets bonus questions (coins) until the class is ready
-    if (S.phase === "crystal" && S.stage === "quiz") { if (untimed(S) && (st.quiz || 0) >= QUIZ_PER_MOVE) return; return giveOwnQuestion(S, st, "quiz", null, (st.quiz || 0) >= QUIZ_PER_MOVE ? { bonus: true } : {}); }
+    // the short top-up after the enemy's turn: only a student who has not answered 3 preparing questions gets one
+    if (S.phase === "crystal" && S.stage === "quiz") {
+      if (st.musterThisTurn >= MUSTER_PER_TURN) return;
+      if (!untimed(S) && now >= S.phaseEndsAt - ms(LATE_TOPUP_SECONDS)) return;
+      return giveOwnQuestion(S, st, "muster");
+    }
     if (S.phase === "crystal" && S.stage === "council") return;  // the War Council: the map has their full attention
     // War Cries come by themselves to everyone not fighting while a battle is on (a short wait after a wrong one)
     if (now < (st.cryUntil || 0)) return;
@@ -557,6 +571,10 @@ export function setupTotalWar(deps) {
       if (st.quiz >= QUIZ_PER_MOVE && st.quizRight >= QUIZ_PER_MOVE) { st.coins = (st.coins || 0) + QUIZ_BONUS; o.result.bonus = QUIZ_BONUS; }
     } else if (o.kind === "muster") {
       st.musterThisTurn++;
+      // a right preparing answer earns PREP_COINS (record has paid the usual 10); the first 3 of a turn all right earn a bonus
+      if (ok) st.coins = (st.coins || 0) + PREP_COINS - COINS_PER_RIGHT;
+      if (ok && st.musterThisTurn <= QUIZ_PER_MOVE) st.prepRight = (st.prepRight || 0) + 1;
+      if (st.musterThisTurn === QUIZ_PER_MOVE && st.prepRight >= QUIZ_PER_MOVE) { st.coins = (st.coins || 0) + QUIZ_BONUS; o.result.bonus = QUIZ_BONUS; }
       // each student adds up to PREP_AP_EACH (a student alone, up to the pair's cap), so both partners count
       const p = pairOf(S, st.pid);
       if (ok && p) {
@@ -577,7 +595,7 @@ export function setupTotalWar(deps) {
     if (S.phase !== "crystal") return "Wait for your turn.";
     if (b.battle) return "Your warband is in a battle.";
     if (b.done) return "Your warband has finished moving this turn.";
-    if (S.phase === "crystal" && S.stage === "quiz") return "Answer your 3 questions first. The map opens when everyone is done.";
+    if (S.phase === "crystal" && S.stage === "quiz") return "Finish your preparing questions first. Planning opens in a few seconds.";
     if (to === "stay") return null;
     if (!Number.isInteger(to) || !isAdjacent(b.node, to)) return "You can only move one stop at a time, along a road.";
     if (cost(b.node, to) > b.mp) return "Not enough steps for that road.";
@@ -720,14 +738,20 @@ export function setupTotalWar(deps) {
       // the warband fights with the HP its pairs still have: it does not come back between battles (food heals)
       const ps = pairsIn(S, B).map((x) => S.pairs.get(x)).filter(Boolean);
       B.resolveMax = ps.reduce((a, p) => a + (p.maxHp || RESOLVE_PER_PAIR), 0) || resolveFor(1);
-      B.resolve = Math.max(0.5, ps.reduce((a, p) => a + Math.max(0, p.hp ?? RESOLVE_PER_PAIR), 0));
       B.startHp = Object.fromEntries(ps.map((p) => [p.id, p.hp ?? RESOLVE_PER_PAIR]));
-      if (B.ambush) B.resolve = Math.max(0.5, +(B.resolve - B.resolveMax * AMBUSH_HIT).toFixed(2));       // caught by surprise
+      // each pair has its own HP in the battle (the enemy hits back mainly at the pairs engaging it)
+      B.php = Object.fromEntries(ps.map((p) => [p.id, Math.max(0.05, +(p.hp ?? RESOLVE_PER_PAIR))]));
+      if (B.ambush) for (const p of ps) B.php[p.id] = Math.max(0.05, +(B.php[p.id] - (p.maxHp || RESOLVE_PER_PAIR) * AMBUSH_HIT).toFixed(2));   // caught by surprise
+      syncResolve(B);
+      B.dealt = {}; B.moved = {};
       for (const p of fightersOf(S, B)) fighterOf(S, B, p);
-      // enemies come in waves, the ones most pairs picked first: one at a time, sometimes two
+      // enemies come in waves, the ones most pairs picked first: one at a time, two when two pairs or more fight
       const votes = (i) => Object.values(B.targets).filter((t) => t === i).length;
       B.order = B.enemies.map((_, i) => i).sort((a, c) => votes(c) - votes(a) || a - c);
-      nextWave(B);
+      const picks = { ...B.targets };
+      nextWave(S, B);
+      // every pair engages a monster on the field: its own pick if it is out, else the one with the fewest pairs on it
+      retarget(S, B, picks, true);
       B.status = "fight"; nextBattleQuestion(S, B); return;
     }
     if (B.status === "fight" && B.q) {
@@ -840,7 +864,7 @@ export function setupTotalWar(deps) {
     B.sync = Math.min(100, B.sync + Math.round(SYNC_PER_QUESTION * (answered.length ? right / answered.length : 0)) + (strike ? 4 : 0));   // the warband's Sync gauge
     for (const F of Object.values(B.fighters)) F.sp = Math.min(F.maxSp, F.sp + SP_REGEN);
     B.pending = {
-      strike, stealer, support: rightAlong.filter(([p]) => p !== stealer).length, along: along.length, warcry: Math.min(WARCRY_CAP, B.warcryNow),
+      strike, stealer, support: rightAlong.filter(([p]) => p !== stealer).length, supporters: rightAlong.filter(([p]) => p !== stealer).map(([p]) => p), along: along.length, warcry: Math.min(WARCRY_CAP, B.warcryNow),
       frac: answered.length ? right / answered.length : 0,
       answer: rightAnswers(B.q.full)[0], right: rightAnswers(B.q.full), q: B.q.full.q, choices: B.q.full.choices, explain: explainOf(B.q.full),
       mine: Object.fromEntries([...B.answers.entries()].map(([p, a]) => [p, { chosen: a.shown ?? a.chosen, ok: a.ok }])),   // each in the student's own order
@@ -866,19 +890,53 @@ export function setupTotalWar(deps) {
     return null;
   }
 
-  function nextWave(B) {
+  function nextWave(S, B) {
     const left = (B.order || B.enemies.map((_, i) => i)).filter((i) => B.enemies[i].hp > 0);
-    B.wave = left.slice(0, left.length > 1 && Math.random() < PAIR_WAVE ? 2 : 1);
+    // two monsters come out together when two pairs or more fight (so pairs can choose), else sometimes two
+    const two = left.length > 1 && (pairsIn(S, B).length > 1 || Math.random() < PAIR_WAVE);
+    B.wave = left.slice(0, two ? 2 : 1);
     B.waveNo = (B.waveNo || 0) + 1;
+  }
+  const syncResolve = (B) => { B.resolve = +Object.values(B.php || {}).reduce((a, n) => a + Math.max(0, n), 0).toFixed(2); };
+  const fieldOf = (B) => (B.wave || []).filter((i) => B.enemies[i]?.hp > 0);
+  // Every pair is engaged with a monster on the field at all times. prev: the targets before (a pair whose monster
+  // fell, or whose pick is not out, is moved to the monster with the fewest pairs on it and told so).
+  function retarget(S, B, prev = B.targets, start = false) {
+    const field = fieldOf(B); if (!field.length) return;
+    const pairs = pairsIn(S, B);
+    B.targets = assignTargets(pairs, field, prev, (i) => B.enemies[i]?.hp > 0);
+    const name = (i) => enemyLabel(B.enemies[i]);
+    for (const x of pairs) {
+      const was = prev[x], now = B.targets[x];
+      if (was === now || field.length < 2 && start) continue;
+      const text = start ? (was == null ? `You fight ${name(now)}. Tap another monster to change.` : `${name(was)} comes out later. You fight ${name(now)} first.`)
+        : B.enemies[was]?.hp <= 0 ? `Your monster is down. You now fight ${name(now)}.` : `You now fight ${name(now)}.`;
+      B.moved[x] = { text, at: Date.now(), target: now };
+    }
+  }
+  const enemyLabel = (e) => (e && (UNITS[e.type]?.name || Object.values(CAMPS).find((c) => c.id === e.type)?.name)) || "the monster";
+  // share healing out over the pairs, as far as each pair's own HP goes; what one cannot take goes to the others
+  function healPairs(S, B, heal) {
+    let left = heal;
+    for (let k = 0; k < 6 && left > 1e-9; k++) {
+      const room = pairsIn(S, B).filter((x) => B.php[x] < (S.pairs.get(x)?.maxHp || RESOLVE_PER_PAIR) - 1e-9);
+      if (!room.length) break;
+      const each = left / room.length; left = 0;
+      for (const x of room) { const max = S.pairs.get(x)?.maxHp || RESOLVE_PER_PAIR, d = Math.min(each, max - B.php[x]); B.php[x] = +(B.php[x] + d).toFixed(2); left += each - d; }
+    }
+    syncResolve(B);
   }
   function applyRound(S, B, act) {
     const P = B.pending, buffs = buffOn(S), power = buffs.power ? 1.25 : 1, cry = WARCRY_HIT * (buffs.warcry ? 2 : 1);
     const pid = act ? B.choose.pid : null, half = act && B.choose.half ? 0.5 : 1;
     const st = pid ? S.students.get(pid) : null, F = pid ? fighterOf(S, B, pid) : null, base = F ? CHAR(F.char) : null;
-    // the enemy the student tapped, else the one their pair picked while gathering, else the front of the wave
+    // the move hits the monster the student's pair is engaging (tapping a monster on the stage changes it)
     const inWave = (i) => Number.isInteger(i) && B.wave.includes(i) && B.enemies[i]?.hp > 0;
-    const pairPick = pid ? B.targets[S.students.get(pid)?.pairId] : null;
-    const target = inWave(act?.target) ? act.target : inWave(pairPick) ? pairPick : (B.wave.find((i) => B.enemies[i].hp > 0) ?? Math.max(0, B.enemies.findIndex((e) => e.hp > 0)));
+    const actorPair = pid ? S.students.get(pid)?.pairId : null;
+    if (actorPair && inWave(act?.target) && B.targets[actorPair] !== act.target) { B.targets[actorPair] = act.target; delete B.moved?.[actorPair]; }
+    const front = () => B.wave.find((i) => B.enemies[i].hp > 0) ?? Math.max(0, B.enemies.findIndex((e) => e.hp > 0));
+    const pairPick = actorPair ? B.targets[actorPair] : null;
+    const target = inWave(pairPick) ? pairPick : front();
     let main = 0, heal = 0, splash = 0, stun = false, note = "", name = "Strike", index = -1, kind = act?.kind || null, extra = 1;
     if (act?.kind === "strike") main = 2;
     else if (act?.kind === "skill") {
@@ -911,35 +969,51 @@ export function setupTotalWar(deps) {
       else if (act.item === "durian") { main = 4; splash = 1; note = "It splashes the enemy beside the target"; }
     }
     main = main * half * power * extra * (B.mod.atkUp > 0 ? 1.25 : 1);
-    // right answers along help, up to a cap that grows with the number of pairs in the battle
-    const along = ALONG_HIT * Math.min(P.support, alongCap(pairsIn(S, B).length)) * power + P.warcry * cry;
-    // the move hits the enemy in front; an Ultimate's splash hits every other enemy; answering along hits front to back
-    let enemies = B.enemies.map((e) => ({ ...e })), fallen = 0, spill = 0;
-    const hurt = (i, h) => { const e = enemies[i]; if (!e || e.hp <= 0 || h <= 0) return h; const take = Math.min(e.hp, h); e.hp = Math.max(0, +(e.hp - take).toFixed(2)); if (e.hp <= 0) fallen++; return h - take; };
-    spill += hurt(target, main);
-    if (splash) enemies.forEach((e, i) => { if (i !== target && B.wave.includes(i)) hurt(i, splash); });
-    // answering along hits only the wave in front: the next wave is still on its way
-    const front = B.wave.filter((i) => enemies[i].hp > 0);
-    const frontHp = front.reduce((n, i) => n + enemies[i].hp, 0);
-    const res = dealHits(front.map((i) => enemies[i]), along); res.enemies.forEach((e, k) => { enemies[front[k]] = e; }); fallen += res.fallen;
-    spill += Math.max(0, along - frontHp);
+    // right answers along help, up to a cap that grows with the number of pairs in the battle. Each right answer hits
+    // the monster that student's pair is engaging.
+    const sup = P.supporters || [], w = sup.length ? Math.min(1, alongCap(pairsIn(S, B).length) / sup.length) : 0;
+    const along = ALONG_HIT * w * sup.length * power + P.warcry * cry;
+    // the move hits its target; an Ultimate's splash hits every other enemy on the field
+    let enemies = B.enemies.map((e) => ({ ...e })), fallen = 0;
+    const spill = [], dealt = {};
+    const credit = (x, d) => { if (x && d > 0) { dealt[x] = (dealt[x] || 0) + d; B.dealt[x] = +((B.dealt[x] || 0) + d).toFixed(2); } };
+    const hurt = (i, h, by = null) => { const e = enemies[i]; if (!e || e.hp <= 0 || h <= 0) return h; const take = Math.min(e.hp, h); e.hp = Math.max(0, +(e.hp - take).toFixed(2)); if (e.hp <= 0) fallen++; credit(by, take); return h - take; };
+    spill.push([actorPair, hurt(target, main, actorPair)]);
+    if (splash) enemies.forEach((e, i) => { if (i !== target && B.wave.includes(i)) hurt(i, splash, actorPair); });
+    // answering along: each pair's right answers hit its own monster; what it cannot take goes to the other monster on
+    // the field (only the wave in front: the next wave is still on its way)
+    const byPair = {};
+    for (const x of sup) { const pp = S.students.get(x)?.pairId; if (pp) byPair[pp] = (byPair[pp] || 0) + ALONG_HIT * w * power; }
+    for (const [pp, h] of Object.entries(byPair)) {
+      let left = hurt(inWave(B.targets[pp]) ? B.targets[pp] : front(), h, pp);
+      for (const i of B.wave) if (left > 1e-9) left = hurt(i, left, pp);
+      spill.push([pp, left]);
+    }
+    // War Cries from the rest of the class hit the field front to back
+    let cries = P.warcry * cry;
+    for (const i of B.wave) if (cries > 1e-9) cries = hurt(i, cries);
+    spill.push([null, cries]);
     // at the fortress, damage the defenders in front cannot take carries on to the gate (or the Warlord)
     const bossAt = enemies.findIndex((e) => e.ref === "gate" || e.ref === "warlord");
-    if (bossAt >= 0 && spill > 0.01) hurt(bossAt, spill);
+    if (bossAt >= 0) for (const [x, h] of spill) if (h > 0.01) hurt(bossAt, h, x);
     B.enemies = enemies;
     const waveDown = B.wave.every((i) => B.enemies[i].hp <= 0);
-    B.resolve = Math.min(B.resolveMax, +(B.resolve + heal).toFixed(2));
+    if (heal > 0) healPairs(S, B, heal);
     const beaten = B.enemies.every((e) => e.hp <= 0);
     // the Crimson hits back (weaker after a debuff, softened by a guard, not at all when stunned)
-    let counter = { blows: [], guard: 0, total: 0 }, blocked = 0;
+    let counter = { blows: [], guard: 0, total: 0 }, blocked = 0, taken = {};
     if (!beaten && !stun) {
-      counter = counterAttack(waveDown ? [] : B.wave.map((i) => B.enemies[i]), P.frac);
+      const standing = waveDown ? [] : B.wave.filter((i) => B.enemies[i].hp > 0);
+      counter = counterAttack(standing.map((i) => B.enemies[i]), P.frac);
       const k = (B.mod.atkDown > 0 ? 0.75 : 1) * (1 - B.mod.guard);
-      counter.blows = counter.blows.map((x) => ({ ...x, dmg: +(x.dmg * k).toFixed(2) }));
+      counter.blows = counter.blows.map((x, j) => ({ ...x, index: standing[j], dmg: +(x.dmg * k).toFixed(2) }));
       counter.total = +(counter.total * k).toFixed(2);
       blocked = Math.round((1 - (1 - counter.guard) * k) * 100);
+      // each monster hits back mainly at the pairs engaging it (the rest of its blow lands on the whole warband)
+      taken = splitCounter(counter.blows, B.targets, Object.fromEntries(Object.entries(B.php).map(([x, h]) => [x, Math.max(0, h)])));
+      for (const [x, d] of Object.entries(taken)) B.php[x] = Math.max(0, +(B.php[x] - d).toFixed(2));
     }
-    B.resolve = Math.max(0, +(B.resolve - counter.total).toFixed(2));
+    syncResolve(B);
     B.mod.guard = 0; if (B.mod.atkUp > 0) B.mod.atkUp--; if (B.mod.atkDown > 0) B.mod.atkDown--;
     for (const f of Object.values(B.fighters)) for (const k of Object.keys(f.cd)) if (f.cd[k] > 0) f.cd[k]--;
     // who stands beside the student in the cinematic: their partner if they are fighting too, else another fighter
@@ -951,10 +1025,15 @@ export function setupTotalWar(deps) {
       mainHits: +main.toFixed(1), target, heal, note, stunned: stun,
       action: act ? { kind, index, name, pid, char: F.char, ally: allyPid ? B.fighters[allyPid].char : null, archetype: kind === "ult" ? base.ultimate.archetype : null } : null,
       enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
+      // what each pair did and took this question (by pair number): the strip's "+N" pops and HP
+      dealt: Object.fromEntries(Object.entries(dealt).map(([x, d]) => [S.pairs.get(x)?.no, +d.toFixed(2)])),
+      hurt: Object.fromEntries(Object.entries(taken).map(([x, d]) => [S.pairs.get(x)?.no, d])),
       counter: counter.blows, guard: blocked / 100, counterTotal: counter.total, resolve: B.resolve, sync: B.sync,
       answer: P.answer, right: P.right, q: P.q, choices: P.choices, explain: P.explain, mine: P.mine, at: Date.now(),
     };
-    if (waveDown && !beaten) { nextWave(B); B.round.nextWave = B.wave.slice(); }
+    const before = { ...B.targets };
+    if (waveDown && !beaten) { nextWave(S, B); B.round.nextWave = B.wave.slice(); }
+    if (!beaten) retarget(S, B, before);
     B.pending = null; B.choose = null;
     // the result: short after a move, longer after an Ultimate; with no move it still shows the answer and explanation
     B.status = "result"; B.resultUntil = Date.now() + ms(act ? (kind === "ult" ? 7 : 4.5) : FEEDBACK_SECONDS);
@@ -974,10 +1053,7 @@ export function setupTotalWar(deps) {
   function finishBattle(S, B, won, stopped = false) {
     B.status = "over"; B.outcome = won ? "won" : stopped ? "stopped" : "lost"; B.resultUntil = Date.now() + ms(4); B.q = null; B.choose = null;
     // the HP the warband has left goes back to its pairs (shared in proportion); a beaten warband limps away with 30% HP
-    if (B.startHp) {
-      const start = Object.values(B.startHp).reduce((a, n) => a + n, 0) || 1, k = Math.max(0, B.resolve) / start;
-      for (const [id_, hp] of Object.entries(B.startHp)) { const p = S.pairs.get(id_); if (p) p.hp = Math.min(p.maxHp, Math.max(p.maxHp * 0.3, +(hp * k).toFixed(1))); }
-    }
+    if (B.php) for (const [id_, hp] of Object.entries(B.php)) { const p = S.pairs.get(id_); if (p) p.hp = Math.min(p.maxHp, Math.max(p.maxHp * 0.3, +(+hp).toFixed(1))); }
     const n = B.node, unBoost = (e) => e.hp / (1 + (e.aura || 0)) / (1 + (e.dug || 0));
     // write damage back to whatever survives
     for (const e of B.enemies) {
@@ -1265,6 +1341,18 @@ export function setupTotalWar(deps) {
         }
       }
     }
+    // bot pairs pick a monster while a battle gathers: the one the fewest pairs have picked (a pair with a student in
+    // it picks for itself, and is auto-assigned if it does not)
+    for (const B of S.battles.values()) {
+      if (B.status !== "gather" || B.enemies.length < 2 || now < B.startedAt + ms(1.5)) continue;
+      for (const x of pairsIn(S, B)) {
+        const p = S.pairs.get(x); if (!p || B.targets[x] !== undefined || !p.members.every((m) => S.students.get(m)?.bot)) continue;
+        const load = (i) => Object.values(B.targets).filter((t) => t === i).length;
+        const alive = B.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0);
+        const least = Math.min(...alive.map(load)), opts = alive.filter((i) => load(i) === least);
+        if (opts.length) { B.targets[x] = rand(opts); S.dirty = true; }
+      }
+    }
     // bot pairs march with the class: they follow a human warband, join it, and copy its vote
     // (in the practice tutorial's first turn they guard the Academy, so the student learns with their own pair)
     const guard = S.practice && S.tutorial && !S.tutorialDone && S.turn === 1;
@@ -1320,13 +1408,32 @@ export function setupTotalWar(deps) {
     if (!r || !perm || !Array.isArray(r.choices)) return r;
     return { ...r, choices: perm.map((i) => r.choices[i]), answer: toShown(perm, r.answer), right: (r.right || []).map((c) => toShown(perm, c)) };
   }
+  // What each pair in a battle is doing this question: answering | answered | turn (it is their question) | right |
+  // wrong | striking | stole (the turn) | struck (its move just landed) | ready (the battle is gathering)
+  function pairStats(S, B) {
+    const r = B.status === "result" || B.status === "over" ? B.round : null;
+    const mine = B.status === "choose" ? B.pending?.mine : r?.mine;
+    return pairsIn(S, B).map((x) => S.pairs.get(x)).filter(Boolean).map((p) => {
+      const ms = p.members, live = ms.filter((m) => isConnected(S.students.get(m)));
+      let state = "ready";
+      if (B.status === "fight") state = ms.includes(B.striker) ? "turn" : live.length && live.every((m) => B.answers.has(m)) ? "answered" : "answering";
+      else if (B.status === "choose") state = ms.includes(B.choose?.pid) ? (B.choose.half ? "stole" : "striking") : ms.some((m) => mine?.[m]?.ok) ? "right" : ms.some((m) => mine?.[m] && mine[m].chosen >= 0) ? "wrong" : "none";
+      else if (r && r.qNo === B.qNo) state = r.action && ms.includes(r.action.pid) ? (r.stealer && ms.includes(r.stealer.pid) ? "stole" : "struck") : ms.some((m) => mine?.[m]?.ok) ? "right" : ms.some((m) => mine?.[m] && mine[m].chosen >= 0) ? "wrong" : "none";
+      const t = B.targets?.[p.id];
+      return { id: p.id, no: p.no, char: p.char, names: ms.map((m) => S.students.get(m)?.name || "?"), bots: ms.every((m) => S.students.get(m)?.bot),
+        hp: +(+(B.php?.[p.id] ?? p.hp ?? RESOLVE_PER_PAIR)).toFixed(2), max: p.maxHp || RESOLVE_PER_PAIR,
+        target: Number.isInteger(t) ? t : null, targetType: Number.isInteger(t) ? B.enemies[t]?.type || null : null,
+        dealt: +(B.dealt?.[p.id] || 0).toFixed(2), state, moved: B.moved?.[p.id] || null };
+    });
+  }
   function battleView(S, B, forPid) {
     const fighters = fightersOf(S, B);
     const v = {
       id: B.id, node: B.node, kind: B.kind, status: B.status, qNo: B.qNo, limit: B.limit,
       gatherEnds: B.gatherEnds, resolve: +(+B.resolve).toFixed(1), resolveMax: B.resolveMax,
       enemies: B.enemies.map((e, i) => ({ type: e.type, hp: +(+e.hp).toFixed(1), max: +(+e.max).toFixed(1), atk: e.atk, dug: !!e.dug, aura: !!e.aura,
-        wave: (B.wave || []).includes(i), picks: Object.values(B.targets || {}).filter((t) => t === i).length })),
+        wave: (B.wave || []).includes(i), picks: Object.values(B.targets || {}).filter((t) => t === i).length,
+        on: Object.entries(B.targets || {}).filter(([, t]) => t === i).map(([x]) => S.pairs.get(x)?.no).filter(Boolean) })),
       ambush: !!B.ambush, waveNo: B.waveNo || 0,
       bands: B.bands.map((x) => S.bands.get(x)).filter(Boolean).map((b) => bandView(S, b)),
       fighters: fighters.length, answered: B.answers.size,
@@ -1338,10 +1445,12 @@ export function setupTotalWar(deps) {
       untimed: !!B.untimed && untimed(S), tutorial: !!B.tutorial,
       // each pair's HP in this battle: its share of the warband's HP (what it keeps when the battle ends)
       pairHp: Object.fromEntries(pairsIn(S, B).map((x) => S.pairs.get(x)).filter(Boolean).map((p) => {
-        const start = B.startHp ? Object.values(B.startHp).reduce((a, n) => a + n, 0) || 1 : 0;
-        const hp = B.startHp ? Math.max(0, B.resolve) * (B.startHp[p.id] ?? 0) / start : (p.hp ?? RESOLVE_PER_PAIR);
-        return [p.no, { hp: +hp.toFixed(2), max: p.maxHp || RESOLVE_PER_PAIR }];
+        const hp = B.php?.[p.id] ?? (p.hp ?? RESOLVE_PER_PAIR);
+        return [p.no, { hp: +(+hp).toFixed(2), max: p.maxHp || RESOLVE_PER_PAIR }];
       })),
+      // one card per pair for the strip along the bottom of the battle: HP, its monster, what it is doing, its damage
+      pairs: pairStats(S, B),
+      targetable: B.status === "gather" ? B.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0) : B.status === "over" ? [] : fieldOf(B),
       outcome: B.outcome, cheers: [...B.cheers.entries()].map(([pid, n]) => ({ pair: S.pairs.get(pid)?.no, n })),
     };
     if (forPid !== undefined && fighters.includes(forPid)) {
@@ -1370,7 +1479,7 @@ export function setupTotalWar(deps) {
     return {
       code: S.code, status: S.status, winner: S.winner, turn: S.turn, turns: S.settings.turns,
       phase: S.phase, stage: S.phase === "crystal" ? S.stage : null, training: untimed(S), tutorial: !!(S.practice && S.tutorial && !S.tutorialDone), practice: !!S.practice, phaseEndsAt: S.phaseEndsAt, orderEnds: S.orderEnds || 0, moveStartedAt: S.moveStartedAt || 0, strategySeconds: STRATEGY_SECONDS,
-      quiz: S.phase === "crystal" && S.stage === "quiz" ? { done: [...S.students.values()].filter((st) => isConnected(st) && (st.quiz >= QUIZ_PER_MOVE || !!bandOf(S, st.pairId)?.battle)).length, of: [...S.students.values()].filter((st) => isConnected(st)).length } : null, serverNow: Date.now(), speed: SPEED,
+      quiz: S.phase === "crystal" && S.stage === "quiz" ? { done: [...S.students.values()].filter((st) => isConnected(st) && (prepDone(S, st) || !!bandOf(S, st.pairId)?.battle)).length, of: [...S.students.values()].filter((st) => isConnected(st)).length } : null, topupSeconds: TOPUP_SECONDS, serverNow: Date.now(), speed: SPEED,
       topic: topicLabel(S.settings.topic), commander: S.settings.commander,
       paused: S.paused ? { at: S.paused.at, by: S.settings.commander, restored: !!S.paused.restored } : null, endAt: S.endAt || 0, progress: progressOf(S),
       bands: [...S.bands.values()].map((b) => bandView(S, b)),
@@ -1413,7 +1522,7 @@ export function setupTotalWar(deps) {
     const p = pairOf(S, st.pid), b = p && bandOf(S, p.id);
     v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: st.char || p?.char || null, bandId: b?.id || null, coins: st.coins || 0, bag: st.bag || {},
       partner: p ? p.members.filter((m) => m !== st.pid).map((m) => S.students.get(m)?.name) : [], bank: p?.bank || 0, prep: st.prep || 0 };
-    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready; v.me.orderDone = !!st.orderDone; v.me.ordered = st.orderedTurn === S.turn; v.me.quiz = st.quiz || 0; v.me.quizRight = st.quizRight || 0; v.me.supporting = st.supporting || null;
+    v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready; v.me.orderDone = !!st.orderDone; v.me.ordered = st.orderedTurn === S.turn; v.me.quiz = st.musterThisTurn || 0; v.me.quizRight = st.prepRight || 0; v.me.supporting = st.supporting || null;
     v.me.cryUntil = st.cryUntil || 0;
     if (p) { v.me.hp = +(+(p.hp ?? RESOLVE_PER_PAIR)).toFixed(1); v.me.maxHp = p.maxHp || RESOLVE_PER_PAIR; v.me.revive = !!p.revive; v.me.notes = (p.notes || []).slice(-4); }
     v.lobby = lobby;
@@ -1634,7 +1743,7 @@ export function setupTotalWar(deps) {
       if ("commander" in s) S.settings.commander = String(s.commander || "").trim().slice(0, 30) || "Your teacher";
       for (const k of ["botCommander", "botPartners", "warlordLock", "trainingTurn"]) if (k in s) S.settings[k] = !!s[k];
       for (const k of ["turns", "crimsonSeconds", "crystalSeconds", "target", "warlordPct", "councilSeconds", "endMinutes"]) if (k in s) {
-        const lim = { turns: [Math.max(4, S.turn), 30], crimsonSeconds: [20, 120], crystalSeconds: [60, 300], target: [5, 60], warlordPct: [0, 100], councilSeconds: [30, 180], endMinutes: [0, 120] }[k];
+        const lim = { turns: [Math.max(4, S.turn), 30], crimsonSeconds: [20, 120], crystalSeconds: [60, 300], target: [5, 60], warlordPct: [0, 100], councilSeconds: [15, 180], endMinutes: [0, 120] }[k];
         const n = Math.round(+s[k]); if (Number.isFinite(n)) S.settings[k] = Math.max(lim[0], Math.min(lim[1], n));
       }
       if ("endMinutes" in s) setEndAt(S);
@@ -1653,6 +1762,10 @@ export function setupTotalWar(deps) {
       if (launch) S.launch = true; else if (extend) S.phaseEndsAt += ms(Math.min(60, +extend || 15));
     }));
     socket.on("twTeleport", asHostLive((S, { unitId, to }) => teleport(S, unitId, to)));
+    // tests and screenshots only (never set in class): put Crimson units straight onto a stop
+    if (process.env.RIFT_TEST_CHEAT === "1") socket.on("twTestSpawn", asHost((S, { types = [], node }) => {
+      for (const type of types) { const u = UNITS[type]; if (!u || u.fixed) continue; S.units.set(id(S, "u"), { id: `u${S.seq}`, type, node: +node, hp: u.hp, max: u.hp, moved: 0, order: null, dugIn: false, battle: null, from: null }); }
+    }));
     // the training turn: Continue moves the class on to the next stage (nothing there is timed)
     socket.on("twContinue", asHostLive((S) => { if (!untimed(S)) return "Continue is for the training turn."; S.advance = true; }));
     socket.on("twEndTraining", asHostLive((S) => { if (!untimed(S)) return "The training turn is over."; endTraining(S); }));
@@ -1736,8 +1849,10 @@ export function setupTotalWar(deps) {
     socket.on("twTarget", asStudent((S, st, { index }) => {
       const B = [...S.battles.values()].find((x) => x.status !== "over" && fightersOf(S, x).includes(st.pid));
       if (!B) return "You are not in a battle.";
-      const i = Math.round(+index); if (!B.enemies[i] || B.enemies[i].hp <= 0) return "Pick an enemy that is still standing.";
-      B.targets[st.pairId] = i; S.dirty = true;
+      const i = Math.round(+index); if (!B.enemies[i] || B.enemies[i].hp <= 0) return "Pick a monster that is still standing.";
+      // once the fight is on, a pair can switch to any monster on the field (the next wave is not out yet)
+      if (B.status !== "gather" && !fieldOf(B).includes(i)) return "That monster has not come out yet.";
+      B.targets[st.pairId] = i; if (B.moved) delete B.moved[st.pairId]; S.dirty = true;
     }));
     socket.on("twEat", asStudent((S, st, { item }) => eat(S, st, item)));
     socket.on("twGrab", asStudent((S, st, { items }) => order(S, st, items)));

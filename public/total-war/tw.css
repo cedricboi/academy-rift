@@ -202,3 +202,76 @@ button:disabled{cursor:default}
 @keyframes poleRise{0%{transform:scaleY(0);transform-origin:bottom}100%{transform:scaleY(1);transform-origin:bottom}}
 /* in a stack of banners the one with the label sits on top, so its label is never covered */
 .tw-banner.lead{z-index:4}
+
+/* ===== the pair strip along the bottom of a battle (pair-strip.js): every pair in the fight, and the monsters on the field ===== */
+.tws{position:fixed;left:0;right:0;bottom:0;z-index:7900;display:flex;align-items:stretch;gap:8px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,#07060bd9,#07060bf5);border-top:2px solid #d8bd80;box-shadow:0 -6px 18px #000a;font-family:"Rift Body",system-ui,sans-serif;color:#f2ead6}
+.tws-foes{flex:0 0 auto;display:flex;gap:6px;align-items:stretch;padding-right:8px;border-right:2px solid #3a3040}
+.tws-h{display:flex;flex-direction:column;justify-content:center;font:700 10px "Rift Pixel";letter-spacing:1px;color:#ffe9b0;max-width:78px;line-height:1.3}
+.tws-h small{font:600 11px "Rift Body";letter-spacing:0;color:#d9d0c0}
+.tws-foe{position:relative;display:grid;grid-template-columns:34px 1fr;grid-template-rows:auto auto auto;column-gap:6px;align-items:center;min-width:124px;max-width:140px;min-height:44px;
+  padding:4px 8px 4px 4px;background:#1a0d12;border:2px solid #5a2a35;color:#ffd8de;cursor:pointer;text-align:left;font:inherit}
+.tws-foe:disabled{cursor:default}
+.tws-foe img{grid-row:1/4;width:34px;height:34px;object-fit:contain;image-rendering:pixelated}
+.tws-foe .tf-n{font:700 12px "Rift Body";white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tws-foe .tf-hp{display:block;height:5px;background:#2a0d14;box-shadow:0 0 0 1px #000}.tws-foe .tf-hp b{display:block;height:100%;background:#e0566e}
+.tws-foe small{font:600 11px "Rift Body";color:#d9c3c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tws-foe.mine{border-color:#ffd36b;background:#2a1a08;box-shadow:0 0 0 2px #000,0 0 14px #ffd36b66}
+.tws-foe.mine::after{content:"YOURS";position:absolute;right:-2px;top:-9px;padding:1px 5px;background:#ffd36b;color:#2a1606;font:700 9px "Rift Pixel";letter-spacing:1px}
+.tws.picking .tws-foe:not(.mine){animation:twsGlow 1.6s ease-in-out infinite}
+@keyframes twsGlow{50%{border-color:#d8bd80}}
+.tws-pairs{flex:1 1 auto;min-width:0;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.tws-card{position:relative;flex:1 0 150px;max-width:200px;display:flex;gap:6px;align-items:center;width:150px;padding:4px 6px 4px 4px;background:#12101a;border:2px solid #2e2a3a}
+.tws-card.me{border-color:#7ff3e4;background:#0c1d22;box-shadow:inset 0 0 0 1px #000,0 0 12px #7ff3e444}
+.tws-card.ko{opacity:.6}
+.tws-face{flex:0 0 auto;width:40px;height:40px;object-fit:cover;object-position:50% 10%;border:2px solid var(--c,#d8bd80);background:#000}
+.tws-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.tws-top{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.tws-top b{font:700 12px "Rift Pixel";letter-spacing:1px;color:#ffe9b0}
+.tws-card.me .tws-top b{color:#7ff3e4}
+.tws-st{min-width:0;font:700 11px "Rift Body";color:#c9c2b4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tws-st i{font-style:normal;margin-right:2px}
+.st-right .tws-st,.st-answered .tws-st{color:#7ff3a4}.st-wrong .tws-st{color:#ff8a9a}
+.st-striking .tws-st,.st-struck .tws-st,.st-turn .tws-st{color:#ffd36b}.st-stole .tws-st{color:#ffb35c}
+.st-striking,.st-struck,.st-stole{border-color:#ffd36b!important}
+.tws-hp{display:flex;align-items:center;gap:4px}
+.tws-hp i{flex:1;height:6px;background:#0a1414;box-shadow:0 0 0 1px #000}.tws-hp i b{display:block;height:100%;background:#4fe0b0;transition:width .5s}
+.tws-hp.low i b{background:#ff6b7d}
+.tws-hp em{font:700 11px "Rift Body";font-style:normal;color:#e6f6f1;min-width:22px;text-align:right;font-variant-numeric:tabular-nums}
+.tws-bot{display:flex;align-items:center;gap:4px;min-width:0}
+.tws-mon{width:18px;height:18px;object-fit:contain;image-rendering:pixelated;flex:0 0 auto}
+.tws-mn{flex:1;min-width:0;font:600 11px "Rift Body";color:#d9c3c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tws-dmg{font:700 12px "Rift Body";color:#ffd36b;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tws-card.hit{animation:twsHit .5s ease-out}
+@keyframes twsHit{30%{transform:translateY(-4px);box-shadow:0 0 18px #ffd36b}}
+.tws-pops{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.tws-pop{position:absolute;transform:translate(-50%,-30%);font:700 22px "Rift Pixel";color:#ffd36b;text-shadow:0 2px 0 #000,0 0 8px #000;animation:twsPop 2.2s ease-out forwards;white-space:nowrap}
+@keyframes twsPop{0%{transform:translate(-50%,0) scale(.6);opacity:0}12%{transform:translate(-50%,-70%) scale(1.3);opacity:1}70%{transform:translate(-50%,-110%) scale(1);opacity:1}100%{transform:translate(-50%,-150%) scale(1);opacity:0}}
+.tws-note{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);max-width:min(560px,calc(100vw - 24px));padding:8px 14px;background:#2a1a08f2;border:2px solid #ffd36b;
+  color:#fff1cc;font:600 15px "Rift Body";text-align:center;box-shadow:0 6px 20px #000a;pointer-events:none}
+.tws.dense .tws-card{flex-basis:124px;width:124px}
+.tws.dense .tws-mn{display:none}
+/* many pairs: narrower cards, and the other pairs' cards show what they are doing as an icon (your own card keeps the word) */
+.tws:not(.dense) .st-answering .tws-st i{display:none}
+.tws.dense .tws-card.me{flex-basis:156px}
+.tws.dense .tws-card:not(.me) .tws-st .w{display:none}
+.tws.dense .tws-card:not(.me) .tws-st i{font-size:14px}
+.tws.dense .tws-face{width:32px;height:32px}.tws.dense .tws-st{font-size:10px}.tws.dense .tws-top b{font-size:11px;letter-spacing:0}.tws.dense .tws-foe{min-width:104px}
+@media (max-width:1100px){.tws-card{flex-basis:136px;width:136px}.tws-foe{min-width:100px}.tws-h{display:none}}
+/* portrait: the cards wrap onto two rows */
+@media (max-aspect-ratio:1/1){.tws{flex-direction:column;gap:6px}.tws-foes{border-right:0;padding-right:0;border-bottom:2px solid #3a3040;padding-bottom:6px}
+  .tws-foes .tws-h{display:flex;max-width:none}.tws-pairs{flex-wrap:wrap;overflow-x:hidden;overflow-y:auto;max-height:136px}
+  .tws:not(.proj) .tws-card,.tws.dense:not(.proj) .tws-card,.tws.dense:not(.proj) .tws-card.me{flex:0 0 calc((100% - 12px) / 3);max-width:none;width:auto;box-sizing:border-box}
+  .tws.dense .tws-card:not(.me) .tws-st .w,.tws.dense .tws-mn{display:inline}.tws.dense .tws-card .tws-st i{font-size:inherit}}
+/* the projector: bigger, and inside the battle panel */
+.tws.proj{position:relative;left:auto;right:auto;bottom:auto;flex:0 0 auto;flex-direction:column;gap:8px;margin-top:10px;border:2px solid #5a2a35;box-shadow:none;background:#0b080dcc;padding:8px}
+.tws.proj .tws-foes{border-right:0;padding-right:0;flex-wrap:wrap;width:100%;box-sizing:border-box}
+.tws.proj .tws-foe{grid-template-columns:40px auto 1fr;grid-template-rows:auto auto;align-items:center;max-width:none;flex:1 1 0}
+.tws.proj .tws-foe img{grid-row:1/3;width:40px;height:40px}
+.tws.proj .tws-foe .tf-hp{grid-column:2/4;grid-row:2}
+.tws.proj .tws-foe small{grid-column:3;grid-row:1;text-align:right;color:#ffe9b0}
+.tws.proj .tws-pairs{flex-wrap:wrap;overflow:visible}
+.tws.proj .tws-card{flex:1 1 150px;min-width:0;max-width:240px;width:auto;box-sizing:border-box}.tws.proj .tws-face{width:46px;height:46px}
+.tws.proj .tws-top b{font-size:14px}.tws.proj .tws-st,.tws.proj .tws-mn,.tws.proj .tws-hp em{font-size:14px}.tws.proj .tws-dmg{font-size:15px}
+.tws.proj .tws-foe{min-width:150px}.tws.proj .tws-foe .tf-n{font-size:15px}.tws.proj .tws-foe small{font-size:14px}
+.tws.proj .tws-pop{font-size:28px}

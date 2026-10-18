@@ -171,3 +171,7 @@
 .ending .report td:nth-child(2),.ending .report td:nth-child(3){white-space:nowrap}
 #mapHost .tw-banner .count{min-width:max(24px,calc(22px * var(--inv,1)));height:max(24px,calc(22px * var(--inv,1)));border-radius:999px;font-size:max(13px,calc(14px * var(--inv,1)))}
 .pool-warn{margin:0;padding:8px 10px;background:#3a2a10;border:2px solid #f2c46a;box-shadow:0 0 0 2px #000;font:600 13px/1.4 "Rift Body";color:#ffe9b0;text-align:left}
+/* which pairs fight which monster in a battle */
+.bl-row.bl-foe{align-items:center;margin-top:2px}
+.bl-row.bl-foe img{width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px}
+.bl-row.bl-foe span:last-child{color:#ffe9b0;font-weight:600}

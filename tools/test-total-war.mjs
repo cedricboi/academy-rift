@@ -116,3 +116,43 @@ test('every food Grab-Ma sells does something in Total War, and says what in pla
   assert.equal(TW_ITEMS.revive.eat,'full','the Phoenix Kueh brings a pair back to full HP');
   assert.ok(TW_ITEMS.durian.price<ITEMS.find((x)=>x.id==='durian').price,'the Durian Bomb is cheaper in Total War');
 });
+
+// ---- each pair fights its own monster (per-pair targets) ----
+import {assignTargets,splitCounter,ENGAGED_SHARE,COUNCIL_SECONDS,STRATEGY_SECONDS,MARCH_STEP,TOPUP_SECONDS,RESUME_SECONDS} from '../public/total-war/rules.js';
+test('every pair is engaged with a monster: a pair that does not pick is spread to the least-engaged one',()=>{
+  // no picks: four pairs over two monsters, two on each
+  let t=assignTargets(['a','b','c','d'],[0,1],{});
+  assert.deepEqual(Object.values(t).sort(),[0,0,1,1]);
+  // three pairs pick monster 0; the fourth (no pick) goes to monster 1, the one with nobody on it
+  t=assignTargets(['a','b','c','d'],[0,1],{a:0,b:0,c:0});
+  assert.equal(t.d,1);assert.equal(t.a,0);
+  // a pick that is not on the field (its wave is still to come) is moved to the field
+  t=assignTargets(['a','b'],[2],{a:0,b:2});
+  assert.deepEqual(t,{a:2,b:2});
+});
+test('when its monster falls, a pair is moved to a monster still standing',()=>{
+  const hp=[0,5];
+  const t=assignTargets(['a','b','c'],[0,1],{a:0,b:1,c:0},(i)=>hp[i]>0);
+  assert.deepEqual(t,{a:1,b:1,c:1});
+});
+test('a monster hits back mainly at the pairs engaging it, and the warband always takes the whole blow',()=>{
+  const hp={a:10,b:10,c:10};
+  const taken=splitCounter([{index:0,dmg:4}],{a:0,b:1,c:1},hp);
+  // pair a is the only one on monster 0: it takes 75% of the blow plus its share of the rest
+  assert.equal(ENGAGED_SHARE,0.75);
+  assert.ok(Math.abs(taken.a-(3+1/3))<0.02,`a took ${taken.a}`);
+  assert.ok(Math.abs(taken.b-1/3)<0.02&&Math.abs(taken.c-1/3)<0.02);
+  assert.ok(Math.abs(taken.a+taken.b+taken.c-4)<0.02);
+  // nobody on the monster: the blow is shared by everyone
+  const even=splitCounter([{index:1,dmg:3}],{a:0,b:0,c:0},hp);
+  assert.ok(Object.values(even).every((d)=>Math.abs(d-1)<0.02));
+  // a pair with too little HP left: what it cannot take goes to the others
+  const low=splitCounter([{index:0,dmg:6}],{a:0,b:1},{a:1,b:10});
+  assert.equal(low.a,1);assert.ok(Math.abs(low.b-5)<0.02);
+});
+test('the movement phase is short: quick top-up, quick planning, fast march',()=>{
+  assert.ok(TOPUP_SECONDS<=20);assert.ok(COUNCIL_SECONDS<=30);assert.ok(STRATEGY_SECONDS<=5);
+  assert.ok(MARCH_STEP<=0.8);assert.ok(RESUME_SECONDS<=8);
+  // the longest stretch from the end of the enemy's turn to the battles, for a 3-road march with no teacher extension
+  assert.ok(TOPUP_SECONDS+COUNCIL_SECONDS+0.3+3*MARCH_STEP<=60);
+});

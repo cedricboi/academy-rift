@@ -217,7 +217,7 @@ function headline(band) {
   if (S.status === 'ended') return 'The war is over';
   if (S.myBattle) return 'Battle!';
   if (S.phase === 'crimson') return S.own ? 'Answer questions to earn steps' : 'The enemy is moving';
-  if (S.phase === 'crystal' && S.stage === 'quiz') return 'Answer 3 questions';
+  if (S.phase === 'crystal' && S.stage === 'quiz') return 'Finish your questions';
   if (S.phase === 'crystal' && S.stage === 'council') return 'Plan your move';
   if (S.own?.kind === 'warcry') return 'Cheer on a battle';
   if (band?.status === 'resume') return 'You won! Carry on?';
@@ -253,7 +253,9 @@ function renderExplain() {
   const choices = B?.status === 'result' ? B.round?.choices : lastChoices;
   if (B?.status === 'fight' && B.question) lastChoices = B.question.choices;
   const text = r?.explain || '';
-  const on = !!(r && Number.isInteger(right) && right >= 0 && S.status === 'playing');
+  // while your own move menu is open it waits (you got it right, and it shows again once your move is made), so it
+  // never covers a move
+  const on = !!(r && Number.isInteger(right) && right >= 0 && S.status === 'playing' && !(B?.status === 'choose' && B.moves));
   explainBox.classList.toggle('hidden', !on);
   if (on) setHTML(explainBox, `<div class="eyebrow">WHY</div><b>The answer is ${'ABCDEF'[right]}${choices?.[right] != null ? `. ${esc(choices[right])}` : ''}</b>${text ? `<p>${esc(text)}</p>` : ''}`);
 }
@@ -274,7 +276,7 @@ function renderActBar(band) {
   const fight = (S.battles || []).find((B) => B.status === 'fight' || B.status === 'choose' || B.status === 'result');
   const steps = (n) => `${n} step${n === 1 ? '' : 's'}`;
   if (S.phase === 'crimson') { step = S.own ? 'Answer questions to earn steps' : 'The enemy is moving its army'; sub = S.own ? 'Each right answer gives your pair a step for its move.' : 'Your move comes next.'; }
-  else if (S.stage === 'quiz') { step = 'Answer 3 questions first'; sub = 'Right answers earn coins for Grab-Ma food. Planning opens when everyone is done.'; }
+  else if (S.stage === 'quiz') { step = 'Finishing the questions'; sub = 'Planning opens in a few seconds, when everyone has answered 3 questions.'; }
   else if (isCouncil()) {
     mp = `<b>${band.mp}</b><small>STEP${band.mp === 1 ? '' : 'S'} THIS MOVE</small>`;
     const plan = band.plan, mineProp = band.props?.[S.me.pairId];
@@ -491,9 +493,9 @@ function renderQuestion() {
   const waitingQuiz = !o && !S.myBattle && S.phase === 'crystal' && S.stage === 'quiz' && (S.me.quiz || 0) >= 3;
   if (waitingQuiz) {
     dock.classList.remove('hidden'); dock.classList.add('centre'); $('gMain').classList.add('centred'); $('gMain').classList.remove('docked'); card.hide();
-    const r = S.me.quizRight || 0;
+    const r = S.me.quizRight || 0, ap = 1 + Math.min(3, S.me.bank || 0);
     setHTML($('qdHead'), `<div class="eyebrow">BEFORE YOU MOVE</div><div class="qd-title">${r === 3 ? 'All 3 right! +20 bonus coins' : `${r} of 3 right`}</div>
-      <div class="qd-mp"><span>${r ? `You earned <b>${r * 10 + (r === 3 ? 20 : 0)} coins</b>. ` : 'No coins this time, but you can still move. '}Planning opens when the class is ready: <b>${S.quiz?.done ?? 0} of ${S.quiz?.of ?? 0}</b> done.</span></div>`);
+      <div class="qd-mp"><span>Your pair moves <b>${ap} step${ap === 1 ? '' : 's'}</b>. Planning opens in a few seconds: <b>${S.quiz?.done ?? 0} of ${S.quiz?.of ?? 0}</b> are ready.</span></div>`);
     return;
   }
   if (!o || S.myBattle) { dock.classList.add('hidden'); $('gMain').classList.remove('docked', 'centred'); dock.classList.remove('centre'); card.hide(); return; }
@@ -513,10 +515,11 @@ function renderQuestion() {
     const bank = S.me.bank, ap = 1 + Math.min(3, bank);   // each partner adds up to 2 steps, so both answers count
     const pips = Array.from({ length: 3 }, (_, i) => `<i class="${i < Math.min(3, bank) ? 'on' : ''}"></i>`).join('');
     // one clock at a time: the question card has its own timer, so no "your move in" countdown here
-    setHTML($('qdHead'), `<div class="eyebrow">WHILE THE ENEMY MOVES</div><div class="qd-title">Earn steps for your move</div>
-      <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer in your pair gives your pair <b>1 step</b> (up to 2 from each of you). Your next move: <b>${ap} step${ap === 1 ? '' : 's'}</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
+    const n = Math.min(3, (S.me.quiz || 0) + 1);
+    setHTML($('qdHead'), `<div class="eyebrow">${S.stage === 'quiz' ? 'LAST QUESTIONS BEFORE YOUR MOVE' : 'WHILE THE ENEMY MOVES'} · QUESTION ${n} OF 3</div><div class="qd-title">Earn steps and coins</div>
+      <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer gives your pair <b>1 step</b> (up to 2 from each of you) and you <b>20 coins</b>. All 3 right: <b>+20 bonus</b>. Your next move: <b>${ap} step${ap === 1 ? '' : 's'}</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
   } else setHTML($('qdHead'), `<div class="eyebrow" style="color:var(--rose)">WAR CRY</div><div class="qd-title">Cheer on the battle${battle ? ` at ${esc(nodeName(battle.node))}` : ''}</div><div class="qd-mp"><span>Every right answer hits the enemy there.</span></div>`);
-  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? 'Correct! Your pair gets a step.' : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
+  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? `Correct! A step for your pair and +20 coins${o.result.bonus ? `, plus +${o.result.bonus} bonus` : ''}.` : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
   card.show({
     q: o.question, tag: o.kind === 'muster' ? 'EARN STEPS' : o.kind === 'quiz' ? (o.bonus ? 'BONUS' : 'BEFORE YOU MOVE') : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
     note: o.retry ? '<b>↺ BACK AGAIN</b> You got this one wrong earlier. Read it carefully.' : '',
@@ -559,15 +562,14 @@ function renderBattle() {
   }
   if ((B.status === 'fight' || B.status === 'choose') && cinema) { skipTheatre(); }
   stage.set({ node: B.node, kind: B.kind, pairs: [{ key: `p${S.me.pairNo}`, char: myChar, label: 'You', me: true }], foes: B.enemies });
-  // while the battle gathers, each pair picks the enemy to go for first (the most-picked comes out first)
-  // with two enemies or more, each pair picks the one to go for first; with one there is nothing to pick
-  const gathering = B.status === 'gather', mine = B.me?.target, pick = gathering && B.enemies.length > 1;
+  // while the battle gathers, each pair picks the monster it will fight (with one monster there is nothing to pick)
+  const gathering = B.status === 'gather', mine = B.me?.target, pick = gathering && B.enemies.filter((e) => e.hp > 0).length > 1;
   $('battle').classList.toggle('gathering', gathering);
-  setHTML($('bFoes'), (pick ? `<div class="foe-pick-h">PICK YOUR TARGET <small>Enemies come out one at a time, sometimes two. The one most pairs pick comes first.</small></div>` : '')
+  setHTML($('bFoes'), (pick ? `<div class="foe-pick-h">PICK YOUR MONSTER <small>Each pair fights one monster. If you do not pick, you are given the one with the fewest pairs.</small></div>` : '')
     + B.enemies.map((e, i) => `<div class="foe ${e.hp <= 0 ? 'down' : ''} ${pick ? 'pickable' : ''} ${mine === i ? 'mine' : ''} ${e.wave ? 'wave' : ''}">
       ${pick ? `<img src="${sprite(e.type)}" alt="">` : ''}<span>${esc(enemyName(e.type))}${e.dug ? ' <em>dug in</em>' : ''}${!gathering && e.wave ? ' <em class="front">FIGHTING</em>' : ''}</span>
       <div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div><small>${X(Math.max(0, e.hp))} / ${X(e.max)}</small>
-      ${pick ? `<button type="button" class="btn ${mine === i ? 'crimson' : ''}" data-target="${i}">${mine === i ? '✓ YOUR TARGET' : 'TARGET'}</button>${e.picks ? `<b class="picks">${e.picks} pair${e.picks > 1 ? 's' : ''}</b>` : ''}` : ''}</div>`).join(''));
+      ${pick ? `<button type="button" class="btn ${mine === i ? 'crimson' : ''}" data-target="${i}">${mine === i ? '✓ YOUR MONSTER' : 'FIGHT THIS'}</button>${e.picks ? `<b class="picks">${e.picks} pair${e.picks > 1 ? 's' : ''}</b>` : ''}` : ''}</div>`).join(''));
 
   let centre = '', role = '';
   const fighting = B.status === 'fight' && B.question;
@@ -786,13 +788,13 @@ function tutorialStep() {
   if (S.phase === 'crimson') {
     const intro = once('intro', 'YOUR FIRST TURN', 'Hi, I\'m Emi! I will show you your first turn, one step at a time. Nothing is timed until we finish. Tap NEXT.');
     if (intro) return intro;
-    if (S.own && !S.own.result) return m('prep', 'EARN STEPS', 'Answer the question. Each right answer gives your pair a step. Steps let your pair move further on the map.', { spot: onPage('#card') });
+    if (S.own && !S.own.result) return m('prep', 'EARN STEPS', 'Answer the question. Each right answer gives your pair a step and earns you 20 coins. Steps let your pair move further on the map.', { spot: onPage('#card') });
     if (S.own) return m('prep-r', 'EARN STEPS', 'Read why the answer is right. The next question comes by itself.');
     return m('prep-done', 'THE ENEMY MOVES', 'Well done! The enemy is moving its army now. Your move comes next.');
   }
   if (S.stage === 'quiz') {
-    if (S.own && !S.own.result) return m('quiz', 'EARN COINS', 'Three more questions. Each right answer earns 10 coins. Coins buy food from Grab-Ma later.', { spot: onPage('#card') });
-    return m('quiz-w', 'EARN COINS', S.own ? 'Read why the answer is right.' : 'Waiting for your classmates to finish.');
+    if (S.own && !S.own.result) return m('quiz', 'EARN STEPS', 'Finish your questions. Each right answer gives your pair a step and earns you 20 coins.', { spot: onPage('#card') });
+    return m('quiz-w', 'ALMOST READY', S.own ? 'Read why the answer is right.' : 'Waiting for your classmates to finish. Planning opens in a few seconds.');
   }
   if (isCouncil() && band && !band.battle) {
     const a = once('map', 'THE MAP', 'This is the map. Your banner glows at the Academy, your home. Your goal is the Crimson Fortress on the right.', { spot: onPage(`[data-key="band${band.id}"]`) });
@@ -821,6 +823,9 @@ function stageTip() {
   const band = myBand(), B = S.myBattle;
   const t = (key, text, battle = false) => (tipsSeen.has(key) ? null : { key, text, battle });
   if (B) {
+    // picking a monster, explained once (only when there is more than one to pick)
+    const choice = (B.targetable || []).length > 1;
+    if (choice && B.status === 'fight') { const k = t('t-pick', 'Each pair fights one monster. Tap a monster to fight it. You can change at any time. A monster hits back mostly at the pairs fighting it.', true); if (k) return k; }
     if (B.status === 'fight' && B.role === 'striker') return t('t-strike', 'It is your turn. Answer right, then pick your move.', true);
     if (B.status === 'fight' && B.question) return t('t-along', 'Your warband takes turns to attack. When it is your turn, you pick the move. Now answer along: right answers add hits and fill Sync.', true);
     if (B.status === 'choose' && B.moves) return t('t-move', 'Pick a move. STRIKE is a normal hit. SKILLS use SP, your energy for skills. ULTIMATE unlocks when the Sync bar is full.', true);
@@ -828,8 +833,8 @@ function stageTip() {
     if (B.status === 'choose' && B.choose?.half) return t('t-steal', B.choose.striker?.pid === S.me.pid ? 'You missed it, so a classmate who got it right attacked instead.' : 'Your classmate missed it, so someone who got it right attacked instead.', true);
     return null;
   }
-  if (S.phase === 'crimson' && S.own) return t('t-prep', 'Answer questions while the enemy moves. Each right answer gives your pair a step for its move.');
-  if (S.stage === 'quiz') return t('t-quiz', 'Right answers here earn coins. Coins buy food from Grab-Ma.');
+  if (S.phase === 'crimson' && S.own) return t('t-prep', 'Answer questions while the enemy moves. Each right answer gives your pair a step for its move and earns you 20 coins.');
+  if (S.stage === 'quiz') return t('t-quiz', 'Finish your 3 questions. Planning opens in a few seconds.');
   if (isCouncil() && band?.pairs.length > 1) return t('t-band', 'A warband is pairs moving together. One pair suggests a route and the others agree.');
   if (isCouncil()) return t('t-council', 'Tap a glowing stop to plan a route. The number is how many steps it costs. Then tap SEND ROUTE.');
   if (S.own?.kind === 'warcry') return t('t-cry', 'While others fight, War Cry questions come to you. Right answers hit the enemy in their battle.');

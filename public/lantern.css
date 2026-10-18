@@ -853,3 +853,12 @@ body.cd-open .pick-head .cd-close{visibility:hidden;}
 .tw-arena .theatre{background:transparent;}
 /* Total War is played in portrait too: its battles fit a portrait screen (the stage is letterboxed), so no rotate prompt */
 .tw-arena .rotate-hint{display:none!important;}
+/* Total War: the pair strip runs along the bottom of the battle (drawn by the war page over this frame). The panels the
+   Arena keeps along the bottom (the move menu, the move recap, the steal question, "waiting") sit just above it. */
+.tw-arena.tw-strip-on .commands{bottom:calc(var(--tws,0px) + 8px);}
+.tw-arena.tw-strip-on .action-log,.tw-arena.tw-strip-on .wait{bottom:calc(var(--tws,0px) + 10px);}
+.tw-arena.tw-strip-on .mcq.steal{bottom:calc(var(--tws,0px) + 8px);max-height:calc(100% - var(--tws,0px) - 150px);}
+/* the monster your pair is engaging: a gold ring at its feet and a gold name tag */
+.tw-arena .tok.mon.engaged .tok-spot{border:calc(3 * var(--u)) solid #ffd36b;background:none;width:66%;height:11%;bottom:4%;border-radius:50%;box-shadow:0 0 14px #ffd36b88;}
+.tw-arena .tok.mon.engaged .tok-tag{color:#2a1606;background:#ffd36b;opacity:1;}
+.tw-arena .tok.mon{cursor:pointer;}

@@ -1566,7 +1566,9 @@ function tokenHTML(c, facing, acting, side) {
 let baseFlags = new Map();     // uid → { html, cls } from the turn state
 let targetFlags = new Map();   // uid → { html, cls } while you pick a target
 function applyFlags() {
+  const engaged = TW ? new Set((room?.battle?.combatants || []).filter((c) => c.engaged).map((c) => c.uid)) : null;
   document.querySelectorAll("#arena .tok").forEach((t) => {
+    if (engaged) t.classList.toggle("engaged", engaged.has(t.dataset.uid));
     const f = targetFlags.get(t.dataset.uid) || baseFlags.get(t.dataset.uid);
     const el = t.querySelector(".tok-flag"); if (!el) return;
     el.className = "tok-flag" + (f ? " on " + f.cls : "");
@@ -1997,7 +1999,9 @@ function skillEffect(sk) {
 
 // Who a move can be aimed at. [] means it needs no target.
 function moveTargets(sel, me, b) {
-  const enemies = b.combatants.filter((c) => c.team !== me.team && c.alive);
+  let enemies = b.combatants.filter((c) => c.team !== me.team && c.alive);
+  // Total War: each pair fights the monster it is engaging, so a move at an enemy goes straight to it
+  if (TW && enemies.some((c) => c.engaged)) enemies = enemies.filter((c) => c.engaged);
   const alliesAlive = b.combatants.filter((c) => c.team === me.team && c.alive);
   if (!sel) return [];
   if (sel.kind === "strike") return enemies;

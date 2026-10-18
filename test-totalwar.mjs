@@ -223,7 +223,7 @@ while (host.status === "playing") {
   if (host.buffs?.some((x) => x.key === "warcry")) sawCampBuff = true;
   if (host.gate?.broken) sawGateBroken = true;
   if (host.log?.some((l) => /is lost/.test(l.text))) sawLoss = true;
-  if (!mpChecked && host.phase === "crystal" && host.turn === 1) {
+  if (!mpChecked && host.phase === "crystal" && host.stage === "council" && host.turn === 1) {
     mpChecked = true;
     const band = host.bands.find((b) => b.pairs.length >= 1);
     check(band.mp >= 1 && band.mp <= 5, `preparing gives between 1 and 5 AP (warband has ${band.mp})`);
@@ -257,6 +257,10 @@ check(host.status === "ended", `the war ended (winner: ${host.winner}, ${host.en
 check(host.gate.broken && (host.winner === "crystal" || host.warlord.hp < host.warlord.max), `the class reached the Warlord within 8 turns (Warlord ${host.warlord.hp}/${host.warlord.max})`);
 console.log(`  war length: ${Math.round(warSeconds / 60)} game minutes over ${host.turn} turns (bots answer in about 5 s; a class takes longer)`);
 console.log("  time in each phase (game seconds): " + Object.entries(phaseTime).map(([k, v]) => `${k} ${Math.round(v)}`).join(", "));
+{ // the movement phase (from the end of the enemy's turn to the battles): the top-up, planning and the march
+  const move = ((phaseTime["crystal:quiz"] || 0) + (phaseTime["crystal:council"] || 0) + (phaseTime["crystal:march"] || 0)) / Math.max(1, Math.min(8, host.turn));
+  check(move <= 60, `the movement phase takes about ${Math.round(move)} game seconds a turn (at most 60)`);
+}
 check(!!host.report?.csv && host.report.students.length === N, `the teacher gets a learning report at the end (${host.report?.objectives?.length} objectives, ${host.report?.missed?.length} most missed)`);
 // battles are slower now (HP lasts, waves, capped damage): the test class must break the gate; beating the Warlord too is a bonus
 console.log(`  the Warlord ${host.winner === "crystal" ? "was beaten" : `has ${host.warlord.hp} of ${host.warlord.max} HP left`}`);
@@ -273,6 +277,7 @@ check(!unexpected.length, `no unexpected errors for students${unexpected.length 
 await wardWar();
 await practiceWar();
 await featureWar();
+await targetWar();
 await mechanicsWar();
 await restoreWar();
 await tutorialWar();
@@ -361,6 +366,77 @@ async function practiceWar() {
   const odd = errs.filter((e) => !/one stop at a time|battle|finished moving|not your turn|Too late|already|same stop|in a battle|Lock in your move|Answer your 3|takes orders|War Council|You would have to fight|can travel/i.test(e));
   check(!odd.length, `no unexpected errors in the practice war${odd.length ? ": " + odd.slice(0, 3).join(" | ") : ""}`);
   s.disconnect();
+}
+// Each pair fights its own monster: a pair that does not pick is given the least-engaged one, a pair whose monster
+// falls is moved to another (and told), and each monster hits back mainly at the pairs engaging it.
+async function targetWar() {
+  console.log("\n--- each pair picks its monster ---");
+  const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
+  t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v)); t.on("twError", (m) => terr.push(m));
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  while (!hs || !H) await sleep(20);
+  t.emit("twSettings", { botPartners: false, turns: 4 });
+  const mk = (name, pick) => {
+    const s = io(URL, { transports: ["websocket"] }); s.v = null; s.errs = []; s.rounds = [];
+    s.on("twError", (m) => s.errs.push(m));
+    s.on("twState", (v) => {
+      s.v = v; if (v.status !== "playing") return;
+      const B = v.myBattle;
+      const q = v.own && !v.own.result ? v.own.question : B?.question && !B.question.mine ? B.question : null;
+      if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat ?? 0, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); }
+      if (B?.status === "gather" && pick != null && B.me?.target == null && !s.picked) { s.picked = true; s.emit("twTarget", { index: pick }); }
+      if (B?.moves && s.lastMove !== B.choose?.endsAt) { s.lastMove = B.choose?.endsAt; s.emit("twAction", { kind: "strike" }); }
+      if (B?.round && s.rounds.at(-1)?.at !== B.round.at) s.rounds.push({ ...B.round, targets: B.pairs?.map((p) => [p.no, p.target]), alive: B.enemies.map((e) => e.hp > 0) });
+      if (B && B.status !== "gather") s.lastB = B;
+      const band = v.bands?.find((b) => b.id === v.me.bandId);
+      if (v.phase === "crystal" && v.stage === "council" && band && !band.battle) {
+        const key = `${v.turn}:${band.node}`; if (s.lastKey === key) return; s.lastKey = key;
+        s.emit("twRoute", band.node === 0 ? { route: [0, 1] } : { hold: true });
+      }
+    });
+    return s;
+  };
+  // Ana and Ben pick the Ogre (index 0); Cy does not pick
+  const ana = mk("Ana", 0), ben = mk("Ben", 0), cy = mk("Cy", null);
+  await Promise.all([ana, ben, cy].map((s) => new Promise((r) => s.on("connect", r))));
+  for (const [s, n] of [[ana, "Ana"], [ben, "Ben"], [cy, "Cy"]]) s.emit("twJoin", { code: hs.code, name: n });
+  while (!ana.v || !ben.v || !cy.v) await sleep(20);
+  t.emit("twStart");
+  while (H.status !== "playing" || H.phase !== "crimson") await sleep(20);
+  t.emit("twTestSpawn", { types: ["ogre", "rift_hound"], node: 1 }); await sleep(100);
+  t.emit("twEndTurn");
+  const until = Date.now() + 120000;
+  let auto = false, moved = false, both = false, pairCards = false, retargetErr = false;
+  while (Date.now() < until) {
+    await sleep(30);
+    const B = cy.v?.myBattle;
+    if (B && B.status !== "gather") {
+      const field = B.enemies.filter((e) => e.wave && e.hp > 0).length;
+      if (field === 2) both = true;
+      if (B.me?.target === 1 && B.enemies[1].hp > 0 && field === 2) auto = true;
+      if (B.pairs?.length === 3 && B.pairs.every((p) => Number.isInteger(p.target) && typeof p.dealt === "number" && p.state)) pairCards = true;
+      // (the Rift Hound may outlast the first battle; in the next one another pair is on it)
+      if (B.pairs?.some((p) => p.moved && /Your monster is down/.test(p.moved.text) && B.enemies[p.target]?.hp > 0 && B.enemies.some((e, i) => i !== p.target && e.hp <= 0))) moved = true;
+      // a fallen monster cannot be picked again
+      const dead = B.enemies.findIndex((e) => e.hp <= 0);
+      if (!retargetErr && B.status !== "over" && dead >= 0) { retargetErr = true; cy.emit("twTarget", { index: dead }); }
+    }
+    if (moved && retargetErr) { await sleep(300); break; }
+  }
+  check(both, "with three pairs, two monsters come out together so pairs can choose");
+  check(auto, "a pair that does not pick is given the monster the fewest pairs are on");
+  check(pairCards, "every pair in the battle gets a card: HP, its monster, what it is doing and its damage");
+  check(moved, "when its monster falls, a pair moves to another and is told \"Your monster is down\"");
+  // the counterattack: each monster mainly hits the pairs engaging it, and the warband takes the whole blow
+  const both2 = cy.rounds.filter((r) => r.counterTotal > 0 && r.alive[0] && r.alive[1] && r.hurt && Object.keys(r.hurt).length === 3);
+  const r = both2[0];
+  const no = (s) => s.v.me.pairNo;
+  check(!!r && Math.abs(Object.values(r.hurt).reduce((a, n) => a + n, 0) - r.counterTotal) < 0.06, `the whole counterattack lands on the warband (${r ? Object.values(r.hurt).map((n) => n.toFixed(2)).join(" + ") : "-"} = ${r?.counterTotal})`);
+  check(!!r && r.hurt[no(cy)] < r.hurt[no(ana)], `the Ogre hits the pairs fighting it harder than the pair on the Rift Hound (${r?.hurt[no(ana)]} vs ${r?.hurt[no(cy)]})`);
+  check(ana.lastB?.pairs?.some((p) => p.dealt > 0), "the damage each pair has dealt is counted");
+  check(cy.errs.some((e) => /not come out|still standing/.test(e)), "a fallen monster cannot be picked again");
+  check(!terr.length, `no errors for the teacher${terr.length ? ": " + terr.slice(0, 3).join(" | ") : ""}`);
+  for (const s of [ana, ben, cy, t]) s.disconnect();
 }
 // Teleport, ambush, the watchtower, enemy waves and picking a target while the battle gathers.
 async function featureWar() {
