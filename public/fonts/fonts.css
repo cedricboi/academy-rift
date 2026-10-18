@@ -12,6 +12,7 @@
 @font-face{font-family:"Cinzel";src:url("cinzel-latin-900-normal.woff2") format("woff2");font-weight:800 900;font-style:normal;font-display:swap;}
 @font-face{font-family:"Cinzel";src:url("cinzel-latin-700-normal.woff2") format("woff2");font-weight:100 799;font-style:normal;font-display:swap;}
 /* Rift Pixel: Pixelify Sans, for Total War's pixel-art headings, labels and buttons (SIL Open Font License, see LICENSE-pixelify-sans.txt).
-   Modified for Academy Rift: C and c open wider on the right, so they no longer read as O and o on the projector. */
+   Modified for Academy Rift: C and c open wider on the right, so they no longer read as O and o on the projector,
+   and 2, 3 and 5 are redrawn so they no longer read as 8. */
 @font-face{font-family:"Rift Pixel";src:url("pixelify-sans-latin-500-normal.woff2") format("woff2");font-weight:100 599;font-style:normal;font-display:swap;}
 @font-face{font-family:"Rift Pixel";src:url("pixelify-sans-latin-700-normal.woff2") format("woff2");font-weight:600 900;font-style:normal;font-display:swap;}
