@@ -61,7 +61,7 @@ teacher.on("twHosting", (h) => (hosting = h));
 teacher.on("twHost", (v) => (host = v));
 teacher.on("twError", (m) => tErrors.push(m));
 await new Promise((r) => teacher.on("connect", r));
-teacher.emit("twCreate");
+teacher.emit("twCreate"); teacher.emit("twSettings", { full: true });   // this file tests the full game (Basic: test-totalwar-basic.mjs)
 while (!hosting || !host) await sleep(20);
 const code = hosting.code;
 check(/^W[A-Z]{3}$/.test(code), `war created with code ${code}`);
@@ -322,7 +322,7 @@ done(fails.length ? 1 : 0);
 async function wardWar() {
   const t = io(URL, { transports: ["websocket"] }); let H2 = null, hs = null;
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H2 = v));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H2) await sleep(20);
   t.emit("twSettings", { turns: 30 });
   const s = io(URL, { transports: ["websocket"] }); let st = null;
@@ -383,7 +383,7 @@ async function practiceWar() {
     if (x.phase === "crystal" && x.stage === "council" && band && !band.battle) { const key = `${x.turn}:${band.node}`; if (s.lastKey !== key) { s.lastKey = key; const route = bought ? routeFrom(x, band, (at) => stepTowards(at, FORTRESS)) : [band.node]; s.emit("twRoute", route.length > 1 ? { route } : { hold: true }); } }
   });
   await new Promise((r) => s.on("connect", r));
-  s.emit("twPractice", { name: "Solo", char: "jun" });
+  s.emit("twPractice", { name: "Solo", char: "jun", full: true });
   const until = Date.now() + 160000;
   while (Date.now() < until && !(v?.status === "ended" || (kinds.has("skill") && usedItem && kinds.size >= 2 && crimsonTurns >= 3))) await sleep(50);
   check(v && v.status !== "lobby", "a practice war starts straight away with one student");
@@ -406,7 +406,7 @@ async function targetWar() {
   console.log("\n--- each pair picks its monster ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v)); t.on("twError", (m) => terr.push(m));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: false, turns: 4 });
   const mk = (name, pick) => {
@@ -476,7 +476,7 @@ async function featureWar() {
   console.log("\n--- teleport, ambush, watchtower, waves, targets ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v)); t.on("twError", (m) => terr.push(m));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: false, turns: 6 });
   const mk = (name, char, plan) => {
@@ -543,7 +543,7 @@ async function mechanicsWar() {
   console.log("\n--- shuffled choices, explanations, pause, end a battle, AP, revive, class wins, report ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v)); t.on("twError", (m) => terr.push(m));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: false, turns: 8 });
   const byQ = new Map(QUESTIONS.map((q) => [q.q, q]));
@@ -673,7 +673,7 @@ async function restoreWar() {
   console.log("\n--- the server restarts mid-war ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null;
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (v) => (H = v));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: true, turns: 8 });
   const s = io(URL, { transports: ["websocket"] }); let v = null;
@@ -710,7 +710,7 @@ async function tutorialWar() {
   const s = io(URL, { transports: ["websocket"] }); let v = null; const errs = [];
   s.on("twState", (x) => (v = x)); s.on("twError", (m) => errs.push(m));
   await new Promise((r) => s.on("connect", r));
-  s.emit("twPractice", { name: "New", char: "emi", tutorial: true });
+  s.emit("twPractice", { name: "New", char: "emi", tutorial: true, full: true });
   const u1 = Date.now() + 5000; while (!(v?.own?.question) && Date.now() < u1) await sleep(20);
   check(v?.training && v.tutorial, "a first practice war starts with the coached training turn");
   check(!!v?.own?.question?.untimed, "in the training turn a question has no timer");
@@ -733,7 +733,7 @@ async function draftWar() {
   console.log("\n--- a drafted route is sent when the planning time ends ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null;
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (x) => (H = x));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: false, councilSeconds: 30 });
   const mk = (name) => { const s = io(URL, { transports: ["websocket"] }); s.v = null; s.on("twState", (x) => { s.v = x; const q = x.own && !x.own.result ? x.own.question : null; if (q && s.lastQ !== q.startedAt) { s.lastQ = q.startedAt; setTimeout(() => s.emit("twAnswer", { chosen: q.cheat, startedAt: q.startedAt }), (q.recall * 1000) / SPEED + 30); } }); return s; };
@@ -762,7 +762,7 @@ async function reinforceWar() {
   console.log("\n--- joining a battle that is still on, and battles that run long ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null; const terr = [];
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (x) => (H = x)); t.on("twError", (m) => terr.push(m));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: false, turns: 8 });
   // quiet: never answers its battle questions (so its battle runs long); route: what it plans in each council
@@ -858,7 +858,7 @@ async function partnerWar() {
   console.log("\n--- both partners agree the pair's route ---");
   const t = io(URL, { transports: ["websocket"] }); let H = null, hs = null;
   t.on("twHosting", (h) => (hs = h)); t.on("twHost", (x) => (H = x));
-  await new Promise((r) => t.on("connect", r)); t.emit("twCreate");
+  await new Promise((r) => t.on("connect", r)); t.emit("twCreate"); t.emit("twSettings", { full: true });
   while (!hs || !H) await sleep(20);
   t.emit("twSettings", { botPartners: true, councilSeconds: 30 });
   const mk = (name) => {

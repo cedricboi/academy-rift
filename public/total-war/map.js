@@ -123,7 +123,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
         el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node;
         if (primed && b.rise) { el._rise = true; setTimeout(() => { el._rise = false; el.classList.remove('rise'); }, 1600); }      // a standard rises where the class has just won
       }
-      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${group.length > 1 ? (b !== top ? ' stacked' : ' lead') : ''}`;
+      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.mineBig ? ' mine' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${group.length > 1 ? (b !== top ? ' stacked' : ' lead') : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
@@ -180,7 +180,9 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
     cancelAnimationFrame(raf); drawRiders();
   }
 
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [] }) {
+  // basic: the Basic game's map (no HP bars, your banner big and labelled YOU, classmates' banners smaller, no watchtower
+  // unless the fog Extra is on)
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [], basic = false }) {
     if (focusNode !== focus) { focus = focusNode; fit(); }
     // roads of the chosen step, and (for the teacher) where marching units are heading
     const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
@@ -218,7 +220,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
         html: `<span class="cloth">${CRYSTAL}</span><span class="pole"></span><span class="tag">${hurt ? `Ward ${w.hp}/${w.max}` : 'Academy Ward'}</span>` });
     }
     // the watchtower: a Crystal banner on it shows the class the Crimson Host beyond the fog
-    if (state.tower) {
+    if (state.tower && !(basic && state.extras && !state.extras.fog)) {
       const t = state.tower;
       list.push({ key: 'tower', kind: 'tower', ref: 'tower', node: t.node, small: true, glow: selected === 'tower', label: 'Watchtower',
         html: `<span class="cloth tower-cloth ${t.held ? 'held' : ''}">${TOWER}</span><span class="pole"></span><span class="tag">${t.held ? 'Watchtower · held' : 'Watchtower'}</span>` });
@@ -250,6 +252,11 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
       const lead = b.pairs[0]; if (!lead) continue;
       const isMine = mine && b.id === mine;
       const hp = Math.min(...b.pairs.map((p) => (p.hp ?? 10) / (p.maxHp || 10)));
+      if (basic) {
+        list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}`, small: !isMine && !!mine, mineBig: isMine, label: isMine ? 'Your pair' : `Pair ${lead.no}`,
+          html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}${!isMine && b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${state.extras?.hp ? `<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i>` : ''}<span class="pole"></span><span class="tag">${isMine ? 'YOU' : `Pair ${lead.no}`}</span>` });
+        continue;
+      }
       list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}` || highlight.includes(b.id), label: `Pair ${lead.no}`,
         html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i><span class="pole"></span><span class="tag">${isMine ? (b.pairs.length > 1 ? 'Your warband' : 'You') : b.pairs.length > 1 ? 'Warband' : `Pair ${lead.no}`}</span>${isMine && status ? `<span class="status">${esc(status)}</span>` : ''}` });
     }

@@ -66,6 +66,8 @@
 <!-- the war -->
 <section id="game" class="screen hidden">
   <header class="topbar">
+    <!-- the Basic game: the round, its 3 steps (the one the class is on lights up), one timer, and what to do now -->
+    <div class="rt hidden" id="roundTrack" aria-live="polite"></div>
     <div class="t-left">
       <div><div class="eyebrow" id="phaseEyebrow">TURN 1</div><div class="t-title" id="phaseTitle">The war begins</div></div>
       <div class="clock" id="phaseClock">0:00</div>
@@ -104,6 +106,10 @@
     <aside id="qDock" class="q-dock hidden"><div class="qd-head" id="qdHead"></div><div id="card"></div></aside>
   </div>
 
+  <!-- Basic: a battle starting one road away. One big card: help them, or not -->
+  <section id="helpCard" class="help-card hidden" role="dialog" aria-label="Help a battle next door"></section>
+  <!-- Basic: one big message that needs an OK (the pair was sent back to the Academy) -->
+  <section id="bigNote" class="big-note hidden" role="dialog"></section>
   <section id="battle" class="battle hidden">
     <header class="b-head">
       <div><div class="eyebrow" id="bEyebrow">BATTLE</div><div class="cinzel b-title" id="bTitle">Battle</div></div>
@@ -123,6 +129,8 @@
     <div id="bCardHost" class="b-card"><div id="bCard"></div></div>
     <div id="bMoves" class="b-moves hidden"></div>
     <div class="b-reveal hidden" id="bReveal"></div>
+    <!-- Basic battles: every fighter's face with a tick or a cross for this question, and the hits each pair has made -->
+    <div class="b-faces hidden" id="bFaces"></div>
   </section>
 
   <section id="ending" class="ending hidden"></section>

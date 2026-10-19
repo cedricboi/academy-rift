@@ -175,3 +175,23 @@
 .bl-row.bl-foe{align-items:center;margin-top:2px}
 .bl-row.bl-foe img{width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px}
 .bl-row.bl-foe span:last-child{color:#ffe9b0;font-weight:600}
+
+/* the Basic game's round tracker and the Extras toggles */
+.g-track{display:flex;align-items:center;gap:6px;margin-right:6px}
+.g-track span{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 5px;background:#121a24;border:2px solid #2a3540;color:#7f8d94;font:700 13px "Rift Pixel";letter-spacing:1px;white-space:nowrap}
+.g-track span i{width:20px;height:20px;border-radius:10px;display:grid;place-items:center;background:#25313b;font-style:normal;font-size:12px}
+.g-track span.done{color:#9fd8cc;border-color:#2c5752}
+.g-track span.now{background:linear-gradient(#f3dca0,#c9a45f);border-color:#fff3c9;color:#1a1408}.g-track span.now i{background:#1a1408;color:#f3dca0}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.extras .tog{margin:0}
+.extras .tog.full{grid-column:1/-1;border-color:var(--gold)}
+.extras.compact{grid-template-columns:1fr;max-height:46vh;overflow:auto}
+.extras.compact small{display:none}
+.x-sub{display:block;margin-top:2px;font:500 12px "Rift Body";letter-spacing:0;text-transform:none;color:#c9bfa8}
+.g-track-bar{position:absolute;left:50%;top:76px;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:6px;padding:4px 8px;background:#0c0a12e6;box-shadow:0 0 0 2px #000}
+.g-track-bar>b{font:700 13px "Rift Pixel";letter-spacing:2px;color:#d8cfbf;margin-right:6px;white-space:nowrap}
+.g-track-bar span{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 5px;background:#121a24;border:2px solid #2a3540;color:#7f8d94;font:700 13px "Rift Pixel";letter-spacing:1px;white-space:nowrap}
+.g-track-bar span i{width:20px;height:20px;border-radius:10px;display:grid;place-items:center;background:#25313b;font-style:normal;font-size:12px}
+.g-track-bar span.done{color:#9fd8cc;border-color:#2c5752}
+.g-track-bar span.now{background:linear-gradient(#f3dca0,#c9a45f);border-color:#fff3c9;color:#1a1408}.g-track-bar span.now i{background:#1a1408;color:#f3dca0}
+.basic-war .guide{top:124px}

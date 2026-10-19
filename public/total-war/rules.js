@@ -286,6 +286,35 @@ export const BATTLE_WAIT_SECONDS = 60;
 export const LATE_STEPS = 2;
 export const LATE_PLAN_SECONDS = 15;
 
+// ---- the Basic game (the default): a round is 3 steps, ANSWER, MOVE and FIGHT ----
+// The full game's systems are Extras the teacher can switch on one by one (or all at once with "Full game").
+export const EXTRAS = {
+  coins:  { name: 'Coins and Grab-Ma food', desc: 'Right answers earn coins. Students order food on a phone.' },
+  hp:     { name: 'HP and food healing', desc: 'Each pair has HP. The monster\'s hits take HP, and food heals it.' },
+  moves:  { name: 'Battle moves', desc: 'Strike, skills, Ultimates and Sync. One student takes the turn, the others answer along, and a turn can be stolen.' },
+  pick:   { name: 'Choosing monsters and the pair strip', desc: 'Each pair picks which monster it fights. A strip shows every pair in the battle.' },
+  join:   { name: 'Join any battle and warbands', desc: 'Pairs join into warbands, and a pair whose battle is over can help any battle on the map.' },
+  warcry: { name: 'War Cries and bonus questions', desc: 'Students who are not fighting answer War Cries for a battle. More questions earn more coins.' },
+  camps:  { name: 'Camp buffs and safe camps', desc: 'Beating a jungle camp gives the whole class a buff. Taken outposts become safe camps.' },
+  fog:    { name: 'Watchtower and fog of war', desc: 'Students only see enemies near their banners. Holding the watchtower shows all of them.' },
+};
+export const EXTRA_KEYS = Object.keys(EXTRAS);
+export const noExtras = () => Object.fromEntries(EXTRA_KEYS.map((k) => [k, false]));
+export const BASIC_QUESTIONS = 3;      // each student answers exactly this many questions in the ANSWER step
+export const BASIC_ANSWER_SECONDS = 90; // the ANSWER step lasts at most this long (three questions, read, answered and explained)
+export const BASIC_HIT = 2;            // each right answer in a Basic battle is one hit of this size (shown as 20)
+export const HELP_SECONDS = 15;        // a pair one road away has this long to say YES to helping a battle that is starting
+export const BASIC_RESULT_SECONDS = 8; // after each Basic battle question: the hits, the monster hitting back, the answer and why
+// The monster hits back after each Basic battle question: one blow for every wrong (or missing) answer
+export function basicCounter(atk = 1, wrong = 0) { return +((+atk || 1) * Math.max(0, wrong)).toFixed(2); }
+// Which of the 3 steps of a round the class is on, from the phase the server is in
+export function roundStep(phase, stage) {
+  if (phase === 'crimson' || (phase === 'crystal' && stage === 'quiz')) return 'answer';
+  if (phase === 'crystal') return 'move';
+  if (phase === 'battles') return 'fight';
+  return null;
+}
+
 // ---- Grab-Ma's food in Total War: what each item does here (the Arena's own text is in data/characters.js) ----
 // heal and eat are in pair HP (10 inside the game, shown x10). In battle a warband shares one HP pool, so food heals
 // every pair in the warband by the same amount (the server multiplies by the number of pairs).

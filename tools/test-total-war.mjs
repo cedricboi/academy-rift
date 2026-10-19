@@ -165,3 +165,17 @@ test('reinforcements: each joined pair that answers right adds attack and cuts d
   // a pair whose battle ran on while the class prepared still gets a real move; one planning late has time to plan
   assert.ok(R.LATE_STEPS>R.BASE_MP&&R.LATE_PLAN_SECONDS>=10&&R.REGROUP_STEPS>=2);
 });
+test('the Basic game: a round is ANSWER, MOVE and FIGHT, and the monster hits back once for each wrong answer',async()=>{
+  const R=await import('../public/total-war/rules.js');
+  assert.equal(R.roundStep('crimson',null),'answer');assert.equal(R.roundStep('crystal','quiz'),'answer');
+  assert.equal(R.roundStep('crystal','council'),'move');assert.equal(R.roundStep('crystal','march'),'move');
+  assert.equal(R.roundStep('battles',null),'fight');assert.equal(R.roundStep(null,null),null);
+  assert.equal(R.basicCounter(1,0),0);assert.equal(R.basicCounter(3,2),6);assert.equal(R.basicCounter(8,1),8);
+  assert.equal(R.BASIC_QUESTIONS,3);assert.equal(R.BASIC_HIT,2);assert.ok(R.HELP_SECONDS>=10);
+  // the ANSWER step has room for 3 whole questions (read, answer and the explanation after each)
+  assert.ok(R.BASIC_ANSWER_SECONDS>=R.BASIC_QUESTIONS*(R.READ_SECONDS+R.ANSWER_SECONDS));
+  // every Extra has a name and a plain description, and all are off in a new war
+  assert.deepEqual(R.EXTRA_KEYS,['coins','hp','moves','pick','join','warcry','camps','fog']);
+  for(const k of R.EXTRA_KEYS)assert.ok(R.EXTRAS[k].name&&R.EXTRAS[k].desc&&!/;|—/.test(R.EXTRAS[k].desc));
+  assert.ok(Object.values(R.noExtras()).every((v)=>v===false));
+});

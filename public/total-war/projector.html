@@ -52,6 +52,27 @@
 .lobby .qr{width:300px;height:300px;background:#fff;padding:10px}
 .lobby .qr svg{width:100%;height:100%}
 .lobby p{font:400 26px "Rift Body";color:#c7d4d1}
+/* the Basic game: the round, its 3 steps and what the class is doing now, big enough for the back of the room */
+.p-rt{display:none;flex-direction:column;align-items:center;gap:8px}
+.basic .p-rt{display:flex}.basic .p-phase>.eyebrow,.basic .p-phase>#pSub{display:none}
+.basic .p-head{height:auto;min-height:150px;align-items:center}
+.basic .p-head h1{font-size:30px}.basic .p-mission{font-size:17px}
+.basic .p-phase{flex:1 1 auto;min-width:0}
+.basic .p-battle{top:200px;max-height:calc(100vh - 216px)}
+.p-rt .rt-row{display:flex;align-items:center;gap:12px}
+.p-rt .rt-round{font:700 24px "Rift Pixel";letter-spacing:3px;color:#a9bcb9;margin-right:10px}.p-rt .rt-round b{font-size:36px;color:var(--ivory)}
+.p-rt .st{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 10px;background:#121a24;border:3px solid #2a3540;color:#7f8d94;font:700 24px "Rift Pixel";letter-spacing:3px}
+.p-rt .st i{width:36px;height:36px;border-radius:18px;display:grid;place-items:center;background:#25313b;font-style:normal;font-size:20px}
+.p-rt .st.done{color:#9fd8cc;border-color:#2c5752}.p-rt .st.done i{background:#2c5752;color:#dffcf6}
+.p-rt .st.now{background:linear-gradient(#f3dca0,#c9a45f);border-color:#fff3c9;color:#1a1408;box-shadow:0 0 26px #e9cf8e99}.p-rt .st.now i{background:#1a1408;color:#f3dca0}
+.p-rt .now{font:700 30px/1.25 "Rift Body";color:#fff6dc;text-align:center;text-shadow:0 2px 4px #000}
+.pb-faces{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:12px}
+.pb-faces .f{position:relative;display:flex;flex-direction:column;align-items:center;width:84px}
+.pb-faces img{width:70px;height:58px;object-fit:cover;object-position:50% 15%;border:3px solid var(--c)}
+.pb-faces b{font:700 16px "Rift Pixel";color:var(--ivory);max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pb-faces small{font:600 13px "Rift Pixel";color:#a9bcb9}
+.pb-faces .mk{position:absolute;right:0;top:-8px;width:32px;height:32px;border-radius:16px;display:grid;place-items:center;font:800 20px "Rift Body";font-style:normal;box-shadow:0 0 0 3px #000}
+.pb-faces .mk.ok{background:#4fe39a;color:#06281c}.pb-faces .mk.no{background:#ff5a6e;color:#2a0a10}.pb-faces .mk.in{background:#81e3d4;color:#0b1a1e;font-size:13px}.pb-faces .mk.wait{background:#33414a;color:#cfd9d6}
 .p-paused{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:25;padding:28px 48px;text-align:center;background:#0b141cf0;border:3px solid #ffd36b;box-shadow:0 0 0 4px #000,0 30px 80px #000}
 .p-paused .eyebrow{font-size:22px;color:#ffd36b}.p-paused h2{margin:8px 0 0;font:700 52px "Rift Pixel"}
 /* the end: the class's war in numbers, over a faded map */
@@ -82,7 +103,7 @@
   <div id="mapHost" style="position:absolute;inset:0;display:flex"></div>
   <header class="p-head">
     <div><div class="eyebrow">ACADEMY RIFT · TOTAL WAR</div><h1>Break into the Crimson Fortress</h1><div class="p-mission" id="pMission">Commander of the Crimson Host: <b id="enemyName">Your teacher</b></div></div>
-    <div class="p-phase"><div class="eyebrow" id="pPhase">TURN 1</div><div id="pSub"></div></div>
+    <div class="p-phase"><div class="eyebrow" id="pPhase">TURN 1</div><div id="pSub"></div><div class="p-rt" id="pRt"></div></div>
     <div class="p-chips"><div class="gate-chip"><img id="gateImg" src="monsters/golem.png" alt=""><div><span class="eyebrow">CRIMSON GATE</span><b id="gateText">Unbroken</b></div></div></div>
   </header>
   <div class="p-log" id="log"></div>
@@ -100,6 +121,7 @@
 import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
 import { UNITS, CAMPS, showHp } from './rules.js';
+import { portrait as face } from './map.js';
 import { createStage, enemyName } from './stage.js';
 import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
 import { createPairStrip } from './pair-strip.js';
@@ -131,6 +153,8 @@ function render() {
     if (qrFor !== url) { qrFor = url; const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true, alt: 'QR code' }); }
     return;
   }
+  document.body.classList.toggle('basic', !!P.basic);
+  if (P.basic) renderTrack();
   const stageTxt = P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? (P.stage === 'quiz' ? 'QUESTIONS' : P.stage === 'council' ? 'WAR COUNCIL' : 'MARCHING') : P.phase === 'battles' ? 'BATTLES' : 'THE END';
   $('pPhase').textContent = `TURN ${P.turn} OF ${P.turns} · ${stageTxt}`;
   $('pSub').innerHTML = P.paused ? `<span class="paused">Paused by ${esc(P.paused.by)}. Everything waits.</span>`
@@ -145,7 +169,7 @@ function render() {
   // a battle on: the map moves to the left so all of it stays in view beside the battle
   const fighting = !!(B && P.status === 'playing');
   map.setInsets({ right: fighting ? panelW() : 0 });
-  map.render({ state: P });
+  map.render({ state: P, basic: !!P.basic });
   $('log').innerHTML = P.log.slice(fighting ? -2 : -3).map((l) => `<div class="${l.tone}">${esc(l.text)}</div>`).join('');
   $('log').style.right = fighting ? `${panelW() + 12}px` : '';
   const box = $('battle');
@@ -160,6 +184,7 @@ function render() {
       : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'won' ? '<b>Victory!</b>' : B.outcome === 'lost' ? (B.kind === 'defend' && B.resolve > 0 ? 'The warbands held!' : 'The Crimson Host held.') : '';
     $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}</div><h3>${esc(what)}</h3>${P.phase !== 'battles' && B.status !== 'over' && B.status !== 'gather' ? '<div style="font:600 17px \'Rift Body\',sans-serif;color:#ffd0d6;margin-top:2px">This battle goes on while the class carries on with its turn.</div>' : ''}`;
     const pairs = B.bands.flatMap((b) => b.pairs);
+    if (B.simple) return renderSimple(B, box, what, pairs);
     const stripOn = strip.render(B, null, { delay: 1600 });
     box.classList.toggle('with-strip', stripOn);
     box.style.setProperty('--below', `${B.pairs.length > 4 ? 420 : 340}px`);   // two rows of pair cards leave the stage less room
@@ -183,6 +208,50 @@ function render() {
   }
   renderEnd();
 }
+// The Basic game: ROUND N OF M, the 3 steps, and what the class is doing now
+function renderTrack() {
+  const at = ['answer', 'move', 'fight'].indexOf(P.step);
+  const st = [['ANSWER'], ['MOVE'], ['FIGHT']].map(([t], i) => `<span class="st ${i === at ? 'now' : at > i ? 'done' : ''}"><i>${i + 1}</i>${t}</span>`).join('');
+  const live = (P.battles || []).filter((B) => B.status !== 'over');
+  const now = P.paused ? `Paused by ${esc(P.paused.by)}. Everything waits.`
+    : P.step === 'answer' ? `While the enemy moves, every student answers 3 questions.${P.progress3 ? ` ${P.progress3.done} of ${P.progress3.of} are done.` : ''}`
+    : P.step === 'move' ? (P.stage === 'council' ? `Every pair taps a stop on the map, then GO.${P.ready ? ` ${P.ready.done} of ${P.ready.of} pairs are ready.` : ''}` : 'The banners are marching.')
+    : P.step === 'fight' ? (live.length ? `${live.length === 1 ? 'A battle is' : `${live.length} battles are`} being fought. The round ends when the battles finish.` : 'The battles are over.') : '';
+  $('pRt').innerHTML = P.status === 'ended' ? '' : `<div class="rt-row"><span class="rt-round">ROUND <b>${P.turn}</b> OF ${P.turns}</span>${st}</div><div class="now">${now}</div>`;
+}
+// A Basic battle on the projector: the stage, the monster, a row of faces with a tick or a cross, and who hit
+const andList = (a) => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a.at(-1)}` : a[0] || '');
+function renderSimple(B, box, what, pairs) {
+  if (B.kind === 'host') what = enemyName(B.enemies.find((e) => e.hp > 0)?.type || B.enemies[0]?.type);
+  const rd = B.round;
+  const faces = B.faces || [];
+  const mk = (m) => m === 'right' ? '<i class="mk ok">✓</i>' : m === 'wrong' ? '<i class="mk no">✗</i>' : m === 'in' ? '<i class="mk in">●</i>' : m === 'wait' ? '<i class="mk wait">…</i>' : '';
+  const nm = (n) => esc(String(n).replace(/^Bot /, ''));
+  const st = B.status === 'gather' ? 'Getting ready. Pairs one road away can come to help.'
+    : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit}. Everyone answers the same question. ${B.answered} of ${B.fighters} have answered.`
+    : B.status === 'result' && rd ? `${(rd.hitsBy || []).length ? `<b>${andList(rd.hitsBy.map((h) => nm(h.name)))}</b> hit for ${X(rd.each)}${rd.hitsBy.length > 1 ? ' each' : ''}!` : 'Nobody hit the monster this time.'} ${rd.rightCount} right, ${rd.wrongCount} wrong.${rd.counterTotal > 0 ? ` The monster hits back for ${X(rd.counterTotal)}.` : ''}<br>The right answer: <b>${esc(rd.choices?.[rd.answer] ?? '')}</b>`
+    : B.outcome === 'won' ? '<b>Victory!</b> The stop is clear.' : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'lost' ? 'The monster was too strong. The pairs go back to the Academy to regroup.' : '';
+  $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}</div><h3>${esc(what)}</h3>`;
+  setStrip(false);
+  box.classList.remove('with-strip');
+  $('pbFoot').innerHTML = `<div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
+    <div class="pb-faces">${faces.map((f) => `<span class="f"><img src="${face(f.char)}" alt="" style="--c:${charColor(f.char)}">${mk(f.mark)}<b>${nm(f.name)}</b><small>Pair ${f.pairNo}</small></span>`).join('')}</div>
+    <div class="status">${st}</div>${B.status === 'result' && rd?.explain ? `<div class="explain">${esc(rd.explain)}</div>` : ''}`;
+  box.classList.remove('hidden');
+  if (shownBattle !== B.id) { shownBattle = B.id; lastRound = 0; stage.skip(); skipTheatre(); stage.preload(faces.map((f) => f.char), B.enemies.map((e) => e.type)); prepareBattle(B, [...new Set(faces.map((f) => f.char))]); }
+  if (rd && rd.at !== lastRound) {
+    lastRound = rd.at;
+    const a = rd.hitsBy?.[0];
+    const play = { ...rd, action: a ? { kind: 'strike', index: -1, name: 'Strike', pid: a.pid, char: a.char, ally: rd.hitsBy?.[1]?.char || null } : null };
+    if (hasTheatre()) { cinema = true; $('pbTheatre').classList.remove('hidden'); playRound(B, play, pairs[0]?.char).catch(() => {}).finally(() => { cinema = false; $('pbTheatre').classList.add('hidden'); }); }
+    else stage.playRound(play);
+  }
+  if (B.status === 'fight' && cinema) skipTheatre();
+  const lead = [...new Map(faces.map((f) => [f.pairNo, f])).values()];
+  stage.set({ node: B.node, kind: B.kind, pairs: lead.slice(0, 8).map((f) => ({ key: `p${f.pairNo}`, char: f.char, label: `Pair ${f.pairNo}` })), foes: B.enemies });
+  renderEnd();
+}
+const setStrip = (on) => { if (!on) strip.render(null, null, {}); };
 function renderEnd() {
   const end = $('ending');
   end.classList.toggle('hidden', P.status !== 'ended');
@@ -197,10 +266,10 @@ function renderEnd() {
   end.innerHTML = `<div class="eyebrow">${won ? 'VICTORY' : draw ? 'A DRAW' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div>
     <h1>${won ? (points ? 'The class wins on points' : P.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : draw ? 'The gate is broken, the Warlord stands' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
     ${!ward && P.endedBy !== 'teacher' ? `<p class="lead">The class got ${P.progress?.pct ?? 0}% of the way to victory.</p>` : ''}
-    <div class="e-stats">${stat(Y.turns ?? P.turn, `Turn${(Y.turns ?? P.turn) === 1 ? '' : 's'} played`)}${stat(sites, 'Sites secured', sites ? 'good' : '')}${gate}${lord}${stat(`${Y.pct ?? 0}%`, `Class accuracy (${Y.correct ?? 0} of ${Y.answered ?? 0} right)`)}</div>
+    <div class="e-stats">${stat(Y.turns ?? P.turn, `${P.basic ? 'Round' : 'Turn'}${(Y.turns ?? P.turn) === 1 ? '' : 's'} played`)}${P.basic ? stat(Y.wins || 0, `Battle${Y.wins === 1 ? '' : 's'} won`, Y.wins ? 'good' : '') : stat(sites, 'Sites secured', sites ? 'good' : '')}${gate}${lord}${stat(`${Y.pct ?? 0}%`, `Class accuracy (${Y.correct ?? 0} of ${Y.answered ?? 0} right)`)}</div>
     <div class="e-cols">
       ${Y.top?.length ? `<div class="e-top"><h3>MOST RIGHT ANSWERS</h3><ol>${Y.top.map((t, i) => `<li><i>${i + 1}</i><span>${esc(t.name)}</span><small>${t.correct} right</small></li>`).join('')}</ol></div>` : ''}
-      ${P.story?.length ? `<div class="e-story"><h3>HOW THE WAR WENT</h3><ol>${P.story.slice(-6).map((e) => `<li><small>TURN ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
+      ${P.story?.length ? `<div class="e-story"><h3>HOW THE WAR WENT</h3><ol>${P.story.slice(-6).map((e) => `<li><small>${P.basic ? 'ROUND' : 'TURN'} ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol></div>` : ''}
     </div>`;
 }
 addEventListener('resize', () => P && render());

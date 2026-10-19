@@ -764,3 +764,119 @@ body.b-gathering .msg-stack{position:fixed;left:var(--gLeft,28px);top:var(--gTop
 body.b-gathering .msg-stack>*{pointer-events:auto}
 body.b-gathering .msg-stack>.notice,body.b-gathering .msg-stack>.coach{position:static;transform:none;width:auto;left:auto;right:auto;top:auto;bottom:auto;margin:0}
 body.b-gathering .msg-stack>.coach.tip{font-size:14px}
+
+/* ================================================================== the Basic game
+   One header: the round, its 3 steps (the step the class is on lights up), one timer, and the Now line. */
+.tw-basic .topbar{height:auto;flex:0 0 auto;flex-direction:column;align-items:stretch;gap:4px;padding-top:8px;padding-bottom:8px}
+.tw-basic .topbar>.t-left,.tw-basic .topbar>.mission,.tw-basic .topbar .enemy-chip,.tw-basic .topbar .help-btn{display:none!important}
+.tw-basic.tw-nocoins .topbar .t-right{display:none}
+.tw-basic .topbar .t-right{position:absolute;right:max(16px,env(safe-area-inset-right));top:8px}
+.rt{display:flex;flex-direction:column;gap:6px;width:100%}
+.rt-top{display:flex;align-items:center;gap:14px}
+.rt-round{flex:0 0 auto;font:700 15px "Rift Pixel";letter-spacing:2px;color:var(--muted);white-space:nowrap}
+.rt-round b{font-size:24px;color:var(--ivory)}
+.rt-steps{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-width:0}
+.rt-step{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:#121a24;border:2px solid #2a3540;color:#7f8d94;font:700 16px "Rift Pixel";letter-spacing:2px;white-space:nowrap}
+.rt-step i{width:26px;height:26px;display:grid;place-items:center;border-radius:13px;background:#25313b;color:#9fb0b6;font-style:normal;font-size:14px}
+.rt-step.done{color:#9fd8cc;border-color:#2c5752}.rt-step.done i{background:#2c5752;color:#dffcf6}
+.rt-step.now{background:linear-gradient(#f3dca0,#c9a45f);border-color:#fff3c9;color:#1a1408;box-shadow:0 0 18px #e9cf8e88;transform:scale(1.06)}
+.rt-step.now i{background:#1a1408;color:#f3dca0}
+.rt-arrow{width:16px;height:2px;background:#3a4650;flex:0 0 16px}
+.rt-clock{flex:0 0 auto;min-width:86px;padding:6px 12px;text-align:center;border:2px solid #81e3d466;font:700 22px "Rift Pixel";color:var(--cyan);font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px #000}
+.rt-clock.off{visibility:hidden}
+.rt-now{text-align:center;font:700 clamp(17px,2.1vw,23px)/1.3 "Rift Body";color:#fff6dc;text-shadow:0 1px 2px #000}
+.rt-now:empty{display:none}
+.tw-basic .battle{inset:var(--hdr,110px) 0 0 0}
+@media (max-aspect-ratio:1/1){
+  .rt-top{flex-wrap:wrap;justify-content:space-between}
+  .rt-steps{order:3;flex:1 0 100%}
+  .rt-step{padding:5px 10px 5px 6px;font-size:14px;letter-spacing:1px}
+}
+@media (max-width:700px){.rt-step{font-size:12px;padding:4px 8px 4px 4px;gap:5px}.rt-step i{width:22px;height:22px}.rt-arrow{width:8px;flex-basis:8px}}
+
+/* the map's banners: yours big and labelled YOU, your classmates' smaller */
+.tw-banner.pair.mine{z-index:4}
+.tw-banner.pair.mine .cloth{width:68px;height:88px;padding:4px}
+.tw-banner.pair.mine .tag{font:800 17px "Rift Pixel";color:#1a1408;background:var(--gold2);padding:1px 10px;letter-spacing:2px;text-shadow:none;box-shadow:0 0 0 2px #000}
+.tw-banner.pair.small .cloth{width:40px;height:52px;padding:2px}
+.tw-banner.pair.small .tag{font-size:11px}
+
+/* the bar along the bottom of the map in the Basic game: your pair, its steps, GO */
+.tw-basic .act-bar .ab-step{font-size:22px;white-space:normal}
+.tw-basic .act-bar .ab-sub{font-size:16px}
+.tw-basic .ab-mp b{font-size:40px}
+.tw-basic .ab-mp small{font-size:12px}
+.ab-end.go{min-width:170px;min-height:68px;font-size:26px;letter-spacing:4px;animation:goPulse 1.3s ease-in-out infinite}
+@keyframes goPulse{50%{box-shadow:inset 0 0 0 2px #fff3c9,0 4px 0 #6b4a1a,0 0 22px #f3dca0}}
+
+/* the question card in the ANSWER step */
+.qd-basic{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.qd-n{font:700 18px "Rift Pixel";letter-spacing:2px;color:var(--gold2)}.qd-n b{font-size:26px;color:var(--ivory)}
+.qd-basic .pips{display:flex;gap:6px}
+.qd-basic .pips i{width:16px;height:16px;border-radius:8px;background:#26313a;box-shadow:0 0 0 2px #000}
+.qd-basic .pips i.on{background:#7ff3a4}.qd-basic .pips i.miss{background:#ff8a9a}
+.qd-steps{margin-left:auto;font:600 18px "Rift Body";color:#e8f4f1}.qd-steps b{color:var(--cyan);font-size:22px}
+.qd-why{margin-top:6px;font:500 15px "Rift Body";color:#c3d0cd}
+
+/* a battle next door: one big card */
+.help-card,.big-note{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:#05040acc}
+.hc-in,.bn-in{width:min(620px,100%);padding:26px 28px;text-align:center;background:linear-gradient(#22121a,#12090e);border:3px solid var(--crimson);box-shadow:0 0 0 4px #000,0 30px 80px #000;animation:dockIn .25s ease-out}
+.hc-in .eyebrow{color:var(--rose);font-size:14px}
+.hc-row{display:flex;align-items:center;justify-content:center;gap:18px;margin:14px 0 6px}
+.hc-faces{display:flex;gap:8px}
+.hc-faces img,.bn-in img{width:64px;height:64px;object-fit:cover;object-position:50% 15%;border:3px solid var(--c);box-shadow:0 0 0 2px #000}
+.hc-vs{font:800 22px "Rift Pixel";color:var(--rose)}
+.hc-foe{width:84px;height:84px;object-fit:contain;image-rendering:pixelated}
+.hc-in h2,.bn-in h2{margin:10px 0 8px;font:700 clamp(22px,3vw,30px)/1.25 "Rift Pixel";color:var(--ivory)}
+.hc-in p,.bn-in p{margin:0 0 16px;font:500 17px/1.4 "Rift Body";color:#e6dfe1}
+.hc-btns{display:flex;gap:14px;justify-content:center}
+.hc-btns .btn{min-width:170px;min-height:68px;font-size:24px;letter-spacing:3px}
+.hc-no{background:#1b232c;color:#e6eef0;border:2px solid #6b7a85;font:700 24px "Rift Pixel"}
+.hc-time{display:block;margin-top:14px;font:500 15px "Rift Body";color:#c9bfc3}.hc-time b{color:var(--gold2)}
+.bn-in{display:flex;gap:18px;align-items:flex-start;text-align:left;border-color:var(--gold)}
+.bn-in .eyebrow{font-size:13px}
+
+/* the Basic battle: the monster, the stage, one question for everyone, and a row of faces */
+.battle.simple .b-allies,.battle.simple .b-gauges{display:none}
+.battle.simple{gap:6px;padding-top:8px}
+.battle.simple .b-head{min-height:0}
+.battle.simple .b-title{font-size:26px}
+.battle.simple .b-stagewrap{height:clamp(170px,30vh,300px)}
+.battle.simple:not(.fighting) .b-stagewrap{height:clamp(220px,42vh,420px)}
+.battle.simple.cinema .b-stagewrap{flex:1 1 auto;height:auto;min-height:clamp(170px,30vh,300px)}
+.battle.simple.cinema .b-reveal{display:flex!important}
+.battle.simple .b-foes .foe{min-width:190px}
+.battle.simple .b-foes .foe span{font-size:15px}
+.battle.simple .b-centre small.bg-wait{display:block;margin-top:8px;font:600 15px "Rift Body";color:#ffe9b0}
+.b-faces{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:8px;padding:6px 8px;background:#0b141cd9;border:1px solid #d8bd8033}
+.b-faces .bf{position:relative;display:flex;flex-direction:column;align-items:center;min-width:64px;padding:2px 4px;opacity:.9}
+.b-faces .bf img{width:50px;height:42px;object-fit:cover;object-position:50% 15%;border:2px solid var(--c)}
+.b-faces .bf b{font:700 12px "Rift Pixel";color:var(--ivory);max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.b-faces .bf small{font:600 10px "Rift Pixel";color:var(--muted);letter-spacing:1px}
+.b-faces .bf.me{opacity:1}.b-faces .bf.me b{color:var(--gold2)}.b-faces .bf.me img{box-shadow:0 0 0 2px var(--gold2),0 0 12px var(--gold2)}
+.b-faces .mk{position:absolute;right:2px;top:-6px;width:26px;height:26px;border-radius:13px;display:grid;place-items:center;font:800 15px "Rift Body";font-style:normal;box-shadow:0 0 0 2px #000}
+.b-faces .mk.ok{background:#4fe39a;color:#06281c}.b-faces .mk.no{background:#ff5a6e;color:#2a0a10}
+.b-faces .mk.in{background:#81e3d4;color:#0b1a1e;font-size:10px}.b-faces .mk.wait{background:#33414a;color:#cfd9d6}
+.bf-hits{display:flex;flex-direction:column;justify-content:center;gap:2px;margin-left:10px;padding-left:12px;border-left:1px solid #d8bd8044;font:600 14px "Rift Body";color:#d7e3e0}
+.bf-hits b{color:var(--gold2)}.bf-hits small{font:700 10px "Rift Pixel";letter-spacing:2px;color:var(--muted)}
+.battle.simple .b-reveal{display:flex;flex-direction:column;gap:6px;font-size:17px}
+.battle.simple .b-reveal .rv-hits{font:600 19px "Rift Body";color:#fff1c4}
+.battle.simple .b-reveal .rv-score{font:600 17px "Rift Body";color:#ffd0d6}
+.battle.simple .b-reveal .rv-why{font:400 16px/1.4 "Rift Body";color:#d9e6e4}
+@media (max-aspect-ratio:1/1){.b-faces .bf img{width:42px;height:36px}.battle.simple .b-stagewrap{height:clamp(170px,24vh,280px)}}
+.act-bar .ab-end.go{font-size:30px!important;letter-spacing:6px;min-height:68px;min-width:170px}
+/* Emi's coach in the Basic game sits just under the round tracker (never over the Now line), and at the bottom in a battle */
+.tw-basic .coach{top:calc(var(--hdr,110px) + 8px)}
+.tw-basic .coach.in-battle{left:50%;right:auto;transform:translateX(-50%);top:auto;bottom:calc(10px + env(safe-area-inset-bottom));width:min(640px,calc(100vw - 24px));flex-wrap:nowrap}
+.tw-basic .coach.in-battle .coach-btns{flex-direction:column;width:auto}
+.battle.simple.gathering .b-centre{display:block;top:18px;transform:translateX(-50%)}
+.battle.simple .b-centre{max-width:min(560px,80%)}
+.hc-in h2,.bn-in h2,.rt,.act-bar{font-variant-ligatures:none}
+.tw-basic .help-card,.tw-basic .big-note{top:var(--hdr,110px)}
+.battle.simple .b-reveal .rv-why span{display:block;margin-top:2px}
+@media (max-width:1100px) and (min-aspect-ratio:1/1){
+  .tw-basic .act-bar{flex-wrap:nowrap}
+  .tw-basic .act-bar .ab-mp{display:flex}
+  .tw-basic .act-bar .ab-btns{flex:0 0 auto}
+  .tw-basic .act-bar .ab-step{font-size:19px}.tw-basic .act-bar .ab-sub{font-size:15px}
+}

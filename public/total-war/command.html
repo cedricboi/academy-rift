@@ -52,6 +52,8 @@
         </div>
         <p class="hint">Breaking the gate brings out the Crimson Warlord. If 80% of the class have answered the "questions each" number by then, he starts the final battle weakened (25% less HP).</p>
         <label class="tog"><input type="checkbox" id="setLock"><span><b>Warlord waits for the target</b><small>He only comes out once 80% of the class have answered the "questions each" number. You can still release him yourself.</small></span></label>
+        <div class="eyebrow" style="margin-top:6px">EXTRAS <small class="x-sub">The Basic game is on by default: answer 3 questions, move, fight. Switch on more only when the class is ready.</small></div>
+        <div class="extras" id="extras"></div>
         <div class="eyebrow" style="margin-top:6px">BOTS</div>
         <div class="bot-row">
           <label class="tog"><input type="checkbox" id="setBotCmd"><span><b>Bot Commander</b><small>A bot leads the Crimson Host for you: the class plays against it.</small></span></label>
@@ -85,6 +87,7 @@
     </div>
   </header>
   <div id="mapHost"></div>
+  <div id="gTrack" class="g-track-bar hidden"></div>
   <div id="guide" class="guide"></div>
   <section id="orderAsk" class="panel red order-ask hidden"></section>
   <button id="classChip" class="class-chip" type="button"></button>
@@ -97,6 +100,8 @@
     <div class="eyebrow">THIS WAR</div>
     <label class="field">Turns<select id="menuTurns"></select></label>
     <label class="field">End by<select id="menuEndBy"></select></label>
+    <div class="eyebrow">EXTRAS</div>
+    <div class="extras compact" id="menuExtras"></div>
     <div class="eyebrow" style="color:var(--rose)">END THE WAR NOW</div>
     <button class="btn" id="endWarBtn" type="button">End by progress<small>Gate broken and Warlord at half HP or less: class wins. Gate broken only: a draw.</small></button>
     <button class="btn" id="endWarClassBtn" type="button">End with the class as winner</button>

@@ -153,9 +153,13 @@ $('joinPrompt').addEventListener('click', (e) => { const b = e.target.closest('[
 
 function render() {
   if (!S) return;
+  document.body.classList.toggle('tw-basic', !!S.basic);
+  document.body.classList.toggle('tw-nocoins', !S.extras?.coins);
   if (S.status === 'lobby') { renderLobby(); maybeHelp(); return; }
   show('game');
   const band = myBand();
+  lastBattle();
+  renderRoundTrack(band);
   // top bar: the main line says, in plain words, what to do now
   const phase = S.phase;
   const stageName = phase === 'crimson' ? 'ENEMY TURN' : phase === 'crystal' ? (S.stage === 'quiz' ? 'QUESTIONS' : S.stage === 'council' ? 'WAR COUNCIL' : 'MARCHING') : 'BATTLES';
@@ -186,7 +190,7 @@ function render() {
   if (band) for (const [pid, r] of Object.entries(band.props || {})) if (pid !== S.me.pairId && Array.isArray(r) && r.length > 1) friends.push(lineOf(r));
   if (planning && Array.isArray(matePick) && shown !== matePick && matePick.length > 1) friends.push(lineOf(matePick));
   trackLastSeen();
-  map.render({ state: S, mine: band?.id, focusNode: band?.node ?? null, options, selected, route: shown?.length > 1 ? lineOf(shown) : null,
+  map.render({ state: S, basic: !!S.basic, mine: band?.id, focusNode: band?.node ?? null, options, selected, route: shown?.length > 1 ? lineOf(shown) : null,
     friends, ghost: shown?.length > 1 && band?.status !== 'marching' ? { node: shown.at(-1), char: S.me.char } : null,
     lastSeen: [...lastSeen.values()].filter((g) => !S.units.some((u) => u.id === g.id)), status: null,   // the bar along the bottom says what your warband is doing
     // after a defeat: the wounded enemy, and friendly companies the company could reach and join
@@ -199,7 +203,7 @@ function render() {
 
   // ribbon: only for alarms (the Academy under attack, or a siege unit you can see within one march of it)
   const siege = S.units.some((u) => u.node === HOME && !u.battle);
-  const threat = !siege && S.units.find((u) => UNITS[u.type]?.siege && (fromHome.get(u.node) ?? 99) <= UNITS[u.type].speed);
+  const threat = !siege && !S.basic && S.units.find((u) => UNITS[u.type]?.siege && (fromHome.get(u.node) ?? 99) <= UNITS[u.type].speed);
   $('ribbon').textContent = siege ? `⚠ The Crimson Host is at the Academy! Drive them out before the Ward breaks (${S.ward.hp} of ${S.ward.max} left).`
     : threat ? `⚠ ${UNITS[threat.type].name.split(' ').slice(-1)[0]} sighted at ${nodeName(threat.node)}: it is within one march of the Academy Ward.` : '';
   $('ribbon').classList.toggle('warn', !!threat);
@@ -218,6 +222,7 @@ function render() {
   renderPaused();
   renderExplain();
   renderNotes();
+  renderBigNote();
   renderCoach();
 }
 
@@ -267,7 +272,7 @@ function renderExplain() {
   const text = r?.explain || '';
   // while your own move menu is open it waits (you got it right, and it shows again once your move is made), so it
   // never covers a move
-  const on = !!(r && Number.isInteger(right) && right >= 0 && S.status === 'playing' && !(B?.status === 'choose' && B.moves));
+  const on = !!(r && Number.isInteger(right) && right >= 0 && S.status === 'playing' && !(B?.status === 'choose' && B.moves) && !B?.simple);
   explainBox.classList.toggle('hidden', !on);
   // the battle strip's one-line messages sit above the WHY box while it is up
   document.body.classList.toggle('why-on', on);
@@ -282,6 +287,7 @@ function renderActBar(band) {
   const on = band && S.status === 'playing' && !S.myBattle;
   bar.classList.toggle('hidden', !on);
   if (!on) return;
+  if (S.basic) return renderBasicBar(band);
   const multi = band.pairs.length > 1;
   const hpPct = (p) => Math.round(((p.hp ?? 10) / (p.maxHp || 10)) * 100);
   setHTML($('abBand'), band.pairs.map((p) => `<span class="ab-pair ${p.id === S.me.pairId ? 'me' : ''}" title="Pair ${p.no} · HP ${showHp(p.hp)} of ${showHp(p.maxHp)}"><img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">
@@ -475,8 +481,9 @@ function renderInfo(band, options) {
     cls += ' red';
     const hp = us.reduce((a, u) => a + u.hp, 0), fighters = (band?.pairs.length || 1) * 2;
     const reach = (0.8 * 2 + 0.75 * 0.7 * Math.max(0, fighters - 1)) * battleLength('host');   // likely hits: your turn plus answering along
-    const verdict = reach >= hp * 1.25 ? 'Your warband should win this.' : reach >= hp * 0.9 ? 'A close fight. One more pair would make it safer.' : 'Too strong for your warband. Bring more pairs.';
-    html = `${close}<div class="eyebrow" style="color:var(--rose)">${us.length > 1 ? 'CRIMSON WARBAND' : 'CRIMSON UNIT'}</div><h3>${esc(nodeName(n))}</h3>
+    const team = S.basic ? 'your pair' : 'your warband';
+    const verdict = reach >= hp * 1.25 ? `${S.basic ? 'Your pair' : 'Your warband'} should win this.` : reach >= hp * 0.9 ? 'A close fight. One more pair would make it safer.' : `Too strong for ${team}. Bring more pairs.`;
+    html = `${close}<div class="eyebrow" style="color:var(--rose)">${us.length > 1 ? (S.basic ? 'CRIMSON HOST' : 'CRIMSON WARBAND') : 'CRIMSON UNIT'}</div><h3>${esc(nodeName(n))}</h3>
       ${us.map((u) => `<div class="row"><img src="${sprite(u.type)}" alt=""><div class="nm">${esc(UNITS[u.type].name)}<small>${esc(UNITS[u.type].role)}${UNITS[u.type].siege ? ' · <b style="color:#ffb3bd">Siege threat: heavy damage to the Ward</b>' : ''}</small><div class="hpbar"><i style="width:${(u.hp / u.max) * 100}%"></i></div></div></div>`).join('')}
       <div class="preview">Strength ${Math.round(hp)}. ${verdict}</div><div class="actions">${voteBtn(n, 'Attack', 'crimson')}</div>`;
   } else if (selected.startsWith('camp')) {
@@ -516,7 +523,7 @@ function renderInfo(band, options) {
     if (!b) { selected = null; box.classList.add('hidden'); return; }
     const o = (S.regroup || []).find((x) => x.id === b.id), mine = band && band.id === b.id;
     html = `${close}<div class="eyebrow">${b.pairs.length > 1 ? 'CRYSTAL WARBAND' : `PAIR ${b.pairs[0]?.no ?? ''}`} · ${esc(nodeName(b.node).toUpperCase())}</div>
-      <p class="wb-what">A warband is pairs moving and fighting together.</p>
+      ${S.basic ? '<p class="wb-what">Pairs on the same stop fight together.</p>' : '<p class="wb-what">A warband is pairs moving and fighting together.</p>'}
       ${b.pairs.map((p) => `<div class="row" style="background:#0b161e;border-color:#d8bd8033"><img src="${portrait(p.char)}" alt="" style="object-fit:cover"><div class="nm">Pair ${p.no}<small>${esc(p.names.join(' & '))}</small></div></div>`).join('')}
       ${mine || !band ? '' : bandCard(b, o, true)}`;
   }
@@ -526,7 +533,8 @@ function renderInfo(band, options) {
 function renderJoin() {
   const j = S.joinable?.[0];
   const box = $('joinPrompt');
-  if (!j || S.own || S.myBattle) { box.classList.add('hidden'); return; }
+  renderHelpCard();
+  if (!j || S.own || S.myBattle || S.basic) { box.classList.add('hidden'); return; }
   setHTML(box, `<span>A battle has started at <b>${esc(nodeName(j.node))}</b>! Your warband is close enough to help.</span><button class="btn crimson" data-battle="${j.id}">Join the fight · <span data-until="${j.gatherEnds}">${gameSecondsLeft(j.gatherEnds)}</span></button>`);
   box.classList.remove('hidden');
 }
@@ -619,7 +627,7 @@ function renderQuestion() {
   const o = S.own;
   const dock = $('qDock');
   // the 3 questions before the move: once yours are done, wait for the class
-  const waitingQuiz = !o && !S.myBattle && S.phase === 'crystal' && S.stage === 'quiz' && (S.me.quiz || 0) >= 3;
+  const waitingQuiz = !S.basic && !o && !S.myBattle && S.phase === 'crystal' && S.stage === 'quiz' && (S.me.quiz || 0) >= 3;
   if (waitingQuiz) {
     dock.classList.remove('hidden'); dock.classList.add('centre'); $('gMain').classList.add('centred'); $('gMain').classList.remove('docked'); card.hide();
     const r = S.me.quizRight || 0, ap = 1 + Math.min(3, S.me.bank || 0);
@@ -627,7 +635,7 @@ function renderQuestion() {
       <div class="qd-mp"><span>Your pair moves <b>${ap} step${ap === 1 ? '' : 's'}</b>. Planning opens in a few seconds: <b>${S.quiz?.done ?? 0} of ${S.quiz?.of ?? 0}</b> are ready.</span></div>`);
     return;
   }
-  if (!o || S.myBattle) { dock.classList.add('hidden'); $('gMain').classList.remove('docked', 'centred'); dock.classList.remove('centre'); card.hide(); return; }
+  if (!o || S.myBattle || S.status === 'ended') { dock.classList.add('hidden'); $('gMain').classList.remove('docked', 'centred'); dock.classList.remove('centre'); card.hide(); return; }
   // while the Crimson Host moves, the question sits in the middle (as in Academy Rift); during your move it docks beside the map
   const centre = true;                    // questions always sit in the middle, as in Academy Rift (none come while you move)
   dock.classList.remove('hidden'); dock.classList.toggle('centre', centre);
@@ -640,6 +648,12 @@ function renderQuestion() {
     const n = (S.me.quiz || 0) + 1, pips = Array.from({ length: 3 }, (_, i) => `<i class="${i < (S.me.quizRight || 0) ? 'on' : ''}"></i>`).join('');
     setHTML($('qdHead'), `<div class="eyebrow">BEFORE YOU MOVE · QUESTION ${Math.min(3, n)} OF 3</div><div class="qd-title">Earn coins for Grab-Ma</div>
       <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer: <b>+10 coins</b>. All 3 right: <b>+20 bonus</b>. Then you plan your move.</span></div>`);
+  } else if (o.kind === 'muster' && S.basic) {
+    // Basic: question N of 3, and how many steps the pair has so far
+    const n = Math.min(S.basicQuestions || 3, (S.me.quiz || 0) + (o.result ? 0 : 1)), of = S.basicQuestions || 3, steps = pairSteps();
+    const pips = Array.from({ length: of }, (_, i) => `<i class="${i < (S.me.quizRight || 0) ? 'on' : i < (S.me.quiz || 0) ? 'miss' : ''}"></i>`).join('');
+    setHTML($('qdHead'), `<div class="qd-basic"><div class="qd-n">QUESTION <b>${n}</b> OF ${of}</div><span class="pips">${pips}</span><div class="qd-steps">Your pair has <b>${plural(steps, 'step')}</b></div></div>
+      <div class="qd-why">Each right answer gives your pair 1 step on the map (the most is 4).</div>`);
   } else if (o.kind === 'muster') {
     const bank = S.me.bank, ap = 1 + Math.min(3, bank);   // each partner adds up to 2 steps, so both answers count
     const pips = Array.from({ length: 3 }, (_, i) => `<i class="${i < Math.min(3, bank) ? 'on' : ''}"></i>`).join('');
@@ -648,16 +662,32 @@ function renderQuestion() {
     setHTML($('qdHead'), `<div class="eyebrow">${S.stage === 'quiz' ? 'LAST QUESTIONS BEFORE YOUR MOVE' : 'WHILE THE ENEMY MOVES'} · QUESTION ${n} OF 3</div><div class="qd-title">Earn steps and coins</div>
       <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer gives your pair <b>1 step</b> (up to 2 from each of you) and you <b>20 coins</b>. All 3 right: <b>+20 bonus</b>. Your next move: <b>${ap} step${ap === 1 ? '' : 's'}</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
   } else setHTML($('qdHead'), `<div class="eyebrow" style="color:var(--rose)">WAR CRY</div><div class="qd-title">Cheer on the battle${battle ? ` at ${esc(nodeName(battle.node))}` : ''}</div><div class="qd-mp"><span>Every right answer hits the enemy there.</span></div>`);
-  const footer = o.result ? (o.result.ok ? (o.kind === 'muster' ? `Correct! A step for your pair and +20 coins${o.result.bonus ? `, plus +${o.result.bonus} bonus` : ''}.${o.result.cheer != null ? ` It also cheered on the battle at ${nodeName(o.result.cheer)}.` : ''}` : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
+  const footer = o.result && S.basic && o.kind === 'muster' ? (o.result.ok ? (o.result.step === false ? `Right! Your pair already has the most steps (${o.result.steps}).` : `Right! +1 step for your pair. Your pair has ${plural(o.result.steps ?? pairSteps(), 'step')}.`) : o.result.chosen < 0 ? "Time's up. No step this time." : 'Not quite. No step this time.')
+    : o.result ? (o.result.ok ? (o.kind === 'muster' ? `Correct! A step for your pair and +20 coins${o.result.bonus ? `, plus +${o.result.bonus} bonus` : ''}.${o.result.cheer != null ? ` It also cheered on the battle at ${nodeName(o.result.cheer)}.` : ''}` : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
   card.show({
-    q: o.question, tag: o.kind === 'muster' ? 'EARN STEPS' : o.kind === 'quiz' ? (o.bonus ? 'BONUS' : 'BEFORE YOU MOVE') : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
+    q: o.question, tag: o.kind === 'muster' ? (S.basic ? 'STEP 1 · ANSWER' : 'EARN STEPS') : o.kind === 'quiz' ? (o.bonus ? 'BONUS' : 'BEFORE YOU MOVE') : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
     note: o.retry ? '<b>↺ BACK AGAIN</b> You got this one wrong earlier. Read it carefully.' : '',
     result: o.result, footer, serverNow: S.serverNow, speed,
   });
 }
 
+// the Basic battle a student has just fought: its result stays on screen for a moment after the server lets the pairs go
+let myLast = null;
+function lastBattle() {
+  if (!S.basic || S.status !== 'playing') return null;
+  if (S.myBattle?.simple) { myLast = { id: S.myBattle.id, turn: S.turn, outcome: null }; return null; }
+  if (S.myBattle || !myLast || myLast.turn !== S.turn) return null;
+  const over = (S.battles || []).find((x) => x.id === myLast.id && x.status === 'over');
+  if (over) { myLast.outcome = over.outcome; return { ...over, simple: true, me: { char: S.me.char } }; }
+  if (!myLast.outcome) myLast.outcome = 'over';
+  return null;
+}
 function renderBattle() {
-  const B = S.status === 'ended' ? null : S.myBattle;
+  let B = S.status === 'ended' ? null : S.myBattle;
+  const ended = lastBattle(); if (ended) B = ended;
+  // a Basic battle is drawn on this page (the Arena's battle screen, with its moves, is the Battle moves Extra)
+  if (B?.simple) { arena.feed({ ...S, myBattle: null }); placeGatherStack(false); return renderSimpleBattle(B); }
+  $('battle').classList.remove('simple'); $('bFaces').classList.add('hidden'); simpleBattleId = null;
   if (arena.feed(S.status === 'ended' ? { ...S, myBattle: null } : S)) { $('battle').classList.add('hidden'); bcard.hide(); placeGatherStack(false); return; }    // the fight itself is on the Arena's battle screen
   if (!B) { $('battle').classList.add('hidden'); bcard.hide(); lastBattleId = null; placeGatherStack(false); if (cinema) { skipTheatre(); cinema = false; } return; }
   $('battle').classList.remove('hidden');
@@ -793,12 +823,12 @@ function renderEnding() {
   const ward = S.endedBy === 'ward';
   const A = S.me.review || { asked: 0, correct: 0, along: 0, alongRight: 0, list: [] }, Y = S.summary || {};
   // how far the class got, in plain words (the HP numbers are on the same scale as the battles)
-  const where = Y.reached != null ? `Your class reached ${esc(nodeName(Y.reached))}, ${Y.stopsLeft} stop${Y.stopsLeft === 1 ? '' : 's'} from the fortress gate.` : 'Your class did not get far from the Academy this time.';
+  const where = Y.reached != null ? `Your class reached ${esc(nodeName(Y.reached))}, ${Y.stopsLeft} stop${Y.stopsLeft === 1 ? '' : 's'} from the fortress gate.` : 'Your class did not get far from the Academy.';
   const gate = Y.gate ? `Your class broke the gate! The Warlord took ${Y.warlordDmg} of ${Y.warlordMax} damage.` : Y.gateMax ? (Y.gateDmg ? `The gate took ${Y.gateDmg} of ${Y.gateMax} damage.` : `The gate (${Y.gateMax} HP) has not been hit yet.`) : '';
   const lead = won ? (S.endedBy === 'teacher' ? `${esc(boss())} declared your class the winner.` : S.endedBy ? 'The gate is broken and the Warlord is badly hurt, so your class wins.' : 'Your class beat the Crimson Warlord!')
     : draw ? 'Your class broke the gate, but the Warlord still stands.' : ward ? `The enemy broke into the Academy. Next time, leave some pairs at home to guard it.` : `${esc(boss())} held the fortress this time.`;
   const wins = [
-    [Y.wins || 0, `battle${Y.wins === 1 ? '' : 's'} won`], [Y.camps || 0, `jungle camp${Y.camps === 1 ? '' : 's'} beaten`], [Y.rally || 0, `safe camp${Y.rally === 1 ? '' : 's'} taken`],
+    [Y.wins || 0, `battle${Y.wins === 1 ? '' : 's'} won`], [Y.camps || 0, `jungle camp${Y.camps === 1 ? '' : 's'} beaten`], ...(S.extras?.camps ? [[Y.rally || 0, `safe camp${Y.rally === 1 ? '' : 's'} taken`]] : []),
   ].map(([n, t]) => `<span class="win-chip ${n ? '' : 'none'}"><b>${n}</b>${t}</span>`).join('') + (Y.tower ? '<span class="win-chip"><b>✓</b>watchtower climbed</span>' : '') + (Y.gate ? '<span class="win-chip"><b>✓</b>gate broken</span>' : '');
   const mine = A.asked || A.along
     ? `You answered <b>${A.asked}</b> question${A.asked === 1 ? '' : 's'} yourself (<b>${A.correct}</b> right).${A.along ? ` You also answered along with <b>${A.along}</b> of your classmates' battle questions (${A.alongRight} right).` : ''}`
@@ -814,7 +844,7 @@ function renderEnding() {
     ${answers}
     <div class="story"><div class="eyebrow">HOW THE WAR WENT</div>
       <div class="story-map"><img src="art/moonveil-map.webp" alt="">${pin(HOME, 'home', 'Home')}${pin(Y.reached, 'far', 'Furthest')}${pin(FORTRESS, 'goal', 'Gate')}${(S.story || []).map((e, i) => e.node == null ? '' : `<i style="left:${(NODES[e.node].x / 14.4).toFixed(2)}%;top:${(NODES[e.node].y / 9).toFixed(2)}%;animation-delay:${0.5 + i * 0.7}s">${i + 1}</i>`).join('')}</div>
-      ${S.story?.length ? `<ol>${S.story.map((e, i) => `<li style="animation-delay:${0.5 + i * 0.7}s"><small>${e.node == null ? '' : `${i + 1} · `}Turn ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol>` : ''}</div></div>`);
+      ${S.story?.length ? `<ol>${S.story.map((e, i) => `<li style="animation-delay:${0.5 + i * 0.7}s"><small>${e.node == null ? '' : `${i + 1} · `}${S.basic ? 'Round' : 'Turn'} ${e.turn}</small>${esc(e.text)}</li>`).join('')}</ol>` : ''}</div></div>`);
   box.classList.remove('hidden');
 }
 $('ending').addEventListener('click', (e) => {
@@ -833,6 +863,8 @@ setInterval(() => {
   if (!S || S.status !== 'playing' || S.paused) return;     // paused: the clocks stand still
   if (showClock() !== clockOn) render();
   $('phaseClock').textContent = mmss(gameSecondsLeft(clockEnds()));
+  const rc = $('rtClock'); if (rc && !rc.classList.contains('off')) rc.textContent = mmss(gameSecondsLeft(S.phaseEndsAt));
+  if (S.basic && helpOn() === $('helpCard').classList.contains('hidden')) render();
   document.querySelectorAll('[data-until]').forEach((el) => { el.textContent = gameSecondsLeft(+el.dataset.until); });
   councilWatch();
 }, 250);
@@ -845,16 +877,24 @@ const HELP = [
   { art: "url(auntie/bust.png)", t: 'HP and food', p: () => ['Your pair\'s <b>HP does not come back</b> by itself after a battle. Order food from <b>Grab-Ma</b> on your phone, or rest at the Academy or a safe camp.', 'Not in a battle while others fight? <b>War Cry</b> questions come to you. Each right answer hits the enemy in their battle.'] },
   { art: "url(monsters/golem.png)", t: 'Battles', p: () => ['Your warband takes turns to attack. When it is <b>your turn</b>, answer right and <b>pick your move</b>.', 'On a classmate\'s turn, <b>answer along</b>. If they miss it and you got it right, you may <b>steal the turn</b>.'] },
 ];
+// the Basic game's How to play: one slide for the goal and one for each step of a round
+const HELP_BASIC = [
+  { art: "url(art/keyart.webp)", t: 'Your mission', p: () => [`Break into the <b>Crimson Fortress</b> on the right of the map and beat the <b>Crimson Warlord</b>.`, `${esc(boss())} leads the enemy army against you.`] },
+  { art: "url(monsters/orc_warchanter.png)", t: 'Step 1: Answer', p: () => ['Every round starts with <b>3 questions</b> while the enemy moves.', 'Each right answer gives your pair <b>1 step</b> on the map.'] },
+  { art: "url(portraits/S.webp)", t: 'Step 2: Move', p: () => ['<b>Tap a glowing stop</b> on the map, then tap <b>GO</b>. The number on a stop is how many steps it costs.', 'Your partner taps <b>GO</b> on the same stop too.'] },
+  { art: "url(monsters/golem.png)", t: 'Step 3: Fight', p: () => ['Land on an enemy to fight it. Everyone in the battle answers <b>the same question</b>, and every right answer <b>hits the monster</b>.', 'Pairs on the same stop fight together. <b>Stand together to fight together.</b>'] },
+];
+const helpList = () => (S?.basic !== false ? HELP_BASIC : HELP);
 let helpAt = 0;
 function showHelp(at = 0) {
-  helpAt = at; const h = HELP[at];
+  helpAt = at; const h = helpList()[at];
   setHTML($('helpSlides'), `<div class="help-slide"><div class="hs-art" style="background-image:${h.art}"></div><div><h3>${h.t}</h3>${h.p().map((x) => `<p>${x}</p>`).join('')}</div></div>`);
-  setHTML($('helpDots'), HELP.map((_, i) => `<i class="${i === at ? 'on' : ''}"></i>`).join(''));
-  $('helpNext').textContent = at === HELP.length - 1 ? "LET'S GO" : 'NEXT';
+  setHTML($('helpDots'), helpList().map((_, i) => `<i class="${i === at ? 'on' : ''}"></i>`).join(''));
+  $('helpNext').textContent = at === helpList().length - 1 ? "LET'S GO" : 'NEXT';
   $('help').classList.remove('hidden');
 }
 $('helpNext').addEventListener('click', () => {
-  if (helpAt < HELP.length - 1) return showHelp(helpAt + 1);
+  if (helpAt < helpList().length - 1) return showHelp(helpAt + 1);
   $('help').classList.add('hidden'); try { localStorage.setItem('tw.helpSeen', '1'); } catch {}
   const then = helpThen; helpThen = null; then?.();
 });
@@ -873,11 +913,12 @@ function maybeHelp() {
 
 // ------------------------------------------------------------------ Grab-Ma Food: the shop as a delivery app on a phone
 // Orders go in during the class's move, once your banner has locked in its move; Grab-Ma then rides out on the map.
-const canOrder = () => { const b = myBand(); return !!(S && S.status === 'playing' && !S.paused && ((S.phase === 'crystal' && S.stage !== 'quiz') || S.phase === 'battles') && b && !b.battle && !S.myBattle && !S.me.ordered); };
+const canOrder = () => { const b = myBand(); return !!(S && S.extras?.coins !== false && S.status === 'playing' && !S.paused && ((S.phase === 'crystal' && S.stage !== 'quiz') || S.phase === 'battles') && b && !b.battle && !S.myBattle && !S.me.ordered); };
 if (params.has('debug')) window.twState = () => S;
 const phone = createPhone({ socket, host: $('phoneHost'), getS: () => S, toast, canOrder, now });
 function renderShop() {
   if (!S?.me) return;
+  $('coinChip').classList.toggle('hidden', !S.extras?.coins);
   $('coinTxt').textContent = S.me.coins || 0;
   const r = (S.riders || []).find((x) => x.pid === S.me.pid && x.status !== 'delivered');
   $('coinChip').classList.toggle('busy', !!r);
@@ -909,6 +950,7 @@ const onPage = (sel) => () => { const el = typeof sel === 'string' ? document.qu
 // What Emi says now, in the practice tutorial's first turn
 function tutorialStep() {
   if (!S || S.status !== 'playing' || !S.tutorial || tutorialOff || S.turn > 1) return null;
+  if (S.basic) return basicTutorialStep();
   const band = myBand(), B = S.myBattle, me = S.me;
   const m = (key, tag, text, o = {}) => ({ key, tag, text, ...o });
   const once = (key, tag, text, o = {}) => (nextSeen.has(key) ? null : m(key, tag, text, { next: true, ...o }));
@@ -959,9 +1001,43 @@ function tutorialStep() {
   return m('done', 'READY!', 'That was one whole turn! From now on every stage has a timer at the top. Good luck, commander!', { next: true, nextLabel: 'START THE WAR' });
 }
 
+// The Basic game's first round with Emi: short, nothing timed, one instruction at a time, following the 3 steps
+function basicTutorialStep() {
+  const band = myBand(), B = S.myBattle;
+  const m = (key, tag, text, o = {}) => ({ key, tag, text, ...o });
+  const once = (key, tag, text, o = {}) => (nextSeen.has(key) ? null : m(key, tag, text, { next: true, ...o }));
+  if (B) {
+    if (B.status === 'gather') return m('b-gather', 'STEP 3 · FIGHT', 'You landed on an enemy, so you fight it. Everyone in the battle answers the same question.', { battle: true });
+    if (B.status === 'fight' && B.question && !B.question.mine) return m('b-q', 'STEP 3 · FIGHT', 'Answer the question. Every right answer hits the monster.', { spot: onPage('#bCard'), battle: true });
+    if (B.status === 'fight') return m('b-wait', 'STEP 3 · FIGHT', 'Your answer is in. The others are answering too.', { battle: true });
+    if (B.status === 'result') return m('b-hit', 'STEP 3 · FIGHT', 'Each right answer hit the monster. Each wrong answer lets it hit back. Keep going until it falls.', { battle: true });
+    return null;
+  }
+  if (S.step === 'answer') {
+    const intro = once('intro', 'YOUR FIRST ROUND', 'Hi, I\'m Emi! Every round has 3 steps: ANSWER, MOVE and FIGHT. They are at the top of your screen. Nothing is timed in this practice round.');
+    if (intro) return intro;
+    if (S.own && !S.own.result) return m('q', 'STEP 1 · ANSWER', 'Answer 3 questions. Each right answer gives your pair 1 step on the map.', { spot: onPage('#card') });
+    if (S.own) return m('q-r', 'STEP 1 · ANSWER', 'Read why the answer is right. The next question comes by itself.');
+    return m('q-done', 'STEP 1 · ANSWER', `Well done! Your pair has ${plural(pairSteps(), 'step')}. Next is step 2, MOVE.`);
+  }
+  if (isCouncil() && band && !band.battle) {
+    const a = once('map', 'STEP 2 · MOVE', 'This is the map. Your banner says YOU. The Crimson Fortress, your goal, is on the right.', { spot: onPage(`[data-key="band${band.id}"]`) });
+    if (a) return a;
+    if (band.plan) return m('sent', 'STEP 2 · MOVE', 'Your partner tapped GO too, so your banner will march there.');
+    if (draft?.length > 1) return m('go', 'STEP 2 · MOVE', 'Now tap GO. Your partner taps GO too.', { spot: onPage('#endTurnBtn'), focus: true });
+    const foe = $('mapHost').querySelector('[data-stop="1"].attack');
+    return foe ? m('tap', 'STEP 2 · MOVE', 'An enemy scout waits at Lantern Crossroads, the stop with crossed swords. Tap it.', { spot: onPage('[data-stop="1"]'), focus: true })
+      : m('tap', 'STEP 2 · MOVE', 'Tap a glowing stop. The number on it is how many steps it costs.');
+  }
+  if (S.step === 'move') return m('march', 'STEP 2 · MOVE', 'Watch your banner march. Landing on an enemy starts a battle.');
+  if (!band || band.battle) return null;
+  return m('done', 'READY!', 'That was one whole round! Win battles and move toward the Crimson Fortress. Stand on the same stop as other pairs to fight together.', { next: true, nextLabel: 'START THE WAR' });
+}
+
 // a first-time tip for this stage (any war, after the tutorial); battle tips show in the corner of the battle
 function stageTip() {
   if (!S || S.status !== 'playing' || (S.tutorial && !tutorialOff)) return null;
+  if (S.basic) return null;                                  // the Now line at the top says what to do in the Basic game
   const band = myBand(), B = S.myBattle;
   const t = (key, text, battle = false) => (tipsSeen.has(key) ? null : { key, text, battle });
   if (B) {
@@ -1059,7 +1135,10 @@ function renderNotes() {
   for (const x of list) if (x.kind === 'route' && now() - x.at > 12000 / speed) notesSeen.add(x.id);
   // a join announced in the battle's own strip is not shown again here
   if (arena.open || (S.myBattle && S.myBattle.status !== 'gather')) for (const x of list) if (x.kind === 'reinforce') notesSeen.add(x.id);
-  const n = list.find((x) => !notesSeen.has(x.id));
+  // Basic: where a route went is plain to see on the map, and being sent back gets its own big card
+  if (S.basic) for (const x of list) if (x.kind === 'route' || x.kind === 'late') notesSeen.add(x.id);
+  if (S.basic && S.myBattle) for (const x of list) if (x.kind === 'help' && !notesSeen.has(x.id)) { notesSeen.add(x.id); toast(x.text); }
+  const n = list.find((x) => !notesSeen.has(x.id) && !(S.basic && x.kind === 'lost'));
   if (!n) { if (!box.dataset.id || !list.some((x) => String(x.id) === box.dataset.id)) box.classList.add('hidden'); return; }
   if (box.dataset.id === String(n.id) && !box.classList.contains('hidden')) return;
   const band = myBand(), canLeave = n.leave && band?.pairs.length > 1 && !band.battle;
@@ -1096,4 +1175,231 @@ function councilWatch() {
     if (phone.isOpen) { phone.close(); toast(band.plan ? '10 seconds left. Your route is sent.' : '10 seconds left! Plan your route on the map.'); }
     if (!band.plan) { map.pulse(band.node, 'Plan your route'); $('mapHost').classList.add('urgent'); setTimeout(() => $('mapHost').classList.remove('urgent'), 6000); }
   }
+}
+
+// ================================================================== the Basic game
+// A round is 3 steps: 1 ANSWER (3 questions, each right answer is a step for your pair), 2 MOVE (tap a stop, then GO;
+// your partner taps GO too) and 3 FIGHT (pairs on one stop fight together; everyone answers the same question and every
+// right answer is a hit). The header always shows the round, the step and one line saying exactly what to do now.
+const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+const pairSteps = () => { const b = myBand(); return isCouncil() || S.step === 'move' ? (b?.mp ?? 1) : 1 + Math.min(3, S.me.bank || 0) + (S.buffs?.some((x) => x.key === 'mp') ? 1 : 0); };
+const mateOf = () => { const pk = S.me.picks || { partners: [], need: 1 }; return pk.need > 1 ? pk.partners.find((x) => !x.bot && !x.away) || null : null; };
+const enemyHere = (band) => !!band && S.units.some((u) => u.node === band.node && !u.battle);
+const fightName = (B) => B.kind === 'camp' ? CAMPS[B.node]?.name : B.kind === 'gate' ? 'the gate guardian' : B.kind === 'boss' ? 'the Crimson Warlord' : enemyName(B.enemies.find((e) => e.hp > 0)?.type || B.enemies[0]?.type);
+const pairList = (nos) => nos.length > 1 ? `Pairs ${nos.slice(0, -1).join(', ')} and ${nos.at(-1)}` : `Pair ${nos[0]}`;
+const battlePairs = (B) => B.bands.flatMap((b) => b.pairs.map((p) => p.no));
+
+// what to do now, in one plain sentence
+function nowLine(band) {
+  if (S.status === 'ended') return 'The war is over.';
+  const B = S.myBattle;
+  if (B) {
+    if (B.status === 'gather') return B.kind === 'defend' ? 'The enemy attacks your stop! Get ready to answer.' : `Battle at ${nodeName(B.node)}! Get ready to answer.`;
+    if (B.status === 'fight') return B.question?.mine ? 'Answer locked in. Waiting for the others.' : 'Answer the question. Every right answer hits the monster.';
+    if (B.status === 'result') return 'Every right answer hit the monster. Every wrong answer let it hit back.';
+    return B.outcome === 'won' ? 'You won the battle!' : 'The battle is over.';
+  }
+  if (S.step === 'answer') {
+    if (S.own || (S.me.quiz || 0) < (S.basicQuestions || 3)) return `While the enemy moves, answer ${S.basicQuestions || 3} questions.`;
+    return 'Waiting for the class to finish their questions.';
+  }
+  if (S.step === 'move') {
+    if (!band) return '';
+    if (isCouncil()) {
+      const mate = mateOf(), mine = S.me.picks?.mine ?? null, theirs = mate?.route ?? null;
+      if (band.plan) return band.plan === 'hold' ? (enemyHere(band) ? 'You stay here and fight the enemy in step 3.' : 'You stay here this round. Wait for the other pairs.') : 'Done! Your banner marches when every pair is ready.';
+      if (mate && mine != null && theirs != null && routeKey(mine) !== routeKey(theirs)) return `You and ${mate.name} picked different stops. Tap GO to go with ${mate.name}, or pick the same stop.`;
+      if (mate && mine != null) return `Waiting for ${mate.name} to tap GO on the same stop.`;
+      if (mate && theirs != null && !draft) return theirs === 'hold' ? `${mate.name} wants to stay here. Tap STAY HERE to agree.` : `${mate.name} wants to go to ${nodeName(theirs.at(-1))}. Tap GO to agree.`;
+      if (draft?.length > 1) return `Tap GO to go to ${nodeName(draft.at(-1))}.`;
+      if (enemyHere(band)) return 'An enemy has come to your stop! Stay here to fight it, or tap a glowing stop to move away.';
+      return 'Tap a glowing stop to move there. The number on it is how many steps it costs.';
+    }
+    return band.path?.length ? `Your banner is marching to ${nodeName(band.path.at(-1))}.` : 'The banners are marching.';
+  }
+  if (S.step === 'fight') {
+    const j = S.joinable?.[0];
+    if (j) return `${pairList(j.pairs)} ${j.pairs.length > 1 ? 'are' : 'is'} fighting next door. You can help them.`;
+    if (myLast?.turn === S.turn && myLast.outcome) return myLast.outcome === 'won' ? 'You won your battle! The next round starts when every battle is over.' : 'The next round starts when every battle is over.';
+    return 'No fight for you this round. The round ends when the battles finish.';
+  }
+  return '';
+}
+function renderRoundTrack(band) {
+  const box = $('roundTrack');
+  box.classList.toggle('hidden', !S.basic);
+  if (!S.basic) return;
+  const step = S.step, order = ['answer', 'move', 'fight'], at = order.indexOf(step);
+  const steps = [['answer', 'ANSWER'], ['move', 'MOVE'], ['fight', 'FIGHT']].map(([k, t], i) =>
+    `<span class="rt-step ${k === step ? 'now' : at > i ? 'done' : ''}"><i>${i + 1}</i>${t}</span>`).join('<b class="rt-arrow" aria-hidden="true"></b>');
+  // one timer: only while the pairs pick their stops (questions and the Help card have their own)
+  const timer = S.status === 'playing' && !S.training && !S.paused && isCouncil() && !S.myBattle;
+  const ended = S.status === 'ended';
+  setHTML(box, `<div class="rt-top"><div class="rt-round">${ended ? 'THE WAR IS OVER' : `ROUND <b>${S.turn}</b> OF ${S.turns}`}</div>
+    <div class="rt-steps">${ended ? '' : steps}</div><div class="rt-clock ${timer ? '' : 'off'}" id="rtClock">${timer ? mmss(gameSecondsLeft(S.phaseEndsAt)) : ''}</div></div>
+    <div class="rt-now" id="rtNow">${esc(nowLine(band))}</div>`);
+  document.documentElement.style.setProperty('--hdr', `${$('game').querySelector('.topbar').offsetHeight || 64}px`);
+}
+
+// the bar along the bottom of the map: your pair, its steps, and GO
+function renderBasicBar(band) {
+  const end = $('endTurnBtn'), hold = $('abHold');
+  const steps = pairSteps();
+  setHTML($('abBand'), `<span class="ab-pair me"><img src="${portrait(S.me.char || band.pairs[0]?.char)}" alt="" style="--c:${charColor(S.me.char || band.pairs[0]?.char)}"><small>YOU</small></span>`);
+  let step = '', sub = '', act = null, holdOn = false, mp = `<b>${steps}</b><small>STEP${steps === 1 ? '' : 'S'}</small>`;
+  const mate = mateOf(), matePick = mate?.route ?? null, myPick = S.me.picks?.mine ?? null;
+  if (S.step === 'answer') {
+    step = `Your pair has ${plural(steps, 'step')}.`;
+    sub = (S.me.quiz || 0) < (S.basicQuestions || 3) ? 'Your next question is coming.' : `You got ${S.me.quizRight || 0} of ${S.me.quiz || 0} right.${S.me.partner?.length ? ` Your partner ${S.me.partner.join(' and ')} answers too.` : ''}`;
+  } else if (isCouncil() && !band.battle) {
+    if (draft?.length > 1) {
+      const to = draft.at(-1);
+      step = `${nodeName(to)} · ${plural(routeCost(draft), 'step')}`;
+      sub = blocks(to) ? (to === FORTRESS ? 'The fortress! You will fight its guard.' : CAMPS[to] ? 'A jungle monster lives here. You will fight it.' : 'An enemy is here. You will fight it.') : 'Tap GO to go there.';
+      act = ['propose', 'GO']; holdOn = false;
+    } else if (band.plan) {
+      step = band.plan === 'hold' ? 'You are staying here.' : `Going to ${nodeName(band.plan.at(-1))}.`;
+      sub = 'Tap another stop to change your mind.';
+    } else if (mate && matePick != null && (myPick == null || routeKey(myPick) !== routeKey(matePick))) {
+      step = matePick === 'hold' ? `${mate.name} wants to stay here.` : `${mate.name} wants to go to ${nodeName(matePick.at(-1))}.`;
+      sub = matePick === 'hold' ? 'Tap STAY HERE to agree.' : 'Tap GO to agree.';
+      if (matePick === 'hold') holdOn = true; else { act = ['agreeMate', 'GO']; end.dataset.mate = mate.pid; holdOn = true; }
+    } else if (myPick != null) {
+      step = myPick === 'hold' ? 'You chose to stay here.' : `You chose ${nodeName(myPick.at(-1))}.`;
+      sub = mate ? `Waiting for ${mate.name} to agree.` : '';
+    } else {
+      step = 'Pick a stop on the map.';
+      sub = enemyHere(band) ? 'Or stay here to fight the enemy on your stop.' : 'Or stay where you are.';
+      holdOn = true;
+    }
+  } else if (S.step === 'move') {
+    step = band.path?.length ? `Marching to ${nodeName(band.path.at(-1))}` : `At ${nodeName(band.node)}`;
+    sub = band.path?.length ? '' : 'Waiting for the other banners.';
+  } else {
+    const live = (S.battles || []).filter((B) => B.status !== 'over');
+    mp = '';
+    step = myLast?.turn === S.turn && myLast.outcome ? (myLast.outcome === 'won' ? 'You won your battle!' : 'Your battle is over.') : 'No fight for you this round.';
+    sub = live.length ? live.map((B) => `${pairList(battlePairs(B))} ${battlePairs(B).length > 1 ? 'are' : 'is'} fighting ${esc(fightName(B))} at ${esc(nodeName(B.node))}${B.qNo ? ` (question ${B.qNo} of ${B.limit})` : ''}.`).join(' ') : 'The battles are over. The next round starts in a moment.';
+  }
+  setHTML($('abStep'), esc(step)); setHTML($('abSub'), sub); setHTML($('abMp'), mp);
+  end.classList.toggle('hidden', !act);
+  end.classList.toggle('go', !!act);
+  if (act) { end.dataset.act = act[0]; end.textContent = act[1]; }
+  hold.classList.toggle('hidden', !holdOn || !isCouncil());
+  hold.textContent = 'STAY HERE';
+  $('abJoin').classList.add('hidden'); $('leaveBandBtn').classList.add('hidden');
+}
+
+// a battle starting one road away: one big card, YES or NO
+let helpCardSeen = '';
+const helpOn = () => { const j = S?.basic ? S.joinable?.[0] : null; return !!j && S.status === 'playing' && !S.myBattle && !S.own && helpCardSeen !== j.id && !S.paused; };
+function renderHelpCard() {
+  const box = $('helpCard'), j = S.basic ? S.joinable?.[0] : null;
+  const on = helpOn();
+  box.classList.toggle('hidden', !on);
+  if (!on) return;
+  const nos = j.pairs || [];
+  const faces = S.bands.filter((b) => b.node === j.node).flatMap((b) => b.pairs).map((p) => `<img src="${portrait(p.char)}" alt="" style="--c:${charColor(p.char)}">`).join('');
+  setHTML(box, `<div class="hc-in"><div class="eyebrow">A BATTLE NEXT DOOR</div>
+    <div class="hc-row"><div class="hc-faces">${faces}</div><b class="hc-vs">VS</b>${j.enemy ? `<img class="hc-foe" src="${sprite(j.enemy)}" alt="">` : ''}</div>
+    <h2>${esc(pairList(nos))} ${nos.length > 1 ? 'are' : 'is'} fighting next door. Help them?</h2>
+    <p>If you say YES, your banner moves to ${esc(nodeName(j.node))} and you fight together. Your right answers make every hit stronger.</p>
+    <div class="hc-btns"><button type="button" class="btn crimson hc-yes" data-help="yes">YES</button><button type="button" class="btn hc-no" data-help="no">NO</button></div>
+    <small class="hc-time">The battle starts in <b data-until="${j.gatherEnds}">${gameSecondsLeft(j.gatherEnds)}</b> seconds.</small></div>`);
+}
+$('helpCard').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-help]'); const j = S?.joinable?.[0]; if (!b || !j) return;
+  socket.emit('twHelp', { battleId: j.id, yes: b.dataset.help === 'yes' });
+  helpCardSeen = j.id; render();
+});
+
+// one big message that needs an OK: your pair was sent back to the Academy
+$('bigNote').addEventListener('click', (e) => { if (e.target.closest('[data-ok]')) { notesSeen.add(+$('bigNote').dataset.id); $('bigNote').classList.add('hidden'); render(); } });
+function renderBigNote() {
+  const box = $('bigNote');
+  if (!S.basic || S.status !== 'playing' || S.myBattle) { box.classList.add('hidden'); return; }
+  const n = (S.me.notes || []).find((x) => x.kind === 'lost' && !notesSeen.has(x.id) && now() - x.at < 60000 / speed);
+  if (!n) { box.classList.add('hidden'); return; }
+  box.dataset.id = n.id;
+  setHTML(box, `<div class="bn-in"><img src="${portrait(S.me.char)}" alt="" style="--c:${charColor(S.me.char)}"><div><div class="eyebrow">BACK TO REGROUP</div><h2>${esc(n.text)}</h2>
+    <p>The damage you dealt stays. Next round, answer well and try again, or bring more pairs with you.</p><button type="button" class="gold-btn small" data-ok="1"><span>OK</span></button></div></div>`);
+  box.classList.remove('hidden');
+}
+
+// ------------------------------------------------------------------ the Basic battle
+// Everyone in the battle answers the same question. Every right answer is a hit ("Mei hit for 20!"), then the monster hits
+// back once for every wrong answer. The cinematic plays every right answer as one attack, then the monster's attack.
+let simpleRoundAt = 0, simpleBattleId = null, hitText = '';
+function renderSimpleBattle(B) {
+  const box = $('battle');
+  box.classList.remove('hidden'); box.classList.add('simple');
+  const myChar = B.me?.char || S.me.char;
+  $('bEyebrow').textContent = `${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${nodeName(B.node).toUpperCase()}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}`;
+  $('bTitle').textContent = B.kind === 'defend' ? 'The enemy attacks!' : fightName(B).replace(/^the /, 'The ');
+  setHTML($('bAllies'), ''); 
+  if (simpleBattleId !== B.id) {
+    simpleBattleId = B.id; simpleRoundAt = B.round?.at || 0; hitText = ''; stage.skip(); skipTheatre(); cinema = false;
+    stage.preload([...new Set((B.faces || []).map((f) => f.char).concat(myChar))], B.enemies.map((e) => e.type));
+    prepareBattle(B, [...new Set((B.faces || []).map((f) => f.char).concat(myChar))]);
+  }
+  // the fighters on the stage: you, your partner, and the lead of each other pair (at most 4)
+  const faces = B.faces || [];
+  const mine = faces.filter((f) => f.pairNo === S.me.pairNo), others = faces.filter((f) => f.pairNo !== S.me.pairNo);
+  const lead = [...new Map(others.map((f) => [f.pairNo, f])).values()];
+  const onStage = [...mine, ...lead].slice(0, 4).map((f) => ({ key: f.pid, char: f.char, label: f.pid === S.me.pid ? 'You' : f.name, me: f.pid === S.me.pid }));
+  stage.set({ node: B.node, kind: B.kind, pairs: onStage.length ? onStage : [{ key: 'me', char: myChar, label: 'You', me: true }], foes: B.enemies });
+  // a question's result: one attack for every right answer together, then the monster's attack
+  const r = B.round;
+  if (r && r.at !== simpleRoundAt && (B.status === 'result' || B.status === 'over')) {
+    simpleRoundAt = r.at;
+    const meHit = r.hitsBy?.find((h) => h.pid === S.me.pid), mateHit = r.hitsBy?.find((h) => h.pid !== S.me.pid && h.pairNo === S.me.pairNo);
+    const actor = meHit || r.hitsBy?.[0];
+    const play = { ...r, action: actor ? { kind: 'strike', index: -1, name: 'Strike', pid: actor.pid, char: actor.char, ally: (meHit ? mateHit : null)?.char || null } : null };
+    if (hasTheatre()) {
+      cinema = true; $('bTheatre').classList.remove('hidden'); box.classList.add('cinema');
+      playRound(B, play, myChar).catch(() => {}).finally(() => { cinema = false; $('bTheatre').classList.add('hidden'); box.classList.remove('cinema'); render(); });
+    } else stage.playRound(play);
+  }
+  if (B.status === 'fight' && cinema) skipTheatre();
+  // the monsters and their HP (top right of the stage); nothing to pick
+  setHTML($('bFoes'), B.enemies.map((e) => `<div class="foe ${e.hp <= 0 ? 'down' : ''}"><span>${esc(enemyName(e.type))}</span><div class="hpbar"><i style="width:${Math.max(0, (e.hp / e.max) * 100)}%"></i></div><small>${X(Math.max(0, e.hp))} / ${X(e.max)}</small></div>`).join(''));
+  // the middle of the stage: getting ready, or how it ended
+  let centre = '';
+  if (B.status === 'gather') centre = `<span class="big">${B.ambush ? 'Ambush!' : B.kind === 'defend' ? 'To arms!' : 'Battle!'}</span>${B.ambush ? 'The enemy was hiding here. ' : ''}Everyone answers the same question. Every right answer hits the monster.<small class="bg-wait">${B.helped?.length ? `${esc(pairList(B.helped))} came to help! ` : B.gatherEnds - now() > 4000 / speed ? 'Pairs next door can still come to help. ' : ''}The first question comes in a few seconds.</small>`;
+  if (B.status === 'over') centre = B.outcome === 'won' ? `<span class="big">Victory!</span>${B.kind === 'gate' ? 'The gate is broken! The Warlord comes out next.' : B.kind === 'defend' ? 'You drove off the attack.' : 'The stop is clear.'}`
+    : B.outcome === 'stopped' ? `<span class="big">Battle ended</span>${esc(boss())} ended this battle. The damage you dealt stays.`
+    : '<span class="big">The monster was too strong</span>Your pair goes back to the Academy to regroup. The damage you dealt stays.';
+  setHTML($('bCentre'), cinema ? '' : centre);
+  setHTML($('bRole'), '');
+  const fighting = B.status === 'fight' && B.question;
+  box.classList.toggle('fighting', !!fighting); box.classList.toggle('gathering', B.status === 'gather');
+  if (fighting) {
+    if (lastBattleQ !== B.question.startedAt) { lastBattleQ = B.question.startedAt; myPick = B.question.mine?.chosen ?? null; }
+    $('bCardHost').classList.remove('hidden');
+    bcard.show({ q: B.question, tag: 'EVERYONE ANSWERS', sub: `Question ${B.qNo} of ${B.limit}`, thumb: myChar ? portrait(myChar) : null,
+      picked: B.question.mine?.chosen ?? null, footer: B.question.mine ? 'Answer locked in. Waiting for the others.' : '', serverNow: S.serverNow, speed });
+  } else { $('bCardHost').classList.add('hidden'); bcard.hide(); }
+  $('bMoves').classList.add('hidden');
+  // the faces row: a tick or a cross for this question, and each pair's hits so far
+  const mark = (m) => m === 'right' ? '<i class="mk ok">✓</i>' : m === 'wrong' ? '<i class="mk no">✗</i>' : m === 'in' ? '<i class="mk in">●</i>' : m === 'wait' ? '<i class="mk wait">…</i>' : '';
+  const dealtBy = {}; for (const f of faces) dealtBy[f.pairNo] = f.dealt;
+  setHTML($('bFaces'), faces.map((f) => `<span class="bf ${f.pid === S.me.pid ? 'me' : ''} ${f.pairNo === S.me.pairNo ? 'mypair' : ''}"><img src="${portrait(f.char)}" alt="" style="--c:${charColor(f.char)}">${mark(f.mark)}<b>${esc(f.pid === S.me.pid ? 'You' : f.name.replace(/^Bot /, ''))}</b><small>Pair ${f.pairNo}</small></span>`).join('')
+    + `<span class="bf-hits">${[...new Set(faces.map((f) => f.pairNo))].map((no) => `<span>Pair ${no}: <b>${X(dealtBy[no] || 0)}</b></span>`).join('')}<small>DAMAGE SO FAR</small></span>`);
+  $('bFaces').classList.remove('hidden');
+  // after each question: who hit, how hard the monster hit back, the answer and why
+  const rd = B.status === 'result' ? B.round : null;
+  if (rd) {
+    const my = rd.my;
+    const you = !my ? '' : my.ok ? '<span class="good">You were right!</span> ' : my.chosen < 0 ? '<span class="bad">Time ran out.</span> ' : '<span class="bad">Not this time.</span> ';
+    // "You hit for 20! Kai hit for 20!" (a long list of names is shortened to the first few)
+    const list = rd.hitsBy || [], mine = list.filter((h) => h.pid === S.me.pid), rest = list.filter((h) => h.pid !== S.me.pid);
+    const named = [...mine, ...rest].slice(0, 4).map((h) => `<b>${esc(h.pid === S.me.pid ? 'You' : h.name.replace(/^Bot /, ''))}</b> hit for ${X(h.dmg ?? rd.each)}!`);
+    const hits = named.join(' ') + (list.length > 4 ? ` And ${list.length - 4} more!` : '');
+    const back = rd.counterTotal > 0 ? `The monster hits back for <b>${X(rd.counterTotal)}</b>.` : rd.enemiesAfter?.every((e) => e.hp <= 0) ? 'The monster is down!' : 'Nobody got it wrong, so the monster could not hit back.';
+    const choices = rd.choices || [];
+    setHTML($('bReveal'), `<div class="rv-hits">${you}${hits || 'Nobody got it right, so nobody hit the monster.'}</div>
+      <div class="rv-score">${rd.rightCount} right, ${rd.wrongCount} wrong. ${back}</div>
+      <div class="rv-why"><b>The answer is ${'ABCDEF'[rd.answer]}: ${esc(choices[rd.answer] ?? '')}</b>${rd.explain ? `<span>${esc(rd.explain)}</span>` : ''}</div>`);
+    $('bReveal').classList.remove('hidden');
+  } else $('bReveal').classList.add('hidden');
 }

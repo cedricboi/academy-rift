@@ -4,6 +4,98 @@ A turn-based strategy mode for a whole class, separate from the 2v2 Arena. The t
 Crimson Host. Students, in pairs on their own iPads, march Crystal banners across the Moonveil map
 and must band together to break into the Crimson Fortress and beat the Crimson Warlord.
 
+## The Basic game (the default)
+
+A student must be able to say: "Answer questions to earn steps, move toward the Crimson Fortress, and beat the monsters
+you land on. Stand together to fight together." Every new war and practice war is the Basic game. The full game's other
+systems are **Extras** the teacher switches on (see below). The code for all of them stays.
+
+**A round is 3 steps.** The top of every student screen (and the projector) shows only "Round 3 of 8", the three steps
+**1 ANSWER · 2 MOVE · 3 FIGHT** with the current one lit, one timer (only while pairs pick their stops) and the **Now line**:
+one plain sentence saying exactly what to do now. It replaces the old tips and tip boxes.
+
+1. **ANSWER** (`roundStep` is `answer`, the Crimson turn on the server). While the teacher moves the Crimson Host, every
+   student answers exactly **3 questions** (`BASIC_QUESTIONS`) on one card: "Question 1 of 3" and "Your pair has N steps".
+   Each right answer is +1 step for the pair (1 step to start, at most 4, whichever partner answers). The card says
+   "Right! +1 step for your pair." or that the pair already has the most. After 3, the student sees the map with their
+   banner and "Your pair has N steps. Waiting for the class to finish." No bonus questions, top-ups or War Cries. The
+   step ends when everyone has answered 3 and the teacher has ended the turn (or the teacher's time is up), at most
+   `BASIC_ANSWER_SECONDS` (90 s). The full game's top-up stage is skipped: MOVE opens straight away.
+2. **MOVE** (the War Council and the march). The map shows YOUR banner big and labelled **YOU**, other pairs smaller,
+   every enemy (no fog), and the stops you can reach glowing with their step cost. Tap a stop: the route is drawn and
+   one big **GO** appears (STAY HERE is the only other button). Both partners must tap GO on the same stop: "Mei wants to
+   go to Lantern Crossroads. Tap GO to agree." / "Waiting for Kai to tap GO on the same stop." Bots and partners who
+   are not connected never hold a pair up, and when time runs out the route drawn first goes. Then the banners march.
+3. **FIGHT** (the battles phase). Only pairs that landed on an enemy, or were attacked, fight.
+   - **A team is simply the pairs on one stop.** Every pair standing on the stop fights the battle there (no warband
+     join or leave). A pair marching away is not pulled in.
+   - **Help next door.** When a battle starts one road away from a pair that is not fighting, that pair gets one big
+     card: "Pair 2 is fighting next door. Help them? YES / NO" (`twHelp`, `HELP_SECONDS` 15 s). YES moves its banner
+     there and into the fight; the fighters see "Pair 4 came to help!" and the helpers give the reinforcement bonus
+     (`reinforceBonus`). Pairs further away cannot help. With nobody near enough, the battle starts after 3 seconds.
+   - **Simple battles** (`simpleResolve`): everyone in the battle answers the same question at the same time. Every
+     right answer is one hit (`BASIC_HIT`, shown as 20: "Mei hit for 20!") on the first monster standing (what it cannot
+     take goes on to the next). Then the monster hits back once for every wrong or missing answer (`basicCounter`:
+     "1 right, 1 wrong. The monster hits back for 30."). No striker turns, move menu, Sync, stolen turns or monster
+     picking. The cinematic still plays: one attack for all the right answers together, the monster's attack, K.O.
+     A row of faces shows a tick or a cross for every fighter and each pair's damage so far. The answer and why show
+     for `BASIC_RESULT_SECONDS` (8 s) after each question. A battle lasts 5 questions or until the monster falls (7 at
+     the gate, 8 against the Warlord; an ambush is one question shorter).
+   - **No HP.** If the monster survives the questions, every pair in the battle goes back to the Academy (or the
+     nearest free safe place if the Crimson Host stands on it): "The monster was too strong. Your pair goes back to the
+     Academy to regroup." (one big card with OK). The damage dealt stays. Winning clears the stop.
+   - **Attacks wait for FIGHT.** A Crimson unit that walks onto a banner in the teacher's turn stops there, and the
+     battle is fought in the FIGHT step of that round, so the pair still answers its 3 questions and may move away in
+     MOVE ("An enemy has come to your stop! Stay here to fight it, or tap a glowing stop to move away.").
+   - Pairs not fighting see "No fight for you this round. The round ends when the battles finish." and a live line of
+     who is fighting what, where. **The round waits for every battle** (no battle runs on into the next round).
+
+**Winning** is unchanged: break the gate and beat the Warlord. Because every right answer is a hit, the gate guardian
+and the Warlord are stronger in a bigger class (x1 up to 6 students, then x0.5 more for every 3 more students). The
+teacher's Crimson Host can still attack, ambush and teleport. Camps are still monsters to beat (no buff unless the
+Camps Extra is on). Students see every enemy except ambushers.
+
+**The first round with Emi (practice tutorial).** Short, untimed, one instruction at a time, following the three steps:
+the 3 steps at the top, answer 3, tap the enemy's stop and GO (your partner taps GO too), watch the march, fight once
+(everyone answers, right answers hit, wrong answers let it hit back), then "That was one whole round!". The bot pairs
+next door say NO to helping, so the student fights with their own pair. How to play (lobby) has 4 slides: the mission
+and one slide per step.
+
+**Teacher and projector.** The teacher's screen shows ROUND N OF M with the three steps (a bar above the guide line),
+how many students have answered their 3 and how many pairs have tapped GO. The projector shows the tracker, the step
+and a class Now line big, and Basic battles with the row of faces and who hit.
+
+### Extras (all off by default)
+
+In the lobby's **EXTRAS** panel and in the ⋯ menu during the war (`twSettings { extras: { key: true } }`). Each is
+checked where it is used, so a switch made mid-war applies from the next question or battle. **Full game**
+(`{ full: true }`) switches every Extra on and also plays the full game's turns (the top-up stage, the bonus and War
+Cry questions, battles that run on into the next turn, losing to the nearest rally point); switching any Extra off
+again leaves Full game. `xo(S, key)` on the server answers "is this Extra on".
+
+| Extra | Key | What it switches on | Off in Basic |
+| --- | --- | --- | --- |
+| Coins and Grab-Ma food | `coins` | coins for right answers, the phone and food orders | no coins are paid; `twGrab`/`twBuy` refused; the coin chip and phone hidden |
+| HP and food healing | `hp` | pair HP; the monster's hits take HP (the full game's counterattack); eating heals | no HP numbers or bars; `twEat` refused |
+| Battle moves | `moves` | today's battle: the Arena screen, striker turns, answer along, stolen turns, Strike/Skills/Items/Ultimate, Sync | simple battles on the war page; `twAction` refused |
+| Choosing monsters and the pair strip | `pick` | picking a monster, the strip of pair cards | hits go to the first monster; `twTarget` refused |
+| Join any battle and warbands | `join` | the WARBANDS panel, joining and leaving, joining any battle after yours (reinforcements) | teams are pairs on one stop; `twJoinBand`/`twLeaveBand` refused |
+| War Cries and bonus questions | `warcry` | War Cries for battles, preparing answers cheering a battle, more questions after the 3 | exactly 3 questions, nothing while others fight |
+| Camp buffs and safe camps | `camps` | camp buffs for the class, outposts becoming safe camps (rally points) | camps are plain fights; no rally points |
+| Watchtower and fog of war | `fog` | the fog of war and the watchtower | everyone sees every enemy (never ambushers) |
+
+`test-totalwar.mjs` plays the full game (every war is started with `full: true`); `test-totalwar-basic.mjs` plays the
+Basic game (see Tests).
+
+### How long a Basic round and war take
+
+Measured with `test-totalwar-basic.mjs` (6 bot pairs, 12 students, against the Bot Commander; game seconds, which are real
+seconds at normal speed; server bots answer in 6 to 13 seconds): ANSWER about 45 s, MOVE about 7 s (bots tap at once),
+FIGHT 0 to 130 s. A round with no big battle is about 80 s, one with a battle at the gate about 200 s. Whole wars took
+13 to 16 minutes over 7 or 8 rounds (one won in round 7, one a draw, one lost). A real class reads and taps more
+slowly: about 60 to 75 s to answer, 20 to 40 s to pick a stop with a partner, and 1 to 2 minutes of battles, so about
+3 to 4 minutes a round and 25 to 30 minutes for 8 rounds. The teacher can shorten it with Turns or End by.
+
 ## Pages
 
 - `/total-war/command.html`: the teacher. Start a war, choose the questions, show the join code, then
@@ -393,7 +485,14 @@ bank keeps it worked out until a set changes).
 
 ## Tests
 
-- `node test-totalwar.mjs [students]`: a teacher and a class of bots play a whole 8-turn war (and print the time
+- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war` runs one part): the
+  Basic game. A round with three pairs (exactly 3 questions each and no top-up, 4 steps for all right, no coins, food,
+  warbands or War Cries, both partners tap GO, pairs on one stop fight together, the Help card and YES, "came to help",
+  one question for everyone, a hit for every right answer with the helpers' bonus, the monster hitting back once for
+  each wrong answer, no moves or monster picking, the round waiting for its battles), a lost battle (back to the
+  Academy, the damage stays) and an attack waiting for the FIGHT step, the Extras and Full game switches, then a whole
+  Basic war of 6 bot pairs against the Bot Commander, timed.
+- `node test-totalwar.mjs [students]` (the full game: every war it starts has `full: true`): a teacher and a class of bots play a whole 8-turn war (and print the time
   each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled
   choices, explanations, AP, a beaten pair's full HP, and a server restart with the war restored.
 - `test-totalwar.mjs` also plays a war where a pair joins a battle still being fought (the offer, the notice to the
