@@ -304,8 +304,19 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
     // the proposed endpoint of your route
     if (ghost) list.push({ key: 'ghost', kind: 'ghost', ref: 'ghost', node: ghost.node, small: true, label: 'Your planned stop',
       html: `<span class="cloth" style="--c:${charColor(ghost.char)}"><img src="${portrait(ghost.char)}" alt=""></span><span class="pole"></span><span class="tag">Planned</span>` });
+    // the teacher's screen and the projector (no "mine"): more than CROWD pairs on one stop stand as one banner with the
+    // count, so a whole class at the Academy does not run off the map
+    const CROWD = 3, crowded = new Map();
+    if (basic && !mine) for (const b of state.bands) if (b.pairs[0]) crowded.set(b.node, [...(crowded.get(b.node) || []), b]);
+    for (const [node, bs] of crowded) {
+      if (bs.length <= CROWD) { crowded.delete(node); continue; }
+      const lead = bs[0].pairs[0], nos = bs.flatMap((b) => b.pairs.map((p) => p.no)).sort((a, b) => a - b);
+      list.push({ key: `crowd${node}`, kind: 'pair', ref: bs[0].id, node, glow: bs.some((b) => selected === `band${b.id}`), label: `Pairs ${nos.join(', ')}`,
+        html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${bs.some((b) => b.battle) ? `<i class="fight">${SWORDS}</i>` : ''}<i class="count light">×${nos.length}</i><span class="pole"></span><span class="tag">${nos.length} pairs</span>` });
+    }
     for (const b of state.bands) {
       const lead = b.pairs[0]; if (!lead) continue;
+      if (crowded.has(b.node)) continue;
       const isMine = mine && b.id === mine;
       const hp = Math.min(...b.pairs.map((p) => (p.hp ?? 10) / (p.maxHp || 10)));
       if (basic) {

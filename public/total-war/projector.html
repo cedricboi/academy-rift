@@ -29,6 +29,7 @@
 .gate-chip img{width:58px;height:58px;object-fit:contain;image-rendering:pixelated}
 .gate-chip .eyebrow{font-size:18px;color:var(--rose);letter-spacing:3px}
 .gate-chip b{display:block;font:700 26px "Rift Pixel"}
+.p-head h1,.gate-chip b,.p-mission{white-space:nowrap}.p-head>div:first-child{flex:0 0 auto}
 .p-log{position:absolute;left:28px;right:28px;bottom:16px;height:108px;display:flex;gap:12px;align-items:stretch;z-index:5}
 .p-log div{flex:1 1 0;min-width:0;display:flex;align-items:center;padding:8px 16px;background:#0b141ce8;border-left:5px solid var(--gold);font:500 22px/1.35 "Rift Body";box-shadow:0 4px 18px #000a}
 .p-log .crimson{border-color:var(--crimson)}.p-log .crystal{border-color:var(--cyan)}.p-log .battle{border-color:#ff5a6e}.p-log .big{border-color:var(--gold2);font-weight:700}
@@ -139,6 +140,12 @@ initTheatre($('pbTheatre'));
 const strip = createPairStrip($('pbStrip'), { projector: true });
 let cinema = false;
 let P = null, qrFor = '';
+// the join link students can reach: on "localhost" the projector shows the computer's address on the class network (as the teacher's page does)
+let joinBase = location.origin;
+(async () => {
+  if (!/^(localhost|127\.)/.test(location.hostname)) return;
+  try { const r = await (await fetch('/api/addresses')).json(); if (r.lan?.[0]) { joinBase = `http://${r.lan[0]}:${r.port}`; if (P) render(); } } catch {}
+})();
 const X = (v) => Math.round(v * (SCALE || 1));
 socket.on('connect', () => socket.emit('twWatch', { code }));
 socket.on('twPublic', (v) => { P = v; render(); });
@@ -148,7 +155,7 @@ function render() {
   $('enemyName').textContent = P.basic && /bot commander/i.test(P.commander || '') ? 'the computer enemy' : P.commander || 'Your teacher';
   $('pMission').firstChild.textContent = P.basic ? 'Leading the enemy army: ' : 'Commander of the Crimson Host: ';
   if (P.status === 'lobby') {
-    const url = `${location.origin}/total-war/?code=${P.code}`;
+    const url = `${joinBase}/total-war/?code=${P.code}`;
     $('lCode').textContent = P.code; $('lUrl').textContent = url.replace(/^https?:\/\//, '');
     $('lCount').textContent = '';
     if (qrFor !== url) { qrFor = url; const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); $('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true, alt: 'QR code' }); }

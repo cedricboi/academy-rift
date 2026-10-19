@@ -195,3 +195,118 @@
 .g-track-bar span.done{color:#9fd8cc;border-color:#2c5752}
 .g-track-bar span.now{background:linear-gradient(#f3dca0,#c9a45f);border-color:#fff3c9;color:#1a1408}.g-track-bar span.now i{background:#1a1408;color:#f3dca0}
 .basic-war .guide{top:124px}
+
+/* ================= the Basic game's teacher screen =================
+   One look: the step and the time left (top), the one thing to do now with a big button and who needs help (left),
+   the map (right). Everything else is under More. On a tall iPad the map sits on top and the panel below it. */
+body{--side:380px}
+.dlg{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:16px;background:#000b}
+.dlg-box{width:min(540px,100%);padding:20px 22px;background:#16101a;border:3px solid var(--crimson);box-shadow:0 0 0 3px #000,0 30px 90px #000}
+.dlg-box h3{margin:0 0 8px;font:700 22px/1.3 "Rift Pixel";color:var(--ivory)}
+.dlg-box p{margin:0 0 14px;font:400 16px/1.5 "Rift Body";color:#e6d6d9}
+.dlg-btns{display:flex;gap:10px;flex-wrap:wrap}
+.dlg-btns .btn{flex:1 1 180px;min-height:54px;font-size:15px}
+.b-top{flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:8px 14px;background:linear-gradient(#14101a,#0b0a10);box-shadow:0 3px 0 #6b1e28,0 6px 0 #000;z-index:9;position:relative}
+.b-round{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 auto;flex-wrap:wrap}
+.b-rno{font:700 17px "Rift Pixel";letter-spacing:2px;color:#e9e2d2;white-space:nowrap}
+.b-steps{display:flex;gap:6px}
+.b-steps span{display:flex;align-items:center;gap:7px;padding:6px 12px 6px 6px;background:#121a24;border:2px solid #2a3540;color:#7f8d94;font:700 15px "Rift Pixel";letter-spacing:1px;white-space:nowrap}
+.b-steps span i{width:24px;height:24px;border-radius:12px;display:grid;place-items:center;background:#25313b;font-style:normal;font-size:13px}
+.b-steps span.done{color:#9fd8cc;border-color:#2c5752}.b-steps span.done i{background:#2c5752;color:#dffcf6}
+.b-steps span.now{background:linear-gradient(#f3dca0,#c9a45f);border-color:#fff3c9;color:#1a1408;box-shadow:0 0 14px #e9cf8e77}.b-steps span.now i{background:#1a1408;color:#f3dca0}
+.b-clock{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:118px;padding:3px 12px;background:#0c0a12;border:2px solid #ff8a9866;box-shadow:0 0 0 2px #000}
+.b-clock small{font:700 10px "Rift Pixel";letter-spacing:2px;color:#ffb3bd;white-space:nowrap}
+.b-clock b{font:700 26px/1.1 "Rift Pixel";color:var(--rose);font-variant-numeric:tabular-nums;white-space:nowrap}
+.b-clock.low b{color:#ffd36b}
+.b-btns{display:flex;gap:8px;flex:0 0 auto}
+.b-btns .btn{min-height:54px;padding:0 16px;font-size:15px;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.b-pause{min-width:132px}
+.btn.b-end{background:#3a0f18!important;border-color:#e0566e!important;color:#ffd0d6!important}
+body.basic-ui #game{display:grid;grid-template-columns:var(--side) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+body.basic-ui #bTop{grid-column:1/-1;grid-row:1}
+body.basic-ui #bSide{grid-column:1;grid-row:2}
+body.basic-ui #mapHost{grid-column:2;grid-row:2;min-width:0;min-height:0;position:relative}
+body.basic-ui .crimson-bar,body.basic-ui #gTrack,body.basic-ui #guide,body.basic-ui #classChip,body.basic-ui #battles,body.basic-ui #classPanel,body.basic-ui #menu{display:none!important}
+body.basic-ui:not(.adv) #summon,body.basic-ui:not(.adv) #stackPanel,body.basic-ui:not(.adv) #orderAsk{display:none!important}
+body.basic-ui .summon-strip{left:calc(var(--side) + 10px)}
+body.basic-ui .stack-panel{left:calc(var(--side) + 10px)}
+.b-side{min-height:0;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:12px;background:#0e0b12;border-right:3px solid #2a1a22;z-index:8}
+.b-now{padding:14px 16px;background:#140d12;border:3px solid var(--gold);box-shadow:0 0 0 2px #000}
+.b-step{font:700 14px "Rift Pixel";letter-spacing:2px;color:var(--gold2)}
+.b-now h2{margin:6px 0 4px;font:700 20px/1.3 "Rift Body";color:var(--ivory)}
+.b-now p{margin:6px 0;font:400 15px/1.45 "Rift Body";color:#e6d6d9}
+.b-prog b{font:700 17px "Rift Pixel";color:var(--ivory)}
+.b-bar{display:block;height:10px;margin:4px 0 2px;background:#2a2430;box-shadow:0 0 0 2px #000}.b-bar b{display:block;height:100%;background:linear-gradient(90deg,#3cc9b8,#7ff3e4)}
+.b-job{margin-top:12px;padding-top:10px;border-top:2px solid #ffffff1a}
+.b-job .eyebrow{color:var(--rose);font-size:12px}
+.btn.b-big{display:flex;align-items:center;justify-content:center;width:100%;min-height:66px;margin:8px 0;font-size:18px;letter-spacing:1px;text-align:center;white-space:normal;line-height:1.25}
+.btn.b-small{min-height:44px;margin:4px 0;padding:0 14px;font-size:13px}
+.b-or{font-weight:600!important;color:#ffe9b0!important}
+.b-done{padding:10px 12px;background:#13302a;border:2px solid #2fb38c;font:600 15px/1.4 "Rift Body";color:#bff5e0}
+.b-train{margin-top:10px;padding:10px;border:2px dashed var(--gold);font:400 14px/1.4 "Rift Body";color:#e9e2d2}.b-train b{font:700 13px "Rift Pixel";color:var(--gold)}
+.b-fights,.b-help{display:flex;flex-direction:column;gap:8px}
+.b-fights:empty{display:none}
+.bf{padding:10px 12px;background:#22101a;border:2px solid var(--crimson);font:400 14px/1.4 "Rift Body";color:#f1e6e8}
+.bf.over{opacity:.7;border-color:#5a3a44}
+.bf-h{display:flex;justify-content:space-between;gap:8px}.bf-h b{font:700 15px "Rift Body"}.bf-h em{font:700 12px "Rift Pixel";font-style:normal;color:#ffd36b;white-space:nowrap}
+.bf-hp{display:flex;justify-content:space-between;margin-top:4px;font-size:13px;color:#e6d6d9}
+.bf .b-bar b{background:linear-gradient(90deg,#c43a52,#ff8a98)}
+.hi{padding:9px 12px;background:#2b2210;border-left:5px solid #f2c46a;font:500 14px/1.45 "Rift Body";color:#ffe9b0}
+.hi.off{background:#2a1219;border-color:var(--crimson);color:#ffd0d6}
+.hi.calm{background:#141a22;border-color:#4a5866;color:#c9d2d6}
+.hi.ok{background:#10221e;border-color:#2fb38c;color:#bff5e0}
+.hi small{color:#c9b7ba;font-size:12px}
+.b-more{position:absolute;right:0;top:0;bottom:0;width:min(440px,100%);z-index:35;overflow-y:auto;padding:14px 16px 24px;display:flex;flex-direction:column;gap:10px;background:#0f0c14;border-left:3px solid var(--gold);box-shadow:-20px 0 60px #000c}
+.b-more-head{display:flex;justify-content:space-between;align-items:center}.b-more-head b{font:700 20px "Rift Pixel";letter-spacing:3px;color:var(--gold2)}
+.b-more .eyebrow{margin-top:8px;font-size:12px;letter-spacing:2px}
+.b-more a.btn{display:flex;align-items:center;justify-content:center;text-decoration:none}
+.b-more .btn{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:8px 12px;text-align:left;white-space:normal}
+.b-more .btn small{font:400 12px "Rift Body";letter-spacing:0;color:#c9b7ba;text-transform:none}
+.b-more #bMoreClose{min-height:40px;align-items:center}
+.b-modes{display:flex;align-items:center;gap:10px}.b-modes small{font:400 13px "Rift Body";color:#c9b7ba}
+.b-facts{display:grid;grid-template-columns:1fr 1fr;gap:6px}.b-facts span{padding:6px 8px;background:#140d12;border:1px solid #ffffff1a;font:400 13px "Rift Body";color:#c9b7ba}.b-facts b{display:block;font:700 15px "Rift Pixel";color:var(--ivory)}
+.setting-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.b-class .st{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border-bottom:1px solid #ffffff14;font:400 13px "Rift Body"}
+.b-class .st.quiet{background:#2b2210;color:#f1cf7a}.b-class .st.off{opacity:.55}
+.end-facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.end-facts span{padding:8px 12px;background:#140d12;border:1px solid #d8bd8055;font:400 14px "Rift Body";color:#d8cfbf}.end-facts b{font:700 16px "Rift Pixel";color:var(--ivory)}
+.more-set{border:2px solid #3a3a46;padding:8px 10px;background:#0c0a12}
+.more-set>summary{cursor:pointer;font:700 15px "Rift Pixel";color:var(--gold2);list-style:none;padding:6px 0}
+.more-set>summary::before{content:"▸ ";color:var(--gold)}.more-set[open]>summary::before{content:"▾ "}
+.more-set>summary small{display:block;font:400 13px "Rift Body";color:#c9bfa8;margin-top:2px}
+.more-set[open]{display:flex;flex-direction:column;gap:12px}
+/* the laptop: a narrower panel */
+@media (max-width:1400px){body{--side:340px}}
+/* narrow screens: the top bar wraps onto two rows */
+@media (max-width:1100px){.b-top{flex-wrap:wrap;gap:8px}.b-round{flex:1 1 100%;justify-content:space-between}.b-btns{flex:1 1 auto;justify-content:flex-end}.b-btns .btn{flex:1 1 auto;min-height:50px}}
+/* an iPad held upright (or any tall screen): the map on top, the panel below */
+@media (orientation:portrait) and (max-width:1100px){
+  body.basic-ui #game{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(260px,46vh) minmax(0,1fr)}
+  body.basic-ui #mapHost{grid-column:1;grid-row:2}
+  body.basic-ui #bSide{grid-column:1;grid-row:3;border-right:0;border-top:3px solid #2a1a22}
+  body.basic-ui .summon-strip,body.basic-ui .stack-panel{left:14px}
+}
+@media (max-width:560px){.b-steps span{padding:4px 8px 4px 4px;font-size:12px}.b-rno{font-size:14px}}
+/* the full game's screen: its menu scrolls on a short laptop screen, and its top bar wraps on a narrow one */
+.menu{max-height:calc(100% - 84px);overflow-y:auto}
+@media (max-width:1100px){.crimson-bar{height:auto;flex:0 0 auto;flex-wrap:wrap;padding:8px 12px;gap:8px}.crimson-bar .t-actions{flex-wrap:wrap}.class-chip,.battle-list{top:150px}.basic-war .guide,.guide{top:150px}}
+.b-more>*{flex-shrink:0}
+.b-more .extras.compact{max-height:none;overflow:visible}
+.ending{background:#0b0d1a}
+.ending td{overflow-wrap:anywhere}
+@media (max-width:900px){.ending td,.ending th{padding:6px;font-size:13px}.ending{padding:20px 12px 30px}.ending h1{font-size:34px}}
+/* the full game's top bar: the title gives way (it never runs under the clock or Rift Energy) */
+.crimson-bar .t-left{min-width:0;flex:1 1 auto}.crimson-bar .t-left>div:first-child{min-width:0}
+.crimson-bar .t-title{overflow:hidden;text-overflow:ellipsis}
+.crimson-bar .clock,.crimson-bar .energy,.crimson-bar .t-actions{flex:0 0 auto}.crimson-bar .energy{white-space:nowrap}
+/* the full game's menu scrolls as a whole, so nothing in it is squashed */
+.menu>*{flex-shrink:0}.menu .extras.compact{max-height:none;overflow:visible}
+body.basic-ui .summon-strip button em{display:none}
+/* detailed enemy controls on a tall iPad: the send-out cards sit between the map and the panel */
+@media (orientation:portrait) and (max-width:1100px){
+  body.basic-ui.adv #game{grid-template-rows:auto minmax(260px,42vh) auto minmax(0,1fr)}
+  body.basic-ui.adv #summon{position:relative;left:auto;right:auto;bottom:auto;grid-column:1;grid-row:3;margin:6px 8px}
+  body.basic-ui.adv #bSide{grid-row:4}
+  body.basic-ui .stack-panel,body.basic-ui .order-ask{z-index:30}
+  .class-chip{top:auto;bottom:112px}
+}

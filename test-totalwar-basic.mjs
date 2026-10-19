@@ -9,7 +9,7 @@ import { mkdtempSync, rmSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { io } from "socket.io-client";
-import { HOME, FORTRESS, UNITS, BASIC_HIT, EXTRA_KEYS, basicTeamHp } from "./public/total-war/rules.js";
+import { HOME, FORTRESS, UNITS, CAMPS, BASIC_HIT, EXTRA_KEYS, basicTeamHp } from "./public/total-war/rules.js";
 
 const SPEED = 20, PORT = Number(process.env.TWB_PORT) || 3206, URL = `http://localhost:${PORT}`;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -19,7 +19,7 @@ const SAVES = mkdtempSync(join(tmpdir(), "twb-saves-"));
 const server = spawn(process.execPath, ["server.js"], { env: { ...process.env, PORT: String(PORT), RIFT_SPEED: String(SPEED), RIFT_TEST_CHEAT: "1", TW_SAVE_DIR: SAVES }, stdio: ["ignore", "pipe", "inherit"] });
 await new Promise((res) => server.stdout.on("data", (d) => { if (String(d).includes("running")) res(); }));
 const done = (code) => { server.kill(); try { rmSync(SAVES, { recursive: true, force: true }); } catch {} process.exit(code); };
-setTimeout(() => { console.log("TIMEOUT"); summary(); done(1); }, 420000);
+setTimeout(() => { console.log("TIMEOUT"); summary(); done(1); }, 600000);
 process.on("uncaughtException", (e) => { console.log("ERROR", e); done(1); });
 const until = async (fn, ms = 20000) => { const end = Date.now() + ms; while (Date.now() < end) { if (fn()) return true; await sleep(20); } return false; };
 function summary() { console.log(fails.length ? `\nFAILED: ${fails.length}` : "\nALL PASSED"); }
@@ -413,6 +413,8 @@ console.log("\n--- time's up: every question, MOVE and fight question that runs 
   await until(() => t.H.stage === "council", 30000);
   const moveSecs = ((t.H.phaseEndsAt - t.H.moveStartedAt) * SPEED) / 1000;
   check(Math.abs(moveSecs - 45) < 1, `the MOVE step lasts 45 seconds in the Basic game (${moveSecs.toFixed(1)} s)`);
+  // (the student's update can land just after the teacher's)
+  await until(() => [...allNotes.values()].some((n) => /^Time's up for the questions\./.test(n.text)), 2000);
   check([...allNotes.values()].some((n) => n.kind === "timeup" && /^Time's up for the questions\. The round moved on to part 2, MOVE\.$/.test(n.text)), "ANSWER ending before the student finished says the round moved on to MOVE");
   // the pair stands on the enemy's stop and nobody taps GO
   t.emit("twTestPlace", { pairNo: 1, node: 1 }); await sleep(60);
@@ -532,6 +534,62 @@ console.log("\n--- the team's health in a fight: the monster's blows take it, an
   check(lost?.text === "Your team ran out of health." && lost.out && qs < lim, `a team with no health left loses the fight early (after ${qs} of ${lim} questions): "${lost?.text}"`);
   check(W.rounds.at(-1)?.team?.hp === 0, "its health shows 0");
   for (const x of [W, t2]) x.disconnect();
+}
+
+// ---------------------------------------------------------------- 7. the teacher's Basic screen controls
+// One tap moves the enemy (let it decide, or send it to a stop), the game never waits for the teacher (the enemy decides by
+// itself when step 1 ends), pause blocks enemy orders, no full-game messages in Basic, "not moved for 3 rounds" counts
+// rounds properly, and the end screens stop changing once the war is over.
+if (!ONLY || ONLY === "teacher") {
+console.log("--- the teacher's Basic controls ---");
+  const t = await teacherWar({ turns: 6 });
+  const A = [student("Tia", { manual: true }), student("Tom", { manual: true })];
+  for (const s of A) await s.join(t.hs.code);
+  await pairUp(...A);
+  t.emit("twStart"); await until(() => t.H.status === "playing" && t.H.phase === "crimson");
+  const logs = new Set(); const watchLog = setInterval(() => { for (const l of t.H.log || []) logs.add(l.text); }, 20);
+  check(t.H.students.every((s) => typeof s.q3 === "number" && typeof s.asking === "boolean"), "the teacher sees how many of this round's questions each student has answered");
+  t.emit("twPause", { paused: true }); await until(() => t.H.paused);
+  t.emit("twEnemy", { to: null }); await sleep(150);
+  check(t.errs.some((e) => /paused/i.test(e)) && !t.H.teacherEnded, "while the war is paused the enemy cannot be moved");
+  t.emit("twPause", { paused: false }); await until(() => !t.H.paused);
+  t.errs.length = 0;
+  const camp = +Object.keys(CAMPS)[0];
+  t.emit("twEnemy", { to: camp }); t.emit("twEnemy", { to: FORTRESS }); await sleep(150);
+  check(t.errs.filter((e) => /Pick a stop/.test(e)).length === 2 && !t.H.teacherEnded, "the enemy cannot be sent to a monster camp or into its own castle");
+  const e0 = t.H.energy;
+  t.emit("twEnemy", { to: null }); await until(() => t.H.teacherEnded);
+  const free = () => t.H.units.filter((u) => !u.battle);
+  check(t.H.enemyPlan?.kind === "auto" && t.H.energy < e0 && t.H.units.length > 0, `"Let the enemy decide" sends out new units with the energy (${e0} -> ${t.H.energy}, ${t.H.units.length} units)`);
+  check(free().every((u) => u.order), "and gives every unit an order");
+  t.emit("twEnemy", { to: 10 }); await sleep(150);
+  check(t.H.enemyPlan?.kind === "go" && t.H.enemyPlan.to === 10 && free().every((u) => u.order?.kind === "march" && u.order.to === 10), "changing the choice to a stop sends the whole enemy army there");
+  t.emit("twEnemy", { to: null }); await sleep(150);
+  check(t.H.enemyPlan?.kind === "auto" && !free().some((u) => u.order?.kind === "march" && u.order.to === 10), "changing back to \"Let the enemy decide\" replaces the march orders");
+  await until(() => t.H.step === "move", 30000);
+  t.errs.length = 0; t.emit("twEnemy", { to: null }); await sleep(150);
+  check(t.errs.some((e) => /step 1/.test(e)), "the enemy is moved only in step 1 (ANSWER)");
+  for (const s of A) s.emit("twRoute", { hold: true });
+  // round 2: the teacher does nothing at all, and the game goes on
+  await until(() => t.H.turn === 2 && t.H.phase === "crimson", 60000);
+  const u2 = t.H.units.length, e2 = t.H.energy;
+  check(!t.H.enemyPlan && !t.H.teacherEnded, "a new round starts with no enemy choice made");
+  await until(() => t.H.step === "move" && t.H.turn === 2, 30000);
+  check(t.H.enemyPlan?.kind === "auto" && t.H.enemyPlan.byTime && (t.H.units.length > u2 || t.H.energy < e2), `with no choice from the teacher, the enemy decided by itself when step 1 ended (${u2} -> ${t.H.units.length} units, energy ${e2} -> ${t.H.energy})`);
+  for (const s of A) s.emit("twRoute", { hold: true });
+  await until(() => t.H.turn === 3 && t.H.phase === "crimson", 90000);
+  const no = t.H.pairs.find((p) => !p.bots)?.no;
+  check(!(t.H.stuck || []).some((p) => p.no === no), `round 3: a pair that has stayed for 2 rounds is not yet "not moved for 3 rounds" (${JSON.stringify(t.H.stuck)})`);
+  check(![...logs].some((l) => /Finish your questions/.test(l)), "no full-game messages in the Basic game (\"Finish your questions, then plan your move\")");
+  clearInterval(watchLog);
+  // the end: the screens stop changing once the war is over (a question still open cannot be answered)
+  const open = A.map((s) => s.v.own && !s.v.own.result ? s.v.own.question : null).find(Boolean);
+  t.emit("twEndGame", { result: "progress" }); await until(() => t.H.status === "ended");
+  const before = JSON.stringify(t.H.summary), ans = t.H.students.map((s) => s.answered).join();
+  if (open) for (const s of A) s.emit("twAnswer", { chosen: open.cheat, startedAt: open.startedAt });
+  await sleep(300);
+  check(t.H.report && JSON.stringify(t.H.summary) === before && t.H.students.map((s) => s.answered).join() === ans, `ending the war shows the report, and nothing changes after it${open ? " (an answer sent after the end is ignored)" : ""}`);
+  for (const s of A) s.disconnect(); t.disconnect();
 }
 summary();
 done(fails.length ? 1 : 0);

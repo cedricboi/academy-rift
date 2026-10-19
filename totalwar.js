@@ -224,7 +224,7 @@ export function setupTotalWar(deps) {
   }
   function makePair(S, members) {
     const no = Math.max(0, ...[...S.pairs.values()].map((p) => p.no)) + 1;
-    const p = { id: id(S, "p"), no, members, char: members.map((m) => S.students.get(m)?.char).find(Boolean) || null, bank: 0, hp: RESOLVE_PER_PAIR, maxHp: RESOLVE_PER_PAIR, lastNode: HOME, lastMovedTurn: S.turn, revive: false };
+    const p = { id: id(S, "p"), no, members, char: members.map((m) => S.students.get(m)?.char).find(Boolean) || null, bank: 0, hp: RESOLVE_PER_PAIR, maxHp: RESOLVE_PER_PAIR, lastNode: HOME, lastMovedTurn: Math.max(1, S.turn), revive: false };       // (a pair made in the lobby counts from round 1)
     S.pairs.set(p.id, p);
     for (const m of members) { const st = S.students.get(m); st.pairId = p.id; st.want = null; }
     if (S.status === "playing") placePair(S, p);
@@ -282,7 +282,7 @@ export function setupTotalWar(deps) {
     S.turn++;
     if (S.turn > S.settings.turns) return endByProgress(S, "turns");
     if (timeUp(S)) return endByProgress(S, "time");
-    S.phase = "crimson"; S.teacherEnded = false;
+    S.phase = "crimson"; S.teacherEnded = false; S.enemyPlan = null;
     // a pair beaten last turn is back to full HP at its rally point: losing costs the ground, not the HP
     for (const p of S.pairs.values()) if (p.revive) { p.revive = false; p.hp = p.maxHp; }
     // who has not moved for a while (a prompt for the teacher)
@@ -313,7 +313,7 @@ export function setupTotalWar(deps) {
     // resting at the Academy or a rally point heals a little; everywhere else only food heals
     for (const b of S.bands.values()) if ((b.node === HOME || S.rally.has(b.node)) && !b.battle) for (const x of b.pairs) { const p = S.pairs.get(x); if (p && p.hp < p.maxHp) p.hp = Math.min(p.maxHp, p.hp + REST_HEAL); }
     for (const b of S.bands.values()) { b.done = false; b.votes = {}; b.voteOpenedAt = 0; }
-    if (!quizDone(S)) say(S, `Turn ${S.turn}. Finish your questions, then plan your move.`, "crystal");
+    if (!quizDone(S) && !basicFlow(S)) say(S, `Turn ${S.turn}. Finish your questions, then plan your move.`, "crystal");
     S.dirty = true;
   }
   // the steps (AP) each pair and warband has for this move, from the right answers while preparing
@@ -648,7 +648,7 @@ export function setupTotalWar(deps) {
       if (free) {
         const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
         const open = [...S.students.values()].some((st) => isConnected(st) && st.own && (!st.own.result || basicFlow(S)));
-        if (go || (S.teacherEnded && musterDone && !open)) { dropOpen(S); runOrders(S); startCrystal(S); if (basicFlow(S) && S.status === "playing") openMoves(S); }
+        if (go || (S.teacherEnded && musterDone && !open)) { dropOpen(S); idleEnemy(S); runOrders(S); startCrystal(S); if (basicFlow(S) && S.status === "playing") openMoves(S); }
         return flush(S);
       }
       // the class prepares for at most crimsonSeconds (30 s); it ends sooner once the teacher has ended the turn
@@ -663,7 +663,7 @@ export function setupTotalWar(deps) {
           // a student whose questions were not all answered is told why they disappeared
           for (const st of S.students.values()) if (!st.bot && isConnected(st) && !fightingNow(S, st) && ((st.musterThisTurn || 0) < BASIC_QUESTIONS || (st.own && !st.own.result)))
             studentNote(S, st, "Time's up for the questions. The round moved on to part 2, MOVE.");
-          runOrders(S); startCrystal(S); if (S.status === "playing") { dropOpen(S, true); openMoves(S); }
+          idleEnemy(S); runOrders(S); startCrystal(S); if (S.status === "playing") { dropOpen(S, true); openMoves(S); }
         }
       } else if ((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
     } else if (S.phase === "crystal" && S.stage === "quiz") {
@@ -1766,6 +1766,31 @@ export function setupTotalWar(deps) {
     return null;
   }
 
+  // The Basic game's enemy orders, one tap for the teacher: "Let the enemy decide" (to == null: the Bot Commander's plan,
+  // new units sent out with the energy and every unit without orders given one) or "Send the enemy to X" (new units sent
+  // out, then every unit not in a battle marches to X). Either one ends the teacher's part of step 1.
+  function basicEnemy(S, to) {
+    if (S.status !== "playing") return "The war is not on.";
+    if (S.phase !== "crimson") return "The enemy moves in step 1, ANSWER. Wait for the next round.";
+    if (to != null) {
+      to = +to;
+      if (!Number.isInteger(to) || !NODES[to] || CAMPS[to] || to === FORTRESS) return "Pick a stop on a road (not a monster camp or the enemy's castle).";
+    }
+    // a new choice replaces the last one: every free unit's orders are cleared (an ambusher stays hidden), then the
+    // Bot Commander's plan sends out new units and orders every unit without orders
+    for (const u of S.units.values()) if (!u.battle && !u.tutorial && u.order?.kind !== "ambush") u.order = null;
+    botCommand(S);
+    if (to != null) for (const u of S.units.values()) if (!u.battle && !u.tutorial) { u.order = { kind: "march", to }; u.ambush = false; u.dugIn = false; }
+    S.enemyPlan = to == null ? { kind: "auto" } : { kind: "go", to };
+    S.teacherEnded = true; S.dirty = true;
+    return null;
+  }
+  // Basic: the teacher did not choose before step 1 ended, so the enemy decides by itself (the game never waits for them)
+  function idleEnemy(S) {
+    if (!basicFlow(S) || S.teacherEnded || S.settings.botCommander || S.practice) return;
+    botCommand(S); S.enemyPlan = { kind: "auto", byTime: true };
+  }
+
   // The Crimson Host besieging the Academy: at the start of each Crimson turn, units standing on it (with no
   // Crystal banner there to fight them) wear down the Academy Ward. If it breaks, the Crimson Host wins.
   function siegeAcademy(S) {
@@ -2165,11 +2190,13 @@ export function setupTotalWar(deps) {
 
   function hostView(S) {
     const v = classView(S, null, true);
-    v.settings = S.settings; v.energy = S.energy; v.teacherEnded = S.teacherEnded;
+    v.settings = S.settings; v.energy = S.energy; v.teacherEnded = S.teacherEnded; v.enemyPlan = S.enemyPlan || null; v.softEndsAt = S.softEndsAt || 0;
     v.warlordReady = warlordReady(S);
     const now = Date.now();
     v.students = [...S.students.values()].map((s) => ({
       pid: s.pid, name: s.name, pairNo: pairOf(S, s.pid)?.no || null, answered: s.answered, correct: s.correct, ready: s.ready, bot: !!s.bot, char: s.char,
+      // this round's questions answered (Basic: 3 each), and whether one is open on their screen now
+      q3: s.musterThisTurn || 0, asking: !!(s.own && !s.own.result),
       // quiet: a student who has let at least two questions run out in a row, and has not answered for a minute this phase
       connected: isConnected(s), quiet: S.status === "playing" && !S.paused && !s.bot && isConnected(s) && (s.timeouts || 0) >= 2 && now - Math.max(s.lastRealAt || 0, S.phaseStartedAt) > ms(60),
     }));
@@ -2401,6 +2428,8 @@ export function setupTotalWar(deps) {
     socket.on("twEndTraining", asHostLive((S) => { if (!untimed(S)) return "The training turn is over."; endTraining(S); }));
     socket.on("twEndTurn", asHostLive((S) => { if (S.phase !== "crimson") return "It is not your turn."; S.teacherEnded = true; }));
     socket.on("twAuto", asHostLive((S) => autoTurn(S)));
+    // Basic: one tap for the enemy's move ({ to: stop } or { to: null } to let the enemy decide)
+    socket.on("twEnemy", asHostLive((S, { to = null }) => basicEnemy(S, to)));
     socket.on("twRelease", asHost((S) => { S.warlord.released = true; say(S, "The Crimson Warlord steps out to fight.", "big"); }));
     // result: "progress" (judged on how far the class got, the default), "crystal" (the class wins) or "crimson"
     socket.on("twEndGame", asHost((S, { result = "progress" }) => {
@@ -2470,6 +2499,7 @@ export function setupTotalWar(deps) {
     socket.on("twReady", asStudent((S, st, { ready }) => { if (S.status !== "lobby") return; st.ready = ready !== false; }));
     socket.on("twAnswer", asStudent((S, st, { chosen, startedAt }) => {
       const c = Math.round(+chosen); if (!(c >= 0 && c < 6)) return;
+      if (S.status !== "playing") return;                 // the war is over: the end screens and the report do not change any more
       // c is the button the student pressed in their own order of the choices
       if (st.own && st.own.startedAt === startedAt) return answerOwn(S, st, toCanon(st.own.perm, c));
       const B = [...S.battles.values()].find((x) => x.status === "fight" && x.q && fightersOf(S, x).includes(st.pid));

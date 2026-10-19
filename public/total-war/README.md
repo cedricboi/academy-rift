@@ -123,9 +123,32 @@ centre, labour, organised, specialised). The enemy army (not the Crimson Host), 
 shield (not the Ward), monster camp (not jungle camp), health (not HP), the computer enemy (not the Bot Commander), and
 plain monster names (`PLAIN_NAMES` in rules.js). Camp buffs such as Riftglass Edge are hidden unless their Extra is on.
 
-**Teacher and projector.** The teacher's screen shows ROUND N OF M with the three steps (a bar above the guide line),
-how many students have answered their 3 and how many pairs have tapped GO. The projector shows the tracker, the step
-and a class Now line big, and Basic battles with the row of faces and who hit.
+**Teacher and projector.** The projector shows the tracker, the step and a class Now line big, and Basic battles with
+the row of faces and who hit. With more than 3 pairs on one stop, the projector and the teacher's map show one banner
+with the count ("9 pairs"), so a whole class at the Academy stays on the map. The teacher's screen is below.
+
+**The teacher's screen in the Basic game** (`command.js`, `renderBasic`). The teacher is busy teaching, so at a glance it
+shows: the top bar (ROUND N OF M, the 3 steps with the current one lit, the time left in big numbers, and big **Pause**
+and **End the war** buttons, always there), a panel on the left (below the map on an iPad held upright) with the step in
+plain words, a progress bar, **YOUR JOB NOW** with at most one big button, the battles, and **WHO NEEDS HELP**.
+
+1. **ANSWER**: "Every student answers 3 questions. 12 of 18 have answered all 3." The teacher's job is to move the enemy
+   army in one tap: **Let the enemy decide** (`twEnemy { to: null }`: the computer enemy's plan, new monsters sent out
+   with the energy and every monster without orders given one), or tap a ⚑ stop on the map to send the whole enemy army
+   there (`twEnemy { to }`). It can be changed until the step ends ("Change my choice"). **The game never waits for the
+   teacher**: if nothing was chosen when the step ends, the enemy decides by itself (`idleEnemy`), and MOVE says so.
+2. **MOVE**: "5 of 9 pairs are ready", **Start the march now** and +15 seconds. The march also starts by itself.
+3. **FIGHT**: "Nothing. Watch the battles on the projector." Each battle shows where, which pairs against which
+   monster, the question and the monster's health (on the students' scale), with **End this battle**.
+
+WHO NEEDS HELP lists students who are not connected, who is still answering (names once 10 or fewer are left), pairs that
+have not tapped GO, students not answering for a while, and pairs that have not moved for 3 rounds. Every question
+(End the war, End this battle, the full game, a new war) is an in-page box, never the browser's confirm box.
+**More** (closed by default) holds the projector link, the mode switch, the code and the enemy's numbers, Rounds and End
+by, **Detailed enemy controls** (the full game's cards and orders: send out each monster, march, hold, hunt, ambush,
+teleport, then Done), the Extras and the Full game switch (which asks first), the class list and "End the war: the
+class wins". The Full game keeps the detailed screen. The lobby shows the code, the question sets, Rounds, End by and the
+class; timers, Extras, bots and the training round are under **More settings**.
 
 ### Extras (all off by default)
 
@@ -463,9 +486,10 @@ encountered, holding, recovering), and a small HP bar.
 - Lobby **BOTS** settings: **Bot Commander** (a bot plays the Crimson Host), **Bot partners** (a lone student
   gets a bot fighter), and **Add a bot pair** to fill up the class.
 
-### The teacher's screen
+### The teacher's screen (the full game)
 
-- A step guide at the top: send out units → give them orders → end your turn.
+- A step guide at the top: send out units → give them orders → end your turn. (The Basic game has its own simple
+  screen: see "The teacher's screen in the Basic game" above.)
 - **Pause / Resume** (the ⋯ menu): every clock stops, and students see "Paused by" the teacher's name. Nobody loses
   time: every timer moves on by the length of the pause.
 - **End this battle now** (on each battle in the list): the damage dealt stays, nobody is beaten, and the class steps
@@ -547,7 +571,7 @@ bank keeps it worked out until a set changes).
 
 ## Tests
 
-- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war|fixes|help|timer|gate|steps|seen|cold3|timeup|hold|gateteam|team` runs one part): the
+- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war|fixes|help|timer|gate|steps|seen|cold3|timeup|hold|gateteam|team|teacher` runs one part): the
   Basic game. A round with three pairs (exactly 3 questions each and no top-up, 5 steps for all right, no coins, food,
   warbands or War Cries, both partners tap GO, pairs on one stop fight together, the Help card and YES, "came to help",
   one question for everyone, a hit for every right answer with the helpers' bonus, the monster hitting back once for
@@ -561,7 +585,9 @@ bank keeps it worked out until a set changes).
   Then the second cold test's fixes (`cold3`): the time's-up messages for a question, the ANSWER step, MOVE and a fight
   question, MOVE lasting 45 s, a message that needs OK holding the next question (and at most 20 s without OK), GO to the
   gate sent only once 3 pairs have chosen it (and bot pairs joining a student's gate attempt), and the team's health (the
-  blows take it, and a team with none left loses early). `tools/test-total-war.mjs` checks that banners stand on their
+  blows take it, and a team with none left loses early). Then the teacher's Basic controls (`teacher`): Let the enemy decide, sending the enemy to a stop and changing
+  the choice, no enemy orders while paused or outside step 1, the enemy deciding by itself when the teacher does nothing,
+  "not moved for 3 rounds" counting rounds properly, no full-game messages, and nothing changing after the war ends. `tools/test-total-war.mjs` checks that banners stand on their
   stop's circle, side by side, centred on the stop.
 - `node test-totalwar.mjs [students]` (the full game: every war it starts has `full: true`): a teacher and a class of bots play a whole 8-turn war (and print the time
   each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled

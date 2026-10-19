@@ -16,7 +16,7 @@
     <div class="panel red setup-box">
       <div class="eyebrow" style="color:var(--rose)">ACADEMY RIFT · TOTAL WAR</div>
       <h1 class="cinzel">Crimson Command</h1>
-      <p class="sub">You command the Crimson Host. Your class marches against you in pairs, and must band together to break into your fortress.</p>
+      <p class="sub">You lead the enemy army. Your class plays in pairs, and must work together to break into the enemy's castle. Each round: 1 Answer, 2 Move, 3 Fight.</p>
       <button class="btn crimson" id="newWar" type="button">Start a new war</button>
       <button class="btn hidden" id="resumeWar" type="button">Return to the war in progress</button>
       <div data-modes="cards"></div>
@@ -42,25 +42,31 @@
         <div class="eyebrow">THE WAR</div>
         <label class="field">Your name, as students see it<input id="setCommander" maxlength="30"></label>
         <div class="field"><span>Questions from</span><div id="topics" class="topic-grid"></div></div>
-        <div class="setting-row">
-          <label class="field">Turns<select id="setTurns"></select></label>
-          <label class="field">Prepare time<select id="setCrimson"></select></label>
-          <label class="field">Plan your move (War Council)<select id="setCouncil"></select></label>
-          <label class="field">Marching time<select id="setCrystal"></select></label>
-          <label class="field">Questions each<select id="setTarget"></select></label>
+        <div class="setting-row two">
+          <label class="field">Rounds<select id="setTurns"></select></label>
           <label class="field">End by<select id="setEndBy"></select></label>
         </div>
-        <p class="hint">Breaking the gate brings out the Crimson Warlord. If 80% of the class have answered the "questions each" number by then, he starts the final battle weakened (25% less HP).</p>
-        <label class="tog"><input type="checkbox" id="setLock"><span><b>Warlord waits for the target</b><small>He only comes out once 80% of the class have answered the "questions each" number. You can still release him yourself.</small></span></label>
-        <div class="eyebrow" style="margin-top:6px">EXTRAS <small class="x-sub">The Basic game is on by default: answer 3 questions, move, fight. Switch on more only when the class is ready.</small></div>
-        <div class="extras" id="extras"></div>
-        <div class="eyebrow" style="margin-top:6px">BOTS</div>
-        <div class="bot-row">
-          <label class="tog"><input type="checkbox" id="setBotCmd"><span><b>Bot Commander</b><small>A bot leads the Crimson Host for you: the class plays against it.</small></span></label>
-          <label class="tog"><input type="checkbox" id="setBotPartners"><span><b>Bot partners</b><small>A student with no partner gets a bot fighter beside them.</small></span></label>
-          <label class="tog"><input type="checkbox" id="setTraining"><span><b>Training turn</b><small>Turn 1 has no timers. Each stage waits until everyone is done, or until you press Continue. Students get a short tip the first time they see each stage.</small></span></label>
-          <div class="bot-btns"><button class="btn" type="button" id="addBots">+ Add a bot pair</button><button class="btn" type="button" id="removeBots">Remove bot pairs</button></div>
-        </div>
+        <p class="hint">Each round has 3 steps: 1 ANSWER (every student answers 3 questions while you move the enemy), 2 MOVE (pairs pick a stop), 3 FIGHT.</p>
+        <details class="more-set" id="moreSet">
+          <summary>More settings <small>Timers, Extras, the full game and bots</small></summary>
+          <div class="setting-row">
+            <label class="field">Your time to move the enemy (step 1)<select id="setCrimson"></select></label>
+            <label class="field">Time to pick a stop (step 2)<select id="setCouncil"></select></label>
+            <label class="field">Marching time (full game)<select id="setCrystal"></select></label>
+            <label class="field">Questions each (full game)<select id="setTarget"></select></label>
+          </div>
+          <p class="hint">Breaking the gate brings out the Crimson Warlord. If 80% of the class have answered the "questions each" number by then, he starts the final battle weakened (25% less health).</p>
+          <label class="tog"><input type="checkbox" id="setLock"><span><b>Warlord waits for the target</b><small>He only comes out once 80% of the class have answered the "questions each" number. You can still release him yourself.</small></span></label>
+          <div class="eyebrow" style="margin-top:6px">EXTRAS <small class="x-sub">The Basic game is on by default: answer 3 questions, move, fight. Switch on more only when the class is ready.</small></div>
+          <div class="extras" id="extras"></div>
+          <div class="eyebrow" style="margin-top:6px">BOTS</div>
+          <div class="bot-row">
+            <label class="tog"><input type="checkbox" id="setBotCmd"><span><b>Computer enemy</b><small>The computer moves the enemy army for you: the class plays against it.</small></span></label>
+            <label class="tog"><input type="checkbox" id="setBotPartners"><span><b>Bot partners</b><small>A student with no partner gets a bot fighter beside them.</small></span></label>
+            <label class="tog"><input type="checkbox" id="setTraining"><span><b>Training round</b><small>Round 1 has no timers. Each step waits until everyone is done, or until you press Continue. Students get a short tip the first time they see each step.</small></span></label>
+            <div class="bot-btns"><button class="btn" type="button" id="addBots">+ Add a bot pair</button><button class="btn" type="button" id="removeBots">Remove bot pairs</button></div>
+          </div>
+        </details>
         <div class="eyebrow" style="margin-top:6px">THE CLASS <span id="classCount"></span></div>
         <div id="roster" class="roster"></div>
         <p class="hint" id="rosterHint">Students pair themselves up on their iPads. Tap two unpaired names here to pair them yourself. Anyone without a partner marches alone.</p>
@@ -86,7 +92,39 @@
       <button class="btn menu-btn" id="menuBtn" type="button" aria-haspopup="true">Menu ▾</button>
     </div>
   </header>
+  <header id="bTop" class="b-top hidden">
+    <div class="b-round"><span class="b-rno" id="bRound">ROUND 1 OF 8</span><div class="b-steps" id="bSteps"></div></div>
+    <div class="b-clock" id="bClock"><small id="bClockLbl">TIME LEFT</small><b id="bClockTxt">0:00</b></div>
+    <div class="b-btns">
+      <button class="btn b-pause" id="bPause" type="button">❚❚ Pause</button>
+      <button class="btn b-end" id="bEnd" type="button">End the war</button>
+      <button class="btn b-morebtn" id="bMore" type="button" aria-expanded="false">More ▾</button>
+    </div>
+  </header>
   <div id="mapHost"></div>
+  <aside id="bSide" class="b-side hidden" aria-live="polite">
+    <section id="bNow" class="b-now"></section>
+    <section id="bFights" class="b-fights"></section>
+    <section id="bHelp" class="b-help"></section>
+  </aside>
+  <section id="bMorePanel" class="b-more hidden" aria-label="More">
+    <div class="b-more-head"><b>MORE</b><button class="btn" type="button" id="bMoreClose" aria-label="Close">Close ×</button></div>
+    <div class="eyebrow">SCREENS</div>
+    <a class="btn" id="bProjector" target="_blank" rel="noopener">Open the projector screen</a>
+    <div class="b-modes"><span data-modes></span><small>Switch to another game mode</small></div>
+    <div class="eyebrow">THIS WAR</div>
+    <div class="b-facts" id="bFacts"></div>
+    <div class="setting-row two"><label class="field">Rounds<select id="bTurns"></select></label><label class="field">End by<select id="bEndBy"></select></label></div>
+    <div class="eyebrow">THE ENEMY</div>
+    <label class="tog"><input type="checkbox" id="bAdv"><span><b>Detailed enemy controls</b><small>Send out each monster yourself, give each one orders (march, hold, hunt, ambush, teleport). Off: one tap moves the whole enemy army.</small></span></label>
+    <div class="eyebrow">EXTRAS <small class="x-sub">Each switches one part of the full game back on, from the next question or battle.</small></div>
+    <div class="extras compact" id="bExtras"></div>
+    <div class="eyebrow">THE CLASS</div>
+    <div id="bClass" class="b-class"></div>
+    <div class="eyebrow" style="color:var(--rose)">END THE WAR</div>
+    <button class="btn" id="bEndClass" type="button">End the war: the class wins<small>Declare the class the winner now.</small></button>
+    <p class="hint">The learning report (and its CSV download) appears when the war ends.</p>
+  </section>
   <div id="gTrack" class="g-track-bar hidden"></div>
   <div id="guide" class="guide"></div>
   <section id="orderAsk" class="panel red order-ask hidden"></section>
@@ -111,6 +149,7 @@
   <section id="ending" class="ending hidden"></section>
 </section>
 
+<div id="dialog" class="dlg hidden" role="dialog" aria-modal="true" aria-labelledby="dlgTitle"></div>
 <div id="toast" class="toast hidden" role="status"></div>
 <script src="/socket.io/socket.io.js"></script>
 <script type="module" src="command.js"></script>
