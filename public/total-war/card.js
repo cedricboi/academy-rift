@@ -2,7 +2,8 @@
 // as the Arena, so students know exactly what to expect. Timing comes from the server.
 import { esc } from './map.js';
 
-export function createCard(root, { onPick } = {}) {
+// The answer clock starts when the choices appear on this screen (onReveal tells the server), so the reading time is extra.
+export function createCard(root, { onPick, onReveal } = {}) {
   root.className = 'tw-card hidden';
   root.setAttribute('role', 'dialog');
   root.innerHTML = `<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
@@ -26,14 +27,20 @@ export function createCard(root, { onPick } = {}) {
 
   function tick() {
     if (!current) return;
-    const q = current.q, readEnd = q.startedAt + (q.recall * 1000) / speed, end = readEnd + (q.seconds * 1000) / speed;
+    const q = current.q, readEnd = q.startedAt + (q.recall * 1000) / speed;
     const t = now();
     const cover = root.querySelector('.card-reading');
     if (t < readEnd && !current.result) {
       const n = Math.max(1, Math.ceil(((readEnd - t) * speed) / 1000));
       if (cover) cover.querySelector('span').textContent = `Think of the answer. The choices appear in ${n}`;
     } else if (cover) { cover.remove(); root.querySelector('.card-choices').classList.remove('reading'); }
+    // the choices are on screen: the answer clock starts now (never before the reading time is over)
+    if (t >= readEnd && current.revealAt == null && !current.result && current.picked == null) {
+      current.revealAt = Math.max(readEnd, Math.min(t, readEnd + 12000 / speed));
+      onReveal?.(q.startedAt);
+    }
     if (q.untimed) { $('.card-clock').textContent = ''; $('.card-bar i').style.width = '0%'; return; }     // the training turn: no clock
+    const end = (current.revealAt ?? Math.max(readEnd, t)) + (q.seconds * 1000) / speed;
     const left = Math.max(0, (end - t) * speed / 1000);
     $('.card-clock').textContent = current.result ? '' : `00:${String(Math.ceil(Math.min(left, q.seconds))).padStart(2, '0')}`;
     $('.card-bar i').style.width = `${current.result ? 0 : Math.min(100, (left / q.seconds) * 100)}%`;

@@ -1,7 +1,7 @@
 // The Moonveil map, drawn the same way on the student iPad, the teacher's command screen and the projector:
 // the painted map, roads, fog of war, stops you can step to, and banners (pairs, warbands, the Crimson Host, camps).
 import { NODES, routePoints, positionAt } from './movement.js';
-import { CAMPS, UNITS, FORTRESS, HOME, neighbours, cost, stepTowards } from './rules.js';
+import { CAMPS, UNITS, FORTRESS, HOME, neighbours, cost, stepTowards, plainName, BIG_TEAM } from './rules.js';
 import { bannerFor, PORTRAITS } from './banners.js';
 
 export const W = 1440, H = 900;
@@ -20,13 +20,15 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
   host.innerHTML = `<div class="twmap"><img class="twmap-art" src="art/moonveil-map.webp" alt="" draggable="false">
     <svg class="twmap-roads" viewBox="0 0 ${W} ${H}" aria-hidden="true"></svg>
     <canvas class="twmap-fog" width="${W / 2}" height="${H / 2}" aria-hidden="true"></canvas>
-    <div class="twmap-stops"></div><div class="twmap-banners"></div><div class="twmap-riders"></div></div>`;
+    <div class="twmap-places"></div><div class="twmap-stops"></div><div class="twmap-banners"></div><div class="twmap-riders"></div></div>
+    <div class="twmap-legend hidden" aria-label="What the map shows"></div>`;
   const map = host.querySelector('.twmap'), roads = host.querySelector('.twmap-roads'), fog = host.querySelector('.twmap-fog');
+  const places = host.querySelector('.twmap-places'), legend = host.querySelector('.twmap-legend');
   const stops = host.querySelector('.twmap-stops'), layer = host.querySelector('.twmap-banners'), riderLayer = host.querySelector('.twmap-riders');
   const els = new Map();       // banner key -> element, kept so banners glide when they move
   let scale = 1, panX = 0, panY = 0, focus = null, focusedOn = null, userPanned = false;
   let lastFog = null;
-  function setBottom(b) { if (b !== bottom) { bottom = b; fit(); } }
+  function setBottom(b) { if (b !== bottom) { bottom = b; legend.style.bottom = `${(b || 0) + 8}px`; fit(); } }
   // the projector: fit the part of the map with the stops on it (box) inside the screen, less any side panels
   function setInsets(o = {}) { let ch = false; for (const [k, v] of Object.entries(o)) { if (k === 'left' && v !== left) { left = v; ch = true; } if (k === 'right' && v !== right) { right = v; ch = true; } if (k === 'top' && v !== top) { top = v; ch = true; } if (k === 'bottom' && v !== bottom) { bottom = v; ch = true; } } if (ch) fit(); }
   // The whole map always fits, so the Crimson Fortress (the goal) is never off-screen, even on a tall iPad.
@@ -182,8 +184,33 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
 
   // basic: the Basic game's map (no HP bars, your banner big and labelled YOU, classmates' banners smaller, no watchtower
   // unless the fog Extra is on)
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [], basic = false }) {
+  // The Basic game labels every stop with its place name (the monster there in small letters under it), and shows a tiny
+  // legend: what a glowing number, crossed swords and the gold banner mean.
+  function drawPlaces(state, basic, legendOn) {
+    host.classList.toggle('basic', !!basic);
+    let html = '';
+    if (basic) html = NODES.map((n, i) => {
+      const us = state.units.filter((u) => u.node === i && i !== FORTRESS), camp = state.camps.find((c) => c.node === i && c.alive);
+      let foe = '', extra = '';
+      if (i === FORTRESS) { foe = state.gate.broken ? (state.warlord?.out ? 'The Warlord' : 'Gate broken') : 'Gate Guardian'; extra = `Needs a big team (${BIG_TEAM}+ pairs)`; }
+      else if (us.length) { const lead = [...us].sort((a, b) => UNITS[b.type].hp - UNITS[a.type].hp)[0]; foe = us.length > 1 ? `${plainName(lead.type)} and ${us.length - 1} more` : plainName(lead.type); }
+      else if (camp) foe = plainName(CAMPS[i].id);
+      if (i === HOME && state.ward && state.ward.hp < state.ward.max) extra = `Shield ${state.ward.hp} of ${state.ward.max}`;
+      const name = i === HOME ? 'Academy' : n.name;
+      // (the fortress label sits above its banner, clear of the Crimson Orchard just below it and of the screen's edge)
+      const at = i === FORTRESS ? `left:${n.x}px;top:${n.y - 98}px` : `left:${n.x}px;top:calc(${n.y + 26}px + 24px * max(1, var(--inv, 1) * 1.18))`;
+      return `<div class="tw-place ${foe ? 'foe' : ''} ${i === FORTRESS ? 'fort' : ''} ${i === HOME ? 'home' : ''}" style="${at}"><b>${esc(name)}</b>${foe ? `<small>${esc(foe)}</small>` : ''}${extra ? `<em>${esc(extra)}</em>` : ''}</div>`;
+    }).join('');
+    if (places._html !== html) { places.innerHTML = html; places._html = html; }
+    legend.classList.toggle('hidden', !(basic && legendOn));
+    const lg = `<div class="lg-row"><i class="lg-stop">2</i><span>Glowing number: steps to get there</span></div>
+      <div class="lg-row"><i class="lg-stop attack">${SWORDS}</i><span>Crossed swords: a monster to fight</span></div>
+      <div class="lg-row"><i class="lg-gate"></i><span>Gold banner: the Crimson Fortress gate</span></div>`;
+    if (legend._html !== lg) { legend.innerHTML = lg; legend._html = lg; }
+  }
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [], basic = false, legend: legendOn = false, mineNo = null }) {
     if (focusNode !== focus) { focus = focusNode; fit(); }
+    drawPlaces(state, basic, legendOn);
     // roads of the chosen step, and (for the teacher) where marching units are heading
     const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
     const roadHtml = (route ? `<polyline points="${pts(route)}" class="road-shadow"/><polyline points="${pts(route)}" class="road-line"/>` : '')
@@ -212,7 +239,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
     const fortressUnits = state.units.filter((u) => u.node === FORTRESS);
     const gateType = state.gate.broken ? 'warlord' : 'golem';
     list.push({ key: 'fortress', kind: 'fortress', ref: 'fortress', node: FORTRESS, glow: selected === 'fortress', label: 'Crimson Fortress',
-      html: `<span class="cloth"><img src="${sprite(gateType)}" alt=""></span>${fortressUnits.length ? `<i class="count">+${fortressUnits.length}</i>` : ''}<span class="pole"></span><span class="tag">${state.gate.broken ? (state.warlord?.out ? 'The Warlord' : 'Gate broken') : 'Fortress gate'}</span>` });
+      html: `<span class="cloth"><img src="${sprite(gateType)}" alt=""></span>${fortressUnits.length && !basic ? `<i class="count">+${fortressUnits.length}</i>` : ''}<span class="pole"></span><span class="tag">${state.gate.broken ? (state.warlord?.out ? 'The Warlord' : 'Gate broken') : 'Fortress gate'}</span>` });
     // the Crystal Academy and its Ward
     if (state.ward) {
       const w = state.ward, hurt = w.hp < w.max;
@@ -254,7 +281,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
       const hp = Math.min(...b.pairs.map((p) => (p.hp ?? 10) / (p.maxHp || 10)));
       if (basic) {
         list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}`, small: !isMine && !!mine, mineBig: isMine, label: isMine ? 'Your pair' : `Pair ${lead.no}`,
-          html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}${!isMine && b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${state.extras?.hp ? `<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i>` : ''}<span class="pole"></span><span class="tag">${isMine ? 'YOU' : `Pair ${lead.no}`}</span>` });
+          html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}${!isMine && b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${state.extras?.hp ? `<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i>` : ''}<span class="pole"></span><span class="tag">${isMine ? `YOU${mineNo ? ` (Pair ${mineNo})` : ''}` : `Pair ${lead.no}`}</span>` });
         continue;
       }
       list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}` || highlight.includes(b.id), label: `Pair ${lead.no}`,

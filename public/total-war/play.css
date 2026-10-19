@@ -880,3 +880,17 @@ body.b-gathering .msg-stack>.coach.tip{font-size:14px}
   .tw-basic .act-bar .ab-btns{flex:0 0 auto}
   .tw-basic .act-bar .ab-step{font-size:19px}.tw-basic .act-bar .ab-sub{font-size:15px}
 }
+
+/* round header: which pair you are */
+.rt-round{display:flex;flex-direction:column;gap:2px}
+.rt-pair{font:600 13px "Rift Body";letter-spacing:0;color:#cfe3de;white-space:nowrap}
+.rt-now b[data-until]{color:var(--gold2)}
+/* the question card: what each partner has earned */
+.qd-steps{display:flex;flex-direction:column;align-items:flex-end}
+.qd-by{font:600 14px "Rift Body";color:#c3d0cd}.qd-by b{font-size:15px;color:var(--cyan)}
+/* the gate is very strong */
+.act-bar .ab-sub b.ab-warn,.ab-warn{color:#ffb3bd;font-weight:800}
+/* the Basic end screen */
+.end-basic .story{width:100%}
+.end-far{margin:4px 0 0;font:600 18px/1.35 "Rift Body";color:#f2ead6;text-align:center}
+.story-map i.goal.far{background:#ffd97a;color:#1a1408}

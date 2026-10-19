@@ -120,7 +120,7 @@
 <script type="module">
 import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, CAMPS, showHp } from './rules.js';
+import { UNITS, CAMPS, showHp, plainName } from './rules.js';
 import { portrait as face } from './map.js';
 import { createStage, enemyName } from './stage.js';
 import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
@@ -145,7 +145,8 @@ socket.on('twPublic', (v) => { P = v; render(); });
 const nodeName = (n) => NODES[n]?.name || '?';
 function render() {
   $('lobby').classList.toggle('hidden', P.status !== 'lobby');
-  $('enemyName').textContent = P.commander || 'Your teacher';
+  $('enemyName').textContent = P.basic && /bot commander/i.test(P.commander || '') ? 'the computer enemy' : P.commander || 'Your teacher';
+  $('pMission').firstChild.textContent = P.basic ? 'Leading the enemy army: ' : 'Commander of the Crimson Host: ';
   if (P.status === 'lobby') {
     const url = `${location.origin}/total-war/?code=${P.code}`;
     $('lCode').textContent = P.code; $('lUrl').textContent = url.replace(/^https?:\/\//, '');
@@ -158,11 +159,11 @@ function render() {
   const stageTxt = P.phase === 'crimson' ? 'CRIMSON TURN' : P.phase === 'crystal' ? (P.stage === 'quiz' ? 'QUESTIONS' : P.stage === 'council' ? 'WAR COUNCIL' : 'MARCHING') : P.phase === 'battles' ? 'BATTLES' : 'THE END';
   $('pPhase').textContent = `TURN ${P.turn} OF ${P.turns} · ${stageTxt}`;
   $('pSub').innerHTML = P.paused ? `<span class="paused">Paused by ${esc(P.paused.by)}. Everything waits.</span>`
-    : esc(P.phase === 'crimson' ? `${P.commander} is moving the Crimson Host. The class prepares.`
+    : esc(P.phase === 'crimson' ? `${P.commander} is moving ${P.basic ? 'the enemy army' : 'the Crimson Host'}. The class prepares.`
       : P.phase === 'crystal' ? (P.stage === 'quiz' ? `The class finishes its questions${P.quiz ? `: ${P.quiz.done} of ${P.quiz.of} done` : ''}.` : P.stage === 'council' ? 'Each warband plans its route.' : 'The warbands march.')
       : P.phase === 'battles' ? 'The battles of this turn are being fought.' : '');
   $('gateImg').src = sprite(P.gate.broken ? 'warlord' : 'golem');
-  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? `Warlord ${showHp(P.warlord.hp)} / ${showHp(P.warlord.max)}` : 'Broken') : `Unbroken · ${showHp(P.gate.hp)} / ${showHp(P.gate.max)}`;
+  $('gateText').textContent = P.gate.broken ? (P.warlord.out ? `Warlord ${showHp(P.warlord.hp)} / ${showHp(P.warlord.max)}` : 'Broken') : `${P.basic ? 'Health' : 'Unbroken ·'} ${showHp(P.gate.hp)} / ${showHp(P.gate.max)}`;
   $('paused').classList.toggle('hidden', !(P.status === 'playing' && P.paused));
   if (P.paused) $('paused').innerHTML = `<div class="eyebrow">THE WAR IS PAUSED</div><h2>Paused by ${esc(P.paused.by)}</h2>`;
   const B = [...P.battles].sort((a, b) => (a.status === 'over') - (b.status === 'over') || b.bands.reduce((s, x) => s + x.pairs.length, 0) - a.bands.reduce((s, x) => s + x.pairs.length, 0))[0];
@@ -190,7 +191,7 @@ function render() {
     box.style.setProperty('--below', `${B.pairs.length > 4 ? 420 : 340}px`);   // two rows of pair cards leave the stage less room
     const later = B.enemies.filter((e) => !e.wave && e.hp > 0);
     $('pbFoot').innerHTML = `<div class="pb-res">WARBAND HP<div class="rb"><i style="width:${B.resolveMax ? Math.max(0, B.resolve / B.resolveMax) * 100 : 100}%"></i></div>${B.resolveMax ? `${X(Math.max(0, B.resolve))} / ${X(B.resolveMax)}` : ''}</div>
-      ${stripOn ? '' : `<div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>`}
+      ${stripOn ? '' : `<div class="pb-foes">${B.enemies.map((e) => `<div>${esc((P.basic ? plainName : enemyName)(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>`}
       <div class="status">${st}${B.reinforce && !stripOn ? ` Pair${B.reinforce.pairs.length > 1 ? 's' : ''} ${B.reinforce.pairs.join(', ')} joined to help.` : ''}${stripOn && later.length ? ` Still to come: ${esc(later.map((e) => enemyName(e.type)).join(', '))}.` : ''}${B.cheers.length ? ` War Cries from ${[...new Set(B.cheers.map((c) => 'Pair ' + c.pair))].join(', ')}.` : ''}</div>
       ${B.status === 'result' && rd?.explain ? `<div class="explain">${esc(rd.explain)}</div>` : ''}`;
     box.classList.remove('hidden');
@@ -222,7 +223,7 @@ function renderTrack() {
 // A Basic battle on the projector: the stage, the monster, a row of faces with a tick or a cross, and who hit
 const andList = (a) => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a.at(-1)}` : a[0] || '');
 function renderSimple(B, box, what, pairs) {
-  if (B.kind === 'host') what = enemyName(B.enemies.find((e) => e.hp > 0)?.type || B.enemies[0]?.type);
+  if (B.kind === 'host') what = (P.basic ? plainName : enemyName)(B.enemies.find((e) => e.hp > 0)?.type || B.enemies[0]?.type);
   const rd = B.round;
   const faces = B.faces || [];
   const mk = (m) => m === 'right' ? '<i class="mk ok">✓</i>' : m === 'wrong' ? '<i class="mk no">✗</i>' : m === 'in' ? '<i class="mk in">●</i>' : m === 'wait' ? '<i class="mk wait">…</i>' : '';
@@ -230,11 +231,11 @@ function renderSimple(B, box, what, pairs) {
   const st = B.status === 'gather' ? 'Getting ready. Pairs one road away can come to help.'
     : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit}. Everyone answers the same question. ${B.answered} of ${B.fighters} have answered.`
     : B.status === 'result' && rd ? `${(rd.hitsBy || []).length ? `<b>${andList(rd.hitsBy.map((h) => nm(h.name)))}</b> hit for ${X(rd.each)}${rd.hitsBy.length > 1 ? ' each' : ''}!` : 'Nobody hit the monster this time.'} ${rd.rightCount} right, ${rd.wrongCount} wrong.${rd.counterTotal > 0 ? ` The monster hits back for ${X(rd.counterTotal)}.` : ''}<br>The right answer: <b>${esc(rd.choices?.[rd.answer] ?? '')}</b>`
-    : B.outcome === 'won' ? '<b>Victory!</b> The stop is clear.' : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'lost' ? 'The monster was too strong. The pairs go back to the Academy to regroup.' : '';
+    : B.outcome === 'won' ? '<b>Victory!</b> The stop is clear.' : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'lost' ? ((B.kind === 'gate' || B.kind === 'boss') ? 'The fortress held. The damage the team dealt stays. Bring more pairs!' : 'The monster was too strong. The pairs go back to the Academy to get ready again.') : '';
   $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}</div><h3>${esc(what)}</h3>`;
   setStrip(false);
   box.classList.remove('with-strip');
-  $('pbFoot').innerHTML = `<div class="pb-foes">${B.enemies.map((e) => `<div>${esc(enemyName(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
+  $('pbFoot').innerHTML = `<div class="pb-foes">${B.enemies.map((e) => `<div>${esc((P.basic ? plainName : enemyName)(e.type))}<div class="hpbar"><i style="width:${Math.max(0, e.hp / e.max) * 100}%"></i></div></div>`).join('')}</div>
     <div class="pb-faces">${faces.map((f) => `<span class="f"><img src="${face(f.char)}" alt="" style="--c:${charColor(f.char)}">${mk(f.mark)}<b>${nm(f.name)}</b><small>Pair ${f.pairNo}</small></span>`).join('')}</div>
     <div class="status">${st}</div>${B.status === 'result' && rd?.explain ? `<div class="explain">${esc(rd.explain)}</div>` : ''}`;
   box.classList.remove('hidden');

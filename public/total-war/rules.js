@@ -304,6 +304,32 @@ export const BASIC_QUESTIONS = 3;      // each student answers exactly this many
 export const BASIC_ANSWER_SECONDS = 90; // the ANSWER step lasts at most this long (three questions, read, answered and explained)
 export const BASIC_HIT = 2;            // each right answer in a Basic battle is one hit of this size (shown as 20)
 export const HELP_SECONDS = 15;        // a pair one road away has this long to say YES to helping a battle that is starting
+// (counted from the moment the card is offered to that pair; the battle waits for every pair still deciding, and starts
+// as soon as each of them has said YES or NO)
+// Steps in the Basic game: every pair starts each round with 1 step, and each right answer in the ANSWER step adds 1, at
+// most BASIC_STEPS_EACH from each partner (so a pair has at most 5, and every right answer up to that shows). A student who
+// gets all 3 right earns a star: 1 extra hit on their next right answer in a fight.
+export const BASIC_STEPS_EACH = 2;
+export const BASIC_STEPS_MAX = 5;
+export function basicSteps(earned = 0, buffs = {}) { return 1 + Math.max(0, Math.min(BASIC_STEPS_MAX - 1, earned)) + (buffs.mp ? 1 : 0); }
+// The gate guardian and the Warlord in the Basic game. Their health does not grow with the class: a team of 3 pairs or
+// more that answers well breaks the gate in 1 or 2 fights (7 questions a fight: 6 students all right deal 84, plus stars),
+// and a pair alone clearly cannot (at most 28 a fight, plus stars). The damage they take stays between fights. The enemy units inside the fortress do not stand in front of them.
+export const BASIC_GATE_HP = 100;      // shown as 1000
+export const BASIC_WARLORD_HP = 160;   // shown as 1600: about 2 fights for a class of 6 pairs, 3 for a team of 3
+export const BIG_TEAM = 3;             // the fortress gate "Needs a big team (3+ pairs)"
+// The MOVE step never ends early on a pair that has not tapped GO. When every other pair is ready, the pairs still
+// choosing get at least this long.
+export const LAST_PAIR_SECONDS = 10;
+// The answer timer starts when the choices appear on the student's screen (the reading time is extra). A screen that
+// shows the choices late gets its full answer time, up to this much later than planned.
+export const SEEN_GRACE = 12;
+// Plain monster names for the Basic game's student screens
+export const PLAIN_NAMES = {
+  rift_hound: 'Rift Hound', imp_swarm: 'Fire Imps', goblin_sappers: 'Goblin Diggers', orc_vanguard: 'Orc Guard', orc_warchanter: 'Orc Shaman',
+  gargoyle: 'Gargoyle', warlock: 'Warlock', hollow_knight: 'Hollow Knight', ogre: 'Ogre', wyvern: 'Wyvern', golem: 'Gate Guardian', warlord: 'The Warlord',
+};
+export const plainName = (type) => PLAIN_NAMES[type] || Object.values(CAMPS).find((c) => c.id === type)?.name || type;
 export const BASIC_RESULT_SECONDS = 8; // after each Basic battle question: the hits, the monster hitting back, the answer and why
 // The monster hits back after each Basic battle question: one blow for every wrong (or missing) answer
 export function basicCounter(atk = 1, wrong = 0) { return +((+atk || 1) * Math.max(0, wrong)).toFixed(2); }

@@ -10,29 +10,43 @@ A student must be able to say: "Answer questions to earn steps, move toward the 
 you land on. Stand together to fight together." Every new war and practice war is the Basic game. The full game's other
 systems are **Extras** the teacher switches on (see below). The code for all of them stays.
 
-**A round is 3 steps.** The top of every student screen (and the projector) shows only "Round 3 of 8", the three steps
-**1 ANSWER · 2 MOVE · 3 FIGHT** with the current one lit, one timer (only while pairs pick their stops) and the **Now line**:
-one plain sentence saying exactly what to do now. It replaces the old tips and tip boxes.
+**A round has 3 parts.** The top of every student screen (and the projector) shows only "Round 3 of 8", the three parts
+**1 ANSWER · 2 MOVE · 3 FIGHT** with the current one lit (student text calls them parts, never steps: "steps" are only
+map movement), "Pair 3 · Mei and Ezra" small under the round, one timer (only while pairs pick their stops) and the
+**Now line**: one plain sentence saying exactly what to do now. It replaces the old tips and tip boxes.
 
 1. **ANSWER** (`roundStep` is `answer`, the Crimson turn on the server). While the teacher moves the Crimson Host, every
-   student answers exactly **3 questions** (`BASIC_QUESTIONS`) on one card: "Question 1 of 3" and "Your pair has N steps".
-   Each right answer is +1 step for the pair (1 step to start, at most 4, whichever partner answers). The card says
-   "Right! +1 step for your pair." or that the pair already has the most. After 3, the student sees the map with their
-   banner and "Your pair has N steps. Waiting for the class to finish." No bonus questions, top-ups or War Cries. The
-   step ends when everyone has answered 3 and the teacher has ended the turn (or the teacher's time is up), at most
+   student answers exactly **3 questions** (`BASIC_QUESTIONS`) on one card: "Question 1 of 3", "Your pair has N steps"
+   and what each partner has earned ("You +1, Ezra +2"). The rule, in one line on the card: the pair starts with 1 step
+   and each right answer adds 1, **up to 2 from each partner** (`BASIC_STEPS_EACH`, so at most 5, and a student
+   alone up to 3), so each student's own answers count. **All 3 right earns a star**: 1 extra hit on that student's next right
+   answer in a fight ("You hit for 40 with a star!"). The card says "Right! +1 step from you." or "You already earned
+   your 2 steps", and "you earned a star". After 3, the student sees the map with their banner. No bonus questions,
+   top-ups or War Cries. The part ends when everyone has answered 3, the last explanation has been read (the map never
+   opens under an explanation) and the teacher has ended the turn (or the teacher's time is up), at most
    `BASIC_ANSWER_SECONDS` (90 s). The full game's top-up stage is skipped: MOVE opens straight away.
-2. **MOVE** (the War Council and the march). The map shows YOUR banner big and labelled **YOU**, other pairs smaller,
-   every enemy (no fog), and the stops you can reach glowing with their step cost. Tap a stop: the route is drawn and
+2. **MOVE** (the War Council and the march). The map shows YOUR banner big and labelled **YOU (Pair 3)**, other pairs
+   smaller ("Pair 1"), every enemy (no fog), and the stops you can reach glowing with their step cost. Every stop is
+   labelled with its place name, with the monster there in small letters under it (plain names: Goblin Diggers, Orc
+   Guard, Orc Shaman), and a small legend explains the glowing number, the crossed swords and the gold banner. The
+   fortress gate is labelled "Needs a big team (3+ pairs)", and picking it with fewer than 3 pairs heading there shows
+   "The gate is very strong. Go together with other pairs." before GO. Tapping a monster's banner on a glowing stop picks
+   that stop. **The time is never cut** for a pair that has not tapped GO: MOVE only ends early once every pair is ready,
+   and when every other pair is ready the pairs still choosing get at least `LAST_PAIR_SECONDS` (10 s): "Everyone else
+   is ready. 10 seconds left." Tap a stop: the route is drawn and
    one big **GO** appears (STAY HERE is the only other button). Both partners must tap GO on the same stop: "Mei wants to
    go to Lantern Crossroads. Tap GO to agree." / "Waiting for Kai to tap GO on the same stop." Bots and partners who
    are not connected never hold a pair up, and when time runs out the route drawn first goes. Then the banners march.
 3. **FIGHT** (the battles phase). Only pairs that landed on an enemy, or were attacked, fight.
    - **A team is simply the pairs on one stop.** Every pair standing on the stop fights the battle there (no warband
      join or leave). A pair marching away is not pulled in.
-   - **Help next door.** When a battle starts one road away from a pair that is not fighting, that pair gets one big
-     card: "Pair 2 is fighting next door. Help them? YES / NO" (`twHelp`, `HELP_SECONDS` 15 s). YES moves its banner
-     there and into the fight; the fighters see "Pair 4 came to help!" and the helpers give the reinforcement bonus
-     (`reinforceBonus`). Pairs further away cannot help. With nobody near enough, the battle starts after 3 seconds.
+   - **Help next door.** When a battle starts one road away from a pair that is not fighting (and not still marching),
+     that pair gets one big card: "Pair 2 is fighting next door. Help them? YES / NO" (`twHelp`). Each pair asked has
+     `HELP_SECONDS` (15 s) from the moment it is asked, and **the battle waits** until every pair asked has said YES or NO
+     (or its time is up). The card is modal: nothing under it can be tapped, and a tap in the 400 ms after it closes is
+     swallowed. YES moves its banner there and into the fight; the fighters see "Pair 4 came to help!" and the helpers
+     give the reinforcement bonus (`reinforceBonus`). Pairs further away cannot help. With nobody near enough, the battle
+     starts after 3 seconds.
    - **Simple battles** (`simpleResolve`): everyone in the battle answers the same question at the same time. Every
      right answer is one hit (`BASIC_HIT`, shown as 20: "Mei hit for 20!") on the first monster standing (what it cannot
      take goes on to the next). Then the monster hits back once for every wrong or missing answer (`basicCounter`:
@@ -42,24 +56,39 @@ one plain sentence saying exactly what to do now. It replaces the old tips and t
      for `BASIC_RESULT_SECONDS` (8 s) after each question. A battle lasts 5 questions or until the monster falls (7 at
      the gate, 8 against the Warlord; an ambush is one question shorter).
    - **No HP.** If the monster survives the questions, every pair in the battle goes back to the Academy (or the
-     nearest free safe place if the Crimson Host stands on it): "The monster was too strong. Your pair goes back to the
-     Academy to regroup." (one big card with OK). The damage dealt stays. Winning clears the stop.
+     nearest free safe place if the enemy stands on it): "The monster was too strong." and "Your pair goes back to the
+     Academy to get ready again." (one big card with OK). The damage dealt stays. Winning clears the stop. At the
+     fortress the card says what the team did: "You knocked 120 health off the gate. It stays damaged. Bring more
+     pairs!"
+   - **The answer clock starts when the choices appear** on the student's screen (`twSeen`), in the ANSWER part and in
+     fights: the reading time is always extra. A screen that shows the choices late gets its whole answer time, up to
+     `SEEN_GRACE` (12 s) later than planned.
    - **Attacks wait for FIGHT.** A Crimson unit that walks onto a banner in the teacher's turn stops there, and the
      battle is fought in the FIGHT step of that round, so the pair still answers its 3 questions and may move away in
      MOVE ("An enemy has come to your stop! Stay here to fight it, or tap a glowing stop to move away.").
    - Pairs not fighting see "No fight for you this round. The round ends when the battles finish." and a live line of
      who is fighting what, where. **The round waits for every battle** (no battle runs on into the next round).
 
-**Winning** is unchanged: break the gate and beat the Warlord. Because every right answer is a hit, the gate guardian
-and the Warlord are stronger in a bigger class (x1 up to 6 students, then x0.5 more for every 3 more students). The
-teacher's Crimson Host can still attack, ambush and teleport. Camps are still monsters to beat (no buff unless the
+**Winning** is unchanged: break the gate and beat the Warlord. In the Basic game the gate guardian has 1000 health
+(`BASIC_GATE_HP`) and the Warlord 1600 (`BASIC_WARLORD_HP`), whatever the class size, and they fight alone (the enemy
+units inside the fortress do not stand in front of them). A team of 3 pairs answering well breaks the gate in 1 or 2
+fights; a pair alone cannot (at most 280 a fight, plus stars). The damage stays between fights. The teacher's enemy army
+can still attack, ambush and teleport. Camps are still monsters to beat (no buff unless the
 Camps Extra is on). Students see every enemy except ambushers.
 
-**The first round with Emi (practice tutorial).** Short, untimed, one instruction at a time, following the three steps:
-the 3 steps at the top, answer 3, tap the enemy's stop and GO (your partner taps GO too), watch the march, fight once
+**The first round with Emi (practice tutorial).** Short, untimed, one instruction at a time, following the three parts:
+"You are Pair 3. Your partner is Ezra.", the 3 parts at the top, answer 3, tap the enemy's stop and GO (your partner taps GO too), watch the march, fight once
 (everyone answers, right answers hit, wrong answers let it hit back), then "That was one whole round!". The bot pairs
 next door say NO to helping, so the student fights with their own pair. How to play (lobby) has 4 slides: the mission
 and one slide per step.
+
+**The end of the war (Basic).** One short screen: who won, how far the class got (a fight at the fortress gate counts,
+shown on the map with the gate damage), battles won, your own right answers, and Your answers. Pairs are named as the
+students know them: "Pair 3 (Mei and Ezra)". Only place names that are labelled on the map are used.
+
+**Words on Basic student screens.** The enemy army (not the Crimson Host), get ready again (not regroup), the Academy's
+shield (not the Ward), monster camp (not jungle camp), health (not HP), the computer enemy (not the Bot Commander), and
+plain monster names (`PLAIN_NAMES` in rules.js). Camp buffs such as Riftglass Edge are hidden unless their Extra is on.
 
 **Teacher and projector.** The teacher's screen shows ROUND N OF M with the three steps (a bar above the guide line),
 how many students have answered their 3 and how many pairs have tapped GO. The projector shows the tracker, the step
@@ -485,13 +514,17 @@ bank keeps it worked out until a set changes).
 
 ## Tests
 
-- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war` runs one part): the
-  Basic game. A round with three pairs (exactly 3 questions each and no top-up, 4 steps for all right, no coins, food,
+- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war|fixes|help|timer|gate|steps|seen` runs one part): the
+  Basic game. A round with three pairs (exactly 3 questions each and no top-up, 5 steps for all right, no coins, food,
   warbands or War Cries, both partners tap GO, pairs on one stop fight together, the Help card and YES, "came to help",
   one question for everyone, a hit for every right answer with the helpers' bonus, the monster hitting back once for
   each wrong answer, no moves or monster picking, the round waiting for its battles), a lost battle (back to the
-  Academy, the damage stays) and an attack waiting for the FIGHT step, the Extras and Full game switches, then a whole
-  Basic war of 6 bot pairs against the Bot Commander, timed.
+  Academy, the damage stays) and an attack waiting for the FIGHT step, the Extras and Full game switches, a whole
+  Basic war of 6 bot pairs against the Bot Commander, timed, then the cold-test fixes: the Help card waiting for the
+  pair to decide and YES joining, the MOVE time never cut for a pair that has not tapped GO (and at least 10 s once
+  everyone else is ready), the gate (only the guardian fights, a pair alone cannot break it, the damage and the loss
+  message, the damage still there next round, a team of 3 pairs breaking it within 2 fights), the end summary counting
+  the gate fights, steps per partner and the star, and the answer clock starting when the choices appear.
 - `node test-totalwar.mjs [students]` (the full game: every war it starts has `full: true`): a teacher and a class of bots play a whole 8-turn war (and print the time
   each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled
   choices, explanations, AP, a beaten pair's full HP, and a server restart with the war restored.

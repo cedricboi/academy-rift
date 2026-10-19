@@ -287,3 +287,23 @@ button:disabled{cursor:default}
 @media (max-aspect-ratio:1/1){.tws-rf{max-width:none;flex-direction:row;flex-wrap:wrap;gap:4px 10px;align-items:baseline}}
 /* a one-line message in the battle strip moves above the WHY box while it is up */
 body.why-on .tws-note{bottom:calc(100% + 8px + var(--whyH,0px))}
+
+/* ===== the Basic game's map: every stop labelled with its place name (the monster there small under it) and a legend */
+.twmap-places{position:absolute;inset:0;pointer-events:none;z-index:1}
+.tw-place{position:absolute;transform:translate(-50%,0) scale(var(--inv,1));transform-origin:50% 0;display:flex;flex-direction:column;align-items:center;width:78px;text-align:center;line-height:1.05;pointer-events:none}
+.tw-place b{font:700 12px "Rift Body",sans-serif;color:#f4ecd6;text-shadow:0 1px 2px #000,0 0 6px #000,0 0 3px #000}
+.tw-place small{margin-top:1px;font:700 10px "Rift Body",sans-serif;color:#ffb3bd;text-shadow:0 1px 2px #000,0 0 5px #000;white-space:nowrap}
+.tw-place em{margin-top:2px;padding:1px 5px;font:800 10px "Rift Body",sans-serif;font-style:normal;color:#1a1408;background:var(--gold2,#f3dca0);white-space:nowrap;box-shadow:0 0 0 1px #000}
+.tw-place.home b{color:var(--cyan,#81e3d4)}
+.tw-place.fort{transform:translate(-50%,-100%) scale(var(--inv,1));transform-origin:50% 100%;width:auto}
+.tw-place.fort b{font-size:13px;color:#ffd97a}
+.tw-place.home em{background:#7ff3e4}
+.twmap-frame.basic .tw-banner.host .tag,.twmap-frame.basic .tw-banner.camp .tag,.twmap-frame.basic .tw-banner.fortress .tag,.twmap-frame.basic .tw-banner.academy .tag{display:none}
+.twmap-legend{position:absolute;left:8px;bottom:8px;z-index:6;display:flex;flex-direction:column;gap:5px;padding:7px 8px;background:#081018e8;border:1px solid #d8bd8055;box-shadow:0 0 0 2px #000;pointer-events:none;max-width:168px}
+.twmap-legend.hidden{display:none}
+.lg-row{display:flex;align-items:center;gap:7px;font:600 12px/1.15 "Rift Body",sans-serif;color:#e8f0ee}
+.lg-stop{flex:0 0 26px;width:26px;height:26px;border-radius:13px;display:grid;place-items:center;background:#0b2a2c;border:2px solid var(--cyan,#81e3d4);box-shadow:0 0 8px var(--cyan,#81e3d4);font:700 13px "Rift Pixel";font-style:normal;color:#f4ecd6}
+.lg-stop.attack{background:#3a1219;border-color:#ff5a6e;box-shadow:0 0 8px #ff5a6e;color:#ffd0d6}
+.lg-stop svg{width:14px;height:14px}
+.lg-gate{flex:0 0 26px;width:20px;height:26px;margin:0 3px;background:#f2c84b;clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%);box-shadow:0 0 0 2px #000}
+@media (max-width:700px){.twmap-legend{max-width:200px}.lg-row{font-size:12px}}
