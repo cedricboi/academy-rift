@@ -795,7 +795,7 @@ body.b-gathering .msg-stack>.coach.tip{font-size:14px}
 @media (max-width:700px){.rt-step{font-size:12px;padding:4px 8px 4px 4px;gap:5px}.rt-step i{width:22px;height:22px}.rt-arrow{width:8px;flex-basis:8px}}
 
 /* the map's banners: yours big and labelled YOU, your classmates' smaller */
-.tw-banner.pair.mine{z-index:4}
+.tw-banner.pair.mine{z-index:6;pointer-events:none}   /* above the stop circles, so YOU is never hidden; taps go through to the circles */
 .tw-banner.pair.mine .cloth{width:68px;height:88px;padding:4px}
 .tw-banner.pair.mine .tag{font:800 17px "Rift Pixel";color:#1a1408;background:var(--gold2);padding:1px 10px;letter-spacing:2px;text-shadow:none;box-shadow:0 0 0 2px #000}
 .tw-banner.pair.small .cloth{width:40px;height:52px;padding:2px}
@@ -894,3 +894,24 @@ body.b-gathering .msg-stack>.coach.tip{font-size:14px}
 .end-basic .story{width:100%}
 .end-far{margin:4px 0 0;font:600 18px/1.35 "Rift Body";color:#f2ead6;text-align:center}
 .story-map i.goal.far{background:#ffd97a;color:#1a1408}
+
+/* ===== Basic: a short card that says what just happened ("Time's up. Your pair stayed at Lantern Crossroads."). It sits
+   just under the top bar, takes no taps, and is gone after a moment */
+.tw-flash{position:fixed;left:50%;top:calc(var(--hdr,110px) + 6px);transform:translateX(-50%);z-index:400;max-width:min(680px,calc(100vw - 32px));padding:6px 18px;background:#1a1208f2;border:2px solid var(--gold2);box-shadow:0 0 0 2px #000,0 8px 24px #000c;color:#fff6dc;font:700 18px/1.3 "Rift Body",sans-serif;text-align:center;pointer-events:none;animation:flashIn .25s ease-out}
+.tw-flash.timeup{border-color:#ff8a98;background:#2a0c14f2}
+.tw-flash.foe{border-color:#ff5a6e;background:#2a0c14f2}
+.tw-flash.gate{border-color:#f2c84b}
+.tw-flash.hidden{display:none}
+@keyframes flashIn{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}
+/* a new part of the round, at the start of the Now line */
+.rt-now .rt-new{color:var(--gold2);white-space:nowrap}
+/* GO waits until enough pairs have chosen the gate */
+.act-bar .ab-end.off,.ab-end:disabled{background:linear-gradient(#5b5446,#3b352c);box-shadow:inset 0 0 0 2px #8c8270,0 4px 0 #1f1a12;color:#c9bfa8;animation:none;cursor:not-allowed}
+/* the team's health in a Basic fight */
+.bf-team{display:flex;flex-direction:column;justify-content:center;gap:3px;margin-left:10px;padding-left:12px;border-left:1px solid #d8bd8044;min-width:150px}
+.bf-team small{font:700 10px "Rift Pixel";letter-spacing:2px;color:var(--muted)}
+.bf-team .tbar{display:block;height:10px;background:#0b0d1a;box-shadow:0 0 0 1px #000,0 0 0 2px #4fe39a55}
+.bf-team .tbar b{display:block;height:100%;background:linear-gradient(#7af0b3,#2fb37a);transition:width .6s}
+.bf-team.low .tbar b{background:linear-gradient(#ff8a98,#d9384f)}
+.bf-team .tnum{font:700 15px "Rift Body";color:#d7ffe9}
+@media (max-aspect-ratio:1/1){.tw-flash{font-size:17px}.bf-team{min-width:120px}}

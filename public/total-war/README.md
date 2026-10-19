@@ -28,12 +28,22 @@ map movement), "Pair 3 · Mei and Ezra" small under the round, one timer (only w
 2. **MOVE** (the War Council and the march). The map shows YOUR banner big and labelled **YOU (Pair 3)**, other pairs
    smaller ("Pair 1"), every enemy (no fog), and the stops you can reach glowing with their step cost. Every stop is
    labelled with its place name, with the monster there in small letters under it (plain names: Goblin Diggers, Orc
-   Guard, Orc Shaman), and a small legend explains the glowing number, the crossed swords and the gold banner. The
-   fortress gate is labelled "Needs a big team (3+ pairs)", and picking it with fewer than 3 pairs heading there shows
-   "The gate is very strong. Go together with other pairs." before GO. Tapping a monster's banner on a glowing stop picks
+   Guard, Orc Shaman), and a small legend explains the glowing number, the crossed swords and the gold banner. Stops the
+   pair cannot reach this round fade back (their names stay readable), so the glowing ones stand out. MOVE lasts
+   `BASIC_MOVE_SECONDS` (45 s) unless the teacher sets another time. **The gate needs a big team:** GO to the fortress
+   gate only works once `gateNeed` pairs (3, or every pair in a smaller class) have chosen it this round (tapped it, or
+   tapped GO on it). Tapping the gate with fewer says "The gate needs a big team. Get 2 more pairs to come with you.", GO
+   stays grey with a live "1 of 3 pairs going to the gate", and a pair that has tapped GO is sent by itself once enough
+   pairs have chosen it (`gateCheck`). If the team has shrunk when MOVE ends, the pairs stay: "Not enough pairs went to the
+   gate". Bot pairs that can reach the gate come too when a student chooses it, so a practice war can still get there,
+   and the first time the gate can be reached a short card and the Now line say it needs 3 pairs. The bar says how many
+   steps a route uses ("You will use 1 of 5 steps. Unused steps are lost at the end of the move."), and so does the Now
+   line after GO. Tapping a monster's banner on a glowing stop picks
    that stop. **The time is never cut** for a pair that has not tapped GO: MOVE only ends early once every pair is ready,
    and when every other pair is ready the pairs still choosing get at least `LAST_PAIR_SECONDS` (10 s): "Everyone else
-   is ready. 10 seconds left." Tap a stop: the route is drawn and
+   is ready. 10 seconds left." The enemy army's moves in part 1 happen behind the questions, so at the start of MOVE its
+   units walk along the roads on the map to where they now stand (`moveFoes` in map.js), and a short card and the Now
+   line say "The enemy army moved. Watch out at Moonstone Bridge." Tap a stop: the route is drawn and
    one big **GO** appears (STAY HERE is the only other button). Both partners must tap GO on the same stop: "Mei wants to
    go to Lantern Crossroads. Tap GO to agree." / "Waiting for Kai to tap GO on the same stop." Bots and partners who
    are not connected never hold a pair up, and when time runs out the route drawn first goes. Then the banners march.
@@ -55,7 +65,11 @@ map movement), "Pair 3 · Mei and Ezra" small under the round, one timer (only w
      A row of faces shows a tick or a cross for every fighter and each pair's damage so far. The answer and why show
      for `BASIC_RESULT_SECONDS` (8 s) after each question. A battle lasts 5 questions or until the monster falls (7 at
      the gate, 8 against the Warlord; an ambush is one question shorter).
-   - **No HP.** If the monster survives the questions, every pair in the battle goes back to the Academy (or the
+   - **The team's health.** Basic has no pair HP, but every fight has one health bar for the team (`basicTeamHp`: enough
+     for the monster's blows on half of all the answers), shown beside the faces. The result says "The monster hits your
+     team for 60. Your team's health: 140 of 200." A team that runs out of health loses the fight at once ("Your team ran
+     out of health."). With the HP Extra on, the bar is the pairs' HP together.
+   - **Sent back.** If the monster survives the questions, every pair in the battle goes back to the Academy (or the
      nearest free safe place if the enemy stands on it): "The monster was too strong." and "Your pair goes back to the
      Academy to get ready again." (one big card with OK). The damage dealt stays. Winning clears the stop. At the
      fortress the card says what the team did: "You knocked 120 health off the gate. It stays damaged. Bring more
@@ -68,6 +82,23 @@ map movement), "Pair 3 · Mei and Ezra" small under the round, one timer (only w
      MOVE ("An enemy has come to your stop! Stay here to fight it, or tap a glowing stop to move away.").
    - Pairs not fighting see "No fight for you this round. The round ends when the battles finish." and a live line of
      who is fighting what, where. **The round waits for every battle** (no battle runs on into the next round).
+
+**Always saying what happened.** Whatever runs out without the student, a short card shows for about 3 seconds under the
+top bar (it takes no taps and sits clear of a question's choices and clock): "Time's up for that question. It counts as
+wrong." (a question in ANSWER or in a fight), "Time's up for the questions. The round moved on to part 2, MOVE.", "Time's
+up. Your pair stayed at Lantern Crossroads." (or "goes to X, the stop that was picked first"), "Time's up. Your pair did
+not go to help at X." The server sends these as notes of kind `timeup` (for one student: `pid`). Every new part also
+announces itself at the start of the Now line for a few seconds ("Now part 2: MOVE.").
+
+**No message over a running question.** A message that needs OK (being sent back, the fortress held) holds that student's
+next question until OK (`twNoteOk`), for at most `NOTE_HOLD_SECONDS` (20 s). On the iPad a message never opens over a
+question whose clock is running, and if one is open when a question arrives, the question's choices (and its clock)
+wait under "Read the message first" until it is closed, closing it after 9 seconds at most.
+
+**The map.** Every stop has one spot: its circle, just above its name (a faint ring, glowing when it can be reached). A
+banner's pole stands in the top of that circle, the banner's label sits above its cloth, and banners on one stop stand
+side by side on it (`stackSpots` in map.js). The Academy's shield shows in whole numbers with a bar and one line: "Enemies
+standing on the Academy break the shield each round. If it breaks, the enemy wins."
 
 **Winning** is unchanged: break the gate and beat the Warlord. In the Basic game the gate guardian has 1000 health
 (`BASIC_GATE_HP`) and the Warlord 1600 (`BASIC_WARLORD_HP`), whatever the class size, and they fight alone (the enemy
@@ -86,7 +117,9 @@ and one slide per step.
 shown on the map with the gate damage), battles won, your own right answers, and Your answers. Pairs are named as the
 students know them: "Pair 3 (Mei and Ezra)". Only place names that are labelled on the map are used.
 
-**Words on Basic student screens.** The enemy army (not the Crimson Host), get ready again (not regroup), the Academy's
+**Words on Basic student screens.** The Crimson Fortress is explained once as "the enemy's castle", the gate guardian is
+"the gate's guard", the first tutorial line says "A pair is you and your partner.", and questions use UK spelling (colour,
+centre, labour, organised, specialised). The enemy army (not the Crimson Host), get ready again (not regroup), the Academy's
 shield (not the Ward), monster camp (not jungle camp), health (not HP), the computer enemy (not the Bot Commander), and
 plain monster names (`PLAIN_NAMES` in rules.js). Camp buffs such as Riftglass Edge are hidden unless their Extra is on.
 
@@ -514,7 +547,7 @@ bank keeps it worked out until a set changes).
 
 ## Tests
 
-- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war|fixes|help|timer|gate|steps|seen` runs one part): the
+- `node test-totalwar-basic.mjs` (port 3206, `TWB_PORT` to change; `TWB_ONLY=round|lose|extras|war|fixes|help|timer|gate|steps|seen|cold3|timeup|hold|gateteam|team` runs one part): the
   Basic game. A round with three pairs (exactly 3 questions each and no top-up, 5 steps for all right, no coins, food,
   warbands or War Cries, both partners tap GO, pairs on one stop fight together, the Help card and YES, "came to help",
   one question for everyone, a hit for every right answer with the helpers' bonus, the monster hitting back once for
@@ -525,6 +558,11 @@ bank keeps it worked out until a set changes).
   everyone else is ready), the gate (only the guardian fights, a pair alone cannot break it, the damage and the loss
   message, the damage still there next round, a team of 3 pairs breaking it within 2 fights), the end summary counting
   the gate fights, steps per partner and the star, and the answer clock starting when the choices appear.
+  Then the second cold test's fixes (`cold3`): the time's-up messages for a question, the ANSWER step, MOVE and a fight
+  question, MOVE lasting 45 s, a message that needs OK holding the next question (and at most 20 s without OK), GO to the
+  gate sent only once 3 pairs have chosen it (and bot pairs joining a student's gate attempt), and the team's health (the
+  blows take it, and a team with none left loses early). `tools/test-total-war.mjs` checks that banners stand on their
+  stop's circle, side by side, centred on the stop.
 - `node test-totalwar.mjs [students]` (the full game: every war it starts has `full: true`): a teacher and a class of bots play a whole 8-turn war (and print the time
   each phase takes), then smaller wars check pause, ending a battle, the class-wins ending, the report, shuffled
   choices, explanations, AP, a beaten pair's full HP, and a server restart with the war restored.

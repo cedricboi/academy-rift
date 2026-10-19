@@ -9,7 +9,7 @@ import { mkdtempSync, rmSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { io } from "socket.io-client";
-import { HOME, FORTRESS, UNITS, BASIC_HIT, EXTRA_KEYS } from "./public/total-war/rules.js";
+import { HOME, FORTRESS, UNITS, BASIC_HIT, EXTRA_KEYS, basicTeamHp } from "./public/total-war/rules.js";
 
 const SPEED = 20, PORT = Number(process.env.TWB_PORT) || 3206, URL = `http://localhost:${PORT}`;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -50,6 +50,8 @@ function student(name, opts = {}) {
     }
     if (B?.round && s.rounds.at(-1)?.at !== B.round.at) s.rounds.push({ ...B.round, enemiesNow: B.enemies.map((e) => e.hp), faces: B.faces });
     if (B && B.status !== "gather") s.lastB = B;
+    // a big message that needs an OK (the pair was sent back): the student taps OK (unless told not to)
+    if (!opts.noAck) for (const n of v.me.notes || []) if (n.ack && !(s.acked ||= new Set()).has(n.id)) { s.acked.add(n.id); s.emit("twNoteOk", { id: n.id }); }
   });
   s.join = async (code) => { await new Promise((r) => (s.connected ? r() : s.on("connect", r))); s.emit("twJoin", { code, name }); await until(() => s.v); };
   return s;
@@ -387,6 +389,149 @@ console.log("\n--- the answer timer starts when the choices appear on the studen
   const r2 = (M.results || []).find((r) => r.startedAt === q2.startedAt);
   check(r2 && r2.chosen < 0, "without a late screen, the question still ends 21 seconds after the choices are due");
   for (const s of [M, t]) s.disconnect();
+}
+// ---------------------------------------------------------------- 6. the second cold test: always saying what happened
+const notesOf = (s, re) => (s.v?.me?.notes || []).filter((n) => re.test(n.text));
+if (!ONLY || ONLY === "cold3" || ONLY === "timeup") {
+console.log("\n--- time's up: every question, MOVE and fight question that runs out says so ---");
+  const t = await teacherWar({ turns: 6 });
+  const M = student("Mo", { manual: true, noAck: true });
+  await M.join(t.hs.code);
+  // a slow screen: the choices show 12 seconds late every time, so the third question is still open when ANSWER ends
+  const seenLate = new Set(), allNotes = new Map();
+  M.on("twState", (v) => {
+    const q = v.own && !v.own.result ? v.own.question : null;
+    if (q && !seenLate.has(q.startedAt)) { seenLate.add(q.startedAt); setTimeout(() => M.emit("twSeen", { startedAt: q.startedAt }), ((q.recall + 12) * 1000) / SPEED); }
+    for (const n of v.me?.notes || []) allNotes.set(n.id, n);
+  });
+  t.emit("twStart"); await until(() => t.H.status === "playing" && t.H.phase === "crimson");
+  check(t.H.settings.councilSeconds === 0, "the MOVE time is not set, so it is the Basic default");
+  t.emit("twTestSpawn", { types: ["hollow_knight"], node: 1 }); await sleep(60);
+  await until(() => [...allNotes.values()].some((n) => /Time's up for that question\. It counts as wrong\./.test(n.text)), 20000);
+  const qNote = [...allNotes.values()].find((n) => /Time's up for that question/.test(n.text));
+  check(qNote?.kind === "timeup" && qNote.pid === M.v.me.pid, `a question that runs out says so: "${qNote?.text}"`);
+  await until(() => t.H.stage === "council", 30000);
+  const moveSecs = ((t.H.phaseEndsAt - t.H.moveStartedAt) * SPEED) / 1000;
+  check(Math.abs(moveSecs - 45) < 1, `the MOVE step lasts 45 seconds in the Basic game (${moveSecs.toFixed(1)} s)`);
+  check([...allNotes.values()].some((n) => n.kind === "timeup" && /^Time's up for the questions\. The round moved on to part 2, MOVE\.$/.test(n.text)), "ANSWER ending before the student finished says the round moved on to MOVE");
+  // the pair stands on the enemy's stop and nobody taps GO
+  t.emit("twTestPlace", { pairNo: 1, node: 1 }); await sleep(60);
+  await until(() => t.H.stage !== "council", 60000);
+  await until(() => [...allNotes.values()].some((n) => /^Time's up\. Your pair stayed at Lantern Crossroads\.$/.test(n.text)), 3000);
+  check([...allNotes.values()].some((n) => n.kind === "timeup" && /^Time's up\. Your pair stayed at Lantern Crossroads\.$/.test(n.text)), "MOVE ending without GO: \"Time's up. Your pair stayed at Lantern Crossroads.\"");
+  // the fight: the student does not answer
+  await until(() => t.H.battles.some((B) => B.status === "result"), 30000);
+  await sleep(100);
+  const fNotes = [...allNotes.values()].filter((n) => /Time's up for that question/.test(n.text));
+  check(fNotes.length >= 2 && t.H.step === "fight", `a fight question that runs out says so too (${fNotes.length} such messages)`);
+  check([...allNotes.values()].every((n) => !/;|—/.test(n.text)), "no semicolons or dashes in the messages");
+  for (const s of [M, t]) s.disconnect();
+}
+
+if (!ONLY || ONLY === "cold3" || ONLY === "hold") {
+console.log("\n--- a message that needs OK holds the next question: no question clock runs under it ---");
+  const t = await teacherWar({ turns: 6 });
+  const s = student("Una", { noAck: true }); await s.join(t.hs.code);
+  t.emit("twStart"); await until(() => t.H.status === "playing" && t.H.phase === "crimson");
+  t.emit("twTestSpawn", { types: ["ogre", "ogre", "ogre"], node: 1 }); await sleep(80);
+  t.emit("twEndTurn");
+  await until(() => t.H.stage === "council", 30000);
+  s.emit("twRoute", { route: [HOME, 1] });
+  await until(() => (s.v.me.notes || []).some((n) => n.kind === "lost"), 60000);
+  const lost = (s.v.me.notes || []).find((n) => n.kind === "lost");
+  check(lost?.ack === true, "being sent back is a message that needs OK");
+  await until(() => t.H.turn === 2 && t.H.phase === "crimson", 30000);
+  const r2 = Date.now();
+  await sleep(8000 / SPEED);
+  check(!s.v.own && !s.qs.some((q) => q.turn === 2), "round 2: no question starts while the message is open (8 s)");
+  s.emit("twNoteOk", { id: lost.id });
+  await until(() => s.v.own && s.v.turn === 2, 3000);
+  const waited = ((Date.now() - r2) * SPEED) / 1000;
+  check(!!s.v.own && waited < 12, `after OK the first question comes at once (${waited.toFixed(1)} s into the round)`);
+  // a student who never taps OK is not held for ever
+  const s2 = student("Vic", { noAck: true }); const t2 = await teacherWar({ turns: 6 }); await s2.join(t2.hs.code);
+  t2.emit("twStart"); await until(() => t2.H.status === "playing" && t2.H.phase === "crimson");
+  t2.emit("twTestSpawn", { types: ["ogre", "ogre", "ogre"], node: 1 }); await sleep(80); t2.emit("twEndTurn");
+  await until(() => t2.H.stage === "council", 30000); s2.emit("twRoute", { route: [HOME, 1] });
+  await until(() => t2.H.turn === 2 && t2.H.phase === "crimson", 90000);
+  const r3 = Date.now();
+  await until(() => s2.v.own && s2.v.turn === 2, 5000);
+  const held = ((Date.now() - r3) * SPEED) / 1000;
+  check(!!s2.v.own && held >= 10 && held <= 24, `without OK the question waits at most 20 s (${held.toFixed(1)} s)`);
+  for (const x of [s, t, s2, t2]) x.disconnect();
+}
+
+if (!ONLY || ONLY === "cold3" || ONLY === "gateteam") {
+console.log("\n--- the gate needs 3 pairs: GO to the gate is sent only once 3 pairs have chosen it ---");
+  const t = await teacherWar({ turns: 6 });
+  const P = Array.from({ length: 6 }, (_, i) => student(`G${i}`));
+  for (const s of P) await s.join(t.hs.code);
+  for (let i = 0; i < 6; i += 2) await pairUp(P[i], P[i + 1]);
+  t.emit("twStart"); await until(() => t.H.status === "playing" && t.H.phase === "crimson");
+  t.emit("twEndTurn"); await until(() => t.H.stage === "council", 30000);
+  for (const no of [1, 2, 3]) t.emit("twTestPlace", { pairNo: no, node: 9 });
+  await sleep(80);
+  const bandNo = (no) => t.H.bands.find((b) => b.pairs.some((p) => p.no === no));
+  P[0].emit("twRoute", { route: [9, FORTRESS] }); P[1].emit("twRoute", { route: [9, FORTRESS] }); await sleep(150);
+  check(P[1].errs.some((e) => /^The gate needs a big team\. Get 2 more pairs to come with you\.$/.test(e)) || P[0].errs.some((e) => /Get 2 more pairs/.test(e)), "one pair's GO to the gate: \"The gate needs a big team. Get 2 more pairs to come with you.\"");
+  check(!bandNo(1).plan && t.H.gateTeam?.going.length === 1 && t.H.gateTeam.need === 3, `the GO is not sent yet, and the counter says 1 of 3 (${t.H.gateTeam?.going.length} of ${t.H.gateTeam?.need})`);
+  P[2].emit("twRoute", { route: [9, FORTRESS] }); P[3].emit("twRoute", { route: [9, FORTRESS] }); await sleep(150);
+  check(!bandNo(1).plan && !bandNo(2).plan && t.H.gateTeam?.going.length === 2, "2 pairs: still not sent (2 of 3)");
+  P[4].emit("twDraft", { route: [9, FORTRESS] }); await sleep(150);
+  check(t.H.gateTeam?.going.length === 3 && Array.isArray(bandNo(1).plan) && Array.isArray(bandNo(2).plan), "the third pair taps the gate: the two pairs that tapped GO are sent");
+  P[4].emit("twRoute", { route: [9, FORTRESS] }); P[5].emit("twRoute", { route: [9, FORTRESS] });
+  await until(() => t.H.battles.some((B) => B.kind === "gate"), 60000);
+  await until(() => t.H.battles.find((B) => B.kind === "gate")?.bands.length === 3, 3000);
+  check(t.H.battles.find((B) => B.kind === "gate")?.bands.length === 3, "all 3 pairs fight at the gate together");
+  for (const s of [...P, t]) s.disconnect();
+  // practice: bot pairs come with the student when the student chooses the gate
+  const t2 = await teacherWar({ turns: 6 });
+  t2.emit("twAddBots", { pairs: 2 }); await sleep(80);
+  const H2 = [student("Pip"), student("Pam")];
+  for (const s of H2) await s.join(t2.hs.code);
+  await pairUp(...H2);
+  t2.emit("twStart"); await until(() => t2.H.status === "playing" && t2.H.phase === "crimson");
+  t2.emit("twEndTurn"); await until(() => t2.H.stage === "council", 30000);
+  for (const no of t2.H.pairs.map((p) => p.no)) t2.emit("twTestPlace", { pairNo: no, node: 9 });
+  await sleep(100);
+  for (const s of H2) s.emit("twRoute", { route: [9, FORTRESS] });
+  await until(() => t2.H.battles.some((B) => B.kind === "gate"), 60000);
+  await until(() => t2.H.battles.find((B) => B.kind === "gate")?.bands.length === 3, 3000);
+  check(t2.H.battles.find((B) => B.kind === "gate")?.bands.length === 3, `the bot pairs join the student's gate attempt (${t2.H.battles.find((B) => B.kind === "gate")?.bands.length} pairs at the gate)`);
+  for (const s of [...H2, t2]) s.disconnect();
+}
+
+if (!ONLY || ONLY === "cold3" || ONLY === "team") {
+console.log("\n--- the team's health in a fight: the monster's blows take it, and a team with none left loses ---");
+  const t = await teacherWar({ turns: 6 });
+  const A = [student("Tia"), student("Tom")];
+  for (const s of A) await s.join(t.hs.code);
+  await pairUp(...A);
+  t.emit("twStart"); await until(() => t.H.status === "playing" && t.H.phase === "crimson");
+  t.emit("twTestSpawn", { types: ["ogre", "ogre"], node: 1 }); await sleep(60);
+  t.emit("twEndTurn"); await until(() => t.H.stage === "council", 30000);
+  A[1].wrongNext = 1;                                           // Tom misses the first fight question
+  for (const s of A) s.emit("twRoute", { route: [HOME, 1] });
+  await until(() => A[0].v.myBattle?.status === "fight", 30000);
+  const Bv = A[0].v.myBattle, want = basicTeamHp(2, Bv.limit, UNITS.ogre.atk);
+  check(Bv.team && Bv.team.max === want && Bv.team.hp === want, `the team starts the fight with its health (${Bv.team?.hp * 10} of ${want * 10})`);
+  await until(() => A[0].rounds.length >= 1, 30000);
+  const r = A[0].rounds[0];
+  check(r.counterTotal === UNITS.ogre.atk && r.team?.hp === want - UNITS.ogre.atk, `one wrong answer: the monster hits the team for ${r.counterTotal * 10}, health ${r.team?.hp * 10} of ${want * 10}`);
+  for (const s of A) s.disconnect(); t.disconnect();
+  // a pair that gets everything wrong runs out of health before the questions run out, and loses
+  const t2 = await teacherWar({ turns: 6 });
+  const W = student("Wes"); await W.join(t2.hs.code); W.wrongNext = 99;
+  t2.emit("twStart"); await until(() => t2.H.status === "playing" && t2.H.phase === "crimson");
+  t2.emit("twTestSpawn", { types: ["hollow_knight"], node: 1 }); await sleep(60);
+  t2.emit("twEndTurn"); await until(() => t2.H.stage === "council", 30000);
+  W.emit("twRoute", { route: [HOME, 1] });
+  await until(() => (W.v.me.notes || []).some((n) => n.kind === "lost"), 60000);
+  const lost = (W.v.me.notes || []).find((n) => n.kind === "lost");
+  const qs = W.rounds.length, lim = W.lastB?.limit || 5;
+  check(lost?.text === "Your team ran out of health." && lost.out && qs < lim, `a team with no health left loses the fight early (after ${qs} of ${lim} questions): "${lost?.text}"`);
+  check(W.rounds.at(-1)?.team?.hp === 0, "its health shows 0");
+  for (const x of [W, t2]) x.disconnect();
 }
 summary();
 done(fails.length ? 1 : 0);

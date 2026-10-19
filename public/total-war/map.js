@@ -28,6 +28,9 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
   const els = new Map();       // banner key -> element, kept so banners glide when they move
   let scale = 1, panX = 0, panY = 0, focus = null, focusedOn = null, userPanned = false;
   let lastFog = null;
+  let lastList = null, placedAt = 0;   // the banners last placed, and the zoom they were placed at
+  let mineBand = null;                 // the student's own pair (its stop's ring is gold)
+  const hideFoes = new Map();          // stop -> until when its enemy banner stays hidden (an enemy is still walking there)
   function setBottom(b) { if (b !== bottom) { bottom = b; legend.style.bottom = `${(b || 0) + 8}px`; fit(); } }
   // the projector: fit the part of the map with the stops on it (box) inside the screen, less any side panels
   function setInsets(o = {}) { let ch = false; for (const [k, v] of Object.entries(o)) { if (k === 'left' && v !== left) { left = v; ch = true; } if (k === 'right' && v !== right) { right = v; ch = true; } if (k === 'top' && v !== top) { top = v; ch = true; } if (k === 'bottom' && v !== bottom) { bottom = v; ch = true; } } if (ch) fit(); }
@@ -58,6 +61,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
     else { y = Math.min(top, Math.max(top + room - mh, panY)); panY = y; }
     map.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
     map.style.setProperty('--inv', String(1 / (scale || 1)));             // stops and banners keep a finger-sized size at any zoom
+    if (lastList && Math.abs(scale - placedAt) > 1e-6) placeBanners(lastList);   // the banners' feet follow the stop circles' size
   }
   new ResizeObserver(fit).observe(host); fit();
   // dragging the map (a drag never counts as a tap on a stop or banner)
@@ -94,43 +98,57 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
     g.globalCompositeOperation = 'source-over';
   }
 
-  // a Crystal banner moving one road eases along the road's curves and settles at the stop
-  function glide(el, from, to, ox, oy) {
-    const pts = routePoints([from, to]);
+  // Every stop has one spot on the map: its circle, just above the stop's name (a glowing circle when the stop can be
+  // reached, else a faint ring in the Basic game). A banner stands ON that circle: its pole's foot is planted in the top of
+  // the circle, so the banner, the circle and the name below it always read as one stop.
+  const footY = (node) => stopFoot(node, scale);
+  // a banner moving one road (or a few) eases along the road's curves and settles on its stop
+  function glide(el, from, to, x, y, path = null) {
+    const pts = routePoints(path || [from, to]);
     let len = 0; for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
-    const dur = Math.max(900, Math.min(1700, len * 6)), t0 = performance.now();
+    const dur = Math.max(900, Math.min(path ? 2600 : 1700, len * 6)), t0 = performance.now();
+    // the banner starts where it stands now and ends where it will stand (its place in a stack on the new stop)
+    const sx = (parseFloat(el.style.left) || pts[0].x) - pts[0].x, sy = (parseFloat(el.style.top) || pts[0].y) - pts[0].y;
+    const ex = x - pts.at(-1).x, ey = y - pts.at(-1).y;
+    const token = (el._glide || 0) + 1; el._glide = token;             // a newer glide replaces this one
     el._gliding = true; el.style.transition = 'none'; el.classList.add('marching');
     const step = (t) => {
+      if (el._glide !== token) return;
       const k = Math.min(1, (t - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
       const p = positionAt(pts, e * len);
-      el.style.left = `${p.x + ox * e}px`; el.style.top = `${p.y - 4 + oy * e}px`;
+      el.style.left = `${p.x + sx + (ex - sx) * e}px`; el.style.top = `${p.y + sy + (ey - sy) * e}px`;
       if (k < 1) requestAnimationFrame(step);
       else { el._gliding = false; el.style.transition = ''; el.classList.remove('marching'); if (el._to) { el.style.left = `${el._to[0]}px`; el.style.top = `${el._to[1]}px`; } }
     };
     requestAnimationFrame(step);
+    return dur;
   }
 
   // banners: {key, kind:'pair'|'host'|'camp'|'fortress', node, ...}
   function placeBanners(list) {
+    lastList = list; placedAt = scale;
     const seen = new Set();
     const byNode = new Map();
     for (const b of list) { if (!byNode.has(b.node)) byNode.set(b.node, []); byNode.get(b.node).push(b); }
     // several banners on one stop: one label for the stack (yours if you are there), so the words never pile up
     const lead = (group) => group.find((b) => b.glow && b.kind === 'pair') || group.find((b) => b.kind === 'pair') || group[0];
-    for (const [node, group] of byNode) { const top = lead(group); group.forEach((b, i) => {
-      const n = NODES[node], off = (i - (group.length - 1) / 2) * 44;
-      const x = n.x + off, y = n.y - 4;
+    for (const [node, group] of byNode) { const top = lead(group);
+      // side by side on the stop, in the order given (the enemy and the fortress first, then the pairs), centred on it
+      const spots = stackSpots(node, group, scale);
+      group.forEach((b, i) => {
+      const n = NODES[node], { x, y } = spots[i];
       let el = els.get(b.key);
       if (!el) {
         el = document.createElement('button'); el.type = 'button'; layer.appendChild(el); els.set(b.key, el); el.style.left = `${x}px`; el.style.top = `${y}px`; el._node = node;
         if (primed && b.rise) { el._rise = true; setTimeout(() => { el._rise = false; el.classList.remove('rise'); }, 1600); }      // a standard rises where the class has just won
       }
-      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.mineBig ? ' mine' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${group.length > 1 ? (b !== top ? ' stacked' : ' lead') : ''}`;
+      const hidden = b.kind === 'host' && (hideFoes.get(node) || 0) > performance.now();
+      const cls = `tw-banner ${b.kind}${b.small ? ' small' : ''}${b.mineBig ? ' mine' : ''}${b.glow ? ' glow' : ''}${b.dim ? ' dim' : ''}${b.far ? ' far' : ''}${b.secured ? ' won' : ''}${el._rise ? ' rise' : ''}${hidden ? ' arriving' : ''}${group.length > 1 ? (b !== top ? ' stacked' : ' lead') : ''}`;
       if (el.className !== cls) el.className = cls;
       el.dataset.key = b.key; el.dataset.kind = b.kind; el.dataset.ref = b.ref ?? ''; el.dataset.node = node;
       el.setAttribute('aria-label', b.label || '');
       if (el._html !== b.html) { el.innerHTML = b.html; el._html = b.html; }
-      if (el._node !== node && el._node != null && b.kind === 'pair' && neighbours(el._node).includes(node)) glide(el, el._node, node, x - n.x, y - n.y);
+      if (el._node !== node && el._node != null && b.kind === 'pair' && neighbours(el._node).includes(node)) glide(el, el._node, node, x, y);
       else if (!el._gliding) { el.style.left = `${x}px`; el.style.top = `${y}px`; }
       el._node = node; el._to = [x, y];
       seen.add(b.key);
@@ -186,31 +204,42 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
   // unless the fog Extra is on)
   // The Basic game labels every stop with its place name (the monster there in small letters under it), and shows a tiny
   // legend: what a glowing number, crossed swords and the gold banner mean.
-  function drawPlaces(state, basic, legendOn) {
+  function drawPlaces(state, basic, legendOn, far = null) {
     host.classList.toggle('basic', !!basic);
     let html = '';
-    if (basic) html = NODES.map((n, i) => {
+    // every stop's circle (a faint ring; it glows when the stop can be reached), so each banner has a spot to stand on
+    // (the stop your pair stands on has a gold ring, so it is clear which stop your banner is on)
+    const mineAt = state.bands?.find((b) => b.id === mineBand)?.node;
+    if (basic) html += NODES.map((n, i) => (i === FORTRESS ? '' : `<i class="tw-base ${far?.has(i) ? 'far' : ''} ${i === mineAt ? 'mine' : ''}" data-base="${i}" style="left:${n.x}px;top:${n.y + 26}px"></i>`)).join('');
+    if (basic) html += NODES.map((n, i) => {
       const us = state.units.filter((u) => u.node === i && i !== FORTRESS), camp = state.camps.find((c) => c.node === i && c.alive);
       let foe = '', extra = '';
-      if (i === FORTRESS) { foe = state.gate.broken ? (state.warlord?.out ? 'The Warlord' : 'Gate broken') : 'Gate Guardian'; extra = `Needs a big team (${BIG_TEAM}+ pairs)`; }
+      if (i === FORTRESS) { foe = state.gate.broken ? (state.warlord?.out ? 'The Warlord' : 'Gate broken') : "The gate's guard"; extra = `Needs a big team (${BIG_TEAM}+ pairs)`; }
       else if (us.length) { const lead = [...us].sort((a, b) => UNITS[b.type].hp - UNITS[a.type].hp)[0]; foe = us.length > 1 ? `${plainName(lead.type)} and ${us.length - 1} more` : plainName(lead.type); }
       else if (camp) foe = plainName(CAMPS[i].id);
-      if (i === HOME && state.ward && state.ward.hp < state.ward.max) extra = `Shield ${state.ward.hp} of ${state.ward.max}`;
+      // the Academy's shield, in whole numbers with a bar, and one line saying what it is
+      let shield = '';
+      if (i === HOME && state.ward && state.ward.hp < state.ward.max) {
+        const hp = Math.max(0, Math.ceil(state.ward.hp)), pct = Math.max(0, Math.min(100, (state.ward.hp / state.ward.max) * 100));
+        shield = `<em class="shield"><span>Shield ${hp} of ${state.ward.max}</span><i class="sbar"><b style="width:${pct.toFixed(0)}%"></b></i></em>`;
+      }
       const name = i === HOME ? 'Academy' : n.name;
       // (the fortress label sits above its banner, clear of the Crimson Orchard just below it and of the screen's edge)
       const at = i === FORTRESS ? `left:${n.x}px;top:${n.y - 98}px` : `left:${n.x}px;top:calc(${n.y + 26}px + 24px * max(1, var(--inv, 1) * 1.18))`;
-      return `<div class="tw-place ${foe ? 'foe' : ''} ${i === FORTRESS ? 'fort' : ''} ${i === HOME ? 'home' : ''}" style="${at}"><b>${esc(name)}</b>${foe ? `<small>${esc(foe)}</small>` : ''}${extra ? `<em>${esc(extra)}</em>` : ''}</div>`;
+      return `<div class="tw-place ${foe ? 'foe' : ''} ${i === FORTRESS ? 'fort' : ''} ${i === HOME ? 'home' : ''} ${far?.has(i) ? 'far' : ''}" style="${at}"><b>${esc(name)}</b>${foe ? `<small>${esc(foe)}</small>` : ''}${extra ? `<em>${esc(extra)}</em>` : ''}${shield}</div>`;
     }).join('');
     if (places._html !== html) { places.innerHTML = html; places._html = html; }
     legend.classList.toggle('hidden', !(basic && legendOn));
-    const lg = `<div class="lg-row"><i class="lg-stop">2</i><span>Glowing number: steps to get there</span></div>
+    const hurt = state.ward && state.ward.hp < state.ward.max;
+    const lg = (hurt ? `<div class="lg-row shield"><i class="lg-shield"><b style="height:${Math.max(0, Math.min(100, (state.ward.hp / state.ward.max) * 100)).toFixed(0)}%"></b></i><span><b>Academy's shield: ${Math.max(0, Math.ceil(state.ward.hp))} of ${state.ward.max}.</b> Enemies standing on the Academy break it each round. If it breaks, the enemy wins.</span></div>` : '') + `<div class="lg-row"><i class="lg-stop">2</i><span>Glowing number: steps to get there</span></div>
       <div class="lg-row"><i class="lg-stop attack">${SWORDS}</i><span>Crossed swords: a monster to fight</span></div>
-      <div class="lg-row"><i class="lg-gate"></i><span>Gold banner: the Crimson Fortress gate</span></div>`;
+      <div class="lg-row"><i class="lg-gate"></i><span>Gold banner: the gate of the Crimson Fortress, the enemy's castle</span></div>`;
     if (legend._html !== lg) { legend.innerHTML = lg; legend._html = lg; }
   }
-  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [], basic = false, legend: legendOn = false, mineNo = null }) {
+  function render({ state, mine = null, options = [], route = null, selected = null, full = false, votes = {}, marches = [], focusNode = null, friends = [], ghost = null, lastSeen = [], status = null, wounded = null, highlight = [], basic = false, legend: legendOn = false, mineNo = null, far = null }) {
     if (focusNode !== focus) { focus = focusNode; fit(); }
-    drawPlaces(state, basic, legendOn);
+    mineBand = mine;
+    drawPlaces(state, basic, legendOn, far);
     // roads of the chosen step, and (for the teacher) where marching units are heading
     const pts = (r) => r.map(([x, y]) => `${x},${y}`).join(' ');
     const roadHtml = (route ? `<polyline points="${pts(route)}" class="road-shadow"/><polyline points="${pts(route)}" class="road-line"/>` : '')
@@ -287,6 +316,7 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
       list.push({ key: `band${b.id}`, kind: 'pair', ref: b.id, node: b.node, glow: isMine || selected === `band${b.id}` || highlight.includes(b.id), label: `Pair ${lead.no}`,
         html: `<span class="cloth" style="--c:${charColor(lead.char)}"><img src="${portrait(lead.char)}" alt=""></span>${b.pairs.length > 1 ? `<i class="count light">×${b.pairs.length}</i>` : ''}${b.battle ? `<i class="fight">${SWORDS}</i>` : ''}<i class="hp ${hp < 0.34 ? 'low' : ''}"><b style="width:${Math.round(hp * 100)}%"></b></i><span class="pole"></span><span class="tag">${isMine ? (b.pairs.length > 1 ? 'Your warband' : 'You') : b.pairs.length > 1 ? 'Warband' : `Pair ${lead.no}`}</span>${isMine && status ? `<span class="status">${esc(status)}</span>` : ''}` });
     }
+    if (far) for (const b of list) if ((b.kind === 'host' || b.kind === 'camp' || b.kind === 'fortress') && !b.glow && far.has(b.node)) b.far = true;
     placeBanners(list);
     setRiders(state.riders || [], state.serverNow, state.me?.pid || null);
   }
@@ -296,7 +326,42 @@ export function createMap(host, { onStop, onBanner, top = 40, bottom = 0, box = 
     el.innerHTML = `<i></i><i></i><i></i>${label ? `<b>${esc(label)}</b>` : ''}`;
     riderLayer.appendChild(el); setTimeout(() => el.remove(), 3600);
   }
-  return { render, fit, setBottom, setInsets, pulse };
+  // The enemy army walking along the roads to where it stands now (moves: [{ type, from, to }]); the enemy's banner on each
+  // stop it walks to stays hidden until it gets there. Returns how long the walk takes (ms).
+  function moveFoes(moves) {
+    let longest = 0;
+    for (const m of moves) {
+      const path = [m.from]; let at = m.from;
+      for (let k = 0; k < 12 && at !== m.to; k++) { const s = stepTowards(at, m.to, () => true); if (s == null) break; path.push(s); at = s; }
+      if (at !== m.to || path.length < 2) continue;
+      const el = document.createElement('div');
+      el.className = 'tw-banner host foe-walk';
+      el.innerHTML = `<span class="cloth"><img src="${sprite(m.type)}" alt=""></span><span class="pole"></span>`;
+      el.style.left = `${NODES[m.from].x}px`; el.style.top = `${footY(m.from)}px`;
+      riderLayer.appendChild(el);
+      const dur = glide(el, m.from, m.to, NODES[m.to].x, footY(m.to), path);
+      longest = Math.max(longest, dur);
+      hideFoes.set(m.to, Math.max(hideFoes.get(m.to) || 0, performance.now() + dur));
+      setTimeout(() => { el.classList.add('gone'); setTimeout(() => el.remove(), 400); }, dur);
+    }
+    for (const el of els.values()) if (el.dataset.kind === 'host' && (hideFoes.get(+el.dataset.node) || 0) > performance.now()) el.classList.add('arriving');
+    setTimeout(() => { for (const el of els.values()) el.classList.remove('arriving'); }, longest + 30);
+    return longest;
+  }
+  return { render, fit, setBottom, setInsets, pulse, moveFoes };
+}
+
+// Where banners stand on a stop. Every stop's circle is centred at (x, y + 26) and drawn 38 px wide, scaled up when the
+// map is drawn small (as .tw-stop.reach in tw.css). A banner's pole foot is planted 6 px into the top of the circle, and
+// banners on one stop stand side by side (by the width of each cloth, 6 px apart), centred on the stop.
+export const STOP_DY = 26, STOP_R = 19, BANNER_GAP = 6;
+export const circleScale = (scale = 1) => Math.max(1, 1.18 / (scale || 1));
+export const stopFoot = (node, scale = 1) => NODES[node].y + STOP_DY - STOP_R * circleScale(scale) + 6;
+export const clothW = (b) => (b.mineBig ? 68 : b.kind === 'pair' ? (b.small ? 40 : 52) : b.kind === 'fortress' ? 60 : b.kind === 'camp' || b.kind === 'academy' || b.kind === 'rally' || b.small ? 38 : 52);
+export function stackSpots(node, group, scale = 1) {
+  const ws = group.map(clothW), total = ws.reduce((a, w) => a + w, 0) + BANNER_GAP * (group.length - 1);
+  let at = -total / 2;
+  return ws.map((w) => { const x = NODES[node].x + at + w / 2; at += w + BANNER_GAP; return { x, y: stopFoot(node, scale), w }; });
 }
 
 // The roads a marching unit will take to its target (fewest roads), as points

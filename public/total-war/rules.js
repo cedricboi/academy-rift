@@ -318,6 +318,14 @@ export function basicSteps(earned = 0, buffs = {}) { return 1 + Math.max(0, Math
 export const BASIC_GATE_HP = 100;      // shown as 1000
 export const BASIC_WARLORD_HP = 160;   // shown as 1600: about 2 fights for a class of 6 pairs, 3 for a team of 3
 export const BIG_TEAM = 3;             // the fortress gate "Needs a big team (3+ pairs)"
+// In the Basic game GO to the gate only works once this many pairs have chosen the gate this round (fewer if the war has
+// fewer pairs than that, so a small class can still reach it)
+export const gateNeed = (pairs) => Math.max(1, Math.min(BIG_TEAM, pairs || 0));
+// The MOVE step in the Basic game lasts this long unless the teacher sets another time (the full game: COUNCIL_SECONDS)
+export const BASIC_MOVE_SECONDS = 45;
+// A big message that needs an OK (your pair was sent back) holds the student's next question until it is closed, for at
+// most this long, so a message never covers a question whose clock is running
+export const NOTE_HOLD_SECONDS = 20;
 // The MOVE step never ends early on a pair that has not tapped GO. When every other pair is ready, the pairs still
 // choosing get at least this long.
 export const LAST_PAIR_SECONDS = 10;
@@ -327,12 +335,18 @@ export const SEEN_GRACE = 12;
 // Plain monster names for the Basic game's student screens
 export const PLAIN_NAMES = {
   rift_hound: 'Rift Hound', imp_swarm: 'Fire Imps', goblin_sappers: 'Goblin Diggers', orc_vanguard: 'Orc Guard', orc_warchanter: 'Orc Shaman',
-  gargoyle: 'Gargoyle', warlock: 'Warlock', hollow_knight: 'Hollow Knight', ogre: 'Ogre', wyvern: 'Wyvern', golem: 'Gate Guardian', warlord: 'The Warlord',
+  gargoyle: 'Gargoyle', warlock: 'Warlock', hollow_knight: 'Hollow Knight', ogre: 'Ogre', wyvern: 'Wyvern', golem: "The gate's guard", warlord: 'The Warlord',
 };
 export const plainName = (type) => PLAIN_NAMES[type] || Object.values(CAMPS).find((c) => c.id === type)?.name || type;
 export const BASIC_RESULT_SECONDS = 8; // after each Basic battle question: the hits, the monster hitting back, the answer and why
 // The monster hits back after each Basic battle question: one blow for every wrong (or missing) answer
 export function basicCounter(atk = 1, wrong = 0) { return +((+atk || 1) * Math.max(0, wrong)).toFixed(2); }
+// The team's health in a Basic fight: enough to take the monster's blows for half of all the answers in the fight, so a
+// team that gets most answers wrong runs out of health (and loses the fight) before the questions run out.
+export const BASIC_TEAM_SHARE = 0.5;
+export function basicTeamHp(fighters = 1, limit = 5, atk = 1) {
+  return Math.max(5 * Math.max(1, fighters), Math.round(Math.max(1, fighters) * limit * (+atk || 1) * BASIC_TEAM_SHARE));
+}
 // Which of the 3 steps of a round the class is on, from the phase the server is in
 export function roundStep(phase, stage) {
   if (phase === 'crimson' || (phase === 'crystal' && stage === 'quiz')) return 'answer';

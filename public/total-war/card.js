@@ -3,7 +3,11 @@
 import { esc } from './map.js';
 
 // The answer clock starts when the choices appear on this screen (onReveal tells the server), so the reading time is extra.
-export function createCard(root, { onPick, onReveal } = {}) {
+// held(): a message is open over the card. The choices (and so the clock) wait until it is closed, for at most HOLD_MS
+// past the reading time (the server allows 12 s), and then onHeld() closes the message, so a message never covers a
+// question whose clock is running.
+const HOLD_MS = 9000;
+export function createCard(root, { onPick, onReveal, held, onHeld } = {}) {
   root.className = 'tw-card hidden';
   root.setAttribute('role', 'dialog');
   root.innerHTML = `<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
@@ -29,7 +33,16 @@ export function createCard(root, { onPick, onReveal } = {}) {
     if (!current) return;
     const q = current.q, readEnd = q.startedAt + (q.recall * 1000) / speed;
     const t = now();
-    const cover = root.querySelector('.card-reading');
+    let cover = root.querySelector('.card-reading');
+    const waiting = t >= readEnd && current.revealAt == null && !current.result && current.picked == null && held?.();
+    if (waiting && t < readEnd + HOLD_MS / speed) {
+      if (!cover) { cover = document.createElement('div'); cover.className = 'card-reading'; cover.innerHTML = '<b>Read the message first</b><span></span>'; root.querySelector('.card-choices').classList.add('reading'); root.querySelector('.card-choices').appendChild(cover); }
+      cover.querySelector('b').textContent = 'Read the message first';
+      cover.querySelector('span').textContent = 'Tap OK. Then the choices appear and your time starts.';
+      $('.card-clock').textContent = `00:${String(q.seconds).padStart(2, '0')}`; $('.card-bar i').style.width = '100%';
+      return;
+    }
+    if (waiting) onHeld?.();
     if (t < readEnd && !current.result) {
       const n = Math.max(1, Math.ceil(((readEnd - t) * speed) / 1000));
       if (cover) cover.querySelector('span').textContent = `Think of the answer. The choices appear in ${n}`;

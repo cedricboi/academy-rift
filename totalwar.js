@@ -17,6 +17,7 @@ import {
   REINFORCE_SECONDS, REINFORCE_MAX, reinforceBonus, REGROUP_STEPS, LATE_STEPS, LATE_PLAN_SECONDS, reachable, BATTLE_WAIT_SECONDS,
   EXTRA_KEYS, noExtras, BASIC_QUESTIONS, BASIC_ANSWER_SECONDS, BASIC_HIT, HELP_SECONDS, BASIC_RESULT_SECONDS, basicCounter, roundStep,
   BASIC_STEPS_EACH, basicSteps, BASIC_GATE_HP, BASIC_WARLORD_HP, LAST_PAIR_SECONDS, SEEN_GRACE,
+  gateNeed, BASIC_MOVE_SECONDS, NOTE_HOLD_SECONDS, basicTeamHp,
 } from "./public/total-war/rules.js";
 
 const token = (n = 18) => randomBytes(n).toString("base64url");
@@ -49,7 +50,7 @@ export function setupTotalWar(deps) {
     return c;
   }
   // endMinutes: the war ends by itself this many minutes after it starts (0 = only when the turns run out)
-  const defaultSettings = () => ({ warlordLock: false, councilSeconds: COUNCIL_SECONDS, commander: "Mr Cedric", topic: null, turns: 8, crimsonSeconds: PREPARE_SECONDS, crystalSeconds: 150, target: 25, warlordPct: 80, botCommander: false, botPartners: true, endMinutes: 0, trainingTurn: false, full: false, extras: noExtras() });
+  const defaultSettings = () => ({ warlordLock: false, councilSeconds: 0, commander: "Mr Cedric", topic: null, turns: 8, crimsonSeconds: PREPARE_SECONDS, crystalSeconds: 150, target: 25, warlordPct: 80, botCommander: false, botPartners: true, endMinutes: 0, trainingTurn: false, full: false, extras: noExtras() });
 
   function createSession() { return createSessionFor(newCode()); }
   function createSessionFor(code) {
@@ -76,7 +77,11 @@ export function setupTotalWar(deps) {
   // Nothing is timed: each stage waits until everyone is done (or the teacher presses Continue).
   const untimed = (S) => !!S.training && S.turn === 1 && S.status === "playing";
   // a short message for every student of a pair (shown once on their screen): a warband join, where the route went
+  // pid: a message for one student of the pair only (a question of theirs that ran out)
   const note = (S, pairId, text, extra = {}) => { const p = S.pairs.get(pairId); if (!p) return; (p.notes ||= []).push({ id: ++S.seq, text, at: Date.now(), ...extra }); if (p.notes.length > 6) p.notes.shift(); S.dirty = true; };
+  const studentNote = (S, st, text, extra = {}) => { if (st && !st.bot && st.pairId) note(S, st.pairId, text, { kind: "timeup", pid: st.pid, ...extra }); };
+  // the time "Plan your move" lasts: the teacher's setting, else 45 seconds in the Basic game (30 in the full game)
+  const councilSecs = (S) => S.settings.councilSeconds || (basicFlow(S) ? BASIC_MOVE_SECONDS : COUNCIL_SECONDS);
   const say = (S, text, tone = "info") => { S.log.push({ t: Date.now(), text, tone }); if (S.log.length > 30) S.log.shift(); };
 
   // ------------------------------------------------------------------ helpers
@@ -332,7 +337,7 @@ export function setupTotalWar(deps) {
   function openMoves(S) {
     if (timeUp(S)) return endByProgress(S, "time");
     S.stage = "council"; S.moveStartedAt = Date.now(); S.launch = false;
-    S.phaseEndsAt = Date.now() + ms(S.settings.councilSeconds || COUNCIL_SECONDS);
+    S.phaseEndsAt = Date.now() + ms(councilSecs(S));
     // a preparing question still open when the top-up ends is put away (not counted)
     for (const st of S.students.values()) if (st.own?.kind === "quiz" || (st.own?.kind === "muster" && !st.own.result) || basicFlow(S)) st.own = null;
     setMoveAP(S);
@@ -359,7 +364,7 @@ export function setupTotalWar(deps) {
   }
   // what the class can see blocking a road: the Crimson Host (not ambushers), a jungle camp, the fortress
   const seenBlock = (S, n) => unitsAt(S, n).some((u) => !u.ambush) || !!campAt(S, n) || n === FORTRESS;
-  function routeError(S, b, route) {
+  function routeError(S, b, route, { send = true } = {}) {
     if (route === "hold") return null;
     if (!Array.isArray(route) || route.length < 2 || route[0] !== b.node) return "Pick a route that starts at your banner.";
     if (new Set(route).size !== route.length) return "A route passes each stop once.";
@@ -374,7 +379,39 @@ export function setupTotalWar(deps) {
       if (n === FORTRESS && S.gate.broken && !warlordReady(S)) return "The Warlord has not come out yet.";
     }
     if (spent > b.mp) return `Your warband can travel ${b.mp} step${b.mp === 1 ? "" : "s"} this move.`;
+    if (send && route.at(-1) === FORTRESS && basicFlow(S)) {
+      const going = S.gateSnap ?? gateGoing(S).size, need = gateNeed(S.pairs.size);
+      if (going < need) return `The gate needs a big team. Get ${need - going} more pair${need - going === 1 ? "" : "s"} to come with you.`;
+    }
     return null;
+  }
+  // Basic: the pairs (banners) that have chosen the fortress gate this round: tapped it, drawn a route to it, or sent one
+  function gateGoing(S) {
+    const set = new Set();
+    if (!(S.phase === "crystal" && S.stage === "council") && S.gateSnap == null) return set;
+    const toGate = (r) => Array.isArray(r) && r.at(-1) === FORTRESS;
+    for (const b of S.bands.values()) {
+      if (b.battle) continue;
+      if (b.node === FORTRESS || toGate(b.plan) || Object.values(b.props || {}).some(toGate)) { set.add(b.id); continue; }
+      for (const x of b.pairs) { const p = S.pairs.get(x); if (p && [...Object.values(p.picks || {}), ...Object.values(p.drafts || {})].some((c) => toGate(c?.route))) set.add(b.id); }
+    }
+    return set;
+  }
+  // Basic: once enough pairs have chosen the gate, every pair that has already tapped GO on it (both partners, or a bot
+  // pair that chose it) is sent there
+  function gateCheck(S) {
+    if (!basicFlow(S) || !(S.phase === "crystal" && S.stage === "council")) return;
+    if (gateGoing(S).size < gateNeed(S.pairs.size)) return;
+    for (const b of S.bands.values()) {
+      if (b.battle || b.plan) continue;
+      for (const x of b.pairs) {
+        const p = S.pairs.get(x); if (!p || b.props?.[x] !== undefined) continue;
+        const need = humansOf(S, p), keys = need.map((m) => (p.picks?.[m] ? routeKey(p.picks[m].route) : null));
+        const bot = !need.length ? Object.values(p.drafts || {}).find((c) => Array.isArray(c?.route) && c.route.at(-1) === FORTRESS)?.route : null;
+        const r = bot || (need.length && keys.every((k) => k && k === keys[0]) ? p.picks[need[0]].route : null);
+        if (Array.isArray(r) && r.at(-1) === FORTRESS) proposeRoute(S, x, r);
+      }
+    }
   }
   // routes can be planned in the War Council, and by a warband whose battle ran past it (while the others march)
   const planOpen = (S, b) => (S.phase === "crystal" && S.stage === "council") || (!!b?.lateUntil && Date.now() < b.lateUntil);
@@ -398,7 +435,7 @@ export function setupTotalWar(deps) {
     p.drafts ||= {};
     if (!Array.isArray(route) || route.length < 2) { delete p.drafts[st.pid]; return null; }
     const r = route.map((n) => Math.round(+n));
-    if (routeError(S, b, r)) return null;                          // a draft that cannot be marched is simply not kept
+    if (routeError(S, b, r, { send: false })) return null;          // a draft that cannot be marched is simply not kept
     p.drafts[st.pid] = { route: r, at: p.drafts[st.pid]?.at || Date.now() }; return null;
   }
   // Both partners agree the pair's route: each taps it. The pair's route goes to its warband (or is sent, for a pair
@@ -410,14 +447,19 @@ export function setupTotalWar(deps) {
     const b = bandOf(S, p.id); if (!b) return "You are not on the map yet.";
     const perr = planError(S, b); if (perr) return perr;
     if (route !== "hold") { if (!Array.isArray(route)) return "Pick a route that starts at your banner."; route = route.map((n) => Math.round(+n)); }
-    const err = routeError(S, b, route); if (err) return err;
+    const err = routeError(S, b, route, { send: false }); if (err) return err;
     p.picks ||= {};
     const drawn = p.drafts?.[st.pid], prev = p.picks[st.pid];
     const at = prev && routeKey(prev.route) === routeKey(route) ? prev.at : drawn && routeKey(drawn.route) === routeKey(route) ? drawn.at : Date.now();
     p.picks[st.pid] = { route: route === "hold" ? "hold" : route.slice(), at };
     const need = humansOf(S, p);
     const keys = need.map((m) => (p.picks[m] ? routeKey(p.picks[m].route) : null));
-    if (need.length <= 1 || keys.every((k) => k && k === keys[0])) return proposeRoute(S, p.id, route);
+    if (need.length <= 1 || keys.every((k) => k && k === keys[0])) {
+      const e = proposeRoute(S, p.id, route);
+      // the gate with too few pairs: the GO is kept, and sent by itself once enough pairs have chosen the gate
+      if (e && route !== "hold" && route.at(-1) === FORTRESS && basicFlow(S)) { S.dirty = true; gateCheck(S); }
+      return e;
+    }
     // the partners have not agreed (yet): the pair's route is not sent until they do
     if (b.props?.[p.id] !== undefined) { delete b.props[p.id]; b.plan = agreedPlan(S, b); }
     S.dirty = true; return null;
@@ -448,6 +490,7 @@ export function setupTotalWar(deps) {
     return route;
   }
   function startMarch(S) {
+    S.gateSnap = basicFlow(S) ? gateGoing(S).size : null;      // (counted while still in the council)
     S.stage = "march"; S.phaseEndsAt = Date.now() + ms(S.settings.crystalSeconds);
     S.marchStartedAt = Date.now();
     let k = 0;
@@ -456,6 +499,7 @@ export function setupTotalWar(deps) {
       // still fighting: this move is owed to it, and it plans it by itself when its battle ends
       for (const x of b.pairs) { const p = S.pairs.get(x); if (p) p.owed = true; }
     }
+    S.gateSnap = null;
     say(S, basicFlow(S) ? "The pairs march!" : "The warbands march!", "crystal");
     S.dirty = true;
   }
@@ -475,10 +519,19 @@ export function setupTotalWar(deps) {
     b.plan = plan; b.held = plan === "hold"; b.lastDefeat = null; b.lastDefeatAt = null; b.rest = null; b.resumeUntil = 0;
     b.path = plan === "hold" || routeError(S, b, plan) ? [] : plan.slice(1);
     b.nextAt = now + ms(0.3 + 0.1 * k); b.done = !b.path.length;
-    const to = b.path.length ? nodeName(b.path.at(-1)) : null, here = nodeName(b.node);
-    const text = to ? (drafted && !agreed ? `Time's up, so the route you planned was sent. You march to ${to}.` : `Route sent: you march to ${to}.`)
-      : sent && plan === "hold" ? `You chose to stay at ${here}.` : `Time's up: you stayed at ${here}.`;
-    for (const x of b.pairs) note(S, x, text, { kind: "route", go: !!to });
+    const to = b.path.length ? nodeName(b.path.at(-1)) : null, here = basicFlow(S) && b.node === HOME ? "the Academy" : nodeName(b.node);
+    // Basic: the gate needs a big team. A pair heading there with too few others stays where it is.
+    const gateShort = basicFlow(S) && Array.isArray(plan) && plan.at(-1) === FORTRESS && !b.path.length && (S.gateSnap ?? gateGoing(S).size) < gateNeed(S.pairs.size);
+    if (basicFlow(S)) {
+      const text = gateShort ? `Not enough pairs went to the gate, so your pair stayed at ${here}. The gate needs ${gateNeed(S.pairs.size)} pairs.`
+        : !agreed && to ? `Time's up. Your pair goes to ${to}, the stop that was picked first.`
+        : !agreed && !(sent && plan === "hold") ? `Time's up. Your pair stayed at ${here}.` : null;
+      for (const x of b.pairs) note(S, x, text || (to ? `Your pair marches to ${to}.` : `Your pair stays at ${here}.`), { kind: text ? "timeup" : "route", go: !!to });
+    } else {
+      const text = to ? (drafted && !agreed ? `Time's up, so the route you planned was sent. You march to ${to}.` : `Route sent: you march to ${to}.`)
+        : sent && plan === "hold" ? `You chose to stay at ${here}.` : `Time's up: you stayed at ${here}.`;
+      for (const x of b.pairs) note(S, x, text, { kind: "route", go: !!to });
+    }
     if (b.held) say(S, `${b.pairs.map((x) => pairLabel(S, S.pairs.get(x))).join(", ")} ${b.pairs.length > 1 ? "hold" : "holds"} at ${nodeName(b.node)}.`, "crystal");
     for (const x of b.pairs) { const p = S.pairs.get(x); if (p) { p.picks = {}; p.drafts = {}; p.owed = false; } }
   }
@@ -567,7 +620,10 @@ export function setupTotalWar(deps) {
     // every student's own question (muster or War Cry); the answer and its explanation stay up a while
     for (const st of S.students.values()) {
       const o = st.own;
-      if (o && !o.result && now >= questionEnds(o)) answerOwn(S, st, -1);   // an untimed question never ends by itself
+      if (o && !o.result && now >= questionEnds(o)) {                   // an untimed question never ends by itself
+        answerOwn(S, st, -1);
+        if (basicFlow(S) && o.kind === "muster") studentNote(S, st, "Time's up for that question. It counts as wrong.");
+      }
       if (o && o.result && now >= o.result.at + ms(o.result.explain && !o.result.ok ? FEEDBACK_SECONDS + 1 : FEEDBACK_SECONDS)) { st.own = null; S.dirty = true; }
       if (!st.own) maybeGiveQuestion(S, st);
     }
@@ -603,7 +659,12 @@ export function setupTotalWar(deps) {
         // time is up), or when the ANSWER step's longest time is up
         // (the last answer's explanation is read first: the map does not open under it)
         const reading = [...S.students.values()].some((st) => st.own && isConnected(st));
-        if ((musterDone && !reading && (S.teacherEnded || now >= S.softEndsAt)) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); if (S.status === "playing") { dropOpen(S, true); openMoves(S); } }
+        if ((musterDone && !reading && (S.teacherEnded || now >= S.softEndsAt)) || now >= S.phaseEndsAt) {
+          // a student whose questions were not all answered is told why they disappeared
+          for (const st of S.students.values()) if (!st.bot && isConnected(st) && !fightingNow(S, st) && ((st.musterThisTurn || 0) < BASIC_QUESTIONS || (st.own && !st.own.result)))
+            studentNote(S, st, "Time's up for the questions. The round moved on to part 2, MOVE.");
+          runOrders(S); startCrystal(S); if (S.status === "playing") { dropOpen(S, true); openMoves(S); }
+        }
       } else if ((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
     } else if (S.phase === "crystal" && S.stage === "quiz") {
       if (quizDone(S) || go || (!free && now >= S.phaseEndsAt)) { dropOpen(S); openMoves(S); if (S.status !== "playing") return flush(S); }
@@ -618,6 +679,7 @@ export function setupTotalWar(deps) {
           S.lastPairAt = now; S.phaseEndsAt = Math.max(S.phaseEndsAt, now + ms(LAST_PAIR_SECONDS)); S.dirty = true;
         }
       }
+      gateCheck(S);
       if (S.launch || go || (!free && now >= S.phaseEndsAt) || (agreed && (free || now >= S.moveStartedAt + ms(STRATEGY_SECONDS)))) startMarch(S);
     } else if (S.phase === "crystal") {
       marchTick(S, now);
@@ -664,7 +726,7 @@ export function setupTotalWar(deps) {
     const now = Date.now();
     if (S.phase === "crimson") S.phaseEndsAt = now + ms(S.settings.crimsonSeconds);
     else if (S.phase === "crystal" && S.stage === "quiz") S.phaseEndsAt = now + ms(TOPUP_SECONDS);
-    else if (S.phase === "crystal" && S.stage === "council") { S.phaseEndsAt = now + ms(S.settings.councilSeconds || COUNCIL_SECONDS); S.moveStartedAt = now; }
+    else if (S.phase === "crystal" && S.stage === "council") { S.phaseEndsAt = now + ms(councilSecs(S)); S.moveStartedAt = now; }
     for (const st of S.students.values()) if (st.own?.untimed) { st.own.untimed = false; if (!st.own.result) st.own.startedAt = now; }
     for (const B of S.battles.values()) {
       B.untimed = false;
@@ -688,6 +750,9 @@ export function setupTotalWar(deps) {
       // Basic: exactly 3 questions in the ANSWER step, and nothing else (no War Cries, no bonus questions, no top-ups)
       if (S.phase !== "crimson" || st.musterThisTurn >= BASIC_QUESTIONS) return;
       if (!untimed(S) && now + ms(READ_SECONDS + 4) > S.phaseEndsAt) return;      // too late for a whole question
+      // a big message that needs an OK (the pair was sent back) is read first: the question waits until it is closed,
+      // for at most NOTE_HOLD_SECONDS, so the message never covers a question whose clock is running
+      if (!st.bot && noteHold(S, st, now)) return;
       return giveOwnQuestion(S, st, "muster");
     }
     if (S.phase === "crimson") {
@@ -715,6 +780,7 @@ export function setupTotalWar(deps) {
     if (!B || B.status === "over" || B.status === "gather") { st.supporting = null; B = warcryTarget(S); }
     if (B) giveOwnQuestion(S, st, "warcry", B.id);
   }
+  const noteHold = (S, st, now = Date.now()) => (pairOf(S, st.pid)?.notes || []).some((n) => n.ack && !(st.acked || []).includes(n.id) && now - n.at < ms(NOTE_HOLD_SECONDS));
   // the battle a War Cry goes to: the one with the most enemy strength still standing
   const warcryTarget = (S) => [...S.battles.values()].filter((B) => B.status !== "over" && B.status !== "gather")
     .sort((a, b) => b.enemies.reduce((n, e) => n + Math.max(0, e.hp), 0) - a.enemies.reduce((n, e) => n + Math.max(0, e.hp), 0))[0] || null;
@@ -935,7 +1001,7 @@ export function setupTotalWar(deps) {
     if (kind === "gate" || kind === "boss") { reached(S, FORTRESS); S.gateFights = (S.gateFights || 0) + 1; }
     if (basicFlow(S)) helpWait(S, B, Date.now());
     const host = basicFlow(S) ? "the enemy army" : "the Crimson Host";
-    const what = kind === "camp" ? CAMPS[n].name : kind === "gate" ? "the gate guardian" : kind === "boss" ? "THE CRIMSON WARLORD" : host;
+    const what = kind === "camp" ? CAMPS[n].name : kind === "gate" ? (basicFlow(S) ? "the gate's guard" : "the gate guardian") : kind === "boss" ? "THE CRIMSON WARLORD" : host;
     if (ambush) say(S, `AMBUSH at ${nodeName(n)}! ${basicFlow(S) ? "The enemy" : "The Crimson Host"} was hiding there.`, "big");
     else if (kind === "defend") say(S, basicFlow(S) ? `The enemy army attacks the pairs at ${nodeName(n)}!` : `The Crimson Host attacks the Crystal warbands at ${nodeName(n)}!`, "crimson");
     else say(S, `Battle at ${nodeName(n)} against ${what}!`, kind === "boss" ? "big" : "battle");
@@ -1079,6 +1145,18 @@ export function setupTotalWar(deps) {
       if (B.simple && !xo(S, "pick")) B.wave = B.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0);
       // every pair engages a monster on the field: its own pick if it is out, else the one with the fewest pairs on it
       retarget(S, B, picks, true);
+      // Basic (no HP Extra): the team has one health bar for the fight. Every blow the monster hits back takes some, and a
+      // team that runs out of health loses the fight.
+      if (B.simple && basicFlow(S) && !xo(S, "hp")) {
+        const front = B.enemies.find((e) => e.hp > 0) || B.enemies[0];
+        const max = basicTeamHp(fightersOf(S, B).length, B.limit, front?.atk);
+        B.team = { hp: max, max };
+      }
+      // Basic: a pair next door that let the Help card run out is told so
+      if (basicFlow(S)) for (const [bid, at] of Object.entries(B.offers || {})) {
+        const x = S.bands.get(bid);
+        if (x && !B.bands.includes(bid) && !B.declined.includes(bid) && at) for (const pid of x.pairs) note(S, pid, `Time's up. Your pair did not go to help at ${nodeName(B.node)}.`, { kind: "timeup" });
+      }
       B.status = "fight"; nextBattleQuestion(S, B); return;
     }
     if (B.status === "fight" && B.q) {
@@ -1091,7 +1169,7 @@ export function setupTotalWar(deps) {
     if (B.status === "result" && now >= B.resultUntil) {
       // beating the Warlord wins, even with guards still standing beside him
       if (B.enemies.every((e) => e.hp <= 0) || (B.kind === "boss" && B.enemies.some((e) => e.ref === "warlord" && e.hp <= 0))) return finishBattle(S, B, true);
-      if (B.resolve <= 0 || B.qNo >= B.limit) return finishBattle(S, B, false);
+      if (B.resolve <= 0 || (B.team && B.team.hp <= 0) || B.qNo >= B.limit) return finishBattle(S, B, false);
       B.status = "fight"; nextBattleQuestion(S, B);
       return;
     }
@@ -1212,7 +1290,7 @@ export function setupTotalWar(deps) {
   // what it cannot take goes on to the next), then the monster hits back once for every wrong or missing answer.
   // With "HP" on, those blows take the pairs' HP (as the full game's counterattack does).
   function simpleResolve(S, B) {
-    for (const p of fightersOf(S, B)) if (!B.answers.has(p)) { const st = S.students.get(p); if (st && isConnected(st)) { record(S, st, B.q.full, -1, "battle", false); B.answers.set(p, { chosen: -1, shown: -1, ok: false, at: Infinity }); } }
+    for (const p of fightersOf(S, B)) if (!B.answers.has(p)) { const st = S.students.get(p); if (st && isConnected(st)) { record(S, st, B.q.full, -1, "battle", false); B.answers.set(p, { chosen: -1, shown: -1, ok: false, at: Infinity }); if (basicFlow(S)) studentNote(S, st, "Time's up for that question. It counts as wrong."); } }
     const buffs = buffOn(S), power = buffs.power ? 1.25 : 1;
     const answers = [...B.answers.entries()];
     const rightPids = answers.filter(([, a]) => a.ok).map(([p]) => p), wrong = answers.length - rightPids.length;
@@ -1262,6 +1340,8 @@ export function setupTotalWar(deps) {
       }
     }
     if (rf) B.reinf = { ...rf, at: Date.now() };
+    // the team's health takes the blow (Basic without the HP Extra)
+    if (B.team && counterTotal > 0) { B.team.hp = Math.max(0, +(B.team.hp - counterTotal).toFixed(2)); if (B.team.hp <= 0) B.teamOut = true; }
     const q = B.q.full;
     B.round = {
       simple: true, qNo: B.qNo, striker: null, strike: false, stealer: null, support: rightPids.length, supporters: answers.length,
@@ -1271,7 +1351,7 @@ export function setupTotalWar(deps) {
       enemiesAfter: B.enemies.map((e) => ({ hp: +(+e.hp).toFixed(1) })),
       dealt: Object.fromEntries(Object.entries(B.dealt).map(([x, d]) => [S.pairs.get(x)?.no, d])),
       hurt: Object.fromEntries(Object.entries(taken).map(([x, d]) => [S.pairs.get(x)?.no, d])),
-      counter: [], guard: 0, counterTotal, counterAtk: atkOf, resolve: B.resolve, sync: 0,
+      counter: [], guard: 0, counterTotal, counterAtk: atkOf, resolve: B.resolve, sync: 0, team: B.team ? { ...B.team } : null,
       answer: rightAnswers(q)[0], right: rightAnswers(q), q: q.q, choices: q.choices, explain: explainOf(q),
       mine: Object.fromEntries(answers.map(([p, a]) => [p, { chosen: a.shown ?? a.chosen, ok: a.ok }])), at: Date.now(),
     };
@@ -1495,13 +1575,13 @@ export function setupTotalWar(deps) {
       const knocked = fort != null && B.gateStart != null ? Math.max(0, B.gateStart - fort) : 0;
       if (B.kind === "gate" || B.kind === "boss") story(S, `${companies(S, all)} knocked ${showHp(knocked)} health off ${B.kind === "gate" ? "the gate" : "the Warlord"}.`, n);
       const where = back === HOME ? "the Academy" : nodeName(back);
-      const text = B.kind === "gate" ? `You knocked ${showHp(knocked)} health off the gate. It stays damaged. Bring more pairs!`
-        : B.kind === "boss" ? `You knocked ${showHp(knocked)} health off the Warlord. He stays hurt. Bring more pairs!`
-        : "The monster was too strong.";
+      const text = B.kind === "gate" ? `${B.teamOut ? "Your team ran out of health. " : ""}You knocked ${showHp(knocked)} health off the gate. It stays damaged. Bring more pairs!`
+        : B.kind === "boss" ? `${B.teamOut ? "Your team ran out of health. " : ""}You knocked ${showHp(knocked)} health off the Warlord. He stays hurt. Bring more pairs!`
+        : B.teamOut ? "Your team ran out of health." : "The monster was too strong.";
       for (const b of all) for (const x of b.pairs) {
         const p = S.pairs.get(x); if (!p) continue;
         p.revive = true;
-        note(S, x, text, { kind: "lost", node: back, back: where, fort: B.kind === "gate" || B.kind === "boss" });
+        note(S, x, text, { kind: "lost", node: back, back: where, fort: B.kind === "gate" || B.kind === "boss", ack: true, out: !!B.teamOut });
       }
       say(S, `The battle at ${nodeName(n)} is lost. ${all.length > 1 ? "The pairs go" : "The pair goes"} back to ${where}.${knocked ? ` They knocked ${showHp(knocked)} health off ${B.kind === "gate" ? "the gate" : "the Warlord"}.` : ""}`, "crimson");
       S.dirty = true;
@@ -1838,9 +1918,23 @@ export function setupTotalWar(deps) {
         const near = humans.sort((x, y) => (d.get(x.node) ?? 99) - (d.get(y.node) ?? 99))[0];
         const theirs = near && (near.plan === "hold" ? [near.node] : Array.isArray(near.plan) ? near.plan : Object.values(near.props || {}).find(Array.isArray));
         const goal = theirs ? theirs.at(-1) : near ? near.node : FORTRESS;
+        // a pair of students has chosen the fortress gate: bot pairs that can reach it this round come too, so the gate
+        // has its big team (they choose it, and go once enough pairs have)
+        const going = gateGoing(S), humanGate = humans.some((x) => going.has(x.id));
+        const toGate = humanGate ? routeTowards(S, b, FORTRESS) : null;
+        if (toGate && toGate.at(-1) === FORTRESS && toGate.length > 1) {
+          const key = `${S.turn}:${b.node}:${b.mp}:gate`; if (b._botKey === key) continue; b._botKey = key;
+          b.props = {}; b.plan = null;
+          for (const x of bots) { const p = S.pairs.get(x); if (p) { p.drafts ||= {}; p.drafts[p.members[0]] = { route: toGate.slice(), at: now }; } }
+          S.dirty = true; gateCheck(S);
+          continue;
+        }
         if (near && !theirs && near.node === b.node) continue;                 // wait to see where the human pair goes
         const key = `${S.turn}:${b.node}:${b.mp}:${goal}:${theirs ? "p" : "n"}`; if (b._botKey === key) continue; b._botKey = key;
+        for (const x of bots) { const p = S.pairs.get(x); if (p?.drafts) p.drafts = {}; }
         const route = goal === b.node ? [b.node] : routeTowards(S, b, goal, true);
+        // the gate: chosen first, and gone to once enough pairs have chosen it
+        if (route.length > 1 && route.at(-1) === FORTRESS) { for (const x of bots) { const p = S.pairs.get(x); if (p) (p.drafts ||= {})[p.members[0]] = { route: route.slice(), at: now }; } S.dirty = true; gateCheck(S); continue; }
         for (const x of bots) proposeRoute(S, x, route.length > 1 ? route : "hold");
         continue;
       }
@@ -1935,6 +2029,8 @@ export function setupTotalWar(deps) {
       targetable: B.status === "gather" ? B.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0) : B.status === "over" ? [] : fieldOf(B),
       outcome: B.outcome, cheers: [...B.cheers.entries()].map(([pid, n]) => ({ pair: S.pairs.get(pid)?.no, n })),
       // a Basic battle: every fighter with a tick or a cross for this question, and each pair's hits so far
+      // the team's health in a Basic fight (with the HP Extra on, the pairs' HP together)
+      team: B.team ? { hp: +(+B.team.hp).toFixed(1), max: B.team.max } : B.simple && B.resolveMax ? { hp: +(+B.resolve).toFixed(1), max: B.resolveMax } : null,
       simple: !!B.simple, helped: (B.helped || []).flatMap((bid) => S.bands.get(bid)?.pairs || []).map((x) => S.pairs.get(x)?.no).filter(Boolean),
       faces: B.simple ? fightersOf(S, B).map((pid) => {
         const st = S.students.get(pid), p = st && S.pairs.get(st.pairId), a = B.answers.get(pid), m = B.round?.qNo === B.qNo && B.status !== "fight" ? B.round?.mine?.[pid] : null;
@@ -1976,6 +2072,8 @@ export function setupTotalWar(deps) {
       // how far the class has got with this step: students done with their 3 questions, pairs that have picked a stop
       progress3: S.status === "playing" && S.phase === "crimson" ? { done: [...S.students.values()].filter((st) => isConnected(st) && (st.musterThisTurn || 0) >= QUIZ_PER_MOVE).length, of: [...S.students.values()].filter(isConnected).length } : null,
       ready: S.status === "playing" && S.phase === "crystal" && S.stage === "council" ? { done: [...S.bands.values()].filter((b) => b.plan || b.battle).length, of: S.bands.size } : null,
+      // Basic: the pairs that have chosen the fortress gate this round, and how many it needs
+      gateTeam: S.status === "playing" && basicFlow(S) && S.phase === "crystal" && S.stage === "council" ? { going: [...gateGoing(S)], need: gateNeed(S.pairs.size) } : null,
       phase: S.phase, stage: S.phase === "crystal" ? S.stage : null, training: untimed(S), tutorial: !!(S.practice && S.tutorial && !S.tutorialDone), practice: !!S.practice, phaseEndsAt: S.phaseEndsAt, orderEnds: S.orderEnds || 0, moveStartedAt: S.moveStartedAt || 0, strategySeconds: STRATEGY_SECONDS,
       quiz: S.phase === "crystal" && S.stage === "quiz" ? { done: [...S.students.values()].filter((st) => isConnected(st) && (prepDone(S, st) || !!bandOf(S, st.pairId)?.battle)).length, of: [...S.students.values()].filter((st) => isConnected(st)).length } : null, topupSeconds: TOPUP_SECONDS, serverNow: Date.now(), speed: SPEED,
       topic: topicLabel(S.settings.topic), commander: S.settings.commander,
@@ -2379,6 +2477,8 @@ export function setupTotalWar(deps) {
       if (r) socket.emit("twBattleAnswered", r);              // the student whose turn it is learns straight away, as in the Arena
     }));
     socket.on("twSeen", asStudent((S, st, { startedAt }) => { seenChoices(S, st, +startedAt); }));
+    // the student closed a big message (OK): their next question can come now
+    socket.on("twNoteOk", asStudent((S, st, { id: nid }) => { st.acked = [...(st.acked || []), +nid].slice(-20); S.dirty = true; }));
     socket.on("twAction", asStudent((S, st, act) => chooseAction(S, st, act)));
     socket.on("twBuy", asStudent((S, st, { item }) => buy(S, st, item)));
     socket.on("twTarget", asStudent((S, st, { index }) => {

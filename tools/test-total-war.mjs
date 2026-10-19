@@ -179,3 +179,24 @@ test('the Basic game: a round is ANSWER, MOVE and FIGHT, and the monster hits ba
   for(const k of R.EXTRA_KEYS)assert.ok(R.EXTRAS[k].name&&R.EXTRAS[k].desc&&!/;|—/.test(R.EXTRAS[k].desc));
   assert.ok(Object.values(R.noExtras()).every((v)=>v===false));
 });
+test('banners stand on their stop: the pole foot is in the top of the stop circle, and a stack stands side by side on it',async()=>{
+  const M=await import('../public/total-war/map.js');
+  const groups=[[{kind:'pair',mineBig:true}],[{kind:'host'},{kind:'pair',mineBig:true}],[{kind:'host'},{kind:'pair',small:true},{kind:'pair',small:true},{kind:'pair',mineBig:true}],[{kind:'camp'},{kind:'pair'}],[{kind:'fortress'}]];
+  for(const scale of [0.45,0.62,0.8,1]){
+    const r=M.STOP_R*M.circleScale(scale);
+    for(let node=0;node<NODES.length;node++)for(const g of groups){
+      const spots=M.stackSpots(node,g,scale);
+      const cy=NODES[node].y+M.STOP_DY;                 // the centre of the stop's circle
+      for(const s of spots){assert.ok(s.y>=cy-r&&s.y<=cy-r+10,`node ${node}: the foot (${s.y.toFixed(1)}) is in the top of the circle (${(cy-r).toFixed(1)})`);}
+      const mid=(spots[0].x-spots[0].w/2+spots.at(-1).x+spots.at(-1).w/2)/2;
+      assert.ok(Math.abs(mid-NODES[node].x)<0.01,`node ${node}: the stack is centred on the stop`);
+      for(let i=1;i<spots.length;i++)assert.ok(spots[i].x-spots[i-1].x>=(spots[i].w+spots[i-1].w)/2,'banners on one stop do not cover each other');
+      // the whole stack stays over its stop: no banner is nearer another stop than its own
+      for(const s of spots){const own=Math.hypot(s.x-NODES[node].x,0);for(let o=0;o<NODES.length;o++)if(o!==node&&g.length<=2)assert.ok(Math.hypot(s.x-NODES[o].x,s.y-NODES[o].y-M.STOP_DY+r)>own,`node ${node}: a banner is nearer stop ${o}`);}
+    }
+  }
+  // the Basic game's team health: enough for half the answers to be wrong, and never less than 50 a student
+  const R=await import('../public/total-war/rules.js');
+  assert.equal(R.basicTeamHp(2,5,3),15);assert.equal(R.basicTeamHp(6,7,6),126);assert.equal(R.basicTeamHp(1,5,1),5);
+  assert.equal(R.gateNeed(6),3);assert.equal(R.gateNeed(2),2);assert.equal(R.gateNeed(0),1);assert.equal(R.BASIC_MOVE_SECONDS,45);
+});

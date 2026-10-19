@@ -11,8 +11,8 @@
 .proj .twmap{transition:transform .7s ease}
 .proj .tw-banner .tag{font:700 calc(24px * var(--inv,1)) "Rift Body";text-shadow:0 0 3px #000,0 0 6px #000,0 2px 4px #000,0 0 12px #000;-webkit-text-stroke:calc(.6px * var(--inv,1)) #000;paint-order:stroke fill}
 .proj .tw-banner.camp .tag,.proj .tw-banner.academy .tag,.proj .tw-banner.rally .tag,.proj .tw-banner.won .tag,.proj .tw-banner.tower .tag{font-size:calc(22px * var(--inv,1))}
-.proj .tw-banner{width:auto;min-width:96px}
-.proj .tw-banner .tag{position:relative;z-index:3;padding:0 calc(6px * var(--inv,1));background:#0b141cb0;border-radius:calc(4px * var(--inv,1))}
+.proj .tw-banner{width:auto}
+.proj .tw-banner .tag{z-index:3;white-space:nowrap;padding:0 calc(6px * var(--inv,1));background:#0b141cb0;border-radius:calc(4px * var(--inv,1))}
 .proj .tw-banner .count{min-width:calc(30px * var(--inv,1));height:calc(30px * var(--inv,1));border-radius:calc(15px * var(--inv,1));font-size:calc(17px * var(--inv,1))}
 .proj .tw-banner .order{font-size:calc(14px * var(--inv,1));bottom:calc(-22px * var(--inv,1));padding:1px 6px}
 .proj .tw-banner .hp{height:calc(8px * var(--inv,1))}
@@ -230,7 +230,7 @@ function renderSimple(B, box, what, pairs) {
   const nm = (n) => esc(String(n).replace(/^Bot /, ''));
   const st = B.status === 'gather' ? 'Getting ready. Pairs one road away can come to help.'
     : B.status === 'fight' ? `Question ${B.qNo} of ${B.limit}. Everyone answers the same question. ${B.answered} of ${B.fighters} have answered.`
-    : B.status === 'result' && rd ? `${(rd.hitsBy || []).length ? `<b>${andList(rd.hitsBy.map((h) => nm(h.name)))}</b> hit for ${X(rd.each)}${rd.hitsBy.length > 1 ? ' each' : ''}!` : 'Nobody hit the monster this time.'} ${rd.rightCount} right, ${rd.wrongCount} wrong.${rd.counterTotal > 0 ? ` The monster hits back for ${X(rd.counterTotal)}.` : ''}<br>The right answer: <b>${esc(rd.choices?.[rd.answer] ?? '')}</b>`
+    : B.status === 'result' && rd ? `${(rd.hitsBy || []).length ? `<b>${andList(rd.hitsBy.map((h) => nm(h.name)))}</b> hit for ${X(rd.each)}${rd.hitsBy.length > 1 ? ' each' : ''}!` : 'Nobody hit the monster this time.'} ${rd.rightCount} right, ${rd.wrongCount} wrong.${rd.counterTotal > 0 ? ` The monster hits the team for ${X(rd.counterTotal)}.${rd.team ? ` The team's health: ${X(rd.team.hp)} of ${X(rd.team.max)}.` : ''}` : ''}<br>The right answer: <b>${esc(rd.choices?.[rd.answer] ?? '')}</b>`
     : B.outcome === 'won' ? '<b>Victory!</b> The stop is clear.' : B.outcome === 'stopped' ? 'The battle was ended. The damage dealt stays.' : B.outcome === 'lost' ? ((B.kind === 'gate' || B.kind === 'boss') ? 'The fortress held. The damage the team dealt stays. Bring more pairs!' : 'The monster was too strong. The pairs go back to the Academy to get ready again.') : '';
   $('pbHead').innerHTML = `<div class="eyebrow" style="color:#ff8a98;letter-spacing:5px">${B.kind === 'defend' ? 'DEFEND' : 'BATTLE'} · ${esc(nodeName(B.node).toUpperCase())}${B.qNo ? ` · QUESTION ${B.qNo} OF ${B.limit}` : ''}</div><h3>${esc(what)}</h3>`;
   setStrip(false);

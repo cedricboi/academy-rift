@@ -59,7 +59,7 @@ function renderLobby() {
     + [...folders].map(([f, sets]) => `<div class="folder">${esc(f.toUpperCase())}</div>` + sets.map((s) => `<button type="button" data-topic="${s.id}" class="${chosen.has(s.id) ? 'on' : ''}">${esc(s.title)} <small>· ${s.count}</small></button>`).join('')).join(''));
   opts($('setTurns'), [8, 10, 12, 14, 16, 20].map((n) => [n, `${n} turns`]), H.settings.turns);
   opts($('setCrimson'), [20, 30, 45, 60].map((n) => [n, `${n} seconds`]), H.settings.crimsonSeconds);
-  opts($('setCouncil'), [30, 45, 60, 90, 120].map((n) => [n, `${n} seconds`]), H.settings.councilSeconds);
+  opts($('setCouncil'), [30, 45, 60, 90, 120].map((n) => [n, `${n} seconds`]), H.settings.councilSeconds || (H.fullGame ? 30 : 45));     // not set: 45 s in the Basic game, 30 s in the full game
   $('setTraining').checked = !!H.settings.trainingTurn;
   $('setLock').checked = !!H.settings.warlordLock;
   opts($('setCrystal'), [90, 120, 150, 180, 240].map((n) => [n, `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')} min`]), H.settings.crystalSeconds);

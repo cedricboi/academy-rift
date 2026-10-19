@@ -31,11 +31,11 @@ export const QUESTIONS = [
     choices: ["It shows the most detail of the cells", "It gives you a wider view so you can find the specimen first", "It stops the specimen from drying out", "It makes the specimen look the biggest"],
     answer: 1,
     topic: "Microscope",
-    explain: "Low magnification shows a bigger area. This helps you locate and center your specimen before zooming in."
+    explain: "Low magnification shows a bigger area. This helps you locate and centre your specimen before zooming in."
   },
   {
     q: "What is the purpose of the light source in a microscope?",
-    choices: ["To focus the image of the specimen", "To make the specimen bigger", "To shine light through the specimen so you can see it", "To stain the specimen different colors"],
+    choices: ["To focus the image of the specimen", "To make the specimen bigger", "To shine light through the specimen so you can see it", "To stain the specimen different colours"],
     answer: 2,
     topic: "Microscope",
     explain: "The light passes through the specimen. Without light, you cannot see anything under the microscope."
@@ -70,10 +70,10 @@ export const QUESTIONS = [
   },
   {
     q: "Why do scientists use a stain like methylene blue when preparing a slide?",
-    choices: ["To make the light brighter", "To make the specimen bigger", "To color the cells so they are easier to see under the microscope", "To keep the specimen fresh"],
+    choices: ["To make the light brighter", "To make the specimen bigger", "To colour the cells so they are easier to see under the microscope", "To keep the specimen fresh"],
     answer: 2,
     topic: "Microscope",
-    explain: "Stains add color to the structures inside cells. Colored structures are much easier to see than clear, colorless ones."
+    explain: "Stains add colour to the structures inside cells. Coloured structures are much easier to see than clear, colourless ones."
   },
 
   // ── Part 2: Parts of a Cell - What Each Part Does ────────────────────────
@@ -89,11 +89,11 @@ export const QUESTIONS = [
     choices: ["The cell membrane", "The nucleus", "The cytoplasm", "The vacuole"],
     answer: 1,
     topic: "Cell Parts",
-    explain: "The nucleus is like the control center. It is in charge of what the cell does and how it grows."
+    explain: "The nucleus is like the control centre. It is in charge of what the cell does and how it grows."
   },
   {
     q: "What is the cytoplasm?",
-    choices: ["A type of cell wall", "The jelly-like substance inside the cell where most activities happen", "The colored part of a plant cell", "The outer layer of an animal cell"],
+    choices: ["A type of cell wall", "The jelly-like substance inside the cell where most activities happen", "The coloured part of a plant cell", "The outer layer of an animal cell"],
     answer: 1,
     topic: "Cell Parts",
     explain: "Cytoplasm is a watery gel that fills the cell. Chemical reactions happen here to keep the cell alive."
@@ -135,7 +135,7 @@ export const QUESTIONS = [
   },
   {
     q: "What would happen to a cell if its nucleus was removed?",
-    choices: ["It would divide faster because nothing stops it", "It would carry on as normal because the cytoplasm takes over", "It would eventually die because it has no control center", "It would grow a new nucleus because the membrane makes one"],
+    choices: ["It would divide faster because nothing stops it", "It would carry on as normal because the cytoplasm takes over", "It would eventually die because it has no control centre", "It would grow a new nucleus because the membrane makes one"],
     answer: 2,
     topic: "Cell Parts",
     explain: "The nucleus controls everything the cell does. Without it, the cell cannot survive or function."
@@ -185,7 +185,7 @@ export const QUESTIONS = [
     explain: "Chloroplasts need light to work. Root cells underground have no light, so they don't have chloroplasts."
   },
   {
-    q: "What is the color of a chloroplast?",
+    q: "What is the colour of a chloroplast?",
     choices: ["Red because it contains a red substance called haemoglobin", "Green because it contains a green substance called chlorophyll", "Yellow because it stores starch", "Clear because it is filled with cell sap"],
     answer: 1,
     topic: "Cell Types",
@@ -265,13 +265,13 @@ export const QUESTIONS = [
   },
   {
     q: "How does a multicellular organism like you work?",
-    choices: ["Each cell does everything by itself", "Trillions of cells work together in an organized way", "Only one cell controls everything", "All the cells are the same and do the same job"],
+    choices: ["Each cell does everything by itself", "Trillions of cells work together in an organised way", "Only one cell controls everything", "All the cells are the same and do the same job"],
     answer: 1,
     topic: "Cells & Org.",
-    explain: "Your body has trillions of cells. Different cells specialize in different jobs and work together to keep you alive."
+    explain: "Your body has trillions of cells. Different cells specialise in different jobs and work together to keep you alive."
   },
   {
-    q: "What does 'division of labor' mean in a multicellular organism?",
+    q: "What does 'division of labour' mean in a multicellular organism?",
     choices: ["Every cell doing all the jobs of the body", "Different cells doing different jobs to work together efficiently", "Cells dividing to make more cells", "Large cells doing the work for small cells"],
     answer: 1,
     topic: "Cells & Org.",
@@ -279,13 +279,13 @@ export const QUESTIONS = [
   },
   {
     q: "Why do multicellular organisms need many cells instead of just one giant cell?",
-    choices: ["A giant cell would be too heavy to move around", "Small cells are more efficient - different cells can specialize in different jobs", "Many small cells need less food than one giant cell", "Many small cells divide faster than one giant cell"],
+    choices: ["A giant cell would be too heavy to move around", "Small cells are more efficient - different cells can specialise in different jobs", "Many small cells need less food than one giant cell", "Many small cells divide faster than one giant cell"],
     answer: 1,
     topic: "Cells & Org.",
-    explain: "Having many specialized cells allows complex organisms to function. A single giant cell would not be as efficient."
+    explain: "Having many specialised cells allows complex organisms to function. A single giant cell would not be as efficient."
   },
   {
-    q: "How are you organized from smallest to largest?",
+    q: "How are you organised from smallest to largest?",
     choices: ["Cell → Organ → Tissue → Organism", "Cell → Tissue → Organ → Organism", "Tissue → Cell → Organ → Organism", "Organism → Organ → Tissue → Cell"],
     answer: 1,
     topic: "Cells & Org.",
@@ -354,7 +354,7 @@ export const QUESTIONS = [
     choices: ["Cancer cells spread from person to person like germs", "Too many unhealthy cells crowd out normal cells and damage organs", "Cancer cells stop all other cells from dividing", "Cancer cells divide too slowly to replace dead cells"],
     answer: 1,
     topic: "Cell Division",
-    explain: "Cancer happens when cells divide when they should not. This creates tumors that damage healthy tissue."
+    explain: "Cancer happens when cells divide when they should not. This creates tumours that damage healthy tissue."
   },
   {
     q: "How can you help your cells stay healthy and divide properly?",
@@ -395,7 +395,7 @@ export const QUESTIONS = [
   },
   {
     q: "What is a vaccine?",
-    choices: ["A medicine that kills bacteria already in your body", "A substance that teaches your immune cells to recognize and fight diseases", "A chemical that kills germs on surfaces", "A type of white blood cell given by injection"],
+    choices: ["A medicine that kills bacteria already in your body", "A substance that teaches your immune cells to recognise and fight diseases", "A chemical that kills germs on surfaces", "A type of white blood cell given by injection"],
     answer: 1,
     topic: "Cells & Tech",
     explain: "Vaccines help your body's cells learn to fight specific diseases BEFORE you catch them. This protects you."
