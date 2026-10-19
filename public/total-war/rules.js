@@ -300,16 +300,17 @@ export const EXTRAS = {
 };
 export const EXTRA_KEYS = Object.keys(EXTRAS);
 export const noExtras = () => Object.fromEntries(EXTRA_KEYS.map((k) => [k, false]));
-export const BASIC_QUESTIONS = 3;      // each student answers exactly this many questions in the ANSWER step
-export const BASIC_ANSWER_SECONDS = 90; // the ANSWER step lasts at most this long (three questions, read, answered and explained)
+export const BASIC_QUESTIONS = 1;      // each student answers exactly this many questions in the ANSWER step (one: then MOVE)
+export const BASIC_ANSWER_SECONDS = 45; // the ANSWER step lasts at most this long (one question: read, answered, even on a slow screen, and explained)
 export const BASIC_HIT = 2;            // each right answer in a Basic battle is one hit of this size (shown as 20)
 export const HELP_SECONDS = 15;        // a pair one road away has this long to say YES to helping a battle that is starting
 // (counted from the moment the card is offered to that pair; the battle waits for every pair still deciding, and starts
 // as soon as each of them has said YES or NO)
-// Steps in the Basic game: every pair starts each round with 1 step, and each right answer in the ANSWER step adds 1, at
-// most BASIC_STEPS_EACH from each partner (so a pair has at most 5, and every right answer up to that shows). A student who
-// gets all 3 right earns a star: 1 extra hit on their next right answer in a fight.
+// Steps in the Basic game: every pair starts each round with 1 step (a wrong answer still moves), and a right answer in the
+// ANSWER step adds BASIC_STEPS_EACH (a student alone: BASIC_STEPS_SOLO), so a pair with both right has 5 (the most) and a
+// student alone 4. A right answer also earns a star: 1 extra hit on that student's next right answer in a fight.
 export const BASIC_STEPS_EACH = 2;
+export const BASIC_STEPS_SOLO = 3;
 export const BASIC_STEPS_MAX = 5;
 export function basicSteps(earned = 0, buffs = {}) { return 1 + Math.max(0, Math.min(BASIC_STEPS_MAX - 1, earned)) + (buffs.mp ? 1 : 0); }
 // The gate guardian and the Warlord in the Basic game. Their health does not grow with the class: a team of 3 pairs or
@@ -368,3 +369,12 @@ export const TW_ITEMS = {
   chilli:  { price: 160, desc: 'Use it as your move in battle: a strike that does 50% more damage (30 instead of 20).' },
   durian:  { price: 180, desc: 'Use it as your move in battle: 40 damage to your target and 10 to the enemy beside it.' },
 };
+// How far the class got, in one plain sentence for the end screens (summary: the server's endSummary). Every screen says
+// the same thing: the student's iPad ("Your class ..."), the teacher's report and the projector.
+export function howFar(Y = {}, who = 'The class') {
+  const atGate = Y.reached === FORTRESS || (Y.gateFights || 0) > 0;
+  if (atGate) return Y.gate ? `${who} broke the gate${Y.warlordDmg ? ` and knocked ${Y.warlordDmg} of ${Y.warlordMax} health off the Warlord` : ''}.`
+    : `${who} reached the Crimson Fortress and knocked ${Y.gateDmg} of ${Y.gateMax} health off the gate.`;
+  if (Y.reached != null && Y.reached !== HOME) return `${who} got as far as ${nodeName(Y.reached)}, ${Y.stopsLeft} stop${Y.stopsLeft === 1 ? '' : 's'} from the Crimson Fortress.`;
+  return `${who} did not get far from the Academy.`;
+}

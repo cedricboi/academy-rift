@@ -1,4 +1,4 @@
-// Headless test of the Basic Total War game (the default): a round is ANSWER (3 questions each, +1 step a right answer),
+// Headless test of the Basic Total War game (the default): a round is ANSWER (one question each, +2 steps for a right answer, then MOVE at once),
 // MOVE (both partners tap GO) and FIGHT (pairs on one stop fight together, a pair one road away gets a Help card, everyone
 // answers the same battle question, every right answer is a hit, the monster hits back for every wrong one, and a battle
 // the monster survives sends the pairs back to the Academy). The Extras are off: no coins, food, War Cries, warbands,
@@ -71,19 +71,20 @@ console.log("--- a Basic round: ANSWER, MOVE, FIGHT ---");
   t.emit("twStart");
   await until(() => t.H.status === "playing" && t.H.phase === "crimson");
   check(t.H.step === "answer" && A[0].v.step === "answer", "round 1 starts with the ANSWER step");
+  check(t.H.progress3?.of === 6 && A[0].v.progress3?.of === 6, `the ANSWER step's progress counts the students (${t.H.progress3?.done} of ${t.H.progress3?.of})`);
   check(A[0].v.units.length === t.H.units.length, "no fog in the Basic game: students see every enemy");
   // two Ogres one road from the Academy: pairs A and B go there, pair C stays home and is asked to help
-  // (two, so the stars the students earn for 3 right answers do not finish them in the first question)
+  // (two, so the stars the students earn for their right answers do not finish them in the first question)
   t.emit("twTestSpawn", { types: ["ogre", "ogre"], node: 1 }); await sleep(100);
   t.emit("twEndTurn");
   const phases = new Set(); const watchPh = setInterval(() => phases.add(`${t.H.phase}:${t.H.stage || ""}`), 10);
   await until(() => t.H.phase === "crystal" && t.H.stage === "council", 30000);
   const answers = [...A, ...B, ...C].map((s) => s.qs.filter((q) => q.turn === 1 && q.kind === "muster").length);
-  check(answers.every((n) => n === 3), `every student answered exactly 3 questions in the ANSWER step (${answers.join(", ")})`);
+  check(answers.every((n) => n === 1), `every student answered exactly one question in the ANSWER step (${answers.join(", ")})`);
   check(!phases.has("crystal:quiz"), "no top-up questions after the ANSWER step: the MOVE step opens straight away");
   check(t.H.step === "move", "then the MOVE step");
   const bandA = bandOf(A[0].v);
-  check(bandA.mp === 5, `all right: the pair has 5 steps (1 to start, plus up to 2 from each partner): ${bandA.mp}`);
+  check(bandA.mp === 5, `both right: the pair has 5 steps (1 to start, plus 2 from each partner's right answer): ${bandA.mp}`);
   check([...A, ...B, ...C].every((s) => (s.v.me.coins || 0) === 0), "no coins are earned in the Basic game");
   A[0].emit("twGrab", { items: { bento: 1 } }); A[0].emit("twEat", { item: "bento" }); await sleep(120);
   check(A[0].errs.some((e) => /Grab-Ma is not open/.test(e)) && A[0].errs.some((e) => /no food/.test(e)), "Grab-Ma and food are refused when the Coins Extra is off");
@@ -162,7 +163,7 @@ console.log("\n--- a lost battle sends the pair back to the Academy, and an atta
   const ogre = t.H.units.find((u) => u.node === 1);
   t.emit("twMoveUnit", { unitId: ogre.id, to: HOME }); await sleep(150);
   check(t.H.units.some((u) => u.node === HOME) && !t.H.battles.length, "an enemy that walks onto a pair does not start a battle in the ANSWER step");
-  check(!s.v.myBattle && s.qs.some((q) => q.turn === 2), "the attacked pair still answers its 3 questions");
+  check(!s.v.myBattle && s.qs.some((q) => q.turn === 2), "the attacked pair still answers its question");
   t.emit("twEndTurn");
   await until(() => t.H.stage === "council", 30000);
   check(bandOf(s.v)?.node === HOME && s.v.units.some((u) => u.node === HOME), "in the MOVE step the pair sees the enemy on its stop (it may stay and fight, or move away)");
@@ -217,7 +218,9 @@ console.log("\n--- a whole Basic war: a bot class against the Bot Commander ---"
   check(maxBattles >= 2, "pairs on the same stop fought together");
   const answered = t.H.students.map((s) => s.answered);
   console.log(`  questions each: ${Math.min(...answered)} to ${Math.max(...answered)}`);
-  check(t.H.students.every((s) => s.answered >= 3 * Math.min(rounds, 8) - 3), "every bot answered its 3 questions every round, plus its battle questions");
+  check(t.H.students.every((s) => s.answered >= Math.min(rounds, 8) - 1), "every bot answered its question every round, plus its battle questions");
+  check(t.H.turn <= 8 && t.H.summary?.turns === t.H.turn, `the end screen counts the rounds really played, never one more (${t.H.summary?.turns} of 8)`);
+  check(!t.H.log.some((l) => /Crimson Host|Crystal army|Academy Ward/.test(l.text)), "the Basic game's end message uses its own words (the enemy, the class, the Academy's shield)");
   t.disconnect();
 }
 // ---------------------------------------------------------------- 5. the cold-test fixes
@@ -345,22 +348,28 @@ console.log("\n--- the fortress gate: a pair alone cannot break it, the damage s
 }
 
 if (!ONLY || ONLY === "fixes" || ONLY === "steps") {
-console.log("\n--- steps: each partner's answers count, and all 3 right earns a star ---");
+console.log("\n--- steps: one question each, a right answer is 2 steps and a star, a wrong one still moves ---");
   const t = await teacherWar({ turns: 6 });
   const S1 = student("Sam"), S2 = student("Sol");
   for (const s of [S1, S2]) await s.join(t.hs.code);
   await pairUp(S1, S2);
-  S2.wrongNext = 3;                                              // Sol gets all 3 wrong
+  S2.wrongNext = 1;                                              // Sol gets it wrong
   t.emit("twStart"); await until(() => t.H.status === "playing" && t.H.phase === "crimson");
   t.emit("twTestSpawn", { types: ["rift_hound"], node: 1 }); await sleep(60);
-  t.emit("twEndTurn");
+  // the teacher does nothing: the ANSWER step still ends as soon as both have answered (and read why)
+  const a0 = Date.now();
   await until(() => t.H.stage === "council", 30000);
+  const took = ((Date.now() - a0) * SPEED) / 1000;
+  check(took < 20, `the ANSWER step moved on once both had answered, without the teacher (${took.toFixed(1)} game s)`);
+  check(t.H.enemyPlan?.byTime === true, "with no choice from the teacher, the enemy decided by itself");
   const by = S1.stepsBy || [];
   check(by.length === 2 && by[0].name === "You" && by[0].steps === 2 && by[1].name === "Sol" && by[1].steps === 0, `each partner's steps are shown (${by.map((x) => `${x.name} +${x.steps}`).join(", ")})`);
   check(bandOf(S1.v)?.mp === 3, `the pair moves 1 + 2 + 0 = 3 steps (${bandOf(S1.v)?.mp})`);
-  const res = (S1.results || []).slice(-3);
-  check(res.length === 3 && res[0].step && res[1].step && res[2].step === false && res[2].star, `the first 2 right answers are steps, the third earns the star (${res.map((r) => `${r.step ? "step" : "no step"}${r.star ? "+star" : ""}`).join(", ")})`);
-  check(S1.v.me.star === true && !S2.v.me.star, "only the student who got all 3 right has a star");
+  const res = S1.results || [], res2 = S2.results || [];
+  check(res.length === 1 && res[0].step && res[0].gain === 2 && res[0].star && res[0].steps === 3, `Sam's one right answer: +2 steps and a star (${JSON.stringify(res.map((r) => ({ gain: r.gain, star: r.star, steps: r.steps })))})`);
+  check(res2.length === 1 && !res2[0].ok && !res2[0].step && res2[0].steps === 3, "Sol's wrong answer adds nothing, but the pair still moves");
+  check(S1.v.me.star === true && !S2.v.me.star, "only the student who was right has a star");
+  check(S1.v.progress3 == null && t.H.step === "move", "the progress line is only shown in the ANSWER step");
   for (const s of [S1, S2]) s.emit("twRoute", { route: [HOME, 1] });
   await until(() => S1.rounds.length >= 1, 30000);
   const hit = S1.rounds[0]?.hitsBy?.find((h) => h.name === "Sam");
@@ -371,9 +380,9 @@ console.log("\n--- steps: each partner's answers count, and all 3 right earns a 
 if (!ONLY || ONLY === "fixes" || ONLY === "seen") {
 console.log("\n--- the answer timer starts when the choices appear on the student's screen ---");
   const t = await teacherWar({ turns: 6 });
-  const M = student("Max", { manual: true });
-  await M.join(t.hs.code);
-  t.emit("twStart"); await until(() => M.v?.own && !M.v.own.result, 15000);
+  const M = student("Max", { manual: true }), N = student("Nat", { manual: true });
+  await M.join(t.hs.code); await N.join(t.hs.code);
+  t.emit("twStart"); await until(() => M.v?.own && !M.v.own.result && N.v?.own && !N.v.own.result, 15000);
   const q1 = M.v.own.question;
   // the choices show 8 seconds late on this screen: the student still gets the whole 21 seconds from then
   await sleep(((q1.recall + 8) * 1000) / SPEED); M.emit("twSeen", { startedAt: q1.startedAt });
@@ -381,14 +390,13 @@ console.log("\n--- the answer timer starts when the choices appear on the studen
   M.emit("twAnswer", { chosen: q1.cheat, startedAt: q1.startedAt });
   await until(() => M.v.own?.result && M.v.own.question.startedAt === q1.startedAt, 3000);
   check(M.v.own?.result?.ok === true, `an answer 18 seconds after the choices appeared counts, though the choices came late (${M.v.own?.result?.ok ? "right" : M.v.own?.result?.chosen < 0 ? "time's up" : "none"})`);
-  await until(() => M.v.own && !M.v.own.result && M.v.own.question.startedAt !== q1.startedAt, 15000);
-  const q2 = M.v.own.question;
-  await sleep(((q2.recall + q2.seconds + 2) * 1000) / SPEED);
-  M.emit("twAnswer", { chosen: q2.cheat, startedAt: q2.startedAt });
+  // Nat's screen says nothing: the question ends 21 seconds after the choices were due, plus the grace for a late screen
+  const q2 = N.v.own.question;
+  N.emit("twAnswer", { chosen: q2.cheat, startedAt: q2.startedAt });
   await sleep(100);
-  const r2 = (M.results || []).find((r) => r.startedAt === q2.startedAt);
-  check(r2 && r2.chosen < 0, "without a late screen, the question still ends 21 seconds after the choices are due");
-  for (const s of [M, t]) s.disconnect();
+  const r2 = (N.results || []).find((r) => r.startedAt === q2.startedAt);
+  check(r2 && r2.chosen < 0, "a screen that never shows the choices: the question has ended by then (time's up)");
+  for (const s of [M, N, t]) s.disconnect();
 }
 // ---------------------------------------------------------------- 6. the second cold test: always saying what happened
 const notesOf = (s, re) => (s.v?.me?.notes || []).filter((n) => re.test(n.text));
@@ -397,7 +405,7 @@ console.log("\n--- time's up: every question, MOVE and fight question that runs 
   const t = await teacherWar({ turns: 6 });
   const M = student("Mo", { manual: true, noAck: true });
   await M.join(t.hs.code);
-  // a slow screen: the choices show 12 seconds late every time, so the third question is still open when ANSWER ends
+  // a slow screen: the choices show 12 seconds late, and the student does not answer
   const seenLate = new Set(), allNotes = new Map();
   M.on("twState", (v) => {
     const q = v.own && !v.own.result ? v.own.question : null;
@@ -413,9 +421,7 @@ console.log("\n--- time's up: every question, MOVE and fight question that runs 
   await until(() => t.H.stage === "council", 30000);
   const moveSecs = ((t.H.phaseEndsAt - t.H.moveStartedAt) * SPEED) / 1000;
   check(Math.abs(moveSecs - 45) < 1, `the MOVE step lasts 45 seconds in the Basic game (${moveSecs.toFixed(1)} s)`);
-  // (the student's update can land just after the teacher's)
-  await until(() => [...allNotes.values()].some((n) => /^Time's up for the questions\./.test(n.text)), 2000);
-  check([...allNotes.values()].some((n) => n.kind === "timeup" && /^Time's up for the questions\. The round moved on to part 2, MOVE\.$/.test(n.text)), "ANSWER ending before the student finished says the round moved on to MOVE");
+  check(![...allNotes.values()].some((n) => /^Time's up for the question\. The round moved on/.test(n.text)), "even on a slow screen the one question ends (and its explanation is read) before the ANSWER step's time is up");
   // the pair stands on the enemy's stop and nobody taps GO
   t.emit("twTestPlace", { pairNo: 1, node: 1 }); await sleep(60);
   await until(() => t.H.stage !== "council", 60000);

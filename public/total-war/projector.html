@@ -16,6 +16,11 @@
 .proj .tw-banner .count{min-width:calc(30px * var(--inv,1));height:calc(30px * var(--inv,1));border-radius:calc(15px * var(--inv,1));font-size:calc(17px * var(--inv,1))}
 .proj .tw-banner .order{font-size:calc(14px * var(--inv,1));bottom:calc(-22px * var(--inv,1));padding:1px 6px}
 .proj .tw-banner .hp{height:calc(8px * var(--inv,1))}
+/* the calm Basic map at the back of the room: names a little bigger, one label per stop with pairs */
+.proj .twmap-frame.basic .tw-place{width:96px}
+.proj .twmap-frame.basic .tw-place b{font-size:15px}
+.proj .twmap-frame.basic .tw-place.fort b{font-size:17px}
+.proj .twmap-frame.basic .tw-banner .count{min-width:calc(26px * var(--inv,1));height:calc(26px * var(--inv,1));border-radius:calc(13px * var(--inv,1));font-size:calc(15px * var(--inv,1))}
 .p-head{position:absolute;left:0;right:0;top:0;height:120px;padding:18px 36px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;background:linear-gradient(#0b141cf5 55%,#0b141c00);z-index:5;pointer-events:none}
 .p-head .eyebrow{font-size:18px;letter-spacing:4px}
 .p-head h1{margin:2px 0 0;font:700 40px "Rift Pixel"}
@@ -121,7 +126,7 @@
 <script type="module">
 import { createMap, portrait, sprite, charColor, esc } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, CAMPS, showHp, plainName } from './rules.js';
+import { UNITS, CAMPS, showHp, plainName, howFar } from './rules.js';
 import { portrait as face } from './map.js';
 import { createStage, enemyName } from './stage.js';
 import { initTheatre, prepareBattle, playRound, skip as skipTheatre, hasTheatre, SCALE } from './theatre-tw.js';
@@ -132,7 +137,7 @@ const $ = (id) => document.getElementById(id);
 const code = new URLSearchParams(location.search).get('code') || '';
 const socket = io();
 // the part of the map with stops on it fills the screen below the header (banners stand above their stop)
-const map = createMap($('mapHost'), { box: [30, 0, 1440, 790], top: 112, bottom: 132, left: 0, right: 0 });
+const map = createMap($('mapHost'), { box: [110, 0, 1440, 845], top: 112, bottom: 132, left: 0, right: 0 });
 const panelW = () => Math.min(900, innerWidth * 0.47) + 40;
 stage = createStage($('pbStage'), { mode: 'all' });
 initTheatre($('pbTheatre'));
@@ -222,7 +227,7 @@ function renderTrack() {
   const st = [['ANSWER'], ['MOVE'], ['FIGHT']].map(([t], i) => `<span class="st ${i === at ? 'now' : at > i ? 'done' : ''}"><i>${i + 1}</i>${t}</span>`).join('');
   const live = (P.battles || []).filter((B) => B.status !== 'over');
   const now = P.paused ? `Paused by ${esc(P.paused.by)}. Everything waits.`
-    : P.step === 'answer' ? `While the enemy moves, every student answers 3 questions.${P.progress3 ? ` ${P.progress3.done} of ${P.progress3.of} are done.` : ''}`
+    : P.step === 'answer' ? `While the enemy moves, every student answers one question.${P.progress3 ? ` ${P.progress3.done} of ${P.progress3.of} have answered.` : ''}`
     : P.step === 'move' ? (P.stage === 'council' ? `Every pair taps a stop on the map, then GO.${P.ready ? ` ${P.ready.done} of ${P.ready.of} pairs are ready.` : ''}` : 'The banners are marching.')
     : P.step === 'fight' ? (live.length ? `${live.length === 1 ? 'A battle is' : `${live.length} battles are`} being fought. The round ends when the battles finish.` : 'The battles are over.') : '';
   $('pRt').innerHTML = P.status === 'ended' ? '' : `<div class="rt-row"><span class="rt-round">ROUND <b>${P.turn}</b> OF ${P.turns}</span>${st}</div><div class="now">${now}</div>`;
@@ -269,11 +274,11 @@ function renderEnd() {
   const Y = P.summary || {};
   const stat = (v, l, cls = '') => `<div class="e-stat ${cls}"><b>${v}</b><span>${l}</span></div>`;
   const gate = P.gate.broken ? stat('Broken', 'The fortress gate', 'good') : stat(`${showHp(P.gate.hp)} / ${showHp(P.gate.max)}`, 'Gate left standing', 'bad');
-  const lord = P.warlord.hp <= 0 ? stat('Beaten', 'The Crimson Warlord', 'good') : P.gate.broken ? stat(`${Math.round((P.warlord.hp / P.warlord.max) * 100)}%`, 'Warlord HP left', 'bad') : stat('Inside', 'The Warlord was never reached', 'bad');
+  const lord = P.warlord.hp <= 0 ? stat('Beaten', 'The Crimson Warlord', 'good') : P.gate.broken ? stat(`${Math.round((P.warlord.hp / P.warlord.max) * 100)}%`, P.basic ? "Warlord's health left" : 'Warlord HP left', 'bad') : stat('Inside', 'The Warlord was never reached', 'bad');
   const sites = (Y.camps || 0) + (Y.rally ?? (P.rally || []).length) + (Y.tower ? 1 : 0);
-  end.innerHTML = `<div class="eyebrow">${won ? 'VICTORY' : draw ? 'A DRAW' : ward ? 'THE ACADEMY HAS FALLEN' : 'THE FORTRESS STANDS'}</div>
-    <h1>${won ? (points ? 'The class wins on points' : P.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : draw ? 'The gate is broken, the Warlord stands' : ward ? 'The Academy Ward is broken' : 'The Crimson Host holds'}</h1>
-    ${!ward && P.endedBy !== 'teacher' ? `<p class="lead">The class got ${P.progress?.pct ?? 0}% of the way to victory.</p>` : ''}
+  end.innerHTML = `<div class="eyebrow">${won ? 'VICTORY' : draw ? 'A DRAW' : ward ? (P.basic ? "THE ACADEMY'S SHIELD IS BROKEN" : 'THE ACADEMY HAS FALLEN') : P.basic ? 'THE WAR IS OVER' : 'THE FORTRESS STANDS'}</div>
+    <h1>${won ? (points ? 'The class wins on points' : P.endedBy === 'teacher' ? 'The class wins' : 'The Crimson Warlord has fallen') : draw ? 'The gate is broken, the Warlord stands' : ward ? (P.basic ? 'The enemy wins' : 'The Academy Ward is broken') : P.basic ? "The enemy's castle stands" : 'The Crimson Host holds'}</h1>
+    ${P.basic && P.endedBy !== 'teacher' ? `<p class="lead">${esc(howFar(Y))}</p>` : !ward && P.endedBy !== 'teacher' ? `<p class="lead">The class got ${P.progress?.pct ?? 0}% of the way to victory.</p>` : ''}
     <div class="e-stats">${stat(Y.turns ?? P.turn, `${P.basic ? 'Round' : 'Turn'}${(Y.turns ?? P.turn) === 1 ? '' : 's'} played`)}${P.basic ? stat(Y.wins || 0, `Battle${Y.wins === 1 ? '' : 's'} won`, Y.wins ? 'good' : '') : stat(sites, 'Sites secured', sites ? 'good' : '')}${gate}${lord}${stat(`${Y.pct ?? 0}%`, `Class accuracy (${Y.correct ?? 0} of ${Y.answered ?? 0} right)`)}</div>
     <div class="e-cols">
       ${Y.top?.length ? `<div class="e-top"><h3>MOST RIGHT ANSWERS</h3><ol>${Y.top.map((t, i) => `<li><i>${i + 1}</i><span>${esc(t.name)}</span><small>${t.correct} right</small></li>`).join('')}</ol></div>` : ''}

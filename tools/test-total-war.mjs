@@ -171,9 +171,15 @@ test('the Basic game: a round is ANSWER, MOVE and FIGHT, and the monster hits ba
   assert.equal(R.roundStep('crystal','council'),'move');assert.equal(R.roundStep('crystal','march'),'move');
   assert.equal(R.roundStep('battles',null),'fight');assert.equal(R.roundStep(null,null),null);
   assert.equal(R.basicCounter(1,0),0);assert.equal(R.basicCounter(3,2),6);assert.equal(R.basicCounter(8,1),8);
-  assert.equal(R.BASIC_QUESTIONS,3);assert.equal(R.BASIC_HIT,2);assert.ok(R.HELP_SECONDS>=10);
-  // the ANSWER step has room for 3 whole questions (read, answer and the explanation after each)
-  assert.ok(R.BASIC_ANSWER_SECONDS>=R.BASIC_QUESTIONS*(R.READ_SECONDS+R.ANSWER_SECONDS));
+  assert.equal(R.BASIC_QUESTIONS,1);assert.equal(R.BASIC_HIT,2);assert.ok(R.HELP_SECONDS>=10);
+  // one question per ANSWER step: room for it on a slow screen (the late choices' grace) and its explanation, and short
+  assert.ok(R.BASIC_ANSWER_SECONDS>=R.READ_SECONDS+R.ANSWER_SECONDS+R.SEEN_GRACE+5&&R.BASIC_ANSWER_SECONDS<=45);
+  // a right answer is 2 steps (alone: 3), so a pair with both right has the most (5) and a wrong answer still moves 1
+  assert.equal(R.basicSteps(0),1);assert.equal(R.basicSteps(2*R.BASIC_STEPS_EACH),5);assert.equal(R.basicSteps(R.BASIC_STEPS_SOLO),4);
+  // how far the class got: the same sentence on every end screen
+  assert.equal(R.howFar({reached:R.HOME}),'The class did not get far from the Academy.');
+  assert.match(R.howFar({reached:R.FORTRESS,gateDmg:120,gateMax:1000,gate:false},'Your class'),/^Your class reached the Crimson Fortress and knocked 120 of 1000 health off the gate\.$/);
+  assert.match(R.howFar({reached:1,stopsLeft:4}),/^The class got as far as .+, 4 stops from the Crimson Fortress\.$/);
   // every Extra has a name and a plain description, and all are off in a new war
   assert.deepEqual(R.EXTRA_KEYS,['coins','hp','moves','pick','join','warcry','camps','fog']);
   for(const k of R.EXTRA_KEYS)assert.ok(R.EXTRAS[k].name&&R.EXTRAS[k].desc&&!/;|—/.test(R.EXTRAS[k].desc));

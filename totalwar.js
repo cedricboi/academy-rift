@@ -16,7 +16,7 @@ import {
   TOPUP_SECONDS, LATE_TOPUP_SECONDS, RESUME_SECONDS, assignTargets, splitCounter, PREP_COINS,
   REINFORCE_SECONDS, REINFORCE_MAX, reinforceBonus, REGROUP_STEPS, LATE_STEPS, LATE_PLAN_SECONDS, reachable, BATTLE_WAIT_SECONDS,
   EXTRA_KEYS, noExtras, BASIC_QUESTIONS, BASIC_ANSWER_SECONDS, BASIC_HIT, HELP_SECONDS, BASIC_RESULT_SECONDS, basicCounter, roundStep,
-  BASIC_STEPS_EACH, basicSteps, BASIC_GATE_HP, BASIC_WARLORD_HP, LAST_PAIR_SECONDS, SEEN_GRACE,
+  BASIC_STEPS_EACH, BASIC_STEPS_SOLO, basicSteps, BASIC_GATE_HP, BASIC_WARLORD_HP, LAST_PAIR_SECONDS, SEEN_GRACE,
   gateNeed, BASIC_MOVE_SECONDS, NOTE_HOLD_SECONDS, basicTeamHp,
 } from "./public/total-war/rules.js";
 
@@ -279,9 +279,10 @@ export function setupTotalWar(deps) {
 
   function startCrimson(S) {
     saveWar(S);                                   // a snapshot at every turn boundary: a restart resumes from here
+    // (the war ends with the rounds really played: the count never goes one past the last)
+    if (S.turn >= S.settings.turns) return endByProgress(S, "turns");
+    if (timeUp(S) && S.turn > 0) return endByProgress(S, "time");
     S.turn++;
-    if (S.turn > S.settings.turns) return endByProgress(S, "turns");
-    if (timeUp(S)) return endByProgress(S, "time");
     S.phase = "crimson"; S.teacherEnded = false; S.enemyPlan = null;
     // a pair beaten last turn is back to full HP at its rally point: losing costs the ground, not the HP
     for (const p of S.pairs.values()) if (p.revive) { p.revive = false; p.hp = p.maxHp; }
@@ -289,17 +290,17 @@ export function setupTotalWar(deps) {
     for (const p of S.pairs.values()) { const b = bandOf(S, p.id); if (b && b.node !== p.lastNode) { p.lastNode = b.node; p.lastMovedTurn = S.turn; } }
     if (siegeAcademy(S)) return;
     S.phaseStartedAt = Date.now(); S.phaseEndsAt = Date.now() + ms(S.settings.crimsonSeconds);
-    // Basic: the ANSWER step lasts until every student has answered their 3 questions (and the teacher has moved), at most
-    // BASIC_ANSWER_SECONDS. The teacher's own time (crimsonSeconds) only ends it once everyone is done.
+    // Basic: the ANSWER step lasts until every student has answered their one question and read why, at most
+    // BASIC_ANSWER_SECONDS. It never waits for the teacher: an enemy with no orders decides by itself (idleEnemy).
     S.softEndsAt = S.phaseEndsAt;
-    if (basicFlow(S)) S.phaseEndsAt = Date.now() + ms(Math.max(S.settings.crimsonSeconds, BASIC_ANSWER_SECONDS));
+    if (basicFlow(S)) S.phaseEndsAt = Date.now() + ms(BASIC_ANSWER_SECONDS);
     S.energy = Math.min(S.energy, energyCarry) + energyPerTurn(S.pairs.size);
     for (const u of S.units.values()) { u.moved = 0; if (S.turn > 1) u.tutorial = false; }
     for (const [n, c] of Object.entries(S.camps)) if (!c.alive && c.returnTurn <= S.turn) { c.alive = true; c.hp = CAMPS[n].hp; say(S, `${CAMPS[n].name} has returned to ${nodeName(+n)}.`); }
     for (const st of S.students.values()) { st.musterThisTurn = 0; st.prepRight = 0; st.prep = 0; if (!st.own || st.own.kind !== "muster") st.own = null; }
     for (const p of S.pairs.values()) { p.bank = 0; if (p.joinIntent && S.turn > (p.intentTurn || 0) + 1) p.joinIntent = null; }
     for (const b of S.bands.values()) { b.done = true; b.votes = {}; }
-    say(S, basicFlow(S) ? `Round ${S.turn}. While the enemy moves, every student answers 3 questions.` : `Turn ${S.turn}. The Crimson Host moves.`, "crimson");
+    say(S, basicFlow(S) ? `Round ${S.turn}. While the enemy moves, every student answers one question.` : `Turn ${S.turn}. The Crimson Host moves.`, "crimson");
     S.dirty = true;
   }
 
@@ -584,7 +585,9 @@ export function setupTotalWar(deps) {
     return "waiting";
   }
   // the top-up is done when every student still playing has answered their 3 preparing questions and is not on one
-  const prepDone = (S, st) => (st.musterThisTurn || 0) >= QUIZ_PER_MOVE && !(st.own?.kind === "muster" && !st.own.result);
+  // questions each student answers before the move: one in the Basic game, 3 in the full game
+  const perRound = (S) => (basicFlow(S) ? BASIC_QUESTIONS : QUIZ_PER_MOVE);
+  const prepDone = (S, st) => (st.musterThisTurn || 0) >= perRound(S) && !(st.own?.kind === "muster" && !st.own.result);
   const fightingNow = (S, st) => !!bandOf(S, st.pairId)?.battle;
   const planningLate = (S, st) => (bandOf(S, st.pairId)?.lateUntil || 0) > Date.now();
   const quizDone = (S) => [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
@@ -596,10 +599,12 @@ export function setupTotalWar(deps) {
     clearInterval(S.timer); S.timer = null;
     for (const B of S.battles.values()) B.status = "over";
     const why = how === "time" ? "Time is up. " : how === "turns" ? (basicFlow(S) ? "The last round is over. " : "The last turn is over. ") : "";
-    say(S, how === "teacher" ? `${S.settings.commander} declares the Crystal army the winner!`
-      : winner === "crystal" ? (how ? `${why}The Warlord is badly hurt. The Crystal army wins on points!` : "The Crimson Warlord has fallen. The Crystal army wins!")
+    const army = basicFlow(S) ? "the class" : "the Crystal army", Army = basicFlow(S) ? "The class" : "The Crystal army";
+    say(S, how === "teacher" ? `${S.settings.commander} declares ${army} the winner!`
+      : winner === "crystal" ? (how ? `${why}The Warlord is badly hurt. ${Army} wins on points!` : `The Crimson Warlord has fallen. ${Army} wins!`)
       : winner === "draw" ? `${why}The gate is broken, but the Warlord still stands. The war is a draw.`
-      : how === "ward" ? "The Academy Ward is broken. The Crimson Host wins this war." : `${why}The Crimson Fortress stands. The Crimson Host wins this war.`, "big");
+      : how === "ward" ? (basicFlow(S) ? "The Academy's shield is broken. The enemy wins this war." : "The Academy Ward is broken. The Crimson Host wins this war.")
+      : basicFlow(S) ? `${why}The enemy's castle stands. The enemy wins this war.` : `${why}The Crimson Fortress stands. The Crimson Host wins this war.`, "big");
     S.report = buildReport(S);
     saveWar(S);
   }
@@ -646,23 +651,24 @@ export function setupTotalWar(deps) {
     const free = untimed(S), go = !!S.advance; S.advance = false;
     if (S.phase === "crimson") {
       if (free) {
-        const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= MUSTER_PER_TURN || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
+        const musterDone = [...S.students.values()].every((st) => st.musterThisTurn >= perRound(S) || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
         const open = [...S.students.values()].some((st) => isConnected(st) && st.own && (!st.own.result || basicFlow(S)));
-        if (go || (S.teacherEnded && musterDone && !open)) { dropOpen(S); idleEnemy(S); runOrders(S); startCrystal(S); if (basicFlow(S) && S.status === "playing") openMoves(S); }
+        // (the Basic game never waits for the teacher: once everyone has answered, an enemy with no orders decides by itself)
+        if (go || ((S.teacherEnded || (basicFlow(S) && !S.settings.botCommander)) && musterDone && !open)) { dropOpen(S); idleEnemy(S); runOrders(S); startCrystal(S); if (basicFlow(S) && S.status === "playing") openMoves(S); }
         return flush(S);
       }
       // the class prepares for at most crimsonSeconds (30 s); it ends sooner once the teacher has ended the turn
       // and everyone has answered their preparing questions. A question still open carries on into the short top-up.
       const musterDone = [...S.students.values()].every((st) => prepDone(S, st) || !isConnected(st) || fightingNow(S, st) || planningLate(S, st));
       if (basicFlow(S)) {
-        // Basic: the round moves on once everyone has answered 3 (and the teacher has ended the turn, or the teacher's
-        // time is up), or when the ANSWER step's longest time is up
-        // (the last answer's explanation is read first: the map does not open under it)
+        // Basic: the round moves on as soon as everyone has answered their one question (the last answer's explanation is
+        // read first: the map does not open under it), or when the ANSWER step's longest time is up. It does not wait for
+        // the teacher.
         const reading = [...S.students.values()].some((st) => st.own && isConnected(st));
-        if ((musterDone && !reading && (S.teacherEnded || now >= S.softEndsAt)) || now >= S.phaseEndsAt) {
-          // a student whose questions were not all answered is told why they disappeared
+        if ((musterDone && !reading) || now >= S.phaseEndsAt) {
+          // a student whose question was not answered is told why it disappeared
           for (const st of S.students.values()) if (!st.bot && isConnected(st) && !fightingNow(S, st) && ((st.musterThisTurn || 0) < BASIC_QUESTIONS || (st.own && !st.own.result)))
-            studentNote(S, st, "Time's up for the questions. The round moved on to part 2, MOVE.");
+            studentNote(S, st, "Time's up for the question. The round moved on to part 2, MOVE.");
           idleEnemy(S); runOrders(S); startCrystal(S); if (S.status === "playing") { dropOpen(S, true); openMoves(S); }
         }
       } else if ((S.teacherEnded && musterDone) || now >= S.phaseEndsAt) { runOrders(S); startCrystal(S); }
@@ -746,8 +752,9 @@ export function setupTotalWar(deps) {
     // move: no new question yet
     if (p.afterUntil > now && afterOptions(S, p)) return;
     if (b.lateUntil > now) return;
-    if (basicFlow(S) && !xo(S, "warcry")) {
-      // Basic: exactly 3 questions in the ANSWER step, and nothing else (no War Cries, no bonus questions, no top-ups)
+    if (basicFlow(S) && (!xo(S, "warcry") || S.phase === "crimson" || (S.phase === "crystal" && S.stage !== "march"))) {
+      // Basic: exactly one question in the ANSWER step, and nothing else (no bonus questions or top-ups; War Cries only
+      // with their Extra, while battles are fought)
       if (S.phase !== "crimson" || st.musterThisTurn >= BASIC_QUESTIONS) return;
       if (!untimed(S) && now + ms(READ_SECONDS + 4) > S.phaseEndsAt) return;      // too late for a whole question
       // a big message that needs an OK (the pair was sent back) is read first: the question waits until it is closed,
@@ -811,20 +818,28 @@ export function setupTotalWar(deps) {
       }
       // each student adds up to PREP_AP_EACH (a student alone, up to the pair's cap), so both partners count
       const p = pairOf(S, st.pid);
-      if (ok && p) {
+      if (basicFlow(S)) {
+        // Basic: one question each. A right answer adds BASIC_STEPS_EACH steps for the pair (a student alone:
+        // BASIC_STEPS_SOLO) and a star; a wrong one adds nothing, but the pair still has its 1 step to move.
+        if (ok && p && st.musterThisTurn === 1) {
+          st.prep = p.members.length > 1 ? BASIC_STEPS_EACH : BASIC_STEPS_SOLO;
+          p.bank = p.members.reduce((a, m) => a + (S.students.get(m)?.prep || 0), 0);
+          o.result.step = true; o.result.gain = st.prep;
+          if (!st.star) o.result.star = true;
+          st.star = true;
+        }
+        if (p) o.result.steps = basicSteps(p.bank || 0, buffOn(S));
+      } else if (ok && p) {
         st.prep = (st.prep || 0) + 1;
-        // Basic: every right answer is 1 step for the pair, at most 2 from each partner (a student alone: up to 3, their
-        // whole 3 questions), so each student's own answers count. The full game also caps each partner at 2.
-        const each = basicFlow(S) ? (p.members.length > 1 ? BASIC_STEPS_EACH : BASIC_QUESTIONS) : p.members.length > 1 ? PREP_AP_EACH : MUSTER_MP_CAP;
-        const cap = basicFlow(S) ? Infinity : MUSTER_MP_CAP;
+        // each partner adds at most PREP_AP_EACH, so each student's own answers count
+        const each = p.members.length > 1 ? PREP_AP_EACH : MUSTER_MP_CAP;
+        const cap = MUSTER_MP_CAP;
         const before = Math.min(cap, p.bank || 0);
         p.bank = p.members.reduce((a, m) => a + Math.min(each, S.students.get(m)?.prep || 0), 0);
         // did this answer add a step?
         o.result.step = Math.min(cap, p.bank) > before;
       }
-      if (p) o.result.steps = basicFlow(S) ? basicSteps(p.bank || 0, buffOn(S)) : pairMP(p.bank || 0, buffOn(S));
-      // Basic: all 3 right earns a star, 1 extra hit on the student's next right answer in a fight
-      if (basicFlow(S) && st.musterThisTurn === BASIC_QUESTIONS && (st.prepRight || 0) >= BASIC_QUESTIONS) { st.star = true; o.result.star = true; }
+      if (p && !basicFlow(S)) o.result.steps = pairMP(p.bank || 0, buffOn(S));
     } else if (o.kind === "warcry") {
       const B = S.battles.get(o.battleId);
       if (B && ok) { B.warcryNow++; B.cheers.set(st.pairId, (B.cheers.get(st.pairId) || 0) + 1); }
@@ -2093,9 +2108,9 @@ export function setupTotalWar(deps) {
       code: S.code, status: S.status, winner: S.winner, turn: S.turn, turns: S.settings.turns,
       // the Basic game, which Extras are on, and which step of the round the class is on (answer, move, fight)
       basic: basicFlow(S), fullGame: !!S.settings.full, extras: Object.fromEntries(EXTRA_KEYS.map((k) => [k, xo(S, k)])), step: S.status === "playing" ? roundStep(S.phase, S.stage) : null,
-      basicQuestions: BASIC_QUESTIONS,
-      // how far the class has got with this step: students done with their 3 questions, pairs that have picked a stop
-      progress3: S.status === "playing" && S.phase === "crimson" ? { done: [...S.students.values()].filter((st) => isConnected(st) && (st.musterThisTurn || 0) >= QUIZ_PER_MOVE).length, of: [...S.students.values()].filter(isConnected).length } : null,
+      basicQuestions: BASIC_QUESTIONS, stepsEach: BASIC_STEPS_EACH, stepsSolo: BASIC_STEPS_SOLO,
+      // how far the class has got with this step: students done with their question(s), pairs that have picked a stop
+      progress3: S.status === "playing" && S.phase === "crimson" ? (() => { const who = [...S.students.values()].filter((st) => isConnected(st) && (!st.bot || S.practice)); return { done: who.filter((st) => prepDone(S, st)).length, of: who.length }; })() : null,
       ready: S.status === "playing" && S.phase === "crystal" && S.stage === "council" ? { done: [...S.bands.values()].filter((b) => b.plan || b.battle).length, of: S.bands.size } : null,
       // Basic: the pairs that have chosen the fortress gate this round, and how many it needs
       gateTeam: S.status === "playing" && basicFlow(S) && S.phase === "crystal" && S.stage === "council" ? { going: [...gateGoing(S)], need: gateNeed(S.pairs.size) } : null,
@@ -2145,7 +2160,7 @@ export function setupTotalWar(deps) {
     v.me = { pid: st.pid, name: st.name, pairId: p?.id || null, pairNo: p?.no || null, char: st.char || p?.char || null, bandId: b?.id || null, coins: st.coins || 0, bag: st.bag || {},
       partner: p ? p.members.filter((m) => m !== st.pid).map((m) => S.students.get(m)?.name) : [], bank: p?.bank || 0, prep: st.prep || 0,
       // Basic: the steps each partner has earned this round (you first), and a star waiting for the next fight
-      stepsBy: p && basicFlow(S) ? [st.pid, ...p.members.filter((m) => m !== st.pid)].map((m) => { const o = S.students.get(m); return { name: m === st.pid ? "You" : plainStudent(S, m), steps: Math.min(p.members.length > 1 ? BASIC_STEPS_EACH : BASIC_QUESTIONS, o?.prep || 0), me: m === st.pid }; }) : null,
+      stepsBy: p && basicFlow(S) ? [st.pid, ...p.members.filter((m) => m !== st.pid)].map((m) => { const o = S.students.get(m); return { name: m === st.pid ? "You" : plainStudent(S, m), steps: o?.prep || 0, done: (o?.musterThisTurn || 0) >= BASIC_QUESTIONS, me: m === st.pid }; }) : null,
       star: !!st.star };
     v.me.want = st.want; v.me.myChar = st.char; v.me.ready = st.ready; v.me.orderDone = !!st.orderDone; v.me.ordered = st.orderedTurn === S.turn; v.me.quiz = st.musterThisTurn || 0; v.me.quizRight = st.prepRight || 0; v.me.supporting = st.supporting || null;
     v.me.cryUntil = st.cryUntil || 0;

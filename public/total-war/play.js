@@ -2,7 +2,7 @@
 import { createMap, stepOptions, roadPoints, portrait, sprite, charColor, esc, setHTML } from './map.js';
 import { createCard } from './card.js';
 import { NODES } from './movement.js';
-import { CAMPS, UNITS, FORTRESS, HOME, OUTPOSTS, WATCHTOWER, battleLength, neighbours, cost as roadCost, hops, showHp, plainName, BIG_TEAM, BASIC_STEPS_EACH } from './rules.js';
+import { CAMPS, UNITS, FORTRESS, HOME, OUTPOSTS, WATCHTOWER, battleLength, neighbours, cost as roadCost, hops, showHp, plainName, BIG_TEAM, BASIC_STEPS_EACH, BASIC_STEPS_SOLO, howFar } from './rules.js';
 import { routePoints } from './movement.js';
 import { BANNERS, bannerFor } from './banners.js';
 import { createStage, enemyName } from './stage.js';
@@ -201,9 +201,7 @@ function render() {
   if (band) for (const [pid, r] of Object.entries(band.props || {})) if (pid !== S.me.pairId && Array.isArray(r) && r.length > 1) friends.push(lineOf(r));
   if (planning && Array.isArray(matePick) && shown !== matePick && matePick.length > 1) friends.push(lineOf(matePick));
   trackLastSeen();
-  // Basic, picking a stop: the stops the pair cannot reach this round fade back
-  const far = S.basic && planning ? new Set(NODES.map((_, i) => i).filter((i) => i !== band.node && !reach.has(i))) : null;
-  map.render({ state: S, basic: !!S.basic, far, legend: !!S.basic && S.status === 'playing' && !S.myBattle && !S.own && (S.step === 'move' || S.step === 'fight'), mineNo: S.me?.pairNo ?? null, mine: band?.id, focusNode: band?.node ?? null, options, selected, route: shown?.length > 1 ? lineOf(shown) : null,
+  map.render({ state: S, basic: !!S.basic, mineNo: S.me?.pairNo ?? null, mine: band?.id, focusNode: band?.node ?? null, options, selected, route: shown?.length > 1 ? lineOf(shown) : null,
     friends, ghost: shown?.length > 1 && band?.status !== 'marching' ? { node: shown.at(-1), char: S.me.char } : null,
     lastSeen: [...lastSeen.values()].filter((g) => !S.units.some((u) => u.id === g.id)), status: null,   // the bar along the bottom says what your warband is doing
     // after a defeat: the wounded enemy, and friendly companies the company could reach and join
@@ -216,8 +214,8 @@ function render() {
   rallyPrimed = true;
 
   // ribbon: only for alarms (the Academy under attack, or a siege unit you can see within one march of it)
-  const siege = S.units.some((u) => u.node === HOME && !u.battle);
-  const threat = !siege && !S.basic && S.units.find((u) => UNITS[u.type]?.siege && (fromHome.get(u.node) ?? 99) <= UNITS[u.type].speed);
+  const siege = S.status === 'playing' && S.units.some((u) => u.node === HOME && !u.battle);    // (never over the end screen)
+  const threat = !siege && !S.basic && S.status === 'playing' && S.units.find((u) => UNITS[u.type]?.siege && (fromHome.get(u.node) ?? 99) <= UNITS[u.type].speed);
   $('ribbon').textContent = siege ? (S.basic ? `⚠ The enemy army is at the Academy! It breaks the Academy's shield every round. Drive it out before the shield breaks (${Math.ceil(S.ward.hp)} of ${S.ward.max} left).` : `⚠ The Crimson Host is at the Academy! Drive them out before the Ward breaks (${S.ward.hp} of ${S.ward.max} left).`)
     : threat ? `⚠ ${UNITS[threat.type].name.split(' ').slice(-1)[0]} sighted at ${nodeName(threat.node)}: it is within one march of the Academy Ward.` : '';
   $('ribbon').classList.toggle('warn', !!threat);
@@ -427,7 +425,7 @@ function pathTo(band, to) {
 }
 function planTap(n) {
   const band = myBand(); if (!isPlanning() || !band || band.battle) return;
-  if (document.body.classList.contains('coach-focus') && !$('mapHost').querySelector(`[data-stop="${n}"].coach-target`)) { toast('For this practice, tap the glowing stop with crossed swords.'); return; }
+  if (document.body.classList.contains('coach-focus') && !$('mapHost').querySelector(`[data-stop="${n}"].coach-target`)) { toast(`For this practice, tap ${S?.basic ? 'Lantern Crossroads, the stop with the monster' : 'the glowing stop with crossed swords'}.`); return; }
   if (S.basic && n === FORTRESS && gateCount(band).going < gateCount(band).need) { const left = gateCount(band).need - gateCount(band).going; flash(`The gate needs a big team. Get ${plural(left, 'more pair')} to come with you.`, 'gate'); }
   if (!draft || draft[0] !== band.node) draft = [band.node];
   const i = draft.indexOf(n);
@@ -705,10 +703,9 @@ function renderQuestion() {
     setHTML($('qdHead'), `<div class="eyebrow">BEFORE YOU MOVE · QUESTION ${Math.min(3, n)} OF 3</div><div class="qd-title">Earn coins for Grab-Ma</div>
       <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer: <b>+10 coins</b>. All 3 right: <b>+20 bonus</b>. Then you plan your move.</span></div>`);
   } else if (o.kind === 'muster' && S.basic) {
-    // Basic: question N of 3, and how many steps the pair has so far
-    const n = Math.min(S.basicQuestions || 3, (S.me.quiz || 0) + (o.result ? 0 : 1)), of = S.basicQuestions || 3, steps = pairSteps();
-    const pips = Array.from({ length: of }, (_, i) => `<i class="${i < (S.me.quizRight || 0) ? 'on' : i < (S.me.quiz || 0) ? 'miss' : ''}"></i>`).join('');
-    setHTML($('qdHead'), `<div class="qd-basic"><div class="qd-n">QUESTION <b>${n}</b> OF ${of}</div><span class="pips">${pips}</span><div class="qd-steps">Your pair has <b>${plural(steps, 'step')}</b>${stepsByLine()}</div></div>
+    // Basic: one question, and how many steps the pair has so far
+    const steps = pairSteps();
+    setHTML($('qdHead'), `<div class="qd-basic"><div class="qd-n">YOUR QUESTION</div><div class="qd-steps">Your pair has <b>${plural(steps, 'step')}</b>${stepsByLine()}</div></div>
       <div class="qd-why">${esc(stepsRule())}</div>`);
   } else if (o.kind === 'muster') {
     const bank = S.me.bank, ap = 1 + Math.min(3, bank);   // each partner adds up to 2 steps, so both answers count
@@ -718,8 +715,9 @@ function renderQuestion() {
     setHTML($('qdHead'), `<div class="eyebrow">${S.stage === 'quiz' ? 'LAST QUESTIONS BEFORE YOUR MOVE' : 'WHILE THE ENEMY MOVES'} · QUESTION ${n} OF 3</div><div class="qd-title">Earn steps and coins</div>
       <div class="qd-mp"><span class="pips">${pips}</span><span>Each right answer gives your pair <b>1 step</b> (up to 2 from each of you) and you <b>20 coins</b>. All 3 right: <b>+20 bonus</b>. Your next move: <b>${ap} step${ap === 1 ? '' : 's'}</b>${bank >= 3 ? ' (the most)' : ''}</span></div>`);
   } else setHTML($('qdHead'), `<div class="eyebrow" style="color:var(--rose)">WAR CRY</div><div class="qd-title">Cheer on the battle${battle ? ` at ${esc(nodeName(battle.node))}` : ''}</div><div class="qd-mp"><span>Every right answer hits the enemy there.</span></div>`);
-  const star = o.result?.star ? ' All 3 right, so you earned a star! It gives 1 extra hit in your next fight.' : '';
-  const footer = o.result && S.basic && o.kind === 'muster' ? (o.result.ok ? (o.result.step === false ? `Right! You already earned your ${plural(BASIC_STEPS_EACH, 'step')}, so this one adds no step.${star}` : `Right! +1 step from you. Your pair has ${plural(o.result.steps ?? pairSteps(), 'step')}.${star}`) : o.result.chosen < 0 ? "Time's up. No step this time." : 'Not quite. No step this time.')
+  const star = o.result?.star ? ' You also earned a star: 1 extra hit in your next fight.' : '';
+  const footer = o.result && S.basic && o.kind === 'muster' ? (o.result.ok ? `Right! +${plural(o.result.gain ?? myGain(), 'step')} from you. Your pair has ${plural(o.result.steps ?? pairSteps(), 'step')}.${star}`
+    : `${o.result.chosen < 0 ? "Time's up." : 'Not quite.'} No extra steps from you, but your pair can still move.`)
     : o.result ? (o.result.ok ? (o.kind === 'muster' ? `Correct! A step for your pair and +20 coins${o.result.bonus ? `, plus +${o.result.bonus} bonus` : ''}.${o.result.cheer != null ? ` It also cheered on the battle at ${nodeName(o.result.cheer)}.` : ''}` : o.kind === 'quiz' ? `Correct! +10 coins${o.result.bonus ? ` and +${o.result.bonus} bonus` : ''}` : 'Correct! Your War Cry strikes.') : o.result.chosen < 0 ? "Time's up." : o.kind === 'warcry' ? 'Not quite. Your next War Cry comes in a few seconds.' : 'Not quite.') : '';
   card.show({
     q: o.question, tag: o.kind === 'muster' ? (S.basic ? '1 · ANSWER' : 'EARN STEPS') : o.kind === 'quiz' ? (o.bonus ? 'BONUS' : 'BEFORE YOU MOVE') : 'WAR CRY', thumb: S.me.char ? portrait(S.me.char) : null,
@@ -914,11 +912,8 @@ function renderEndingBasic(box) {
     : draw ? 'Your class broke the gate, but the Warlord still stands.' : ward ? 'The enemy army broke the Academy\'s shield.' : `${esc(boss())} held the fortress this time.`;
   // how far the class got: the fortress counts once the class has fought at its gate
   const atGate = Y.reached === FORTRESS || (Y.gateFights || 0) > 0;
-  const far = atGate
-    ? (Y.gate ? `Your class broke the gate${Y.warlordDmg ? ` and knocked ${Y.warlordDmg} of ${Y.warlordMax} health off the Warlord` : ''}.`
-      : `Your class reached the Crimson Fortress and knocked ${Y.gateDmg} of ${Y.gateMax} health off the gate.`)
-    : Y.reached != null && Y.reached !== HOME ? `Your class got as far as ${esc(nodeName(Y.reached))}, ${plural(Y.stopsLeft, 'stop')} from the Crimson Fortress.` : 'Your class did not get far from the Academy.';
-  const mine = A.asked ? `You got <b>${A.correct}</b> of your <b>${A.asked}</b> answers right.` : 'You did not answer any questions this war.';
+  const far = esc(howFar(Y, 'Your class'));
+  const mine = A.asked ? `You got <b>${A.correct}</b> of your <b>${A.asked}</b> answer${A.asked === 1 ? '' : 's'} right.` : 'You did not answer any questions this war.';
   const answers = showAnswers ? `<div class="my-answers"><div class="eyebrow">YOUR ANSWERS</div>${A.list.length ? `<ol>${A.list.map((q) => `<li class="${q.ok ? 'ok' : 'no'}"><i>${q.ok ? '✓' : '✗'}</i><div><p>${esc(q.text)}</p>${q.ok ? `<small>Right: ${esc(q.key)}</small>` : `<small>You chose: ${esc(q.chose)}. The answer is ${esc(q.key)}.</small>`}</div></li>`).join('')}</ol>` : '<p>No answers yet.</p>'}</div>` : '';
   const pin = (n, cls, label) => (n == null ? '' : `<i class="${cls}" style="left:${(NODES[n].x / 14.4).toFixed(2)}%;top:${(NODES[n].y / 9).toFixed(2)}%">${esc(label)}</i>`);
   const furthest = atGate ? FORTRESS : Y.reached;
@@ -966,8 +961,8 @@ const HELP = [
 // the Basic game's How to play: one slide for the goal and one for each step of a round
 const HELP_BASIC = [
   { art: "url(art/keyart.webp)", t: 'Your mission', p: () => [`Break into the <b>Crimson Fortress</b>, the enemy's castle on the right of the map, and beat the <b>Warlord</b>.`, `${esc(boss())} leads the enemy army against you. A <b>pair</b> is you and your partner.`] },
-  { art: "url(monsters/orc_warchanter.png)", t: 'Part 1: Answer', p: () => ['Every round starts with <b>3 questions</b> while the enemy moves.', `Each right answer is <b>1 step</b> on the map. You can earn up to ${BASIC_STEPS_EACH}, and so can your partner.`] },
-  { art: "url(portraits/S.webp)", t: 'Part 2: Move', p: () => ['<b>Tap a glowing stop</b> on the map, then tap <b>GO</b>. The number on a stop is how many steps it costs.', 'Your partner taps <b>GO</b> on the same stop too.'] },
+  { art: "url(monsters/orc_warchanter.png)", t: 'Part 1: Answer', p: () => ['Every round starts with <b>one question</b> for you while the enemy moves.', `A right answer gives your pair <b>${BASIC_STEPS_EACH} more steps</b> on the map, and your partner's right answer does too. A wrong answer still lets your pair move 1 step.`] },
+  { art: "url(portraits/S.webp)", t: 'Part 2: Move', p: () => ['<b>Tap a stop with a number</b> on the map, then tap <b>GO</b>. The number on a stop is how many steps it costs.', 'Your partner taps <b>GO</b> on the same stop too.'] },
   { art: "url(monsters/golem.png)", t: 'Part 3: Fight', p: () => ['Land on a monster to fight it. Everyone in the fight answers <b>the same question</b>, and every right answer <b>hits the monster</b>.', `Pairs on the same stop fight together. The fortress gate <b>needs a big team (${BIG_TEAM}+ pairs)</b>.`] },
 ];
 const helpList = () => (S?.basic !== false ? HELP_BASIC : HELP);
@@ -1104,18 +1099,18 @@ function basicTutorialStep() {
     if (who) return who;
     const intro = once('intro', 'YOUR FIRST ROUND', 'Every round has 3 parts: 1 ANSWER, 2 MOVE and 3 FIGHT. They are at the top of your screen. Nothing is timed in this practice round.');
     if (intro) return intro;
-    if (S.own && !S.own.result) return m('q', '1 · ANSWER', `Answer 3 questions. Each right answer is 1 step on the map. You can earn up to ${BASIC_STEPS_EACH}, and so can ${esc(mateName())}.`, { spot: onPage('#card') });
-    if (S.own) return m('q-r', '1 · ANSWER', 'Read why the answer is right. The next question comes by itself.');
+    if (S.own && !S.own.result) return m('q', '1 · ANSWER', `Answer the question. A right answer gives your pair ${plural(myGain(), 'more step')} on the map. ${esc(mateName())} answers one too.`, { spot: onPage('#card') });
+    if (S.own) return m('q-r', '1 · ANSWER', 'Read why the answer is right. Part 2, MOVE, comes next.');
     return m('q-done', '1 · ANSWER', `Well done! Your pair has ${plural(pairSteps(), 'step')}. Next is part 2, MOVE.`);
   }
   if (isCouncil() && band && !band.battle) {
-    const a = once('map', '2 · MOVE', `This is the map. Your banner says YOU (Pair ${S.me.pairNo ?? '?'}). The Crimson Fortress, the enemy's castle, is your goal on the right. The box in the corner says what the map shows.`, { spot: onPage(`[data-key="band${band.id}"]`) });
+    const a = once('map', '2 · MOVE', `This is the map. Your banner says YOU (Pair ${S.me.pairNo ?? '?'}). The Crimson Fortress, the enemy's castle, is your goal on the right. The circles with numbers are the stops you can reach, and the number is how many steps.`, { spot: onPage(`[data-key="band${band.id}"]`) });
     if (a) return a;
     if (band.plan) return m('sent', '2 · MOVE', 'Your partner tapped GO too, so your banner will march there.');
     if (draft?.length > 1) return m('go', '2 · MOVE', 'Now tap GO. Your partner taps GO too.', { spot: onPage('#endTurnBtn'), focus: true });
     const foe = $('mapHost').querySelector('[data-stop="1"].attack');
-    return foe ? m('tap', '2 · MOVE', 'A Rift Hound waits at Lantern Crossroads, the stop with crossed swords. Tap it.', { spot: onPage('[data-stop="1"]'), focus: true })
-      : m('tap', '2 · MOVE', 'Tap a glowing stop. The number on it is how many steps it costs.');
+    return foe ? m('tap', '2 · MOVE', 'A Rift Hound waits at Lantern Crossroads. Tap that stop.', { spot: onPage('[data-stop="1"]'), focus: true })
+      : m('tap', '2 · MOVE', 'Tap a stop with a number. The number is how many steps it costs.');
   }
   if (S.step === 'move') return m('march', '2 · MOVE', 'Watch your banner march. Landing on a monster starts a fight.');
   if (!band || band.battle) return null;
@@ -1269,7 +1264,7 @@ function councilWatch() {
 }
 
 // ================================================================== the Basic game
-// A round is 3 steps: 1 ANSWER (3 questions, each right answer is a step for your pair), 2 MOVE (tap a stop, then GO;
+// A round is 3 steps: 1 ANSWER (one question each, a right answer is more steps for your pair), 2 MOVE (tap a stop, then GO;
 // your partner taps GO too) and 3 FIGHT (pairs on one stop fight together; everyone answers the same question and every
 // right answer is a hit). The header always shows the round, the step and one line saying exactly what to do now.
 const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
@@ -1278,10 +1273,12 @@ const pairSteps = () => { const b = myBand(); return isCouncil() || S.step === '
 const mateName = () => plainStudent((S.me.partner || [])[0] || '') || 'your partner';
 // "You +1, Ezra +2": what each partner has earned this round
 const stepsByLine = () => (S.me.stepsBy?.length > 1 ? `<small class="qd-by">${S.me.stepsBy.map((x) => `${esc(x.name)} <b>+${x.steps}</b>`).join(', ')}</small>` : '');
+// what one right answer of yours adds: 2 steps in a pair, 3 for a student alone
+const myGain = () => (S.me.stepsBy?.length > 1 ? (S.stepsEach ?? BASIC_STEPS_EACH) : (S.stepsSolo ?? BASIC_STEPS_SOLO));
 // the rule, in one line
 const stepsRule = () => (S.me.stepsBy?.length > 1
-  ? `Your pair starts with 1 step. Each right answer adds 1: up to ${BASIC_STEPS_EACH} from you and ${BASIC_STEPS_EACH} from ${mateName()}. All 3 right earns a star: 1 extra hit in your next fight.`
-  : 'Your pair starts with 1 step. Each right answer adds 1. All 3 right earns a star: 1 extra hit in your next fight.');
+  ? `Your pair has 1 step to start. Your right answer adds ${myGain()}, and so does ${mateName()}'s. A right answer also earns a star: 1 extra hit in your next fight.`
+  : `You have 1 step to start. A right answer adds ${myGain()} and earns a star: 1 extra hit in your next fight.`);
 const mateOf = () => { const pk = S.me.picks || { partners: [], need: 1 }; return pk.need > 1 ? pk.partners.find((x) => !x.bot && !x.away) || null : null; };
 const enemyHere = (band) => !!band && S.units.some((u) => u.node === band.node && !u.battle);
 const fightName = (B) => B.kind === 'camp' ? foeName(CAMPS[B.node]?.id) : B.kind === 'gate' ? "the gate's guard" : B.kind === 'boss' ? 'the Warlord' : foeName(B.enemies.find((e) => e.hp > 0)?.type || B.enemies[0]?.type);
@@ -1308,8 +1305,8 @@ function nowLine(band) {
     return B.outcome === 'won' ? 'You won the battle!' : 'The battle is over.';
   }
   if (S.step === 'answer') {
-    if (S.own || (S.me.quiz || 0) < (S.basicQuestions || 3)) return `While the enemy moves, answer ${S.basicQuestions || 3} questions.`;
-    return 'Waiting for the class to finish their questions.';
+    if (S.own || (S.me.quiz || 0) < (S.basicQuestions || 1)) return 'While the enemy moves, answer your question.';
+    return 'Done! Part 2, MOVE, starts when everyone has answered.';
   }
   if (S.step === 'move') {
     if (!band) return '';
@@ -1324,9 +1321,9 @@ function nowLine(band) {
       if (mate && mine != null) return `Waiting for ${mate.name} to tap GO on the same stop.`;
       if (mate && theirs != null && !draft) return theirs === 'hold' ? `${mate.name} wants to stay here. Tap STAY HERE to agree.` : `${mate.name} wants to go to ${nodeName(theirs.at(-1))}. Tap GO to agree.`;
       if (draft?.length > 1) return gateShort(band, draft.at(-1)) ? `${gateLine(band)} Get more pairs to tap the gate too.` : `Tap GO to go to ${nodeName(draft.at(-1))}.`;
-      if (enemyHere(band)) return 'An enemy has come to your stop! Stay here to fight it, or tap a glowing stop to move away.';
+      if (enemyHere(band)) return 'An enemy has come to your stop! Stay here to fight it, or tap a stop with a number to move away.';
       if (gateHint === `${S.code}:${S.turn}`) return `You can reach the gate! It needs ${S.gateTeam?.need || BIG_TEAM} pairs, so go there together.`;
-      return 'Tap a glowing stop. Its number is how many steps it costs.';
+      return 'Tap a stop with a number. The number is how many steps it costs.';
     }
     return band.path?.length ? `Your banner is marching to ${nodeName(band.path.at(-1))}.` : 'The banners are marching.';
   }
@@ -1370,7 +1367,7 @@ function renderBasicBar(band) {
   if (S.step === 'answer') {
     step = `Your pair has ${plural(steps, 'step')}.`;
     const by = S.me.stepsBy?.length > 1 ? ` ${S.me.stepsBy.map((x) => `${esc(x.name)} +${x.steps}`).join(', ')}.` : '';
-    sub = (S.me.quiz || 0) < (S.basicQuestions || 3) ? `Your next question is coming.${by}` : `You got ${S.me.quizRight || 0} of ${S.me.quiz || 0} right.${by}${S.me.star ? ' You have a star: 1 extra hit in your next fight.' : ''}`;
+    sub = (S.me.quiz || 0) < (S.basicQuestions || 1) ? `Your question is coming.${by}` : `${S.me.quizRight ? 'You got it right.' : 'Not this time, but your pair can still move.'}${by}${S.me.star ? ' You have a star: 1 extra hit in your next fight.' : ''}`;
   } else if (isCouncil() && !band.battle) {
     if (draft?.length > 1) {
       const to = draft.at(-1);

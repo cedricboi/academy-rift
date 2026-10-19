@@ -1,7 +1,7 @@
 // Total War: the teacher's Crimson command screen. The server decides everything; this page sends orders.
 import { createMap, portrait, sprite, esc, setHTML, marchPoints } from './map.js';
 import { NODES } from './movement.js';
-import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT, TELEPORT_COST, energyPerTurn, showHp, EXTRAS, EXTRA_KEYS, plainName, BASIC_QUESTIONS } from './rules.js';
+import { UNITS, SUMMONABLE, CAMPS, FORTRESS, HOME, neighbours, cost, STACK_LIMIT, FORTRESS_LIMIT, TELEPORT_COST, energyPerTurn, showHp, EXTRAS, EXTRA_KEYS, plainName, BASIC_QUESTIONS, howFar } from './rules.js';
 import { TOPICS } from '../data/topics.js';
 import { FOLDER_BY_ID } from '../data/folders.js';
 import qrcode from '/vendor/qrcode.mjs';
@@ -266,12 +266,12 @@ function renderBasic() {
     head = `<div class="b-step">THE WAR IS PAUSED</div><h2>Every clock has stopped.</h2><p>${H.paused.restored ? 'The server restarted, and the war is back at the start of this round. Resume when the class has joined again.' : `Students see "Paused by ${esc(H.settings.commander)}".`}</p>`;
     job = big('resume', '▶ Resume the war', 'primary');
   } else if (H.step === 'answer') {
-    const done = H.progress3?.done ?? live.filter((s) => s.q3 >= BASIC_QUESTIONS).length, of = H.progress3?.of ?? live.length;
-    head = `<div class="b-step">STEP 1 · ANSWER</div><h2>Every student answers ${BASIC_QUESTIONS} questions.</h2><p class="b-prog"><b>${done} of ${of}</b> students have answered all ${BASIC_QUESTIONS}.</p>${bar(done, of)}`;
+    const done = H.progress3?.done ?? live.filter((s) => !s.bot && s.q3 >= BASIC_QUESTIONS).length, of = H.progress3?.of ?? live.filter((s) => !s.bot).length;
+    head = `<div class="b-step">STEP 1 · ANSWER</div><h2>Every student answers one question.</h2><p class="b-prog"><b>${done} of ${of}</b> students have answered.</p>${bar(done, of)}<p class="hint">Step 2, MOVE, starts as soon as everyone has answered.</p>`;
     const plan = H.enemyPlan;
     if (H.settings.botCommander) job = `<div class="eyebrow">YOUR JOB NOW</div><p>Nothing. The computer moves the enemy army. Step 2, MOVE, starts when everyone has answered.</p>`;
-    else if (adv) job = `<div class="eyebrow">YOUR JOB NOW</div><p>${H.teacherEnded ? 'Done. Step 2, MOVE, starts when everyone has answered.' : 'Move the enemy army: send out monsters with the cards at the bottom, and tap a monster on the map to give it orders.'}</p>${H.teacherEnded ? '' : big('done', 'Done: the enemy is ready') + `<p class="hint">If you do not tap Done, the enemy decides the rest by itself when the questions end.</p>`}`;
-    else if (!H.teacherEnded || changing) job = `<div class="eyebrow">YOUR JOB NOW</div><p><b>Move the enemy army.</b> One tap does it.</p>${big('decide', 'Let the enemy decide')}<p class="b-or">or tap a <b>⚑</b> stop on the map to send the whole enemy army there.</p><p class="hint">If you do nothing, the enemy decides by itself when the questions end.</p>${changing ? small('keep', 'Keep my last choice') : ''}`;
+    else if (adv) job = `<div class="eyebrow">YOUR JOB NOW</div><p>${H.teacherEnded ? 'Done. Step 2, MOVE, starts when everyone has answered.' : 'Move the enemy army: send out monsters with the cards at the bottom, and tap a monster on the map to give it orders.'}</p>${H.teacherEnded ? '' : big('done', 'Done: the enemy is ready') + `<p class="hint">If you do not tap Done, the enemy decides the rest by itself when the class has answered.</p>`}`;
+    else if (!H.teacherEnded || changing) job = `<div class="eyebrow">YOUR JOB NOW</div><p><b>Move the enemy army.</b> One tap does it.</p>${big('decide', 'Let the enemy decide')}<p class="b-or">or tap a <b>⚑</b> stop on the map to send the whole enemy army there.</p><p class="hint">If you do nothing, the enemy decides by itself when the class has answered.</p>${changing ? small('keep', 'Keep my last choice') : ''}`;
     else job = `<div class="b-done">✓ ${plan?.kind === 'go' ? `The enemy army marches to <b>${esc(nodeName(plan.to))}</b>.` : 'The enemy decides by itself: it hunts the nearest pairs.'}</div><p>Nothing else to do. Step 2, MOVE, starts when everyone has answered.</p>${small('change', 'Change my choice')}`;
   } else if (H.step === 'move') {
     const council = H.stage === 'council', ready = H.ready?.done ?? 0, of = H.ready?.of ?? H.bands.length;
@@ -311,7 +311,7 @@ function renderBasic() {
   if (off.length) help.push(`<div class="hi off"><b>Not connected:</b> ${names(off)}. Ask them to open the game again and type the same name.</div>`);
   if (H.step === 'answer' && !H.paused) {
     const left = humans.filter((s) => s.connected && s.q3 < BASIC_QUESTIONS);
-    if (left.length && left.length <= 10) help.push(`<div class="hi">Still answering: ${left.map((s) => `${esc(s.name)} <small>${s.q3} of ${BASIC_QUESTIONS}</small>`).join(', ')}</div>`);
+    if (left.length && left.length <= 10) help.push(`<div class="hi">Still answering: ${left.map((s) => esc(s.name)).join(', ')}</div>`);
     else if (left.length) help.push(`<div class="hi calm">${left.length} students are still answering.</div>`);
   }
   if (H.step === 'move' && H.stage === 'council' && !H.paused) {
@@ -380,7 +380,7 @@ function render() {
   if (trackOn) setHTML($('gTrack'), `<b>ROUND ${H.turn} OF ${H.turns}</b>` + ['ANSWER', 'MOVE', 'FIGHT'].map((t, i) => `<span class="${i === at ? 'now' : at > i ? 'done' : ''}"><i>${i + 1}</i>${t}</span>`).join(''));
   const track = '';
   $('gEyebrow').textContent = H.status === 'ended' ? 'THE WAR IS OVER' : H.basic ? `ROUND ${H.turn} OF ${H.turns} · STEP ${at + 1} ${['ANSWER', 'MOVE', 'FIGHT'][at] || ''}` : `TURN ${H.turn} OF ${H.turns} · ${mine ? 'YOUR TURN' : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'LAST QUESTIONS' : H.stage === 'council' ? 'WAR COUNCIL' : 'CLASS MARCHING') : 'BATTLES'}`;
-  $('gTitle').textContent = H.status === 'ended' ? 'The war is over' : H.basic ? (mine ? (H.teacherEnded ? 'The class is finishing its 3 questions' : 'Your move, Commander') : H.step === 'move' ? (H.stage === 'council' ? 'Pairs are picking their stops' : 'The class is marching') : 'Battles are being fought') : mine ? (H.teacherEnded ? 'Waiting for the class to finish preparing' : 'Your move, Commander') : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'The class is finishing its questions' : H.stage === 'council' ? 'The class is planning routes' : 'The class is marching') : 'Battles are being fought';
+  $('gTitle').textContent = H.status === 'ended' ? 'The war is over' : H.basic ? (mine ? (H.teacherEnded ? 'The class is finishing its questions' : 'Your move, Commander') : H.step === 'move' ? (H.stage === 'council' ? 'Pairs are picking their stops' : 'The class is marching') : 'Battles are being fought') : mine ? (H.teacherEnded ? 'Waiting for the class to finish preparing' : 'Your move, Commander') : H.phase === 'crystal' ? (H.stage === 'quiz' ? 'The class is finishing its questions' : H.stage === 'council' ? 'The class is planning routes' : 'The class is marching') : 'Battles are being fought';
   $('energy').textContent = H.energy;
   $('wardTxt').textContent = `${H.ward.hp}/${H.ward.max}`;
   // Auto and End my turn only show in the teacher's own turn; otherwise one line says what is happening
@@ -440,7 +440,7 @@ function render() {
   if (training) { setHTML($('guide'), track + training); }
   else setHTML($('guide'), H.status !== 'playing' ? '' : track + (H.paused ? `<div class="g-wait"><b>PAUSED</b> ${H.paused.restored ? 'The server restarted and the war is back at the start of this turn. Resume when the class has rejoined.' : 'Every clock has stopped. Students see "Paused by ' + esc(H.settings.commander) + '".'} <button type="button" class="btn crimson" data-resume="1">Resume</button></div>`
     : (H.basic && mine && H.teacherEnded && H.progress3
-    ? `<div class="g-wait">The class is answering 3 questions each: <b>${H.progress3.done} of ${H.progress3.of}</b> are done. Pairs pick their stops next.</div>${idleChip}`
+    ? `<div class="g-wait">The class is answering ${H.basic ? 'one question' : '3 questions'} each: <b>${H.progress3.done} of ${H.progress3.of}</b> are done. Pairs pick their stops next.</div>${idleChip}`
     : H.phase === 'crystal' && H.stage === 'quiz'
     ? `<div class="g-wait">A few students are finishing their 3 preparing questions (at most ${H.topupSeconds || 20} seconds): <b>${H.quiz?.done ?? 0} of ${H.quiz?.of ?? 0}</b> done.</div>${idleChip}`
     : H.phase === 'crystal' && H.stage === 'council'
@@ -498,7 +498,7 @@ function render() {
     const R = H.report;
     const plain = !!H.basic;      // the Basic game's words: the enemy army, the enemy's castle, the Academy's shield
     setHTML(end, `<div class="end-in"><div class="eyebrow">${H.winner === 'crystal' ? 'THE CLASS WINS' : H.winner === 'draw' ? 'A DRAW' : plain ? 'THE ENEMY ARMY WINS' : 'THE CRIMSON HOST WINS'}</div><h1>${H.winner === 'crystal' ? (H.endedBy && H.endedBy !== 'teacher' ? 'The class wins on points' : H.endedBy === 'teacher' ? 'You declared the class the winner' : 'Your Warlord has fallen') : H.winner === 'draw' ? 'The gate is broken, your Warlord stands' : H.endedBy === 'ward' ? (plain ? "The enemy broke the Academy's shield" : 'You broke the Academy Ward') : plain ? "The enemy's castle stands" : 'Your fortress stands'}</h1>
-      ${H.endedBy && !['ward', 'teacher'].includes(H.endedBy) ? `<p>The class got ${H.progress?.pct ?? 0}% of the way.</p>` : ''}
+      ${plain && H.endedBy !== 'teacher' ? `<p>${esc(howFar(H.summary))}</p>` : H.endedBy && !['ward', 'teacher'].includes(H.endedBy) ? `<p>The class got ${H.progress?.pct ?? 0}% of the way.</p>` : ''}
       ${H.summary ? `<div class="end-facts"><span><b>${H.summary.turns}</b> round${H.summary.turns === 1 ? '' : 's'}</span><span><b>${H.summary.wins} of ${H.summary.fought}</b> battles won</span><span><b>${H.summary.gate ? 'Broken' : `${H.summary.gateDmg} of ${H.summary.gateMax}`}</b> ${H.summary.gate ? 'the gate' : "health knocked off the gate's guard"}</span><span><b>${H.summary.pct}%</b> of answers right</span></div>` : ''}
       ${R ? `<div class="report"><div class="eyebrow">LEARNING REPORT</div><button class="btn" type="button" data-csv="1">Download the report (CSV)</button>
         <h3>By learning objective</h3><table><tr><th>Learning objective</th><th>Answers</th><th>Right</th></tr>${R.objectives.map((o) => `<tr><td>${esc(o.lo)}</td><td>${o.asked}</td><td>${o.pct}%</td></tr>`).join('')}</table>

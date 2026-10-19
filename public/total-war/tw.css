@@ -337,3 +337,50 @@ body.why-on .tws-note{bottom:calc(100% + 8px + var(--whyH,0px))}
 .lg-row.shield b{color:#7ff3e4}
 .lg-shield{flex:0 0 14px;width:14px;height:30px;margin:0 6px;position:relative;background:#0b2224;box-shadow:0 0 0 1px #000,0 0 0 2px #7ff3e466}
 .lg-shield b{position:absolute;left:0;right:0;bottom:0;background:#2fa89a}
+
+/* ===== the Basic game's calm map (map.js basicBanners / drawPlaces): quiet stops with small names, no glow and no
+   pulsing. Only what matters now stands out: your pair (one big banner, YOU), the stops you can reach while picking a stop
+   (one plain ring with the steps), a battle being fought (a red swords mark on its stop), and the enemy as small icons. */
+.twmap-frame.basic .tw-base{width:20px;height:20px;background:#0b161cd9;border:2px solid #c9b78a99;box-shadow:0 0 0 1px #0008}
+.twmap-frame.basic .tw-base.fightmark{width:30px;height:30px;display:grid;place-items:center;background:#5a1724;border:2px solid #ff8a9a;color:#ffe0e4;z-index:2}
+.twmap-frame.basic .tw-base.fightmark svg{width:16px;height:16px}
+.twmap-frame.basic .tw-place{width:84px}
+.twmap-frame.basic .tw-place b{font:600 11px/1.1 "Rift Body",sans-serif;color:#e9e2cf;text-shadow:0 1px 2px #000,0 0 4px #000}
+.twmap-frame.basic .tw-place.home b{color:#bfeee6}
+.twmap-frame.basic .tw-place.fort b{font-size:12px;color:#f3dca0}
+/* the stops a pair can reach: one plain ring with the steps (no glow, no pulse); the stop picked is filled gold */
+.twmap-frame.basic .tw-stop,.twmap-frame.basic .tw-stop.reach,.twmap-frame.basic .tw-stop.reach.attack{width:30px;height:30px;border:2px solid #9fe8dc;background:#0b2226e6;box-shadow:0 0 0 2px #000a;color:#f2ead6;font-size:15px;opacity:1;animation:none}
+.twmap-frame.basic .tw-stop.reach.in-route{background:var(--gold2);border-color:#fff3c9;color:#1a1408;box-shadow:0 0 0 2px #000}
+.twmap-frame.basic .tw-stop.target{width:28px;height:28px;font-size:13px;background:#2a1018e6;border:2px solid #d98a95;box-shadow:0 0 0 2px #000a;animation:none}
+#mapHost.basic.urgent .tw-stop.reach{animation:none}
+.twmap-frame.basic .road-line{animation:none}
+/* banners: no glow, no sway, no pulsing badges */
+.twmap-frame.basic .tw-banner .cloth{filter:drop-shadow(0 2px 2px #000a)}
+.twmap-frame.basic .tw-banner.marching .cloth,.twmap-frame.basic .tw-banner.foe-walk .cloth{animation:none}
+.twmap-frame.basic .tw-banner.foe-walk .cloth{filter:drop-shadow(0 2px 2px #000a)}
+.twmap-frame.basic .tw-banner .fight{animation:none}
+.twmap-frame.basic .tw-banner.lead,.twmap-frame.basic .tw-banner{z-index:2}
+/* the enemy and the monster camps: small round icons */
+.twmap-frame.basic .tw-banner.host .cloth,.twmap-frame.basic .tw-banner.camp .cloth{width:40px;height:40px;padding:0;border-radius:50%;clip-path:none;background:#2a0f16;border:2px solid #c45a6a;box-shadow:0 0 0 1px #000}
+.twmap-frame.basic .tw-banner.camp .cloth{background:#0f2422;border-color:#6faea3}
+.twmap-frame.basic .tw-banner.host .cloth img,.twmap-frame.basic .tw-banner.camp .cloth img{clip-path:none;border-radius:50%;background:none;object-position:50% 30%}
+.twmap-frame.basic .tw-banner.host,.twmap-frame.basic .tw-banner.camp{transform:translate(-50%,calc(-100% + 2px))}
+.twmap-frame.basic .tw-banner.host .count{right:-8px;top:-6px;min-width:18px;height:18px;border-radius:9px;font-size:11px;background:#e9d9d9;color:#2a0f16;box-shadow:0 0 0 1px #000}
+/* the fortress gate: one gold banner, no glow */
+.twmap-frame.basic .tw-banner.fortress .cloth{width:52px;height:68px;--c:#d9b45a}
+/* the pairs */
+.twmap-frame.basic .tw-banner.pair .cloth{width:44px;height:57px;padding:2px}
+.twmap-frame.basic .tw-banner.pair.small .cloth{width:36px;height:46px;padding:2px;opacity:.92}
+.twmap-frame.basic .tw-banner.pair.small .pole{height:8px}
+.twmap-frame.basic .tw-banner.pair .count{right:-9px;top:-7px;min-width:20px;height:20px;border-radius:10px;font-size:11px;box-shadow:0 0 0 1px #000}
+.twmap-frame.basic .tw-banner.pair.mine{z-index:6}
+.twmap-frame.basic .tw-banner.pair.mine .cloth{width:64px;height:82px;padding:3px;filter:drop-shadow(0 0 0 #000) drop-shadow(0 3px 3px #000)}
+.twmap-frame.basic .tw-banner.pair.mine .tag{font:800 14px "Rift Pixel";letter-spacing:1px;padding:1px 8px}
+/* the warning over the map stays still */
+body.tw-basic .ribbon{animation:none}
+
+/* the device asks for less motion: nothing on the map pulses, sways, glides or glows in and out */
+@media (prefers-reduced-motion: reduce){
+  .twmap *,.twmap-frame *{animation:none!important;transition:none!important}
+  .tw-pulse{display:none}
+}
